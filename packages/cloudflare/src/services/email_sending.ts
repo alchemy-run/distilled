@@ -432,7 +432,7 @@ export interface ImportSuppressionResponseItemsItem {
   index: number;
   /** Outcome for this item. */
   status: ImportSuppressionResponseItemsItemStatus;
-  /** The created or promoted suppression's identifier. Present when `status` is `processed`. */
+  /** The created or updated suppression's identifier. Present when `status` is `processed`. */
   id?: string | null | undefined;
   /** The submitted email address for this item. */
   email?: string | null | undefined;
@@ -452,9 +452,9 @@ export interface ImportSuppressionResponse {
   invalid: number;
   /** Per-item results, in the same order as the request body. */
   items: ImportSuppressionResponseItemsList;
-  /** Number of items successfully created or promoted. */
+  /** Number of items successfully created or updated. */
   processed: number;
-  /** Number of items skipped because the existing suppression is not customer-managed (for example, a read-only policy suppression). */
+  /** Number of items skipped because the existing suppression is not customer-managed. */
   skipped: number;
   /** Total number of items in the request body, including duplicates. */
   total: number;
@@ -508,7 +508,7 @@ export interface ListSuppressionsRequest {
   perPage?: number | undefined;
   /** Filter to suppressions with this reason. */
   reason?: ListSuppressionsRequestReason | (string & {}) | undefined;
-  /** Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both, sending-domain suppressions first. */
+  /** Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both; the order between the two scopes is not fixed. */
   scopeType?: ListSuppressionsRequestScopeType | (string & {}) | undefined;
   /** Exact sending-domain filter. Requires `scope_type=sending_domain`. */
   scopeValue?: string | undefined;
@@ -618,7 +618,7 @@ export const createSubdomain: API.OperationMethod<
 }));
 
 export type CreateSuppressionError = CloudflareOpError;
-/** Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. If a mutable legacy zone-linked account row already exists, it is promoted without changing its identifier. */
+/** Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. */
 export const createSuppression: API.OperationMethod<
   CreateSuppressionRequest,
   CreateSuppressionResponse,
@@ -654,7 +654,7 @@ export const deleteSubdomain: API.OperationMethod<
 }));
 
 export type DeleteSuppressionError = CloudflareOpError;
-/** Deletes the suppression, its note, and every legacy internal zone membership, allowing future delivery attempts to the address. */
+/** Deletes the suppression and its note, allowing future delivery attempts to the address. */
 export const deleteSuppression: API.OperationMethod<
   DeleteSuppressionRequest,
   DeleteSuppressionResponse,
@@ -690,7 +690,7 @@ export const editSubdomain: API.OperationMethod<
 }));
 
 export type EditSuppressionError = CloudflareOpError;
-/** Updates expiry or advisory note fields without changing legacy internal zone memberships. Scope cannot be changed. */
+/** Updates expiry or advisory note fields. Scope cannot be changed. */
 export const editSuppression: API.OperationMethod<
   EditSuppressionRequest,
   EditSuppressionResponse,
@@ -808,7 +808,7 @@ export const listSubdomains: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSuppressionsError = CloudflareOpError;
-/** Lists every active Email Sending suppression owned by the account: sending-domain suppressions first, then account-wide suppressions (including legacy rows with internal zone memberships). Each group is newest first. */
+/** Lists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions. Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope. */
 export const listSuppressions: API.OperationMethod<
   ListSuppressionsRequest,
   ListSuppressionsResponse,

@@ -62,6 +62,8 @@ export type DeviceStatus = "unknown" | "error" | "enabled" | "disabled";
 export interface Device {
   /** Device ID, also used as MQTT Client ID or username. */
   id?: string | undefined;
+  /** Device SRN. */
+  srn?: string | undefined;
   /** Device name. */
   name?: string | undefined;
   /** Device description. */
@@ -124,6 +126,8 @@ export type HubStatus = "unknown" | "error" | "enabling" | "ready" | "disabling"
 export interface Hub {
   /** Hub ID. */
   id?: string | undefined;
+  /** Hub SRN. */
+  srn?: string | undefined;
   /** Hub name. */
   name?: string | undefined;
   /** Current status of the Hub. */
@@ -176,6 +180,8 @@ export interface CreateNetworkRequest {
 export interface Network {
   /** Network ID. */
   id?: string | undefined;
+  /** Network SRN. */
+  srn?: string | undefined;
   /** Network name. */
   name?: string | undefined;
   /** Type of network to connect with. */
@@ -296,6 +302,8 @@ export interface Route {
   rest_config?: RouteRestConfig | null | undefined;
   /** Date at which the route was last updated. (RFC 3339 format) */
   updated_at?: string | null | undefined;
+  /** Route SRN. */
+  srn?: string | undefined;
   /** Region of the route. */
   region?: string | undefined;
 }
@@ -1461,6 +1469,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
+          srn: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
           status: S.optional(S.String),
@@ -1531,6 +1540,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
+          srn: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
           product_plan: S.optional(S.String),
@@ -1783,6 +1793,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
+          srn: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           endpoint: S.optional(S.String),
@@ -2161,6 +2172,7 @@ function __c30(j: number): any {
           db_config: S.optional(S.NullOr(__S(243, __c30, 3))),
           rest_config: S.optional(S.NullOr(__S(242, __c30, 2))),
           updated_at: S.optional(S.NullOr(S.String)),
+          srn: S.optional(S.String),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "Route" });

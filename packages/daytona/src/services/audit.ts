@@ -72,6 +72,9 @@ export type AuditTargetScenarioActionsItem =
   | "start"
   | "stop"
   | "resize"
+  | "add_nodes"
+  | "remove_nodes"
+  | "replace_node"
   | "replace_labels"
   | "create_backup"
   | "update_public_status"
@@ -105,6 +108,7 @@ export type AuditTargetScenarioActionsItem =
   | "create_ssh_access"
   | "revoke_ssh_access"
   | "recover"
+  | "create_registry_push_access"
   | "regenerate_proxy_api_key"
   | "regenerate_ssh_gateway_api_key"
   | "regenerate_snapshot_manager_credentials"
@@ -207,6 +211,8 @@ export interface GetOrganizationAuditLogsRequest {
   statusCode?: IntFilter | undefined;
   /** Filter by creation timestamp. */
   createdAt?: DateFilter | undefined;
+  /** Filter by the partner application that obtained the actor token. */
+  actorPartner?: StringFilter | undefined;
 }
 export type AuditLogMetadataMap = { [key: string]: unknown | undefined };
 export interface AuditLog {
@@ -215,6 +221,8 @@ export interface AuditLog {
   actorEmail: string;
   actorApiKeyPrefix?: string | undefined;
   actorApiKeySuffix?: string | undefined;
+  /** Partner application that obtained the actor token, by its configured name */
+  actorPartner?: string | undefined;
   organizationId?: string | undefined;
   action: string;
   targetType?: string | undefined;
@@ -364,6 +372,7 @@ function __c1(j: number): any {
           targetId: S.optional(__S(17, __c1, 1).pipe(T.Query())),
           statusCode: S.optional(__S(19, __c1, 3).pipe(T.Query())),
           createdAt: S.optional(__S(20, __c1, 4).pipe(T.Query())),
+          actorPartner: S.optional(__S(17, __c1, 1).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/audit/organizations/{organizationId}", code: 200 })),
       ).annotate({ identifier: "GetOrganizationAuditLogsRequest" });
     case 6:
@@ -376,6 +385,7 @@ function __c1(j: number): any {
           actorEmail: S.String,
           actorApiKeyPrefix: S.optional(S.String),
           actorApiKeySuffix: S.optional(S.String),
+          actorPartner: S.optional(S.String),
           organizationId: S.optional(S.String),
           action: S.String,
           targetType: S.optional(S.String),

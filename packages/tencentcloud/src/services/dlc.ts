@@ -4417,6 +4417,31 @@ export interface DescribePartitionDetailResponse {
   PartitionDetail?: PartitionDetail | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribePartitionMonitorOverviewRequest {
+  PartitionCode: string;
+  QueueName?: string | undefined;
+  MetricKeys?: StringList | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface MetricLabels {
+  GpuType?: string | null | undefined;
+  QueueName?: string | null | undefined;
+  QueueAlias?: string | null | undefined;
+  ResourceType?: string | null | undefined;
+}
+export interface MetricValue {
+  MetricKey?: string | undefined;
+  Value?: number | null | undefined;
+  Unit?: string | undefined;
+  ResourceType?: string | null | undefined;
+  Labels?: MetricLabels | null | undefined;
+}
+export type MetricValueList = Array<MetricValue>;
+export interface DescribePartitionMonitorOverviewResponse {
+  Metrics?: MetricValueList | undefined;
+  RequestId?: string | undefined;
+}
 export interface DescribePartitionQueuesRequest {
   PartitionCode: string;
   SortFields?: SortFieldList | undefined;
@@ -9436,7 +9461,7 @@ export const alterDMSDatabase: API.OperationMethod<
   AlterDMSDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<AlterDMSDatabaseRequest>,
+  input: __S(12352, __c386, 0) as any as S.Schema<AlterDMSDatabaseRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<AlterDMSDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9453,7 +9478,7 @@ export const alterDMSPartition: API.OperationMethod<
   AlterDMSPartitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<AlterDMSPartitionRequest>,
+  input: __S(12992, __c406, 0) as any as S.Schema<AlterDMSPartitionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<AlterDMSPartitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9470,7 +9495,7 @@ export const alterDMSTable: API.OperationMethod<
   AlterDMSTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<AlterDMSTableRequest>,
+  input: __S(13696, __c428, 0) as any as S.Schema<AlterDMSTableRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<AlterDMSTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9487,7 +9512,7 @@ export const alterTableComment: API.OperationMethod<
   AlterTableCommentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<AlterTableCommentRequest>,
+  input: __S(14272, __c446, 0) as any as S.Schema<AlterTableCommentRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<AlterTableCommentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9504,8 +9529,8 @@ export const assignMangedTableProperties: API.OperationMethod<
   AssignMangedTablePropertiesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<AssignMangedTablePropertiesRequest>,
-  output: __S(14785, __c462, 1) as any as S.Schema<AssignMangedTablePropertiesResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<AssignMangedTablePropertiesRequest>,
+  output: __S(14817, __c463, 1) as any as S.Schema<AssignMangedTablePropertiesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9521,7 +9546,7 @@ export const associateDatasourceHouse: API.OperationMethod<
   AssociateDatasourceHouseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<AssociateDatasourceHouseRequest>,
+  input: __S(15232, __c476, 0) as any as S.Schema<AssociateDatasourceHouseRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<AssociateDatasourceHouseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9691,7 +9716,7 @@ export const cancelTask: API.OperationMethod<
   CancelTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<CancelTaskRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<CancelTaskRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CancelTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9725,8 +9750,8 @@ export const cancelTrainingJobInstance: API.OperationMethod<
   CancelTrainingJobInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<CancelTrainingJobInstanceRequest>,
-  output: __S(5216, __c163, 0) as any as S.Schema<CancelTrainingJobInstanceResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<CancelTrainingJobInstanceRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<CancelTrainingJobInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9776,8 +9801,8 @@ export const checkDataEngineImageCanBeRollback: API.OperationMethod<
   CheckDataEngineImageCanBeRollbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<CheckDataEngineImageCanBeRollbackRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<CheckDataEngineImageCanBeRollbackResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CheckDataEngineImageCanBeRollbackRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<CheckDataEngineImageCanBeRollbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10014,8 +10039,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12129, __c379, 1) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(12160, __c380, 0) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(12161, __c380, 1) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<CreateDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10031,8 +10056,8 @@ export const createDataEngine: API.OperationMethod<
   CreateDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<CreateDataEngineRequest>,
-  output: __S(12225, __c382, 1) as any as S.Schema<CreateDataEngineResponse>,
+  input: __S(12256, __c383, 0) as any as S.Schema<CreateDataEngineRequest>,
+  output: __S(12257, __c383, 1) as any as S.Schema<CreateDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10048,8 +10073,8 @@ export const createDataMaskStrategy: API.OperationMethod<
   CreateDataMaskStrategyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<CreateDataMaskStrategyRequest>,
-  output: __S(12385, __c387, 1) as any as S.Schema<CreateDataMaskStrategyResponse>,
+  input: __S(12416, __c388, 0) as any as S.Schema<CreateDataMaskStrategyRequest>,
+  output: __S(12417, __c388, 1) as any as S.Schema<CreateDataMaskStrategyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10065,8 +10090,8 @@ export const createDatasourceConnection: API.OperationMethod<
   CreateDatasourceConnectionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<CreateDatasourceConnectionRequest>,
-  output: __S(12481, __c390, 1) as any as S.Schema<CreateDatasourceConnectionResponse>,
+  input: __S(12512, __c391, 0) as any as S.Schema<CreateDatasourceConnectionRequest>,
+  output: __S(12513, __c391, 1) as any as S.Schema<CreateDatasourceConnectionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10082,7 +10107,7 @@ export const createDMSDatabase: API.OperationMethod<
   CreateDMSDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<CreateDMSDatabaseRequest>,
+  input: __S(12576, __c393, 0) as any as S.Schema<CreateDMSDatabaseRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateDMSDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10099,7 +10124,7 @@ export const createDMSTable: API.OperationMethod<
   CreateDMSTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<CreateDMSTableRequest>,
+  input: __S(12608, __c394, 0) as any as S.Schema<CreateDMSTableRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateDMSTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10116,8 +10141,8 @@ export const createExportTask: API.OperationMethod<
   CreateExportTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<CreateExportTaskRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateExportTaskResponse>,
+  input: __S(12640, __c395, 0) as any as S.Schema<CreateExportTaskRequest>,
+  output: __S(12672, __c396, 0) as any as S.Schema<CreateExportTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10133,8 +10158,8 @@ export const createImportTask: API.OperationMethod<
   CreateImportTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<CreateImportTaskRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateImportTaskResponse>,
+  input: __S(12704, __c397, 0) as any as S.Schema<CreateImportTaskRequest>,
+  output: __S(12672, __c396, 0) as any as S.Schema<CreateImportTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10150,8 +10175,8 @@ export const createInferenceModel: API.OperationMethod<
   CreateInferenceModelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<CreateInferenceModelRequest>,
-  output: __S(12705, __c397, 1) as any as S.Schema<CreateInferenceModelResponse>,
+  input: __S(12736, __c398, 0) as any as S.Schema<CreateInferenceModelRequest>,
+  output: __S(12737, __c398, 1) as any as S.Schema<CreateInferenceModelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10167,8 +10192,8 @@ export const createInferenceService: API.OperationMethod<
   CreateInferenceServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<CreateInferenceServiceRequest>,
-  output: __S(12801, __c400, 1) as any as S.Schema<CreateInferenceServiceResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<CreateInferenceServiceRequest>,
+  output: __S(12833, __c401, 1) as any as S.Schema<CreateInferenceServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10184,8 +10209,8 @@ export const createInternalTable: API.OperationMethod<
   CreateInternalTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<CreateInternalTableRequest>,
-  output: __S(12865, __c402, 1) as any as S.Schema<CreateInternalTableResponse>,
+  input: __S(12896, __c403, 0) as any as S.Schema<CreateInternalTableRequest>,
+  output: __S(12897, __c403, 1) as any as S.Schema<CreateInternalTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10201,8 +10226,8 @@ export const createJob: API.OperationMethod<
   CreateJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12900, __c403, 4) as any as S.Schema<CreateJobRequest>,
-  output: __S(12928, __c404, 0) as any as S.Schema<CreateJobResponse>,
+  input: __S(12932, __c404, 4) as any as S.Schema<CreateJobRequest>,
+  output: __S(12960, __c405, 0) as any as S.Schema<CreateJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10218,8 +10243,8 @@ export const createJobDefinition: API.OperationMethod<
   CreateJobDefinitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<CreateJobDefinitionRequest>,
-  output: __S(12993, __c406, 1) as any as S.Schema<CreateJobDefinitionResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<CreateJobDefinitionRequest>,
+  output: __S(13025, __c407, 1) as any as S.Schema<CreateJobDefinitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10235,8 +10260,8 @@ export const createJobFromDefinition: API.OperationMethod<
   CreateJobFromDefinitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<CreateJobFromDefinitionRequest>,
-  output: __S(12928, __c404, 0) as any as S.Schema<CreateJobFromDefinitionResponse>,
+  input: __S(13056, __c408, 0) as any as S.Schema<CreateJobFromDefinitionRequest>,
+  output: __S(12960, __c405, 0) as any as S.Schema<CreateJobFromDefinitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10252,8 +10277,8 @@ export const createJobSpec: API.OperationMethod<
   CreateJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<CreateJobSpecRequest>,
-  output: __S(13088, __c409, 0) as any as S.Schema<CreateJobSpecResponse>,
+  input: __S(13088, __c409, 0) as any as S.Schema<CreateJobSpecRequest>,
+  output: __S(13120, __c410, 0) as any as S.Schema<CreateJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10269,8 +10294,8 @@ export const createLab: API.OperationMethod<
   CreateLabError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<CreateLabRequest>,
-  output: __S(13121, __c410, 1) as any as S.Schema<CreateLabResponse>,
+  input: __S(13152, __c411, 0) as any as S.Schema<CreateLabRequest>,
+  output: __S(13153, __c411, 1) as any as S.Schema<CreateLabResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10286,8 +10311,8 @@ export const createMetaDatabase: API.OperationMethod<
   CreateMetaDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13217, __c413, 1) as any as S.Schema<CreateMetaDatabaseRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<CreateMetaDatabaseResponse>,
+  input: __S(13249, __c414, 1) as any as S.Schema<CreateMetaDatabaseRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<CreateMetaDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10303,8 +10328,8 @@ export const createMlflowServer: API.OperationMethod<
   CreateMlflowServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13313, __c416, 1) as any as S.Schema<CreateMlflowServerRequest>,
-  output: __S(13376, __c418, 0) as any as S.Schema<CreateMlflowServerResponse>,
+  input: __S(13345, __c417, 1) as any as S.Schema<CreateMlflowServerRequest>,
+  output: __S(13408, __c419, 0) as any as S.Schema<CreateMlflowServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10320,8 +10345,8 @@ export const createModelVersion: API.OperationMethod<
   CreateModelVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<CreateModelVersionRequest>,
-  output: __S(13410, __c419, 2) as any as S.Schema<CreateModelVersionResponse>,
+  input: __S(13440, __c420, 0) as any as S.Schema<CreateModelVersionRequest>,
+  output: __S(13442, __c420, 2) as any as S.Schema<CreateModelVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10337,8 +10362,8 @@ export const createNotebookSession: API.OperationMethod<
   CreateNotebookSessionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<CreateNotebookSessionRequest>,
-  output: __S(13473, __c421, 1) as any as S.Schema<CreateNotebookSessionResponse>,
+  input: __S(13504, __c422, 0) as any as S.Schema<CreateNotebookSessionRequest>,
+  output: __S(13505, __c422, 1) as any as S.Schema<CreateNotebookSessionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10354,8 +10379,8 @@ export const createNotebookSessionStatement: API.OperationMethod<
   CreateNotebookSessionStatementError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<CreateNotebookSessionStatementRequest>,
-  output: __S(13536, __c423, 0) as any as S.Schema<CreateNotebookSessionStatementResponse>,
+  input: __S(13536, __c423, 0) as any as S.Schema<CreateNotebookSessionStatementRequest>,
+  output: __S(13568, __c424, 0) as any as S.Schema<CreateNotebookSessionStatementResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10372,13 +10397,13 @@ export const createNotebookSessionStatementSupportBatchSQL: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13600,
-    __c425,
+    13632,
+    __c426,
     0,
   ) as any as S.Schema<CreateNotebookSessionStatementSupportBatchSQLRequest>,
   output: __S(
-    13601,
-    __c425,
+    13633,
+    __c426,
     1,
   ) as any as S.Schema<CreateNotebookSessionStatementSupportBatchSQLResponse>,
   errors: [],
@@ -10396,8 +10421,8 @@ export const createPartition: API.OperationMethod<
   CreatePartitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<CreatePartitionRequest>,
-  output: __S(13697, __c428, 1) as any as S.Schema<CreatePartitionResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<CreatePartitionRequest>,
+  output: __S(13729, __c429, 1) as any as S.Schema<CreatePartitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10413,8 +10438,8 @@ export const createPartitionQueue: API.OperationMethod<
   CreatePartitionQueueError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<CreatePartitionQueueRequest>,
-  output: __S(13729, __c429, 1) as any as S.Schema<CreatePartitionQueueResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<CreatePartitionQueueRequest>,
+  output: __S(13761, __c430, 1) as any as S.Schema<CreatePartitionQueueResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10430,8 +10455,8 @@ export const createRayCluster: API.OperationMethod<
   CreateRayClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<CreateRayClusterRequest>,
-  output: __S(13824, __c432, 0) as any as S.Schema<CreateRayClusterResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<CreateRayClusterRequest>,
+  output: __S(13856, __c433, 0) as any as S.Schema<CreateRayClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10447,8 +10472,8 @@ export const createResourceConfig: API.OperationMethod<
   CreateResourceConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<CreateResourceConfigRequest>,
-  output: __S(13920, __c435, 0) as any as S.Schema<CreateResourceConfigResponse>,
+  input: __S(13888, __c434, 0) as any as S.Schema<CreateResourceConfigRequest>,
+  output: __S(13952, __c436, 0) as any as S.Schema<CreateResourceConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10464,8 +10489,8 @@ export const createResultDownload: API.OperationMethod<
   CreateResultDownloadError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<CreateResultDownloadRequest>,
-  output: __S(13953, __c436, 1) as any as S.Schema<CreateResultDownloadResponse>,
+  input: __S(13984, __c437, 0) as any as S.Schema<CreateResultDownloadRequest>,
+  output: __S(13985, __c437, 1) as any as S.Schema<CreateResultDownloadResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10481,7 +10506,7 @@ export const createScript: API.OperationMethod<
   CreateScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<CreateScriptRequest>,
+  input: __S(14016, __c438, 0) as any as S.Schema<CreateScriptRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10498,8 +10523,8 @@ export const createSparkApp: API.OperationMethod<
   CreateSparkAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<CreateSparkAppRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<CreateSparkAppResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<CreateSparkAppRequest>,
+  output: __S(14080, __c440, 0) as any as S.Schema<CreateSparkAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10515,8 +10540,8 @@ export const createSparkAppForTDLC: API.OperationMethod<
   CreateSparkAppForTDLCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<CreateSparkAppForTDLCRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<CreateSparkAppForTDLCResponse>,
+  input: __S(14144, __c442, 0) as any as S.Schema<CreateSparkAppForTDLCRequest>,
+  output: __S(14080, __c440, 0) as any as S.Schema<CreateSparkAppForTDLCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10532,8 +10557,8 @@ export const createSparkAppTask: API.OperationMethod<
   CreateSparkAppTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<CreateSparkAppTaskRequest>,
-  output: __S(14176, __c443, 0) as any as S.Schema<CreateSparkAppTaskResponse>,
+  input: __S(14176, __c443, 0) as any as S.Schema<CreateSparkAppTaskRequest>,
+  output: __S(14208, __c444, 0) as any as S.Schema<CreateSparkAppTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10549,8 +10574,8 @@ export const createSparkSessionBatchSQL: API.OperationMethod<
   CreateSparkSessionBatchSQLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<CreateSparkSessionBatchSQLRequest>,
-  output: __S(14211, __c444, 3) as any as S.Schema<CreateSparkSessionBatchSQLResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<CreateSparkSessionBatchSQLRequest>,
+  output: __S(14243, __c445, 3) as any as S.Schema<CreateSparkSessionBatchSQLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10566,8 +10591,8 @@ export const createSparkSubmitTask: API.OperationMethod<
   CreateSparkSubmitTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<CreateSparkSubmitTaskRequest>,
-  output: __S(14176, __c443, 0) as any as S.Schema<CreateSparkSubmitTaskResponse>,
+  input: __S(14368, __c449, 0) as any as S.Schema<CreateSparkSubmitTaskRequest>,
+  output: __S(14208, __c444, 0) as any as S.Schema<CreateSparkSubmitTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10583,7 +10608,7 @@ export const createStandardEngineResourceGroup: API.OperationMethod<
   CreateStandardEngineResourceGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<CreateStandardEngineResourceGroupRequest>,
+  input: __S(14400, __c450, 0) as any as S.Schema<CreateStandardEngineResourceGroupRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateStandardEngineResourceGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10600,7 +10625,7 @@ export const createStoreLocation: API.OperationMethod<
   CreateStoreLocationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<CreateStoreLocationRequest>,
+  input: __S(14464, __c452, 0) as any as S.Schema<CreateStoreLocationRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateStoreLocationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10617,8 +10642,8 @@ export const createTable: API.OperationMethod<
   CreateTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14470, __c452, 6) as any as S.Schema<CreateTableRequest>,
-  output: __S(12160, __c380, 0) as any as S.Schema<CreateTableResponse>,
+  input: __S(14502, __c453, 6) as any as S.Schema<CreateTableRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<CreateTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10634,8 +10659,8 @@ export const createTask: API.OperationMethod<
   CreateTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14562, __c455, 2) as any as S.Schema<CreateTaskRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateTaskResponse>,
+  input: __S(14594, __c456, 2) as any as S.Schema<CreateTaskRequest>,
+  output: __S(12672, __c396, 0) as any as S.Schema<CreateTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10651,8 +10676,8 @@ export const createTasks: API.OperationMethod<
   CreateTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<CreateTasksRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<CreateTasksResponse>,
+  input: __S(14624, __c457, 0) as any as S.Schema<CreateTasksRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<CreateTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10668,8 +10693,8 @@ export const createTasksInOrder: API.OperationMethod<
   CreateTasksInOrderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14656, __c458, 0) as any as S.Schema<CreateTasksInOrderRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<CreateTasksInOrderResponse>,
+  input: __S(14688, __c459, 0) as any as S.Schema<CreateTasksInOrderRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<CreateTasksInOrderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10685,8 +10710,8 @@ export const createTcIcebergTable: API.OperationMethod<
   CreateTcIcebergTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14688, __c459, 0) as any as S.Schema<CreateTcIcebergTableRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<CreateTcIcebergTableResponse>,
+  input: __S(14720, __c460, 0) as any as S.Schema<CreateTcIcebergTableRequest>,
+  output: __S(14721, __c460, 1) as any as S.Schema<CreateTcIcebergTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10702,8 +10727,8 @@ export const createTrainingJobInstance: API.OperationMethod<
   CreateTrainingJobInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<CreateTrainingJobInstanceRequest>,
-  output: __S(5216, __c163, 0) as any as S.Schema<CreateTrainingJobInstanceResponse>,
+  input: __S(14752, __c461, 0) as any as S.Schema<CreateTrainingJobInstanceRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<CreateTrainingJobInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10719,7 +10744,7 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<CreateUserRequest>,
+  input: __S(14784, __c462, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10736,7 +10761,7 @@ export const createUserRole: API.OperationMethod<
   CreateUserRoleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<CreateUserRoleRequest>,
+  input: __S(14880, __c465, 0) as any as S.Schema<CreateUserRoleRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<CreateUserRoleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10753,8 +10778,8 @@ export const createUserVpcConnection: API.OperationMethod<
   CreateUserVpcConnectionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<CreateUserVpcConnectionRequest>,
-  output: __S(14913, __c466, 1) as any as S.Schema<CreateUserVpcConnectionResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<CreateUserVpcConnectionRequest>,
+  output: __S(14945, __c467, 1) as any as S.Schema<CreateUserVpcConnectionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10770,8 +10795,8 @@ export const createWorkGroup: API.OperationMethod<
   CreateWorkGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<CreateWorkGroupRequest>,
-  output: __S(14945, __c467, 1) as any as S.Schema<CreateWorkGroupResponse>,
+  input: __S(14976, __c468, 0) as any as S.Schema<CreateWorkGroupRequest>,
+  output: __S(14977, __c468, 1) as any as S.Schema<CreateWorkGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10787,7 +10812,7 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14976, __c468, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  input: __S(15008, __c469, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10804,7 +10829,7 @@ export const deleteBenchmarkTask: API.OperationMethod<
   DeleteBenchmarkTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<DeleteBenchmarkTaskRequest>,
+  input: __S(15040, __c470, 0) as any as S.Schema<DeleteBenchmarkTaskRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteBenchmarkTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10821,7 +10846,7 @@ export const deleteCHDFSBindingProduct: API.OperationMethod<
   DeleteCHDFSBindingProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<DeleteCHDFSBindingProductRequest>,
+  input: __S(15072, __c471, 0) as any as S.Schema<DeleteCHDFSBindingProductRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteCHDFSBindingProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10838,8 +10863,8 @@ export const deleteClusterGroup: API.OperationMethod<
   DeleteClusterGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<DeleteClusterGroupRequest>,
-  output: __S(15073, __c471, 1) as any as S.Schema<DeleteClusterGroupResponse>,
+  input: __S(15104, __c472, 0) as any as S.Schema<DeleteClusterGroupRequest>,
+  output: __S(15105, __c472, 1) as any as S.Schema<DeleteClusterGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10855,7 +10880,7 @@ export const deleteDataEngine: API.OperationMethod<
   DeleteDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<DeleteDataEngineRequest>,
+  input: __S(15136, __c473, 0) as any as S.Schema<DeleteDataEngineRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10872,7 +10897,7 @@ export const deleteDataMaskStrategy: API.OperationMethod<
   DeleteDataMaskStrategyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<DeleteDataMaskStrategyRequest>,
+  input: __S(15168, __c474, 0) as any as S.Schema<DeleteDataMaskStrategyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteDataMaskStrategyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10889,7 +10914,7 @@ export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  input: __S(15200, __c475, 0) as any as S.Schema<DeleteDeploymentRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteDeploymentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10906,7 +10931,7 @@ export const deleteInferenceService: API.OperationMethod<
   DeleteInferenceServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<DeleteInferenceServiceRequest>,
+  input: __S(15328, __c479, 0) as any as S.Schema<DeleteInferenceServiceRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteInferenceServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10923,7 +10948,7 @@ export const deleteJobSpec: API.OperationMethod<
   DeleteJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<DeleteJobSpecRequest>,
+  input: __S(15360, __c480, 0) as any as S.Schema<DeleteJobSpecRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10940,7 +10965,7 @@ export const deleteLab: API.OperationMethod<
   DeleteLabError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15360, __c480, 0) as any as S.Schema<DeleteLabRequest>,
+  input: __S(15392, __c481, 0) as any as S.Schema<DeleteLabRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteLabResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10957,8 +10982,8 @@ export const deleteMetaDatabase: API.OperationMethod<
   DeleteMetaDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<DeleteMetaDatabaseRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<DeleteMetaDatabaseResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<DeleteMetaDatabaseRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<DeleteMetaDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -10974,7 +10999,7 @@ export const deleteMlflowServer: API.OperationMethod<
   DeleteMlflowServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<DeleteMlflowServerRequest>,
+  input: __S(15456, __c483, 0) as any as S.Schema<DeleteMlflowServerRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteMlflowServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -10991,8 +11016,8 @@ export const deleteModel: API.OperationMethod<
   DeleteModelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<DeleteModelRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<DeleteModelResponse>,
+  input: __S(15488, __c484, 0) as any as S.Schema<DeleteModelRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<DeleteModelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -11008,8 +11033,8 @@ export const deleteModelVersion: API.OperationMethod<
   DeleteModelVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<DeleteModelVersionRequest>,
-  output: __S(15489, __c484, 1) as any as S.Schema<DeleteModelVersionResponse>,
+  input: __S(15520, __c485, 0) as any as S.Schema<DeleteModelVersionRequest>,
+  output: __S(15521, __c485, 1) as any as S.Schema<DeleteModelVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -11025,7 +11050,7 @@ export const deleteNativeSparkSession: API.OperationMethod<
   DeleteNativeSparkSessionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<DeleteNativeSparkSessionRequest>,
+  input: __S(15552, __c486, 0) as any as S.Schema<DeleteNativeSparkSessionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteNativeSparkSessionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -11042,7 +11067,7 @@ export const deleteNotebookSession: API.OperationMethod<
   DeleteNotebookSessionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<DeleteNotebookSessionRequest>,
+  input: __S(15584, __c487, 0) as any as S.Schema<DeleteNotebookSessionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeleteNotebookSessionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -11059,7 +11084,7 @@ export const deletePartitionQueue: API.OperationMethod<
   DeletePartitionQueueError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<DeletePartitionQueueRequest>,
+  input: __S(15616, __c488, 0) as any as S.Schema<DeletePartitionQueueRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DeletePartitionQueueResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -12114,7 +12139,7 @@ export const describeMlflowServer: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DescribeMlflowServerRequest>,
-  output: __S(13376, __c418, 0) as any as S.Schema<DescribeMlflowServerResponse>,
+  output: __S(13408, __c419, 0) as any as S.Schema<DescribeMlflowServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12284,7 +12309,7 @@ export const describeNotebookSessionStatement: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<DescribeNotebookSessionStatementRequest>,
-  output: __S(13536, __c423, 0) as any as S.Schema<DescribeNotebookSessionStatementResponse>,
+  output: __S(13568, __c424, 0) as any as S.Schema<DescribeNotebookSessionStatementResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12365,6 +12390,23 @@ export const describePartitionDetail: API.OperationMethod<
   span: "DescribePartitionDetail",
 }));
 
+export type DescribePartitionMonitorOverviewError = TencentCloudOpError;
+export const describePartitionMonitorOverview: API.OperationMethod<
+  DescribePartitionMonitorOverviewRequest,
+  DescribePartitionMonitorOverviewResponse,
+  DescribePartitionMonitorOverviewError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3584, __c112, 0) as any as S.Schema<DescribePartitionMonitorOverviewRequest>,
+  output: __S(3588, __c112, 4) as any as S.Schema<DescribePartitionMonitorOverviewResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribePartitionMonitorOverview",
+}));
+
 export type DescribePartitionQueuesError = TencentCloudOpError;
 export const describePartitionQueues: API.OperationMethod<
   DescribePartitionQueuesRequest,
@@ -12372,8 +12414,8 @@ export const describePartitionQueues: API.OperationMethod<
   DescribePartitionQueuesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<DescribePartitionQueuesRequest>,
-  output: __S(3589, __c112, 5) as any as S.Schema<DescribePartitionQueuesResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DescribePartitionQueuesRequest>,
+  output: __S(3621, __c113, 5) as any as S.Schema<DescribePartitionQueuesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12389,8 +12431,8 @@ export const describePartitions: API.OperationMethod<
   DescribePartitionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<DescribePartitionsRequest>,
-  output: __S(3619, __c113, 3) as any as S.Schema<DescribePartitionsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DescribePartitionsRequest>,
+  output: __S(3651, __c114, 3) as any as S.Schema<DescribePartitionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12406,8 +12448,8 @@ export const describePostTrainingPreset: API.OperationMethod<
   DescribePostTrainingPresetError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DescribePostTrainingPresetRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<DescribePostTrainingPresetResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DescribePostTrainingPresetRequest>,
+  output: __S(3683, __c115, 3) as any as S.Schema<DescribePostTrainingPresetResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12423,8 +12465,8 @@ export const describeRecommendedParams: API.OperationMethod<
   DescribeRecommendedParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DescribeRecommendedParamsRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<DescribeRecommendedParamsResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DescribeRecommendedParamsRequest>,
+  output: __S(3746, __c117, 2) as any as S.Schema<DescribeRecommendedParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12440,8 +12482,8 @@ export const describeResourceGroupUsageInfo: API.OperationMethod<
   DescribeResourceGroupUsageInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DescribeResourceGroupUsageInfoRequest>,
-  output: __S(3745, __c117, 1) as any as S.Schema<DescribeResourceGroupUsageInfoResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DescribeResourceGroupUsageInfoRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<DescribeResourceGroupUsageInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12457,8 +12499,8 @@ export const describeResultDownload: API.OperationMethod<
   DescribeResultDownloadError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<DescribeResultDownloadRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<DescribeResultDownloadResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<DescribeResultDownloadRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<DescribeResultDownloadResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12474,8 +12516,8 @@ export const describeSaleRegions: API.OperationMethod<
   DescribeSaleRegionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<DescribeSaleRegionsRequest>,
-  output: __S(3811, __c119, 3) as any as S.Schema<DescribeSaleRegionsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DescribeSaleRegionsRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<DescribeSaleRegionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12491,8 +12533,8 @@ export const describeSaleResourceInfo: API.OperationMethod<
   DescribeSaleResourceInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DescribeSaleResourceInfoRequest>,
-  output: __S(3843, __c120, 3) as any as S.Schema<DescribeSaleResourceInfoResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DescribeSaleResourceInfoRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<DescribeSaleResourceInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12508,8 +12550,8 @@ export const describeSchemaNamesPage: API.OperationMethod<
   DescribeSchemaNamesPageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<DescribeSchemaNamesPageRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<DescribeSchemaNamesPageResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DescribeSchemaNamesPageRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<DescribeSchemaNamesPageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12525,8 +12567,8 @@ export const describeScripts: API.OperationMethod<
   DescribeScriptsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<DescribeScriptsRequest>,
-  output: __S(3907, __c122, 3) as any as S.Schema<DescribeScriptsResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DescribeScriptsRequest>,
+  output: __S(3939, __c123, 3) as any as S.Schema<DescribeScriptsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12542,8 +12584,8 @@ export const describeSessionImageVersion: API.OperationMethod<
   DescribeSessionImageVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DescribeSessionImageVersionRequest>,
-  output: __S(3939, __c123, 3) as any as S.Schema<DescribeSessionImageVersionResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DescribeSessionImageVersionRequest>,
+  output: __S(3971, __c124, 3) as any as S.Schema<DescribeSessionImageVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12559,8 +12601,8 @@ export const describeSparkAppJob: API.OperationMethod<
   DescribeSparkAppJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DescribeSparkAppJobRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<DescribeSparkAppJobResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<DescribeSparkAppJobRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<DescribeSparkAppJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12576,8 +12618,8 @@ export const describeSparkAppJobs: API.OperationMethod<
   DescribeSparkAppJobsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<DescribeSparkAppJobsRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<DescribeSparkAppJobsResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DescribeSparkAppJobsRequest>,
+  output: __S(4066, __c127, 2) as any as S.Schema<DescribeSparkAppJobsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12593,8 +12635,8 @@ export const describeSparkAppTasks: API.OperationMethod<
   DescribeSparkAppTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<DescribeSparkAppTasksRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<DescribeSparkAppTasksResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DescribeSparkAppTasksRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<DescribeSparkAppTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12610,8 +12652,8 @@ export const describeSparkSessionBatchSQL: API.OperationMethod<
   DescribeSparkSessionBatchSQLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DescribeSparkSessionBatchSQLRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<DescribeSparkSessionBatchSQLResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<DescribeSparkSessionBatchSQLRequest>,
+  output: __S(4227, __c132, 3) as any as S.Schema<DescribeSparkSessionBatchSQLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12627,8 +12669,8 @@ export const describeSparkSessionBatchSQLCost: API.OperationMethod<
   DescribeSparkSessionBatchSQLCostError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<DescribeSparkSessionBatchSQLCostRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<DescribeSparkSessionBatchSQLCostResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<DescribeSparkSessionBatchSQLCostRequest>,
+  output: __S(4259, __c133, 3) as any as S.Schema<DescribeSparkSessionBatchSQLCostResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12644,8 +12686,8 @@ export const describeSparkSessionBatchSqlLog: API.OperationMethod<
   DescribeSparkSessionBatchSqlLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<DescribeSparkSessionBatchSqlLogRequest>,
-  output: __S(4261, __c133, 5) as any as S.Schema<DescribeSparkSessionBatchSqlLogResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<DescribeSparkSessionBatchSqlLogRequest>,
+  output: __S(4293, __c134, 5) as any as S.Schema<DescribeSparkSessionBatchSqlLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12662,13 +12704,13 @@ export const describeStandardEngineResourceGroupConfigInfo: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4288,
-    __c134,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<DescribeStandardEngineResourceGroupConfigInfoRequest>,
   output: __S(
-    4291,
-    __c134,
+    4323,
+    __c135,
     3,
   ) as any as S.Schema<DescribeStandardEngineResourceGroupConfigInfoResponse>,
   errors: [],
@@ -12686,8 +12728,8 @@ export const describeStandardEngineResourceGroups: API.OperationMethod<
   DescribeStandardEngineResourceGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<DescribeStandardEngineResourceGroupsRequest>,
-  output: __S(4323, __c135, 3) as any as S.Schema<DescribeStandardEngineResourceGroupsResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<DescribeStandardEngineResourceGroupsRequest>,
+  output: __S(4355, __c136, 3) as any as S.Schema<DescribeStandardEngineResourceGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12703,8 +12745,8 @@ export const describeStoreLocation: API.OperationMethod<
   DescribeStoreLocationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<DescribeStoreLocationRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<DescribeStoreLocationResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<DescribeStoreLocationRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<DescribeStoreLocationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12720,8 +12762,8 @@ export const describeSubUserAccessPolicy: API.OperationMethod<
   DescribeSubUserAccessPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<DescribeSubUserAccessPolicyRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<DescribeSubUserAccessPolicyResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<DescribeSubUserAccessPolicyRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeSubUserAccessPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12737,8 +12779,8 @@ export const describeTable: API.OperationMethod<
   DescribeTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<DescribeTableRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<DescribeTableResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<DescribeTableRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<DescribeTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12754,8 +12796,8 @@ export const describeTablePartitions: API.OperationMethod<
   DescribeTablePartitionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4482, __c140, 2) as any as S.Schema<DescribeTablePartitionsRequest>,
-  output: __S(4489, __c140, 9) as any as S.Schema<DescribeTablePartitionsResponse>,
+  input: __S(4514, __c141, 2) as any as S.Schema<DescribeTablePartitionsRequest>,
+  output: __S(4521, __c141, 9) as any as S.Schema<DescribeTablePartitionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12771,8 +12813,8 @@ export const describeTables: API.OperationMethod<
   DescribeTablesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<DescribeTablesRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<DescribeTablesResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<DescribeTablesRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<DescribeTablesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12788,8 +12830,8 @@ export const describeTablesName: API.OperationMethod<
   DescribeTablesNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<DescribeTablesNameRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<DescribeTablesNameResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<DescribeTablesNameRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<DescribeTablesNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12805,8 +12847,8 @@ export const describeTaskDetail: API.OperationMethod<
   DescribeTaskDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<DescribeTaskDetailRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<DescribeTaskDetailResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<DescribeTaskDetailRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<DescribeTaskDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12822,8 +12864,8 @@ export const describeTaskList: API.OperationMethod<
   DescribeTaskListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<DescribeTaskListRequest>,
-  output: __S(4738, __c148, 2) as any as S.Schema<DescribeTaskListResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<DescribeTaskListRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<DescribeTaskListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12839,8 +12881,8 @@ export const describeTaskLog: API.OperationMethod<
   DescribeTaskLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<DescribeTaskLogRequest>,
-  output: __S(4802, __c150, 2) as any as S.Schema<DescribeTaskLogResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<DescribeTaskLogRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<DescribeTaskLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12856,8 +12898,8 @@ export const describeTaskMonitorInfos: API.OperationMethod<
   DescribeTaskMonitorInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<DescribeTaskMonitorInfosRequest>,
-  output: __S(4835, __c151, 3) as any as S.Schema<DescribeTaskMonitorInfosResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<DescribeTaskMonitorInfosRequest>,
+  output: __S(4867, __c152, 3) as any as S.Schema<DescribeTaskMonitorInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12873,8 +12915,8 @@ export const describeTaskResourceUsage: API.OperationMethod<
   DescribeTaskResourceUsageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<DescribeTaskResourceUsageRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<DescribeTaskResourceUsageResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<DescribeTaskResourceUsageRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<DescribeTaskResourceUsageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12890,8 +12932,8 @@ export const describeTaskResult: API.OperationMethod<
   DescribeTaskResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<DescribeTaskResultRequest>,
-  output: __S(4898, __c153, 2) as any as S.Schema<DescribeTaskResultResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<DescribeTaskResultRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<DescribeTaskResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12907,8 +12949,8 @@ export const describeTasks: API.OperationMethod<
   DescribeTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DescribeTasksRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<DescribeTasksResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<DescribeTasksRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<DescribeTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12924,8 +12966,8 @@ export const describeTasksAnalysis: API.OperationMethod<
   DescribeTasksAnalysisError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<DescribeTasksAnalysisRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<DescribeTasksAnalysisResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<DescribeTasksAnalysisRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<DescribeTasksAnalysisResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12941,8 +12983,8 @@ export const describeTasksCostInfo: API.OperationMethod<
   DescribeTasksCostInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<DescribeTasksCostInfoRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<DescribeTasksCostInfoResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<DescribeTasksCostInfoRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<DescribeTasksCostInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12958,8 +13000,8 @@ export const describeTasksOverview: API.OperationMethod<
   DescribeTasksOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<DescribeTasksOverviewRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<DescribeTasksOverviewResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<DescribeTasksOverviewRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<DescribeTasksOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12975,8 +13017,8 @@ export const describeTCLakeMetaInstance: API.OperationMethod<
   DescribeTCLakeMetaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<DescribeTCLakeMetaInstanceRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<DescribeTCLakeMetaInstanceResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<DescribeTCLakeMetaInstanceRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<DescribeTCLakeMetaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -12992,8 +13034,8 @@ export const describeThirdPartyAccessUser: API.OperationMethod<
   DescribeThirdPartyAccessUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<DescribeThirdPartyAccessUserRequest>,
-  output: __S(5314, __c166, 2) as any as S.Schema<DescribeThirdPartyAccessUserResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<DescribeThirdPartyAccessUserRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<DescribeThirdPartyAccessUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13009,8 +13051,8 @@ export const describeTkeClusterImportInfo: API.OperationMethod<
   DescribeTkeClusterImportInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<DescribeTkeClusterImportInfoRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<DescribeTkeClusterImportInfoResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<DescribeTkeClusterImportInfoRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<DescribeTkeClusterImportInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13026,8 +13068,8 @@ export const describeTrainingCheckpoints: API.OperationMethod<
   DescribeTrainingCheckpointsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<DescribeTrainingCheckpointsRequest>,
-  output: __S(5382, __c168, 6) as any as S.Schema<DescribeTrainingCheckpointsResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<DescribeTrainingCheckpointsRequest>,
+  output: __S(5414, __c169, 6) as any as S.Schema<DescribeTrainingCheckpointsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13043,8 +13085,8 @@ export const describeTrainingJobInstance: API.OperationMethod<
   DescribeTrainingJobInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<DescribeTrainingJobInstanceRequest>,
-  output: __S(5216, __c163, 0) as any as S.Schema<DescribeTrainingJobInstanceResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<DescribeTrainingJobInstanceRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<DescribeTrainingJobInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13060,8 +13102,8 @@ export const describeTrainingJobSpec: API.OperationMethod<
   DescribeTrainingJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<DescribeTrainingJobSpecRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<DescribeTrainingJobSpecResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<DescribeTrainingJobSpecRequest>,
+  output: __S(5536, __c173, 0) as any as S.Schema<DescribeTrainingJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13077,8 +13119,8 @@ export const describeUDFPolicy: API.OperationMethod<
   DescribeUDFPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<DescribeUDFPolicyRequest>,
-  output: __S(5570, __c174, 2) as any as S.Schema<DescribeUDFPolicyResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<DescribeUDFPolicyRequest>,
+  output: __S(5602, __c175, 2) as any as S.Schema<DescribeUDFPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13094,8 +13136,8 @@ export const describeUpdatableDataEngines: API.OperationMethod<
   DescribeUpdatableDataEnginesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<DescribeUpdatableDataEnginesRequest>,
-  output: __S(5603, __c175, 3) as any as S.Schema<DescribeUpdatableDataEnginesResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<DescribeUpdatableDataEnginesRequest>,
+  output: __S(5635, __c176, 3) as any as S.Schema<DescribeUpdatableDataEnginesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13111,8 +13153,8 @@ export const describeUserDataEngineConfig: API.OperationMethod<
   DescribeUserDataEngineConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<DescribeUserDataEngineConfigRequest>,
-  output: __S(5635, __c176, 3) as any as S.Schema<DescribeUserDataEngineConfigResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<DescribeUserDataEngineConfigRequest>,
+  output: __S(5731, __c179, 3) as any as S.Schema<DescribeUserDataEngineConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13128,8 +13170,8 @@ export const describeUserInfo: API.OperationMethod<
   DescribeUserInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<DescribeUserInfoRequest>,
-  output: __S(5731, __c179, 3) as any as S.Schema<DescribeUserInfoResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<DescribeUserInfoRequest>,
+  output: __S(5763, __c180, 3) as any as S.Schema<DescribeUserInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13145,8 +13187,8 @@ export const describeUserRegisterTime: API.OperationMethod<
   DescribeUserRegisterTimeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<DescribeUserRegisterTimeRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<DescribeUserRegisterTimeResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<DescribeUserRegisterTimeRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<DescribeUserRegisterTimeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13162,8 +13204,8 @@ export const describeUserRoles: API.OperationMethod<
   DescribeUserRolesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<DescribeUserRolesRequest>,
-  output: __S(5859, __c183, 3) as any as S.Schema<DescribeUserRolesResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<DescribeUserRolesRequest>,
+  output: __S(5891, __c184, 3) as any as S.Schema<DescribeUserRolesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13179,8 +13221,8 @@ export const describeUsers: API.OperationMethod<
   DescribeUsersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<DescribeUsersRequest>,
-  output: __S(5891, __c184, 3) as any as S.Schema<DescribeUsersResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<DescribeUsersRequest>,
+  output: __S(5923, __c185, 3) as any as S.Schema<DescribeUsersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13196,8 +13238,8 @@ export const describeUserType: API.OperationMethod<
   DescribeUserTypeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<DescribeUserTypeRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<DescribeUserTypeResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<DescribeUserTypeRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<DescribeUserTypeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13213,8 +13255,8 @@ export const describeUserVpcConnection: API.OperationMethod<
   DescribeUserVpcConnectionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<DescribeUserVpcConnectionRequest>,
-  output: __S(5955, __c186, 3) as any as S.Schema<DescribeUserVpcConnectionResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<DescribeUserVpcConnectionRequest>,
+  output: __S(5987, __c187, 3) as any as S.Schema<DescribeUserVpcConnectionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13230,8 +13272,8 @@ export const describeViews: API.OperationMethod<
   DescribeViewsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DescribeViewsRequest>,
-  output: __S(5988, __c187, 4) as any as S.Schema<DescribeViewsResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<DescribeViewsRequest>,
+  output: __S(6020, __c188, 4) as any as S.Schema<DescribeViewsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13247,8 +13289,8 @@ export const describeWarehouses: API.OperationMethod<
   DescribeWarehousesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<DescribeWarehousesRequest>,
-  output: __S(6020, __c188, 4) as any as S.Schema<DescribeWarehousesResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<DescribeWarehousesRequest>,
+  output: __S(6052, __c189, 4) as any as S.Schema<DescribeWarehousesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13264,8 +13306,8 @@ export const describeWorkGroupInfo: API.OperationMethod<
   DescribeWorkGroupInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DescribeWorkGroupInfoRequest>,
-  output: __S(6051, __c189, 3) as any as S.Schema<DescribeWorkGroupInfoResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<DescribeWorkGroupInfoRequest>,
+  output: __S(6083, __c190, 3) as any as S.Schema<DescribeWorkGroupInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13281,8 +13323,8 @@ export const describeWorkGroups: API.OperationMethod<
   DescribeWorkGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DescribeWorkGroupsRequest>,
-  output: __S(6115, __c191, 3) as any as S.Schema<DescribeWorkGroupsResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DescribeWorkGroupsRequest>,
+  output: __S(6211, __c194, 3) as any as S.Schema<DescribeWorkGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13298,7 +13340,7 @@ export const detachUserPolicy: API.OperationMethod<
   DetachUserPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DetachUserPolicyRequest>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DetachUserPolicyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DetachUserPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -13315,7 +13357,7 @@ export const detachWorkGroupPolicy: API.OperationMethod<
   DetachWorkGroupPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DetachWorkGroupPolicyRequest>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DetachWorkGroupPolicyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DetachWorkGroupPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -13332,7 +13374,7 @@ export const dropDMSDatabase: API.OperationMethod<
   DropDMSDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DropDMSDatabaseRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DropDMSDatabaseRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DropDMSDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -13349,8 +13391,8 @@ export const dropDMSPartitions: API.OperationMethod<
   DropDMSPartitionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<DropDMSPartitionsRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<DropDMSPartitionsResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DropDMSPartitionsRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<DropDMSPartitionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13366,7 +13408,7 @@ export const dropDMSTable: API.OperationMethod<
   DropDMSTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<DropDMSTableRequest>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DropDMSTableRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<DropDMSTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -13383,8 +13425,8 @@ export const generateCreateMangedTableSql: API.OperationMethod<
   GenerateCreateMangedTableSqlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GenerateCreateMangedTableSqlRequest>,
-  output: __S(12160, __c380, 0) as any as S.Schema<GenerateCreateMangedTableSqlResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GenerateCreateMangedTableSqlRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<GenerateCreateMangedTableSqlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13400,8 +13442,8 @@ export const generateInternalTable: API.OperationMethod<
   GenerateInternalTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GenerateInternalTableRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<GenerateInternalTableResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GenerateInternalTableRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<GenerateInternalTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13417,8 +13459,8 @@ export const getExampleDetail: API.OperationMethod<
   GetExampleDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetExampleDetailRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<GetExampleDetailResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetExampleDetailRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<GetExampleDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13434,8 +13476,8 @@ export const getInferenceModel: API.OperationMethod<
   GetInferenceModelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetInferenceModelRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<GetInferenceModelResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetInferenceModelRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<GetInferenceModelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13451,8 +13493,8 @@ export const getInferenceService: API.OperationMethod<
   GetInferenceServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetInferenceServiceRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<GetInferenceServiceResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetInferenceServiceRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<GetInferenceServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13468,8 +13510,8 @@ export const getJobSpec: API.OperationMethod<
   GetJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetJobSpecRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<GetJobSpecResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetJobSpecRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<GetJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13485,8 +13527,8 @@ export const getLabDetail: API.OperationMethod<
   GetLabDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetLabDetailRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<GetLabDetailResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetLabDetailRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<GetLabDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13502,8 +13544,8 @@ export const getLabEvent: API.OperationMethod<
   GetLabEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetLabEventRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<GetLabEventResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetLabEventRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<GetLabEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13519,8 +13561,8 @@ export const getLabHistory: API.OperationMethod<
   GetLabHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetLabHistoryRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<GetLabHistoryResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetLabHistoryRequest>,
+  output: __S(6754, __c211, 2) as any as S.Schema<GetLabHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13536,8 +13578,8 @@ export const getLabPods: API.OperationMethod<
   GetLabPodsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetLabPodsRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<GetLabPodsResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetLabPodsRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<GetLabPodsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13553,8 +13595,8 @@ export const getLabPodYaml: API.OperationMethod<
   GetLabPodYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetLabPodYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetLabPodYamlResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetLabPodYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetLabPodYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13570,8 +13612,8 @@ export const getLabServiceUrls: API.OperationMethod<
   GetLabServiceUrlsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<GetLabServiceUrlsRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<GetLabServiceUrlsResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetLabServiceUrlsRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<GetLabServiceUrlsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13587,8 +13629,8 @@ export const getLabYaml: API.OperationMethod<
   GetLabYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetLabYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetLabYamlResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<GetLabYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetLabYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13604,8 +13646,8 @@ export const getModelConfig: API.OperationMethod<
   GetModelConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetModelConfigRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetModelConfigResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetModelConfigRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<GetModelConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13621,8 +13663,8 @@ export const getModelFiles: API.OperationMethod<
   GetModelFilesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetModelFilesRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<GetModelFilesResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetModelFilesRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetModelFilesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13638,8 +13680,8 @@ export const getModelReadme: API.OperationMethod<
   GetModelReadmeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetModelReadmeRequest>,
-  output: __S(7041, __c220, 1) as any as S.Schema<GetModelReadmeResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<GetModelReadmeRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<GetModelReadmeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13655,8 +13697,8 @@ export const getOptimizerPolicy: API.OperationMethod<
   GetOptimizerPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<GetOptimizerPolicyRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<GetOptimizerPolicyResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetOptimizerPolicyRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<GetOptimizerPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13672,8 +13714,8 @@ export const getRayCluster: API.OperationMethod<
   GetRayClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetRayClusterRequest>,
-  output: __S(7105, __c222, 1) as any as S.Schema<GetRayClusterResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetRayClusterRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<GetRayClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13689,8 +13731,8 @@ export const getRayClusterEvent: API.OperationMethod<
   GetRayClusterEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetRayClusterEventRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetRayClusterEventResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetRayClusterEventRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GetRayClusterEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13706,8 +13748,8 @@ export const getRayClusterHistory: API.OperationMethod<
   GetRayClusterHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetRayClusterHistoryRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<GetRayClusterHistoryResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetRayClusterHistoryRequest>,
+  output: __S(6754, __c211, 2) as any as S.Schema<GetRayClusterHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13723,8 +13765,8 @@ export const getRayClusterPods: API.OperationMethod<
   GetRayClusterPodsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetRayClusterPodsRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<GetRayClusterPodsResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetRayClusterPodsRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<GetRayClusterPodsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13740,8 +13782,8 @@ export const getRayClusterPodYaml: API.OperationMethod<
   GetRayClusterPodYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetRayClusterPodYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetRayClusterPodYamlResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetRayClusterPodYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetRayClusterPodYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13757,8 +13799,8 @@ export const getRayClusterYaml: API.OperationMethod<
   GetRayClusterYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<GetRayClusterYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetRayClusterYamlResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<GetRayClusterYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetRayClusterYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13774,8 +13816,8 @@ export const getRayJob: API.OperationMethod<
   GetRayJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetRayJobRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<GetRayJobResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetRayJobRequest>,
+  output: __S(7361, __c230, 1) as any as S.Schema<GetRayJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13791,8 +13833,8 @@ export const getRayJobEvent: API.OperationMethod<
   GetRayJobEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetRayJobEventRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetRayJobEventResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetRayJobEventRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GetRayJobEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13808,8 +13850,8 @@ export const getRayJobHistory: API.OperationMethod<
   GetRayJobHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetRayJobHistoryRequest>,
-  output: __S(7427, __c232, 3) as any as S.Schema<GetRayJobHistoryResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetRayJobHistoryRequest>,
+  output: __S(7459, __c233, 3) as any as S.Schema<GetRayJobHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13825,8 +13867,8 @@ export const getRayJobPods: API.OperationMethod<
   GetRayJobPodsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetRayJobPodsRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<GetRayJobPodsResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetRayJobPodsRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<GetRayJobPodsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13842,8 +13884,8 @@ export const getRayJobPodYaml: API.OperationMethod<
   GetRayJobPodYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetRayJobPodYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetRayJobPodYamlResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetRayJobPodYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetRayJobPodYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13859,8 +13901,8 @@ export const getRayJobYaml: API.OperationMethod<
   GetRayJobYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetRayJobYamlRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<GetRayJobYamlResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetRayJobYamlRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetRayJobYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13876,8 +13918,8 @@ export const getRayServeEvent: API.OperationMethod<
   GetRayServeEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetRayServeEventRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetRayServeEventResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetRayServeEventRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GetRayServeEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13893,8 +13935,8 @@ export const getResourceConfig: API.OperationMethod<
   GetResourceConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetResourceConfigRequest>,
-  output: __S(13920, __c435, 0) as any as S.Schema<GetResourceConfigResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetResourceConfigRequest>,
+  output: __S(13952, __c436, 0) as any as S.Schema<GetResourceConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13910,7 +13952,7 @@ export const grantDLCCatalogAccess: API.OperationMethod<
   GrantDLCCatalogAccessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GrantDLCCatalogAccessRequest>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GrantDLCCatalogAccessRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<GrantDLCCatalogAccessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -13927,8 +13969,8 @@ export const importExternalCluster: API.OperationMethod<
   ImportExternalClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<ImportExternalClusterRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<ImportExternalClusterResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<ImportExternalClusterRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<ImportExternalClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13944,8 +13986,8 @@ export const importTkeCluster: API.OperationMethod<
   ImportTkeClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<ImportTkeClusterRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<ImportTkeClusterResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<ImportTkeClusterRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<ImportTkeClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13961,8 +14003,8 @@ export const initializeTCLake: API.OperationMethod<
   InitializeTCLakeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<InitializeTCLakeRequest>,
-  output: __S(7745, __c242, 1) as any as S.Schema<InitializeTCLakeResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<InitializeTCLakeRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<InitializeTCLakeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13978,8 +14020,8 @@ export const launchStandardEngineResourceGroups: API.OperationMethod<
   LaunchStandardEngineResourceGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<LaunchStandardEngineResourceGroupsRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<LaunchStandardEngineResourceGroupsResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<LaunchStandardEngineResourceGroupsRequest>,
+  output: __S(7906, __c247, 2) as any as S.Schema<LaunchStandardEngineResourceGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -13995,8 +14037,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<ListApiKeysRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<ListApiKeysResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<ListApiKeysRequest>,
+  output: __S(8000, __c250, 0) as any as S.Schema<ListApiKeysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14012,8 +14054,8 @@ export const listAvailableApiKeys: API.OperationMethod<
   ListAvailableApiKeysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<ListAvailableApiKeysRequest>,
-  output: __S(8001, __c250, 1) as any as S.Schema<ListAvailableApiKeysResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<ListAvailableApiKeysRequest>,
+  output: __S(8033, __c251, 1) as any as S.Schema<ListAvailableApiKeysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14029,8 +14071,8 @@ export const listBenchmarkSummary: API.OperationMethod<
   ListBenchmarkSummaryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<ListBenchmarkSummaryRequest>,
-  output: __S(8035, __c251, 3) as any as S.Schema<ListBenchmarkSummaryResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<ListBenchmarkSummaryRequest>,
+  output: __S(8067, __c252, 3) as any as S.Schema<ListBenchmarkSummaryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14046,8 +14088,8 @@ export const listBenchmarkTasks: API.OperationMethod<
   ListBenchmarkTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<ListBenchmarkTasksRequest>,
-  output: __S(8067, __c252, 3) as any as S.Schema<ListBenchmarkTasksResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<ListBenchmarkTasksRequest>,
+  output: __S(8099, __c253, 3) as any as S.Schema<ListBenchmarkTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14063,8 +14105,8 @@ export const listClusterGroups: API.OperationMethod<
   ListClusterGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<ListClusterGroupsRequest>,
-  output: __S(8099, __c253, 3) as any as S.Schema<ListClusterGroupsResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<ListClusterGroupsRequest>,
+  output: __S(8131, __c254, 3) as any as S.Schema<ListClusterGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14080,8 +14122,8 @@ export const listDeploymentReplicas: API.OperationMethod<
   ListDeploymentReplicasError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<ListDeploymentReplicasRequest>,
-  output: __S(8131, __c254, 3) as any as S.Schema<ListDeploymentReplicasResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<ListDeploymentReplicasRequest>,
+  output: __S(8163, __c255, 3) as any as S.Schema<ListDeploymentReplicasResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14097,8 +14139,8 @@ export const listDeployments: API.OperationMethod<
   ListDeploymentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<ListDeploymentsRequest>,
-  output: __S(8163, __c255, 3) as any as S.Schema<ListDeploymentsResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<ListDeploymentsRequest>,
+  output: __S(8195, __c256, 3) as any as S.Schema<ListDeploymentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14114,8 +14156,8 @@ export const listExampleCategories: API.OperationMethod<
   ListExampleCategoriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<ListExampleCategoriesRequest>,
-  output: __S(8195, __c256, 3) as any as S.Schema<ListExampleCategoriesResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<ListExampleCategoriesRequest>,
+  output: __S(8227, __c257, 3) as any as S.Schema<ListExampleCategoriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14131,8 +14173,8 @@ export const listExampleDifficulties: API.OperationMethod<
   ListExampleDifficultiesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<ListExampleDifficultiesRequest>,
-  output: __S(8227, __c257, 3) as any as S.Schema<ListExampleDifficultiesResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<ListExampleDifficultiesRequest>,
+  output: __S(8291, __c259, 3) as any as S.Schema<ListExampleDifficultiesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14148,8 +14190,8 @@ export const listExamples: API.OperationMethod<
   ListExamplesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<ListExamplesRequest>,
-  output: __S(8291, __c259, 3) as any as S.Schema<ListExamplesResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<ListExamplesRequest>,
+  output: __S(8323, __c260, 3) as any as S.Schema<ListExamplesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14165,8 +14207,8 @@ export const listExampleTags: API.OperationMethod<
   ListExampleTagsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<ListExampleTagsRequest>,
-  output: __S(8323, __c260, 3) as any as S.Schema<ListExampleTagsResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<ListExampleTagsRequest>,
+  output: __S(8355, __c261, 3) as any as S.Schema<ListExampleTagsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14182,8 +14224,8 @@ export const listImages: API.OperationMethod<
   ListImagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<ListImagesRequest>,
-  output: __S(8355, __c261, 3) as any as S.Schema<ListImagesResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<ListImagesRequest>,
+  output: __S(8387, __c262, 3) as any as S.Schema<ListImagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14199,8 +14241,8 @@ export const listInferenceEngines: API.OperationMethod<
   ListInferenceEnginesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<ListInferenceEnginesRequest>,
-  output: __S(8385, __c262, 1) as any as S.Schema<ListInferenceEnginesResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<ListInferenceEnginesRequest>,
+  output: __S(8417, __c263, 1) as any as S.Schema<ListInferenceEnginesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14216,8 +14258,8 @@ export const listInferenceModels: API.OperationMethod<
   ListInferenceModelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<ListInferenceModelsRequest>,
-  output: __S(8419, __c263, 3) as any as S.Schema<ListInferenceModelsResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<ListInferenceModelsRequest>,
+  output: __S(8451, __c264, 3) as any as S.Schema<ListInferenceModelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14233,8 +14275,8 @@ export const listInferenceServices: API.OperationMethod<
   ListInferenceServicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<ListInferenceServicesRequest>,
-  output: __S(8451, __c264, 3) as any as S.Schema<ListInferenceServicesResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<ListInferenceServicesRequest>,
+  output: __S(8483, __c265, 3) as any as S.Schema<ListInferenceServicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14250,8 +14292,8 @@ export const listJobsBySpec: API.OperationMethod<
   ListJobsBySpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<ListJobsBySpecRequest>,
-  output: __S(8514, __c266, 2) as any as S.Schema<ListJobsBySpecResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<ListJobsBySpecRequest>,
+  output: __S(8546, __c267, 2) as any as S.Schema<ListJobsBySpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14267,8 +14309,8 @@ export const listJobSpecs: API.OperationMethod<
   ListJobSpecsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<ListJobSpecsRequest>,
-  output: __S(8547, __c267, 3) as any as S.Schema<ListJobSpecsResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<ListJobSpecsRequest>,
+  output: __S(8579, __c268, 3) as any as S.Schema<ListJobSpecsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14284,8 +14326,8 @@ export const listLabs: API.OperationMethod<
   ListLabsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<ListLabsRequest>,
-  output: __S(8579, __c268, 3) as any as S.Schema<ListLabsResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<ListLabsRequest>,
+  output: __S(8611, __c269, 3) as any as S.Schema<ListLabsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14301,8 +14343,8 @@ export const listMlflowServers: API.OperationMethod<
   ListMlflowServersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<ListMlflowServersRequest>,
-  output: __S(8610, __c269, 2) as any as S.Schema<ListMlflowServersResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<ListMlflowServersRequest>,
+  output: __S(8738, __c273, 2) as any as S.Schema<ListMlflowServersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14318,8 +14360,8 @@ export const listMlflowServerTrainingInstances: API.OperationMethod<
   ListMlflowServerTrainingInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<ListMlflowServerTrainingInstancesRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<ListMlflowServerTrainingInstancesResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<ListMlflowServerTrainingInstancesRequest>,
+  output: __S(8801, __c275, 1) as any as S.Schema<ListMlflowServerTrainingInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14335,8 +14377,8 @@ export const listModelVersions: API.OperationMethod<
   ListModelVersionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<ListModelVersionsRequest>,
-  output: __S(8803, __c275, 3) as any as S.Schema<ListModelVersionsResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<ListModelVersionsRequest>,
+  output: __S(8835, __c276, 3) as any as S.Schema<ListModelVersionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14352,8 +14394,8 @@ export const listRayClusterJobs: API.OperationMethod<
   ListRayClusterJobsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<ListRayClusterJobsRequest>,
-  output: __S(8514, __c266, 2) as any as S.Schema<ListRayClusterJobsResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<ListRayClusterJobsRequest>,
+  output: __S(8546, __c267, 2) as any as S.Schema<ListRayClusterJobsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14369,8 +14411,8 @@ export const listRayClusters: API.OperationMethod<
   ListRayClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<ListRayClustersRequest>,
-  output: __S(8865, __c277, 1) as any as S.Schema<ListRayClustersResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<ListRayClustersRequest>,
+  output: __S(8897, __c278, 1) as any as S.Schema<ListRayClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14386,8 +14428,8 @@ export const listRayJobs: API.OperationMethod<
   ListRayJobsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<ListRayJobsRequest>,
-  output: __S(8514, __c266, 2) as any as S.Schema<ListRayJobsResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<ListRayJobsRequest>,
+  output: __S(8546, __c267, 2) as any as S.Schema<ListRayJobsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14403,8 +14445,8 @@ export const listRegionLbs: API.OperationMethod<
   ListRegionLbsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<ListRegionLbsRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<ListRegionLbsResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<ListRegionLbsRequest>,
+  output: __S(8963, __c280, 3) as any as S.Schema<ListRegionLbsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14420,8 +14462,8 @@ export const listResourceConfigs: API.OperationMethod<
   ListResourceConfigsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<ListResourceConfigsRequest>,
-  output: __S(8963, __c280, 3) as any as S.Schema<ListResourceConfigsResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<ListResourceConfigsRequest>,
+  output: __S(8995, __c281, 3) as any as S.Schema<ListResourceConfigsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14437,8 +14479,8 @@ export const listServiceApiKeys: API.OperationMethod<
   ListServiceApiKeysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<ListServiceApiKeysRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<ListServiceApiKeysResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<ListServiceApiKeysRequest>,
+  output: __S(8000, __c250, 0) as any as S.Schema<ListServiceApiKeysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14454,8 +14496,8 @@ export const listStorages: API.OperationMethod<
   ListStoragesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<ListStoragesRequest>,
-  output: __S(9031, __c282, 7) as any as S.Schema<ListStoragesResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<ListStoragesRequest>,
+  output: __S(9063, __c283, 7) as any as S.Schema<ListStoragesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14471,8 +14513,8 @@ export const listTaskJobLogDetail: API.OperationMethod<
   ListTaskJobLogDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<ListTaskJobLogDetailRequest>,
-  output: __S(4802, __c150, 2) as any as S.Schema<ListTaskJobLogDetailResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<ListTaskJobLogDetailRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<ListTaskJobLogDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14488,8 +14530,8 @@ export const listTaskJobLogName: API.OperationMethod<
   ListTaskJobLogNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<ListTaskJobLogNameRequest>,
-  output: __S(9185, __c287, 1) as any as S.Schema<ListTaskJobLogNameResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<ListTaskJobLogNameRequest>,
+  output: __S(9217, __c288, 1) as any as S.Schema<ListTaskJobLogNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14505,8 +14547,8 @@ export const listTkeCosBuckets: API.OperationMethod<
   ListTkeCosBucketsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<ListTkeCosBucketsRequest>,
-  output: __S(9217, __c288, 1) as any as S.Schema<ListTkeCosBucketsResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<ListTkeCosBucketsRequest>,
+  output: __S(9249, __c289, 1) as any as S.Schema<ListTkeCosBucketsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14522,8 +14564,8 @@ export const listTrainingJobInstance: API.OperationMethod<
   ListTrainingJobInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<ListTrainingJobInstanceRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<ListTrainingJobInstanceResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<ListTrainingJobInstanceRequest>,
+  output: __S(8801, __c275, 1) as any as S.Schema<ListTrainingJobInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14539,8 +14581,8 @@ export const listTrainingJobSpec: API.OperationMethod<
   ListTrainingJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<ListTrainingJobSpecRequest>,
-  output: __S(9282, __c290, 2) as any as S.Schema<ListTrainingJobSpecResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<ListTrainingJobSpecRequest>,
+  output: __S(9314, __c291, 2) as any as S.Schema<ListTrainingJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14556,7 +14598,7 @@ export const lockMetaData: API.OperationMethod<
   LockMetaDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9314, __c291, 2) as any as S.Schema<LockMetaDataRequest>,
+  input: __S(9346, __c292, 2) as any as S.Schema<LockMetaDataRequest>,
   output: __S(7808, __c244, 0) as any as S.Schema<LockMetaDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14573,7 +14615,7 @@ export const modifyAdvancedStoreLocation: API.OperationMethod<
   ModifyAdvancedStoreLocationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<ModifyAdvancedStoreLocationRequest>,
+  input: __S(9376, __c293, 0) as any as S.Schema<ModifyAdvancedStoreLocationRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyAdvancedStoreLocationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14590,8 +14632,8 @@ export const modifyClusterPriority: API.OperationMethod<
   ModifyClusterPriorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<ModifyClusterPriorityRequest>,
-  output: __S(9377, __c293, 1) as any as S.Schema<ModifyClusterPriorityResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<ModifyClusterPriorityRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<ModifyClusterPriorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14607,7 +14649,7 @@ export const modifyDataEngineDescription: API.OperationMethod<
   ModifyDataEngineDescriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<ModifyDataEngineDescriptionRequest>,
+  input: __S(9440, __c295, 0) as any as S.Schema<ModifyDataEngineDescriptionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyDataEngineDescriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14624,7 +14666,7 @@ export const modifyGovernEventRule: API.OperationMethod<
   ModifyGovernEventRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<ModifyGovernEventRuleRequest>,
+  input: __S(9472, __c296, 0) as any as S.Schema<ModifyGovernEventRuleRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyGovernEventRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14641,7 +14683,7 @@ export const modifyJobDefinition: API.OperationMethod<
   ModifyJobDefinitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<ModifyJobDefinitionRequest>,
+  input: __S(9536, __c298, 0) as any as S.Schema<ModifyJobDefinitionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyJobDefinitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14658,8 +14700,8 @@ export const modifyLabPriority: API.OperationMethod<
   ModifyLabPriorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<ModifyLabPriorityRequest>,
-  output: __S(9537, __c298, 1) as any as S.Schema<ModifyLabPriorityResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<ModifyLabPriorityRequest>,
+  output: __S(9569, __c299, 1) as any as S.Schema<ModifyLabPriorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14675,7 +14717,7 @@ export const modifyPartitionDescription: API.OperationMethod<
   ModifyPartitionDescriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<ModifyPartitionDescriptionRequest>,
+  input: __S(9600, __c300, 0) as any as S.Schema<ModifyPartitionDescriptionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyPartitionDescriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14692,7 +14734,7 @@ export const modifyPartitionQueue: API.OperationMethod<
   ModifyPartitionQueueError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<ModifyPartitionQueueRequest>,
+  input: __S(9632, __c301, 0) as any as S.Schema<ModifyPartitionQueueRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyPartitionQueueResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14709,7 +14751,7 @@ export const modifySparkApp: API.OperationMethod<
   ModifySparkAppError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<ModifySparkAppRequest>,
+  input: __S(9664, __c302, 0) as any as S.Schema<ModifySparkAppRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifySparkAppResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14726,7 +14768,7 @@ export const modifySparkAppBatch: API.OperationMethod<
   ModifySparkAppBatchError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<ModifySparkAppBatchRequest>,
+  input: __S(9696, __c303, 0) as any as S.Schema<ModifySparkAppBatchRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifySparkAppBatchResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14743,7 +14785,7 @@ export const modifySparkAppForTDLC: API.OperationMethod<
   ModifySparkAppForTDLCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<ModifySparkAppForTDLCRequest>,
+  input: __S(9728, __c304, 0) as any as S.Schema<ModifySparkAppForTDLCRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifySparkAppForTDLCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14760,8 +14802,8 @@ export const modifyTrainingJobSpec: API.OperationMethod<
   ModifyTrainingJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<ModifyTrainingJobSpecRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<ModifyTrainingJobSpecResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<ModifyTrainingJobSpecRequest>,
+  output: __S(5536, __c173, 0) as any as S.Schema<ModifyTrainingJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14777,7 +14819,7 @@ export const modifyUser: API.OperationMethod<
   ModifyUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<ModifyUserRequest>,
+  input: __S(9824, __c307, 0) as any as S.Schema<ModifyUserRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14794,7 +14836,7 @@ export const modifyUserType: API.OperationMethod<
   ModifyUserTypeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<ModifyUserTypeRequest>,
+  input: __S(9856, __c308, 0) as any as S.Schema<ModifyUserTypeRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyUserTypeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14811,7 +14853,7 @@ export const modifyWorkGroup: API.OperationMethod<
   ModifyWorkGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<ModifyWorkGroupRequest>,
+  input: __S(9920, __c310, 0) as any as S.Schema<ModifyWorkGroupRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ModifyWorkGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14828,8 +14870,8 @@ export const pauseStandardEngineResourceGroups: API.OperationMethod<
   PauseStandardEngineResourceGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<PauseStandardEngineResourceGroupsRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<PauseStandardEngineResourceGroupsResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<PauseStandardEngineResourceGroupsRequest>,
+  output: __S(7906, __c247, 2) as any as S.Schema<PauseStandardEngineResourceGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14845,8 +14887,8 @@ export const queryDashboardOverview: API.OperationMethod<
   QueryDashboardOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<QueryDashboardOverviewRequest>,
-  output: __S(9953, __c311, 1) as any as S.Schema<QueryDashboardOverviewResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<QueryDashboardOverviewRequest>,
+  output: __S(9985, __c312, 1) as any as S.Schema<QueryDashboardOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14862,8 +14904,8 @@ export const queryDashboardServiceList: API.OperationMethod<
   QueryDashboardServiceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<QueryDashboardServiceListRequest>,
-  output: __S(9989, __c312, 5) as any as S.Schema<QueryDashboardServiceListResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<QueryDashboardServiceListRequest>,
+  output: __S(10021, __c313, 5) as any as S.Schema<QueryDashboardServiceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14879,8 +14921,8 @@ export const queryInternalTableWarehouse: API.OperationMethod<
   QueryInternalTableWarehouseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<QueryInternalTableWarehouseRequest>,
-  output: __S(10017, __c313, 1) as any as S.Schema<QueryInternalTableWarehouseResponse>,
+  input: __S(10048, __c314, 0) as any as S.Schema<QueryInternalTableWarehouseRequest>,
+  output: __S(10049, __c314, 1) as any as S.Schema<QueryInternalTableWarehouseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14896,8 +14938,8 @@ export const queryMonitorOverview: API.OperationMethod<
   QueryMonitorOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<QueryMonitorOverviewRequest>,
-  output: __S(10051, __c314, 3) as any as S.Schema<QueryMonitorOverviewResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<QueryMonitorOverviewRequest>,
+  output: __S(10083, __c315, 3) as any as S.Schema<QueryMonitorOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14913,8 +14955,8 @@ export const queryResult: API.OperationMethod<
   QueryResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<QueryResultRequest>,
-  output: __S(10081, __c315, 1) as any as S.Schema<QueryResultResponse>,
+  input: __S(10112, __c316, 0) as any as S.Schema<QueryResultRequest>,
+  output: __S(10113, __c316, 1) as any as S.Schema<QueryResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14930,8 +14972,8 @@ export const queryTaskCostDetail: API.OperationMethod<
   QueryTaskCostDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<QueryTaskCostDetailRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<QueryTaskCostDetailResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<QueryTaskCostDetailRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<QueryTaskCostDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -14947,7 +14989,7 @@ export const registerThirdPartyAccessUser: API.OperationMethod<
   RegisterThirdPartyAccessUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<RegisterThirdPartyAccessUserRequest>,
+  input: __S(10176, __c318, 0) as any as S.Schema<RegisterThirdPartyAccessUserRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<RegisterThirdPartyAccessUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14964,7 +15006,7 @@ export const renewDataEngine: API.OperationMethod<
   RenewDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<RenewDataEngineRequest>,
+  input: __S(10208, __c319, 0) as any as S.Schema<RenewDataEngineRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<RenewDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14981,7 +15023,7 @@ export const reportHeartbeatMetaData: API.OperationMethod<
   ReportHeartbeatMetaDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<ReportHeartbeatMetaDataRequest>,
+  input: __S(10272, __c321, 0) as any as S.Schema<ReportHeartbeatMetaDataRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<ReportHeartbeatMetaDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -14998,8 +15040,8 @@ export const rerunBenchmarkTask: API.OperationMethod<
   RerunBenchmarkTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<RerunBenchmarkTaskRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<RerunBenchmarkTaskResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<RerunBenchmarkTaskRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<RerunBenchmarkTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15015,7 +15057,7 @@ export const restartDataEngine: API.OperationMethod<
   RestartDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<RestartDataEngineRequest>,
+  input: __S(10336, __c323, 0) as any as S.Schema<RestartDataEngineRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<RestartDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15032,8 +15074,8 @@ export const restartDeployment: API.OperationMethod<
   RestartDeploymentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<RestartDeploymentRequest>,
-  output: __S(10337, __c323, 1) as any as S.Schema<RestartDeploymentResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<RestartDeploymentRequest>,
+  output: __S(10369, __c324, 1) as any as S.Schema<RestartDeploymentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15049,8 +15091,8 @@ export const restartInferenceService: API.OperationMethod<
   RestartInferenceServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<RestartInferenceServiceRequest>,
-  output: __S(10369, __c324, 1) as any as S.Schema<RestartInferenceServiceResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<RestartInferenceServiceRequest>,
+  output: __S(10401, __c325, 1) as any as S.Schema<RestartInferenceServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15066,8 +15108,8 @@ export const resumeTrainingJobInstance: API.OperationMethod<
   ResumeTrainingJobInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<ResumeTrainingJobInstanceRequest>,
-  output: __S(5216, __c163, 0) as any as S.Schema<ResumeTrainingJobInstanceResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<ResumeTrainingJobInstanceRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<ResumeTrainingJobInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15083,7 +15125,7 @@ export const revokeDLCCatalogAccess: API.OperationMethod<
   RevokeDLCCatalogAccessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<RevokeDLCCatalogAccessRequest>,
+  input: __S(10464, __c327, 0) as any as S.Schema<RevokeDLCCatalogAccessRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<RevokeDLCCatalogAccessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15100,7 +15142,7 @@ export const rollbackDataEngineImage: API.OperationMethod<
   RollbackDataEngineImageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<RollbackDataEngineImageRequest>,
+  input: __S(10496, __c328, 0) as any as S.Schema<RollbackDataEngineImageRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<RollbackDataEngineImageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15117,8 +15159,8 @@ export const runJobSpec: API.OperationMethod<
   RunJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<RunJobSpecRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<RunJobSpecResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<RunJobSpecRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<RunJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15134,7 +15176,7 @@ export const setOptimizerPolicy: API.OperationMethod<
   SetOptimizerPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<SetOptimizerPolicyRequest>,
+  input: __S(10560, __c330, 0) as any as S.Schema<SetOptimizerPolicyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<SetOptimizerPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15151,8 +15193,8 @@ export const startLab: API.OperationMethod<
   StartLabError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<StartLabRequest>,
-  output: __S(10561, __c330, 1) as any as S.Schema<StartLabResponse>,
+  input: __S(10656, __c333, 0) as any as S.Schema<StartLabRequest>,
+  output: __S(10657, __c333, 1) as any as S.Schema<StartLabResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15168,8 +15210,8 @@ export const startMlflowServer: API.OperationMethod<
   StartMlflowServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<StartMlflowServerRequest>,
-  output: __S(13376, __c418, 0) as any as S.Schema<StartMlflowServerResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<StartMlflowServerRequest>,
+  output: __S(13408, __c419, 0) as any as S.Schema<StartMlflowServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15185,8 +15227,8 @@ export const startRayCluster: API.OperationMethod<
   StartRayClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<StartRayClusterRequest>,
-  output: __S(10689, __c334, 1) as any as S.Schema<StartRayClusterResponse>,
+  input: __S(10720, __c335, 0) as any as S.Schema<StartRayClusterRequest>,
+  output: __S(10721, __c335, 1) as any as S.Schema<StartRayClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15202,8 +15244,8 @@ export const stopBenchmarkTask: API.OperationMethod<
   StopBenchmarkTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<StopBenchmarkTaskRequest>,
-  output: __S(10721, __c335, 1) as any as S.Schema<StopBenchmarkTaskResponse>,
+  input: __S(10752, __c336, 0) as any as S.Schema<StopBenchmarkTaskRequest>,
+  output: __S(10753, __c336, 1) as any as S.Schema<StopBenchmarkTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15219,8 +15261,8 @@ export const stopDeployment: API.OperationMethod<
   StopDeploymentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<StopDeploymentRequest>,
-  output: __S(10753, __c336, 1) as any as S.Schema<StopDeploymentResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<StopDeploymentRequest>,
+  output: __S(10785, __c337, 1) as any as S.Schema<StopDeploymentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15236,8 +15278,8 @@ export const stopInferenceService: API.OperationMethod<
   StopInferenceServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<StopInferenceServiceRequest>,
-  output: __S(10785, __c337, 1) as any as S.Schema<StopInferenceServiceResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<StopInferenceServiceRequest>,
+  output: __S(10817, __c338, 1) as any as S.Schema<StopInferenceServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15253,8 +15295,8 @@ export const stopLab: API.OperationMethod<
   StopLabError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<StopLabRequest>,
-  output: __S(10848, __c339, 0) as any as S.Schema<StopLabResponse>,
+  input: __S(10848, __c339, 0) as any as S.Schema<StopLabRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<StopLabResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15270,7 +15312,7 @@ export const stopMlflowServer: API.OperationMethod<
   StopMlflowServerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<StopMlflowServerRequest>,
+  input: __S(10912, __c341, 0) as any as S.Schema<StopMlflowServerRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<StopMlflowServerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15287,8 +15329,8 @@ export const stopRayCluster: API.OperationMethod<
   StopRayClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<StopRayClusterRequest>,
-  output: __S(10913, __c341, 1) as any as S.Schema<StopRayClusterResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<StopRayClusterRequest>,
+  output: __S(10945, __c342, 1) as any as S.Schema<StopRayClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15304,8 +15346,8 @@ export const submitRayJob: API.OperationMethod<
   SubmitRayJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<SubmitRayJobRequest>,
-  output: __S(10976, __c343, 0) as any as S.Schema<SubmitRayJobResponse>,
+  input: __S(10976, __c343, 0) as any as S.Schema<SubmitRayJobRequest>,
+  output: __S(11008, __c344, 0) as any as S.Schema<SubmitRayJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15321,8 +15363,8 @@ export const submitTrainingJob: API.OperationMethod<
   SubmitTrainingJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<SubmitTrainingJobRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<SubmitTrainingJobResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<SubmitTrainingJobRequest>,
+  output: __S(5536, __c173, 0) as any as S.Schema<SubmitTrainingJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15338,8 +15380,8 @@ export const suspendResumeDataEngine: API.OperationMethod<
   SuspendResumeDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<SuspendResumeDataEngineRequest>,
-  output: __S(11105, __c347, 1) as any as S.Schema<SuspendResumeDataEngineResponse>,
+  input: __S(11136, __c348, 0) as any as S.Schema<SuspendResumeDataEngineRequest>,
+  output: __S(11137, __c348, 1) as any as S.Schema<SuspendResumeDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15355,7 +15397,7 @@ export const switchDataEngine: API.OperationMethod<
   SwitchDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<SwitchDataEngineRequest>,
+  input: __S(11168, __c349, 0) as any as S.Schema<SwitchDataEngineRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<SwitchDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15372,7 +15414,7 @@ export const switchDataEngineImage: API.OperationMethod<
   SwitchDataEngineImageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<SwitchDataEngineImageRequest>,
+  input: __S(11200, __c350, 0) as any as S.Schema<SwitchDataEngineImageRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<SwitchDataEngineImageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15389,7 +15431,7 @@ export const unbindWorkGroupsFromUser: API.OperationMethod<
   UnbindWorkGroupsFromUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<UnbindWorkGroupsFromUserRequest>,
+  input: __S(11232, __c351, 0) as any as S.Schema<UnbindWorkGroupsFromUserRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UnbindWorkGroupsFromUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15406,7 +15448,7 @@ export const unboundDatasourceHouse: API.OperationMethod<
   UnboundDatasourceHouseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<UnboundDatasourceHouseRequest>,
+  input: __S(11264, __c352, 0) as any as S.Schema<UnboundDatasourceHouseRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UnboundDatasourceHouseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15423,7 +15465,7 @@ export const unlockMetaData: API.OperationMethod<
   UnlockMetaDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<UnlockMetaDataRequest>,
+  input: __S(11296, __c353, 0) as any as S.Schema<UnlockMetaDataRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UnlockMetaDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15440,7 +15482,7 @@ export const updateApiKeyStatus: API.OperationMethod<
   UpdateApiKeyStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<UpdateApiKeyStatusRequest>,
+  input: __S(11328, __c354, 0) as any as S.Schema<UpdateApiKeyStatusRequest>,
   output: __S(10624, __c332, 0) as any as S.Schema<UpdateApiKeyStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15457,8 +15499,8 @@ export const updateClusterGroup: API.OperationMethod<
   UpdateClusterGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<UpdateClusterGroupRequest>,
-  output: __S(11329, __c354, 1) as any as S.Schema<UpdateClusterGroupResponse>,
+  input: __S(11360, __c355, 0) as any as S.Schema<UpdateClusterGroupRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<UpdateClusterGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15474,7 +15516,7 @@ export const updateDataEngine: API.OperationMethod<
   UpdateDataEngineError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<UpdateDataEngineRequest>,
+  input: __S(11392, __c356, 0) as any as S.Schema<UpdateDataEngineRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateDataEngineResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15491,7 +15533,7 @@ export const updateDataEngineConfig: API.OperationMethod<
   UpdateDataEngineConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11392, __c356, 0) as any as S.Schema<UpdateDataEngineConfigRequest>,
+  input: __S(11488, __c359, 0) as any as S.Schema<UpdateDataEngineConfigRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateDataEngineConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15508,7 +15550,7 @@ export const updateDataMaskStrategy: API.OperationMethod<
   UpdateDataMaskStrategyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<UpdateDataMaskStrategyRequest>,
+  input: __S(11520, __c360, 0) as any as S.Schema<UpdateDataMaskStrategyRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateDataMaskStrategyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15525,8 +15567,8 @@ export const updateDeployment: API.OperationMethod<
   UpdateDeploymentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<UpdateDeploymentRequest>,
-  output: __S(11521, __c360, 1) as any as S.Schema<UpdateDeploymentResponse>,
+  input: __S(11552, __c361, 0) as any as S.Schema<UpdateDeploymentRequest>,
+  output: __S(11553, __c361, 1) as any as S.Schema<UpdateDeploymentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15543,8 +15585,8 @@ export const updateEngineResourceGroupNetworkConfigInfo: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11552,
-    __c361,
+    11584,
+    __c362,
     0,
   ) as any as S.Schema<UpdateEngineResourceGroupNetworkConfigInfoRequest>,
   output: __S(
@@ -15567,8 +15609,8 @@ export const updateInferenceModel: API.OperationMethod<
   UpdateInferenceModelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<UpdateInferenceModelRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<UpdateInferenceModelResponse>,
+  input: __S(11616, __c363, 0) as any as S.Schema<UpdateInferenceModelRequest>,
+  output: __S(11617, __c363, 1) as any as S.Schema<UpdateInferenceModelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15584,8 +15626,8 @@ export const updateJobSpec: API.OperationMethod<
   UpdateJobSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<UpdateJobSpecRequest>,
-  output: __S(13088, __c409, 0) as any as S.Schema<UpdateJobSpecResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<UpdateJobSpecRequest>,
+  output: __S(13120, __c410, 0) as any as S.Schema<UpdateJobSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15601,8 +15643,8 @@ export const updateJobSpecPriority: API.OperationMethod<
   UpdateJobSpecPriorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<UpdateJobSpecPriorityRequest>,
-  output: __S(11649, __c364, 1) as any as S.Schema<UpdateJobSpecPriorityResponse>,
+  input: __S(11680, __c365, 0) as any as S.Schema<UpdateJobSpecPriorityRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<UpdateJobSpecPriorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15618,8 +15660,8 @@ export const updateLab: API.OperationMethod<
   UpdateLabError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<UpdateLabRequest>,
-  output: __S(10848, __c339, 0) as any as S.Schema<UpdateLabResponse>,
+  input: __S(11712, __c366, 0) as any as S.Schema<UpdateLabRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<UpdateLabResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15635,7 +15677,7 @@ export const updateNetworkConnection: API.OperationMethod<
   UpdateNetworkConnectionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<UpdateNetworkConnectionRequest>,
+  input: __S(11744, __c367, 0) as any as S.Schema<UpdateNetworkConnectionRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateNetworkConnectionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15652,8 +15694,8 @@ export const updateRayCluster: API.OperationMethod<
   UpdateRayClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<UpdateRayClusterRequest>,
-  output: __S(13824, __c432, 0) as any as S.Schema<UpdateRayClusterResponse>,
+  input: __S(11776, __c368, 0) as any as S.Schema<UpdateRayClusterRequest>,
+  output: __S(13856, __c433, 0) as any as S.Schema<UpdateRayClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15669,8 +15711,8 @@ export const updateRayJobPriority: API.OperationMethod<
   UpdateRayJobPriorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<UpdateRayJobPriorityRequest>,
-  output: __S(10976, __c343, 0) as any as S.Schema<UpdateRayJobPriorityResponse>,
+  input: __S(11840, __c370, 0) as any as S.Schema<UpdateRayJobPriorityRequest>,
+  output: __S(11008, __c344, 0) as any as S.Schema<UpdateRayJobPriorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15686,8 +15728,8 @@ export const updateResourceConfig: API.OperationMethod<
   UpdateResourceConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<UpdateResourceConfigRequest>,
-  output: __S(11841, __c370, 1) as any as S.Schema<UpdateResourceConfigResponse>,
+  input: __S(11872, __c371, 0) as any as S.Schema<UpdateResourceConfigRequest>,
+  output: __S(11873, __c371, 1) as any as S.Schema<UpdateResourceConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15703,7 +15745,7 @@ export const updateRowFilter: API.OperationMethod<
   UpdateRowFilterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<UpdateRowFilterRequest>,
+  input: __S(11904, __c372, 0) as any as S.Schema<UpdateRowFilterRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateRowFilterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15720,8 +15762,8 @@ export const updateServiceAuthConfig: API.OperationMethod<
   UpdateServiceAuthConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11904, __c372, 0) as any as S.Schema<UpdateServiceAuthConfigRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<UpdateServiceAuthConfigResponse>,
+  input: __S(11936, __c373, 0) as any as S.Schema<UpdateServiceAuthConfigRequest>,
+  output: __S(11937, __c373, 1) as any as S.Schema<UpdateServiceAuthConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15737,7 +15779,7 @@ export const updateStandardEngineResourceGroupBaseInfo: API.OperationMethod<
   UpdateStandardEngineResourceGroupBaseInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<UpdateStandardEngineResourceGroupBaseInfoRequest>,
+  input: __S(11968, __c374, 0) as any as S.Schema<UpdateStandardEngineResourceGroupBaseInfoRequest>,
   output: __S(
     4576,
     __c143,
@@ -15759,8 +15801,8 @@ export const updateStandardEngineResourceGroupConfigInfo: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11972,
-    __c374,
+    12004,
+    __c375,
     4,
   ) as any as S.Schema<UpdateStandardEngineResourceGroupConfigInfoRequest>,
   output: __S(
@@ -15784,8 +15826,8 @@ export const updateStandardEngineResourceGroupResourceInfo: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12000,
-    __c375,
+    12032,
+    __c376,
     0,
   ) as any as S.Schema<UpdateStandardEngineResourceGroupResourceInfoRequest>,
   output: __S(
@@ -15808,8 +15850,8 @@ export const updateUDFPolicy: API.OperationMethod<
   UpdateUDFPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<UpdateUDFPolicyRequest>,
-  output: __S(5570, __c174, 2) as any as S.Schema<UpdateUDFPolicyResponse>,
+  input: __S(12064, __c377, 0) as any as S.Schema<UpdateUDFPolicyRequest>,
+  output: __S(5602, __c175, 2) as any as S.Schema<UpdateUDFPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -15825,7 +15867,7 @@ export const updateUserDataEngineConfig: API.OperationMethod<
   UpdateUserDataEngineConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<UpdateUserDataEngineConfigRequest>,
+  input: __S(12096, __c378, 0) as any as S.Schema<UpdateUserDataEngineConfigRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpdateUserDataEngineConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -15842,7 +15884,7 @@ export const upgradeDataEngineImage: API.OperationMethod<
   UpgradeDataEngineImageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<UpgradeDataEngineImageRequest>,
+  input: __S(12128, __c379, 0) as any as S.Schema<UpgradeDataEngineImageRequest>,
   output: __S(4576, __c143, 0) as any as S.Schema<UpgradeDataEngineImageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -16197,7 +16239,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
+          TableBaseInfo: __S(14336, __c448, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DeleteTable" })),
       ).annotate({ identifier: "DeleteTableRequest" });
@@ -16413,7 +16455,7 @@ function __c30(j: number): any {
           JDBCUrl: S.optional(S.String),
           User: S.optional(S.String),
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          NetWork: S.optional(__S(15232, __c476, 0)),
+          NetWork: S.optional(__S(15264, __c477, 0)),
         }),
       ).annotate({ identifier: "MysqlConnection" });
     case 2:
@@ -16422,7 +16464,7 @@ function __c30(j: number): any {
           InstanceId: S.optional(S.String),
           InstanceName: S.optional(S.String),
           MetaStoreUrl: S.optional(S.String),
-          NetWork: S.optional(__S(15232, __c476, 0)),
+          NetWork: S.optional(__S(15264, __c477, 0)),
           HiveVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "HiveConnection" });
@@ -16450,7 +16492,7 @@ function __c30(j: number): any {
           RangerConnection: S.optional(__S(964, __c30, 4)),
           HiveVersion: S.optional(S.String),
           Location: S.optional(S.String),
-          NetWork: S.optional(__S(15232, __c476, 0)),
+          NetWork: S.optional(__S(15264, __c477, 0)),
         }),
       ).annotate({ identifier: "LakeHouseConnection" });
     case 6:
@@ -16462,7 +16504,7 @@ function __c30(j: number): any {
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           InstanceId: S.optional(S.String),
           InstanceName: S.optional(S.String),
-          NetWork: S.optional(__S(15232, __c476, 0)),
+          NetWork: S.optional(__S(15264, __c477, 0)),
           Database: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostgreSQLConnection" });
@@ -16902,7 +16944,7 @@ function __c41(j: number): any {
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "RayClusterEntity" });
@@ -16969,7 +17011,7 @@ function __c44(j: number): any {
           Location: S.optional(S.String),
           UserAlias: S.optional(S.String),
           UserSubUin: S.optional(S.String),
-          GovernPolicy: S.optional(S.NullOr(__S(13248, __c414, 0))),
+          GovernPolicy: S.optional(S.NullOr(__S(13280, __c415, 0))),
           DatabaseId: S.optional(S.String),
           CatalogName: S.optional(S.NullOr(S.String)),
           CatalogType: S.optional(S.NullOr(S.String)),
@@ -17072,11 +17114,11 @@ function __c47(j: number): any {
           IsolatedTime: S.optional(S.String),
           ReversalTime: S.optional(S.String),
           UserAlias: S.optional(S.NullOr(S.String)),
-          TagList: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          TagList: S.optional(S.NullOr(__S(5089, __c159, 1))),
           Permissions: S.optional(S.NullOr(__S(128, __c4, 0))),
           AutoSuspend: S.optional(S.NullOr(S.Boolean)),
           CrontabResumeSuspend: S.optional(S.NullOr(S.Number)),
-          CrontabResumeSuspendStrategy: S.optional(S.NullOr(__S(12288, __c384, 0))),
+          CrontabResumeSuspendStrategy: S.optional(S.NullOr(__S(12320, __c385, 0))),
           EngineExecType: S.optional(S.NullOr(S.String)),
           RenewFlag: S.optional(S.NullOr(S.Number)),
           AutoSuspendTime: S.optional(S.NullOr(S.Number)),
@@ -17094,7 +17136,7 @@ function __c47(j: number): any {
           TolerableQueueTime: S.optional(S.NullOr(S.Number)),
           UserAppId: S.optional(S.NullOr(S.Number)),
           UserUin: S.optional(S.NullOr(S.String)),
-          SessionResourceTemplate: S.optional(S.NullOr(__S(12256, __c383, 0))),
+          SessionResourceTemplate: S.optional(S.NullOr(__S(12288, __c384, 0))),
           AutoAuthorization: S.optional(S.NullOr(S.Boolean)),
           EngineGeneration: S.optional(S.NullOr(S.String)),
           EngineTypeDetail: S.optional(S.NullOr(S.String)),
@@ -17516,7 +17558,7 @@ function __c60(j: number): any {
           StrategyName: S.optional(S.NullOr(S.String)),
           StrategyType: S.optional(S.NullOr(S.String)),
           StrategyDesc: S.optional(S.NullOr(S.String)),
-          Groups: S.optional(S.NullOr(__S(12417, __c388, 1))),
+          Groups: S.optional(S.NullOr(__S(12449, __c389, 1))),
           Users: S.optional(S.NullOr(S.String)),
           State: S.optional(S.NullOr(S.Number)),
           CreateTime: S.optional(S.NullOr(S.Number)),
@@ -17568,7 +17610,7 @@ function __c61(j: number): any {
           DatasourceConnectionName: S.optional(S.String),
           DatasourceConnectionDesc: S.optional(S.String),
           DatasourceConnectionType: S.optional(S.String),
-          DatasourceConnectionConfig: S.optional(S.NullOr(__S(15277, __c477, 13))),
+          DatasourceConnectionConfig: S.optional(S.NullOr(__S(15309, __c478, 13))),
           State: S.optional(S.Number),
           Region: S.optional(S.String),
           AppId: S.optional(S.String),
@@ -17580,7 +17622,7 @@ function __c61(j: number): any {
           NetworkConnectionSet: S.optional(S.NullOr(__S(1537, __c48, 1))),
           ConnectivityState: S.optional(S.Number),
           ConnectivityTips: S.optional(S.String),
-          CustomConfig: S.optional(__S(12513, __c391, 1)),
+          CustomConfig: S.optional(__S(12545, __c392, 1)),
           AllowRollback: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DatasourceConnectionInfo" });
@@ -17648,7 +17690,7 @@ function __c63(j: number): any {
           Name: S.optional(S.String),
           SchemaName: S.optional(S.String),
           Location: S.optional(S.String),
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDMSDatabaseResponse" });
@@ -17706,7 +17748,7 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           ViewOriginalText: S.optional(S.String),
           ViewExpandedText: S.optional(S.String),
           Retention: S.optional(S.Number),
@@ -17807,7 +17849,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Table: S.optional(S.NullOr(__S(2209, __c69, 1))),
-          Asset: S.optional(S.NullOr(__S(12352, __c386, 0))),
+          Asset: S.optional(S.NullOr(__S(12384, __c387, 0))),
         }),
       ).annotate({ identifier: "DMSTableInfo" });
     case 3:
@@ -18379,7 +18421,7 @@ function __c86(j: number): any {
           ShortName: S.optional(S.String),
           Description: S.optional(S.String),
           Status: S.optional(S.String),
-          TagList: S.optional(__S(5121, __c160, 1)),
+          TagList: S.optional(__S(5089, __c159, 1)),
           MultiAZ: S.optional(S.Boolean),
           Configuration: S.optional(__S(192, __c6, 0)),
         }),
@@ -18506,7 +18548,7 @@ function __c90(j: number): any {
         S.Struct({
           TaskId: S.optional(S.String),
           State: S.optional(S.Number),
-          ResultSchema: S.optional(__S(14497, __c453, 1)),
+          ResultSchema: S.optional(__S(14529, __c454, 1)),
           ResultSet: S.optional(S.String),
           NextToken: S.optional(S.String),
           RowAffectInfo: S.optional(S.String),
@@ -19012,7 +19054,7 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NotebookSessionStatements: S.optional(__S(13633, __c426, 1)),
+          NotebookSessionStatements: S.optional(__S(13665, __c427, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeNotebookSessionStatementsResponse" });
@@ -19042,7 +19084,7 @@ function __c108(j: number): any {
         S.Struct({
           TaskId: S.optional(S.String),
           ResultSet: S.optional(S.String),
-          ResultSchema: S.optional(__S(14497, __c453, 1)),
+          ResultSchema: S.optional(__S(14529, __c454, 1)),
           NextToken: S.optional(S.String),
           OutputPath: S.optional(S.String),
           UseTime: S.optional(S.Number),
@@ -19182,6 +19224,53 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PartitionCode: S.String,
+          QueueName: S.optional(S.String),
+          MetricKeys: S.optional(__S(128, __c4, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "dlc",
+            version: "2021-01-25",
+            action: "DescribePartitionMonitorOverview",
+          }),
+        ),
+      ).annotate({ identifier: "DescribePartitionMonitorOverviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GpuType: S.optional(S.NullOr(S.String)),
+          QueueName: S.optional(S.NullOr(S.String)),
+          QueueAlias: S.optional(S.NullOr(S.String)),
+          ResourceType: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MetricLabels" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MetricKey: S.optional(S.String),
+          Value: S.optional(S.NullOr(S.Number)),
+          Unit: S.optional(S.String),
+          ResourceType: S.optional(S.NullOr(S.String)),
+          Labels: S.optional(S.NullOr(__S(3585, __c112, 1))),
+        }),
+      ).annotate({ identifier: "MetricValue" });
+    case 3:
+      return S.Array(__S(3586, __c112, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Metrics: S.optional(__S(3587, __c112, 3)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribePartitionMonitorOverviewResponse" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PartitionCode: S.String,
           SortFields: S.optional(__S(2529, __c79, 1)),
           Filters: S.optional(__S(1792, __c56, 0)),
           Page: S.optional(S.Number),
@@ -19203,34 +19292,34 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "QueueResourceQuota" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.Number),
           QueueName: S.optional(S.String),
           Alias: S.optional(S.String),
-          ResourceUsage: S.optional(S.NullOr(__S(13761, __c430, 1))),
-          ResourceQuotas: S.optional(S.NullOr(__S(3586, __c112, 2))),
+          ResourceUsage: S.optional(S.NullOr(__S(13793, __c431, 1))),
+          ResourceQuotas: S.optional(S.NullOr(__S(3618, __c113, 2))),
           Description: S.optional(S.NullOr(S.String)),
           IsDefault: S.optional(S.Number),
           QueueType: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueueInfo" });
     case 4:
-      return S.Array(__S(3587, __c112, 3));
+      return S.Array(__S(3619, __c113, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          QueueList: S.optional(__S(3588, __c112, 4)),
-          DefaultQueue: S.optional(__S(3587, __c112, 3)),
+          QueueList: S.optional(__S(3620, __c113, 4)),
+          DefaultQueue: S.optional(__S(3619, __c113, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePartitionQueuesResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19263,18 +19352,18 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "PartitionInfo" });
     case 2:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Partitions: S.optional(__S(3618, __c113, 2)),
+          Partitions: S.optional(__S(3650, __c114, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePartitionsResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19291,8 +19380,8 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
         }),
       ).annotate({ identifier: "PostTrainingResources" });
     case 2:
@@ -19316,14 +19405,28 @@ function __c114(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(__S(3649, __c114, 1)),
-          TrainingParams: S.optional(__S(3650, __c114, 2)),
+          Resource: S.optional(__S(3681, __c115, 1)),
+          TrainingParams: S.optional(__S(3682, __c115, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePostTrainingPresetResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BatchId: S.String,
+          CustomKey: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "CancelSparkSessionBatchSQL" }),
+        ),
+      ).annotate({ identifier: "CancelSparkSessionBatchSQLRequest" });
+  }
+}
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19343,36 +19446,22 @@ function __c115(j: number): any {
           TensorParallelSize: S.optional(S.NullOr(S.Number)),
           PipelineParallelSize: S.optional(S.NullOr(S.Number)),
           DataParallelSize: S.optional(S.NullOr(S.Number)),
-          EngineArgs: S.optional(S.NullOr(__S(13153, __c411, 1))),
-          EnvVars: S.optional(S.NullOr(__S(13153, __c411, 1))),
-          RayOptions: S.optional(S.NullOr(__S(13153, __c411, 1))),
+          EngineArgs: S.optional(S.NullOr(__S(13185, __c412, 1))),
+          EnvVars: S.optional(S.NullOr(__S(13185, __c412, 1))),
+          RayOptions: S.optional(S.NullOr(__S(13185, __c412, 1))),
         }),
       ).annotate({ identifier: "RecommendedAdvancedParams" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Source: S.optional(S.NullOr(S.String)),
-          AdvancedParams: S.optional(S.NullOr(__S(3681, __c115, 1))),
+          AdvancedParams: S.optional(S.NullOr(__S(3745, __c117, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRecommendedParamsResponse" });
   }
 }
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          BatchId: S.String,
-          CustomKey: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "CancelSparkSessionBatchSQL" }),
-        ),
-      ).annotate({ identifier: "CancelSparkSessionBatchSQLRequest" });
-  }
-}
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19398,7 +19487,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DescribeResourceGroupUsageInfoResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19423,7 +19512,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DescribeResultDownloadResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19440,17 +19529,17 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "RegionInfo" });
     case 2:
-      return S.Array(__S(3809, __c119, 1));
+      return S.Array(__S(3841, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RegionList: S.optional(__S(3810, __c119, 2)),
+          RegionList: S.optional(__S(3842, __c120, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSaleRegionsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19470,17 +19559,17 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "ResourceSaleInfo" });
     case 2:
-      return S.Array(__S(3841, __c120, 1));
+      return S.Array(__S(3873, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SaleResourceInfoList: S.optional(__S(3842, __c120, 2)),
+          SaleResourceInfoList: S.optional(__S(3874, __c121, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSaleResourceInfoResponse" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19507,7 +19596,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DescribeSchemaNamesPageResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19532,18 +19621,18 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "Script" });
     case 2:
-      return S.Array(__S(3905, __c122, 1));
+      return S.Array(__S(3937, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Scripts: S.optional(S.NullOr(__S(3906, __c122, 2))),
+          Scripts: S.optional(S.NullOr(__S(3938, __c123, 2))),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeScriptsResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19569,17 +19658,17 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "EngineSessionImage" });
     case 2:
-      return S.Array(__S(3937, __c123, 1));
+      return S.Array(__S(3969, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          EngineSessionImages: S.optional(S.NullOr(__S(3938, __c123, 2))),
+          EngineSessionImages: S.optional(S.NullOr(__S(3970, __c124, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSessionImageVersionResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19592,14 +19681,14 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Job: S.optional(S.NullOr(__S(4001, __c125, 1))),
+          Job: S.optional(S.NullOr(__S(4033, __c126, 1))),
           IsExists: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkAppJobResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19644,7 +19733,7 @@ function __c125(j: number): any {
           JobUpdateTime: S.optional(S.Number),
           CurrentTaskId: S.optional(S.String),
           JobStatus: S.optional(S.Number),
-          StreamingStat: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          StreamingStat: S.optional(S.NullOr(__S(4032, __c126, 0))),
           DataSource: S.optional(S.NullOr(S.String)),
           IsLocalPythonFiles: S.optional(S.NullOr(S.String)),
           AppPythonFiles: S.optional(S.NullOr(S.String)),
@@ -19662,13 +19751,13 @@ function __c125(j: number): any {
           IsInherit: S.optional(S.NullOr(S.Number)),
           IsSessionStarted: S.optional(S.NullOr(S.Boolean)),
           EngineTypeDetail: S.optional(S.NullOr(S.String)),
-          DependencyPackages: S.optional(__S(14081, __c440, 1)),
+          DependencyPackages: S.optional(__S(14113, __c441, 1)),
           RunAsIdentity: S.optional(S.String),
         }),
       ).annotate({ identifier: "SparkJobInfo" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19686,18 +19775,29 @@ function __c126(j: number): any {
         ),
       ).annotate({ identifier: "DescribeSparkAppJobsRequest" });
     case 1:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SparkAppJobs: S.optional(__S(4033, __c126, 1)),
+          SparkAppJobs: S.optional(__S(4065, __c127, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkAppJobsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TaskId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CancelTask" })),
+      ).annotate({ identifier: "CancelTaskRequest" });
+  }
+}
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19717,15 +19817,15 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tasks: S.optional(S.NullOr(__S(4128, __c129, 0))),
+          Tasks: S.optional(S.NullOr(__S(4192, __c131, 0))),
           TotalCount: S.optional(S.Number),
-          SparkAppTasks: S.optional(S.NullOr(__S(4129, __c129, 1))),
+          SparkAppTasks: S.optional(S.NullOr(__S(4193, __c131, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkAppTasksResponse" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19759,7 +19859,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PrestoMonitorMetrics" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19801,9 +19901,9 @@ function __c129(j: number): any {
           ExecutorSize: S.optional(S.String),
           ExecutorNums: S.optional(S.Number),
           ExecutorMaxNumbers: S.optional(S.Number),
-          CommonMetrics: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          SparkMonitorMetrics: S.optional(S.NullOr(__S(4097, __c128, 1))),
-          PrestoMonitorMetrics: S.optional(S.NullOr(__S(4098, __c128, 2))),
+          CommonMetrics: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          SparkMonitorMetrics: S.optional(S.NullOr(__S(4161, __c130, 1))),
+          PrestoMonitorMetrics: S.optional(S.NullOr(__S(4162, __c130, 2))),
           ResultFormat: S.optional(S.String),
           EngineTypeDetail: S.optional(S.String),
           ResourceGroupName: S.optional(S.String),
@@ -19811,21 +19911,10 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "TaskResponseInfo" });
     case 1:
-      return S.Array(__S(4128, __c129, 0));
+      return S.Array(__S(4192, __c131, 0));
   }
 }
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TaskId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CancelTask" })),
-      ).annotate({ identifier: "CancelTaskRequest" });
-  }
-}
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19850,19 +19939,19 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "BatchSqlTask" });
     case 2:
-      return S.Array(__S(4193, __c131, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           State: S.optional(S.Number),
-          Tasks: S.optional(S.NullOr(__S(4194, __c131, 2))),
+          Tasks: S.optional(S.NullOr(__S(4226, __c132, 2))),
           Event: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkSessionBatchSQLResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19889,17 +19978,17 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "BatchSQLCostInfo" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CostInfo: S.optional(S.NullOr(__S(4226, __c132, 2))),
+          CostInfo: S.optional(S.NullOr(__S(4258, __c133, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkSessionBatchSQLCostResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19924,29 +20013,29 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "SparkSessionBatchLogOperate" });
     case 2:
-      return S.Array(__S(4257, __c133, 1));
+      return S.Array(__S(4289, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Step: S.optional(S.String),
           Time: S.optional(S.String),
           Message: S.optional(S.String),
-          Operate: S.optional(S.NullOr(__S(4258, __c133, 2))),
+          Operate: S.optional(S.NullOr(__S(4290, __c134, 2))),
         }),
       ).annotate({ identifier: "SparkSessionBatchLog" });
     case 4:
-      return S.Array(__S(4259, __c133, 3));
+      return S.Array(__S(4291, __c134, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           State: S.optional(S.Number),
-          LogSet: S.optional(S.NullOr(__S(4260, __c133, 4))),
+          LogSet: S.optional(S.NullOr(__S(4292, __c134, 4))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSparkSessionBatchSqlLogResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19970,25 +20059,25 @@ function __c134(j: number): any {
         S.Struct({
           ResourceGroupId: S.optional(S.String),
           DataEngineId: S.optional(S.String),
-          StaticConfigPairs: S.optional(__S(14401, __c450, 1)),
-          DynamicConfigPairs: S.optional(__S(14401, __c450, 1)),
+          StaticConfigPairs: S.optional(__S(14433, __c451, 1)),
+          DynamicConfigPairs: S.optional(__S(14433, __c451, 1)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StandardEngineResourceGroupConfigInfo" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          StandardEngineResourceGroupConfigInfos: S.optional(__S(4290, __c134, 2)),
+          StandardEngineResourceGroupConfigInfos: S.optional(__S(4322, __c135, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStandardEngineResourceGroupConfigInfoResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20052,18 +20141,18 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "StandardEngineResourceGroupInfo" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserEngineResourceGroupInfos: S.optional(__S(4322, __c135, 2)),
+          UserEngineResourceGroupInfos: S.optional(__S(4354, __c136, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStandardEngineResourceGroupsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20082,7 +20171,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DescribeStoreLocationResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20105,7 +20194,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DescribeSubUserAccessPolicyResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20119,20 +20208,20 @@ function __c138(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Table: S.optional(__S(4448, __c139, 0)),
+          Table: S.optional(__S(4480, __c140, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTableResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: S.optional(__S(14304, __c447, 0)),
-          Columns: S.optional(S.NullOr(__S(14497, __c453, 1))),
-          Partitions: S.optional(S.NullOr(__S(14529, __c454, 1))),
+          TableBaseInfo: S.optional(__S(14336, __c448, 0)),
+          Columns: S.optional(S.NullOr(__S(14529, __c454, 1))),
+          Partitions: S.optional(S.NullOr(__S(14561, __c455, 1))),
           Location: S.optional(S.String),
           Properties: S.optional(S.NullOr(__S(192, __c6, 0))),
           ModifiedTime: S.optional(S.String),
@@ -20147,7 +20236,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "TableResponseInfo" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20157,7 +20246,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "Sort" });
     case 1:
-      return S.Array(__S(4480, __c140, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20167,7 +20256,7 @@ function __c140(j: number): any {
           Offset: S.Number,
           Limit: S.Number,
           FuzzyPartition: S.optional(S.String),
-          Sorts: S.optional(__S(4481, __c140, 1)),
+          Sorts: S.optional(__S(4513, __c141, 1)),
           Cursor: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -20191,11 +20280,11 @@ function __c140(j: number): any {
           CreateTime: S.optional(S.String),
           UpdateTime: S.optional(S.String),
           LastUpdateSnapshotId: S.optional(S.String),
-          Location: S.optional(__S(4483, __c140, 3)),
+          Location: S.optional(__S(4515, __c141, 3)),
         }),
       ).annotate({ identifier: "IcebergTablePartition" });
     case 5:
-      return S.Array(__S(4484, __c140, 4));
+      return S.Array(__S(4516, __c141, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -20208,56 +20297,24 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "HiveTablePartition" });
     case 7:
-      return S.Array(__S(4486, __c140, 6));
+      return S.Array(__S(4518, __c141, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           TableFormat: S.optional(S.String),
           TotalSize: S.optional(S.Number),
           NextCursor: S.optional(S.String),
-          IcebergPartitions: S.optional(__S(4485, __c140, 5)),
-          HivePartitions: S.optional(__S(4487, __c140, 7)),
+          IcebergPartitions: S.optional(__S(4517, __c141, 5)),
+          HivePartitions: S.optional(__S(4519, __c141, 7)),
         }),
       ).annotate({ identifier: "MixedTablePartitions" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          MixedPartitions: S.optional(__S(4488, __c140, 8)),
+          MixedPartitions: S.optional(__S(4520, __c141, 8)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTablePartitionsResponse" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DatabaseName: S.String,
-          Limit: S.optional(S.Number),
-          Offset: S.optional(S.Number),
-          Filters: S.optional(__S(1792, __c56, 0)),
-          DatasourceConnectionName: S.optional(S.String),
-          StartTime: S.optional(S.String),
-          EndTime: S.optional(S.String),
-          Sort: S.optional(S.String),
-          Asc: S.optional(S.Boolean),
-          TableType: S.optional(S.String),
-          TableFormat: S.optional(S.String),
-          DescribeType: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTables" })),
-      ).annotate({ identifier: "DescribeTablesRequest" });
-    case 1:
-      return S.Array(__S(4448, __c139, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          TableList: S.optional(__S(4513, __c141, 1)),
-          TotalCount: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeTablesResponse" });
   }
 }
 function __c142(j: number): any {
@@ -20322,6 +20379,38 @@ function __c145(j: number): any {
           Asc: S.optional(S.Boolean),
           TableType: S.optional(S.String),
           TableFormat: S.optional(S.String),
+          DescribeType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTables" })),
+      ).annotate({ identifier: "DescribeTablesRequest" });
+    case 1:
+      return S.Array(__S(4480, __c140, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TableList: S.optional(__S(4641, __c145, 1)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeTablesResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseName: S.String,
+          Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          Filters: S.optional(__S(1792, __c56, 0)),
+          DatasourceConnectionName: S.optional(S.String),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          Sort: S.optional(S.String),
+          Asc: S.optional(S.Boolean),
+          TableType: S.optional(S.String),
+          TableFormat: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTablesName" })),
       ).annotate({ identifier: "DescribeTablesNameRequest" });
@@ -20335,7 +20424,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DescribeTablesNameResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20347,13 +20436,13 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskDetail: S.optional(__S(4704, __c147, 0)),
+          TaskDetail: S.optional(__S(4736, __c148, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskDetailResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20395,9 +20484,9 @@ function __c147(j: number): any {
           ExecutorSize: S.optional(S.NullOr(S.String)),
           ExecutorNums: S.optional(S.NullOr(S.Number)),
           ExecutorMaxNumbers: S.optional(S.NullOr(S.Number)),
-          CommonMetrics: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          SparkMonitorMetrics: S.optional(S.NullOr(__S(4097, __c128, 1))),
-          PrestoMonitorMetrics: S.optional(S.NullOr(__S(4098, __c128, 2))),
+          CommonMetrics: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          SparkMonitorMetrics: S.optional(S.NullOr(__S(4161, __c130, 1))),
+          PrestoMonitorMetrics: S.optional(S.NullOr(__S(4162, __c130, 2))),
           ResultFormat: S.optional(S.NullOr(S.String)),
           EngineTypeDetail: S.optional(S.NullOr(S.String)),
           ResourceGroupName: S.optional(S.NullOr(S.String)),
@@ -20435,7 +20524,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "TaskFullRespInfo" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20454,18 +20543,18 @@ function __c148(j: number): any {
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTaskList" })),
       ).annotate({ identifier: "DescribeTaskListRequest" });
     case 1:
-      return S.Array(__S(4704, __c147, 0));
+      return S.Array(__S(4736, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TaskList: S.optional(__S(4737, __c148, 1)),
+          TaskList: S.optional(__S(4769, __c149, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskListResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20483,7 +20572,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DescribeTaskLogRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20496,20 +20585,20 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "JobLogResult" });
     case 1:
-      return S.Array(__S(4800, __c150, 0));
+      return S.Array(__S(4832, __c151, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Context: S.optional(S.String),
           ListOver: S.optional(S.Boolean),
-          Results: S.optional(__S(4801, __c150, 1)),
+          Results: S.optional(__S(4833, __c151, 1)),
           LogUrl: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskLogResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20538,18 +20627,18 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "TaskMonitorInfo" });
     case 2:
-      return S.Array(__S(4833, __c151, 1));
+      return S.Array(__S(4865, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TaskMonitorInfoList: S.optional(__S(4834, __c151, 2)),
+          TaskMonitorInfoList: S.optional(__S(4866, __c152, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskMonitorInfosResponse" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20570,13 +20659,13 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CoreInfo: S.optional(__S(4865, __c152, 1)),
+          CoreInfo: S.optional(__S(4897, __c153, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskResourceUsageResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20604,7 +20693,7 @@ function __c153(j: number): any {
           CreateTime: S.optional(S.String),
           OutputMessage: S.optional(S.String),
           RowAffectInfo: S.optional(S.String),
-          ResultSchema: S.optional(S.NullOr(__S(14497, __c453, 1))),
+          ResultSchema: S.optional(S.NullOr(__S(14529, __c454, 1))),
           ResultSet: S.optional(S.String),
           NextToken: S.optional(S.String),
           Percentage: S.optional(S.Number),
@@ -20618,13 +20707,13 @@ function __c153(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TaskInfo: S.optional(S.NullOr(__S(4897, __c153, 1))),
+          TaskInfo: S.optional(S.NullOr(__S(4929, __c154, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTaskResultResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20644,15 +20733,15 @@ function __c154(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskList: S.optional(__S(4129, __c129, 1)),
+          TaskList: S.optional(__S(4193, __c131, 1)),
           TotalCount: S.optional(S.Number),
-          TasksOverview: S.optional(S.NullOr(__S(4960, __c155, 0))),
+          TasksOverview: S.optional(S.NullOr(__S(4992, __c156, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTasksResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20665,7 +20754,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "TasksOverview" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20707,48 +20796,18 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "AnalysisTaskResults" });
     case 2:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(5025, __c157, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TaskList: S.optional(__S(4994, __c156, 2)),
+          TaskList: S.optional(__S(5026, __c157, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTasksAnalysisResponse" });
   }
 }
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Filters: S.optional(__S(1792, __c56, 0)),
-          StartTime: S.optional(S.String),
-          EndTime: S.optional(S.String),
-          DataEngineName: S.optional(S.String),
-          SearchAfter: S.optional(S.String),
-          PageSize: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTasksCostInfo" }),
-        ),
-      ).annotate({ identifier: "DescribeTasksCostInfoRequest" });
-  }
-}
 function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SearchAfter: S.optional(S.String),
-          Data: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeTasksCostInfoResponse" });
-  }
-}
-function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20761,7 +20820,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "CancelTrainingJobInstanceRequest" });
   }
 }
-function __c160(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20771,10 +20830,10 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(5120, __c160, 0));
+      return S.Array(__S(5088, __c159, 0));
   }
 }
-function __c161(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20805,12 +20864,12 @@ function __c161(j: number): any {
           DatasetId: S.optional(S.String),
           DatasetName: S.optional(S.String),
           Catalog: S.optional(S.String),
-          Eval: S.optional(__S(5153, __c161, 1)),
+          Eval: S.optional(__S(5121, __c160, 1)),
           FileName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatasetMount" });
     case 3:
-      return S.Array(__S(5154, __c161, 2));
+      return S.Array(__S(5122, __c160, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -20866,7 +20925,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "TrainingTuningParams" });
   }
 }
-function __c162(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20897,14 +20956,14 @@ function __c162(j: number): any {
           Kind: S.optional(S.String),
           CodePackageUrl: S.optional(S.String),
           MlFlowConfig: S.optional(S.String),
-          CheckpointMountInfo: S.optional(__S(5152, __c161, 0)),
+          CheckpointMountInfo: S.optional(__S(5120, __c160, 0)),
           Mode: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
           BaseModelName: S.optional(S.String),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          Datasets: S.optional(__S(5155, __c161, 3)),
-          Checkpoint: S.optional(__S(5156, __c161, 4)),
-          TuningParams: S.optional(__S(5157, __c161, 5)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          Datasets: S.optional(__S(5123, __c160, 3)),
+          Checkpoint: S.optional(__S(5124, __c160, 4)),
+          TuningParams: S.optional(__S(5125, __c160, 5)),
           ResumeTraining: S.optional(S.Boolean),
           NetworkConfig: S.optional(S.String),
           ResumeSourceInstanceId: S.optional(S.String),
@@ -20912,18 +20971,48 @@ function __c162(j: number): any {
       ).annotate({ identifier: "TrainingJobInstance" });
   }
 }
-function __c163(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Instance: S.optional(__S(5184, __c162, 0)),
+          Instance: S.optional(__S(5152, __c161, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CancelTrainingJobInstanceResponse" });
   }
 }
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(1792, __c56, 0)),
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          DataEngineName: S.optional(S.String),
+          SearchAfter: S.optional(S.String),
+          PageSize: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeTasksCostInfo" }),
+        ),
+      ).annotate({ identifier: "DescribeTasksCostInfoRequest" });
+  }
+}
 function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SearchAfter: S.optional(S.String),
+          Data: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeTasksCostInfoResponse" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20941,13 +21030,13 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TasksOverview: S.optional(__S(4960, __c155, 0)),
+          TasksOverview: S.optional(__S(4992, __c156, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTasksOverviewResponse" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20966,7 +21055,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "DescribeTCLakeMetaInstanceResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20992,13 +21081,13 @@ function __c166(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UserInfo: S.optional(__S(5313, __c166, 1)),
+          UserInfo: S.optional(__S(5345, __c167, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeThirdPartyAccessUserResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21030,7 +21119,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "DescribeTkeClusterImportInfoResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21054,7 +21143,7 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "MetricItem" });
     case 2:
-      return S.Array(__S(5377, __c168, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21063,7 +21152,7 @@ function __c168(j: number): any {
           Loss: S.optional(S.Number),
           EvalLoss: S.optional(S.Number),
           LearningRate: S.optional(S.Number),
-          RawMetrics: S.optional(__S(5378, __c168, 2)),
+          RawMetrics: S.optional(__S(5410, __c169, 2)),
         }),
       ).annotate({ identifier: "CheckpointMetrics" });
     case 4:
@@ -21074,15 +21163,15 @@ function __c168(j: number): any {
           Size: S.optional(S.Number),
           LastModified: S.optional(S.Number),
           Path: S.optional(S.String),
-          Metrics: S.optional(__S(5379, __c168, 3)),
+          Metrics: S.optional(__S(5411, __c169, 3)),
         }),
       ).annotate({ identifier: "SharedMountFileItem" });
     case 5:
-      return S.Array(__S(5380, __c168, 4));
+      return S.Array(__S(5412, __c169, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(5381, __c168, 5)),
+          Items: S.optional(__S(5413, __c169, 5)),
           MountPath: S.optional(S.String),
           SubPath: S.optional(S.String),
           StorageType: S.optional(S.String),
@@ -21095,7 +21184,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "DescribeTrainingCheckpointsResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21112,7 +21201,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "DescribeTrainingJobInstanceRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21125,7 +21214,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "DescribeTrainingJobSpecRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21146,7 +21235,7 @@ function __c171(j: number): any {
           ResourcePartitionName: S.optional(S.String),
           Queue: S.optional(S.NullOr(S.String)),
           QueueAlias: S.optional(S.String),
-          CheckpointMountInfo: S.optional(S.NullOr(__S(5152, __c161, 0))),
+          CheckpointMountInfo: S.optional(S.NullOr(__S(5120, __c160, 0))),
           Catalog: S.optional(S.NullOr(S.String)),
           Creator: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.Number)),
@@ -21159,11 +21248,11 @@ function __c171(j: number): any {
           Mode: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
           BaseModelName: S.optional(S.String),
-          Datasets: S.optional(__S(5155, __c161, 3)),
+          Datasets: S.optional(__S(5123, __c160, 3)),
           LastInstanceStatus: S.optional(S.String),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          Checkpoint: S.optional(__S(5156, __c161, 4)),
-          TuningParams: S.optional(__S(5157, __c161, 5)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          Checkpoint: S.optional(__S(5124, __c160, 4)),
+          TuningParams: S.optional(__S(5125, __c160, 5)),
           ResumeTraining: S.optional(S.Boolean),
           AdvancedOptions: S.optional(S.String),
           SubAccountUin: S.optional(S.String),
@@ -21173,18 +21262,18 @@ function __c171(j: number): any {
       ).annotate({ identifier: "TrainingJobSpec" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Spec: S.optional(__S(5472, __c171, 0)),
+          Spec: S.optional(__S(5504, __c172, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTrainingJobSpecResponse" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21197,7 +21286,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DescribeUDFPolicyRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21208,17 +21297,17 @@ function __c174(j: number): any {
         }),
       ).annotate({ identifier: "UDFPolicyInfo" });
     case 1:
-      return S.Array(__S(5568, __c174, 0));
+      return S.Array(__S(5600, __c175, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UDFPolicyInfos: S.optional(__S(5569, __c174, 1)),
+          UDFPolicyInfos: S.optional(__S(5601, __c175, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUDFPolicyResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21250,54 +21339,15 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "DataEngineBasicInfo" });
     case 2:
-      return S.Array(__S(5601, __c175, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          DataEngineBasicInfos: S.optional(__S(5602, __c175, 2)),
-          TotalCount: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeUpdatableDataEnginesResponse" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Sorting: S.optional(S.String),
-          Limit: S.optional(S.Number),
-          Offset: S.optional(S.Number),
-          SortBy: S.optional(S.String),
-          Filters: S.optional(__S(1792, __c56, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "dlc",
-            version: "2021-01-25",
-            action: "DescribeUserDataEngineConfig",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeUserDataEngineConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          DataEngineId: S.optional(S.String),
-          DataEngineConfigPairs: S.optional(__S(6177, __c193, 1)),
-          SessionResourceTemplate: S.optional(__S(12256, __c383, 0)),
-        }),
-      ).annotate({ identifier: "DataEngineConfigInstanceInfo" });
-    case 2:
       return S.Array(__S(5633, __c176, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataEngineConfigInstanceInfos: S.optional(__S(5634, __c176, 2)),
+          DataEngineBasicInfos: S.optional(__S(5634, __c176, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DescribeUserDataEngineConfigResponse" });
+      ).annotate({ identifier: "DescribeUpdatableDataEnginesResponse" });
   }
 }
 function __c177(j: number): any {
@@ -21327,6 +21377,45 @@ function __c179(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Sorting: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          SortBy: S.optional(S.String),
+          Filters: S.optional(__S(1792, __c56, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "dlc",
+            version: "2021-01-25",
+            action: "DescribeUserDataEngineConfig",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeUserDataEngineConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataEngineId: S.optional(S.String),
+          DataEngineConfigPairs: S.optional(__S(6177, __c193, 1)),
+          SessionResourceTemplate: S.optional(__S(12288, __c384, 0)),
+        }),
+      ).annotate({ identifier: "DataEngineConfigInstanceInfo" });
+    case 2:
+      return S.Array(__S(5729, __c179, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DataEngineConfigInstanceInfos: S.optional(__S(5730, __c179, 2)),
+          TotalCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeUserDataEngineConfigResponse" });
+  }
+}
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           UserId: S.optional(S.String),
           Type: S.optional(S.String),
           Filters: S.optional(__S(1792, __c56, 0)),
@@ -21342,7 +21431,7 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          WorkGroupSet: S.optional(S.NullOr(__S(5761, __c180, 1))),
+          WorkGroupSet: S.optional(S.NullOr(__S(5793, __c181, 1))),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkGroups" });
@@ -21353,26 +21442,26 @@ function __c179(j: number): any {
           Type: S.optional(S.String),
           UserType: S.optional(S.String),
           UserDescription: S.optional(S.String),
-          DataPolicyInfo: S.optional(S.NullOr(__S(5792, __c181, 0))),
-          EnginePolicyInfo: S.optional(S.NullOr(__S(5792, __c181, 0))),
-          WorkGroupInfo: S.optional(S.NullOr(__S(5729, __c179, 1))),
+          DataPolicyInfo: S.optional(S.NullOr(__S(5824, __c182, 0))),
+          EnginePolicyInfo: S.optional(S.NullOr(__S(5824, __c182, 0))),
+          WorkGroupInfo: S.optional(S.NullOr(__S(5761, __c180, 1))),
           UserAlias: S.optional(S.String),
-          RowFilterInfo: S.optional(S.NullOr(__S(5792, __c181, 0))),
+          RowFilterInfo: S.optional(S.NullOr(__S(5824, __c182, 0))),
           AccountType: S.optional(S.String),
-          CatalogPolicyInfo: S.optional(S.NullOr(__S(5792, __c181, 0))),
-          ModelPolicyInfo: S.optional(__S(5792, __c181, 0)),
+          CatalogPolicyInfo: S.optional(S.NullOr(__S(5824, __c182, 0))),
+          ModelPolicyInfo: S.optional(__S(5824, __c182, 0)),
         }),
       ).annotate({ identifier: "UserDetailInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserInfo: S.optional(S.NullOr(__S(5730, __c179, 2))),
+          UserInfo: S.optional(S.NullOr(__S(5762, __c180, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUserInfoResponse" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21385,10 +21474,10 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "WorkGroupMessage" });
     case 1:
-      return S.Array(__S(5760, __c180, 0));
+      return S.Array(__S(5792, __c181, 0));
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21399,7 +21488,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "Policys" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21419,7 +21508,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "DescribeUserRegisterTimeResponse" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21444,24 +21533,24 @@ function __c183(j: number): any {
           Desc: S.optional(S.String),
           RoleName: S.optional(S.String),
           Creator: S.optional(S.String),
-          CosPermissionList: S.optional(__S(14881, __c465, 1)),
+          CosPermissionList: S.optional(__S(14913, __c466, 1)),
           PermissionJson: S.optional(S.String),
           IsDefault: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UserRole" });
     case 2:
-      return S.Array(__S(5857, __c183, 1));
+      return S.Array(__S(5889, __c184, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          UserRoles: S.optional(__S(5858, __c183, 2)),
+          UserRoles: S.optional(__S(5890, __c184, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUserRolesResponse" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21484,7 +21573,7 @@ function __c184(j: number): any {
           PolicySet: S.optional(S.NullOr(__S(736, __c23, 0))),
           Creator: S.optional(S.String),
           CreateTime: S.optional(S.String),
-          WorkGroupSet: S.optional(S.NullOr(__S(5761, __c180, 1))),
+          WorkGroupSet: S.optional(S.NullOr(__S(5793, __c181, 1))),
           IsOwner: S.optional(S.Boolean),
           UserType: S.optional(S.String),
           UserAlias: S.optional(S.String),
@@ -21492,18 +21581,18 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "UserInfo" });
     case 2:
-      return S.Array(__S(5889, __c184, 1));
+      return S.Array(__S(5921, __c185, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          UserSet: S.optional(__S(5890, __c184, 2)),
+          UserSet: S.optional(__S(5922, __c185, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUsersResponse" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21522,7 +21611,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "DescribeUserTypeResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21546,17 +21635,17 @@ function __c186(j: number): any {
         }),
       ).annotate({ identifier: "UserVpcConnectionInfo" });
     case 2:
-      return S.Array(__S(5953, __c186, 1));
+      return S.Array(__S(5985, __c187, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserVpcConnectionInfos: S.optional(S.NullOr(__S(5954, __c186, 2))),
+          UserVpcConnectionInfos: S.optional(S.NullOr(__S(5986, __c187, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeUserVpcConnectionResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21586,26 +21675,26 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ViewBaseInfo: S.optional(__S(5985, __c187, 1)),
-          Columns: S.optional(S.NullOr(__S(14497, __c453, 1))),
+          ViewBaseInfo: S.optional(__S(6017, __c188, 1)),
+          Columns: S.optional(S.NullOr(__S(14529, __c454, 1))),
           Properties: S.optional(S.NullOr(__S(192, __c6, 0))),
           CreateTime: S.optional(S.String),
           ModifiedTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ViewResponseInfo" });
     case 3:
-      return S.Array(__S(5986, __c187, 2));
+      return S.Array(__S(6018, __c188, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ViewList: S.optional(__S(5987, __c187, 3)),
+          ViewList: S.optional(__S(6019, __c188, 3)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeViewsResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21638,7 +21727,7 @@ function __c188(j: number): any {
           PartitionCode: S.optional(S.String),
           PartitionName: S.optional(S.String),
           QueueName: S.optional(S.String),
-          ProfileDetail: S.optional(S.NullOr(__S(6017, __c188, 1))),
+          ProfileDetail: S.optional(S.NullOr(__S(6049, __c189, 1))),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           ActiveClusters: S.optional(S.Number),
@@ -21653,18 +21742,18 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "WarehouseInfo" });
     case 3:
-      return S.Array(__S(6018, __c188, 2));
+      return S.Array(__S(6050, __c189, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          WarehouseList: S.optional(__S(6019, __c188, 3)),
+          WarehouseList: S.optional(__S(6051, __c189, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeWarehousesResponse" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21685,7 +21774,7 @@ function __c189(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          UserSet: S.optional(S.NullOr(__S(6081, __c190, 1))),
+          UserSet: S.optional(S.NullOr(__S(6113, __c191, 1))),
           TotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Users" });
@@ -21695,26 +21784,26 @@ function __c189(j: number): any {
           WorkGroupId: S.optional(S.Number),
           WorkGroupName: S.optional(S.String),
           Type: S.optional(S.String),
-          UserInfo: S.optional(__S(6049, __c189, 1)),
-          DataPolicyInfo: S.optional(__S(5792, __c181, 0)),
-          EnginePolicyInfo: S.optional(__S(5792, __c181, 0)),
+          UserInfo: S.optional(__S(6081, __c190, 1)),
+          DataPolicyInfo: S.optional(__S(5824, __c182, 0)),
+          EnginePolicyInfo: S.optional(__S(5824, __c182, 0)),
           WorkGroupDescription: S.optional(S.String),
-          RowFilterInfo: S.optional(__S(5792, __c181, 0)),
+          RowFilterInfo: S.optional(__S(5824, __c182, 0)),
           CatalogPolicyInfo: S.optional(S.NullOr(__S(320, __c10, 0))),
-          DataCatalogPolicyInfo: S.optional(__S(5792, __c181, 0)),
-          ModelPolicyInfo: S.optional(__S(5792, __c181, 0)),
+          DataCatalogPolicyInfo: S.optional(__S(5824, __c182, 0)),
+          ModelPolicyInfo: S.optional(__S(5824, __c182, 0)),
         }),
       ).annotate({ identifier: "WorkGroupDetailInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WorkGroupInfo: S.optional(S.NullOr(__S(6050, __c189, 2))),
+          WorkGroupInfo: S.optional(S.NullOr(__S(6082, __c190, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeWorkGroupInfoResponse" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21728,46 +21817,7 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "UserMessage" });
     case 1:
-      return S.Array(__S(6080, __c190, 0));
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkGroupId: S.optional(S.Number),
-          Filters: S.optional(__S(1792, __c56, 0)),
-          Offset: S.optional(S.Number),
-          Limit: S.optional(S.Number),
-          SortBy: S.optional(S.String),
-          Sorting: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeWorkGroups" })),
-      ).annotate({ identifier: "DescribeWorkGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          WorkGroupId: S.optional(S.Number),
-          WorkGroupName: S.optional(S.String),
-          WorkGroupDescription: S.optional(S.String),
-          UserNum: S.optional(S.Number),
-          UserSet: S.optional(S.NullOr(__S(6081, __c190, 1))),
-          PolicySet: S.optional(S.NullOr(__S(736, __c23, 0))),
-          Creator: S.optional(S.String),
-          CreateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkGroupInfo" });
-    case 2:
-      return S.Array(__S(6113, __c191, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          WorkGroupSet: S.optional(__S(6114, __c191, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeWorkGroupsResponse" });
+      return S.Array(__S(6112, __c191, 0));
   }
 }
 function __c192(j: number): any {
@@ -21815,6 +21865,45 @@ function __c194(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          WorkGroupId: S.optional(S.Number),
+          Filters: S.optional(__S(1792, __c56, 0)),
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
+          SortBy: S.optional(S.String),
+          Sorting: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "DescribeWorkGroups" })),
+      ).annotate({ identifier: "DescribeWorkGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WorkGroupId: S.optional(S.Number),
+          WorkGroupName: S.optional(S.String),
+          WorkGroupDescription: S.optional(S.String),
+          UserNum: S.optional(S.Number),
+          UserSet: S.optional(S.NullOr(__S(6113, __c191, 1))),
+          PolicySet: S.optional(S.NullOr(__S(736, __c23, 0))),
+          Creator: S.optional(S.String),
+          CreateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkGroupInfo" });
+    case 2:
+      return S.Array(__S(6209, __c194, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          WorkGroupSet: S.optional(__S(6210, __c194, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeWorkGroupsResponse" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           UserId: S.String,
           PolicySet: S.optional(__S(736, __c23, 0)),
           AccountType: S.optional(S.String),
@@ -21824,7 +21913,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DetachUserPolicyRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21839,7 +21928,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DetachWorkGroupPolicyRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21853,7 +21942,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DropDMSDatabaseRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21877,7 +21966,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DropDMSPartitionsResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21892,14 +21981,14 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DropDMSTableRequest" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          Columns: __S(14817, __c463, 1),
-          Partitions: S.optional(__S(14819, __c463, 3)),
+          TableBaseInfo: __S(14336, __c448, 0),
+          Columns: __S(14849, __c464, 1),
+          Partitions: S.optional(__S(14851, __c464, 3)),
           Properties: S.optional(__S(192, __c6, 0)),
           UpsertKeys: S.optional(__S(128, __c4, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -21913,14 +22002,14 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GenerateCreateMangedTableSqlRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          Columns: __S(14817, __c463, 1),
-          Partitions: S.optional(__S(14819, __c463, 3)),
+          TableBaseInfo: __S(14336, __c448, 0),
+          Columns: __S(14849, __c464, 1),
+          Partitions: S.optional(__S(14851, __c464, 3)),
           Properties: S.optional(__S(192, __c6, 0)),
           UpsertKeys: S.optional(__S(128, __c4, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -21931,14 +22020,14 @@ function __c200(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Execution: S.optional(__S(12192, __c381, 0)),
+          Execution: S.optional(__S(12224, __c382, 0)),
           IsTIcebergSql: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateInternalTableResponse" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21974,7 +22063,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetExampleDetailResponse" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22009,7 +22098,7 @@ function __c202(j: number): any {
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           SubAccountUin: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           ModelCategory: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
           LatestVersionUid: S.optional(S.String),
@@ -22022,7 +22111,33 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetInferenceModelResponse" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataEngineId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "dlc",
+            version: "2021-01-25",
+            action: "CheckDataEngineImageCanBeRollback",
+          }),
+        ),
+      ).annotate({ identifier: "CheckDataEngineImageCanBeRollbackRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ToRecordId: S.optional(S.String),
+          FromRecordId: S.optional(S.String),
+          IsRollback: S.optional(S.Boolean),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckDataEngineImageCanBeRollbackResponse" });
+  }
+}
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22055,19 +22170,19 @@ function __c203(j: number): any {
           ApiKeyAuthEnabled: S.optional(S.NullOr(S.Boolean)),
           ApiKeyAuthForceEnabled: S.optional(S.NullOr(S.Boolean)),
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
-          GpuResourceSummary: S.optional(S.NullOr(__S(6529, __c204, 1))),
+          GpuResourceSummary: S.optional(S.NullOr(__S(6593, __c206, 1))),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
           DeploymentMode: S.optional(S.String),
           IsCustom: S.optional(S.Boolean),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetInferenceServiceResponse" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22078,36 +22193,10 @@ function __c204(j: number): any {
         }),
       ).annotate({ identifier: "GpuSummaryItem" });
     case 1:
-      return S.Array(__S(6528, __c204, 0));
+      return S.Array(__S(6592, __c206, 0));
   }
 }
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DataEngineId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "dlc",
-            version: "2021-01-25",
-            action: "CheckDataEngineImageCanBeRollback",
-          }),
-        ),
-      ).annotate({ identifier: "CheckDataEngineImageCanBeRollbackRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ToRecordId: S.optional(S.String),
-          FromRecordId: S.optional(S.String),
-          IsRollback: S.optional(S.Boolean),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CheckDataEngineImageCanBeRollbackResponse" });
-  }
-}
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22151,7 +22240,7 @@ function __c206(j: number): any {
           GroupId: S.optional(S.NullOr(S.String)),
           ClusterId: S.optional(S.NullOr(S.String)),
           Priority: S.optional(S.NullOr(S.Number)),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           SubmissionTarget: S.optional(S.String),
           GroupName: S.optional(S.String),
@@ -22162,7 +22251,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetJobSpecResponse" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22176,7 +22265,7 @@ function __c207(j: number): any {
         S.Struct({
           ExampleId: S.optional(S.String),
           CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
+          Services: S.optional(__S(13185, __c412, 1)),
           Id: S.optional(S.String),
           Type: S.optional(S.String),
           Name: S.optional(S.String),
@@ -22203,8 +22292,8 @@ function __c207(j: number): any {
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
           DeleteTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AutoscalerOptions: S.optional(S.String),
@@ -22217,7 +22306,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetLabDetailResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22242,7 +22331,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetLabEventResponse" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22255,7 +22344,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetLabHistoryRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22271,7 +22360,7 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "RayClusterHistory" });
     case 1:
-      return S.Array(__S(6720, __c210, 0));
+      return S.Array(__S(6752, __c211, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22279,13 +22368,13 @@ function __c210(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(6721, __c210, 1)),
+          Items: S.optional(__S(6753, __c211, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLabHistoryResponse" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22302,7 +22391,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetLabPodsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22326,7 +22415,7 @@ function __c212(j: number): any {
         }),
       ).annotate({ identifier: "ClusterPod" });
     case 1:
-      return S.Array(__S(6784, __c212, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22334,13 +22423,13 @@ function __c212(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(6785, __c212, 1)),
+          Items: S.optional(__S(6817, __c213, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLabPodsResponse" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22352,7 +22441,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetLabPodYamlRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22363,7 +22452,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetLabPodYamlResponse" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22381,7 +22470,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "GetLabServiceUrlsResponse" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22392,7 +22481,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetLabYamlRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22410,27 +22499,6 @@ function __c217(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetModelConfigResponse" });
-  }
-}
-function __c218(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ModelUid: S.String,
-          ModelVersion: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetModelFiles" })),
-      ).annotate({ identifier: "GetModelFilesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ModelId: S.optional(S.NullOr(S.Number)),
-          ModelName: S.optional(S.NullOr(S.String)),
-          Files: S.optional(S.NullOr(__S(12769, __c399, 1))),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetModelFilesResponse" });
   }
 }
 function __c219(j: number): any {
@@ -22466,6 +22534,27 @@ function __c220(j: number): any {
           ModelUid: S.String,
           ModelVersion: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetModelFiles" })),
+      ).annotate({ identifier: "GetModelFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ModelId: S.optional(S.NullOr(S.Number)),
+          ModelName: S.optional(S.NullOr(S.String)),
+          Files: S.optional(S.NullOr(__S(12801, __c400, 1))),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetModelFilesResponse" });
+  }
+}
+function __c221(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ModelUid: S.String,
+          ModelVersion: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetModelReadme" })),
       ).annotate({ identifier: "GetModelReadmeRequest" });
     case 1:
@@ -22482,25 +22571,25 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetModelReadmeResponse" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SmartPolicy: __S(14287, __c446, 15),
+          SmartPolicy: __S(14319, __c447, 15),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetOptimizerPolicy" })),
       ).annotate({ identifier: "GetOptimizerPolicyRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          SmartOptimizerPolicy: S.optional(__S(14286, __c446, 14)),
+          SmartOptimizerPolicy: S.optional(__S(14318, __c447, 14)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOptimizerPolicyResponse" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22539,7 +22628,7 @@ function __c222(j: number): any {
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           ResourceConfigId: S.optional(S.String),
           NetworkConfig: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -22547,7 +22636,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetRayClusterResponse" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22564,7 +22653,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetRayClusterEventRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22579,7 +22668,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetRayClusterEventResponse" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22594,7 +22683,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetRayClusterHistoryRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22611,7 +22700,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetRayClusterPodsRequest" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22625,7 +22714,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetRayClusterPodYamlRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22636,7 +22725,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetRayClusterYamlRequest" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22677,29 +22766,12 @@ function __c229(j: number): any {
           SpecName: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           JobSource: S.optional(S.String),
           ClusterName: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRayJobResponse" });
-  }
-}
-function __c230(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          SortFields: S.optional(__S(2529, __c79, 1)),
-          Context: S.optional(S.String),
-          PageSize: S.optional(S.Number),
-          EventType: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetRayJobEvent" })),
-      ).annotate({ identifier: "GetRayJobEventRequest" });
   }
 }
 function __c231(j: number): any {
@@ -22728,6 +22800,23 @@ function __c232(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
+          StartTime: S.optional(S.Number),
+          EndTime: S.optional(S.Number),
+          SortFields: S.optional(__S(2529, __c79, 1)),
+          Context: S.optional(S.String),
+          PageSize: S.optional(S.Number),
+          EventType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "GetRayJobEvent" })),
+      ).annotate({ identifier: "GetRayJobEventRequest" });
+  }
+}
+function __c233(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -22747,7 +22836,7 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "JobStatusHistory" });
     case 2:
-      return S.Array(__S(7425, __c232, 1));
+      return S.Array(__S(7457, __c233, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -22755,13 +22844,13 @@ function __c232(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(7426, __c232, 2)),
+          Items: S.optional(__S(7458, __c233, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRayJobHistoryResponse" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22778,7 +22867,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetRayJobPodsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22790,7 +22879,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetRayJobPodYamlRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22801,7 +22890,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetRayJobYamlRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22818,7 +22907,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetRayServeEventRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22829,7 +22918,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetResourceConfigRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22846,7 +22935,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GrantDLCCatalogAccessRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22868,7 +22957,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "ImportExternalClusterRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22881,7 +22970,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "ImportExternalClusterResponse" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22897,24 +22986,6 @@ function __c241(j: number): any {
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ImportTkeCluster" })),
       ).annotate({ identifier: "ImportTkeClusterRequest" });
-  }
-}
-function __c242(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "InitializeTCLake" })),
-      ).annotate({ identifier: "InitializeTCLakeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.optional(S.String),
-          IsSuccess: S.optional(S.Boolean),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InitializeTCLakeResponse" });
   }
 }
 function __c243(j: number): any {
@@ -22948,6 +23019,24 @@ function __c245(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "InitializeTCLake" })),
+      ).annotate({ identifier: "InitializeTCLakeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.optional(S.String),
+          IsSuccess: S.optional(S.Boolean),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InitializeTCLakeResponse" });
+  }
+}
+function __c246(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           EngineResourceGroupNames: __S(128, __c4, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -22960,7 +23049,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "LaunchStandardEngineResourceGroupsRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22970,17 +23059,17 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "OperateEngineResourceGroupFailMessage" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(7904, __c247, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          OperateEngineResourceGroupFailMessages: S.optional(S.NullOr(__S(7873, __c246, 1))),
+          OperateEngineResourceGroupFailMessages: S.optional(S.NullOr(__S(7905, __c247, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LaunchStandardEngineResourceGroupsResponse" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22996,7 +23085,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "ListApiKeysRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23015,15 +23104,15 @@ function __c248(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyInfo" });
     case 1:
-      return S.Array(__S(7936, __c248, 0));
+      return S.Array(__S(7968, __c249, 0));
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(7937, __c248, 1)),
+          Items: S.optional(__S(7969, __c249, 1)),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -23033,7 +23122,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23052,13 +23141,13 @@ function __c250(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(7937, __c248, 1)),
+          Items: S.optional(__S(7969, __c249, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAvailableApiKeysResponse" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23104,11 +23193,11 @@ function __c251(j: number): any {
         }),
       ).annotate({ identifier: "BenchmarkSummaryInfo" });
     case 2:
-      return S.Array(__S(8033, __c251, 1));
+      return S.Array(__S(8065, __c252, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8034, __c251, 2))),
+          Items: S.optional(S.NullOr(__S(8066, __c252, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           Page: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
@@ -23118,7 +23207,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "ListBenchmarkSummaryResponse" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23173,11 +23262,11 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "BenchmarkTaskInfo" });
     case 2:
-      return S.Array(__S(8065, __c252, 1));
+      return S.Array(__S(8097, __c253, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(8066, __c252, 2)),
+          Items: S.optional(__S(8098, __c253, 2)),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -23187,7 +23276,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "ListBenchmarkTasksResponse" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23218,7 +23307,7 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "ClusterGroup" });
     case 2:
-      return S.Array(__S(8097, __c253, 1));
+      return S.Array(__S(8129, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23226,13 +23315,13 @@ function __c253(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8098, __c253, 2)),
+          Items: S.optional(__S(8130, __c254, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListClusterGroupsResponse" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23272,11 +23361,11 @@ function __c254(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentReplicaInfo" });
     case 2:
-      return S.Array(__S(8129, __c254, 1));
+      return S.Array(__S(8161, __c255, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8130, __c254, 2))),
+          Items: S.optional(S.NullOr(__S(8162, __c255, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           Page: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
@@ -23286,7 +23375,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "ListDeploymentReplicasResponse" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23332,11 +23421,11 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentInfo" });
     case 2:
-      return S.Array(__S(8161, __c255, 1));
+      return S.Array(__S(8193, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8162, __c255, 2))),
+          Items: S.optional(S.NullOr(__S(8194, __c256, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           Page: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
@@ -23346,7 +23435,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "ListDeploymentsResponse" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23365,7 +23454,7 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "ExampleCategories" });
     case 2:
-      return S.Array(__S(8193, __c256, 1));
+      return S.Array(__S(8225, __c257, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23373,13 +23462,26 @@ function __c256(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8194, __c256, 2)),
+          Items: S.optional(__S(8226, __c257, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExampleCategoriesResponse" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ModelIdentifier: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "CheckModelIdentifier" }),
+        ),
+      ).annotate({ identifier: "CheckModelIdentifierRequest" });
+  }
+}
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23398,7 +23500,7 @@ function __c257(j: number): any {
         }),
       ).annotate({ identifier: "ExampleDifficulties" });
     case 2:
-      return S.Array(__S(8225, __c257, 1));
+      return S.Array(__S(8289, __c259, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23406,26 +23508,13 @@ function __c257(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8226, __c257, 2)),
+          Items: S.optional(__S(8290, __c259, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExampleDifficultiesResponse" });
   }
 }
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ModelIdentifier: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "CheckModelIdentifier" }),
-        ),
-      ).annotate({ identifier: "CheckModelIdentifierRequest" });
-  }
-}
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23464,7 +23553,7 @@ function __c259(j: number): any {
         }),
       ).annotate({ identifier: "ExampleEntity" });
     case 2:
-      return S.Array(__S(8289, __c259, 1));
+      return S.Array(__S(8321, __c260, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23472,13 +23561,13 @@ function __c259(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8290, __c259, 2)),
+          Items: S.optional(__S(8322, __c260, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExamplesResponse" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23495,7 +23584,7 @@ function __c260(j: number): any {
         }),
       ).annotate({ identifier: "ExampleTag" });
     case 2:
-      return S.Array(__S(8321, __c260, 1));
+      return S.Array(__S(8353, __c261, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23503,13 +23592,13 @@ function __c260(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8322, __c260, 2)),
+          Items: S.optional(__S(8354, __c261, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExampleTagsResponse" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23535,7 +23624,7 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "ImageDto" });
     case 2:
-      return S.Array(__S(8353, __c261, 1));
+      return S.Array(__S(8385, __c262, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23543,13 +23632,13 @@ function __c261(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8354, __c261, 2)),
+          Items: S.optional(__S(8386, __c262, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23578,7 +23667,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "ListInferenceEnginesResponse" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23620,7 +23709,7 @@ function __c263(j: number): any {
           CreateTime: S.optional(S.NullOr(S.Number)),
           UpdateTime: S.optional(S.NullOr(S.Number)),
           SubAccountUin: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           ModelSource: S.optional(S.String),
           ModelCategory: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
@@ -23631,11 +23720,11 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "InferenceModelInfo" });
     case 2:
-      return S.Array(__S(8417, __c263, 1));
+      return S.Array(__S(8449, __c264, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8418, __c263, 2))),
+          Items: S.optional(S.NullOr(__S(8450, __c264, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           Page: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
@@ -23645,7 +23734,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "ListInferenceModelsResponse" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23686,18 +23775,18 @@ function __c264(j: number): any {
           ApiKeyAuthEnabled: S.optional(S.NullOr(S.Boolean)),
           ApiKeyAuthForceEnabled: S.optional(S.NullOr(S.Boolean)),
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
-          GpuResourceSummary: S.optional(S.NullOr(__S(6529, __c204, 1))),
+          GpuResourceSummary: S.optional(S.NullOr(__S(6593, __c206, 1))),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "InferenceServiceInfo" });
     case 2:
-      return S.Array(__S(8449, __c264, 1));
+      return S.Array(__S(8481, __c265, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8450, __c264, 2))),
+          Items: S.optional(S.NullOr(__S(8482, __c265, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           Page: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
@@ -23707,7 +23796,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "ListInferenceServicesResponse" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23724,7 +23813,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "ListJobsBySpecRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23756,12 +23845,12 @@ function __c266(j: number): any {
           SpecName: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           JobSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "RayJobSubmitEntity" });
     case 1:
-      return S.Array(__S(8512, __c266, 0));
+      return S.Array(__S(8544, __c267, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23769,13 +23858,13 @@ function __c266(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8513, __c266, 1)),
+          Items: S.optional(__S(8545, __c267, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobsBySpecResponse" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23825,7 +23914,7 @@ function __c267(j: number): any {
           JobInstanceCount: S.optional(S.Number),
           HasRunningJobs: S.optional(S.Boolean),
           AdvancedOptions: S.optional(S.String),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           SubmissionTarget: S.optional(S.String),
           GroupName: S.optional(S.String),
@@ -23834,7 +23923,7 @@ function __c267(j: number): any {
         }),
       ).annotate({ identifier: "JobSpec" });
     case 2:
-      return S.Array(__S(8545, __c267, 1));
+      return S.Array(__S(8577, __c268, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23842,13 +23931,13 @@ function __c267(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8546, __c267, 2)),
+          Items: S.optional(__S(8578, __c268, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobSpecsResponse" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23867,7 +23956,7 @@ function __c268(j: number): any {
         S.Struct({
           ExampleId: S.optional(S.String),
           CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
+          Services: S.optional(__S(13185, __c412, 1)),
           LabImage: S.optional(S.String),
           LabImagePullPolicy: S.optional(S.String),
           LabImagePullType: S.optional(S.String),
@@ -23901,15 +23990,15 @@ function __c268(j: number): any {
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
           DeleteTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           NetworkConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "LabResponse" });
     case 2:
-      return S.Array(__S(8577, __c268, 1));
+      return S.Array(__S(8609, __c269, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23917,39 +24006,10 @@ function __c268(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8578, __c268, 2)),
+          Items: S.optional(__S(8610, __c269, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLabsResponse" });
-  }
-}
-function __c269(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Page: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          Filters: S.optional(__S(1792, __c56, 0)),
-          SortFields: S.optional(__S(2529, __c79, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ListMlflowServers" })),
-      ).annotate({ identifier: "ListMlflowServersRequest" });
-    case 1:
-      return S.Array(__S(13344, __c417, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Items: S.optional(__S(8609, __c269, 1)),
-          Total: S.optional(S.Number),
-          Page: S.optional(S.Number),
-          PageSize: S.optional(S.Number),
-          TotalPages: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListMlflowServersResponse" });
   }
 }
 function __c270(j: number): any {
@@ -24017,6 +24077,35 @@ function __c273(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Page: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          StartTime: S.optional(S.Number),
+          EndTime: S.optional(S.Number),
+          Filters: S.optional(__S(1792, __c56, 0)),
+          SortFields: S.optional(__S(2529, __c79, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ListMlflowServers" })),
+      ).annotate({ identifier: "ListMlflowServersRequest" });
+    case 1:
+      return S.Array(__S(13376, __c418, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Items: S.optional(__S(8737, __c273, 1)),
+          Total: S.optional(S.Number),
+          Page: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          TotalPages: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMlflowServersResponse" });
+  }
+}
+function __c274(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ServerId: S.optional(S.String),
           Filters: S.optional(__S(1792, __c56, 0)),
           SortFields: S.optional(__S(2529, __c79, 1)),
@@ -24035,14 +24124,14 @@ function __c273(j: number): any {
       ).annotate({ identifier: "ListMlflowServerTrainingInstancesRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5184, __c162, 0));
+      return S.Array(__S(5152, __c161, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(8768, __c274, 0)),
+          Items: S.optional(__S(8800, __c275, 0)),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -24052,7 +24141,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "ListMlflowServerTrainingInstancesResponse" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24077,16 +24166,16 @@ function __c275(j: number): any {
           Description: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.Number)),
           UpdateTime: S.optional(S.NullOr(S.Number)),
-          LinkedServices: S.optional(S.NullOr(__S(13441, __c420, 1))),
+          LinkedServices: S.optional(S.NullOr(__S(13473, __c421, 1))),
           UseCustomStorage: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModelVersionInfo" });
     case 2:
-      return S.Array(__S(8801, __c275, 1));
+      return S.Array(__S(8833, __c276, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(S.NullOr(__S(8802, __c275, 2))),
+          Items: S.optional(S.NullOr(__S(8834, __c276, 2))),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -24096,7 +24185,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "ListModelVersionsResponse" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24113,7 +24202,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "ListRayClusterJobsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24140,7 +24229,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "ListRayClustersResponse" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24156,7 +24245,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "ListRayJobsRequest" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24177,18 +24266,18 @@ function __c279(j: number): any {
         }),
       ).annotate({ identifier: "LbItem" });
     case 2:
-      return S.Array(__S(8929, __c279, 1));
+      return S.Array(__S(8961, __c280, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Lbs: S.optional(S.NullOr(__S(8930, __c279, 2))),
+          Lbs: S.optional(S.NullOr(__S(8962, __c280, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRegionLbsResponse" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24209,8 +24298,8 @@ function __c280(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Type: S.optional(S.String),
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
           AppId: S.optional(S.Number),
           Uin: S.optional(S.String),
           SubAccountUin: S.optional(S.String),
@@ -24219,7 +24308,7 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "ResourceConfig" });
     case 2:
-      return S.Array(__S(8961, __c280, 1));
+      return S.Array(__S(8993, __c281, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -24227,13 +24316,13 @@ function __c280(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(8962, __c280, 2)),
+          Items: S.optional(__S(8994, __c281, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListResourceConfigsResponse" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24250,7 +24339,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "ListServiceApiKeysRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24266,7 +24355,7 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "CFSFileSystemInfo" });
     case 2:
-      return S.Array(__S(9025, __c282, 1));
+      return S.Array(__S(9057, __c283, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -24274,7 +24363,7 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "COSBucketInfo" });
     case 4:
-      return S.Array(__S(9027, __c282, 3));
+      return S.Array(__S(9059, __c283, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -24286,39 +24375,17 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "GooseFSClustersInfo" });
     case 6:
-      return S.Array(__S(9029, __c282, 5));
+      return S.Array(__S(9061, __c283, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          CFSFileSystems: S.optional(__S(9026, __c282, 2)),
-          COSBuckets: S.optional(__S(9028, __c282, 4)),
-          CFSTurboFileSystems: S.optional(__S(9026, __c282, 2)),
-          GooseFSClusters: S.optional(__S(9030, __c282, 6)),
+          CFSFileSystems: S.optional(__S(9058, __c283, 2)),
+          COSBuckets: S.optional(__S(9060, __c283, 4)),
+          CFSTurboFileSystems: S.optional(__S(9058, __c283, 2)),
+          GooseFSClusters: S.optional(__S(9062, __c283, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStoragesResponse" });
-  }
-}
-function __c283(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StartTime: S.Number,
-          EndTime: S.Number,
-          Limit: S.Number,
-          Context: S.String,
-          TaskId: S.optional(S.String),
-          Asc: S.optional(S.Boolean),
-          Filters: S.optional(__S(1792, __c56, 0)),
-          BatchId: S.optional(S.String),
-          DataEngineId: S.optional(S.String),
-          ResourceGroupId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "ListTaskJobLogDetail" }),
-        ),
-      ).annotate({ identifier: "ListTaskJobLogDetailRequest" });
   }
 }
 function __c284(j: number): any {
@@ -24368,6 +24435,28 @@ function __c287(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          StartTime: S.Number,
+          EndTime: S.Number,
+          Limit: S.Number,
+          Context: S.String,
+          TaskId: S.optional(S.String),
+          Asc: S.optional(S.Boolean),
+          Filters: S.optional(__S(1792, __c56, 0)),
+          BatchId: S.optional(S.String),
+          DataEngineId: S.optional(S.String),
+          ResourceGroupId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "ListTaskJobLogDetail" }),
+        ),
+      ).annotate({ identifier: "ListTaskJobLogDetailRequest" });
+  }
+}
+function __c288(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           TaskId: S.String,
           BatchId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -24382,7 +24471,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "ListTaskJobLogNameResponse" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24402,7 +24491,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "ListTkeCosBucketsResponse" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24420,7 +24509,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "ListTrainingJobInstanceRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24435,11 +24524,11 @@ function __c290(j: number): any {
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ListTrainingJobSpec" })),
       ).annotate({ identifier: "ListTrainingJobSpecRequest" });
     case 1:
-      return S.Array(__S(5472, __c171, 0));
+      return S.Array(__S(5504, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(9281, __c290, 1)),
+          Items: S.optional(__S(9313, __c291, 1)),
           Total: S.optional(S.Number),
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
@@ -24449,7 +24538,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "ListTrainingJobSpecResponse" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24465,11 +24554,11 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "LockComponentInfo" });
     case 1:
-      return S.Array(__S(9312, __c291, 0));
+      return S.Array(__S(9344, __c292, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          LockComponentList: __S(9313, __c291, 1),
+          LockComponentList: __S(9345, __c292, 1),
           DatasourceConnectionName: S.optional(S.String),
           TxnId: S.optional(S.Number),
           AgentInfo: S.optional(S.String),
@@ -24479,7 +24568,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "LockMetaDataRequest" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24497,7 +24586,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "ModifyAdvancedStoreLocationRequest" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24534,13 +24623,13 @@ function __c293(j: number): any {
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyClusterPriorityResponse" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24558,7 +24647,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "ModifyDataEngineDescriptionRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24568,30 +24657,6 @@ function __c295(j: number): any {
           T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyGovernEventRule" }),
         ),
       ).annotate({ identifier: "ModifyGovernEventRuleRequest" });
-  }
-}
-function __c296(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          JobDefinitionId: S.String,
-          Name: S.optional(S.String),
-          Description: S.optional(S.String),
-          MajorType: S.optional(S.String),
-          MinorType: S.optional(S.String),
-          CheckpointLocation: S.optional(S.String),
-          PartitionCode: S.optional(S.String),
-          QueueName: S.optional(S.String),
-          RuntimeCode: S.optional(S.String),
-          SysCatalogVersion: S.optional(S.String),
-          CustomProperties: S.optional(S.String),
-          EnvVars: S.optional(__S(192, __c6, 0)),
-          RunMode: S.optional(S.String),
-          WarehouseId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyJobDefinition" })),
-      ).annotate({ identifier: "ModifyJobDefinitionRequest" });
   }
 }
 function __c297(j: number): any {
@@ -24617,6 +24682,30 @@ function __c298(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          JobDefinitionId: S.String,
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          MajorType: S.optional(S.String),
+          MinorType: S.optional(S.String),
+          CheckpointLocation: S.optional(S.String),
+          PartitionCode: S.optional(S.String),
+          QueueName: S.optional(S.String),
+          RuntimeCode: S.optional(S.String),
+          SysCatalogVersion: S.optional(S.String),
+          CustomProperties: S.optional(S.String),
+          EnvVars: S.optional(__S(192, __c6, 0)),
+          RunMode: S.optional(S.String),
+          WarehouseId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyJobDefinition" })),
+      ).annotate({ identifier: "ModifyJobDefinitionRequest" });
+  }
+}
+function __c299(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Id: S.String,
           Priority: S.Number,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -24627,7 +24716,7 @@ function __c298(j: number): any {
         S.Struct({
           ExampleId: S.optional(S.String),
           CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
+          Services: S.optional(__S(13185, __c412, 1)),
           LabImage: S.optional(S.String),
           Id: S.optional(S.String),
           Type: S.optional(S.String),
@@ -24654,8 +24743,8 @@ function __c298(j: number): any {
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           LabImagePullType: S.optional(S.String),
           SubAccountName: S.optional(S.String),
@@ -24665,7 +24754,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "ModifyLabPriorityResponse" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24679,7 +24768,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "ModifyPartitionDescriptionRequest" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24689,7 +24778,7 @@ function __c300(j: number): any {
           QueueName: S.optional(S.String),
           Alias: S.optional(S.String),
           Description: S.optional(S.String),
-          ResourceUsages: S.optional(__S(13761, __c430, 1)),
+          ResourceUsages: S.optional(__S(13793, __c431, 1)),
           QueueType: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -24698,7 +24787,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "ModifyPartitionQueueRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24733,13 +24822,13 @@ function __c301(j: number): any {
           SessionId: S.optional(S.String),
           IsInherit: S.optional(S.Number),
           IsSessionStarted: S.optional(S.Boolean),
-          DependencyPackages: S.optional(__S(14081, __c440, 1)),
+          DependencyPackages: S.optional(__S(14113, __c441, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifySparkApp" })),
       ).annotate({ identifier: "ModifySparkAppRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24756,7 +24845,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "ModifySparkAppBatchRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24791,7 +24880,7 @@ function __c303(j: number): any {
           SessionId: S.optional(S.String),
           IsInherit: S.optional(S.Number),
           IsSessionStarted: S.optional(S.Boolean),
-          DependencyPackages: S.optional(__S(14081, __c440, 1)),
+          DependencyPackages: S.optional(__S(14113, __c441, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "ModifySparkAppForTDLC" }),
@@ -24799,7 +24888,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "ModifySparkAppForTDLCRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24820,15 +24909,15 @@ function __c304(j: number): any {
           Catalog: S.optional(S.String),
           Priority: S.optional(S.Number),
           AdvancedOptions: S.optional(S.String),
-          MlFlowConfig: S.optional(__S(9760, __c305, 0)),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          MlFlowConfig: S.optional(__S(9792, __c306, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           BaseModelUid: S.optional(S.String),
           OutputModelName: S.optional(S.String),
           Mode: S.optional(S.String),
-          Datasets: S.optional(__S(5155, __c161, 3)),
-          Checkpoint: S.optional(__S(5156, __c161, 4)),
+          Datasets: S.optional(__S(5123, __c160, 3)),
+          Checkpoint: S.optional(__S(5124, __c160, 4)),
           ResumeTraining: S.optional(S.Boolean),
-          TuningParams: S.optional(__S(5157, __c161, 5)),
+          TuningParams: S.optional(__S(5125, __c160, 5)),
           NetworkConfig: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -24837,7 +24926,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "ModifyTrainingJobSpecRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24849,7 +24938,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "MlFlowConfig" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24862,7 +24951,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "ModifyUserRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24873,18 +24962,6 @@ function __c307(j: number): any {
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyUserType" })),
       ).annotate({ identifier: "ModifyUserTypeRequest" });
-  }
-}
-function __c308(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkGroupId: S.Number,
-          WorkGroupDescription: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyWorkGroup" })),
-      ).annotate({ identifier: "ModifyWorkGroupRequest" });
   }
 }
 function __c309(j: number): any {
@@ -24903,6 +24980,18 @@ function __c310(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          WorkGroupId: S.Number,
+          WorkGroupDescription: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "ModifyWorkGroup" })),
+      ).annotate({ identifier: "ModifyWorkGroupRequest" });
+  }
+}
+function __c311(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           EngineResourceGroupNames: __S(128, __c4, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -24915,7 +25004,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "PauseStandardEngineResourceGroupsRequest" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24938,7 +25027,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "QueryDashboardOverviewResponse" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24989,12 +25078,12 @@ function __c312(j: number): any {
           Engine: S.optional(S.String),
           ModelName: S.optional(S.String),
           ModelIdentifier: S.optional(S.String),
-          Replicas: S.optional(__S(9985, __c312, 1)),
-          Metrics: S.optional(__S(9986, __c312, 2)),
+          Replicas: S.optional(__S(10017, __c313, 1)),
+          Metrics: S.optional(__S(10018, __c313, 2)),
         }),
       ).annotate({ identifier: "ServiceMetricsItem" });
     case 4:
-      return S.Array(__S(9987, __c312, 3));
+      return S.Array(__S(10019, __c313, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -25002,13 +25091,13 @@ function __c312(j: number): any {
           Page: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalPages: S.optional(S.Number),
-          Items: S.optional(__S(9988, __c312, 4)),
+          Items: S.optional(__S(10020, __c313, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryDashboardServiceListResponse" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25034,7 +25123,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "QueryInternalTableWarehouseResponse" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25054,17 +25143,17 @@ function __c314(j: number): any {
         }),
       ).annotate({ identifier: "OverviewItem" });
     case 2:
-      return S.Array(__S(10049, __c314, 1));
+      return S.Array(__S(10081, __c315, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(10050, __c314, 2)),
+          Items: S.optional(__S(10082, __c315, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryMonitorOverviewResponse" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25079,14 +25168,14 @@ function __c315(j: number): any {
         S.Struct({
           TaskId: S.optional(S.String),
           ResultSet: S.optional(S.String),
-          ResultSchema: S.optional(__S(14497, __c453, 1)),
+          ResultSchema: S.optional(__S(14529, __c454, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryResultResponse" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25102,7 +25191,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "QueryTaskCostDetailRequest" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25118,7 +25207,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "RegisterThirdPartyAccessUserRequest" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25131,21 +25220,6 @@ function __c318(j: number): any {
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "RenewDataEngine" })),
       ).annotate({ identifier: "RenewDataEngineRequest" });
-  }
-}
-function __c319(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DatasourceConnectionName: S.optional(S.String),
-          LockId: S.optional(S.Number),
-          TxnId: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "ReportHeartbeatMetaData" }),
-        ),
-      ).annotate({ identifier: "ReportHeartbeatMetaDataRequest" });
   }
 }
 function __c320(j: number): any {
@@ -25193,7 +25267,7 @@ function __c320(j: number): any {
           GroupId: S.optional(S.NullOr(S.String)),
           ClusterId: S.optional(S.NullOr(S.String)),
           Priority: S.optional(S.NullOr(S.Number)),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           SubmissionTarget: S.optional(S.String),
           GroupName: S.optional(S.String),
@@ -25204,6 +25278,21 @@ function __c320(j: number): any {
   }
 }
 function __c321(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DatasourceConnectionName: S.optional(S.String),
+          LockId: S.optional(S.Number),
+          TxnId: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "ReportHeartbeatMetaData" }),
+        ),
+      ).annotate({ identifier: "ReportHeartbeatMetaDataRequest" });
+  }
+}
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25242,7 +25331,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "RerunBenchmarkTaskResponse" });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25254,7 +25343,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "RestartDataEngineRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25297,7 +25386,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "RestartDeploymentResponse" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25332,15 +25421,15 @@ function __c324(j: number): any {
           ApiKeyAuthForceEnabled: S.optional(S.NullOr(S.Boolean)),
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestartInferenceServiceResponse" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25354,7 +25443,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "ResumeTrainingJobInstanceRequest" });
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25367,7 +25456,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "RevokeDLCCatalogAccessRequest" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25382,7 +25471,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "RollbackDataEngineImageRequest" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25425,22 +25514,11 @@ function __c328(j: number): any {
           SpecName: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           JobSource: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunJobSpecResponse" });
-  }
-}
-function __c329(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SmartPolicy: __S(14287, __c446, 15),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "SetOptimizerPolicy" })),
-      ).annotate({ identifier: "SetOptimizerPolicyRequest" });
   }
 }
 function __c330(j: number): any {
@@ -25448,55 +25526,10 @@ function __c330(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Id: S.String,
+          SmartPolicy: __S(14319, __c447, 15),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "StartLab" })),
-      ).annotate({ identifier: "StartLabRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ExampleId: S.optional(S.String),
-          CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
-          LabImage: S.optional(S.String),
-          Id: S.optional(S.String),
-          Type: S.optional(S.String),
-          Name: S.optional(S.String),
-          Description: S.optional(S.String),
-          ResourcePartitionId: S.optional(S.String),
-          ResourcePartitionName: S.optional(S.String),
-          Queue: S.optional(S.String),
-          AppId: S.optional(S.Number),
-          Uin: S.optional(S.String),
-          SubAccountUin: S.optional(S.String),
-          Status: S.optional(S.String),
-          CreateTime: S.optional(S.Number),
-          UpdateTime: S.optional(S.Number),
-          GroupName: S.optional(S.String),
-          GroupId: S.optional(S.String),
-          ResourceConfig: S.optional(S.String),
-          ResourceConfigId: S.optional(S.String),
-          Image: S.optional(S.String),
-          Catalog: S.optional(S.String),
-          HistoryUrl: S.optional(S.String),
-          ImagePullPolicy: S.optional(S.String),
-          AdvancedOptions: S.optional(S.String),
-          Priority: S.optional(S.Number),
-          StartTime: S.optional(S.Number),
-          StopTime: S.optional(S.Number),
-          DeleteTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
-          EnableToken: S.optional(S.Boolean),
-          Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          AutoscalerOptions: S.optional(S.String),
-          LabImagePullType: S.optional(S.String),
-          SubAccountName: S.optional(S.String),
-          ImagePullType: S.optional(S.String),
-          NetworkConfig: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartLabResponse" });
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "SetOptimizerPolicy" })),
+      ).annotate({ identifier: "SetOptimizerPolicyRequest" });
   }
 }
 function __c331(j: number): any {
@@ -25537,13 +25570,69 @@ function __c333(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Id: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "StartLab" })),
+      ).annotate({ identifier: "StartLabRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ExampleId: S.optional(S.String),
+          CodeArchiveUrl: S.optional(S.String),
+          Services: S.optional(__S(13185, __c412, 1)),
+          LabImage: S.optional(S.String),
+          Id: S.optional(S.String),
+          Type: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          ResourcePartitionId: S.optional(S.String),
+          ResourcePartitionName: S.optional(S.String),
+          Queue: S.optional(S.String),
+          AppId: S.optional(S.Number),
+          Uin: S.optional(S.String),
+          SubAccountUin: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreateTime: S.optional(S.Number),
+          UpdateTime: S.optional(S.Number),
+          GroupName: S.optional(S.String),
+          GroupId: S.optional(S.String),
+          ResourceConfig: S.optional(S.String),
+          ResourceConfigId: S.optional(S.String),
+          Image: S.optional(S.String),
+          Catalog: S.optional(S.String),
+          HistoryUrl: S.optional(S.String),
+          ImagePullPolicy: S.optional(S.String),
+          AdvancedOptions: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          StartTime: S.optional(S.Number),
+          StopTime: S.optional(S.Number),
+          DeleteTime: S.optional(S.Number),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
+          EnableToken: S.optional(S.Boolean),
+          Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          AutoscalerOptions: S.optional(S.String),
+          LabImagePullType: S.optional(S.String),
+          SubAccountName: S.optional(S.String),
+          ImagePullType: S.optional(S.String),
+          NetworkConfig: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartLabResponse" });
+  }
+}
+function __c334(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ServerId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "StartMlflowServer" })),
       ).annotate({ identifier: "StartMlflowServerRequest" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25580,14 +25669,14 @@ function __c334(j: number): any {
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartRayClusterResponse" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25627,7 +25716,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "StopBenchmarkTaskResponse" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25671,7 +25760,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "StopDeploymentResponse" });
   }
 }
-function __c337(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25706,9 +25795,9 @@ function __c337(j: number): any {
           ApiKeyAuthForceEnabled: S.optional(S.NullOr(S.Boolean)),
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           DeploymentMode: S.optional(S.String),
           IsCustom: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
@@ -25716,7 +25805,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "StopInferenceServiceResponse" });
   }
 }
-function __c338(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25727,14 +25816,14 @@ function __c338(j: number): any {
       ).annotate({ identifier: "StopLabRequest" });
   }
 }
-function __c339(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ExampleId: S.optional(S.String),
           CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
+          Services: S.optional(__S(13185, __c412, 1)),
           LabImage: S.optional(S.String),
           LabImagePullPolicy: S.optional(S.String),
           Id: S.optional(S.String),
@@ -25764,8 +25853,8 @@ function __c339(j: number): any {
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
           DeleteTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AutoscalerOptions: S.optional(S.String),
@@ -25778,7 +25867,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "StopLabResponse" });
   }
 }
-function __c340(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25789,7 +25878,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "StopMlflowServerRequest" });
   }
 }
-function __c341(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25823,14 +25912,14 @@ function __c341(j: number): any {
           Priority: S.optional(S.Number),
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StopRayClusterResponse" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25851,7 +25940,7 @@ function __c342(j: number): any {
           GroupId: S.optional(S.String),
           DispatchStrategy: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           JobPackage: S.optional(S.String),
           JobPackageName: S.optional(S.String),
           JobPackageSource: S.optional(S.String),
@@ -25864,7 +25953,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "SubmitRayJobRequest" });
   }
 }
-function __c343(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25897,48 +25986,12 @@ function __c343(j: number): any {
           SpecName: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           JobSource: S.optional(S.String),
           ClusterName: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubmitRayJobResponse" });
-  }
-}
-function __c344(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SpecName: S.optional(S.String),
-          Description: S.optional(S.String),
-          Entrypoint: S.optional(S.String),
-          Image: S.optional(S.String),
-          ImagePullType: S.optional(S.String),
-          ImagePullPolicy: S.optional(S.String),
-          CodePackageUrl: S.optional(S.String),
-          RuntimeEnv: S.optional(S.String),
-          ResourceConfigId: S.optional(S.String),
-          ResourceConfig: S.optional(S.String),
-          ResourcePartitionId: S.optional(S.String),
-          Queue: S.optional(S.String),
-          Catalog: S.optional(S.String),
-          AdvancedOptions: S.optional(S.String),
-          BaseModelUid: S.optional(S.String),
-          Mode: S.optional(S.String),
-          Datasets: S.optional(__S(5155, __c161, 3)),
-          Checkpoint: S.optional(__S(5156, __c161, 4)),
-          ResumeTraining: S.optional(S.Boolean),
-          TuningParams: S.optional(__S(5157, __c161, 5)),
-          Priority: S.optional(S.Number),
-          Kind: S.optional(S.String),
-          MlFlowConfig: S.optional(__S(9760, __c305, 0)),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          OutputModelName: S.optional(S.String),
-          NetworkConfig: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "SubmitTrainingJob" })),
-      ).annotate({ identifier: "SubmitTrainingJobRequest" });
   }
 }
 function __c345(j: number): any {
@@ -26030,6 +26083,42 @@ function __c347(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SpecName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Entrypoint: S.optional(S.String),
+          Image: S.optional(S.String),
+          ImagePullType: S.optional(S.String),
+          ImagePullPolicy: S.optional(S.String),
+          CodePackageUrl: S.optional(S.String),
+          RuntimeEnv: S.optional(S.String),
+          ResourceConfigId: S.optional(S.String),
+          ResourceConfig: S.optional(S.String),
+          ResourcePartitionId: S.optional(S.String),
+          Queue: S.optional(S.String),
+          Catalog: S.optional(S.String),
+          AdvancedOptions: S.optional(S.String),
+          BaseModelUid: S.optional(S.String),
+          Mode: S.optional(S.String),
+          Datasets: S.optional(__S(5123, __c160, 3)),
+          Checkpoint: S.optional(__S(5124, __c160, 4)),
+          ResumeTraining: S.optional(S.Boolean),
+          TuningParams: S.optional(__S(5125, __c160, 5)),
+          Priority: S.optional(S.Number),
+          Kind: S.optional(S.String),
+          MlFlowConfig: S.optional(__S(9792, __c306, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          OutputModelName: S.optional(S.String),
+          NetworkConfig: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "SubmitTrainingJob" })),
+      ).annotate({ identifier: "SubmitTrainingJobRequest" });
+  }
+}
+function __c348(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           DataEngineName: S.String,
           Operate: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -26046,7 +26135,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "SuspendResumeDataEngineResponse" });
   }
 }
-function __c348(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26058,7 +26147,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "SwitchDataEngineRequest" });
   }
 }
-function __c349(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26072,7 +26161,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "SwitchDataEngineImageRequest" });
   }
 }
-function __c350(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26085,7 +26174,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "UnbindWorkGroupsFromUserRequest" });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26098,7 +26187,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "UnboundDatasourceHouseRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26110,7 +26199,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "UnlockMetaDataRequest" });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26122,7 +26211,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "UpdateApiKeyStatusRequest" });
   }
 }
-function __c354(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26153,7 +26242,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "UpdateClusterGroupResponse" });
   }
 }
-function __c355(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26166,33 +26255,17 @@ function __c355(j: number): any {
           Message: S.String,
           AutoSuspend: S.optional(S.Boolean),
           CrontabResumeSuspend: S.optional(S.Number),
-          CrontabResumeSuspendStrategy: S.optional(__S(12288, __c384, 0)),
+          CrontabResumeSuspendStrategy: S.optional(__S(12320, __c385, 0)),
           MaxConcurrency: S.optional(S.Number),
           TolerableQueueTime: S.optional(S.Number),
           AutoSuspendTime: S.optional(S.Number),
           ElasticSwitch: S.optional(S.Boolean),
           ElasticLimit: S.optional(S.Number),
-          SessionResourceTemplate: S.optional(__S(12256, __c383, 0)),
+          SessionResourceTemplate: S.optional(__S(12288, __c384, 0)),
           ScheduleElasticityConf: S.optional(__S(1570, __c49, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateDataEngine" })),
       ).annotate({ identifier: "UpdateDataEngineRequest" });
-  }
-}
-function __c356(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DataEngineIds: __S(128, __c4, 0),
-          DataEngineConfigCommand: S.String,
-          UseLakeFs: S.optional(S.Boolean),
-          CustomResultPath: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateDataEngineConfig" }),
-        ),
-      ).annotate({ identifier: "UpdateDataEngineConfigRequest" });
   }
 }
 function __c357(j: number): any {
@@ -26251,7 +26324,23 @@ function __c359(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Strategy: S.optional(__S(12448, __c389, 0)),
+          DataEngineIds: __S(128, __c4, 0),
+          DataEngineConfigCommand: S.String,
+          UseLakeFs: S.optional(S.Boolean),
+          CustomResultPath: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateDataEngineConfig" }),
+        ),
+      ).annotate({ identifier: "UpdateDataEngineConfigRequest" });
+  }
+}
+function __c360(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Strategy: S.optional(__S(12480, __c390, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateDataMaskStrategy" }),
@@ -26259,7 +26348,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "UpdateDataMaskStrategyRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26306,7 +26395,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentResponse" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26325,7 +26414,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "UpdateEngineResourceGroupNetworkConfigInfoRequest" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26335,7 +26424,7 @@ function __c362(j: number): any {
           Description: S.optional(S.String),
           ParameterSize: S.optional(S.String),
           Tags: S.optional(__S(128, __c4, 0)),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateInferenceModel" }),
@@ -26364,7 +26453,7 @@ function __c362(j: number): any {
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           SubAccountUin: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           ModelCategory: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
           LatestVersionUid: S.optional(S.String),
@@ -26377,7 +26466,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "UpdateInferenceModelResponse" });
   }
 }
-function __c363(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26403,7 +26492,7 @@ function __c363(j: number): any {
           GroupId: S.optional(S.String),
           ClusterId: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           NetworkConfig: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -26411,7 +26500,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "UpdateJobSpecRequest" });
   }
 }
-function __c364(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26457,7 +26546,7 @@ function __c364(j: number): any {
           JobInstanceCount: S.optional(S.Number),
           HasRunningJobs: S.optional(S.Boolean),
           AdvancedOptions: S.optional(S.String),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           GroupName: S.optional(S.String),
           ClusterName: S.optional(S.String),
           JobPackageSource: S.optional(S.String),
@@ -26467,7 +26556,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "UpdateJobSpecPriorityResponse" });
   }
 }
-function __c365(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26491,8 +26580,8 @@ function __c365(j: number): any {
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
           EnableToken: S.optional(S.Boolean),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           AutoscalerOptions: S.optional(S.String),
           ImagePullType: S.optional(S.String),
           LabImagePullType: S.optional(S.String),
@@ -26502,7 +26591,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "UpdateLabRequest" });
   }
 }
-function __c366(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26516,7 +26605,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "UpdateNetworkConnectionRequest" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26535,25 +26624,11 @@ function __c367(j: number): any {
           Catalog: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateRayCluster" })),
       ).annotate({ identifier: "UpdateRayClusterRequest" });
-  }
-}
-function __c368(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          Priority: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateRayJobPriority" }),
-        ),
-      ).annotate({ identifier: "UpdateRayJobPriorityRequest" });
   }
 }
 function __c369(j: number): any {
@@ -26592,10 +26667,24 @@ function __c370(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
+          Priority: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateRayJobPriority" }),
+        ),
+      ).annotate({ identifier: "UpdateRayJobPriorityRequest" });
+  }
+}
+function __c371(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
           Type: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -26608,8 +26697,8 @@ function __c370(j: number): any {
           Id: S.optional(S.String),
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           Type: S.optional(S.String),
@@ -26621,7 +26710,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "UpdateResourceConfigResponse" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26633,7 +26722,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "UpdateRowFilterRequest" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26670,14 +26759,14 @@ function __c372(j: number): any {
           ApiKeyAuthForceEnabled: S.optional(S.NullOr(S.Boolean)),
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateServiceAuthConfigResponse" });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26698,7 +26787,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "UpdateStandardEngineResourceGroupBaseInfoRequest" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26709,21 +26798,21 @@ function __c374(j: number): any {
         }),
       ).annotate({ identifier: "Param" });
     case 1:
-      return S.Array(__S(11968, __c374, 0));
+      return S.Array(__S(12000, __c375, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ConfigType: S.String,
-          Params: __S(11969, __c374, 1),
+          Params: __S(12001, __c375, 1),
         }),
       ).annotate({ identifier: "UpdateConfContext" });
     case 3:
-      return S.Array(__S(11970, __c374, 2));
+      return S.Array(__S(12002, __c375, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           EngineResourceGroupName: S.String,
-          UpdateConfContext: __S(11971, __c374, 3),
+          UpdateConfContext: __S(12003, __c375, 3),
           IsEffectiveNow: S.Number,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -26736,7 +26825,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "UpdateStandardEngineResourceGroupConfigInfoRequest" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26774,7 +26863,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "UpdateStandardEngineResourceGroupResourceInfoRequest" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26782,20 +26871,20 @@ function __c376(j: number): any {
           Name: S.String,
           DatabaseName: S.String,
           CatalogName: S.String,
-          UDFPolicyInfos: __S(5569, __c174, 1),
+          UDFPolicyInfos: __S(5601, __c175, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateUDFPolicy" })),
       ).annotate({ identifier: "UpdateUDFPolicyRequest" });
   }
 }
-function __c377(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DataEngineId: S.String,
           DataEngineConfigPairs: S.optional(__S(6177, __c193, 1)),
-          SessionResourceTemplate: S.optional(__S(12256, __c383, 0)),
+          SessionResourceTemplate: S.optional(__S(12288, __c384, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "UpdateUserDataEngineConfig" }),
@@ -26803,7 +26892,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "UpdateUserDataEngineConfigRequest" });
   }
 }
-function __c378(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26816,7 +26905,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "UpgradeDataEngineImageRequest" });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26830,25 +26919,25 @@ function __c379(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DatabaseInfo: __S(12128, __c379, 0),
+          DatabaseInfo: __S(12160, __c380, 0),
           DatasourceConnectionName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateDatabase" })),
       ).annotate({ identifier: "CreateDatabaseRequest" });
   }
 }
-function __c380(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Execution: S.optional(__S(12192, __c381, 0)),
+          Execution: S.optional(__S(12224, __c382, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c381(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26858,7 +26947,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "Execution" });
   }
 }
-function __c382(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26877,10 +26966,10 @@ function __c382(j: number): any {
           TimeSpan: S.optional(S.Number),
           TimeUnit: S.optional(S.String),
           AutoRenew: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           AutoSuspend: S.optional(S.Boolean),
           CrontabResumeSuspend: S.optional(S.Number),
-          CrontabResumeSuspendStrategy: S.optional(__S(12288, __c384, 0)),
+          CrontabResumeSuspendStrategy: S.optional(__S(12320, __c385, 0)),
           EngineExecType: S.optional(S.String),
           MaxConcurrency: S.optional(S.Number),
           TolerableQueueTime: S.optional(S.Number),
@@ -26891,7 +26980,7 @@ function __c382(j: number): any {
           MainClusterName: S.optional(S.String),
           ElasticSwitch: S.optional(S.Boolean),
           ElasticLimit: S.optional(S.Number),
-          SessionResourceTemplate: S.optional(__S(12256, __c383, 0)),
+          SessionResourceTemplate: S.optional(__S(12288, __c384, 0)),
           AutoAuthorization: S.optional(S.Boolean),
           EngineNetworkId: S.optional(S.String),
           EngineGeneration: S.optional(S.String),
@@ -26907,7 +26996,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "CreateDataEngineResponse" });
   }
 }
-function __c383(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26921,7 +27010,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "SessionResourceTemplate" });
   }
 }
-function __c384(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26933,7 +27022,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "CrontabResumeSuspendStrategy" });
   }
 }
-function __c385(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26941,14 +27030,14 @@ function __c385(j: number): any {
           CurrentName: S.optional(S.String),
           SchemaName: S.optional(S.String),
           Location: S.optional(S.String),
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           DatasourceConnectionName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "AlterDMSDatabase" })),
       ).annotate({ identifier: "AlterDMSDatabaseRequest" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26971,12 +27060,12 @@ function __c386(j: number): any {
       ).annotate({ identifier: "Asset" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Strategy: S.optional(__S(12448, __c389, 0)),
+          Strategy: S.optional(__S(12480, __c390, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "CreateDataMaskStrategy" }),
@@ -26991,7 +27080,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "CreateDataMaskStrategyResponse" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27001,22 +27090,7 @@ function __c388(j: number): any {
         }),
       ).annotate({ identifier: "GroupInfo" });
     case 1:
-      return S.Array(__S(12416, __c388, 0));
-  }
-}
-function __c389(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StrategyName: S.optional(S.String),
-          StrategyType: S.optional(S.String),
-          StrategyDesc: S.optional(S.String),
-          Groups: S.optional(S.NullOr(__S(12417, __c388, 1))),
-          Users: S.optional(S.String),
-          StrategyId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataMaskStrategyInfo" });
+      return S.Array(__S(12448, __c389, 0));
   }
 }
 function __c390(j: number): any {
@@ -27024,16 +27098,31 @@ function __c390(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          StrategyName: S.optional(S.String),
+          StrategyType: S.optional(S.String),
+          StrategyDesc: S.optional(S.String),
+          Groups: S.optional(S.NullOr(__S(12449, __c389, 1))),
+          Users: S.optional(S.String),
+          StrategyId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataMaskStrategyInfo" });
+  }
+}
+function __c391(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           DatasourceConnectionName: S.String,
           DatasourceConnectionType: S.String,
-          DatasourceConnectionConfig: __S(15277, __c477, 13),
+          DatasourceConnectionConfig: __S(15309, __c478, 13),
           ServiceType: S.String,
           DatasourceConnectionDesc: S.optional(S.String),
           DataEngineNames: S.optional(__S(128, __c4, 0)),
           NetworkConnectionName: S.optional(S.String),
           NetworkConnectionDesc: S.optional(S.String),
           NetworkConnectionType: S.optional(S.Number),
-          CustomConfig: S.optional(__S(12513, __c391, 1)),
+          CustomConfig: S.optional(__S(12545, __c392, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "CreateDatasourceConnection" }),
@@ -27048,7 +27137,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "CreateDatasourceConnectionResponse" });
   }
 }
-function __c391(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27058,15 +27147,15 @@ function __c391(j: number): any {
         }),
       ).annotate({ identifier: "CustomConfig" });
     case 1:
-      return S.Array(__S(12512, __c391, 0));
+      return S.Array(__S(12544, __c392, 0));
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           SchemaName: S.optional(S.String),
           Location: S.optional(S.String),
           Name: S.optional(S.String),
@@ -27076,12 +27165,12 @@ function __c392(j: number): any {
       ).annotate({ identifier: "CreateDMSDatabaseRequest" });
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           Type: S.optional(S.String),
           DbName: S.optional(S.String),
           StorageSize: S.optional(S.Number),
@@ -27103,7 +27192,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "CreateDMSTableRequest" });
   }
 }
-function __c394(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27117,7 +27206,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "CreateExportTaskRequest" });
   }
 }
-function __c395(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27128,7 +27217,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "CreateExportTaskResponse" });
   }
 }
-function __c396(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27142,7 +27231,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "CreateImportTaskRequest" });
   }
 }
-function __c397(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27158,12 +27247,12 @@ function __c397(j: number): any {
           UseCustomStorage: S.optional(S.Boolean),
           Tasks: S.optional(__S(128, __c4, 0)),
           ModelUid: S.optional(S.String),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
-          GooseFSConfig: S.optional(__S(12736, __c398, 0)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
+          GooseFSConfig: S.optional(__S(12768, __c399, 0)),
           StorageType: S.optional(S.String),
           ModelSource: S.optional(S.String),
-          RegisterMeta: S.optional(__S(12737, __c398, 1)),
-          FileList: S.optional(__S(12769, __c399, 1)),
+          RegisterMeta: S.optional(__S(12769, __c399, 1)),
+          FileList: S.optional(__S(12801, __c400, 1)),
           BaseModelUid: S.optional(S.String),
           BaseModelVersionUid: S.optional(S.String),
           ModelCategory: S.optional(S.String),
@@ -27195,7 +27284,7 @@ function __c397(j: number): any {
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           SubAccountUin: S.optional(S.String),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
           ModelSource: S.optional(S.String),
           ModelCategory: S.optional(S.String),
           BaseModelUid: S.optional(S.String),
@@ -27208,7 +27297,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "CreateInferenceModelResponse" });
   }
 }
-function __c398(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27228,7 +27317,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "RegisterMeta" });
   }
 }
-function __c399(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27236,15 +27325,15 @@ function __c399(j: number): any {
           Name: S.optional(S.NullOr(S.String)),
           Type: S.optional(S.NullOr(S.String)),
           Size: S.optional(S.NullOr(S.Number)),
-          Children: S.optional(S.NullOr(S.suspend(() => __S(12769, __c399, 1)))),
+          Children: S.optional(S.NullOr(S.suspend(() => __S(12801, __c400, 1)))),
           LastModifyTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FileNode" });
     case 1:
-      return S.Array(__S(12768, __c399, 0));
+      return S.Array(__S(12800, __c400, 0));
   }
 }
-function __c400(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27268,7 +27357,7 @@ function __c400(j: number): any {
           AutoscalerOptions: S.optional(S.String),
           ApiKeyIds: S.optional(__S(128, __c4, 0)),
           AdvancedOptions: S.optional(S.String),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
           IsCustom: S.optional(S.Boolean),
           RuntimeEnv: S.optional(S.String),
           NetworkConfig: S.optional(S.String),
@@ -27305,10 +27394,10 @@ function __c400(j: number): any {
           SkipTlsVerify: S.optional(S.NullOr(S.Boolean)),
           ApiKeyBindMessage: S.optional(S.String),
           SubAccountUin: S.optional(S.String),
-          CpuResourceSummary: S.optional(__S(12832, __c401, 0)),
+          CpuResourceSummary: S.optional(__S(12864, __c402, 0)),
           ResourceConfig: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
-          ResourceTags: S.optional(__S(5121, __c160, 1)),
+          ResourceTags: S.optional(__S(5089, __c159, 1)),
           DeploymentMode: S.optional(S.String),
           IsCustom: S.optional(S.Boolean),
           NetworkConfig: S.optional(S.String),
@@ -27317,7 +27406,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "CreateInferenceServiceResponse" });
   }
 }
-function __c401(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27329,14 +27418,14 @@ function __c401(j: number): any {
       ).annotate({ identifier: "CpuSummaryItem" });
   }
 }
-function __c402(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          Columns: __S(14817, __c463, 1),
-          Partitions: S.optional(__S(14819, __c463, 3)),
+          TableBaseInfo: __S(14336, __c448, 0),
+          Columns: __S(14849, __c464, 1),
+          Partitions: S.optional(__S(14851, __c464, 3)),
           Properties: S.optional(__S(192, __c6, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateInternalTable" })),
@@ -27350,7 +27439,7 @@ function __c402(j: number): any {
       ).annotate({ identifier: "CreateInternalTableResponse" });
   }
 }
-function __c403(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27366,7 +27455,7 @@ function __c403(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Spark: S.optional(S.NullOr(__S(12896, __c403, 0))),
+          Spark: S.optional(S.NullOr(__S(12928, __c404, 0))),
         }),
       ).annotate({ identifier: "Spec" });
     case 2:
@@ -27402,17 +27491,17 @@ function __c403(j: number): any {
           SysCatalogVersion: S.optional(S.String),
           PartitionCode: S.optional(S.String),
           QueueName: S.optional(S.String),
-          Spec: S.optional(__S(12897, __c403, 1)),
+          Spec: S.optional(__S(12929, __c404, 1)),
           CustomProperties: S.optional(S.String),
-          Dependencies: S.optional(__S(12898, __c403, 2)),
+          Dependencies: S.optional(__S(12930, __c404, 2)),
           EnvVars: S.optional(__S(192, __c6, 0)),
-          Entrypoint: S.optional(__S(12899, __c403, 3)),
+          Entrypoint: S.optional(__S(12931, __c404, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateJob" })),
       ).annotate({ identifier: "CreateJobRequest" });
   }
 }
-function __c404(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27423,7 +27512,7 @@ function __c404(j: number): any {
       ).annotate({ identifier: "CreateJobResponse" });
   }
 }
-function __c405(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27438,7 +27527,7 @@ function __c405(j: number): any {
       ).annotate({ identifier: "AlterDMSPartitionRequest" });
   }
 }
-function __c406(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27468,7 +27557,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "CreateJobDefinitionResponse" });
   }
 }
-function __c407(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27481,7 +27570,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "CreateJobFromDefinitionRequest" });
   }
 }
-function __c408(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27506,7 +27595,7 @@ function __c408(j: number): any {
           GroupId: S.optional(S.String),
           ClusterId: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           NetworkConfig: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -27514,7 +27603,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "CreateJobSpecRequest" });
   }
 }
-function __c409(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27551,7 +27640,7 @@ function __c409(j: number): any {
           GroupId: S.optional(S.NullOr(S.String)),
           ClusterId: S.optional(S.NullOr(S.String)),
           Priority: S.optional(S.NullOr(S.Number)),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           DispatchStrategy: S.optional(S.String),
           SubmissionTarget: S.optional(S.String),
           GroupName: S.optional(S.String),
@@ -27562,7 +27651,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "CreateJobSpecResponse" });
   }
 }
-function __c410(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27584,8 +27673,8 @@ function __c410(j: number): any {
           LabImagePullPolicy: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           AutoscalerOptions: S.optional(S.String),
           ImagePullType: S.optional(S.String),
@@ -27599,7 +27688,7 @@ function __c410(j: number): any {
         S.Struct({
           ExampleId: S.optional(S.String),
           CodeArchiveUrl: S.optional(S.String),
-          Services: S.optional(__S(13153, __c411, 1)),
+          Services: S.optional(__S(13185, __c412, 1)),
           Id: S.optional(S.String),
           Type: S.optional(S.String),
           Name: S.optional(S.String),
@@ -27624,8 +27713,8 @@ function __c410(j: number): any {
           StartTime: S.optional(S.Number),
           StopTime: S.optional(S.Number),
           DeleteTime: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
-          PersistentWorkDir: S.optional(__S(13184, __c412, 0)),
+          Tags: S.optional(__S(5089, __c159, 1)),
+          PersistentWorkDir: S.optional(__S(13216, __c413, 0)),
           EnableToken: S.optional(S.Boolean),
           Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AutoscalerOptions: S.optional(S.String),
@@ -27638,7 +27727,7 @@ function __c410(j: number): any {
       ).annotate({ identifier: "CreateLabResponse" });
   }
 }
-function __c411(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27648,10 +27737,10 @@ function __c411(j: number): any {
         }),
       ).annotate({ identifier: "TypeKVPair" });
     case 1:
-      return S.Array(__S(13152, __c411, 0));
+      return S.Array(__S(13184, __c412, 0));
   }
 }
-function __c412(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27665,7 +27754,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "PersistentWorkDir" });
   }
 }
-function __c413(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27678,15 +27767,15 @@ function __c413(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DatasourceConnectionName: S.optional(S.String),
-          MetaDatabaseInfo: S.optional(__S(13216, __c413, 0)),
-          GovernPolicy: S.optional(__S(13248, __c414, 0)),
-          SmartPolicy: S.optional(__S(14287, __c446, 15)),
+          MetaDatabaseInfo: S.optional(__S(13248, __c414, 0)),
+          GovernPolicy: S.optional(__S(13280, __c415, 0)),
+          SmartPolicy: S.optional(__S(14319, __c447, 15)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateMetaDatabase" })),
       ).annotate({ identifier: "CreateMetaDatabaseRequest" });
   }
 }
-function __c414(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27697,7 +27786,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "DataGovernPolicy" });
   }
 }
-function __c415(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27709,7 +27798,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "CreateMetaDatabaseResponse" });
   }
 }
-function __c416(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27729,16 +27818,16 @@ function __c416(j: number): any {
           Image: S.optional(S.String),
           StorageConfig: S.optional(S.String),
           StorageMode: S.optional(S.String),
-          ResourceConfig: S.optional(__S(13312, __c416, 0)),
+          ResourceConfig: S.optional(__S(13344, __c417, 0)),
           ServerArgs: S.optional(S.String),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateMlflowServer" })),
       ).annotate({ identifier: "CreateMlflowServerRequest" });
   }
 }
-function __c417(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27764,7 +27853,7 @@ function __c417(j: number): any {
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           ResourceConfig: S.optional(S.String),
-          Tags: S.optional(S.NullOr(__S(5121, __c160, 1))),
+          Tags: S.optional(S.NullOr(__S(5089, __c159, 1))),
           LastProbeSuccessTime: S.optional(S.Number),
           ConsecutiveProbeFailures: S.optional(S.Number),
           LastProbeError: S.optional(S.String),
@@ -27774,18 +27863,18 @@ function __c417(j: number): any {
       ).annotate({ identifier: "MlFlowServerInfo" });
   }
 }
-function __c418(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          MlFlowServer: S.optional(__S(13344, __c417, 0)),
+          MlFlowServer: S.optional(__S(13376, __c418, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateMlflowServerResponse" });
   }
 }
-function __c419(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27795,11 +27884,11 @@ function __c419(j: number): any {
           Description: S.optional(S.String),
           StorageUri: S.optional(S.String),
           UseCustomStorage: S.optional(S.Boolean),
-          GooseFSConfig: S.optional(__S(12736, __c398, 0)),
+          GooseFSConfig: S.optional(__S(12768, __c399, 0)),
           StorageType: S.optional(S.String),
           ModelSource: S.optional(S.String),
-          RegisterMeta: S.optional(__S(12737, __c398, 1)),
-          FileList: S.optional(__S(12769, __c399, 1)),
+          RegisterMeta: S.optional(__S(12769, __c399, 1)),
+          FileList: S.optional(__S(12801, __c400, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateModelVersion" })),
       ).annotate({ identifier: "CreateModelVersionRequest" });
@@ -27825,19 +27914,19 @@ function __c419(j: number): any {
           Description: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.Number)),
           UpdateTime: S.optional(S.NullOr(S.Number)),
-          LinkedServices: S.optional(S.NullOr(__S(13441, __c420, 1))),
+          LinkedServices: S.optional(S.NullOr(__S(13473, __c421, 1))),
           Version: S.optional(S.String),
           UseCustomStorage: S.optional(S.Boolean),
-          RegisterMeta: S.optional(__S(12737, __c398, 1)),
+          RegisterMeta: S.optional(__S(12769, __c399, 1)),
           VersionUid: S.optional(S.String),
-          LoraMeta: S.optional(__S(13409, __c419, 1)),
+          LoraMeta: S.optional(__S(13441, __c420, 1)),
           PoolImportStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateModelVersionResponse" });
   }
 }
-function __c420(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27847,10 +27936,10 @@ function __c420(j: number): any {
         }),
       ).annotate({ identifier: "LinkedServiceInfo" });
     case 1:
-      return S.Array(__S(13440, __c420, 0));
+      return S.Array(__S(13472, __c421, 0));
   }
 }
-function __c421(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27887,7 +27976,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "CreateNotebookSessionResponse" });
   }
 }
-function __c422(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27906,18 +27995,18 @@ function __c422(j: number): any {
       ).annotate({ identifier: "CreateNotebookSessionStatementRequest" });
   }
 }
-function __c423(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          NotebookSessionStatement: S.optional(__S(13569, __c424, 1)),
+          NotebookSessionStatement: S.optional(__S(13601, __c425, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateNotebookSessionStatementResponse" });
   }
 }
-function __c424(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27939,7 +28028,7 @@ function __c424(j: number): any {
           Progress: S.optional(S.Number),
           StatementId: S.optional(S.String),
           State: S.optional(S.String),
-          OutPut: S.optional(S.NullOr(__S(13568, __c424, 0))),
+          OutPut: S.optional(S.NullOr(__S(13600, __c425, 0))),
           BatchId: S.optional(S.String),
           Code: S.optional(S.String),
           TaskId: S.optional(S.String),
@@ -27947,7 +28036,7 @@ function __c424(j: number): any {
       ).annotate({ identifier: "NotebookSessionStatementInfo" });
   }
 }
-function __c425(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27968,20 +28057,20 @@ function __c425(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NotebookSessionStatementBatches: S.optional(__S(13633, __c426, 1)),
+          NotebookSessionStatementBatches: S.optional(__S(13665, __c427, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateNotebookSessionStatementSupportBatchSQLResponse" });
   }
 }
-function __c426(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(13569, __c424, 1));
+      return S.Array(__S(13601, __c425, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NotebookSessionStatementBatch: S.optional(S.NullOr(__S(13632, __c426, 0))),
+          NotebookSessionStatementBatch: S.optional(S.NullOr(__S(13664, __c427, 0))),
           IsAvailable: S.optional(S.Boolean),
           SessionId: S.optional(S.String),
           BatchId: S.optional(S.NullOr(S.String)),
@@ -27989,14 +28078,14 @@ function __c426(j: number): any {
       ).annotate({ identifier: "NotebookSessionStatementBatchInformation" });
   }
 }
-function __c427(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CurrentName: S.String,
           CurrentDbName: S.String,
-          Asset: S.optional(__S(12352, __c386, 0)),
+          Asset: S.optional(__S(12384, __c387, 0)),
           Type: S.optional(S.String),
           DbName: S.optional(S.String),
           StorageSize: S.optional(S.Number),
@@ -28018,7 +28107,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "AlterDMSTableRequest" });
   }
 }
-function __c428(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28045,13 +28134,13 @@ function __c428(j: number): any {
       ).annotate({ identifier: "CreatePartitionResponse" });
   }
 }
-function __c429(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PartitionCode: S.String,
-          ResourceUsages: __S(13761, __c430, 1),
+          ResourceUsages: __S(13793, __c431, 1),
           QueueType: S.Number,
           QueueName: S.optional(S.String),
           Alias: S.optional(S.String),
@@ -28072,7 +28161,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "CreatePartitionQueueResponse" });
   }
 }
-function __c430(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28083,10 +28172,10 @@ function __c430(j: number): any {
         }),
       ).annotate({ identifier: "ResourceUsage" });
     case 1:
-      return S.Array(__S(13760, __c430, 0));
+      return S.Array(__S(13792, __c431, 0));
   }
 }
-function __c431(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28104,14 +28193,14 @@ function __c431(j: number): any {
           Catalog: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateRayCluster" })),
       ).annotate({ identifier: "CreateRayClusterRequest" });
   }
 }
-function __c432(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28138,22 +28227,22 @@ function __c432(j: number): any {
           ImagePullType: S.optional(S.String),
           AdvancedOptions: S.optional(S.String),
           Priority: S.optional(S.Number),
-          Tags: S.optional(__S(5121, __c160, 1)),
+          Tags: S.optional(__S(5089, __c159, 1)),
           NetworkConfig: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateRayClusterResponse" });
   }
 }
-function __c433(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.optional(S.String),
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
           Type: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -28162,7 +28251,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "CreateResourceConfigRequest" });
   }
 }
-function __c434(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28172,7 +28261,7 @@ function __c434(j: number): any {
         }),
       ).annotate({ identifier: "Env" });
     case 1:
-      return S.Array(__S(13888, __c434, 0));
+      return S.Array(__S(13920, __c435, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -28181,9 +28270,9 @@ function __c434(j: number): any {
           PodMem: S.optional(S.Number),
           GpuType: S.optional(S.String),
           GpuNum: S.optional(S.Number),
-          Envs: S.optional(__S(13889, __c434, 1)),
-          Labels: S.optional(__S(13889, __c434, 1)),
-          ResourcesLabels: S.optional(__S(13889, __c434, 1)),
+          Envs: S.optional(__S(13921, __c435, 1)),
+          Labels: S.optional(__S(13921, __c435, 1)),
+          ResourcesLabels: S.optional(__S(13921, __c435, 1)),
           PodNum: S.optional(S.Number),
           HighAvailability: S.optional(S.Boolean),
           ResourceType: S.optional(S.String),
@@ -28200,9 +28289,9 @@ function __c434(j: number): any {
           PodMem: S.optional(S.Number),
           GpuType: S.optional(S.String),
           GpuNum: S.optional(S.Number),
-          Envs: S.optional(__S(13889, __c434, 1)),
-          Labels: S.optional(__S(13889, __c434, 1)),
-          ResourcesLabels: S.optional(__S(13889, __c434, 1)),
+          Envs: S.optional(__S(13921, __c435, 1)),
+          Labels: S.optional(__S(13921, __c435, 1)),
+          ResourcesLabels: S.optional(__S(13921, __c435, 1)),
           MinPodNum: S.optional(S.Number),
           MaxPodNum: S.optional(S.Number),
           EnableAutoScaling: S.optional(S.Boolean),
@@ -28213,10 +28302,10 @@ function __c434(j: number): any {
         }),
       ).annotate({ identifier: "WorkerSpecDTO" });
     case 4:
-      return S.Array(__S(13891, __c434, 3));
+      return S.Array(__S(13923, __c435, 3));
   }
 }
-function __c435(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28225,8 +28314,8 @@ function __c435(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Type: S.optional(S.String),
-          Head: S.optional(__S(13890, __c434, 2)),
-          Worker: S.optional(__S(13892, __c434, 4)),
+          Head: S.optional(__S(13922, __c435, 2)),
+          Worker: S.optional(__S(13924, __c435, 4)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           AppId: S.optional(S.Number),
@@ -28237,7 +28326,7 @@ function __c435(j: number): any {
       ).annotate({ identifier: "CreateResourceConfigResponse" });
   }
 }
-function __c436(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28259,7 +28348,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "CreateResultDownloadResponse" });
   }
 }
-function __c437(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28273,7 +28362,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "CreateScriptRequest" });
   }
 }
-function __c438(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28307,13 +28396,13 @@ function __c438(j: number): any {
           SessionId: S.optional(S.String),
           IsInherit: S.optional(S.Number),
           IsSessionStarted: S.optional(S.Boolean),
-          DependencyPackages: S.optional(__S(14081, __c440, 1)),
+          DependencyPackages: S.optional(__S(14113, __c441, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateSparkApp" })),
       ).annotate({ identifier: "CreateSparkAppRequest" });
   }
 }
-function __c439(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28324,7 +28413,7 @@ function __c439(j: number): any {
       ).annotate({ identifier: "CreateSparkAppResponse" });
   }
 }
-function __c440(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28340,10 +28429,10 @@ function __c440(j: number): any {
         }),
       ).annotate({ identifier: "DependencyPackage" });
     case 1:
-      return S.Array(__S(14080, __c440, 0));
+      return S.Array(__S(14112, __c441, 0));
   }
 }
-function __c441(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28377,7 +28466,7 @@ function __c441(j: number): any {
           SessionId: S.optional(S.String),
           IsInherit: S.optional(S.Number),
           IsSessionStarted: S.optional(S.Boolean),
-          DependencyPackages: S.optional(__S(14081, __c440, 1)),
+          DependencyPackages: S.optional(__S(14113, __c441, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dlc", version: "2021-01-25", action: "CreateSparkAppForTDLC" }),
@@ -28385,7 +28474,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "CreateSparkAppForTDLCRequest" });
   }
 }
-function __c442(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28398,7 +28487,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "CreateSparkAppTaskRequest" });
   }
 }
-function __c443(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28410,7 +28499,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "CreateSparkAppTaskResponse" });
   }
 }
-function __c444(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28441,29 +28530,29 @@ function __c444(j: number): any {
         }),
       ).annotate({ identifier: "StatementInformation" });
     case 2:
-      return S.Array(__S(14209, __c444, 1));
+      return S.Array(__S(14241, __c445, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           BatchId: S.optional(S.String),
-          Statements: S.optional(S.NullOr(__S(14210, __c444, 2))),
+          Statements: S.optional(S.NullOr(__S(14242, __c445, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSparkSessionBatchSQLResponse" });
   }
 }
-function __c445(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
+          TableBaseInfo: __S(14336, __c448, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "AlterTableComment" })),
       ).annotate({ identifier: "AlterTableCommentRequest" });
   }
 }
-function __c446(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28486,7 +28575,7 @@ function __c446(j: number): any {
         }),
       ).annotate({ identifier: "FavorInfo" });
     case 2:
-      return S.Array(__S(14273, __c446, 1));
+      return S.Array(__S(14305, __c447, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -28500,14 +28589,14 @@ function __c446(j: number): any {
           ResourceType: S.optional(S.String),
           Name: S.optional(S.String),
           Instance: S.optional(S.String),
-          Favor: S.optional(S.NullOr(__S(14274, __c446, 2))),
+          Favor: S.optional(S.NullOr(__S(14306, __c447, 2))),
           Status: S.optional(S.Number),
           ResourceGroupName: S.optional(S.String),
-          ResourceConf: S.optional(__S(14275, __c446, 3)),
+          ResourceConf: S.optional(__S(14307, __c447, 3)),
         }),
       ).annotate({ identifier: "ResourceInfo" });
     case 5:
-      return S.Array(__S(14276, __c446, 4));
+      return S.Array(__S(14308, __c447, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -28517,7 +28606,7 @@ function __c446(j: number): any {
         }),
       ).annotate({ identifier: "SortOrder" });
     case 7:
-      return S.Array(__S(14278, __c446, 6));
+      return S.Array(__S(14310, __c447, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -28531,14 +28620,14 @@ function __c446(j: number): any {
           RemoveOrphanIntervalMin: S.optional(S.Number),
           CowCompactEnable: S.optional(S.String),
           CompactStrategy: S.optional(S.String),
-          SortOrders: S.optional(S.NullOr(__S(14279, __c446, 7))),
+          SortOrders: S.optional(S.NullOr(__S(14311, __c447, 7))),
         }),
       ).annotate({ identifier: "WrittenAdvancePolicy" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           WrittenEnable: S.optional(S.String),
-          AdvancePolicy: S.optional(S.NullOr(__S(14280, __c446, 8))),
+          AdvancePolicy: S.optional(S.NullOr(__S(14312, __c447, 8))),
         }),
       ).annotate({ identifier: "SmartOptimizerWrittenPolicy" });
     case 10:
@@ -28573,24 +28662,24 @@ function __c446(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Inherit: S.optional(S.String),
-          Resources: S.optional(S.NullOr(__S(14277, __c446, 5))),
-          Written: S.optional(S.NullOr(__S(14281, __c446, 9))),
-          Lifecycle: S.optional(S.NullOr(__S(14282, __c446, 10))),
-          Index: S.optional(S.NullOr(__S(14283, __c446, 11))),
-          ChangeTable: S.optional(S.NullOr(__S(14284, __c446, 12))),
-          TableExpiration: S.optional(__S(14285, __c446, 13)),
+          Resources: S.optional(S.NullOr(__S(14309, __c447, 5))),
+          Written: S.optional(S.NullOr(__S(14313, __c447, 9))),
+          Lifecycle: S.optional(S.NullOr(__S(14314, __c447, 10))),
+          Index: S.optional(S.NullOr(__S(14315, __c447, 11))),
+          ChangeTable: S.optional(S.NullOr(__S(14316, __c447, 12))),
+          TableExpiration: S.optional(__S(14317, __c447, 13)),
         }),
       ).annotate({ identifier: "SmartOptimizerPolicy" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          BaseInfo: S.optional(S.NullOr(__S(14272, __c446, 0))),
-          Policy: S.optional(S.NullOr(__S(14286, __c446, 14))),
+          BaseInfo: S.optional(S.NullOr(__S(14304, __c447, 0))),
+          Policy: S.optional(S.NullOr(__S(14318, __c447, 14))),
         }),
       ).annotate({ identifier: "SmartPolicy" });
   }
 }
-function __c447(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28603,13 +28692,13 @@ function __c447(j: number): any {
           TableFormat: S.optional(S.String),
           UserAlias: S.optional(S.String),
           UserSubUin: S.optional(S.String),
-          SmartPolicy: S.optional(S.NullOr(__S(14287, __c446, 15))),
+          SmartPolicy: S.optional(S.NullOr(__S(14319, __c447, 15))),
           PrimaryKeys: S.optional(S.NullOr(__S(128, __c4, 0))),
         }),
       ).annotate({ identifier: "TableBaseInfo" });
   }
 }
-function __c448(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28635,7 +28724,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "CreateSparkSubmitTaskRequest" });
   }
 }
-function __c449(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28650,8 +28739,8 @@ function __c449(j: number): any {
           MaxExecutorNums: S.optional(S.Number),
           IsLaunchNow: S.optional(S.Number),
           AutoPauseTime: S.optional(S.Number),
-          StaticConfigPairs: S.optional(__S(14401, __c450, 1)),
-          DynamicConfigPairs: S.optional(__S(14401, __c450, 1)),
+          StaticConfigPairs: S.optional(__S(14433, __c451, 1)),
+          DynamicConfigPairs: S.optional(__S(14433, __c451, 1)),
           MaxConcurrency: S.optional(S.Number),
           NetworkConfigNames: S.optional(__S(128, __c4, 0)),
           PublicDomain: S.optional(S.String),
@@ -28682,7 +28771,7 @@ function __c449(j: number): any {
       ).annotate({ identifier: "CreateStandardEngineResourceGroupRequest" });
   }
 }
-function __c450(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28692,10 +28781,10 @@ function __c450(j: number): any {
         }),
       ).annotate({ identifier: "EngineResourceGroupConfigPair" });
     case 1:
-      return S.Array(__S(14400, __c450, 0));
+      return S.Array(__S(14432, __c451, 0));
   }
 }
-function __c451(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28706,7 +28795,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "CreateStoreLocationRequest" });
   }
 }
-function __c452(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28727,7 +28816,7 @@ function __c452(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CodeCompress: S.optional(S.String),
-          CSVSerde: S.optional(__S(14465, __c452, 1)),
+          CSVSerde: S.optional(__S(14497, __c453, 1)),
           HeadLines: S.optional(S.NullOr(S.Number)),
           Format: S.optional(S.NullOr(S.String)),
         }),
@@ -28741,34 +28830,34 @@ function __c452(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          TextFile: S.optional(S.NullOr(__S(14464, __c452, 0))),
-          CSV: S.optional(S.NullOr(__S(14466, __c452, 2))),
-          Json: S.optional(S.NullOr(__S(14467, __c452, 3))),
-          Parquet: S.optional(S.NullOr(__S(14467, __c452, 3))),
-          ORC: S.optional(S.NullOr(__S(14467, __c452, 3))),
-          AVRO: S.optional(S.NullOr(__S(14467, __c452, 3))),
+          TextFile: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          CSV: S.optional(S.NullOr(__S(14498, __c453, 2))),
+          Json: S.optional(S.NullOr(__S(14499, __c453, 3))),
+          Parquet: S.optional(S.NullOr(__S(14499, __c453, 3))),
+          ORC: S.optional(S.NullOr(__S(14499, __c453, 3))),
+          AVRO: S.optional(S.NullOr(__S(14499, __c453, 3))),
         }),
       ).annotate({ identifier: "DataFormat" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          DataFormat: __S(14468, __c452, 4),
-          Columns: __S(14497, __c453, 1),
-          Partitions: __S(14529, __c454, 1),
+          TableBaseInfo: __S(14336, __c448, 0),
+          DataFormat: __S(14500, __c453, 4),
+          Columns: __S(14529, __c454, 1),
+          Partitions: __S(14561, __c455, 1),
           Location: S.String,
         }),
       ).annotate({ identifier: "TableInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          TableInfo: __S(14469, __c452, 5),
+          TableInfo: __S(14501, __c453, 5),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateTable" })),
       ).annotate({ identifier: "CreateTableRequest" });
   }
 }
-function __c453(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28783,15 +28872,15 @@ function __c453(j: number): any {
           CreateTime: S.optional(S.String),
           ModifiedTime: S.optional(S.String),
           IsPartition: S.optional(S.Boolean),
-          DataMaskStrategyInfo: S.optional(S.NullOr(__S(12448, __c389, 0))),
+          DataMaskStrategyInfo: S.optional(S.NullOr(__S(12480, __c390, 0))),
           TypeText: S.optional(S.String),
         }),
       ).annotate({ identifier: "Column" });
     case 1:
-      return S.Array(__S(14496, __c453, 0));
+      return S.Array(__S(14528, __c454, 0));
   }
 }
-function __c454(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28805,10 +28894,10 @@ function __c454(j: number): any {
         }),
       ).annotate({ identifier: "Partition" });
     case 1:
-      return S.Array(__S(14528, __c454, 0));
+      return S.Array(__S(14560, __c455, 0));
   }
 }
-function __c455(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28820,14 +28909,14 @@ function __c455(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          SQLTask: S.optional(__S(14560, __c455, 0)),
-          SparkSQLTask: S.optional(__S(14560, __c455, 0)),
+          SQLTask: S.optional(__S(14592, __c456, 0)),
+          SparkSQLTask: S.optional(__S(14592, __c456, 0)),
         }),
       ).annotate({ identifier: "Task" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Task: __S(14561, __c455, 1),
+          Task: __S(14593, __c456, 1),
           DatabaseName: S.optional(S.String),
           DatasourceConnectionName: S.optional(S.String),
           DataEngineName: S.optional(S.String),
@@ -28838,13 +28927,13 @@ function __c455(j: number): any {
       ).annotate({ identifier: "CreateTaskRequest" });
   }
 }
-function __c456(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DatabaseName: S.String,
-          Tasks: __S(14624, __c457, 0),
+          Tasks: __S(14656, __c458, 0),
           DatasourceConnectionName: S.optional(S.String),
           DataEngineName: S.optional(S.String),
           ResourceGroupName: S.optional(S.String),
@@ -28855,7 +28944,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "CreateTasksRequest" });
   }
 }
-function __c457(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28869,28 +28958,28 @@ function __c457(j: number): any {
       ).annotate({ identifier: "TasksInfo" });
   }
 }
-function __c458(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DatabaseName: S.String,
-          Tasks: __S(14624, __c457, 0),
+          Tasks: __S(14656, __c458, 0),
           DatasourceConnectionName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "dlc", version: "2021-01-25", action: "CreateTasksInOrder" })),
       ).annotate({ identifier: "CreateTasksInOrderRequest" });
   }
 }
-function __c459(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          Columns: __S(14817, __c463, 1),
+          TableBaseInfo: __S(14336, __c448, 0),
+          Columns: __S(14849, __c464, 1),
           DryRun: S.Boolean,
-          Partitions: S.optional(__S(14819, __c463, 3)),
+          Partitions: S.optional(__S(14851, __c464, 3)),
           Properties: S.optional(__S(192, __c6, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -28908,7 +28997,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "CreateTcIcebergTableResponse" });
   }
 }
-function __c460(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28921,7 +29010,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "CreateTrainingJobInstanceRequest" });
   }
 }
-function __c461(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28938,14 +29027,14 @@ function __c461(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c462(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TableBaseInfo: __S(14304, __c447, 0),
-          Columns: __S(14817, __c463, 1),
-          Partitions: S.optional(__S(14819, __c463, 3)),
+          TableBaseInfo: __S(14336, __c448, 0),
+          Columns: __S(14849, __c464, 1),
+          Partitions: S.optional(__S(14851, __c464, 3)),
           Properties: S.optional(__S(192, __c6, 0)),
           UpsertKeys: S.optional(__S(128, __c4, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -28966,7 +29055,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "AssignMangedTablePropertiesResponse" });
   }
 }
-function __c463(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28983,7 +29072,7 @@ function __c463(j: number): any {
         }),
       ).annotate({ identifier: "TColumn" });
     case 1:
-      return S.Array(__S(14816, __c463, 0));
+      return S.Array(__S(14848, __c464, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -28998,10 +29087,10 @@ function __c463(j: number): any {
         }),
       ).annotate({ identifier: "TPartition" });
     case 3:
-      return S.Array(__S(14818, __c463, 2));
+      return S.Array(__S(14850, __c464, 2));
   }
 }
-function __c464(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29009,7 +29098,7 @@ function __c464(j: number): any {
           Arn: S.String,
           Desc: S.String,
           Name: S.optional(S.String),
-          CosPermissionList: S.optional(__S(14881, __c465, 1)),
+          CosPermissionList: S.optional(__S(14913, __c466, 1)),
           PermissionJson: S.optional(S.String),
           IsDefault: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -29017,7 +29106,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "CreateUserRoleRequest" });
   }
 }
-function __c465(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29027,10 +29116,10 @@ function __c465(j: number): any {
         }),
       ).annotate({ identifier: "CosPermission" });
     case 1:
-      return S.Array(__S(14880, __c465, 0));
+      return S.Array(__S(14912, __c466, 0));
   }
 }
-function __c466(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29054,7 +29143,7 @@ function __c466(j: number): any {
       ).annotate({ identifier: "CreateUserVpcConnectionResponse" });
   }
 }
-function __c467(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29075,7 +29164,7 @@ function __c467(j: number): any {
       ).annotate({ identifier: "CreateWorkGroupResponse" });
   }
 }
-function __c468(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29086,7 +29175,7 @@ function __c468(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyRequest" });
   }
 }
-function __c469(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29097,7 +29186,7 @@ function __c469(j: number): any {
       ).annotate({ identifier: "DeleteBenchmarkTaskRequest" });
   }
 }
-function __c470(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29114,7 +29203,7 @@ function __c470(j: number): any {
       ).annotate({ identifier: "DeleteCHDFSBindingProductRequest" });
   }
 }
-function __c471(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29143,7 +29232,7 @@ function __c471(j: number): any {
       ).annotate({ identifier: "DeleteClusterGroupResponse" });
   }
 }
-function __c472(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29154,7 +29243,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "DeleteDataEngineRequest" });
   }
 }
-function __c473(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29167,7 +29256,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "DeleteDataMaskStrategyRequest" });
   }
 }
-function __c474(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29178,14 +29267,14 @@ function __c474(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c475(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DatasourceConnectionName: S.String,
           DatasourceConnectionType: S.String,
-          DatasourceConnectionConfig: __S(15277, __c477, 13),
+          DatasourceConnectionConfig: __S(15309, __c478, 13),
           DataEngineNames: __S(128, __c4, 0),
           NetworkConnectionType: S.Number,
           NetworkConnectionDesc: S.optional(S.String),
@@ -29196,7 +29285,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "AssociateDatasourceHouseRequest" });
   }
 }
-function __c476(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29211,7 +29300,7 @@ function __c476(j: number): any {
       ).annotate({ identifier: "NetWork" });
   }
 }
-function __c477(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29228,7 +29317,7 @@ function __c477(j: number): any {
           JdbcUrl: S.String,
           User: S.String,
           Password: S.String.pipe(T.SensitiveValue({})),
-          Location: __S(15264, __c477, 0),
+          Location: __S(15296, __c478, 0),
           DbName: S.optional(S.String),
           InstanceId: S.optional(S.NullOr(S.String)),
           InstanceName: S.optional(S.NullOr(S.String)),
@@ -29247,16 +29336,16 @@ function __c477(j: number): any {
         S.Struct({
           MetaStoreUrl: S.String,
           Type: S.String,
-          Location: __S(15264, __c477, 0),
+          Location: __S(15296, __c478, 0),
           User: S.optional(S.String),
           HighAvailability: S.optional(S.Boolean),
           BucketUrl: S.optional(S.String),
           HdfsProperties: S.optional(S.String),
-          Mysql: S.optional(S.NullOr(__S(15265, __c477, 1))),
+          Mysql: S.optional(S.NullOr(__S(15297, __c478, 1))),
           InstanceId: S.optional(S.NullOr(S.String)),
           InstanceName: S.optional(S.NullOr(S.String)),
           HiveVersion: S.optional(S.String),
-          KerberosInfo: S.optional(S.NullOr(__S(15266, __c477, 2))),
+          KerberosInfo: S.optional(S.NullOr(__S(15298, __c478, 2))),
           KerberosEnable: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "HiveInfo" });
@@ -29264,13 +29353,13 @@ function __c477(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          Location: __S(15264, __c477, 0),
+          Location: __S(15296, __c478, 0),
         }),
       ).annotate({ identifier: "KafkaInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Location: __S(15264, __c477, 0),
+          Location: __S(15296, __c478, 0),
         }),
       ).annotate({ identifier: "OtherDatasourceConnection" });
     case 6:
@@ -29281,7 +29370,7 @@ function __c477(j: number): any {
           JdbcUrl: S.optional(S.NullOr(S.String)),
           User: S.optional(S.NullOr(S.String)),
           Password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          Location: S.optional(S.NullOr(__S(15264, __c477, 0))),
+          Location: S.optional(S.NullOr(__S(15296, __c478, 0))),
           DbName: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "DataSourceInfo" });
@@ -29293,7 +29382,7 @@ function __c477(j: number): any {
         }),
       ).annotate({ identifier: "IpPortPair" });
     case 8:
-      return S.Array(__S(15271, __c477, 7));
+      return S.Array(__S(15303, __c478, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -29301,9 +29390,9 @@ function __c477(j: number): any {
           InstanceName: S.optional(S.NullOr(S.String)),
           User: S.optional(S.NullOr(S.String)),
           Password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          Location: S.optional(S.NullOr(__S(15264, __c477, 0))),
+          Location: S.optional(S.NullOr(__S(15296, __c478, 0))),
           DbName: S.optional(S.NullOr(S.String)),
-          ServiceInfo: S.optional(S.NullOr(__S(15272, __c477, 8))),
+          ServiceInfo: S.optional(S.NullOr(__S(15304, __c478, 8))),
         }),
       ).annotate({ identifier: "ElasticsearchInfo" });
     case 10:
@@ -29314,7 +29403,7 @@ function __c477(j: number): any {
           JdbcUrl: S.optional(S.String),
           User: S.optional(S.String),
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          Location: S.optional(S.NullOr(__S(15264, __c477, 0))),
+          Location: S.optional(S.NullOr(__S(15296, __c478, 0))),
           DbName: S.optional(S.String),
           AccessInfo: S.optional(S.String),
         }),
@@ -29327,7 +29416,7 @@ function __c477(j: number): any {
           EndpointServiceId: S.optional(S.String),
           MetaStoreUrl: S.optional(S.String),
           HiveVersion: S.optional(S.String),
-          TccConnection: S.optional(__S(15232, __c476, 0)),
+          TccConnection: S.optional(__S(15264, __c477, 0)),
           HmsEndpointServiceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TccHive" });
@@ -29339,7 +29428,7 @@ function __c477(j: number): any {
           JdbcUrl: S.optional(S.NullOr(S.String)),
           User: S.optional(S.NullOr(S.String)),
           Password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          Location: S.optional(S.NullOr(__S(15264, __c477, 0))),
+          Location: S.optional(S.NullOr(__S(15296, __c478, 0))),
           DbName: S.optional(S.NullOr(S.String)),
           AccessInfo: S.optional(S.NullOr(S.String)),
         }),
@@ -29347,24 +29436,24 @@ function __c477(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          Mysql: S.optional(S.NullOr(__S(15265, __c477, 1))),
-          Hive: S.optional(S.NullOr(__S(15267, __c477, 3))),
-          Kafka: S.optional(S.NullOr(__S(15268, __c477, 4))),
-          OtherDatasourceConnection: S.optional(S.NullOr(__S(15269, __c477, 5))),
-          PostgreSql: S.optional(S.NullOr(__S(15270, __c477, 6))),
-          SqlServer: S.optional(S.NullOr(__S(15270, __c477, 6))),
-          ClickHouse: S.optional(S.NullOr(__S(15270, __c477, 6))),
-          Elasticsearch: S.optional(S.NullOr(__S(15273, __c477, 9))),
-          TDSQLPostgreSql: S.optional(S.NullOr(__S(15270, __c477, 6))),
-          TCHouseD: S.optional(S.NullOr(__S(15274, __c477, 10))),
-          TccHive: S.optional(__S(15275, __c477, 11)),
-          MongoDB: S.optional(__S(15270, __c477, 6)),
-          TCHouseP: S.optional(__S(15276, __c477, 12)),
+          Mysql: S.optional(S.NullOr(__S(15297, __c478, 1))),
+          Hive: S.optional(S.NullOr(__S(15299, __c478, 3))),
+          Kafka: S.optional(S.NullOr(__S(15300, __c478, 4))),
+          OtherDatasourceConnection: S.optional(S.NullOr(__S(15301, __c478, 5))),
+          PostgreSql: S.optional(S.NullOr(__S(15302, __c478, 6))),
+          SqlServer: S.optional(S.NullOr(__S(15302, __c478, 6))),
+          ClickHouse: S.optional(S.NullOr(__S(15302, __c478, 6))),
+          Elasticsearch: S.optional(S.NullOr(__S(15305, __c478, 9))),
+          TDSQLPostgreSql: S.optional(S.NullOr(__S(15302, __c478, 6))),
+          TCHouseD: S.optional(S.NullOr(__S(15306, __c478, 10))),
+          TccHive: S.optional(__S(15307, __c478, 11)),
+          MongoDB: S.optional(__S(15302, __c478, 6)),
+          TCHouseP: S.optional(__S(15308, __c478, 12)),
         }),
       ).annotate({ identifier: "DatasourceConnectionConfig" });
   }
 }
-function __c478(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29378,7 +29467,7 @@ function __c478(j: number): any {
       ).annotate({ identifier: "DeleteInferenceServiceRequest" });
   }
 }
-function __c479(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29389,7 +29478,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "DeleteJobSpecRequest" });
   }
 }
-function __c480(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29400,7 +29489,7 @@ function __c480(j: number): any {
       ).annotate({ identifier: "DeleteLabRequest" });
   }
 }
-function __c481(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29412,7 +29501,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "DeleteMetaDatabaseRequest" });
   }
 }
-function __c482(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29423,7 +29512,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "DeleteMlflowServerRequest" });
   }
 }
-function __c483(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29441,7 +29530,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "DeleteModelResponse" });
   }
 }
-function __c484(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29460,7 +29549,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "DeleteModelVersionResponse" });
   }
 }
-function __c485(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29475,7 +29564,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "DeleteNativeSparkSessionRequest" });
   }
 }
-function __c486(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29488,7 +29577,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "DeleteNotebookSessionRequest" });
   }
 }
-function __c487(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

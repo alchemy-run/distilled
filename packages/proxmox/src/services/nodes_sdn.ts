@@ -44,9 +44,11 @@ export interface GetNodesByNodeSdnFabricsByFabricInterfacesRequest {
   node: string;
 }
 export interface GetNodesByNodeSdnFabricsByFabricInterfacesResultItem {
+  "listen-port"?: number | undefined;
   name: string;
+  "public-key"?: string | undefined;
   state: string;
-  type: string;
+  type?: string | undefined;
 }
 export type GetNodesByNodeSdnFabricsByFabricInterfacesResult =
   Array<GetNodesByNodeSdnFabricsByFabricInterfacesResultItem>;
@@ -57,9 +59,17 @@ export interface GetNodesByNodeSdnFabricsByFabricNeighborsRequest {
   node: string;
 }
 export interface GetNodesByNodeSdnFabricsByFabricNeighborsResultItem {
-  neighbor: string;
+  "allowed-ips"?: string | undefined;
+  "bytes-rx"?: number | undefined;
+  "bytes-tx"?: number | undefined;
+  interface?: string | undefined;
+  "latest-handshake"?: number | undefined;
+  name?: string | undefined;
+  neighbor?: string | undefined;
+  "persistent-keepalive"?: number | undefined;
+  "public-key"?: string | undefined;
   status: string;
-  uptime: string;
+  uptime?: string | undefined;
 }
 export type GetNodesByNodeSdnFabricsByFabricNeighborsResult =
   Array<GetNodesByNodeSdnFabricsByFabricNeighborsResultItem>;
@@ -483,9 +493,11 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          "listen-port": S.optional(S.Number),
           name: S.String,
+          "public-key": S.optional(S.String),
           state: S.String,
-          type: S.String,
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetNodesByNodeSdnFabricsByFabricInterfacesResultItem" });
     case 2:
@@ -510,9 +522,17 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          neighbor: S.String,
+          "allowed-ips": S.optional(S.String),
+          "bytes-rx": S.optional(S.Number),
+          "bytes-tx": S.optional(S.Number),
+          interface: S.optional(S.String),
+          "latest-handshake": S.optional(S.Number),
+          name: S.optional(S.String),
+          neighbor: S.optional(S.String),
+          "persistent-keepalive": S.optional(S.Number),
+          "public-key": S.optional(S.String),
           status: S.String,
-          uptime: S.String,
+          uptime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetNodesByNodeSdnFabricsByFabricNeighborsResultItem" });
     case 2:

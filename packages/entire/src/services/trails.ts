@@ -152,18 +152,6 @@ export interface TrailCIPrResponse {
   /** GitHub pull request number now backing the Trail */
   prNumber: number;
 }
-export type CreateTrailRequestBranchAction = "create" | "link";
-export type CreateTrailRequestStatus = "open" | "closed";
-export interface CreateTrailRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  base?: string | undefined;
-  branch_action?: CreateTrailRequestBranchAction | (string & {}) | undefined;
-  branch_name: string;
-  ready_for_review?: boolean | undefined;
-  status?: CreateTrailRequestStatus | (string & {}) | undefined;
-  title: string;
-}
 export type CreateTrailBySlugRequestBranchAction = "create" | "link";
 export type CreateTrailBySlugRequestStatus = "open" | "closed";
 export interface CreateTrailBySlugRequest {
@@ -179,12 +167,6 @@ export interface CreateTrailBySlugRequest {
   ready_for_review?: boolean | undefined;
   status?: CreateTrailBySlugRequestStatus | (string & {}) | undefined;
   title: string;
-}
-export interface CreateTrailCIPrRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
 }
 export interface CreateTrailCIPrBySlugRequest {
   /** Forge host slug (gh or et) */
@@ -203,13 +185,6 @@ export interface DeleteChangeBranchRequest {
   number: string;
 }
 export interface DeleteChangeBranchResponse {}
-export interface DeleteTrailBranchRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-}
-export interface DeleteTrailBranchResponse {}
 /** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
 export type GetChangeRequestAgentHistory = "readings" | "runs";
 export interface GetChangeRequest {
@@ -276,7 +251,7 @@ export interface TrailAgentHistoryEntryJSON {
 /** At most six entries, newest first. By default, finished readings of the current value type. With agent_history=runs, includes preserved canceled runs and a kind discriminator on every entry. */
 export type TrailAgentJSONHistoryList = Array<TrailAgentHistoryEntryJSON>;
 export interface TrailAgentJSONLatestRunError {
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance; null otherwise. */
+  /** Set when the run was refused for billing (billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance) or failed on the repository's own model key (llm_key_quota_exhausted or llm_key_rejected); null otherwise. */
   code: string | null;
   message: string;
 }
@@ -562,6 +537,8 @@ export interface TrailDetailResponse {
   agents: TrailDetailResponseAgentsList | null;
   author: TrailAuthor;
   base: string;
+  /** True when the base branch doesn't exist in the repository, so the Change can't be compared, gated or reviewed until someone pushes the base or changes the Change's base. False on a merged or closed Change. */
+  base_missing: boolean;
   base_sha: string | null;
   body_document: TrailBodyDocumentJSON;
   branch: string | null;
@@ -662,16 +639,6 @@ export interface TrailsStatsBody {
   window?: TrailsStatsBodyWindow | undefined;
 }
 /** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
-export type GetTrailRequestAgentHistory = "readings" | "runs";
-export interface GetTrailRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
-  agent_history?: GetTrailRequestAgentHistory | (string & {}) | undefined;
-}
-/** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
 export type GetTrailBySlugRequestAgentHistory = "readings" | "runs";
 export interface GetTrailBySlugRequest {
   /** Forge host slug (gh or et) */
@@ -684,22 +651,6 @@ export interface GetTrailBySlugRequest {
   number: string;
   /** readings keeps the legacy reading-only history; runs includes preserved cancellations and a kind discriminator on every entry. */
   agent_history?: GetTrailBySlugRequestAgentHistory | (string & {}) | undefined;
-}
-export interface GetTrailStackRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-}
-export interface GetTrailStatsRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** ISO date; inclusive lower bound for window activity. With until, adds window to the response. */
-  since?: string | undefined;
-  /** ISO date; inclusive upper bound for window activity. A bare date covers that whole day in time_zone. */
-  until?: string | undefined;
-  /** IANA timezone for the window's daily buckets (default UTC) */
-  time_zone?: string | undefined;
 }
 export interface ListChangeLinkedBranchesRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -819,68 +770,6 @@ export interface TrailsListResponse {
   next_cursor?: string | undefined;
   total_count: number;
 }
-export interface ListTrailLinkedBranchesRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-}
-/** Alias for id[eq]; repository-scoped Trail ULIDs. */
-export type ListTrailsRequestIdList = Array<string>;
-/** Match any Trail ULID; repeatable or comma-separated. */
-export type ListTrailsRequestIdEqList = Array<string>;
-/** Exclude Trail ULIDs; repeatable or comma-separated. */
-export type ListTrailsRequestIdNeList = Array<string>;
-/** Alias for number[eq]; positive Trail numbers. */
-export type ListTrailsRequestNumberList = Array<string>;
-/** Match any Trail number; repeatable or comma-separated. */
-export type ListTrailsRequestNumberEqList = Array<string>;
-/** Exclude Trail numbers; repeatable or comma-separated. */
-export type ListTrailsRequestNumberNeList = Array<string>;
-/** Alias for status[eq]; repeatable or comma-separated. */
-export type ListTrailsRequestStatusList = Array<string>;
-/** Match any lifecycle status; repeatable or comma-separated. */
-export type ListTrailsRequestStatusEqList = Array<string>;
-/** Exclude lifecycle statuses; repeatable or comma-separated. */
-export type ListTrailsRequestStatusNeList = Array<string>;
-/** Alias for author[eq]. */
-export type ListTrailsRequestAuthorList = Array<string>;
-/** Match any author account ULID; repeatable or comma-separated. */
-export type ListTrailsRequestAuthorEqList = Array<string>;
-/** Exclude author account ULIDs; repeatable or comma-separated. */
-export type ListTrailsRequestAuthorNeList = Array<string>;
-export interface ListTrailsRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Items per page (default 50, maximum 100). */
-  per_page?: number | undefined;
-  /** Opaque continuation cursor; restores filters and ordering. Authorization is checked again on every request. */
-  cursor?: string | undefined;
-  /** Alias for id[eq]; repository-scoped Trail ULIDs. */
-  id?: ListTrailsRequestIdList | undefined;
-  /** Match any Trail ULID; repeatable or comma-separated. */
-  id_eq_?: ListTrailsRequestIdEqList | undefined;
-  /** Exclude Trail ULIDs; repeatable or comma-separated. */
-  id_ne_?: ListTrailsRequestIdNeList | undefined;
-  /** Alias for number[eq]; positive Trail numbers. */
-  number?: ListTrailsRequestNumberList | undefined;
-  /** Match any Trail number; repeatable or comma-separated. */
-  number_eq_?: ListTrailsRequestNumberEqList | undefined;
-  /** Exclude Trail numbers; repeatable or comma-separated. */
-  number_ne_?: ListTrailsRequestNumberNeList | undefined;
-  /** Alias for status[eq]; repeatable or comma-separated. */
-  status?: ListTrailsRequestStatusList | undefined;
-  /** Match any lifecycle status; repeatable or comma-separated. */
-  status_eq_?: ListTrailsRequestStatusEqList | undefined;
-  /** Exclude lifecycle statuses; repeatable or comma-separated. */
-  status_ne_?: ListTrailsRequestStatusNeList | undefined;
-  /** Alias for author[eq]. */
-  author?: ListTrailsRequestAuthorList | undefined;
-  /** Match any author account ULID; repeatable or comma-separated. */
-  author_eq_?: ListTrailsRequestAuthorEqList | undefined;
-  /** Exclude author account ULIDs; repeatable or comma-separated. */
-  author_ne_?: ListTrailsRequestAuthorNeList | undefined;
-  /** Case-insensitive substring search over title, branch and original_branch. */
-  q?: string | undefined;
-}
 /** Alias for id[eq]; repository-scoped Trail ULIDs. */
 export type ListTrailsBySlugRequestIdList = Array<string>;
 /** Match any Trail ULID; repeatable or comma-separated. */
@@ -957,12 +846,6 @@ export interface TrailRestoreBranchResponse {
   /** The commit the branch points at: the Trail's saved head */
   commit_sha: string;
 }
-export interface RestoreTrailBranchRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-}
 export type UpdateChangeRequestStatus = "open" | "merged" | "closed";
 export interface UpdateChangeRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -998,26 +881,6 @@ export interface TrailUpdateBranchResponse {
   _schema?: string | undefined;
   /** Resulting Trail branch head SHA (also populated for fast-forward updates) */
   mergeCommitSha: string;
-}
-export type UpdateTrailRequestStatus = "open" | "merged" | "closed";
-export interface UpdateTrailRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** Optimistic concurrency: a weak ETag (W/"<updatedAt>") from a prior read/write. If present, the request 412s when it no longer matches the trail's current ETag. Omit to apply unconditionally (backward-compatible default). */
-  ifMatch?: string | undefined;
-  base?: string | undefined;
-  branch?: string | null | undefined;
-  ready_for_review?: boolean | undefined;
-  status?: UpdateTrailRequestStatus | (string & {}) | undefined;
-  title?: string | undefined;
-}
-export interface UpdateTrailBranchRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
 }
 export type UpdateTrailBySlugRequestStatus = "open" | "merged" | "closed";
 export interface UpdateTrailBySlugRequest {
@@ -1069,24 +932,6 @@ export const createChangeCIPr: API.OperationMethod<
   span: "CreateChangeCIPr",
 }));
 
-export type CreateTrailError = EntireOpError;
-/** Create a trail by repo id **Accepted credentials:** User token, Plugin installation token. Creates a trail via the opaque repo id path; behaviour matches the wire-parity create (including the same status policy), and the Location header points back into this addressing scheme. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
-export const createTrail: API.OperationMethod<
-  CreateTrailRequest,
-  TrailCreateResponseBody,
-  CreateTrailError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateTrailRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<TrailCreateResponseBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateTrail",
-}));
-
 export type CreateTrailBySlugError = EntireOpError;
 /** Create a trail Creates a trail, allocating its per-repository number. Repo-level descriptions are not supported; legacy body fields are ignored. Use the project Trail body instead. status defaults to open and may be open or closed; draft is not supported, and merged is not a creatable status (400) -- a trail only becomes merged through the merge endpoint. Asking for a branch that another trail already claims returns that conflict rather than a duplicate. A branch_name is required. The branch must be created successfully or, with branch_action=link, already exist; failed branch preparation never creates an unlinked trail. */
 export const createTrailBySlug: API.OperationMethod<
@@ -1095,7 +940,7 @@ export const createTrailBySlug: API.OperationMethod<
   CreateTrailBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateTrailBySlugRequest>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateTrailBySlugRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<TrailCreateResponseBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
@@ -1103,24 +948,6 @@ export const createTrailBySlug: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTrailBySlug",
-}));
-
-export type CreateTrailCIPrError = EntireOpError;
-/** Create or link a CI pull request for a Trail, by repo id Ensures a Trail has a CI pull request via the opaque repo id path; behaviour, claim protection, 201 response, and Location match the host-addressed route. */
-export const createTrailCIPr: API.OperationMethod<
-  CreateTrailCIPrRequest,
-  TrailCIPrResponse,
-  CreateTrailCIPrError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateTrailCIPrRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<TrailCIPrResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateTrailCIPr",
 }));
 
 export type CreateTrailCIPrBySlugError = EntireOpError;
@@ -1131,7 +958,7 @@ export const createTrailCIPrBySlug: API.OperationMethod<
   CreateTrailCIPrBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<CreateTrailCIPrBySlugRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateTrailCIPrBySlugRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<TrailCIPrResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
@@ -1149,32 +976,14 @@ export const deleteChangeBranch: API.OperationMethod<
   DeleteChangeBranchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteChangeBranchRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<DeleteChangeBranchResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteChangeBranchRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<DeleteChangeBranchResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteChangeBranch",
-}));
-
-export type DeleteTrailBranchError = EntireOpError;
-/** Delete a merged native Trail's branch at its saved head Answers 204 once the branch is gone, including a branch that was already gone. Open and draft Trails based on the branch are first moved to the base the Trail was merged into, as the caller. A kept branch answers 409 with `code` set to why: moved, protected, default_branch, stacked (a Trail based on it could not be moved) or base; a branch name another Trail has taken answers 409 with `code` branch_claimed, and a merge still finishing 409 with merge_in_progress. A refusal answers 422 or 503 with `code` set to its reason. A branch state that could not be read, a move of a Trail based on it that failed, and any other storage failure carry `code` failed. */
-export const deleteTrailBranch: API.OperationMethod<
-  DeleteTrailBranchRequest,
-  DeleteTrailBranchResponse,
-  DeleteTrailBranchError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteTrailBranchRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<DeleteTrailBranchResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteTrailBranch",
 }));
 
 export type GetChangeError = EntireOpError;
@@ -1185,8 +994,8 @@ export const getChange: API.OperationMethod<
   GetChangeError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetChangeRequest>,
-  output: __S(1219, __c38, 3) as any as S.Schema<TrailDetailResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetChangeRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<TrailDetailResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -1203,8 +1012,8 @@ export const getChangeStack: API.OperationMethod<
   GetChangeStackError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetChangeStackRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<TrailStackResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetChangeStackRequest>,
+  output: __S(676, __c21, 4) as any as S.Schema<TrailStackResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -1221,32 +1030,14 @@ export const getChangeStats: API.OperationMethod<
   GetChangeStatsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetChangeStatsRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<TrailsStatsBody>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetChangeStatsRequest>,
+  output: __S(708, __c22, 4) as any as S.Schema<TrailsStatsBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetChangeStats",
-}));
-
-export type GetTrailError = EntireOpError;
-/** Get a trail by number (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. A single trail by number, addressed by opaque repo id. Same fields and composition boundary as the wire-parity path. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
-export const getTrail: API.OperationMethod<
-  GetTrailRequest,
-  TrailDetailResponse,
-  GetTrailError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetTrailRequest>,
-  output: __S(1219, __c38, 3) as any as S.Schema<TrailDetailResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTrail",
 }));
 
 export type GetTrailBySlugError = EntireOpError;
@@ -1257,50 +1048,14 @@ export const getTrailBySlug: API.OperationMethod<
   GetTrailBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetTrailBySlugRequest>,
-  output: __S(1219, __c38, 3) as any as S.Schema<TrailDetailResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetTrailBySlugRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<TrailDetailResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTrailBySlug",
-}));
-
-export type GetTrailStackError = EntireOpError;
-/** Get a trail's forge stack membership (repo_id addressing) */
-export const getTrailStack: API.OperationMethod<
-  GetTrailStackRequest,
-  TrailStackResponse,
-  GetTrailStackError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetTrailStackRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<TrailStackResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTrailStack",
-}));
-
-export type GetTrailStatsError = EntireOpError;
-/** Trail counts by status (repo_id addressing) Trail counts bucketed by the four canonical statuses, addressed by opaque repo id. The total also counts legacy statuses that fit no bucket. */
-export const getTrailStats: API.OperationMethod<
-  GetTrailStatsRequest,
-  TrailsStatsBody,
-  GetTrailStatsError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetTrailStatsRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<TrailsStatsBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTrailStats",
 }));
 
 export type ListChangeLinkedBranchesError = EntireOpError;
@@ -1311,8 +1066,8 @@ export const listChangeLinkedBranches: API.OperationMethod<
   ListChangeLinkedBranchesError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListChangeLinkedBranchesRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<TrailsLinkedBranchesBody>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListChangeLinkedBranchesRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<TrailsLinkedBranchesBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -1331,60 +1086,14 @@ export const listChanges: API.PaginatedOperationMethod<
   TrailListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(448, __c14, 0) as any as S.Schema<ListChangesRequest>,
-    output: __S(482, __c15, 2) as any as S.Schema<TrailsListResponse>,
+    input: __S(192, __c6, 0) as any as S.Schema<ListChangesRequest>,
+    output: __S(226, __c7, 2) as any as S.Schema<TrailsListResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListChanges",
-    pagination: {
-      inputToken: "cursor",
-      outputToken: "next_cursor",
-      items: "items",
-      pageSize: "per_page",
-    } as const,
-  }),
-  paginateCursor,
-) as any;
-
-export type ListTrailLinkedBranchesError = EntireOpError;
-/** Branches claimed by trails (repo_id addressing) Every branch claimed by any trail in the repository, regardless of status, addressed by opaque repo id. */
-export const listTrailLinkedBranches: API.OperationMethod<
-  ListTrailLinkedBranchesRequest,
-  TrailsLinkedBranchesBody,
-  ListTrailLinkedBranchesError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListTrailLinkedBranchesRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<TrailsLinkedBranchesBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListTrailLinkedBranches",
-}));
-
-export type ListTrailsError = EntireOpError;
-/** List a repo's trails (repo_id addressing) **Accepted credentials:** User token, Plugin installation token. The repository's trails addressed by repo id, ordered by updated_at descending, then id descending. Cursors restore active filters and ordering without freezing a snapshot. Repeated filters must match the cursor. Callers without access receive 403; authorized callers receive 404 when trails are unavailable. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository pull permission (contents:read for plugin installations). Other authorized automation principals can also use this operation. Trails must be enabled. Send requests to the repository's primary API region. */
-export const listTrails: API.PaginatedOperationMethod<
-  ListTrailsRequest,
-  TrailsListResponse,
-  ListTrailsError,
-  EntireOpContext,
-  TrailListItem
-> = /*@__PURE__*/ API.makePaginated(
-  () => ({
-    input: __S(544, __c17, 0) as any as S.Schema<ListTrailsRequest>,
-    output: __S(482, __c15, 2) as any as S.Schema<TrailsListResponse>,
-    errors: [],
-    serviceErrors: EntireServiceErrors,
-    protocol: EntireCellProtocol,
-    retry: Retry.Retry,
-    telemetry: TELEMETRY,
-    span: "ListTrails",
     pagination: {
       inputToken: "cursor",
       outputToken: "next_cursor",
@@ -1405,8 +1114,8 @@ export const listTrailsBySlug: API.PaginatedOperationMethod<
   TrailListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(576, __c18, 0) as any as S.Schema<ListTrailsBySlugRequest>,
-    output: __S(482, __c15, 2) as any as S.Schema<TrailsListResponse>,
+    input: __S(256, __c8, 0) as any as S.Schema<ListTrailsBySlugRequest>,
+    output: __S(226, __c7, 2) as any as S.Schema<TrailsListResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -1431,32 +1140,14 @@ export const restoreChangeBranch: API.OperationMethod<
   RestoreChangeBranchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<RestoreChangeBranchRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<TrailRestoreBranchResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<RestoreChangeBranchRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<TrailRestoreBranchResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreChangeBranch",
-}));
-
-export type RestoreTrailBranchError = EntireOpError;
-/** Restore a merged native Trail's branch at its saved head */
-export const restoreTrailBranch: API.OperationMethod<
-  RestoreTrailBranchRequest,
-  TrailRestoreBranchResponse,
-  RestoreTrailBranchError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<RestoreTrailBranchRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<TrailRestoreBranchResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RestoreTrailBranch",
 }));
 
 export type UpdateChangeError = EntireOpError;
@@ -1467,8 +1158,8 @@ export const updateChange: API.OperationMethod<
   UpdateChangeError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<UpdateChangeRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<TrailUpdateResponseBody>,
+  input: __S(320, __c10, 0) as any as S.Schema<UpdateChangeRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<TrailUpdateResponseBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -1478,57 +1169,21 @@ export const updateChange: API.OperationMethod<
 }));
 
 export type UpdateChangeBranchError = EntireOpError;
-/** Update an Entire-native Change branch from its base Updates an open Entire-native Trail branch by merging its base branch into it through the repository's native git storage. Both branch tips are fenced at their resolved SHAs, so a concurrent push is rejected rather than silently included; content conflicts leave the branch unchanged and must be resolved manually. */
+/** Update a Change branch from its base Updates a Trail branch by merging its base branch into it. Native repositories need write access and an open Trail, and merge in repository storage with both tips fenced at their resolved SHAs. GitHub-backed repositories need only read access because the merge runs on GitHub as the caller; the new head arrives through the mirror sync. Content conflicts leave the branch unchanged and must be resolved manually. */
 export const updateChangeBranch: API.OperationMethod<
   UpdateChangeBranchRequest,
   TrailUpdateBranchResponse,
   UpdateChangeBranchError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<UpdateChangeBranchRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<TrailUpdateBranchResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateChangeBranchRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<TrailUpdateBranchResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateChangeBranch",
-}));
-
-export type UpdateTrailError = EntireOpError;
-/** Update a trail's metadata by repo id **Accepted credentials:** User token, Plugin installation token. Updates trail metadata via the opaque repo id path, with the same status policy and optional If-Match conditional behaviour. Use an own-account bearer token (including supported service accounts) or a Core-issued plugin installation bearer token, subject to the permissions and restrictions below. Plugin assertion JWTs and plugin OAuth user-delegation tokens are not accepted here. Requires live repository push permission (contents:write for plugin installations). Accounts and automation principals may call it; a plugin installation's writes are credited to the installation, so refreshed tokens keep authorship. Trails must be enabled. Send requests to the repository's primary API region. */
-export const updateTrail: API.OperationMethod<
-  UpdateTrailRequest,
-  TrailUpdateResponseBody,
-  UpdateTrailError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateTrailRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<TrailUpdateResponseBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateTrail",
-}));
-
-export type UpdateTrailBranchError = EntireOpError;
-/** Update an Entire-native Trail branch from its base Updates an open Entire-native Trail branch by merging its base branch into it through the repository's native git storage. Both branch tips are fenced at their resolved SHAs, so a concurrent push is rejected rather than silently included; content conflicts leave the branch unchanged and must be resolved manually. */
-export const updateTrailBranch: API.OperationMethod<
-  UpdateTrailBranchRequest,
-  TrailUpdateBranchResponse,
-  UpdateTrailBranchError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateTrailBranchRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<TrailUpdateBranchResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateTrailBranch",
 }));
 
 export type UpdateTrailBySlugError = EntireOpError;
@@ -1539,8 +1194,8 @@ export const updateTrailBySlug: API.OperationMethod<
   UpdateTrailBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<UpdateTrailBySlugRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<TrailUpdateResponseBody>,
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateTrailBySlugRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<TrailUpdateResponseBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -1730,166 +1385,26 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
-          since: S.optional(S.String.pipe(T.Query())),
-          until: S.optional(S.String.pipe(T.Query())),
-          time_zone: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/changes/stats", code: 200 })),
-      ).annotate({ identifier: "GetChangeStatsRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Number,
-          created: S.Number,
-          date: S.String,
-          merged: S.Number,
-        }),
-      ).annotate({ identifier: "TrailActivityDay" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Number,
-          created: S.Number,
-          daily: S.NullOr(__S(225, __c7, 1)),
-          merged: S.Number,
-        }),
-      ).annotate({ identifier: "TrailsStatsBodyWindow" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          closed: S.Number,
-          draft: S.Number,
-          merged: S.Number,
-          open: S.Number,
-          total: S.Number,
-          window: S.optional(__S(226, __c7, 2)),
-        }),
-      ).annotate({ identifier: "TrailsStatsBody" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          agent_history: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/{number}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetTrailRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String.pipe(T.Label()),
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          agent_history: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTrailBySlugRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/stack",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTrailStackRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          since: S.optional(S.String.pipe(T.Query())),
-          until: S.optional(S.String.pipe(T.Query())),
-          time_zone: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails/stats", code: 200 })),
-      ).annotate({ identifier: "GetTrailStatsRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/changes/linked-branches",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListChangeLinkedBranchesRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "TrailsLinkedBranchesBody" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
           per_page: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
-          id: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          id_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[eq]"))),
-          id_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[ne]"))),
-          number: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          number_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[eq]"))),
-          number_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[ne]"))),
-          status: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[ne]"))),
-          author: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          author_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[eq]"))),
-          author_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[ne]"))),
+          id: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          id_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("id[eq]"))),
+          id_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("id[ne]"))),
+          number: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          number_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("number[eq]"))),
+          number_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("number[ne]"))),
+          status: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("status[ne]"))),
+          author: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          author_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("author[eq]"))),
+          author_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("author[ne]"))),
           q: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/changes", code: 200 })),
       ).annotate({ identifier: "ListChangesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1915,60 +1430,19 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "TrailListItem" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(481, __c15, 1)),
+          items: S.NullOr(__S(225, __c7, 1)),
           next_cursor: S.optional(S.String),
           total_count: S.Number,
         }),
       ).annotate({ identifier: "TrailsListResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/linked-branches",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailLinkedBranchesRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          id: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          id_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[eq]"))),
-          id_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[ne]"))),
-          number: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          number_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[eq]"))),
-          number_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[ne]"))),
-          status: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[ne]"))),
-          author: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          author_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[eq]"))),
-          author_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[ne]"))),
-          q: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/trails", code: 200 })),
-      ).annotate({ identifier: "ListTrailsRequest" });
-  }
-}
-function __c18(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1978,40 +1452,24 @@ function __c18(j: number): any {
           repo: S.String.pipe(T.Label()),
           per_page: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
-          id: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          id_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[eq]"))),
-          id_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("id[ne]"))),
-          number: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          number_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[eq]"))),
-          number_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("number[ne]"))),
-          status: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          status_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[eq]"))),
-          status_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("status[ne]"))),
-          author: S.optional(__S(1248, __c39, 0).pipe(T.Query())),
-          author_eq_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[eq]"))),
-          author_ne_: S.optional(__S(1248, __c39, 0).pipe(T.Query("author[ne]"))),
+          id: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          id_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("id[eq]"))),
+          id_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("id[ne]"))),
+          number: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          number_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("number[eq]"))),
+          number_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("number[ne]"))),
+          status: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          status_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("status[eq]"))),
+          status_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("status[ne]"))),
+          author: S.optional(__S(640, __c20, 0).pipe(T.Query())),
+          author_eq_: S.optional(__S(640, __c20, 0).pipe(T.Query("author[eq]"))),
+          author_ne_: S.optional(__S(640, __c20, 0).pipe(T.Query("author[ne]"))),
           q: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/trails/{host}/{owner}/{repo}", code: 200 })),
       ).annotate({ identifier: "ListTrailsBySlugRequest" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          base: S.optional(S.String),
-          branch_action: S.optional(S.String),
-          branch_name: S.String,
-          ready_for_review: S.optional(S.Boolean),
-          status: S.optional(S.String),
-          title: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/repos/{repo_id}/trails", code: 200 })),
-      ).annotate({ identifier: "CreateTrailRequest" });
-  }
-}
-function __c20(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2026,11 +1484,7 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RestoreChangeBranchRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
@@ -2040,24 +1494,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TrailRestoreBranchResponse" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/restore-branch",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RestoreTrailBranchRequest" });
-  }
-}
-function __c23(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2076,7 +1513,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateChangeRequest" });
   }
 }
-function __c24(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2090,12 +1527,12 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          trail: __S(768, __c24, 0),
+          trail: __S(352, __c11, 0),
         }),
       ).annotate({ identifier: "TrailUpdateResponseBody" });
   }
 }
-function __c25(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2110,11 +1547,7 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateChangeBranchRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
@@ -2123,43 +1556,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TrailUpdateBranchResponse" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
-          base: S.optional(S.String),
-          branch: S.optional(S.NullOr(S.String)),
-          ready_for_review: S.optional(S.Boolean),
-          status: S.optional(S.String),
-          title: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/v1/repos/{repo_id}/trails/{number}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateTrailRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/update-branch",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateTrailBranchRequest" });
-  }
-}
-function __c29(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2184,7 +1581,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateTrailBySlugRequest" });
   }
 }
-function __c30(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2202,24 +1599,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateTrailBySlugRequest" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/ci-pr",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTrailCIPrRequest" });
-  }
-}
-function __c32(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2238,7 +1618,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateTrailCIPrBySlugRequest" });
   }
 }
-function __c33(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2253,32 +1633,11 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteChangeBranchRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteChangeBranchResponse" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/branch",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteTrailBranchRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2292,7 +1651,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetChangeRequest" });
   }
 }
-function __c37(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,13 +1663,13 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approve: __S(1184, __c37, 0),
-          create_ci_pr: __S(1184, __c37, 0),
-          delete_branch: __S(1184, __c37, 0),
-          merge: __S(1184, __c37, 0),
-          merge_with_bypass: __S(1184, __c37, 0),
-          restore_branch: __S(1184, __c37, 0),
-          update_branch: __S(1184, __c37, 0),
+          approve: __S(576, __c18, 0),
+          create_ci_pr: __S(576, __c18, 0),
+          delete_branch: __S(576, __c18, 0),
+          merge: __S(576, __c18, 0),
+          merge_with_bypass: __S(576, __c18, 0),
+          restore_branch: __S(576, __c18, 0),
+          update_branch: __S(576, __c18, 0),
         }),
       ).annotate({ identifier: "TrailDetailResponseActions" });
     case 2:
@@ -2325,7 +1684,7 @@ function __c37(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          preset: __S(1186, __c37, 2),
+          preset: __S(578, __c18, 2),
         }),
       ).annotate({ identifier: "TrailAgentRefJSON" });
     case 4:
@@ -2349,11 +1708,11 @@ function __c37(j: number): any {
           size_value: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           updated_at: S.String,
-          verdicts: __S(1188, __c37, 4),
+          verdicts: __S(580, __c18, 4),
         }),
       ).annotate({ identifier: "TrailAgentHistoryEntryJSON" });
     case 6:
-      return S.Array(__S(1189, __c37, 5));
+      return S.Array(__S(581, __c18, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2365,7 +1724,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
-          error: __S(1191, __c37, 7),
+          error: __S(583, __c18, 7),
           head_sha: S.NullOr(S.String),
           id: S.String,
           status: S.String,
@@ -2382,7 +1741,7 @@ function __c37(j: number): any {
           size_value: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           updated_at: S.String,
-          verdicts: __S(1188, __c37, 4),
+          verdicts: __S(580, __c18, 4),
         }),
       ).annotate({ identifier: "TrailAgentJSONReading" });
     case 10:
@@ -2395,17 +1754,17 @@ function __c37(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          agent: __S(1187, __c37, 3),
-          history: S.NullOr(__S(1190, __c37, 6)),
-          latest_run: __S(1192, __c37, 8),
-          reading: __S(1193, __c37, 9),
-          signal: __S(1194, __c37, 10),
+          agent: __S(579, __c18, 3),
+          history: S.NullOr(__S(582, __c18, 6)),
+          latest_run: __S(584, __c18, 8),
+          reading: __S(585, __c18, 9),
+          signal: __S(586, __c18, 10),
           trend_delta: S.NullOr(S.Number),
           waiting_for: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TrailAgentJSON" });
     case 12:
-      return S.Array(__S(1195, __c37, 11));
+      return S.Array(__S(587, __c18, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -2422,7 +1781,7 @@ function __c37(j: number): any {
           environment: S.optional(S.String),
           environment_url: S.optional(S.String),
           external_updated_at: S.String,
-          group: S.optional(__S(1197, __c37, 13)),
+          group: S.optional(__S(589, __c18, 13)),
           id: S.String,
           key: S.String,
           logs_url: S.optional(S.String),
@@ -2435,12 +1794,12 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "TrailDeployment" });
     case 15:
-      return S.Array(__S(1198, __c37, 14));
+      return S.Array(__S(590, __c18, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
-          items: S.NullOr(__S(1199, __c37, 15)),
+          items: S.NullOr(__S(591, __c18, 15)),
           ready: S.Number,
           total: S.Number,
         }),
@@ -2456,7 +1815,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "CheckRunStep" });
     case 18:
-      return S.Array(__S(1201, __c37, 17));
+      return S.Array(__S(593, __c18, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -2468,16 +1827,16 @@ function __c37(j: number): any {
           source: S.optional(S.String),
           started_at: S.NullOr(S.String),
           status: S.String,
-          steps: S.optional(S.NullOr(__S(1202, __c37, 18))),
+          steps: S.optional(S.NullOr(__S(594, __c18, 18))),
         }),
       ).annotate({ identifier: "TrailCheckRunJSON" });
     case 20:
-      return S.Array(__S(1203, __c37, 19));
+      return S.Array(__S(595, __c18, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           availability: S.String,
-          runs: S.NullOr(__S(1204, __c37, 20)),
+          runs: S.NullOr(__S(596, __c18, 20)),
         }),
       ).annotate({ identifier: "TrailMergeabilityResponseChecks" });
     case 22:
@@ -2498,7 +1857,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "ApprovalReviewer" });
     case 24:
-      return S.Array(__S(1207, __c37, 23));
+      return S.Array(__S(599, __c18, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -2515,8 +1874,8 @@ function __c37(j: number): any {
           not_applicable_reason: S.optional(S.String),
           outcome: S.NullOr(S.String),
           rationale: S.NullOr(S.String),
-          reviewers: __S(1208, __c37, 24),
-          runner_ids: __S(1248, __c39, 0),
+          reviewers: __S(600, __c18, 24),
+          runner_ids: __S(640, __c20, 0),
           stale_reason: S.NullOr(S.String),
           state: S.optional(S.String),
           status: S.String,
@@ -2524,19 +1883,19 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GateResult" });
     case 26:
-      return S.Array(__S(1209, __c37, 25));
+      return S.Array(__S(601, __c18, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           behind_by: S.Number,
           bypass_policy: S.String,
-          checks: __S(1205, __c37, 21),
+          checks: __S(597, __c18, 21),
           comparison_status: S.String,
           conflict_status: S.String,
           delete_branch_on_merge: S.NullOr(S.Boolean),
-          forge_merge_block: __S(1206, __c37, 22),
-          gates: S.NullOr(__S(1210, __c37, 26)),
+          forge_merge_block: __S(598, __c18, 22),
+          gates: S.NullOr(__S(602, __c18, 26)),
           head_sha: S.NullOr(S.String),
           mergeable: S.Boolean,
         }),
@@ -2555,7 +1914,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "TrailMonitorHistoryItemJSON" });
     case 29:
-      return S.Array(__S(1212, __c37, 28));
+      return S.Array(__S(604, __c18, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -2571,10 +1930,10 @@ function __c37(j: number): any {
           evaluated_at_sha: S.NullOr(S.String),
           evaluating: S.Boolean,
           head_sha: S.NullOr(S.String),
-          history: S.NullOr(__S(1213, __c37, 29)),
+          history: S.NullOr(__S(605, __c18, 29)),
           key: S.String,
           label: S.String,
-          last_failed_attempt: __S(1214, __c37, 30),
+          last_failed_attempt: __S(606, __c18, 30),
           outcome: S.NullOr(S.String),
           percent_value: S.NullOr(S.Number),
           polarity: S.NullOr(S.String),
@@ -2590,10 +1949,10 @@ function __c37(j: number): any {
       ).annotate({ identifier: "TrailMonitorItemJSON" });
   }
 }
-function __c38(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1215, __c37, 31));
+      return S.Array(__S(607, __c18, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2607,15 +1966,16 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "TrailRunnerItemJSON" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          actions: __S(1185, __c37, 1),
-          agents: S.NullOr(__S(1196, __c37, 12)),
+          actions: __S(577, __c18, 1),
+          agents: S.NullOr(__S(588, __c18, 12)),
           author: __S(101, __c3, 5),
           base: S.String,
+          base_missing: S.Boolean,
           base_sha: S.NullOr(S.String),
           body_document: __S(64, __c2, 0),
           branch: S.NullOr(S.String),
@@ -2623,7 +1983,7 @@ function __c38(j: number): any {
           code_changes: S.String,
           config_source: S.String,
           created_at: S.String,
-          deployments: S.optional(__S(1200, __c37, 16)),
+          deployments: S.optional(__S(592, __c18, 16)),
           gh_pr_id: S.optional(S.Number),
           has_code_changes: S.Boolean,
           head_sha: S.NullOr(S.String),
@@ -2631,16 +1991,16 @@ function __c38(j: number): any {
           last_activity_at: S.String,
           lifecycle_sync: S.String,
           merge_base_sha: S.NullOr(S.String),
-          mergeability: __S(1211, __c37, 27),
+          mergeability: __S(603, __c18, 27),
           merged_at: S.NullOr(S.String),
           merged_base: S.optional(S.String),
-          monitors: S.NullOr(__S(1216, __c38, 0)),
+          monitors: S.NullOr(__S(608, __c19, 0)),
           number: S.Number,
           original_branch: S.NullOr(S.String),
           parent: S.optional(__S(102, __c3, 6)),
           ready_for_review: S.Boolean,
           reviewers: S.NullOr(__S(104, __c3, 8)),
-          runners: S.NullOr(__S(1218, __c38, 2)),
+          runners: S.NullOr(__S(610, __c19, 2)),
           status: S.String,
           title: S.String,
           updated_at: S.String,
@@ -2649,13 +2009,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TrailDetailResponse" });
   }
 }
-function __c39(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c40(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2670,11 +2030,7 @@ function __c40(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetChangeStackRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           current: S.Boolean,
@@ -2684,24 +2040,112 @@ function __c41(j: number): any {
           trail_number: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "TrailStackPullRequestJSON" });
-    case 1:
-      return S.Array(__S(1312, __c41, 0));
     case 2:
+      return S.Array(__S(673, __c21, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           base: S.optional(S.String),
           position: S.Number,
-          pull_requests: S.NullOr(__S(1313, __c41, 1)),
+          pull_requests: S.NullOr(__S(674, __c21, 2)),
           size: S.Number,
         }),
       ).annotate({ identifier: "TrailStackResponseStack" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          stack: __S(1314, __c41, 2),
+          stack: __S(675, __c21, 3),
         }),
       ).annotate({ identifier: "TrailStackResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          since: S.optional(S.String.pipe(T.Query())),
+          until: S.optional(S.String.pipe(T.Query())),
+          time_zone: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/changes/stats", code: 200 })),
+      ).annotate({ identifier: "GetChangeStatsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Number,
+          created: S.Number,
+          date: S.String,
+          merged: S.Number,
+        }),
+      ).annotate({ identifier: "TrailActivityDay" });
+    case 2:
+      return S.Array(__S(705, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Number,
+          created: S.Number,
+          daily: S.NullOr(__S(706, __c22, 2)),
+          merged: S.Number,
+        }),
+      ).annotate({ identifier: "TrailsStatsBodyWindow" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          closed: S.Number,
+          draft: S.Number,
+          merged: S.Number,
+          open: S.Number,
+          total: S.Number,
+          window: S.optional(__S(707, __c22, 3)),
+        }),
+      ).annotate({ identifier: "TrailsStatsBody" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String.pipe(T.Label()),
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          number: S.String.pipe(T.Label()),
+          agent_history: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/trails/{host}/{owner}/{repo}/{number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTrailBySlugRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/linked-branches",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListChangeLinkedBranchesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          items: S.NullOr(__S(640, __c20, 0)),
+        }),
+      ).annotate({ identifier: "TrailsLinkedBranchesBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -308,6 +308,8 @@ export interface CreateJobResponse {
   dataset?: JobsCreateResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string | null | undefined;
+  /** Sanitized destination descriptor with credentials removed. */
+  destinationName?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
   enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
@@ -668,6 +670,8 @@ export interface DatasetsJobsGetResultItem {
   dataset?: DatasetsJobsGetResultItemDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string | null | undefined;
+  /** Sanitized destination descriptor with credentials removed. */
+  destinationName?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
   enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
@@ -822,6 +826,8 @@ export interface GetJobResponse {
   dataset?: JobsGetResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string | null | undefined;
+  /** Sanitized destination descriptor with credentials removed. */
+  destinationName?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
   enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
@@ -992,6 +998,8 @@ export interface JobsListResultItem {
   dataset?: JobsListResultItemDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string | null | undefined;
+  /** Sanitized destination descriptor with credentials removed. */
+  destinationName?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
   enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
@@ -1267,6 +1275,8 @@ export interface UpdateJobResponse {
   dataset?: JobsUpdateResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf?: string | null | undefined;
+  /** Sanitized destination descriptor with credentials removed. */
+  destinationName?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
   enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
@@ -2232,6 +2242,7 @@ function __c12(j: number): any {
           id: S.optional(S.NullOr(S.Number)),
           dataset: S.optional(S.NullOr(S.String)),
           destinationConf: S.optional(S.NullOr(S.String).pipe(T.Body("destination_conf"))),
+          destinationName: S.optional(S.NullOr(S.String).pipe(T.Body("destination_name"))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           errorMessage: S.optional(S.NullOr(S.String).pipe(T.Body("error_message"))),
           filterAttackTraffic: S.optional(
@@ -2764,6 +2775,7 @@ function __c35(j: number): any {
           id: S.optional(S.NullOr(S.Number)),
           dataset: S.optional(S.NullOr(S.String)),
           destinationConf: S.optional(S.NullOr(S.String).pipe(T.Body("destination_conf"))),
+          destinationName: S.optional(S.NullOr(S.String).pipe(T.Body("destination_name"))),
           enabled: S.optional(S.NullOr(S.Boolean)),
           errorMessage: S.optional(S.NullOr(S.String).pipe(T.Body("error_message"))),
           filterAttackTraffic: S.optional(

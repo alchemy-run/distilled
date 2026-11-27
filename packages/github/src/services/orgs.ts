@@ -347,8 +347,8 @@ export type CreateIssueFieldRequestDataType =
   | "single_select"
   | "multi_select"
   | "number";
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
-export type CreateIssueFieldRequestVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
+export type CreateIssueFieldRequestVisibility = "organization_members_only" | "all" | "restricted";
 /** Color for the option. */
 export type CreateIssueFieldRequestOptionsItemColor =
   | "gray"
@@ -380,15 +380,15 @@ export interface CreateIssueFieldRequest {
   description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: CreateIssueFieldRequestDataType | (string & {});
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
+  /** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
   visibility?: CreateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Required when data_type is 'single_select' or 'multi_select'. */
   options?: CreateIssueFieldRequestOptionsList | null | undefined;
 }
 /** The data type of the issue field. */
 export type IssueFieldDataType = "text" | "date" | "single_select" | "multi_select" | "number";
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
-export type IssueFieldVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Organization-owned fields return `organization_members_only` for restricted visibility (visible to organization members and to collaborators on the repository the field is read through), or `all` (visible to all users who can see issues). For create and update requests, use `restricted` instead of the deprecated `organization_members_only` input. Existing REST API versions continue to return `organization_members_only` for restricted organization-owned fields, even when a request uses `restricted`. Any change to this response spelling will be introduced in a future REST API version. */
+export type IssueFieldVisibility = "organization_members_only" | "all" | "restricted";
 /** The color of the option. */
 export type IssueFieldOptionsItemColor =
   | "gray"
@@ -417,7 +417,7 @@ export interface IssueFieldOptionsItem {
 }
 /** Available options for single select and multi select fields. */
 export type IssueFieldOptionsList = Array<IssueFieldOptionsItem>;
-/** A custom attribute defined at the organization level for attaching structured data to issues. */
+/** A custom attribute defined by a repository owner for attaching structured data to issues. */
 export interface IssueField {
   /** The unique identifier of the issue field. */
   id: number;
@@ -429,7 +429,7 @@ export interface IssueField {
   description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: IssueFieldDataType;
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
+  /** The visibility of the issue field. Organization-owned fields return `organization_members_only` for restricted visibility (visible to organization members and to collaborators on the repository the field is read through), or `all` (visible to all users who can see issues). For create and update requests, use `restricted` instead of the deprecated `organization_members_only` input. Existing REST API versions continue to return `organization_members_only` for restricted organization-owned fields, even when a request uses `restricted`. Any change to this response spelling will be introduced in a future REST API version. */
   visibility?: IssueFieldVisibility | undefined;
   /** Available options for single select and multi select fields. */
   options?: IssueFieldOptionsList | null | undefined;
@@ -453,7 +453,7 @@ export interface CreateIssueTypeRequest {
   org: string;
   /** Name of the issue type. */
   name: string;
-  /** Whether or not the issue type is enabled at the organization level. */
+  /** Whether or not the issue type is enabled. */
   is_enabled: boolean;
   /** Description of the issue type. */
   description?: string | null | undefined;
@@ -1559,7 +1559,13 @@ export interface GetOrgRoleRequest {
   role_id: number;
 }
 /** The system role from which this role inherits permissions. */
-export type OrganizationRoleBaseRole = "read" | "triage" | "write" | "maintain" | "admin";
+export type OrganizationRoleBaseRole =
+  | "read"
+  | "triage"
+  | "moderate"
+  | "write"
+  | "maintain"
+  | "admin";
 /** Source answers the question, "where did this role come from?" */
 export type OrganizationRoleSource = "Organization" | "Enterprise" | "Predefined";
 /** A list of permissions included in this role. */
@@ -3002,8 +3008,8 @@ export interface UpdateRequest {
   /** Controls whether or not deploy keys may be added and used for repositories in the organization. */
   deploy_keys_enabled_for_repositories?: boolean | undefined;
 }
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
-export type UpdateIssueFieldRequestVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. */
+export type UpdateIssueFieldRequestVisibility = "organization_members_only" | "all" | "restricted";
 /** Color for the option. */
 export type UpdateIssueFieldRequestOptionsItemColor =
   | "gray"
@@ -3037,7 +3043,7 @@ export interface UpdateIssueFieldRequest {
   name?: string | undefined;
   /** Description of the issue field. */
   description?: string | null | undefined;
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
+  /** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. */
   visibility?: UpdateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Only applicable when updating single_select or multi_select fields. When provided, this array **replaces** the entire existing set of options rather than adding to or updating individual options. To retain or update an existing option, include it in the array with its `id`. Options sent without an `id` are treated as new options and may cause existing options to be deleted and recreated. */
   options?: UpdateIssueFieldRequestOptionsList | undefined;
@@ -3059,7 +3065,7 @@ export interface UpdateIssueTypeRequest {
   issue_type_id: number;
   /** Name of the issue type. */
   name: string;
-  /** Whether or not the issue type is enabled at the organization level. */
+  /** Whether or not the issue type is enabled. */
   is_enabled: boolean;
   /** Description of the issue type. */
   description?: string | null | undefined;
@@ -3293,7 +3299,7 @@ export const convertMemberToOutsideCollaborator: API.OperationMethod<
 }));
 
 export type CreateArtifactDeploymentRecordError = GithubOpError;
-/** Create an artifact deployment record Create or update deployment records for an artifact associated with an organization. This endpoint allows you to record information about a specific artifact, such as its name, digest, environments, cluster, and deployment. The deployment name has to be uniqe within a cluster (i.e a combination of logical, physical environment and cluster) as it identifies unique deployment. Multiple requests for the same combination of logical, physical environment, cluster and deployment name will only create one record, successive request will update the existing record. This allows for a stable tracking of a deployment where the actual deployed artifact can change over time. */
+/** Create an artifact deployment record Create or update deployment records for an artifact associated with an organization. This endpoint allows you to record information about a specific artifact, such as its name, digest, environments, cluster, and deployment. The deployment name has to be unique within a cluster (i.e a combination of logical, physical environment and cluster) as it identifies unique deployment. Multiple requests for the same combination of logical, physical environment, cluster and deployment name will only create one record, successive request will update the existing record. This allows for a stable tracking of a deployment where the actual deployed artifact can change over time. */
 export const createArtifactDeploymentRecord: API.OperationMethod<
   CreateArtifactDeploymentRecordRequest,
   CreateArtifactDeploymentRecordResponse,
@@ -3724,7 +3730,7 @@ export const deleteWebhook: API.OperationMethod<
 }));
 
 export type DisableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
-/** Disable a selected repository for immutable releases in an organization Removes a repository from the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Disable a selected repository for immutable releases in an organization Removes a repository from the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const disableSelectedRepositoryImmutableReleasesOrganization: API.OperationMethod<
   DisableSelectedRepositoryImmutableReleasesOrganizationRequest,
   DisableSelectedRepositoryImmutableReleasesOrganizationResponse,
@@ -3750,7 +3756,7 @@ export const disableSelectedRepositoryImmutableReleasesOrganization: API.Operati
 }));
 
 export type EnableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
-/** Enable a selected repository for immutable releases in an organization Adds a repository to the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Enable a selected repository for immutable releases in an organization Adds a repository to the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const enableSelectedRepositoryImmutableReleasesOrganization: API.OperationMethod<
   EnableSelectedRepositoryImmutableReleasesOrganizationRequest,
   EnableSelectedRepositoryImmutableReleasesOrganizationResponse,
@@ -4138,7 +4144,7 @@ export const getClusterDeploymentRecordsJob: API.OperationMethod<
 }));
 
 export type GetImmutableReleasesSettingsError = GithubOpError;
-/** Get immutable releases settings for an organization Gets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Get immutable releases settings for an organization Gets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const getImmutableReleasesSettings: API.OperationMethod<
   GetImmutableReleasesSettingsRequest,
   ImmutableReleasesOrganizationSettings,
@@ -4156,7 +4162,7 @@ export const getImmutableReleasesSettings: API.OperationMethod<
 }));
 
 export type GetImmutableReleasesSettingsRepositoriesError = GithubOpError;
-/** List selected repositories for immutable releases enforcement List all of the repositories that have been selected for immutable releases enforcement in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** List selected repositories for immutable releases enforcement List all of the repositories that have been selected for immutable releases enforcement in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const getImmutableReleasesSettingsRepositories: API.PaginatedOperationMethod<
   GetImmutableReleasesSettingsRepositoriesRequest,
   GetImmutableReleasesSettingsRepositoriesResponse,
@@ -4415,7 +4421,7 @@ export const listArtifactStorageRecords: API.OperationMethod<
 }));
 
 export type ListAttestationRepositoriesError = GithubOpError;
-/** List attestation repositories List repositories owned by the provided organization that have created at least one attested artifact Results will be sorted in ascending order by repository ID */
+/** List attestation repositories List repositories owned by the provided organization that have created at least one attested artifact. Results will be sorted in ascending order by repository ID. */
 export const listAttestationRepositories: API.OperationMethod<
   ListAttestationRepositoriesRequest,
   ListAttestationRepositoriesResponse,
@@ -5148,7 +5154,7 @@ export const setClusterDeploymentRecords: API.OperationMethod<
 }));
 
 export type SetImmutableReleasesSettingsError = GithubOpError;
-/** Set immutable releases settings for an organization Sets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Set immutable releases settings for an organization Sets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const setImmutableReleasesSettings: API.OperationMethod<
   SetImmutableReleasesSettingsRequest,
   SetImmutableReleasesSettingsResponse,
@@ -5166,7 +5172,7 @@ export const setImmutableReleasesSettings: API.OperationMethod<
 }));
 
 export type SetImmutableReleasesSettingsRepositoriesError = GithubOpError;
-/** Set selected repositories for immutable releases enforcement Replaces all repositories that have been selected for immutable releases enforcement in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Set selected repositories for immutable releases enforcement Replaces all repositories that have been selected for immutable releases enforcement in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const setImmutableReleasesSettingsRepositories: API.OperationMethod<
   SetImmutableReleasesSettingsRepositoriesRequest,
   SetImmutableReleasesSettingsRepositoriesResponse,

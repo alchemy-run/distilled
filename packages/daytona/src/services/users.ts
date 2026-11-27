@@ -88,6 +88,13 @@ export type ListPendingSsoLinksResponseBodyList = Array<PendingSsoLink>;
 export type ListPendingSsoLinksResponse = ListPendingSsoLinksResponseBodyList;
 export interface LoginRecordRequest {}
 export interface LoginRecordResponse {}
+/** How the user reached for support: the Pylon chat, the Slack link or the support mailto */
+export type RecordSupportContactRequestChannel = "pylon" | "slack" | "email";
+export interface RecordSupportContactRequest {
+  /** How the user reached for support: the Pylon chat, the Slack link or the support mailto */
+  channel: RecordSupportContactRequestChannel | (string & {});
+}
+export interface RecordSupportContactResponse {}
 export type AcceptPrivacyPoliciesError = DaytonaOpError;
 /** Accept the current privacy policies */
 export const acceptPrivacyPolicies: API.OperationMethod<
@@ -214,6 +221,24 @@ export const loginRecord: API.OperationMethod<
   span: "LoginRecord",
 }));
 
+export type RecordSupportContactError = DaytonaOpError;
+/** Record that a user refused by the email access gate reached for support Called by the dashboard when the blocked screen user clicks a support channel. Recorded as a product analytics event that carries nothing about the refusal itself. */
+export const recordSupportContact: API.OperationMethod<
+  RecordSupportContactRequest,
+  RecordSupportContactResponse,
+  RecordSupportContactError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c8, 0) as any as S.Schema<RecordSupportContactRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<RecordSupportContactResponse>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordSupportContact",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
@@ -338,6 +363,16 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "POST", uri: "/users/me/logins", code: 200 })),
       ).annotate({ identifier: "LoginRecordRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/users/me/support-contacts", code: 200 })),
+      ).annotate({ identifier: "RecordSupportContactRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

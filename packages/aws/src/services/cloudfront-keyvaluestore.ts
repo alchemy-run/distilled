@@ -37,19 +37,83 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
       { name: "sigv4a", signingName: "cloudfront-keyvaluestore", signingRegionSet: ["*"] },
     ],
   });
-  if (UseFIPS === false) {
-    if (KvsARN != null) {
-      {
-        const parsedArn = _.parseArn(KvsARN);
-        if (parsedArn != null && parsedArn !== false) {
-          if (_.getAttr(parsedArn, "service") === "cloudfront") {
-            if (_.getAttr(parsedArn, "region") === "") {
-              {
-                const arnType = _.getAttr(parsedArn, "resourceId[0]");
-                if (arnType != null && arnType !== false) {
-                  if (!(arnType === "")) {
-                    if (arnType === "key-value-store") {
-                      if (_.getAttr(parsedArn, "partition") === "aws") {
+  if (KvsARN != null) {
+    {
+      const parsedArn = _.parseArn(KvsARN);
+      if (parsedArn != null && parsedArn !== false) {
+        if (_.getAttr(parsedArn, "service") === "cloudfront") {
+          if (_.getAttr(parsedArn, "region") === "") {
+            {
+              const arnType = _.getAttr(parsedArn, "resourceId[0]");
+              if (arnType != null && arnType !== false) {
+                if (!(arnType === "")) {
+                  if (arnType === "key-value-store") {
+                    if (_.getAttr(parsedArn, "partition") === "aws") {
+                      if (Region != null) {
+                        {
+                          const partitionResult = _.partition(Region);
+                          if (partitionResult != null && partitionResult !== false) {
+                            if (
+                              _.getAttr(partitionResult, "name") ===
+                              `${_.getAttr(parsedArn, "partition")}`
+                            ) {
+                              if (Endpoint != null) {
+                                if (UseFIPS === false) {
+                                  {
+                                    const url = _.parseURL(Endpoint);
+                                    if (url != null && url !== false) {
+                                      return e(
+                                        `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                                        _p0(),
+                                        {},
+                                      );
+                                    }
+                                  }
+                                  return err("Provided endpoint is not a valid URL");
+                                }
+                                return err(
+                                  "Invalid Configuration: FIPS and custom endpoint are not supported",
+                                );
+                              }
+                              return e(
+                                `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                                _p0(),
+                                {},
+                              );
+                            }
+                            return err(
+                              `Client was configured for partition \`${_.getAttr(partitionResult, "name")}\` but Kvs ARN has \`${_.getAttr(parsedArn, "partition")}\``,
+                            );
+                          }
+                        }
+                        return err("A valid partition could not be determined");
+                      }
+                      if (Endpoint != null) {
+                        if (UseFIPS === false) {
+                          {
+                            const url = _.parseURL(Endpoint);
+                            if (url != null && url !== false) {
+                              return e(
+                                `${_.getAttr(url, "scheme")}://${_.getAttr(parsedArn, "accountId")}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
+                                _p0(),
+                                {},
+                              );
+                            }
+                          }
+                          return err("Provided endpoint is not a valid URL");
+                        }
+                        return err(
+                          "Invalid Configuration: FIPS and custom endpoint are not supported",
+                        );
+                      }
+                      return e(
+                        `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                        _p0(),
+                        {},
+                      );
+                    }
+                    if (_.getAttr(parsedArn, "partition") === "aws-eusc") {
+                      if (UseFIPS === false) {
                         if (Region != null) {
                           {
                             const partitionResult = _.partition(Region);
@@ -72,7 +136,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
                                   return err("Provided endpoint is not a valid URL");
                                 }
                                 return e(
-                                  `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                                  `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.amazonwebservices.eu`,
                                   _p0(),
                                   {},
                                 );
@@ -82,6 +146,7 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
                               );
                             }
                           }
+                          return err("A valid partition could not be determined");
                         }
                         if (Endpoint != null) {
                           {
@@ -97,42 +162,44 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
                           return err("Provided endpoint is not a valid URL");
                         }
                         return e(
-                          `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
+                          `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.amazonwebservices.eu`,
                           _p0(),
                           {},
                         );
                       }
                       return err(
-                        `CloudFront-KeyValueStore is not supported in partition \`${_.getAttr(parsedArn, "partition")}\``,
+                        "Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.",
                       );
                     }
                     return err(
-                      `ARN resource type is invalid. Expected \`key-value-store\`, found: \`${arnType}\``,
+                      `CloudFront-KeyValueStore is not supported in partition \`${_.getAttr(parsedArn, "partition")}\``,
                     );
                   }
                   return err(
-                    "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
+                    `ARN resource type is invalid. Expected \`key-value-store\`, found: \`${arnType}\``,
                   );
                 }
+                return err(
+                  "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
+                );
               }
-              return err(
-                "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
-              );
             }
             return err(
-              `Provided ARN must be a global resource ARN. Found: \`${_.getAttr(parsedArn, "region")}\``,
+              "No resource type found in the KVS ARN. Resource type must be `key-value-store`.",
             );
           }
           return err(
-            `Provided ARN is not a valid CloudFront Service ARN. Found: \`${_.getAttr(parsedArn, "service")}\``,
+            `Provided ARN must be a global resource ARN. Found: \`${_.getAttr(parsedArn, "region")}\``,
           );
         }
+        return err(
+          `Provided ARN is not a valid CloudFront Service ARN. Found: \`${_.getAttr(parsedArn, "service")}\``,
+        );
       }
-      return err("KVS ARN must be a valid ARN");
     }
-    return err("KVS ARN must be provided to use this service");
+    return err("KVS ARN must be a valid ARN");
   }
-  return err("Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.");
+  return err("KVS ARN must be provided to use this service");
 });
 
 /** Span facts shared by every operation (com.distilled.telemetry#service). */
@@ -276,7 +343,7 @@ export type DeleteKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Deletes the key value pair specified by the key.
+ * Deletes the key-value pair specified by the key.
  */
 export const deleteKey: API.OperationMethod<
   DeleteKeyRequest & RegionInput,
@@ -309,7 +376,7 @@ export type DescribeKeyValueStoreError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns metadata information about Key Value Store.
+ * Returns metadata information about the key value store.
  */
 export const describeKeyValueStore: API.OperationMethod<
   DescribeKeyValueStoreRequest & RegionInput,
@@ -340,7 +407,7 @@ export type GetKeyError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns a key value pair.
+ * Returns a key-value pair.
  */
 export const getKey: API.OperationMethod<
   GetKeyRequest & RegionInput,
@@ -372,7 +439,7 @@ export type ListKeysError =
   | ValidationException
   | CommonErrors;
 /**
- * Returns a list of key value pairs.
+ * Returns a list of key-value pairs.
  */
 export const listKeys: API.PaginatedOperationMethod<
   ListKeysRequest & RegionInput,
@@ -413,7 +480,7 @@ export type PutKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a new key value pair or replaces the value of an existing key.
+ * Creates a new key-value pair or replaces the value of an existing key.
  */
 export const putKey: API.OperationMethod<
   PutKeyRequest & RegionInput,
@@ -448,7 +515,7 @@ export type UpdateKeysError =
   | ValidationException
   | CommonErrors;
 /**
- * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
+ * Puts or deletes multiple key-value pairs in a single, all-or-nothing operation.
  */
 export const updateKeys: API.OperationMethod<
   UpdateKeysRequest & RegionInput,

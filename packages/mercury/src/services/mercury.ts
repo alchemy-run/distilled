@@ -48,6 +48,10 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface ApproveReimbursementRequest {
+  reimbursementId: string;
+}
+export interface ApproveReimbursementResponse {}
 export interface ArchiveBudgetRequest {
   budgetId: string;
 }
@@ -59,6 +63,554 @@ export interface AssignTransactionToBudgetRequest {
   transactionId: string;
 }
 export interface AssignTransactionToBudgetResponse {}
+/** Comma-separated list of expandable paths. */
+export type BulkCreateBooksJournalEntriesRequestExpand =
+  | "lineEntries"
+  | "lineEntriesTransactions"
+  | "lineEntriesLedger"
+  | "lineEntriesOpposingLedgerIds"
+  | "lineEntriesPaymentApplications"
+  | "lineEntriesLinePaymentApplications"
+  | "accrualSource"
+  | "transfer"
+  | "autocatResult";
+/** Optional tags to associate with this line entry */
+export type BooksAPICreateJournalEntryLineEntryTagIdsList = Array<string>;
+/** A line entry within a journal entry creation request. */
+export interface BooksAPICreateJournalEntryLineEntry {
+  amount: unknown;
+  debitCredit: unknown;
+  /** Description of the line entry */
+  description: string;
+  /** The ledger this line entry is posted to */
+  ledgerId: string;
+  /** Optional tags to associate with this line entry */
+  tagIds?: BooksAPICreateJournalEntryLineEntryTagIdsList | null | undefined;
+}
+/** The line entries that compose this journal entry */
+export type CreateBooksAPIJournalEntryRequestLineEntriesList =
+  Array<BooksAPICreateJournalEntryLineEntry>;
+/** Request to create a single journal entry. */
+export interface CreateBooksAPIJournalEntryRequest {
+  datetime: unknown;
+  /** Description of the journal entry */
+  description: string;
+  /** The line entries that compose this journal entry */
+  lineEntries: CreateBooksAPIJournalEntryRequestLineEntriesList;
+}
+export type BulkCreateBooksJournalEntriesRequestBodyList = Array<CreateBooksAPIJournalEntryRequest>;
+export interface BulkCreateBooksJournalEntriesRequest {
+  booksId?: string | undefined;
+  expand?: BulkCreateBooksJournalEntriesRequestExpand | (string & {}) | undefined;
+  body?: BulkCreateBooksJournalEntriesRequestBodyList | undefined;
+}
+export interface BooksJournalEntryAccrualSourceBillPayInvoiceAttachment {
+  /** A presigned URL for downloading the attachment (valid for 1 hour). */
+  downloadUrl: string;
+  /** The filename of the attachment. */
+  fileName: string;
+  /** Opaque display-only identifier (e.g. for React keys). Depending on the invoice's origin it comes from one of two different id namespaces, so it must not be fed back to any attachment endpoint. */
+  id: string;
+}
+export type BooksJournalEntryAccrualSourceExternalPartyIdTag = "counterpartyId";
+export interface BooksJournalEntryAccrualSourceExternalPartyId {
+  contents?: string | undefined;
+  tag?: BooksJournalEntryAccrualSourceExternalPartyIdTag | undefined;
+}
+/** A file associated with an accrual source */
+export interface BooksAccrualSourceFile {
+  /** The name of the file */
+  fileName: string;
+  /** The ID of the accrual source file */
+  id: string;
+}
+/** The files associated with the accrual source, if any */
+export type BooksJournalEntryAccrualSourceFilesList = Array<BooksAccrualSourceFile>;
+/** The journal entry IDs generated from the accrual source. */
+export type BooksJournalEntryAccrualSourceJournalEntryIdsList = Array<string>;
+/** A line item in an accrual source */
+export interface BooksAccrualSourceLine {
+  /** The ID of the ledger */
+  accountId: string;
+  /** The ID of the accrual source */
+  accrualSourceId: string;
+  amount: unknown;
+  /** The description of the accrual source line */
+  description: string;
+  /** The external ID of the accrual source line. This is the ID of the accrual source line in an external system. */
+  externalId?: string | null | undefined;
+  /** The ID of the accrual source line */
+  id: string;
+  /** The line number. Used for maintaining a consistent order of lines within an accrual source. */
+  lineNumber: number;
+}
+/** The lines that make up the accrual source. At least one line is required. */
+export type BooksJournalEntryAccrualSourceLinesList = Array<BooksAccrualSourceLine>;
+/** Adjustment for an accrual source */
+export interface BooksPaymentApplicationAccrualAdjustment {
+  /** ID of the adjustment */
+  accrualAdjustmentId: string;
+  amount: unknown;
+  /** ID of the applicable credit ledger */
+  creditAccountId: string;
+  /** ID of the applicable debit ledger */
+  debitAccountId: string;
+}
+/** Applicable adjustments */
+export type BooksAccrualSourcePaymentApplicationAdjustmentsList =
+  Array<BooksPaymentApplicationAccrualAdjustment>;
+export interface BooksAccrualSourcePaymentApplicationLineEntry {
+  /** The description of the journal entry */
+  journalEntryDescription: string;
+  /** The ID of the line entry's journal entry */
+  journalEntryId: string;
+  lineEntryAmount: unknown;
+  /** The description of the line entry */
+  lineEntryDescription: string;
+  /** The ID of the line entry */
+  lineEntryId: string;
+}
+/** The source type of the payment application */
+export type BooksAccrualSourcePaymentApplicationSourceType =
+  | "bankTransaction"
+  | "customerCredit"
+  | "manual";
+/** The status of the payment application */
+export type BooksAccrualSourcePaymentApplicationStatus = "proposed" | "confirmed" | "rejected";
+/** Payment application for an accrual source */
+export interface BooksAccrualSourcePaymentApplication {
+  /** Applicable adjustments */
+  adjustments: BooksAccrualSourcePaymentApplicationAdjustmentsList;
+  lineEntry: BooksAccrualSourcePaymentApplicationLineEntry;
+  matchedAmount: unknown;
+  /** The ID of the payment application */
+  paymentApplicationId: string;
+  /** The source type of the payment application */
+  sourceType: BooksAccrualSourcePaymentApplicationSourceType;
+  /** The status of the payment application */
+  status: BooksAccrualSourcePaymentApplicationStatus;
+}
+/** Payments applied to the accrual source */
+export type BooksJournalEntryAccrualSourcePaymentApplicationsList =
+  Array<BooksAccrualSourcePaymentApplication>;
+/** The type of the accrual source */
+export type BooksJournalEntryAccrualSourceType = "invoice" | "bill" | "payroll";
+/** A payment recorded against the accrual source in Mercury that has not reached Books, and what is standing in the way. */
+export interface BooksAccrualSourceUnappliedPayment {
+  amount: unknown;
+  needsActionReason: unknown;
+}
+/** Payments Mercury recorded against this accrual source that have not reached Books, each with the reason it hasn't. */
+export type BooksJournalEntryAccrualSourceUnappliedPaymentsList =
+  Array<BooksAccrualSourceUnappliedPayment>;
+export interface BooksJournalEntryAccrualSource {
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  billPayInvoiceAttachment?:
+    | BooksJournalEntryAccrualSourceBillPayInvoiceAttachment
+    | null
+    | undefined;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  /** The external ID of the accrual source, if applicable */
+  externalId?: string | null | undefined;
+  externalPartyId?: BooksJournalEntryAccrualSourceExternalPartyId | null | undefined;
+  /** The files associated with the accrual source, if any */
+  files?: BooksJournalEntryAccrualSourceFilesList | null | undefined;
+  grossAmount: unknown;
+  /** The ID of the accrual source. Missing when the accrual source has not yet been created in Teal -- i.e. when the synchronous Teal sync failed and was deferred to an async workflow. Signal that the accrual source is pending sync. */
+  id?: string | null | undefined;
+  /** The journal entry IDs generated from the accrual source. */
+  journalEntryIds: BooksJournalEntryAccrualSourceJournalEntryIdsList;
+  /** The lines that make up the accrual source. At least one line is required. */
+  lines?: BooksJournalEntryAccrualSourceLinesList | null | undefined;
+  needsActionReason?: unknown | null | undefined;
+  /** Optional notes or memo for the accrual source */
+  notes?: string | null | undefined;
+  /** Payments applied to the accrual source */
+  paymentApplications?: BooksJournalEntryAccrualSourcePaymentApplicationsList | null | undefined;
+  /** The reference number of the accrual source */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+  /** The type of the accrual source */
+  type: BooksJournalEntryAccrualSourceType;
+  /** Payments Mercury recorded against this accrual source that have not reached Books, each with the reason it hasn't. */
+  unappliedPayments?: BooksJournalEntryAccrualSourceUnappliedPaymentsList | null | undefined;
+}
+export interface BooksJournalEntryAutocatResult {
+  /** The autocat model's confidence in the assignment, 0.0 to 1.0. */
+  confidence: number;
+  createdAt: unknown;
+  /** The unique identifier of the autocat result. */
+  id: string;
+  /** The category ledger autocat assigned to the transaction. */
+  ledgerId: string;
+  method: unknown;
+  /** If method is `rule`, the id of the rule that matched; otherwise null. An opaque identifier supplied by the external categorizer. */
+  ruleId?: string | null | undefined;
+}
+export type BooksLineEntryAccrualSourceExternalPartyIdTag = "counterpartyId";
+export interface BooksLineEntryAccrualSourceExternalPartyId {
+  contents?: string | undefined;
+  tag?: BooksLineEntryAccrualSourceExternalPartyIdTag | undefined;
+}
+/** The lines that make up the accrual source. At least one line is required. */
+export type BooksLineEntryAccrualSourceLinesList = Array<BooksAccrualSourceLine>;
+/** The type of the accrual source */
+export type BooksLineEntryAccrualSourceType = "invoice" | "bill" | "payroll";
+export interface BooksLineEntryAccrualSource {
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  /** The external ID of the accrual source, if applicable */
+  externalId?: string | null | undefined;
+  externalPartyId?: BooksLineEntryAccrualSourceExternalPartyId | null | undefined;
+  grossAmount: unknown;
+  /** The ID of the accrual source */
+  id: string;
+  /** The lines that make up the accrual source. At least one line is required. */
+  lines?: BooksLineEntryAccrualSourceLinesList | null | undefined;
+  /** Optional notes or memo for the accrual source */
+  notes?: string | null | undefined;
+  /** The reference number of the accrual source */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+  /** The type of the accrual source */
+  type: BooksLineEntryAccrualSourceType;
+}
+/** Expandable. IDs of the ledgers on the other side(s) of the line entry with opposite debit/credit. */
+export type BooksLineEntryOpposingLedgerIdsList = Array<string>;
+/** The type of the accrual source. Always `payroll` -- line-level payment applications only exist for payroll runs. */
+export type BooksLineEntryLinePaymentApplicationAccrualSourceType = "payroll";
+export interface BooksLineEntryLinePaymentApplicationAccrualSource {
+  /** The ID of the accrual source (the payroll run) */
+  accrualSourceId: string;
+  endDate: unknown;
+  startDate: unknown;
+  /** The type of the accrual source. Always `payroll` -- line-level payment applications only exist for payroll runs. */
+  type: BooksLineEntryLinePaymentApplicationAccrualSourceType;
+}
+/** The source type of the payment application */
+export type BooksLineEntryLinePaymentApplicationSourceType =
+  | "bankTransaction"
+  | "customerCredit"
+  | "manual";
+/** The status of the payment application */
+export type BooksLineEntryLinePaymentApplicationStatus = "proposed" | "confirmed" | "rejected";
+/** Line-level (payroll) payment application. The @paymentApplicationLine@ variant of 'BooksLineEntryPaymentApplication'. */
+export interface BooksLineEntryLinePaymentApplication {
+  accrualSource: BooksLineEntryLinePaymentApplicationAccrualSource;
+  /** The ID of the line-level payment application */
+  linePaymentApplicationId: string;
+  matchedAmount: unknown;
+  /** The source type of the payment application */
+  sourceType: BooksLineEntryLinePaymentApplicationSourceType;
+  /** The status of the payment application */
+  status: BooksLineEntryLinePaymentApplicationStatus;
+}
+export type BooksLineEntryPaymentApplicationSourceAccrualSourceExternalPartyIdTag =
+  "counterpartyId";
+export interface BooksLineEntryPaymentApplicationSourceAccrualSourceExternalPartyId {
+  contents?: string | undefined;
+  tag?: BooksLineEntryPaymentApplicationSourceAccrualSourceExternalPartyIdTag | undefined;
+}
+/** The type of the accrual source */
+export type BooksLineEntryPaymentApplicationSourceAccrualSourceType =
+  | "invoice"
+  | "bill"
+  | "payroll";
+export interface BooksLineEntryPaymentApplicationSourceAccrualSource {
+  /** The ID of the accrual source */
+  accrualSourceId: string;
+  effectiveDate: unknown;
+  /** The external ID of the accrual source */
+  externalId?: string | null | undefined;
+  externalPartyId?:
+    | BooksLineEntryPaymentApplicationSourceAccrualSourceExternalPartyId
+    | null
+    | undefined;
+  grossAmount: unknown;
+  /** The reference number of the accrual source */
+  referenceNumber?: string | null | undefined;
+  /** The type of the accrual source */
+  type: BooksLineEntryPaymentApplicationSourceAccrualSourceType;
+}
+/** Applicable adjustments */
+export type BooksLineEntryPaymentApplicationSourceAdjustmentsList =
+  Array<BooksPaymentApplicationAccrualAdjustment>;
+/** The source type of the payment application */
+export type BooksLineEntryPaymentApplicationSourceSourceType =
+  | "bankTransaction"
+  | "customerCredit"
+  | "manual";
+/** The status of the payment application */
+export type BooksLineEntryPaymentApplicationSourceStatus = "proposed" | "confirmed" | "rejected";
+export interface BooksLineEntryPaymentApplicationSourceUnappliedPayment {
+  /** The line on the same journal entry that holds the unapplied amount, on the unapplied payments ledger */
+  lineEntryId: string;
+}
+/** Source-level payment application (invoice, bill, or closing adjustment). The @paymentApplication@ variant of 'BooksLineEntryPaymentApplication'. */
+export interface BooksLineEntryPaymentApplicationSource {
+  accrualSource?: BooksLineEntryPaymentApplicationSourceAccrualSource | null | undefined;
+  /** Applicable adjustments */
+  adjustments: BooksLineEntryPaymentApplicationSourceAdjustmentsList;
+  matchedAmount: unknown;
+  /** The ID of the payment application */
+  paymentApplicationId: string;
+  /** The source type of the payment application */
+  sourceType: BooksLineEntryPaymentApplicationSourceSourceType;
+  /** The status of the payment application */
+  status: BooksLineEntryPaymentApplicationSourceStatus;
+  unappliedPayment?: BooksLineEntryPaymentApplicationSourceUnappliedPayment | null | undefined;
+}
+export type BooksLineEntryPaymentApplication =
+  | BooksLineEntryLinePaymentApplication
+  | BooksLineEntryPaymentApplicationSource;
+/** Payments applied using the Line Entry -- source-level (bill/invoice/closing adjustment) and line-level (payroll), tagged on `type`. Contains only the kinds that were expanded: request both `lineEntriesPaymentApplications` and `lineEntriesLinePaymentApplications` for the full set. */
+export type BooksLineEntryPaymentApplicationsList = Array<BooksLineEntryPaymentApplication>;
+/** A tag used for categorizing transactions in Books. */
+export interface BooksTag {
+  /** Unique identifier for the tag. */
+  id: string;
+  /** Display name of the tag. */
+  name: string;
+  /** unique id for a tag group; emitted as base-58, but a base-16 UUID is also accepted */
+  tagGroupId: string;
+}
+/** The tags associated with the line entry, if any. */
+export type BooksLineEntryTagsList = Array<BooksTag>;
+/** An attachment on a Mercury transaction, including its ID, filename, and a signed download URL. */
+export interface BooksTransactionAttachment {
+  /** A presigned URL for downloading the attachment (valid for 1 hour). */
+  downloadUrl: string;
+  /** The filename of the attachment. */
+  fileName: string;
+  /** The unique identifier of the attachment. */
+  id: string;
+}
+/** Attachments associated with the transaction from Mercury Banking, if any. Only included if enrichment is requested. */
+export type BooksLineEntryTransactionAttachmentsList = Array<BooksTransactionAttachment>;
+export interface BooksLineEntryTransactionMerchantType {
+  category: unknown;
+  /** prettified display name for category */
+  display: string;
+  icon: unknown;
+}
+/** a list of IDs of all the line entries objects in the journal entry with the opposite debit/credit status. For example if the transaction's line entry is a debit this opposing line entries will be credit line entries. */
+export type BooksLineEntryTransactionOpposingLineEntryIdsList = Array<string>;
+export interface BooksLineEntryTransaction {
+  amount: unknown;
+  /** Attachments associated with the transaction from Mercury Banking, if any. Only included if enrichment is requested. */
+  attachments?: BooksLineEntryTransactionAttachmentsList | null | undefined;
+  /** The last four digits of the card used for the transaction, if applicable. Only included if enrichment is requested. */
+  cardLastFourDigits?: string | null | undefined;
+  categorizationMethod?: unknown | null | undefined;
+  /** The name of the transaction counterparty (To/From), if available. Only included if enrichment is requested. */
+  counterpartyName?: string | null | undefined;
+  /** The unique id of the Banking custom category assigned to this transaction, if any. Only included if enrichment is requested. */
+  customCategoryId?: string | null | undefined;
+  /** The display name of the Banking custom category assigned to this transaction, if any. Only included if enrichment is requested. */
+  customCategoryName?: string | null | undefined;
+  datetime: unknown;
+  /** an arbitrary string on the object, useful for displaying information to the user. Descriptions over 512 characters will be truncated. */
+  description: string;
+  /** the TransactionMetadataId banking identifier for this transaction */
+  externalMetadataId?: string | null | undefined;
+  /** the unique identifier for this transaction */
+  id: string;
+  /** the ID of the journal entry that the transaction's line entry is associated with. */
+  journalEntryId?: string | null | undefined;
+  /** the ID of the financial account ledger associated with the transaction. */
+  ledgerId?: string | null | undefined;
+  /** the ID of the line entry associated with the transaction */
+  lineEntryId?: string | null | undefined;
+  merchantType?: BooksLineEntryTransactionMerchantType | null | undefined;
+  /** A note on the transaction set in Mercury Banking, if any. Only included if enrichment is requested. */
+  note?: string | null | undefined;
+  /** a list of IDs of all the line entries objects in the journal entry with the opposite debit/credit status. For example if the transaction's line entry is a debit this opposing line entries will be credit line entries. */
+  opposingLineEntryIds?: BooksLineEntryTransactionOpposingLineEntryIdsList | null | undefined;
+  /** whether the transaction is a non-business personal transaction. */
+  personal: boolean;
+  postedStatus: unknown;
+  reviewStatus: unknown;
+  /** the ID of the source account where the transaction is stored. */
+  sourceAccountId: string;
+  /** The unique id of the team member associated with this transaction, if any. Only included if enrichment is requested. */
+  teamMemberId?: string | null | undefined;
+  /** The full name of the team member associated with this transaction, if any. Only included if enrichment is requested. */
+  teamMemberName?: string | null | undefined;
+  transactionMethodKind?: unknown | null | undefined;
+}
+export interface BooksLineEntry {
+  accrualSource?: BooksLineEntryAccrualSource | null | undefined;
+  amount: unknown;
+  categorizationStatus: unknown;
+  datetime: unknown;
+  debitCredit: unknown;
+  /** An arbitrary string on the object, useful for displaying to the user or for categorization. */
+  description?: string | null | undefined;
+  /** Indicates if the Line Entry can be manually added or removed from a Ledger, as dictated by the `editable` property on the Ledger. */
+  editable: boolean;
+  /** The unique ID of the object. */
+  id: string;
+  /** An arbitrary string on the object, useful for displaying to the user. */
+  journalEntryDescription: string;
+  /** The ID of the associated Journal Entry. */
+  journalEntryId: string;
+  /** The ID of the Line Entry's Ledger. */
+  ledgerId: string;
+  /** The name of the Line Entry's Ledger. */
+  ledgerName: string;
+  /** Expandable. IDs of the ledgers on the other side(s) of the line entry with opposite debit/credit. */
+  opposingLedgerIds?: BooksLineEntryOpposingLedgerIdsList | null | undefined;
+  /** Payments applied using the Line Entry -- source-level (bill/invoice/closing adjustment) and line-level (payroll), tagged on `type`. Contains only the kinds that were expanded: request both `lineEntriesPaymentApplications` and `lineEntriesLinePaymentApplications` for the full set. */
+  paymentApplications?: BooksLineEntryPaymentApplicationsList | null | undefined;
+  /** If the Line Entry is identified as a transfer between accounts, the ID of the Line Entry in the opposing Ledger. Related guide: [Auto-categorization](https://docs.teal.dev/guides/platform/categorization/pipeline#transfers-between-accounts) */
+  relatedLineEntryId?: string | null | undefined;
+  /** The position of the line entry within its journal entry, used to determine display order. May be null for rows created before sort_order was introduced. */
+  sortOrder?: number | null | undefined;
+  /** The tags associated with the line entry, if any. */
+  tags?: BooksLineEntryTagsList | null | undefined;
+  transaction?: BooksLineEntryTransaction | null | undefined;
+  /** The ID of the associated Transaction, if one exists. */
+  transactionId?: string | null | undefined;
+}
+/** List of Line Entries. Included in expanded responses. */
+export type BooksJournalEntryLineEntriesList = Array<BooksLineEntry>;
+/** The ids of the Line Entries detailing the Journal Entry's movement of value. */
+export type BooksJournalEntryLineEntryIdsList = Array<string>;
+/** This side's Line Entries (used to derive the amount and source account). */
+export type BooksJournalEntryTransferFromEntryLineEntriesList = Array<BooksLineEntry>;
+export interface BooksJournalEntryTransferFromEntry {
+  datetime: unknown;
+  /** This side's Journal Entry description. */
+  description: string;
+  /** The id of this side's Journal Entry. */
+  journalEntryId: string;
+  /** This side's Line Entries (used to derive the amount and source account). */
+  lineEntries: BooksJournalEntryTransferFromEntryLineEntriesList;
+}
+/** This side's Line Entries (used to derive the amount and source account). */
+export type BooksJournalEntryTransferToEntryLineEntriesList = Array<BooksLineEntry>;
+export interface BooksJournalEntryTransferToEntry {
+  datetime: unknown;
+  /** This side's Journal Entry description. */
+  description: string;
+  /** The id of this side's Journal Entry. */
+  journalEntryId: string;
+  /** This side's Line Entries (used to derive the amount and source account). */
+  lineEntries: BooksJournalEntryTransferToEntryLineEntriesList;
+}
+export interface BooksJournalEntryTransfer {
+  fromEntry: BooksJournalEntryTransferFromEntry;
+  toEntry: BooksJournalEntryTransferToEntry;
+}
+export interface BooksJournalEntry {
+  accrualSource?: BooksJournalEntryAccrualSource | null | undefined;
+  autocatResult?: BooksJournalEntryAutocatResult | null | undefined;
+  categorizationStatus: unknown;
+  creationDate: unknown;
+  creationSource: unknown;
+  datetime: unknown;
+  /** An arbitrary string on the object, useful for displaying to the user. */
+  description: string;
+  /** The unique ID of the object. */
+  id: string;
+  /** Whether the Journal Entry represents an opening balance. */
+  isOpeningBalance: boolean;
+  /** List of Line Entries. Included in expanded responses. */
+  lineEntries?: BooksJournalEntryLineEntriesList | null | undefined;
+  /** The ids of the Line Entries detailing the Journal Entry's movement of value. */
+  lineEntryIds?: BooksJournalEntryLineEntryIdsList | null | undefined;
+  reviewStatus: unknown;
+  reviewStatusSetAt?: unknown | null | undefined;
+  transfer?: BooksJournalEntryTransfer | null | undefined;
+}
+/** The created journal entries */
+export type CreateBooksAPIJournalEntriesBulkResponseJournalEntriesList = Array<BooksJournalEntry>;
+/** Response for a bulk journal entry creation request. */
+export interface CreateBooksAPIJournalEntriesBulkResponse {
+  /** The created journal entries */
+  journalEntries: CreateBooksAPIJournalEntriesBulkResponseJournalEntriesList;
+}
+/** A list of journal entry ids to delete */
+export type BulkDeleteBooksJournalEntriesRequestJournalEntryIdsList = Array<string>;
+export interface BulkDeleteBooksJournalEntriesRequest {
+  booksId?: string | undefined;
+  /** A list of journal entry ids to delete */
+  journalEntryIds: BulkDeleteBooksJournalEntriesRequestJournalEntryIdsList;
+}
+export interface BulkDeleteBooksJournalEntriesResponse {}
+/** Optional tags to associate with this line entry */
+export type BooksAPIUpdateJournalEntryLECreateTagIdsList = Array<string>;
+/** A new line entry to create within an existing journal entry. */
+export interface BooksAPIUpdateJournalEntryLECreate {
+  amount: unknown;
+  debitCredit: unknown;
+  /** Description of the line entry */
+  description: string;
+  /** The ledger this line entry is posted to */
+  ledgerId: string;
+  /** Optional position within the journal entry. Omit to append at MAX(sort_order) + 1. */
+  sortOrder?: number | null | undefined;
+  /** Optional tags to associate with this line entry */
+  tagIds?: BooksAPIUpdateJournalEntryLECreateTagIdsList | null | undefined;
+}
+/** New line entries to add */
+export type UpdateBooksAPIJournalEntryRequestLineEntryChangesCreateList =
+  Array<BooksAPIUpdateJournalEntryLECreate>;
+/** IDs of line entries to remove */
+export type UpdateBooksAPIJournalEntryRequestLineEntryChangesDeleteList = Array<string>;
+/** Updated tags */
+export type BooksAPIUpdateJournalEntryLEUpdateTagIdsList = Array<string>;
+/** Updates to apply to an existing line entry. */
+export interface BooksAPIUpdateJournalEntryLEUpdate {
+  amount?: unknown | null | undefined;
+  debitCredit?: unknown | null | undefined;
+  /** Updated description */
+  description?: string | null | undefined;
+  /** The ID of the line entry to update */
+  id: string;
+  /** Updated ledger */
+  ledgerId?: string | null | undefined;
+  /** Updated position within the journal entry. Omit to leave unchanged. */
+  sortOrder?: number | null | undefined;
+  /** Updated tags */
+  tagIds?: BooksAPIUpdateJournalEntryLEUpdateTagIdsList | null | undefined;
+}
+/** Existing line entries to modify */
+export type UpdateBooksAPIJournalEntryRequestLineEntryChangesUpdateList =
+  Array<BooksAPIUpdateJournalEntryLEUpdate>;
+export interface UpdateBooksAPIJournalEntryRequestLineEntryChanges {
+  /** New line entries to add */
+  create?: UpdateBooksAPIJournalEntryRequestLineEntryChangesCreateList | null | undefined;
+  /** IDs of line entries to remove */
+  delete?: UpdateBooksAPIJournalEntryRequestLineEntryChangesDeleteList | null | undefined;
+  /** Existing line entries to modify */
+  update?: UpdateBooksAPIJournalEntryRequestLineEntryChangesUpdateList | null | undefined;
+}
+/** Request to update a single journal entry. */
+export interface UpdateBooksAPIJournalEntryRequest {
+  datetime?: unknown | null | undefined;
+  /** Updated description */
+  description?: string | null | undefined;
+  /** The ID of the journal entry to update */
+  journalEntryId: string;
+  lineEntryChanges?: UpdateBooksAPIJournalEntryRequestLineEntryChanges | null | undefined;
+  reviewStatus?: unknown | null | undefined;
+}
+/** The individual journal entry updates */
+export type BulkUpdateBooksJournalEntriesRequestUpdatesList =
+  Array<UpdateBooksAPIJournalEntryRequest>;
+export interface BulkUpdateBooksJournalEntriesRequest {
+  booksId?: string | undefined;
+  /** The individual journal entry updates */
+  updates: BulkUpdateBooksJournalEntriesRequestUpdatesList;
+}
+export interface BulkUpdateBooksJournalEntriesResponse {}
 export interface CancelCardRequest {
   cardId: string;
 }
@@ -170,9 +722,468 @@ export interface CancelInvoiceRequest {
   invoiceId: string;
 }
 export interface CancelInvoiceResponse {}
+export interface CancelReimbursementRequest {
+  reimbursementId: string;
+}
+export interface CancelReimbursementResponse {}
+/** The tags of the categorization line. Omit to keep the tags of the line it replaces; a new line then has no tags. */
+export type BooksAPICategorizationSplitTagIdsList = Array<string>;
+/** One category of a transaction and the part of its amount that goes to it. */
+export interface BooksAPICategorizationSplit {
+  amount: unknown;
+  /** The description of the categorization line. Omit to keep the description of the line it replaces, or for a new line, to use the transaction's description. */
+  description?: string | null | undefined;
+  /** The ledger (general ledger account) to categorize this part of the transaction to, such as an expense or revenue account. It must be editable, and must not be an uncategorized ledger or a source account's ledger. */
+  ledgerId: string;
+  /** The tags of the categorization line. Omit to keep the tags of the line it replaces; a new line then has no tags. */
+  tagIds?: BooksAPICategorizationSplitTagIdsList | null | undefined;
+}
+/** The new categorization: one split per category. The splits replace every current categorization line. */
+export type BooksAPICategorizeTransactionItemSplitsList = Array<BooksAPICategorizationSplit>;
+/** The new categorization of one transaction. */
+export interface BooksAPICategorizeTransactionItem {
+  /** The `journalEntryId` of the transaction to categorize. */
+  journalEntryId: string;
+  /** The new categorization: one split per category. The splits replace every current categorization line. */
+  splits: BooksAPICategorizeTransactionItemSplitsList;
+}
+/** The transactions to categorize, from 1 to 100, each at most once. Across all items, the splits may name at most 100 distinct ledgers. */
+export type CategorizeBooksTransactionsRequestItemsList = Array<BooksAPICategorizeTransactionItem>;
+export interface CategorizeBooksTransactionsRequest {
+  booksId?: string | undefined;
+  /** The transactions to categorize, from 1 to 100, each at most once. Across all items, the splits may name at most 100 distinct ledgers. */
+  items: CategorizeBooksTransactionsRequestItemsList;
+}
+/** A line of a transaction's journal entry other than its own line on the source account's ledger. Its ledger is the transaction's category; a split transaction has one line per category. */
+export interface BooksAPITransactionCategorizationLine {
+  amount: unknown;
+  debitCredit: unknown;
+  /** The identifier of the ledger (general ledger account) the line posts to, i.e. the category. */
+  ledgerId: string;
+  /** The display name of the ledger the line posts to. */
+  ledgerName: string;
+  /** The identifier of the categorization line entry. */
+  lineEntryId: string;
+}
+/** The transaction's categorization lines, as the transaction's `categorizationLines` now list them. */
+export type BooksAPICategorizedTransactionCategorizationLinesList =
+  Array<BooksAPITransactionCategorizationLine>;
+/** A transaction's categorization after the request. */
+export interface BooksAPICategorizedTransaction {
+  /** The transaction's categorization lines, as the transaction's `categorizationLines` now list them. */
+  categorizationLines: BooksAPICategorizedTransactionCategorizationLinesList;
+  /** The `journalEntryId` of the transaction. */
+  journalEntryId: string;
+}
+/** One per request item, in request order. */
+export type CategorizeBooksAPITransactionsResponseItemsList = Array<BooksAPICategorizedTransaction>;
+/** The categorized transactions, in request order. */
+export interface CategorizeBooksAPITransactionsResponse {
+  /** One per request item, in request order. */
+  items: CategorizeBooksAPITransactionsResponseItemsList;
+}
+/** A bill line item to create. */
+export interface CreateBooksAPIBillLine {
+  amount: unknown;
+  /** Description of the line item. Required and non-empty; leading and trailing whitespace is stripped. */
+  description: string;
+  /** The ledger account (expense account) to book this line against. */
+  ledgerId: string;
+}
+/** Line items for the bill. At least one is required. */
+export type CreateBooksBillRequestLinesList = Array<CreateBooksAPIBillLine>;
+export type CreateBooksBillRequestVendorTag = "counterpartyId";
+export interface CreateBooksBillRequestVendor {
+  contents?: string | undefined;
+  tag?: CreateBooksBillRequestVendorTag | (string & {}) | undefined;
+}
+export interface CreateBooksBillRequest {
+  booksId?: string | undefined;
+  dueDate: unknown;
+  effectiveDate: unknown;
+  /** Line items for the bill. At least one is required. */
+  lines: CreateBooksBillRequestLinesList;
+  /** Optional notes or memo for the bill. */
+  notes?: string | null | undefined;
+  /** Human-readable reference number (e.g. the vendor's bill number). Optional; an omitted, null, empty, or whitespace-only value is treated as absent, and leading and trailing whitespace is stripped. */
+  referenceNumber?: string | undefined;
+  vendor: CreateBooksBillRequestVendor;
+}
+/** A line item of a bill. */
+export interface BooksAPIBillLine {
+  amount: unknown;
+  /** The line's description. */
+  description: string;
+  /** The identifier of the line. */
+  id: string;
+  /** The identifier of the ledger (general ledger account) the line posts to, such as an expense ledger. */
+  ledgerId: string;
+}
+/** The line items. */
+export type BooksAPIBillLinesList = Array<BooksAPIBillLine>;
+/** A payment applied to a bill: part or all of a journal entry line entry, such as a bank transaction's, matched against it. */
+export interface BooksAPIBillPaymentApplication {
+  amount: unknown;
+  /** The identifier of the line entry applied as payment. */
+  lineEntryId: string;
+}
+/** The payments applied. Empty when none. */
+export type BooksAPIBillPaymentApplicationsList = Array<BooksAPIBillPaymentApplication>;
+export interface BooksAPIBillVendor {
+  id: unknown;
+  /** The vendor's name. When the counterparty is linked to a Bill Pay recipient, this is the recipient's current name; otherwise it falls back to the name snapshotted on the Books counterparty. */
+  name: string;
+}
+/** A bill (accounts payable) recorded in Books, with its lines and the payments applied to it. */
+export interface BooksAPIBill {
+  amountRemaining: unknown;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  grossAmount: unknown;
+  /** The identifier of the bill. */
+  id: string;
+  /** The line items. */
+  lines: BooksAPIBillLinesList;
+  /** The bill's notes or memo. Omitted when it has none. */
+  notes?: string | null | undefined;
+  /** The payments applied. Empty when none. */
+  paymentApplications: BooksAPIBillPaymentApplicationsList;
+  /** The bill number. Omitted when it has none. */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+  vendor?: BooksAPIBillVendor | null | undefined;
+}
+/** Matches transactions whose amount compares to a threshold (`tag`: `amount`). The amount is signed: money in (credits) is positive and money out (debits) is negative, and the threshold is compared against it as is, so `lessThan` `-50` matches outflows of more than $50. A range is two amount conditions on the same rule. */
+export interface BooksAPICategorizationRuleAmountCondition {
+  amount: unknown;
+  operator: unknown;
+}
+export type BooksAPICategorizationRuleConditionCase0Tag = "amount";
+export interface BooksAPICategorizationRuleConditionCase0 {
+  contents: BooksAPICategorizationRuleAmountCondition;
+  tag: BooksAPICategorizationRuleConditionCase0Tag;
+}
+/** Matches transactions whose raw bank description contains a text, ignoring case (`tag`: `description`). */
+export interface BooksAPICategorizationRuleDescriptionCondition {
+  /** The text the bank description must contain, ignoring case. */
+  contains: string;
+}
+export type BooksAPICategorizationRuleConditionCase1Tag = "description";
+export interface BooksAPICategorizationRuleConditionCase1 {
+  contents: BooksAPICategorizationRuleDescriptionCondition;
+  tag: BooksAPICategorizationRuleConditionCase1Tag;
+}
+/** Matches transactions whose counterparty name is exactly a name (`tag`: `counterparty`). Only Mercury transactions carry a counterparty. */
+export interface BooksAPICategorizationRuleCounterpartyCondition {
+  /** The counterparty name the transaction must have, matched exactly. */
+  name: string;
+}
+export type BooksAPICategorizationRuleConditionCase2Tag = "counterparty";
+export interface BooksAPICategorizationRuleConditionCase2 {
+  contents: BooksAPICategorizationRuleCounterpartyCondition;
+  tag: BooksAPICategorizationRuleConditionCase2Tag;
+}
+/** Matches transactions made with a Mercury debit card (`tag`: `debitCard`). */
+export interface BooksAPICategorizationRuleDebitCardCondition {
+  debitCardId: unknown;
+}
+export type BooksAPICategorizationRuleConditionCase3Tag = "debitCard";
+export interface BooksAPICategorizationRuleConditionCase3 {
+  contents: BooksAPICategorizationRuleDebitCardCondition;
+  tag: BooksAPICategorizationRuleConditionCase3Tag;
+}
+/** Matches transactions made with a Mercury credit card (`tag`: `creditCard`). */
+export interface BooksAPICategorizationRuleCreditCardCondition {
+  creditCardId: unknown;
+}
+export type BooksAPICategorizationRuleConditionCase4Tag = "creditCard";
+export interface BooksAPICategorizationRuleConditionCase4 {
+  contents: BooksAPICategorizationRuleCreditCardCondition;
+  tag: BooksAPICategorizationRuleConditionCase4Tag;
+}
+/** Matches transactions made by a team member (`tag`: `user`). */
+export interface BooksAPICategorizationRuleUserCondition {
+  userId: unknown;
+}
+export type BooksAPICategorizationRuleConditionCase5Tag = "user";
+export interface BooksAPICategorizationRuleConditionCase5 {
+  contents: BooksAPICategorizationRuleUserCondition;
+  tag: BooksAPICategorizationRuleConditionCase5Tag;
+}
+/** Matches transactions whose current Mercury custom (expense) category is a category (`tag`: `customCategory`). */
+export interface BooksAPICategorizationRuleCustomCategoryCondition {
+  customCategoryId: unknown;
+}
+export type BooksAPICategorizationRuleConditionCase6Tag = "customCategory";
+export interface BooksAPICategorizationRuleConditionCase6 {
+  contents: BooksAPICategorizationRuleCustomCategoryCondition;
+  tag: BooksAPICategorizationRuleConditionCase6Tag;
+}
+/** A condition a transaction must match for a categorization rule to apply. `tag` says which condition it is (`amount`, `description`, `counterparty`, `debitCard`, `creditCard`, `user`, or `customCategory`) and `contents` holds its fields. A rule's conditions must all match; there is no OR, so an "any of" rule is written as separate rules. */
+export type BooksAPICategorizationRuleCondition =
+  | BooksAPICategorizationRuleConditionCase0
+  | BooksAPICategorizationRuleConditionCase1
+  | BooksAPICategorizationRuleConditionCase2
+  | BooksAPICategorizationRuleConditionCase3
+  | BooksAPICategorizationRuleConditionCase4
+  | BooksAPICategorizationRuleConditionCase5
+  | BooksAPICategorizationRuleConditionCase6;
+/** The conditions a transaction must match, from 1 to 10. Every condition must match (logical AND); there is no OR, so an "any of" rule is written as separate rules. The organization may not already have a rule with the same conditions. */
+export type CreateBooksCategorizationRuleRequestConditionsList =
+  Array<BooksAPICategorizationRuleCondition>;
+/** Sets the transaction's categorization to a ledger, i.e. a general ledger (GL) account (`tag`: `setLedger`). */
+export interface BooksAPICategorizationRuleSetLedgerOutput {
+  /** The ID of the ledger matching transactions are categorized to. */
+  ledgerId: string;
+}
+export type BooksAPICategorizationRuleOutputTag = "setLedger";
+/** What a categorization rule does to a transaction it matches. `tag` says which output it is and `contents` holds its fields; today the only output is `setLedger`, which categorizes the transaction to the ledger `contents.ledgerId`. */
+export interface BooksAPICategorizationRuleOutput {
+  contents: BooksAPICategorizationRuleSetLedgerOutput;
+  tag: BooksAPICategorizationRuleOutputTag | (string & {});
+}
+/** What the rule applies to a matching transaction: at most one output of each kind, so today exactly one `setLedger`. Its ledger must be one the caller may edit in this Books instance. */
+export type CreateBooksCategorizationRuleRequestOutputsList =
+  Array<BooksAPICategorizationRuleOutput>;
+export interface CreateBooksCategorizationRuleRequest {
+  booksId?: string | undefined;
+  /** The conditions a transaction must match, from 1 to 10. Every condition must match (logical AND); there is no OR, so an "any of" rule is written as separate rules. The organization may not already have a rule with the same conditions. */
+  conditions: CreateBooksCategorizationRuleRequestConditionsList;
+  /** What the rule applies to a matching transaction: at most one output of each kind, so today exactly one `setLedger`. Its ledger must be one the caller may edit in this Books instance. */
+  outputs: CreateBooksCategorizationRuleRequestOutputsList;
+}
+/** The conditions a transaction must match. At least one; every condition must match (logical AND). There is no OR: an "any of" rule is written as separate rules. */
+export type CreateBooksAPICategorizationRuleResponseRuleConditionsList =
+  Array<BooksAPICategorizationRuleCondition>;
+/** What the rule applies to a matching transaction. At least one. */
+export type CreateBooksAPICategorizationRuleResponseRuleOutputsList =
+  Array<BooksAPICategorizationRuleOutput>;
+export interface CreateBooksAPICategorizationRuleResponseRule {
+  /** The conditions a transaction must match. At least one; every condition must match (logical AND). There is no OR: an "any of" rule is written as separate rules. */
+  conditions: CreateBooksAPICategorizationRuleResponseRuleConditionsList;
+  /** The display name of the general ledger (GL) account the rule categorizes to. Absent when the rule sets none. */
+  glCodeName?: string | null | undefined;
+  /** The rule's stable identifier. */
+  id: string;
+  lastApplied?: unknown | null | undefined;
+  /** What the rule applies to a matching transaction. At least one. */
+  outputs: CreateBooksAPICategorizationRuleResponseRuleOutputsList;
+  status: unknown;
+}
+/** The created categorization rule. */
+export interface CreateBooksAPICategorizationRuleResponse {
+  rule: CreateBooksAPICategorizationRuleResponseRule;
+}
+export interface CreateBooksCloseRequest {
+  booksId?: string | undefined;
+  closeDate: unknown;
+}
+/** The close that was recorded. */
+export interface CreateBooksAPICloseResponse {
+  closeDate: unknown;
+}
+/** A line item of the invoice to create. */
+export interface CreateBooksAPIInvoiceLine {
+  amount: unknown;
+  /** The line item's description (the Description column of the form). Required and non-empty; leading and trailing whitespace is stripped. */
+  description: string;
+  /** The ledger account to book this line against, such as a revenue ledger (the Ledger account column of the form). Use an ID from getBooksLedgers; it must be in this Books instance and not a Mercury bank-feed ledger. */
+  ledgerId: string;
+}
+/** The line items (the Line items table of the form). At least one is required. */
+export type CreateBooksInvoiceRequestLinesList = Array<CreateBooksAPIInvoiceLine>;
+export interface CreateBooksInvoiceRequest {
+  booksId?: string | undefined;
+  customer: unknown;
+  dueDate: unknown;
+  effectiveDate: unknown;
+  /** The line items (the Line items table of the form). At least one is required. */
+  lines: CreateBooksInvoiceRequestLinesList;
+  /** An optional note (the Note field of the form). */
+  notes?: string | null | undefined;
+  /** The invoice number, as in the Invoice number field of the form (for example `INV-1042`): the number the business gives the invoice and its customer sees. Required, 1 to 299 characters; leading and trailing whitespace is stripped. With the Mercury Invoicing integration it becomes the Mercury Invoicing invoice number and must be unique among all of the organization's Mercury invoices, of any status. Without it, it is stored only in Books, which rejects a second invoice with the same invoice number for the same customer. */
+  referenceNumber: string;
+}
+export interface BooksAPIInvoiceCustomer {
+  id: unknown;
+  /** The customer's current name in Mercury Invoicing, also for a customer that has since been deleted there. */
+  name: string;
+}
+/** A line item of an invoice. */
+export interface BooksAPIInvoiceLine {
+  amount: unknown;
+  /** The line's description. */
+  description: string;
+  /** The identifier of the line. */
+  id: string;
+  /** The identifier of the ledger account (general ledger, or GL, account) the line posts to, such as a revenue ledger. */
+  ledgerId: string;
+}
+/** The line items. */
+export type BooksAPIInvoiceLinesList = Array<BooksAPIInvoiceLine>;
+/** A payment applied to an invoice: part or all of a journal entry line entry, such as a bank transaction's, matched against it. */
+export type BooksAPIInvoicePaymentApplication = BooksAPIBillPaymentApplication;
+/** The payments applied. Empty when none. */
+export type BooksAPIInvoicePaymentApplicationsList = Array<BooksAPIBillPaymentApplication>;
+/** An invoice (accounts receivable) recorded in Books, with its lines and the payments applied to it. */
+export interface BooksAPIInvoice {
+  amountRemaining: unknown;
+  customer?: BooksAPIInvoiceCustomer | null | undefined;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  grossAmount: unknown;
+  /** The identifier of the invoice. */
+  id: string;
+  /** The line items. */
+  lines: BooksAPIInvoiceLinesList;
+  /** The invoice's note, as shown in the Note field of the Books invoice in Mercury. Omitted when it has none. */
+  notes?: string | null | undefined;
+  /** The payments applied. Empty when none. */
+  paymentApplications: BooksAPIInvoicePaymentApplicationsList;
+  /** The invoice number, as shown in the Invoice number field of the Books invoice in Mercury (for example `INV-1042`). Omitted when it has none. */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+}
+/** A general ledger to create. */
+export interface CreateBooksAPILedger {
+  debitCredit: unknown;
+  /** The ledger name */
+  name: string;
+  /** Optional parent ledger, to create this ledger as a child ledger */
+  parentId?: string | null | undefined;
+  /** Numeric sort code used to order the ledger in the chart of accounts */
+  sortCode: string;
+  subType: unknown;
+  type: unknown;
+}
+/** The ledgers to create, from 1 to 100 ('maxBooksAPILedgerWrites'). */
+export type CreateBooksLedgersRequestLedgersList = Array<CreateBooksAPILedger>;
+export interface CreateBooksLedgersRequest {
+  booksId?: string | undefined;
+  /** The ledgers to create, from 1 to 100 ('maxBooksAPILedgerWrites'). */
+  ledgers: CreateBooksLedgersRequestLedgersList;
+}
+export interface BooksAPICreateLedgerResultError {
+  code: unknown;
+  /** What went wrong and how to fix it, suitable to show to a user. */
+  message: string;
+}
+export interface BooksAPICreateLedgerResultLedger {
+  debitCredit: unknown;
+  /** Whether the ledger can be deleted now. A ledger can't be deleted if it is required, has line entries, is linked to a bank or card account, or has an integration (invoicing, commerce, or a linked Plaid account) mapped to it. `deleteBlockedReason` says which. */
+  deletable: boolean;
+  deleteBlockedReason?: unknown | null | undefined;
+  /** Whether line entries can be manually added to or removed from the ledger, for example by categorizing a transaction to it. False for ledgers whose activity a system controls, such as Mercury bank and card account ledgers and the accounts receivable and accounts payable required ledgers. */
+  editable: boolean;
+  financialAccountType?: unknown | null | undefined;
+  /** The stable identifier for the ledger. */
+  id: string;
+  /** Whether the ledger is a required ledger, which the accounting system needs to operate. Required ledgers can't be deleted, and only their `name`, `sortCode`, and `parentId` can be changed. */
+  isRequired: boolean;
+  /** The ledger's display name. */
+  name: string;
+  openingBalance?: unknown | null | undefined;
+  /** The identifier of the ledger's parent, if it is nested. */
+  parentId?: string | null | undefined;
+  requiredLedgerPurpose?: unknown | null | undefined;
+  /** The ledger/account number used for chart ordering and template mapping. */
+  sortCode: string;
+  subType: unknown;
+  type: unknown;
+}
+/** The outcome of creating one requested ledger: exactly one of `ledger` and `error` is set. */
+export interface BooksAPICreateLedgerResult {
+  error?: BooksAPICreateLedgerResultError | null | undefined;
+  ledger?: BooksAPICreateLedgerResultLedger | null | undefined;
+}
+/** One result per requested ledger, in request order. A failed item does not fail the others. */
+export type CreateBooksAPILedgersResponseResultsList = Array<BooksAPICreateLedgerResult>;
+/** One result per requested ledger, in request order. */
+export interface CreateBooksAPILedgersResponse {
+  /** How many items in `results` failed, each with an `error`. Zero exactly when every item succeeded. `succeededCount` plus `failedCount` always equals the number of `results`. */
+  failedCount: number;
+  /** One result per requested ledger, in request order. A failed item does not fail the others. */
+  results: CreateBooksAPILedgersResponseResultsList;
+  /** How many items in `results` succeeded. */
+  succeededCount: number;
+}
+/** An adjustment booked with a payment application, such as a bank fee or a discount that closes the rest of a bill or invoice, or an overpayment left on the line entry. */
+export interface BooksAPIPaymentApplicationAdjustment {
+  amount: unknown;
+  /** The ledger (general ledger account) the adjustment posts to. It must be in the Books instance and editable. */
+  ledgerId: string;
+}
+/** Adjustments on the line entry itself rather than on a bill or invoice, such as closing out an overpayment, at most 100. */
+export type CreateBooksPaymentApplicationsRequestAdjustmentsList =
+  Array<BooksAPIPaymentApplicationAdjustment>;
+/** Adjustments booked against this bill or invoice, at most 100. */
+export type BooksAPIPaymentApplicationAdjustmentsList = Array<BooksAPIPaymentApplicationAdjustment>;
+/** The part of the line entry's amount applied to one bill or invoice. */
+export interface BooksAPIPaymentApplication {
+  /** Adjustments booked against this bill or invoice, at most 100. */
+  adjustments?: BooksAPIPaymentApplicationAdjustmentsList | null | undefined;
+  amount: unknown;
+  /** The bill to pay. Give exactly one of `billId` and `invoiceId`, and the same one in every application. */
+  billId?: string | null | undefined;
+  /** The invoice paid. Give exactly one of `billId` and `invoiceId`, and the same one in every application. */
+  invoiceId?: string | null | undefined;
+}
+/** The bills, or the invoices, the line entry pays, from 1 to 100, each at most once. */
+export type CreateBooksPaymentApplicationsRequestApplicationsList =
+  Array<BooksAPIPaymentApplication>;
+export interface CreateBooksPaymentApplicationsRequest {
+  lineEntryId: string;
+  booksId?: string | undefined;
+  /** Adjustments on the line entry itself rather than on a bill or invoice, such as closing out an overpayment, at most 100. */
+  adjustments?: CreateBooksPaymentApplicationsRequestAdjustmentsList | null | undefined;
+  /** The bills, or the invoices, the line entry pays, from 1 to 100, each at most once. */
+  applications: CreateBooksPaymentApplicationsRequestApplicationsList;
+}
+/** A bill, invoice, or payroll run after the match or unmatch. A payroll run's amounts are signed, negative for a reversal run, as `getBooksPayrollRun` reports them. */
+export interface BooksAPIPaymentApplicationAccrualSource {
+  amountAdjusted: unknown;
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  displayStatus: unknown;
+  /** The ID of the bill, invoice, or payroll run. */
+  id: string;
+  status: unknown;
+}
+/** The bills the request matched or unmatched. Empty when the request matched invoices or the unmatch removed no bill. */
+export type BooksAPIPaymentApplicationsResponseBillsList =
+  Array<BooksAPIPaymentApplicationAccrualSource>;
+/** The invoices the request matched or unmatched. Empty when the request matched bills or the unmatch removed no invoice. */
+export type BooksAPIPaymentApplicationsResponseInvoicesList =
+  Array<BooksAPIPaymentApplicationAccrualSource>;
+export interface BooksAPIPaymentApplicationsResponseLineEntry {
+  amount: unknown;
+  amountAdjusted: unknown;
+  amountApplied: unknown;
+  /** The ID of the line entry, the one in the request path. */
+  id: string;
+  /** The ID of the line entry's journal entry. */
+  journalEntryId: string;
+  /** The ID of the transaction the line entry belongs to, as `getBooksTransaction` takes it. Omitted when the line entry isn't a transaction's. */
+  transactionId?: string | null | undefined;
+}
+/** The payroll runs the unmatch removed, one per run, whether the line entry was matched to the whole run or to its lines. Always empty for a match. */
+export type BooksAPIPaymentApplicationsResponsePayrollRunsList =
+  Array<BooksAPIPaymentApplicationAccrualSource>;
+/** The result of matching a line entry to bills or invoices, or of unmatching it from its bills, invoices, and payroll runs. Both operations return this shape. */
+export interface BooksAPIPaymentApplicationsResponse {
+  /** The bills the request matched or unmatched. Empty when the request matched invoices or the unmatch removed no bill. */
+  bills: BooksAPIPaymentApplicationsResponseBillsList;
+  /** The invoices the request matched or unmatched. Empty when the request matched bills or the unmatch removed no invoice. */
+  invoices: BooksAPIPaymentApplicationsResponseInvoicesList;
+  lineEntry: BooksAPIPaymentApplicationsResponseLineEntry;
+  /** The payroll runs the unmatch removed, one per run, whether the line entry was matched to the whole run or to its lines. Always empty for a match. */
+  payrollRuns: BooksAPIPaymentApplicationsResponsePayrollRunsList;
+}
 export type ApiV1BudgetFrequency = "oneTime" | "daily" | "weekly" | "monthly" | "yearly";
 export interface CreateBudgetRequest {
-  amountPerUserPerPeriod?: number | null | undefined;
+  amountPerUserPerPeriod?: unknown | null | undefined;
   description?: string | null | undefined;
   endDate?: string | null | undefined;
   frequency: ApiV1BudgetFrequency | (string & {});
@@ -620,6 +1631,7 @@ export type CreateInvoiceRequestCcEmailsList = Array<string>;
 export interface ApiV1ArLineItemData {
   /** the name of the line item */
   name: string;
+  productId?: unknown | null | undefined;
   /** the quantity of this item */
   quantity: number;
   /** the sales tax applied to this item */
@@ -697,6 +1709,23 @@ export interface ApiV1ArInvoiceResponse {
   updatedAt: unknown;
   /** Whether or not the invoice payment instructions will show the real account and routing number for the destination account or use virtual account numbers instead. */
   useRealAccountNumber: boolean;
+}
+export interface CreateProductRequest {
+  /** Optional description of the product. */
+  description?: string | null | undefined;
+  /** Name of the product. Must be unique per organization in combination with the unit price. */
+  name: string;
+  unitPrice: unknown;
+}
+/** A product catalog item for Accounts Receivable API endpoints */
+export interface ApiV1ArProductResponseData {
+  /** Description of the product, if any. */
+  description?: string | null | undefined;
+  id: unknown;
+  /** Name of the product. */
+  name: string;
+  unitPrice: unknown;
+  updatedAt: unknown;
 }
 export interface CreateReceiptUploadUrlRequest {
   fileName: string;
@@ -841,6 +1870,20 @@ export interface RecipientInviteApiResponse {
   requireTaxDocument: boolean;
   status: unknown;
 }
+export interface CreateReimbursementRequest {
+  /** The positive amount spent. */
+  amount: number;
+  categoryId?: string | null | undefined;
+  currency: unknown;
+  datePaidFor: unknown;
+  /** Where the money was spent, e.g. "Starbucks". */
+  merchantName: string;
+  notes?: string | null | undefined;
+}
+/** The stable id of a freshly created reimbursement; GET it for the full view. */
+export interface ApiV1CreateReimbursementResponse {
+  id: string;
+}
 export type PostTransactionPaymentMethod = "ach" | "check" | "domesticWire" | "realTimePayment";
 /** Payment category. */
 export type SimplePurposeCategory =
@@ -871,6 +1914,8 @@ export interface CreateTransactionRequest {
   accountId: string;
   /** Amount of USD you want to send, must be a positive number. */
   amount: number;
+  /** Set to true to skip the duplicate payment check. By default, payments are blocked if the same account sent the same amount to the same recipient with the same payment method in the last 24 hours, even when the idempotency key is different. Use this field only when you intentionally send a repeat payment. */
+  duplicateCheckOverride?: boolean | undefined;
   /** Optional external memo */
   externalMemo?: string | undefined;
   /** Unique string identifying the transaction */
@@ -953,6 +1998,42 @@ export interface ApiWebhookResponse {
   /** The URL that will receive webhook POST requests */
   url: string;
 }
+export interface DeleteBooksCategorizationRuleRequest {
+  ruleId: string;
+  booksId?: string | undefined;
+}
+export interface DeleteBooksCategorizationRuleResponse {}
+/** The IDs of the ledgers to delete, from 1 to 100 distinct IDs, processed in order. List a child ledger before its parent: a parent that still has children when it is reached is not deleted. A repeated ID is processed once, at its first position. */
+export type DeleteBooksLedgersRequestLedgerIdsList = Array<string>;
+export interface DeleteBooksLedgersRequest {
+  booksId?: string | undefined;
+  /** The IDs of the ledgers to delete, from 1 to 100 distinct IDs, processed in order. List a child ledger before its parent: a parent that still has children when it is reached is not deleted. A repeated ID is processed once, at its first position. */
+  ledgerIds: DeleteBooksLedgersRequestLedgerIdsList;
+}
+export type BooksAPIDeleteLedgerResultError = BooksAPICreateLedgerResultError;
+/** The outcome of deleting one requested ledger: `deleted` is true, or `error` says why the ledger was not deleted. */
+export interface BooksAPIDeleteLedgerResult {
+  /** Whether the ledger was deleted. */
+  deleted: boolean;
+  error?: BooksAPICreateLedgerResultError | null | undefined;
+  /** The requested ledger ID. */
+  ledgerId: string;
+}
+/** One result per distinct requested ledger ID, in request order. A failed item does not fail the others. */
+export type DeleteBooksAPILedgersResponseResultsList = Array<BooksAPIDeleteLedgerResult>;
+/** One result per distinct requested ledger ID, in request order. */
+export interface DeleteBooksAPILedgersResponse {
+  /** How many items in `results` failed, each with an `error`. Zero exactly when every item succeeded. `succeededCount` plus `failedCount` always equals the number of `results`. */
+  failedCount: number;
+  /** One result per distinct requested ledger ID, in request order. A failed item does not fail the others. */
+  results: DeleteBooksAPILedgersResponseResultsList;
+  /** How many items in `results` succeeded. */
+  succeededCount: number;
+}
+export interface DeleteBooksPaymentApplicationsRequest {
+  lineEntryId: string;
+  booksId?: string | undefined;
+}
 export interface DeleteCategoryRequest {
   expenseCategoryId: string;
 }
@@ -961,6 +2042,10 @@ export interface DeleteCustomerRequest {
   customerId: string;
 }
 export interface DeleteCustomerResponse {}
+export interface DeleteProductRequest {
+  productId: string;
+}
+export interface DeleteProductResponse {}
 export interface DeleteRecipientRequest {
   recipientId: string;
 }
@@ -973,6 +2058,11 @@ export interface DeleteWebhookRequest {
   webhookEndpointId: string;
 }
 export interface DeleteWebhookResponse {}
+export interface DenyReimbursementRequest {
+  reimbursementId: string;
+  reason: string;
+}
+export interface DenyReimbursementResponse {}
 export interface EditCategoryRequest {
   expenseCategoryId: string;
   name?: unknown | null | undefined;
@@ -1100,17 +2190,6 @@ export interface DepositoryAccountStatementsPaginatedResponse {
   page: AccountsPaginatedResponsePage;
   statements: DepositoryAccountStatementsPaginatedResponseStatementsList;
 }
-export interface GetAttachmentRequest {
-  attachmentId: string;
-}
-/** The object representing a file attachment for an invoice. The file is not a part of this object itself but information for where to download it will be in this object. */
-export interface ApiV1ArAttachmentResponseData {
-  /** The filename for the file. */
-  fileName: string;
-  id: unknown;
-  /** The signed download URL for the file itself. */
-  url: string;
-}
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetAutoTransferRulesRequestOrder = "asc" | "desc";
 export interface GetAutoTransferRulesRequest {
@@ -1172,6 +2251,1112 @@ export interface AutoTransferRulesResponse {
   page: AccountsPaginatedResponsePage;
   /** Rules in the current page. */
   rules: AutoTransferRulesResponseRulesList;
+}
+/** The length of time each column covers. Daily reports can span at most 1 year; other periods at most 5 years. Defaults to daily. */
+export type GetBooksBalanceSheetRequestPeriod = "daily" | "monthly" | "quarterly" | "yearly";
+export interface GetBooksBalanceSheetRequest {
+  booksId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  period?: GetBooksBalanceSheetRequestPeriod | (string & {}) | undefined;
+  includeEmpty?: boolean | undefined;
+  includeOnlyClosed?: boolean | undefined;
+}
+/** A report column. The amount lists on each row are ordered to match the report's columns. */
+export interface BooksAPIReportColumn {
+  endDate?: unknown | null | undefined;
+  /** Whether @startDate@ and @endDate@ cover fewer days than the column's label, because the label extends before the Books entries start date or after today. Always true when @startDate@ and @endDate@ are omitted. */
+  isPartial: boolean;
+  /** The column's name: @yyyy@ (yearly), @yyyy-Qn@ (quarterly), @yyyy-MM@ (monthly), @yyyy-MM-dd@ (daily), or @yyyy-MM-dd - yyyy-MM-dd@ when the report is not broken down by period. */
+  label: string;
+  startDate?: unknown | null | undefined;
+}
+/** The report's columns, in chronological order. */
+export type BooksAPIReportColumnsList = Array<BooksAPIReportColumn>;
+/** For each column, current-year revenues minus current-year expenses, before journal entries posted to the Current Year Earnings ledger. */
+export type BooksAPIReportRetainedEarningsCalculatedCurrentYearEarningsList = Array<number>;
+/** For each column, prior-year revenues minus prior-year expenses, before journal entries posted to the Retained Earnings ledger. */
+export type BooksAPIReportRetainedEarningsCalculatedRetainedEarningsList = Array<number>;
+export interface BooksAPIReportRetainedEarnings {
+  /** For each column, current-year revenues minus current-year expenses, before journal entries posted to the Current Year Earnings ledger. */
+  calculatedCurrentYearEarnings: BooksAPIReportRetainedEarningsCalculatedCurrentYearEarningsList;
+  /** For each column, prior-year revenues minus prior-year expenses, before journal entries posted to the Retained Earnings ledger. */
+  calculatedRetainedEarnings: BooksAPIReportRetainedEarningsCalculatedRetainedEarningsList;
+}
+/** The row's own amount for each column, excluding its children. */
+export type BooksAPIReportRowAmountsList = Array<number>;
+/** The rows nested under this row. */
+export type BooksAPIReportRowChildrenList = Array<BooksAPIReportRow>;
+/** The row's amount for each column, including all of its children. */
+export type BooksAPIReportRowTotalAmountsList = Array<number>;
+/** A row in an income statement or balance sheet. */
+export interface BooksAPIReportRow {
+  /** The row's own amount for each column, excluding its children. */
+  amounts: BooksAPIReportRowAmountsList;
+  /** The rows nested under this row. */
+  children: BooksAPIReportRowChildrenList;
+  debitCredit: unknown;
+  /** The ledger this row represents. Omitted unless @rowKind@ is @ledger@. */
+  ledgerId?: string | null | undefined;
+  /** The ledger name, the summary heading, or the name of the calculated metric. */
+  name: string;
+  /** The parent ledger of this row's ledger, if it is nested. */
+  parentId?: string | null | undefined;
+  rowKind: unknown;
+  /** The ledger/account number used for chart ordering. Omitted unless @rowKind@ is @ledger@. */
+  sortCode?: string | null | undefined;
+  subType?: unknown | null | undefined;
+  /** The row's amount for each column, including all of its children. */
+  totalAmounts: BooksAPIReportRowTotalAmountsList;
+  type?: unknown | null | undefined;
+}
+/** The report's top-level rows. */
+export type BooksAPIReportRowsList = Array<BooksAPIReportRow>;
+/** An income statement or balance sheet broken down into columns. */
+export interface BooksAPIReport {
+  /** The report's columns, in chronological order. */
+  columns: BooksAPIReportColumnsList;
+  retainedEarnings?: BooksAPIReportRetainedEarnings | null | undefined;
+  /** The report's top-level rows. */
+  rows: BooksAPIReportRowsList;
+}
+export interface GetBooksBillRequest {
+  billId: string;
+  booksId?: string | undefined;
+}
+/** The line items. */
+export type GetBooksAPIBillResponseBillLinesList = Array<BooksAPIBillLine>;
+/** The payments applied. Empty when none. */
+export type GetBooksAPIBillResponseBillPaymentApplicationsList =
+  Array<BooksAPIBillPaymentApplication>;
+export type GetBooksAPIBillResponseBillVendor = BooksAPIBillVendor;
+export interface GetBooksAPIBillResponseBill {
+  amountRemaining: unknown;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  grossAmount: unknown;
+  /** The identifier of the bill. */
+  id: string;
+  /** The line items. */
+  lines: GetBooksAPIBillResponseBillLinesList;
+  /** The bill's notes or memo. Omitted when it has none. */
+  notes?: string | null | undefined;
+  /** The payments applied. Empty when none. */
+  paymentApplications: GetBooksAPIBillResponseBillPaymentApplicationsList;
+  /** The bill number. Omitted when it has none. */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+  vendor?: BooksAPIBillVendor | null | undefined;
+}
+/** A single bill (accounts payable), as returned by the retrieve-one endpoint. The @bill@ is the same item shape as an element of @GET /bills@. */
+export interface GetBooksAPIBillResponse {
+  bill: GetBooksAPIBillResponseBill;
+}
+export type GetBooksBillsRequestStatusItem = "open" | "paid" | "draft" | "cancelled" | "processing";
+/** Comma-separated list of stored statuses to include. */
+export type GetBooksBillsRequestStatusList = Array<GetBooksBillsRequestStatusItem | (string & {})>;
+export type GetBooksBillsRequestDisplayStatusItem =
+  | "open"
+  | "paid"
+  | "draft"
+  | "cancelled"
+  | "overdue"
+  | "partiallyPaid"
+  | "processing";
+/** Comma-separated list of display statuses to include, such as `overdue` or `partiallyPaid`. */
+export type GetBooksBillsRequestDisplayStatusList = Array<
+  GetBooksBillsRequestDisplayStatusItem | (string & {})
+>;
+/** Comma-separated list of at most 100 distinct vendor (Books counterparty) IDs. */
+export type GetBooksBillsRequestVendorIdsList = Array<string>;
+/** Comma-separated list of at most 100 distinct bill IDs. Use it to read specific bills. */
+export type GetBooksBillsRequestIdsList = Array<string>;
+export type GetBooksBillsRequestSortItem =
+  | "referenceNumberAsc"
+  | "referenceNumberDesc"
+  | "effectiveDateAsc"
+  | "effectiveDateDesc"
+  | "dueDateAsc"
+  | "dueDateDesc"
+  | "displayStatusAsc"
+  | "displayStatusDesc"
+  | "grossAmountAsc"
+  | "grossAmountDesc"
+  | "amountRemainingAsc"
+  | "amountRemainingDesc";
+/** Comma-separated list of sort keys, applied in order. Defaults to effectiveDateDesc. */
+export type GetBooksBillsRequestSortList = Array<GetBooksBillsRequestSortItem | (string & {})>;
+export interface GetBooksBillsRequest {
+  booksId?: string | undefined;
+  effectiveDateStart?: string | undefined;
+  effectiveDateEnd?: string | undefined;
+  dueDateStart?: string | undefined;
+  dueDateEnd?: string | undefined;
+  status?: GetBooksBillsRequestStatusList | undefined;
+  displayStatus?: GetBooksBillsRequestDisplayStatusList | undefined;
+  vendorIds?: GetBooksBillsRequestVendorIdsList | undefined;
+  ids?: GetBooksBillsRequestIdsList | undefined;
+  referenceNumber?: string | undefined;
+  grossAmount?: number | undefined;
+  minGrossAmount?: number | undefined;
+  maxGrossAmount?: number | undefined;
+  amountRemaining?: number | undefined;
+  minAmountRemaining?: number | undefined;
+  maxAmountRemaining?: number | undefined;
+  keywords?: string | undefined;
+  sort?: GetBooksBillsRequestSortList | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** The bills on this page. */
+export type GetBooksAPIBillsResponseBillsList = Array<BooksAPIBill>;
+/** One page of a Books instance's bills. */
+export interface GetBooksAPIBillsResponse {
+  /** The bills on this page. */
+  bills: GetBooksAPIBillsResponseBillsList;
+  /** Present when more results match the request. Pass it back as `pageToken`, with the same other parameters, to fetch the next page, and keep doing so until a response has no `nextPageToken`. */
+  nextPageToken?: string | null | undefined;
+  /** Present when there is an earlier page. Pass it back as `pageToken`, with the same other parameters, to fetch the previous page. */
+  prevPageToken?: string | null | undefined;
+}
+/** The length of time each column covers. Daily reports can span at most 1 year; other periods at most 5 years. Defaults to a single column covering the whole range, which can also span at most 5 years. */
+export type GetBooksCashFlowRequestPeriod = "daily" | "monthly" | "quarterly" | "yearly";
+export interface GetBooksCashFlowRequest {
+  booksId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  period?: GetBooksCashFlowRequestPeriod | (string & {}) | undefined;
+  includeOnlyClosed?: boolean | undefined;
+}
+/** The report's columns, in chronological order. */
+export type BooksAPICashFlowReportColumnsList = Array<BooksAPIReportColumn>;
+/** For each column, the ledger's own debit balance, excluding its children. */
+export type BooksAPICashBalanceRowBalancesList = Array<number>;
+/** The ledgers nested under this ledger. */
+export type BooksAPICashBalanceRowChildrenList = Array<BooksAPICashBalanceRow>;
+/** For each column, the debit balance of the ledger and all of its children. */
+export type BooksAPICashBalanceRowTotalBalancesList = Array<number>;
+/** The cash balance of a cash ledger at the start or end of each column of a cash flow report. */
+export interface BooksAPICashBalanceRow {
+  /** For each column, the ledger's own debit balance, excluding its children. */
+  balances: BooksAPICashBalanceRowBalancesList;
+  /** The ledgers nested under this ledger. */
+  children: BooksAPICashBalanceRowChildrenList;
+  /** The cash ledger this row represents. */
+  ledgerId: string;
+  /** The ledger's display name. */
+  name: string;
+  /** The parent ledger, if this ledger is nested. */
+  parentId?: string | null | undefined;
+  /** The ledger/account number used for chart ordering. */
+  sortCode: string;
+  /** For each column, the debit balance of the ledger and all of its children. */
+  totalBalances: BooksAPICashBalanceRowTotalBalancesList;
+}
+/** The top-level cash ledgers' balances at the end of each column. */
+export type BooksAPICashFlowReportEndingBalancesList = Array<BooksAPICashBalanceRow>;
+/** For each column, the total debit balance of all cash ledgers at the end of the column. */
+export type BooksAPICashFlowReportEndingCashBalancesList = Array<number>;
+/** The ledgers nested under this ledger. */
+export type BooksAPICashFlowLedgerRowChildrenList = Array<BooksAPICashFlowLedgerRow>;
+/** For each column, the sum of the ledger's own cash line entries, excluding its children. */
+export type BooksAPICashFlowLedgerRowNetCashFlowsList = Array<number>;
+/** For each column, the sum of the cash line entries in the ledger and all of its children. */
+export type BooksAPICashFlowLedgerRowTotalNetCashFlowsList = Array<number>;
+/** Net cash movement through a ledger in each column of a cash flow report. */
+export interface BooksAPICashFlowLedgerRow {
+  /** The ledgers nested under this ledger. */
+  children: BooksAPICashFlowLedgerRowChildrenList;
+  /** The ledger this row represents. */
+  ledgerId: string;
+  /** The ledger's display name. */
+  name: string;
+  /** For each column, the sum of the ledger's own cash line entries, excluding its children. */
+  netCashFlows: BooksAPICashFlowLedgerRowNetCashFlowsList;
+  /** The parent ledger, if this ledger is nested. */
+  parentId?: string | null | undefined;
+  /** For each column, the sum of the cash line entries in the ledger and all of its children. */
+  totalNetCashFlows: BooksAPICashFlowLedgerRowTotalNetCashFlowsList;
+}
+/** The top-level ledgers that cash moved through. */
+export type BooksAPICashFlowReportLedgersList = Array<BooksAPICashFlowLedgerRow>;
+/** The top-level cash ledgers' balances at the start of each column. */
+export type BooksAPICashFlowReportStartingBalancesList = Array<BooksAPICashBalanceRow>;
+/** For each column, the total debit balance of all cash ledgers at the start of the column. */
+export type BooksAPICashFlowReportStartingCashBalancesList = Array<number>;
+/** A cash flow report broken down into columns. */
+export interface BooksAPICashFlowReport {
+  /** The report's columns, in chronological order. */
+  columns: BooksAPICashFlowReportColumnsList;
+  /** The top-level cash ledgers' balances at the end of each column. */
+  endingBalances: BooksAPICashFlowReportEndingBalancesList;
+  /** For each column, the total debit balance of all cash ledgers at the end of the column. */
+  endingCashBalances: BooksAPICashFlowReportEndingCashBalancesList;
+  /** The top-level ledgers that cash moved through. */
+  ledgers: BooksAPICashFlowReportLedgersList;
+  /** The top-level cash ledgers' balances at the start of each column. */
+  startingBalances: BooksAPICashFlowReportStartingBalancesList;
+  /** For each column, the total debit balance of all cash ledgers at the start of the column. */
+  startingCashBalances: BooksAPICashFlowReportStartingCashBalancesList;
+}
+export interface GetBooksCategorizationRulesRequest {
+  booksId?: string | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** The conditions a transaction must match. At least one; every condition must match (logical AND). There is no OR: an "any of" rule is written as separate rules. */
+export type BooksAPICategorizationRuleConditionsList = Array<BooksAPICategorizationRuleCondition>;
+/** What the rule applies to a matching transaction. At least one. */
+export type BooksAPICategorizationRuleOutputsList = Array<BooksAPICategorizationRuleOutput>;
+/** A categorization rule: when a transaction matches all its `conditions`, Books applies its `outputs`, such as categorizing the transaction to a ledger. Only rules that Books can represent are listed: a rule with a condition or output outside this vocabulary (for example, an accounting-integration rule that sets a Mercury custom category), or whose GL account no longer maps to a Books ledger, is omitted. */
+export interface BooksAPICategorizationRule {
+  /** The conditions a transaction must match. At least one; every condition must match (logical AND). There is no OR: an "any of" rule is written as separate rules. */
+  conditions: BooksAPICategorizationRuleConditionsList;
+  /** The display name of the general ledger (GL) account the rule categorizes to. Absent when the rule sets none. */
+  glCodeName?: string | null | undefined;
+  /** The rule's stable identifier. */
+  id: string;
+  lastApplied?: unknown | null | undefined;
+  /** What the rule applies to a matching transaction. At least one. */
+  outputs: BooksAPICategorizationRuleOutputsList;
+  status: unknown;
+}
+/** The rules on this page, highest priority first. When several rules match a transaction, the first one applies. Rules Books can't represent are omitted. */
+export type GetBooksAPICategorizationRulesResponseRulesList = Array<BooksAPICategorizationRule>;
+/** A page of a Books instance's categorization rules, in priority order. */
+export interface GetBooksAPICategorizationRulesResponse {
+  /** Pass as `pageToken` to fetch the next page, or null on the last page. */
+  nextPageToken?: string | null | undefined;
+  /** The rules on this page, highest priority first. When several rules match a transaction, the first one applies. Rules Books can't represent are omitted. */
+  rules: GetBooksAPICategorizationRulesResponseRulesList;
+}
+export interface GetBooksClosesRequest {
+  booksId?: string | undefined;
+}
+/** A close of the Books instance: the books are closed through `closeDate`. Closes are soft: journal entries dated on or before `closeDate` can still be created and edited. */
+export interface BooksAPIClose {
+  closeDate: unknown;
+  /** The unique identifier of the close. */
+  closeId: string;
+}
+/** The closes, sorted by `closeDate`, latest first. The first item is the current close date; the list is empty when the books have never been closed. */
+export type GetBooksAPIClosesResponseClosesList = Array<BooksAPIClose>;
+/** Every close recorded for a Books instance, sorted by `closeDate`, latest first. */
+export interface GetBooksAPIClosesResponse {
+  /** The closes, sorted by `closeDate`, latest first. The first item is the current close date; the list is empty when the books have never been closed. */
+  closes: GetBooksAPIClosesResponseClosesList;
+}
+export interface GetBooksInstancesRequest {
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** A Books instance, i.e. one organization's books, that the token can act on. */
+export interface BooksAPIInstance {
+  booksId: unknown;
+  /** The callsign, a short unique handle, of the organization the Books instance belongs to. */
+  callsign: string;
+  /** The name of the organization the Books instance belongs to. */
+  companyName: string;
+  organizationId: unknown;
+  relationship: unknown;
+}
+/** The Books instances on this page, sorted by company name. */
+export type GetBooksAPIInstancesResponseInstancesList = Array<BooksAPIInstance>;
+/** Response listing a page of the Books instances the token can act on. */
+export interface GetBooksAPIInstancesResponse {
+  /** The Books instances on this page, sorted by company name. */
+  instances: GetBooksAPIInstancesResponseInstancesList;
+  /** Pass as `pageToken` to fetch the next page, or null on the last page. */
+  nextPageToken?: string | null | undefined;
+}
+export interface GetBooksIntegrationsRequest {
+  booksId?: string | undefined;
+}
+export type BooksAPIIntegrationCheck = "externalBanks" | "commerce" | "payroll";
+/** Areas whose health could not be checked. For a listed area, health is unknown, not broken: don't treat its missing providers as never connected, and don't tell the user to reconnect them. Other areas' integrations are still returned. When empty, a missing provider was never connected. */
+export type GetBooksAPIIntegrationsResponseFailedChecksList = Array<BooksAPIIntegrationCheck>;
+/** One existing connection the Books instance syncs data from: an external bank or credit card account, a Stripe or PayPal account, or a Gusto payroll account. */
+export interface BooksAPIIntegration {
+  connectionStatus: unknown;
+  /** The identifier of the integration, as a UUID string. It is unique only among integrations with the same `provider`. */
+  integrationId: string;
+  lastSyncedAt?: unknown | null | undefined;
+  /** The integration's display name, such as `Chase Credit (...1234)`, `Stripe Store 1`, or `Gusto`. */
+  name: string;
+  provider: unknown;
+  requiredAction: unknown;
+  /** The source account the integration feeds in Books, when it is mapped to one: the `sourceAccountId` to pass when listing its transactions. */
+  sourceAccountId?: string | null | undefined;
+}
+/** One entry per existing integration. A provider the organization never connected has no entry, and neither has a removed Plaid connection, so a missing bank entry doesn't tell a never-connected account from a removed one. A disabled connection that still exists is returned as `inactive`. Mercury accounts and manual accounts are never included. */
+export type GetBooksAPIIntegrationsResponseIntegrationsList = Array<BooksAPIIntegration>;
+/** The connection health of every integration the Books instance syncs data from. */
+export interface GetBooksAPIIntegrationsResponse {
+  /** Areas whose health could not be checked. For a listed area, health is unknown, not broken: don't treat its missing providers as never connected, and don't tell the user to reconnect them. Other areas' integrations are still returned. When empty, a missing provider was never connected. */
+  failedChecks: GetBooksAPIIntegrationsResponseFailedChecksList;
+  /** One entry per existing integration. A provider the organization never connected has no entry, and neither has a removed Plaid connection, so a missing bank entry doesn't tell a never-connected account from a removed one. A disabled connection that still exists is returned as `inactive`. Mercury accounts and manual accounts are never included. */
+  integrations: GetBooksAPIIntegrationsResponseIntegrationsList;
+}
+export interface GetBooksInvoiceRequest {
+  invoiceId: string;
+  booksId?: string | undefined;
+}
+export type GetBooksAPIInvoiceResponseInvoiceCustomer = BooksAPIInvoiceCustomer;
+/** The line items. */
+export type GetBooksAPIInvoiceResponseInvoiceLinesList = Array<BooksAPIInvoiceLine>;
+/** The payments applied. Empty when none. */
+export type GetBooksAPIInvoiceResponseInvoicePaymentApplicationsList =
+  Array<BooksAPIBillPaymentApplication>;
+export interface GetBooksAPIInvoiceResponseInvoice {
+  amountRemaining: unknown;
+  customer?: BooksAPIInvoiceCustomer | null | undefined;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  grossAmount: unknown;
+  /** The identifier of the invoice. */
+  id: string;
+  /** The line items. */
+  lines: GetBooksAPIInvoiceResponseInvoiceLinesList;
+  /** The invoice's note, as shown in the Note field of the Books invoice in Mercury. Omitted when it has none. */
+  notes?: string | null | undefined;
+  /** The payments applied. Empty when none. */
+  paymentApplications: GetBooksAPIInvoiceResponseInvoicePaymentApplicationsList;
+  /** The invoice number, as shown in the Invoice number field of the Books invoice in Mercury (for example `INV-1042`). Omitted when it has none. */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+}
+/** A single invoice (accounts receivable), as returned by the retrieve-one endpoint. The @invoice@ is the same item shape as an element of @GET /invoices@. */
+export interface GetBooksAPIInvoiceResponse {
+  invoice: GetBooksAPIInvoiceResponseInvoice;
+}
+export type GetBooksInvoicesRequestStatusItem =
+  | "open"
+  | "paid"
+  | "draft"
+  | "cancelled"
+  | "processing";
+/** Comma-separated list of stored statuses to include. */
+export type GetBooksInvoicesRequestStatusList = Array<
+  GetBooksInvoicesRequestStatusItem | (string & {})
+>;
+export type GetBooksInvoicesRequestDisplayStatusItem =
+  | "open"
+  | "paid"
+  | "draft"
+  | "cancelled"
+  | "overdue"
+  | "partiallyPaid"
+  | "processing";
+/** Comma-separated list of display statuses to include, such as `overdue` or `partiallyPaid`. */
+export type GetBooksInvoicesRequestDisplayStatusList = Array<
+  GetBooksInvoicesRequestDisplayStatusItem | (string & {})
+>;
+/** Comma-separated list of at most 100 distinct Mercury Invoicing customer IDs. */
+export type GetBooksInvoicesRequestCustomerIdsList = Array<string>;
+/** Comma-separated list of at most 100 distinct invoice IDs. Use it to read specific invoices. */
+export type GetBooksInvoicesRequestIdsList = Array<string>;
+export type GetBooksInvoicesRequestSortItem =
+  | "referenceNumberAsc"
+  | "referenceNumberDesc"
+  | "effectiveDateAsc"
+  | "effectiveDateDesc"
+  | "dueDateAsc"
+  | "dueDateDesc"
+  | "displayStatusAsc"
+  | "displayStatusDesc"
+  | "grossAmountAsc"
+  | "grossAmountDesc"
+  | "amountRemainingAsc"
+  | "amountRemainingDesc";
+/** Comma-separated list of sort keys, applied in order. Defaults to effectiveDateDesc. */
+export type GetBooksInvoicesRequestSortList = Array<
+  GetBooksInvoicesRequestSortItem | (string & {})
+>;
+export interface GetBooksInvoicesRequest {
+  booksId?: string | undefined;
+  effectiveDateStart?: string | undefined;
+  effectiveDateEnd?: string | undefined;
+  dueDateStart?: string | undefined;
+  dueDateEnd?: string | undefined;
+  status?: GetBooksInvoicesRequestStatusList | undefined;
+  displayStatus?: GetBooksInvoicesRequestDisplayStatusList | undefined;
+  customerIds?: GetBooksInvoicesRequestCustomerIdsList | undefined;
+  ids?: GetBooksInvoicesRequestIdsList | undefined;
+  referenceNumber?: string | undefined;
+  grossAmount?: number | undefined;
+  minGrossAmount?: number | undefined;
+  maxGrossAmount?: number | undefined;
+  amountRemaining?: number | undefined;
+  minAmountRemaining?: number | undefined;
+  maxAmountRemaining?: number | undefined;
+  keywords?: string | undefined;
+  sort?: GetBooksInvoicesRequestSortList | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** The invoices on this page. */
+export type GetBooksAPIInvoicesResponseInvoicesList = Array<BooksAPIInvoice>;
+/** One page of a Books instance's invoices. */
+export interface GetBooksAPIInvoicesResponse {
+  /** The invoices on this page. */
+  invoices: GetBooksAPIInvoicesResponseInvoicesList;
+  /** Present when more results match the request. Pass it back as `pageToken`, with the same other parameters, to fetch the next page, and keep doing so until a response has no `nextPageToken`. */
+  nextPageToken?: string | null | undefined;
+  /** Present when there is an earlier page. Pass it back as `pageToken`, with the same other parameters, to fetch the previous page. */
+  prevPageToken?: string | null | undefined;
+}
+/** Comma-separated list of expandable paths. */
+export type GetBooksJournalEntryRequestExpand =
+  | "lineEntries"
+  | "lineEntriesTransactions"
+  | "lineEntriesLedger"
+  | "lineEntriesOpposingLedgerIds"
+  | "lineEntriesPaymentApplications"
+  | "lineEntriesLinePaymentApplications"
+  | "accrualSource"
+  | "transfer"
+  | "autocatResult";
+export interface GetBooksJournalEntryRequest {
+  journalEntryId: string;
+  booksId?: string | undefined;
+  expand?: GetBooksJournalEntryRequestExpand | (string & {}) | undefined;
+}
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceBillPayInvoiceAttachment =
+  BooksJournalEntryAccrualSourceBillPayInvoiceAttachment;
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceExternalPartyIdTag =
+  "counterpartyId";
+export interface GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceExternalPartyId {
+  contents?: string | undefined;
+  tag?: GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceExternalPartyIdTag | undefined;
+}
+/** The files associated with the accrual source, if any */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceFilesList =
+  Array<BooksAccrualSourceFile>;
+/** The journal entry IDs generated from the accrual source. */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceJournalEntryIdsList =
+  Array<string>;
+/** The lines that make up the accrual source. At least one line is required. */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceLinesList =
+  Array<BooksAccrualSourceLine>;
+/** Payments applied to the accrual source */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourcePaymentApplicationsList =
+  Array<BooksAccrualSourcePaymentApplication>;
+/** The type of the accrual source */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceType =
+  | "invoice"
+  | "bill"
+  | "payroll";
+/** Payments Mercury recorded against this accrual source that have not reached Books, each with the reason it hasn't. */
+export type GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceUnappliedPaymentsList =
+  Array<BooksAccrualSourceUnappliedPayment>;
+export interface GetBooksAPIJournalEntryResponseJournalEntryAccrualSource {
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  billPayInvoiceAttachment?:
+    | BooksJournalEntryAccrualSourceBillPayInvoiceAttachment
+    | null
+    | undefined;
+  displayStatus: unknown;
+  dueDate?: unknown | null | undefined;
+  effectiveDate: unknown;
+  /** The external ID of the accrual source, if applicable */
+  externalId?: string | null | undefined;
+  externalPartyId?:
+    | GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceExternalPartyId
+    | null
+    | undefined;
+  /** The files associated with the accrual source, if any */
+  files?: GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceFilesList | null | undefined;
+  grossAmount: unknown;
+  /** The ID of the accrual source. Missing when the accrual source has not yet been created in Teal -- i.e. when the synchronous Teal sync failed and was deferred to an async workflow. Signal that the accrual source is pending sync. */
+  id?: string | null | undefined;
+  /** The journal entry IDs generated from the accrual source. */
+  journalEntryIds: GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceJournalEntryIdsList;
+  /** The lines that make up the accrual source. At least one line is required. */
+  lines?: GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceLinesList | null | undefined;
+  needsActionReason?: unknown | null | undefined;
+  /** Optional notes or memo for the accrual source */
+  notes?: string | null | undefined;
+  /** Payments applied to the accrual source */
+  paymentApplications?:
+    | GetBooksAPIJournalEntryResponseJournalEntryAccrualSourcePaymentApplicationsList
+    | null
+    | undefined;
+  /** The reference number of the accrual source */
+  referenceNumber?: string | null | undefined;
+  status: unknown;
+  /** The type of the accrual source */
+  type: GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceType;
+  /** Payments Mercury recorded against this accrual source that have not reached Books, each with the reason it hasn't. */
+  unappliedPayments?:
+    | GetBooksAPIJournalEntryResponseJournalEntryAccrualSourceUnappliedPaymentsList
+    | null
+    | undefined;
+}
+export type GetBooksAPIJournalEntryResponseJournalEntryAutocatResult =
+  BooksJournalEntryAutocatResult;
+/** List of Line Entries. Included in expanded responses. */
+export type GetBooksAPIJournalEntryResponseJournalEntryLineEntriesList = Array<BooksLineEntry>;
+/** The ids of the Line Entries detailing the Journal Entry's movement of value. */
+export type GetBooksAPIJournalEntryResponseJournalEntryLineEntryIdsList = Array<string>;
+/** This side's Line Entries (used to derive the amount and source account). */
+export type GetBooksAPIJournalEntryResponseJournalEntryTransferFromEntryLineEntriesList =
+  Array<BooksLineEntry>;
+export interface GetBooksAPIJournalEntryResponseJournalEntryTransferFromEntry {
+  datetime: unknown;
+  /** This side's Journal Entry description. */
+  description: string;
+  /** The id of this side's Journal Entry. */
+  journalEntryId: string;
+  /** This side's Line Entries (used to derive the amount and source account). */
+  lineEntries: GetBooksAPIJournalEntryResponseJournalEntryTransferFromEntryLineEntriesList;
+}
+/** This side's Line Entries (used to derive the amount and source account). */
+export type GetBooksAPIJournalEntryResponseJournalEntryTransferToEntryLineEntriesList =
+  Array<BooksLineEntry>;
+export interface GetBooksAPIJournalEntryResponseJournalEntryTransferToEntry {
+  datetime: unknown;
+  /** This side's Journal Entry description. */
+  description: string;
+  /** The id of this side's Journal Entry. */
+  journalEntryId: string;
+  /** This side's Line Entries (used to derive the amount and source account). */
+  lineEntries: GetBooksAPIJournalEntryResponseJournalEntryTransferToEntryLineEntriesList;
+}
+export interface GetBooksAPIJournalEntryResponseJournalEntryTransfer {
+  fromEntry: GetBooksAPIJournalEntryResponseJournalEntryTransferFromEntry;
+  toEntry: GetBooksAPIJournalEntryResponseJournalEntryTransferToEntry;
+}
+export interface GetBooksAPIJournalEntryResponseJournalEntry {
+  accrualSource?: GetBooksAPIJournalEntryResponseJournalEntryAccrualSource | null | undefined;
+  autocatResult?: BooksJournalEntryAutocatResult | null | undefined;
+  categorizationStatus: unknown;
+  creationDate: unknown;
+  creationSource: unknown;
+  datetime: unknown;
+  /** An arbitrary string on the object, useful for displaying to the user. */
+  description: string;
+  /** The unique ID of the object. */
+  id: string;
+  /** Whether the Journal Entry represents an opening balance. */
+  isOpeningBalance: boolean;
+  /** List of Line Entries. Included in expanded responses. */
+  lineEntries?: GetBooksAPIJournalEntryResponseJournalEntryLineEntriesList | null | undefined;
+  /** The ids of the Line Entries detailing the Journal Entry's movement of value. */
+  lineEntryIds?: GetBooksAPIJournalEntryResponseJournalEntryLineEntryIdsList | null | undefined;
+  reviewStatus: unknown;
+  reviewStatusSetAt?: unknown | null | undefined;
+  transfer?: GetBooksAPIJournalEntryResponseJournalEntryTransfer | null | undefined;
+}
+/** Response containing a single journal entry. */
+export interface GetBooksAPIJournalEntryResponse {
+  journalEntry: GetBooksAPIJournalEntryResponseJournalEntry;
+}
+export interface GetBooksLedgerRequest {
+  ledgerId: string;
+  booksId?: string | undefined;
+}
+export type GetBooksAPILedgerResponseLedger = BooksAPICreateLedgerResultLedger;
+/** Response containing a single ledger. */
+export interface GetBooksAPILedgerResponse {
+  ledger: BooksAPICreateLedgerResultLedger;
+}
+export type GetBooksLedgerBalancesRequestLedgerIdsList = Array<string>;
+export interface GetBooksLedgerBalancesRequest {
+  /** Ledger IDs to report on. Send the parameter repeated (ledgerIds=a&ledgerIds=b) or as one comma-separated value (ledgerIds=a,b). At least one and at most 100 distinct IDs. */
+  ledgerIds: GetBooksLedgerBalancesRequestLedgerIdsList;
+  /** First day of the range (inclusive), as YYYY-MM-DD. Opening balances are as of the end of the previous day. */
+  startDate: string;
+  /** Last day of the range (inclusive), as YYYY-MM-DD. Must not be before startDate. Closing balances are as of the end of this day. */
+  endDate: string;
+  booksId?: string | undefined;
+}
+/** One ledger's balances over the requested date range. Amounts are signed by the ledger's natural side: a positive amount is an increase on the side named by `debitCredit` (a debit ledger such as an asset grows with debits, a credit ledger such as a liability grows with credits), and a negative amount is a decrease. Balances are not flipped to a common debit-positive convention. Balances cover only the ledger's own line entries; they do not roll up the balances of its child ledgers. To get a parent's total, request its children as well and sum them, using `parentId` from the list ledgers endpoint. Opening-balance entries count. The Retained Earnings and Current Year Earnings system ledgers also include the calculated earnings, so their balances match the balance sheet. A ledger with no activity reports zeros. */
+export interface BooksAPILedgerBalance {
+  closingBalance: unknown;
+  debitCredit: unknown;
+  /** The ledger these balances belong to. */
+  ledgerId: string;
+  /** The ledger's display name. */
+  name: string;
+  netActivity: unknown;
+  openingBalance: unknown;
+  specialType?: unknown | null | undefined;
+  subType: unknown;
+  type: unknown;
+}
+/** One entry per distinct requested ledger, in the order the ledgers were requested. */
+export type GetBooksAPILedgerBalancesResponseLedgerBalancesList = Array<BooksAPILedgerBalance>;
+/** Response containing the balances of the requested ledgers. */
+export interface GetBooksAPILedgerBalancesResponse {
+  /** One entry per distinct requested ledger, in the order the ledgers were requested. */
+  ledgerBalances: GetBooksAPILedgerBalancesResponseLedgerBalancesList;
+}
+/** Only return ledgers of this type. */
+export type GetBooksLedgersRequestType = "asset" | "liability" | "equity" | "revenue" | "expense";
+/** Only return ledgers of this sub-type. */
+export type GetBooksLedgersRequestSubType =
+  | "currentAssets"
+  | "nonCurrentAssets"
+  | "transfersBetweenAccounts"
+  | "uncategorizedAssets"
+  | "currentLiabilities"
+  | "nonCurrentLiabilities"
+  | "equity"
+  | "operatingRevenues"
+  | "otherIncome"
+  | "costOfGoodsSold"
+  | "operatingExpenses"
+  | "otherExpenses"
+  | "retainedEarnings";
+/** Only return ledgers with this natural balance. */
+export type GetBooksLedgersRequestDebitCredit = "debit" | "credit";
+/** Comma-separated list of at most 100 distinct ledger IDs. Only return these ledgers. Every ID must belong to the Books instance. Results are still paginated, so pass a `limit` of at least the number of IDs to get them all in one page. */
+export type GetBooksLedgersRequestIdsList = Array<string>;
+export interface GetBooksLedgersRequest {
+  booksId?: string | undefined;
+  type?: GetBooksLedgersRequestType | (string & {}) | undefined;
+  subType?: GetBooksLedgersRequestSubType | (string & {}) | undefined;
+  debitCredit?: GetBooksLedgersRequestDebitCredit | (string & {}) | undefined;
+  ids?: GetBooksLedgersRequestIdsList | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** A general ledger in an organization's live chart of accounts. */
+export type BooksAPILedger = BooksAPICreateLedgerResultLedger;
+/** The ledgers on this page. Use each ledger's @parentId@ to reconstruct hierarchy. */
+export type GetBooksAPILedgersResponseLedgersList = Array<BooksAPICreateLedgerResultLedger>;
+/** Response containing a paginated list of ledgers in the organization's live chart of accounts. */
+export interface GetBooksAPILedgersResponse {
+  /** The ledgers on this page. Use each ledger's @parentId@ to reconstruct hierarchy. */
+  ledgers: GetBooksAPILedgersResponseLedgersList;
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+}
+/** Comma-separated list of at most 100 distinct ledger IDs. Only return line entries posted to one of these ledgers. Omit to return line entries from every ledger. */
+export type GetBooksLineEntriesRequestLedgerIdsList = Array<string>;
+/** Comma-separated list of at most 100 distinct ledger IDs. Only return line entries whose opposing ledgers (the other side of the journal entry) include one of these ledgers. */
+export type GetBooksLineEntriesRequestOpposingLedgerIdsList = Array<string>;
+/** Only return debit ('debit') or credit ('credit') line entries. */
+export type GetBooksLineEntriesRequestDebitCredit = "debit" | "credit";
+export type GetBooksLineEntriesRequestSortItem =
+  | "descriptionAsc"
+  | "descriptionDesc"
+  | "datetimeAsc"
+  | "datetimeDesc"
+  | "creditAsc"
+  | "creditDesc"
+  | "debitAsc"
+  | "debitDesc"
+  | "journalEntryIdAsc"
+  | "journalEntryIdDesc"
+  | "ledgerNameAsc"
+  | "ledgerNameDesc"
+  | "contraLedgerNameAsc"
+  | "contraLedgerNameDesc"
+  | "tagNameAsc"
+  | "tagNameDesc";
+/** Comma-separated list of sort keys, applied in order. */
+export type GetBooksLineEntriesRequestSortList = Array<
+  GetBooksLineEntriesRequestSortItem | (string & {})
+>;
+export interface GetBooksLineEntriesRequest {
+  booksId?: string | undefined;
+  startDate: string;
+  endDate: string;
+  ledgerIds?: GetBooksLineEntriesRequestLedgerIdsList | undefined;
+  opposingLedgerIds?: GetBooksLineEntriesRequestOpposingLedgerIdsList | undefined;
+  debitCredit?: GetBooksLineEntriesRequestDebitCredit | (string & {}) | undefined;
+  minAmount?: number | undefined;
+  maxAmount?: number | undefined;
+  sort?: GetBooksLineEntriesRequestSortList | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** The identifiers of the ledgers on the other side of the journal entry, i.e. its lines with the opposite debit or credit. */
+export type BooksAPILineEntryOpposingLedgerIdsList = Array<string>;
+/** The tags applied to the line entry. */
+export type BooksAPILineEntryTagsList = Array<BooksTag>;
+/** A single line of general ledger (GL) activity: one debit or credit posted to one ledger by a journal entry. */
+export interface BooksAPILineEntry {
+  amount: unknown;
+  datetime: unknown;
+  debitCredit: unknown;
+  /** The line entry's own description, if any. */
+  description?: string | null | undefined;
+  /** The unique identifier for the line entry. */
+  id: string;
+  /** The description of the journal entry the line entry belongs to. */
+  journalEntryDescription: string;
+  /** The identifier of the journal entry the line entry belongs to. */
+  journalEntryId: string;
+  /** The identifier of the ledger (general ledger account) the line entry is posted to. */
+  ledgerId: string;
+  /** The display name of the ledger the line entry is posted to. */
+  ledgerName: string;
+  /** The identifiers of the ledgers on the other side of the journal entry, i.e. its lines with the opposite debit or credit. */
+  opposingLedgerIds: BooksAPILineEntryOpposingLedgerIdsList;
+  /** The tags applied to the line entry. */
+  tags: BooksAPILineEntryTagsList;
+}
+/** The line entries on this page */
+export type GetBooksAPILineEntriesResponseLineEntriesList = Array<BooksAPILineEntry>;
+/** Response containing a paginated list of line entries. */
+export interface GetBooksAPILineEntriesResponse {
+  /** The line entries on this page */
+  lineEntries: GetBooksAPILineEntriesResponseLineEntriesList;
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+}
+export interface GetBooksPayrollRunRequest {
+  payrollRunId: string;
+  booksId?: string | undefined;
+}
+/** One line of a payroll run, such as net pay or a tax. A line's `amount` is negative for an offset or reversal, which makes its `amountOutstanding` negative too. */
+export interface BooksAPIPayrollRunLine {
+  amount: unknown;
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  /** What the line is for, as the payroll provider describes it. */
+  description: string;
+  /** Whether a payment can be matched to this line. Only matchable lines can be matched to a payment. */
+  matchable: boolean;
+  matchingStatus: unknown;
+  /** The unique identifier of the line. */
+  sourceLineId: string;
+}
+/** The run's lines. */
+export type GetBooksAPIPayrollRunResponsePayrollRunLinesList = Array<BooksAPIPayrollRunLine>;
+/** Every journal entry touching the run: the initial accrual and the entries of the payments matched to it. */
+export type GetBooksAPIPayrollRunResponsePayrollRunRelatedJournalEntryIdsList = Array<string>;
+export interface GetBooksAPIPayrollRunResponsePayrollRun {
+  amountOutstanding: unknown;
+  amountPaid: unknown;
+  employerCost: unknown;
+  /** The unique identifier of the payroll run. */
+  id: string;
+  /** The journal entry that recorded the run when it was synced. Omitted when the run has none. */
+  initialAccrualJournalEntryId?: string | null | undefined;
+  /** The run's lines. */
+  lines: GetBooksAPIPayrollRunResponsePayrollRunLinesList;
+  matchingStatus: unknown;
+  payPeriodEnd: unknown;
+  payPeriodStart: unknown;
+  postingDate: unknown;
+  /** Every journal entry touching the run: the initial accrual and the entries of the payments matched to it. */
+  relatedJournalEntryIds: GetBooksAPIPayrollRunResponsePayrollRunRelatedJournalEntryIdsList;
+  runType: unknown;
+  totalPayroll: unknown;
+}
+/** A single payroll run. */
+export interface GetBooksAPIPayrollRunResponse {
+  payrollRun: GetBooksAPIPayrollRunResponsePayrollRun;
+}
+export type GetBooksPayrollRunsRequestMatchingStatusesItem =
+  | "unmatched"
+  | "partiallyMatched"
+  | "fullyMatched";
+/** Comma-separated list of matching statuses to include: `unmatched`, `partiallyMatched`, or `fullyMatched`. Pass `unmatched,partiallyMatched` for runs still awaiting payment. */
+export type GetBooksPayrollRunsRequestMatchingStatusesList = Array<
+  GetBooksPayrollRunsRequestMatchingStatusesItem | (string & {})
+>;
+export type GetBooksPayrollRunsRequestRunTypesItem = "regular" | "offCycle" | "oneTime";
+/** Comma-separated list of run types to include: `regular`, `offCycle`, or `oneTime`. */
+export type GetBooksPayrollRunsRequestRunTypesList = Array<
+  GetBooksPayrollRunsRequestRunTypesItem | (string & {})
+>;
+/** The order to return runs in, as a single value. Defaults to the latest `postingDate` first. */
+export type GetBooksPayrollRunsRequestSort =
+  | "payPeriodStartAsc"
+  | "payPeriodStartDesc"
+  | "payPeriodEndAsc"
+  | "payPeriodEndDesc"
+  | "payDateAsc"
+  | "payDateDesc"
+  | "totalPayrollAsc"
+  | "totalPayrollDesc"
+  | "employerCostAsc"
+  | "employerCostDesc"
+  | "runTypeAsc"
+  | "runTypeDesc"
+  | "matchingStatusAsc"
+  | "matchingStatusDesc";
+export interface GetBooksPayrollRunsRequest {
+  booksId?: string | undefined;
+  matchingStatuses?: GetBooksPayrollRunsRequestMatchingStatusesList | undefined;
+  runTypes?: GetBooksPayrollRunsRequestRunTypesList | undefined;
+  payPeriodStartFrom?: string | undefined;
+  payPeriodStartTo?: string | undefined;
+  payPeriodEndFrom?: string | undefined;
+  payPeriodEndTo?: string | undefined;
+  postingDateFrom?: string | undefined;
+  postingDateTo?: string | undefined;
+  minTotalPayroll?: number | undefined;
+  maxTotalPayroll?: number | undefined;
+  minEmployerCost?: number | undefined;
+  maxEmployerCost?: number | undefined;
+  sort?: GetBooksPayrollRunsRequestSort | (string & {}) | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** A payroll run synced from the organization's connected payroll provider: one pay period's payroll, which Books records as an accrual to be matched against the payments that settle it. */
+export interface BooksAPIPayrollRun {
+  employerCost: unknown;
+  /** The unique identifier of the payroll run. Pass it to getBooksPayrollRun. */
+  id: string;
+  matchingStatus: unknown;
+  payPeriodEnd: unknown;
+  payPeriodStart: unknown;
+  postingDate: unknown;
+  runType: unknown;
+  totalPayroll: unknown;
+}
+/** The payroll runs on this page. */
+export type GetBooksAPIPayrollRunsResponsePayrollRunsList = Array<BooksAPIPayrollRun>;
+/** One page of a Books instance's payroll runs. */
+export interface GetBooksAPIPayrollRunsResponse {
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** The payroll runs on this page. */
+  payrollRuns: GetBooksAPIPayrollRunsResponsePayrollRunsList;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+}
+/** The length of time each column covers. Daily reports can span at most 1 year; other periods at most 5 years. Defaults to a single column covering the whole range, which can also span at most 5 years. */
+export type GetBooksProfitAndLossRequestPeriod = "daily" | "monthly" | "quarterly" | "yearly";
+export interface GetBooksProfitAndLossRequest {
+  booksId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  period?: GetBooksProfitAndLossRequestPeriod | (string & {}) | undefined;
+  includeEmpty?: boolean | undefined;
+  includeOnlyClosed?: boolean | undefined;
+}
+export interface GetBooksSourceAccountsRequest {
+  booksId?: string | undefined;
+}
+/** A source account: a bank account, card, or other feed whose transactions Books imports and posts to the source account's ledger. */
+export interface BooksAPISourceAccount {
+  businessPersonal: unknown;
+  debitCredit: unknown;
+  /** The unique identifier of the source account: the `sourceAccountId` to pass when listing or fetching its transactions. It is not a ledger ID. */
+  id: string;
+  /** The identifier of the ledger (general ledger account) the source account's transactions post to. */
+  ledgerId: string;
+  /** The display name of the source account. */
+  name: string;
+  origin: unknown;
+}
+/** The Books instance's source accounts */
+export type GetBooksAPISourceAccountsResponseSourceAccountsList = Array<BooksAPISourceAccount>;
+/** Response containing every source account of a Books instance. */
+export interface GetBooksAPISourceAccountsResponse {
+  /** The Books instance's source accounts */
+  sourceAccounts: GetBooksAPISourceAccountsResponseSourceAccountsList;
+}
+export interface GetBooksTagGroupsRequest {
+  booksId?: string | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** A tag group: a named set of tags, such as "Clients" or "Contractors". A line entry can carry at most one tag from each group. */
+export interface BooksAPITagGroup {
+  createdAt: unknown;
+  /** The unique identifier of the tag group. Pass it as `tagGroupId` to getBooksTags to list the group's tags. */
+  id: string;
+  /** The tag group's display name. */
+  name: string;
+  ownership: unknown;
+}
+/** The tag groups on this page. */
+export type GetBooksAPITagGroupsResponseTagGroupsList = Array<BooksAPITagGroup>;
+/** One page of the tag groups available to a Books instance, newest first. */
+export interface GetBooksAPITagGroupsResponse {
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+  /** The tag groups on this page. */
+  tagGroups: GetBooksAPITagGroupsResponseTagGroupsList;
+}
+export interface GetBooksTagsRequest {
+  booksId?: string | undefined;
+  tagGroupId?: string | undefined;
+  name?: string | undefined;
+  includeDisabled?: boolean | undefined;
+  pageToken?: string | undefined;
+  limit?: number | undefined;
+}
+/** A tag: a label in a tag group, such as one client in a "Clients" group. Apply it to a line entry by passing its `id` in the line entry's `tagIds`; a line entry can carry at most one tag from each group. */
+export interface BooksAPITag {
+  /** Whether the tag is enabled. Disabled tags are hidden from lists unless `includeDisabled` is true. */
+  enabled: boolean;
+  /** The unique identifier of the tag, to pass in `tagIds`. */
+  id: string;
+  /** The tag's display name. */
+  name: string;
+  /** The identifier of the tag group the tag belongs to. */
+  tagGroupId: string;
+  /** The display name of the tag group the tag belongs to. */
+  tagGroupName: string;
+}
+/** The tags on this page. */
+export type GetBooksAPITagsResponseTagsList = Array<BooksAPITag>;
+/** One page of a Books instance's tags, newest first. */
+export interface GetBooksAPITagsResponse {
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+  /** The tags on this page. */
+  tags: GetBooksAPITagsResponseTagsList;
+}
+export interface GetBooksTransactionRequest {
+  transactionId: string;
+  /** The source account the transaction belongs to: the transaction's `sourceAccountId`. It must belong to the Books instance. */
+  sourceAccountId: string;
+  booksId?: string | undefined;
+  enrich?: boolean | undefined;
+}
+/** A file attached to the Mercury banking transaction behind a Books transaction. */
+export interface BooksAPITransactionAttachment {
+  /** A presigned URL for downloading the attachment, valid for 1 hour. */
+  downloadUrl: string;
+  /** The file name of the attachment. */
+  fileName: string;
+  /** The unique identifier of the attachment. */
+  id: string;
+}
+/** Files attached to the Mercury transaction, such as receipts. Only included with `enrich=true`. */
+export type GetBooksAPITransactionResponseTransactionAttachmentsList =
+  Array<BooksAPITransactionAttachment>;
+/** The line entries that categorize the transaction: every other line of its journal entry. Empty when the transaction has no journal entry. */
+export type GetBooksAPITransactionResponseTransactionCategorizationLinesList =
+  Array<BooksAPITransactionCategorizationLine>;
+export interface GetBooksAPITransactionResponseTransaction {
+  amount: unknown;
+  /** Files attached to the Mercury transaction, such as receipts. Only included with `enrich=true`. */
+  attachments?: GetBooksAPITransactionResponseTransactionAttachmentsList | null | undefined;
+  /** The last four digits of the card used for the transaction. Only included with `enrich=true`. */
+  cardLastFourDigits?: string | null | undefined;
+  /** The line entries that categorize the transaction: every other line of its journal entry. Empty when the transaction has no journal entry. */
+  categorizationLines: GetBooksAPITransactionResponseTransactionCategorizationLinesList;
+  categorizationMethod?: unknown | null | undefined;
+  /** The name of the transaction's counterparty (who the money went to or came from). Only included with `enrich=true`. */
+  counterpartyName?: string | null | undefined;
+  /** The identifier of the Mercury custom category assigned to the transaction. Only included with `enrich=true`. */
+  customCategoryId?: string | null | undefined;
+  /** The name of the Mercury custom category assigned to the transaction. Only included with `enrich=true`. */
+  customCategoryName?: string | null | undefined;
+  datetime: unknown;
+  /** The transaction's description, as imported from its source. */
+  description: string;
+  /** The unique identifier of the transaction. */
+  id: string;
+  /** The identifier of the transaction's journal entry. Omitted when the transaction has no journal entry, because it is not posted or its posting was deleted. */
+  journalEntryId?: string | null | undefined;
+  /** The identifier of the source account's ledger, which the transaction's own line entry posts to. */
+  ledgerId?: string | null | undefined;
+  /** The identifier of the transaction's own line entry, on the source account's ledger. Omitted when the transaction has no journal entry. */
+  lineEntryId?: string | null | undefined;
+  /** The display name of the merchant type (Mercury category) automatically assigned to the transaction, such as `Software`. Only included with `enrich=true`. */
+  merchantType?: string | null | undefined;
+  /** The note on the Mercury transaction. Only included with `enrich=true`. */
+  note?: string | null | undefined;
+  /** Whether the transaction is a personal (non-business) transaction. */
+  personal: boolean;
+  postedStatus: unknown;
+  reviewStatus: unknown;
+  /** The identifier of the source account the transaction belongs to. */
+  sourceAccountId: string;
+  /** The identifier of the team member associated with the transaction, such as the cardholder. Only included with `enrich=true`. */
+  teamMemberId?: string | null | undefined;
+  /** The full name of the team member associated with the transaction. Only included with `enrich=true`. */
+  teamMemberName?: string | null | undefined;
+  transactionMethodKind?: unknown | null | undefined;
+}
+/** Response containing a single transaction. */
+export interface GetBooksAPITransactionResponse {
+  transaction: GetBooksAPITransactionResponseTransaction;
+}
+export type GetBooksTransactionsRequestReviewStatus = "reviewed" | "unreviewed";
+export interface GetBooksTransactionsRequest {
+  /** The `id` of a source account from `GET /books/source-accounts` (getBooksSourceAccounts). It must belong to the Books instance. */
+  sourceAccountId: string;
+  booksId?: string | undefined;
+  /** Only return transactions on or after this date (inclusive, YYYY-MM-DD, UTC). */
+  startDate: string;
+  /** Only return transactions on or before this date (inclusive, YYYY-MM-DD, UTC). Must be on or after startDate. */
+  endDate: string;
+  /** Only return 'reviewed' or 'unreviewed' transactions. */
+  reviewStatus: GetBooksTransactionsRequestReviewStatus | (string & {});
+  pageToken?: string | undefined;
+  enrich?: boolean | undefined;
+}
+/** Files attached to the Mercury transaction, such as receipts. Only included with `enrich=true`. */
+export type BooksAPITransactionAttachmentsList = Array<BooksAPITransactionAttachment>;
+/** The line entries that categorize the transaction: every other line of its journal entry. Empty when the transaction has no journal entry. */
+export type BooksAPITransactionCategorizationLinesList =
+  Array<BooksAPITransactionCategorizationLine>;
+/** A transaction imported into Books from a source account (a bank, card, or other feed). Once posted, it has a journal entry with one line on the source account's ledger (`lineEntryId`) and one or more `categorizationLines`. To recategorize it, pass its `journalEntryId` and its current `categorizationLines` IDs as the expected categorization. */
+export interface BooksAPITransaction {
+  amount: unknown;
+  /** Files attached to the Mercury transaction, such as receipts. Only included with `enrich=true`. */
+  attachments?: BooksAPITransactionAttachmentsList | null | undefined;
+  /** The last four digits of the card used for the transaction. Only included with `enrich=true`. */
+  cardLastFourDigits?: string | null | undefined;
+  /** The line entries that categorize the transaction: every other line of its journal entry. Empty when the transaction has no journal entry. */
+  categorizationLines: BooksAPITransactionCategorizationLinesList;
+  categorizationMethod?: unknown | null | undefined;
+  /** The name of the transaction's counterparty (who the money went to or came from). Only included with `enrich=true`. */
+  counterpartyName?: string | null | undefined;
+  /** The identifier of the Mercury custom category assigned to the transaction. Only included with `enrich=true`. */
+  customCategoryId?: string | null | undefined;
+  /** The name of the Mercury custom category assigned to the transaction. Only included with `enrich=true`. */
+  customCategoryName?: string | null | undefined;
+  datetime: unknown;
+  /** The transaction's description, as imported from its source. */
+  description: string;
+  /** The unique identifier of the transaction. */
+  id: string;
+  /** The identifier of the transaction's journal entry. Omitted when the transaction has no journal entry, because it is not posted or its posting was deleted. */
+  journalEntryId?: string | null | undefined;
+  /** The identifier of the source account's ledger, which the transaction's own line entry posts to. */
+  ledgerId?: string | null | undefined;
+  /** The identifier of the transaction's own line entry, on the source account's ledger. Omitted when the transaction has no journal entry. */
+  lineEntryId?: string | null | undefined;
+  /** The display name of the merchant type (Mercury category) automatically assigned to the transaction, such as `Software`. Only included with `enrich=true`. */
+  merchantType?: string | null | undefined;
+  /** The note on the Mercury transaction. Only included with `enrich=true`. */
+  note?: string | null | undefined;
+  /** Whether the transaction is a personal (non-business) transaction. */
+  personal: boolean;
+  postedStatus: unknown;
+  reviewStatus: unknown;
+  /** The identifier of the source account the transaction belongs to. */
+  sourceAccountId: string;
+  /** The identifier of the team member associated with the transaction, such as the cardholder. Only included with `enrich=true`. */
+  teamMemberId?: string | null | undefined;
+  /** The full name of the team member associated with the transaction. Only included with `enrich=true`. */
+  teamMemberName?: string | null | undefined;
+  transactionMethodKind?: unknown | null | undefined;
+}
+/** The transactions on this page: at most one page, whose size Books decides, so not necessarily every transaction in the date range. */
+export type GetBooksAPITransactionsResponseTransactionsList = Array<BooksAPITransaction>;
+/** One page of a source account's transactions. */
+export interface GetBooksAPITransactionsResponse {
+  /** Present when more transactions match the request. Pass it back as `pageToken`, with the same other parameters, to fetch the next page, and keep doing so until a response has no `nextPageToken`; only then have you seen every transaction in the range. */
+  nextPageToken?: string | null | undefined;
+  /** Present when there is an earlier page. Pass it back as `pageToken`, with the same other parameters, to fetch the previous page. */
+  prevPageToken?: string | null | undefined;
+  /** The transactions on this page: at most one page, whose size Books decides, so not necessarily every transaction in the date range. */
+  transactions: GetBooksAPITransactionsResponseTransactionsList;
 }
 export interface GetBudgetRequest {
   budgetId: string;
@@ -1345,6 +3530,17 @@ export interface ApiEventsPaginatedResponse {
 export interface GetInvoiceRequest {
   invoiceId: string;
 }
+export interface GetInvoiceAttachmentRequest {
+  attachmentId: string;
+}
+/** The object representing a file attachment for an invoice. The file is not a part of this object itself but information for where to download it will be in this object. */
+export interface ApiV1ArAttachmentResponseData {
+  /** The filename for the file. */
+  fileName: string;
+  id: unknown;
+  /** The signed download URL for the file itself. */
+  url: string;
+}
 export interface GetInvoicePdfRequest {
   invoiceId: string;
 }
@@ -1382,6 +3578,7 @@ export type ApiV1ReceiptStatus = "pending" | "matched" | "unmatched" | "notAttem
 /** Public view of a receipt and its matching state. */
 export interface ApiV1ReceiptResponse {
   createdAt: string;
+  failureReason?: unknown | null | undefined;
   fileName: string;
   id: string;
   matchedTransactionId?: unknown | null | undefined;
@@ -1412,6 +3609,48 @@ export interface RecipientsPaginatedResponse {
   /** List of recipients in the current page */
   recipients: RecipientsPaginatedResponseRecipientsList;
   total: unknown;
+}
+export interface GetReimbursementRequest {
+  reimbursementId: string;
+}
+/** A file linked to a reimbursement. */
+export interface ApiV1ReimbursementAttachment {
+  fileName: string;
+  id: string;
+  /** Presigned download URL. Expires after 24 hours. Request the reimbursement again for a new URL. */
+  url: string;
+}
+export type ApiV1ReimbursementResponseAttachmentsList = Array<ApiV1ReimbursementAttachment>;
+/** Payout state, separate from review. - `pending`: no payout in progress. The reimbursement isn't approved yet, or it's approved and waiting for a payout batch. A canceled payout, or one Mercury retries automatically, also returns to `pending`. - `initiated`: the payout is in progress. - `paid`: the payout completed. - `failed`: the payout failed. Mercury retries in a later batch once the submitter fixes their payout account, unless they've left the organization. - `paidOutsideMercury`: an approver recorded that the submitter was paid outside Mercury, so Mercury won't pay it. Its review status is `approved`. */
+export type ReimbursementPaymentStatus =
+  | "pending"
+  | "initiated"
+  | "paid"
+  | "failed"
+  | "paidOutsideMercury";
+/** Review state, separate from payment. - `submitted`: waiting for review. - `updatesRequested`: a reviewer asked the submitter for changes. - `approved`: a reviewer approved it. `paymentStatus` shows the payout. - `denied`: a reviewer denied it. - `canceled`: the submitter canceled it. */
+export type ReimbursementReviewStatus =
+  | "submitted"
+  | "updatesRequested"
+  | "approved"
+  | "denied"
+  | "canceled";
+/** Public view of a single reimbursement, keyed on the stable 'ExpenseId'. */
+export interface ApiV1ReimbursementResponse {
+  /** The positive amount spent in the submitted currency. */
+  amount: number;
+  attachments: ApiV1ReimbursementResponseAttachmentsList;
+  categoryId?: string | null | undefined;
+  currency: string;
+  datePaidFor: string;
+  id: unknown;
+  merchantName?: string | null | undefined;
+  notes?: string | null | undefined;
+  paymentStatus: ReimbursementPaymentStatus;
+  reviewStatus: ReimbursementReviewStatus;
+  submittedAt: string;
+  submitterUserId: string;
+  transactionId?: unknown | null | undefined;
 }
 export interface GetSafeRequestRequest {
   safeRequestId: string;
@@ -1797,6 +4036,118 @@ export interface TransactionsResponse {
   total: number;
   transactions: TransactionsResponseTransactionsList;
 }
+/** Only return Journal Entries with the specified creation source. */
+export type ListBooksJournalEntriesRequestCreationSource =
+  | "manual"
+  | "transaction"
+  | "accrual"
+  | "paymentApplication"
+  | "legacy"
+  | "scheduledAccrual";
+export type ListBooksJournalEntriesRequestCreationSourcesItem =
+  | "manual"
+  | "transaction"
+  | "accrual"
+  | "paymentApplication"
+  | "legacy"
+  | "scheduledAccrual";
+/** Comma-separated list of creation sources. Only return Journal Entries whose creation source matches one of the specified values. */
+export type ListBooksJournalEntriesRequestCreationSourcesList = Array<
+  ListBooksJournalEntriesRequestCreationSourcesItem | (string & {})
+>;
+/** The sort order for the results. */
+export type ListBooksJournalEntriesRequestJournalEntrySort =
+  | "descriptionAsc"
+  | "descriptionDesc"
+  | "dateTimeAsc"
+  | "dateTimeDesc"
+  | "amountAsc"
+  | "amountDesc"
+  | "creationDateAsc"
+  | "creationDateDesc"
+  | "transactionSourceAccountAsc"
+  | "transactionSourceAccountDesc"
+  | "transactionContraLedgerAsc"
+  | "transactionContraLedgerDesc"
+  | "tagNameAsc"
+  | "tagNameDesc"
+  | "debitLedgerAsc"
+  | "debitLedgerDesc"
+  | "creditLedgerAsc"
+  | "creditLedgerDesc"
+  | "reconciliationContraLedgerAsc"
+  | "reconciliationContraLedgerDesc";
+/** Comma-separated list of expandable paths. */
+export type ListBooksJournalEntriesRequestExpand =
+  | "lineEntries"
+  | "lineEntriesTransactions"
+  | "lineEntriesLedger"
+  | "lineEntriesOpposingLedgerIds"
+  | "lineEntriesPaymentApplications"
+  | "lineEntriesLinePaymentApplications"
+  | "accrualSource"
+  | "transfer"
+  | "autocatResult";
+/** A comma-separated list of ledger IDs forming one group. Repeat the parameter to send more groups (ledgerIdGroups=a,b&ledgerIdGroups=c): each occurrence is one group. Only return Journal Entries where at least one Line Entry belongs to one of the ledgers in each group, so multiple groups return the intersection of the matches. */
+export type ListBooksJournalEntriesRequestLedgerIdGroupsList = Array<string>;
+/** Comma-separated list of tag IDs. Only return Journal Entries with at least one of the specified tags. */
+export type ListBooksJournalEntriesRequestTagIdsList = Array<string>;
+export type ListBooksJournalEntriesRequestCategorizationStatusItem =
+  | "pending"
+  | "delayed"
+  | "completed"
+  | "notAttempted";
+/** Comma-separated list of categorization statuses ('pending', 'delayed', 'completed', 'notAttempted'). Only return Journal Entries whose categorization status matches one of the specified values. */
+export type ListBooksJournalEntriesRequestCategorizationStatusList = Array<
+  ListBooksJournalEntriesRequestCategorizationStatusItem | (string & {})
+>;
+export type ListBooksJournalEntriesRequestReviewStatusItem = "unreviewed" | "reviewed";
+/** Comma-separated list of review statuses ('unreviewed', 'reviewed'). Only return Journal Entries whose review status matches one of the specified values. */
+export type ListBooksJournalEntriesRequestReviewStatusList = Array<
+  ListBooksJournalEntriesRequestReviewStatusItem | (string & {})
+>;
+export type ListBooksJournalEntriesRequestCategorizationMethodItem =
+  | "ai"
+  | "rule"
+  | "user"
+  | "matched"
+  | "uncategorized";
+/** Comma-separated list of categorization methods ('ai', 'rule', 'user', 'matched', 'uncategorized'). Only return Journal Entries that were categorized by one of the specified methods. 'ai' matches every automatic method except 'rule'; 'user' matches Journal Entries with no live automatic categorization; 'matched' matches payment-application Journal Entries; 'uncategorized' matches Journal Entries with a Line Entry on an Uncategorized ledger. The other values never match the last two. */
+export type ListBooksJournalEntriesRequestCategorizationMethodList = Array<
+  ListBooksJournalEntriesRequestCategorizationMethodItem | (string & {})
+>;
+export interface ListBooksJournalEntriesRequest {
+  booksId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  ledgerId?: string | undefined;
+  creationSource?: ListBooksJournalEntriesRequestCreationSource | (string & {}) | undefined;
+  creationSources?: ListBooksJournalEntriesRequestCreationSourcesList | undefined;
+  journalEntrySort?: ListBooksJournalEntriesRequestJournalEntrySort | (string & {}) | undefined;
+  expand?: ListBooksJournalEntriesRequestExpand | (string & {}) | undefined;
+  pageToken?: string | undefined;
+  keywords?: string | undefined;
+  amount?: number | undefined;
+  minAmount?: number | undefined;
+  maxAmount?: number | undefined;
+  ledgerIdGroups?: ListBooksJournalEntriesRequestLedgerIdGroupsList | undefined;
+  limit?: number | undefined;
+  tagIds?: ListBooksJournalEntriesRequestTagIdsList | undefined;
+  categorizationStatus?: ListBooksJournalEntriesRequestCategorizationStatusList | undefined;
+  reviewStatus?: ListBooksJournalEntriesRequestReviewStatusList | undefined;
+  categorizationMethod?: ListBooksJournalEntriesRequestCategorizationMethodList | undefined;
+}
+/** The journal entries matching the query */
+export type GetBooksAPIJournalEntriesResponseJournalEntriesList = Array<BooksJournalEntry>;
+/** Response containing a paginated list of journal entries. */
+export interface GetBooksAPIJournalEntriesResponse {
+  /** The journal entries matching the query */
+  journalEntries: GetBooksAPIJournalEntriesResponseJournalEntriesList;
+  /** Token to fetch the next page of results */
+  nextPageToken?: string | null | undefined;
+  /** Token to fetch the previous page of results */
+  prevPageToken?: string | null | undefined;
+}
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListBudgetsRequestOrder = "asc" | "desc";
 export interface ListBudgetsRequest {
@@ -1920,6 +4271,44 @@ export interface ApiV1ArAttachmentsResponseData {
   /** The list of attachments */
   attachments: ApiV1ArAttachmentsResponseDataAttachmentsList;
 }
+export interface ListInvoicePaymentsRequest {
+  invoiceId: string;
+}
+export interface ApiV1ArInvoicePaymentCardCharge {
+  brand: unknown;
+  /** The last 4 digits of the card that was charged. */
+  last4: string;
+}
+export interface ApiV1ArInvoicePaymentManual {
+  method: unknown;
+}
+export interface ApiV1ArInvoicePaymentTransaction {
+  /** The name of the party that sent the money. */
+  counterpartyName: string;
+  id: unknown;
+  kind: unknown;
+  matchedBy: unknown;
+  status: unknown;
+}
+/** A payment applied to an invoice. Exactly one of @transaction@, @cardCharge@, or @manual@ is present, matching @type@. */
+export interface ApiV1ArInvoicePayment {
+  amount: unknown;
+  appliedDate: unknown;
+  cardCharge?: ApiV1ArInvoicePaymentCardCharge | null | undefined;
+  createdAt: unknown;
+  currencyCode: unknown;
+  id: unknown;
+  manual?: ApiV1ArInvoicePaymentManual | null | undefined;
+  transaction?: ApiV1ArInvoicePaymentTransaction | null | undefined;
+  type: unknown;
+}
+/** The payments applied to the invoice. */
+export type ApiV1ArInvoicePaymentsResponsePaymentsList = Array<ApiV1ArInvoicePayment>;
+/** The payments applied to an invoice, oldest first. Payments that were removed from the invoice are not included. */
+export interface ApiV1ArInvoicePaymentsResponse {
+  /** The payments applied to the invoice. */
+  payments: ApiV1ArInvoicePaymentsResponsePaymentsList;
+}
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListInvoicesRequestOrder = "asc" | "desc";
 export interface ListInvoicesRequest {
@@ -1993,6 +4382,25 @@ export interface MerchantsResponse {
   page: AccountsPaginatedResponsePage;
 }
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type ListProductsRequestOrder = "asc" | "desc";
+export interface ListProductsRequest {
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: ListProductsRequestOrder | (string & {}) | undefined;
+}
+/** Pagination cursors for navigating to next/previous pages */
+export type ApiV1ArProductPaginatedResponseDataPage = AccountsPaginatedResponsePage;
+/** The list of products for this page */
+export type ApiV1ArProductPaginatedResponseDataProductsList = Array<ApiV1ArProductResponseData>;
+/** Paginated response data for Accounts Receivable products API endpoint */
+export interface ApiV1ArProductPaginatedResponseData {
+  /** Pagination cursors for navigating to next/previous pages */
+  page: AccountsPaginatedResponsePage;
+  /** The list of products for this page */
+  products: ApiV1ArProductPaginatedResponseDataProductsList;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListReceiptsRequestOrder = "asc" | "desc";
 export interface ListReceiptsRequest {
   limit?: number | undefined;
@@ -2058,6 +4466,36 @@ export interface RecipientsAttachmentsPaginatedResponse {
   /** Pagination information */
   page: AccountsPaginatedResponsePage;
   total: unknown;
+}
+/** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
+export type ListReimbursementsRequestOrder = "asc" | "desc";
+export interface ListReimbursementsRequest {
+  limit?: number | undefined;
+  start_at?: string | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: ListReimbursementsRequestOrder | (string & {}) | undefined;
+}
+export type ApiV1ReimbursementsPaginatedResponsePage = AccountsPaginatedResponsePage;
+export type ApiV1ReimbursementListItemAttachmentsList = Array<ApiV1ReimbursementAttachment>;
+/** A reimbursement as it appears in the list. Dates, merchant details, notes, category, and transaction id are available from the detail endpoint. */
+export interface ApiV1ReimbursementListItem {
+  /** The positive amount spent in the submitted currency. */
+  amount: number;
+  attachments: ApiV1ReimbursementListItemAttachmentsList;
+  currency: string;
+  id: string;
+  paymentStatus: ReimbursementPaymentStatus;
+  reviewStatus: ReimbursementReviewStatus;
+  submittedAt: string;
+  submitterUserId: string;
+}
+export type ApiV1ReimbursementsPaginatedResponseReimbursementsList =
+  Array<ApiV1ReimbursementListItem>;
+/** A page of reimbursements plus the cursor for the next/previous page. */
+export interface ApiV1ReimbursementsPaginatedResponse {
+  page: AccountsPaginatedResponsePage;
+  reimbursements: ApiV1ReimbursementsPaginatedResponseReimbursementsList;
 }
 export type ListSendMoneyApprovalRequestsRequestStatus =
   | "pendingApproval"
@@ -2140,6 +4578,12 @@ export interface TransferMoneyApprovalRequestsPaginatedResponse {
   page: AccountsPaginatedResponsePage;
   requests: TransferMoneyApprovalRequestsPaginatedResponseRequestsList;
 }
+export interface MarkReimbursementPaidRequest {
+  reimbursementId: string;
+  /** Recorded as a reviewer comment, e.g. how and when the submitter was paid. */
+  note?: string | null | undefined;
+}
+export interface MarkReimbursementPaidResponse {}
 export interface MatchReceiptRequest {
   receiptId: string;
 }
@@ -2180,6 +4624,8 @@ export interface RequestSendMoneyRequest {
   amount: number;
   /** Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees. */
   chargeType?: RequestSendMoneyRequestChargeType | (string & {}) | undefined;
+  /** Set to true to skip the duplicate payment check. By default, payments are blocked if the same account sent the same amount to the same recipient with the same payment method in the last 24 hours, even when the idempotency key is different. Use this field only when you intentionally send a repeat payment. The check occurs when you create the request. When an approver approves the request, the check does not occur again. */
+  duplicateCheckOverride?: boolean | undefined;
   /** Optional external memo */
   externalMemo?: string | undefined;
   /** Unique string identifying the transaction */
@@ -2212,6 +4658,41 @@ export interface CardRevealResponse {
   cvc: string;
   expiration: CardExpiration;
 }
+/** The opening balance to set on one ledger. */
+export interface SetBooksAPILedgerOpeningBalance {
+  balance: unknown;
+  /** The ID of the ledger whose opening balance to set. */
+  ledgerId: string;
+}
+/** The opening balances to set, from 1 to 100 ('maxBooksAPIBulkWriteItems'), processed in order. Each `ledgerId` may appear at most once. */
+export type SetBooksLedgerOpeningBalancesRequestOpeningBalancesList =
+  Array<SetBooksAPILedgerOpeningBalance>;
+export interface SetBooksLedgerOpeningBalancesRequest {
+  booksId?: string | undefined;
+  /** The opening balances to set, from 1 to 100 ('maxBooksAPIBulkWriteItems'), processed in order. Each `ledgerId` may appear at most once. */
+  openingBalances: SetBooksLedgerOpeningBalancesRequestOpeningBalancesList;
+}
+export type BooksAPISetLedgerOpeningBalanceResultError = BooksAPICreateLedgerResultError;
+/** The outcome of setting one requested opening balance: `error` is set exactly when `success` is false. */
+export interface BooksAPISetLedgerOpeningBalanceResult {
+  error?: BooksAPICreateLedgerResultError | null | undefined;
+  /** The ledger the requested opening balance was for. */
+  ledgerId: string;
+  /** Whether the opening balance was set (or cleared). */
+  success: boolean;
+}
+/** One result per requested opening balance, in request order. A failed item does not fail the others. */
+export type SetBooksAPILedgerOpeningBalancesResponseResultsList =
+  Array<BooksAPISetLedgerOpeningBalanceResult>;
+/** One result per requested opening balance, in request order. */
+export interface SetBooksAPILedgerOpeningBalancesResponse {
+  /** How many items in `results` failed, each with an `error`. Zero exactly when every item succeeded. `succeededCount` plus `failedCount` always equals the number of `results`. */
+  failedCount: number;
+  /** One result per requested opening balance, in request order. A failed item does not fail the others. */
+  results: SetBooksAPILedgerOpeningBalancesResponseResultsList;
+  /** How many items in `results` succeeded. */
+  succeededCount: number;
+}
 export interface StartOAuth2FlowRequest {
   /** The client ID you received from Mercury when you registered the client. */
   client_id: string;
@@ -2232,9 +4713,122 @@ export interface StartOAuth2FlowResponse {}
 export interface UnfreezeCardRequest {
   cardId: string;
 }
+/** New line items to add to the bill. */
+export type UpdateBooksBillRequestLineChangesCreateList = Array<CreateBooksAPIBillLine>;
+/** IDs of existing line items to delete. */
+export type UpdateBooksBillRequestLineChangesDeleteList = Array<string>;
+/** An edit to an existing bill line item. Every field but the @id@ is optional; an omitted field is left unchanged. */
+export interface UpdateBooksAPIBillLine {
+  amount?: unknown | null | undefined;
+  /** Description of the line item. Non-empty; leading and trailing whitespace is stripped. */
+  description?: string | null | undefined;
+  /** The ID of the line item to update. */
+  id: string;
+  /** The ledger account (expense account) to book this line against. */
+  ledgerId?: string | null | undefined;
+}
+/** Existing line items to edit. */
+export type UpdateBooksBillRequestLineChangesUpdateList = Array<UpdateBooksAPIBillLine>;
+export interface UpdateBooksBillRequestLineChanges {
+  /** New line items to add to the bill. */
+  create?: UpdateBooksBillRequestLineChangesCreateList | null | undefined;
+  /** IDs of existing line items to delete. */
+  delete?: UpdateBooksBillRequestLineChangesDeleteList | null | undefined;
+  /** Existing line items to edit. */
+  update?: UpdateBooksBillRequestLineChangesUpdateList | null | undefined;
+}
+export interface UpdateBooksBillRequest {
+  billId: string;
+  booksId?: string | undefined;
+  dueDate?: unknown | null | undefined;
+  effectiveDate?: unknown | null | undefined;
+  lineChanges?: UpdateBooksBillRequestLineChanges | null | undefined;
+  /** New notes or memo for the bill. */
+  notes?: string | null | undefined;
+  /** A new reference number (e.g. the vendor's bill number). Non-empty; leading and trailing whitespace is stripped. Clearing the reference number is not supported. */
+  referenceNumber?: string | null | undefined;
+  vendor?: unknown | null | undefined;
+}
+/** New line items to add to the invoice. */
+export type UpdateBooksInvoiceRequestLineChangesCreateList = Array<CreateBooksAPIInvoiceLine>;
+/** IDs of existing invoice line items to delete. */
+export type UpdateBooksInvoiceRequestLineChangesDeleteList = Array<string>;
+/** An edit to an existing invoice line item. Every field but the `id` is optional; an omitted field is left unchanged. */
+export interface UpdateBooksAPIInvoiceLine {
+  amount?: unknown | null | undefined;
+  /** The line item's description. Non-empty; leading and trailing whitespace is stripped. */
+  description?: string | null | undefined;
+  /** The ID of the invoice line item to update. */
+  id: string;
+  /** The ledger account to book this line against, such as a revenue ledger. Use an ID from getBooksLedgers; it must be in this Books instance and not a Mercury bank-feed ledger. */
+  ledgerId?: string | null | undefined;
+}
+/** Existing invoice line items to edit. */
+export type UpdateBooksInvoiceRequestLineChangesUpdateList = Array<UpdateBooksAPIInvoiceLine>;
+export interface UpdateBooksInvoiceRequestLineChanges {
+  /** New line items to add to the invoice. */
+  create?: UpdateBooksInvoiceRequestLineChangesCreateList | null | undefined;
+  /** IDs of existing invoice line items to delete. */
+  delete?: UpdateBooksInvoiceRequestLineChangesDeleteList | null | undefined;
+  /** Existing invoice line items to edit. */
+  update?: UpdateBooksInvoiceRequestLineChangesUpdateList | null | undefined;
+}
+export interface UpdateBooksInvoiceRequest {
+  invoiceId: string;
+  booksId?: string | undefined;
+  customer?: unknown | null | undefined;
+  dueDate?: unknown | null | undefined;
+  effectiveDate?: unknown | null | undefined;
+  lineChanges?: UpdateBooksInvoiceRequestLineChanges | null | undefined;
+  /** A new note for the invoice. */
+  notes?: string | null | undefined;
+  /** A new invoice number, the number the customer sees (for example `INV-1042`). 1 to 299 characters; leading and trailing whitespace is stripped. Clearing it is not supported. */
+  referenceNumber?: string | null | undefined;
+}
+export type BooksLedgerClearField = "parentId";
+/** Fields to clear, such as the parent ledger */
+export type UpdateBooksAPILedgerClearFieldsList = Array<BooksLedgerClearField | (string & {})>;
+/** Updates to apply to an existing general ledger. Omitted fields are left unchanged. */
+export interface UpdateBooksAPILedger {
+  /** Fields to clear, such as the parent ledger */
+  clearFields?: UpdateBooksAPILedgerClearFieldsList | null | undefined;
+  debitCredit?: unknown | null | undefined;
+  /** The ID of the ledger to update */
+  ledgerId: string;
+  /** Updated ledger name */
+  name?: string | null | undefined;
+  /** Updated parent ledger */
+  parentId?: string | null | undefined;
+  /** Updated numeric sort code */
+  sortCode?: string | null | undefined;
+  subType?: unknown | null | undefined;
+  type?: unknown | null | undefined;
+}
+/** The ledger updates to apply, from 1 to 100 ('maxBooksAPILedgerWrites'), processed in order. Each `ledgerId` may appear at most once. */
+export type UpdateBooksLedgersRequestLedgersList = Array<UpdateBooksAPILedger>;
+export interface UpdateBooksLedgersRequest {
+  booksId?: string | undefined;
+  /** The ledger updates to apply, from 1 to 100 ('maxBooksAPILedgerWrites'), processed in order. Each `ledgerId` may appear at most once. */
+  ledgers: UpdateBooksLedgersRequestLedgersList;
+}
+export type BooksAPIUpdateLedgerResultError = BooksAPICreateLedgerResultError;
+export type BooksAPIUpdateLedgerResultLedger = BooksAPICreateLedgerResultLedger;
+/** The outcome of updating one requested ledger: exactly one of `ledger` and `error` is set. */
+export type BooksAPIUpdateLedgerResult = BooksAPICreateLedgerResult;
+/** One result per requested ledger update, in request order. A failed item does not fail the others. */
+export type UpdateBooksAPILedgersResponseResultsList = Array<BooksAPICreateLedgerResult>;
+/** One result per requested ledger update, in request order. */
+export interface UpdateBooksAPILedgersResponse {
+  /** How many items in `results` failed, each with an `error`. Zero exactly when every item succeeded. `succeededCount` plus `failedCount` always equals the number of `results`. */
+  failedCount: number;
+  /** One result per requested ledger update, in request order. A failed item does not fail the others. */
+  results: UpdateBooksAPILedgersResponseResultsList;
+  /** How many items in `results` succeeded. */
+  succeededCount: number;
+}
 export interface UpdateBudgetRequest {
   budgetId: string;
-  amountPerUserPerPeriod?: number | null | undefined;
+  amountPerUserPerPeriod?: unknown | null | undefined;
   description?: string | null | undefined;
   endDate?: string | null | undefined;
   frequency?: ApiV1BudgetFrequency | (string & {}) | null | undefined;
@@ -2305,6 +4899,17 @@ export interface UpdateRecipientRequest {
   /** Information needed to send a real-time payment. */
   realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw | undefined;
 }
+export interface UpdateReimbursementRequest {
+  reimbursementId: string;
+  /** The positive amount spent. */
+  amount: number;
+  categoryId?: string | null | undefined;
+  currency: unknown;
+  datePaidFor: unknown;
+  /** Where the money was spent, e.g. "Starbucks". */
+  merchantName: string;
+  notes?: string | null | undefined;
+}
 export interface UpdateTransactionRequest {
   transactionId: string;
   categoryId?: unknown | undefined;
@@ -2347,6 +4952,24 @@ export interface VerifyWebhookRequest {
   eventType?: unknown | null | undefined;
 }
 export interface VerifyWebhookResponse {}
+export type ApproveReimbursementError = BadRequest | NotFound | MercuryOpError;
+/** Approve a reimbursement Approve a submitted reimbursement. The token's user needs the "Reimbursement approval and submission" or "Policy management and approval" permission, and access to the organization's reimbursement account. The token needs the `reimbursements:manage` scope or Read and Write access. Self-approval works only when the organization allows it or has only one admin. Approved reimbursements pay out in a batch each weekday at 1:49 PM Eastern. A payout waits for a later batch when the reimbursement account can't cover it or the submitter has no verified payout account. */
+export const approveReimbursement: API.OperationMethod<
+  ApproveReimbursementRequest,
+  ApproveReimbursementResponse,
+  ApproveReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2144, __c67, 0) as any as S.Schema<ApproveReimbursementRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<ApproveReimbursementResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveReimbursement",
+}));
+
 export type ArchiveBudgetError = BadRequest | NotFound | MercuryOpError;
 /** Archive a budget Archive a budget (a published budget becomes archived; a draft becomes deleted). Returns 409 when the budget has an active Agentic Card link. */
 export const archiveBudget: API.OperationMethod<
@@ -2355,8 +4978,8 @@ export const archiveBudget: API.OperationMethod<
   ArchiveBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ArchiveBudgetRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<ArchiveBudgetResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ArchiveBudgetRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<ArchiveBudgetResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2373,14 +4996,68 @@ export const assignTransactionToBudget: API.OperationMethod<
   AssignTransactionToBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<AssignTransactionToBudgetRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<AssignTransactionToBudgetResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AssignTransactionToBudget",
+}));
+
+export type BulkCreateBooksJournalEntriesError = BadRequest | MercuryOpError;
+/** Create multiple journal entries Creates one or more journal entries in a Books instance and returns them. Each journal entry has a datetime, a description, and line entries; each line entry is a debit or credit of an amount to one ledger, i.e. a general ledger (GL) account in the organization's chart of accounts, with its own description and optional tag IDs. Every ledger must belong to the Books instance and must not be read-only. Use expand to include related objects in the response. To discover ledger IDs, use getBooksLedgers; to change existing journal entries, use bulkUpdateBooksJournalEntries. */
+export const bulkCreateBooksJournalEntries: API.OperationMethod<
+  BulkCreateBooksJournalEntriesRequest,
+  CreateBooksAPIJournalEntriesBulkResponse,
+  BulkCreateBooksJournalEntriesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3812, __c119, 4) as any as S.Schema<BulkCreateBooksJournalEntriesRequest>,
+  output: __S(3813, __c119, 5) as any as S.Schema<CreateBooksAPIJournalEntriesBulkResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateBooksJournalEntries",
+}));
+
+export type BulkDeleteBooksJournalEntriesError = BadRequest | MercuryOpError;
+/** Delete multiple journal entries Deletes one or more journal entries of a Books instance by journal entry ID. Returns no content on success. To find journal entry IDs, use listBooksJournalEntries. */
+export const bulkDeleteBooksJournalEntries: API.OperationMethod<
+  BulkDeleteBooksJournalEntriesRequest,
+  BulkDeleteBooksJournalEntriesResponse,
+  BulkDeleteBooksJournalEntriesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4352, __c136, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<BulkDeleteBooksJournalEntriesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteBooksJournalEntries",
+}));
+
+export type BulkUpdateBooksJournalEntriesError = BadRequest | MercuryOpError;
+/** Update multiple journal entries Updates one or more existing journal entries of a Books instance. Each update names a journal entry by ID and can change its datetime, description, and review status, and create, update, or delete its line entries; each line entry is a debit or credit of an amount to one ledger, i.e. a general ledger (GL) account in the organization's chart of accounts. Every ledger named by a created or updated line entry must belong to the Books instance and must not be read-only. Returns no content on success. To find journal entry IDs, use listBooksJournalEntries; to create journal entries, use bulkCreateBooksJournalEntries. */
+export const bulkUpdateBooksJournalEntries: API.OperationMethod<
+  BulkUpdateBooksJournalEntriesRequest,
+  BulkUpdateBooksJournalEntriesResponse,
+  BulkUpdateBooksJournalEntriesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4743, __c148, 7) as any as S.Schema<BulkUpdateBooksJournalEntriesRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<BulkUpdateBooksJournalEntriesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateBooksJournalEntries",
 }));
 
 export type CancelCardError = NotFound | MercuryOpError;
@@ -2391,8 +5068,8 @@ export const cancelCard: API.OperationMethod<
   CancelCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CancelCardRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<Card>,
+  input: __S(5184, __c162, 0) as any as S.Schema<CancelCardRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2409,14 +5086,158 @@ export const cancelInvoice: API.OperationMethod<
   CancelInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CancelInvoiceRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<CancelInvoiceResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<CancelInvoiceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CancelInvoiceResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelInvoice",
+}));
+
+export type CancelReimbursementError = BadRequest | NotFound | MercuryOpError;
+/** Cancel a reimbursement Cancel a reimbursement that is still in review. */
+export const cancelReimbursement: API.OperationMethod<
+  CancelReimbursementRequest,
+  CancelReimbursementResponse,
+  CancelReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CancelReimbursementRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<CancelReimbursementResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelReimbursement",
+}));
+
+export type CategorizeBooksTransactionsError = BadRequest | MercuryOpError;
+/** Categorize or split transactions Sets the categorization of one or more posted bank transactions, all or nothing. Each item names a transaction by its `journalEntryId` and gives its new categorization as `splits`: one split per category, each with the `ledgerId` of the ledger, i.e. general ledger (GL) account, to categorize to (such as an expense or revenue account) and the signed `amount` of the transaction that goes to it, as a JSON number of dollars with at most two decimal places. One split categorizes the whole transaction to one ledger; several split it across ledgers. Splits use the same sign convention as the transaction's `amount` from `GET /books/transactions` (getBooksTransactions), must be nonzero, and must add up to exactly that `amount`; a split with the opposite sign, such as a refund netted against a purchase, posts on the other side. A split may set the line's `description` and `tagIds`; omit them to keep those of the line it replaces. The splits replace every current categorization line of the transaction; its bank line on the source account's ledger is never changed. The last write wins: if the transaction was recategorized after you read it, this request overwrites that change. A split's ledger must belong to the Books instance and be editable, and must not be an uncategorized income or expense ledger or a source account's ledger. Only journal entries of bank transactions can be categorized, and a transaction matched to a transfer between accounts must be unmatched first. Send from 1 to 100 items, each transaction at most once; across all items, the splits may name at most 100 different ledgers. If a `journalEntryId`, split `ledgerId`, or tag ID doesn't exist, the whole request fails with 404, and if one belongs to another Books instance, or a split's ledger is read-only (linked to a Mercury account), with 403; no transaction is changed. A few problems fail the whole request with 422 and a `message` saying why, such as two tags from the same tag group on one split; no transaction is changed. Every item is checked before anything changes: if any item is invalid, no transaction is changed, and the 400 response's `errors.errorCode` is `invalidCategorizationItems` with `errors.itemErrors` listing every problem, each with its 0-based `itemIndex` into `items`, a `code`, and a `message`. The codes are `duplicateJournalEntry`, `journalEntryNotFound` (the journal entry was deleted while the request ran), `notTransactionSourced`, `transferMatched`, `splitsDoNotSumToTransactionAmount`, `invalidSplitAmount`, `ledgerNotFound` (the ledger was deleted while the request ran), `ledgerNotEditable`, `ineligibleLedger` (a split's ledger can't take a transaction's categorization, such as the opening balances ledger or an accounts receivable or payable ledger), `uncategorizedLedger`, `sourceAccountLedger`, and `unknownError` (any other problem, described by its `message`); more may be added, so treat an unrecognized code as `unknownError` and show its `message`. On success, every transaction has the requested categorization, and the response lists each one's new `categorizationLines`, in request order. A 500 response doesn't mean nothing changed: Books may have applied the items, so read the transactions again before retrying. To find transactions and their current categorization, use `GET /books/transactions` (getBooksTransactions); to find ledger IDs, use `GET /books/ledgers` (getBooksLedgers). */
+export const categorizeBooksTransactions: API.OperationMethod<
+  CategorizeBooksTransactionsRequest,
+  CategorizeBooksAPITransactionsResponse,
+  CategorizeBooksTransactionsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(388, __c12, 4) as any as S.Schema<CategorizeBooksTransactionsRequest>,
+  output: __S(391, __c12, 7) as any as S.Schema<CategorizeBooksAPITransactionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CategorizeBooksTransactions",
+}));
+
+export type CreateBooksBillError = BadRequest | MercuryOpError;
+/** Create a bill (accounts payable) Creates a single bill, i.e. an accounts payable record of money the organization owes a vendor, which books the matching journal entries. The bill needs a `vendor` -- a tagged object `{"tag": ..., "contents": ...}` naming either an existing Books counterparty (`{"tag": "counterpartyId", "contents": ...}`) or a banking recipient (`{"tag": "recipientId", "contents": ...}`, resolved to its linked counterparty) -- an `effectiveDate` (the bill date) and `dueDate` (both YYYY-MM-DD), and at least one line in `lines`. Each line needs a `ledgerId` (the expense ledger to book it against, from getBooksLedgers), a `description`, and an `amount` in dollars; a line amount may be negative (e.g. a discount); zero-amount lines are ignored, at least one line must be non-zero, and the lines must total more than zero. `referenceNumber` (e.g. the vendor's bill number) and `notes` are optional. The response is the created bill: its `id`, `vendor` (always a counterparty id), `status`, amounts (`grossAmount`, `amountPaid`, `amountOutstanding`), `lines`, and generated `journalEntryIds`. To make retries safe, send an `Idempotency-Key` header: a replay with the same key and body returns the original bill rather than creating a duplicate (a reused key with a different body is rejected). Without one, a retry after a timeout can create a second bill. If a request fails with a server error (HTTP 5xx), the bill may already have been created, so a retry with the same key returns 409 (the original attempt is treated as still in progress); check whether the bill exists rather than retrying with a new key, which could create a duplicate. Request errors are returned as an HTTP error status and create nothing: the token lacks the scope to create accrual sources, a line ledger is outside the Books instance or read-only, the vendor counterparty or recipient does not belong to this organization, or the lines fail Teal's validation. */
+export const createBooksBill: API.OperationMethod<
+  CreateBooksBillRequest,
+  BooksAPIBill,
+  CreateBooksBillError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c24, 0) as any as S.Schema<CreateBooksBillRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<BooksAPIBill>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksBill",
+}));
+
+export type CreateBooksCategorizationRuleError = BadRequest | MercuryOpError;
+/** Create a categorization rule Creates a categorization rule in a Books instance: a rule that automatically categorizes imported transactions to a ledger, i.e. a general ledger (GL) account. The rule only applies to transactions categorized from now on; it does not re-categorize existing transactions. The body has `conditions` (1 to 10, all of which must match; logical AND, there is no OR) and `outputs` (at most one of each kind, so today exactly one `setLedger`), in the same shape getBooksCategorizationRules returns, so a listed rule's `conditions` and `outputs` can be sent back as is. Each condition has a `tag` and `contents`: `amount` (`operator`, one of `lessThan`, `lessThanOrEqualTo`, `greaterThan`, `greaterThanOrEqualTo`, or `equalTo`, and `amount`, a signed threshold in dollars: money in is positive and money out negative), `description` (`contains`), `counterparty` (`name`), `debitCard` (`debitCardId`), `creditCard` (`creditCardId`), `user` (`userId`), or `customCategory` (`customCategoryId`); every card, user, and custom category must belong to the organization. The only output is `setLedger` (`ledgerId`), a ledger the caller may edit (not read-only) in the Books instance; to find ledger IDs, use getBooksLedgers. There is no priority field: the new rule is placed among the existing rules by how specific its conditions are, and the first matching rule applies. Returns the created `rule`, in the shape getBooksCategorizationRules returns. A rule that doesn't validate, a ledger without a GL account, or conditions the organization already has a rule for are a 400 and create nothing; to see existing rules, use getBooksCategorizationRules. */
+export const createBooksCategorizationRule: API.OperationMethod<
+  CreateBooksCategorizationRuleRequest,
+  CreateBooksAPICategorizationRuleResponse,
+  CreateBooksCategorizationRuleError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateBooksCategorizationRuleRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<CreateBooksAPICategorizationRuleResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksCategorizationRule",
+}));
+
+export type CreateBooksCloseError = BadRequest | MercuryOpError;
+/** Close the books Closes the books through `closeDate` (`YYYY-MM-DD`), which must be today or earlier (UTC) and after the latest close date, or, when the books have never been closed, on or after the day the books' entries start; any other date is a 400 that names the rule. The close is soft: it sets the close date reports use and doesn't lock journal entries dated on or before it. To list existing closes and the latest close date, use getBooksCloses. */
+export const createBooksClose: API.OperationMethod<
+  CreateBooksCloseRequest,
+  CreateBooksAPICloseResponse,
+  CreateBooksCloseError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateBooksCloseRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<CreateBooksAPICloseResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksClose",
+}));
+
+export type CreateBooksInvoiceError = BadRequest | MercuryOpError;
+/** Create an invoice (accounts receivable) Creates a single invoice, i.e. an accounts receivable record of money a customer owes the organization, which books the matching journal entries. It takes the same input as the Books create-invoice form in Mercury. `referenceNumber` is the invoice number (the form's Invoice number field, for example `INV-1042`): required, 1 to 299 characters. `customer` is the customer to bill: a Mercury Invoicing customer ID from the Mercury Invoicing customers API (`/ar/customers`). `effectiveDate` is the invoice date and `dueDate` the due date (both YYYY-MM-DD). `lines` are the line items, at least one, each with a `description`, a `ledgerId` (the ledger account, such as a revenue ledger, from getBooksLedgers), and an `amount` in dollars; an amount may be negative (for example a discount), zero-amount lines are ignored, at least one line must be non-zero, and the line items must total more than zero. `notes` is an optional note. The invoice is created open; drafts, attachments, and service periods are not supported. When the organization uses the Mercury Invoicing integration, the invoice is also created in Mercury Invoicing, without emailing the customer, and its invoice number must be unique among all of the organization's Mercury invoices, of any status (a duplicate is rejected with HTTP 400). Without the integration the invoice is stored only in Books, which rejects a second invoice with the same invoice number for the same customer. The response is usually the created invoice (HTTP 200): its `id`, `referenceNumber`, `customer` (`id` and `name`), `effectiveDate`, `dueDate`, `status`, `displayStatus`, `grossAmount`, `amountRemaining`, `lines`, `notes` (omitted when none), and `paymentApplications`. If the invoice was created in Mercury Invoicing but has not synced to Books yet, the response is HTTP 202 with `syncStatus` `pending`, a `message`, and no `id`: the invoice exists, so do not create it again; once it has synced, find it in the invoice list by its invoice number (`referenceNumber`). To make retries safe, send an `Idempotency-Key` header: a replay with the same key and body returns the original status and body rather than creating a duplicate (a reused key with a different body is rejected with 422). If a request fails with a server error (HTTP 5xx), the invoice may already exist, so check for it rather than retrying with a new key. Request errors are returned as an HTTP error status and create nothing: a missing or invalid field, or a deleted customer (400); a token without the scope to create accrual sources, a customer that is not in the Books instance's organization (including one that does not exist), or a line ledger outside the Books instance or read-only (403); or, with the integration, an organization without a checking account to receive the invoice's payments (409). */
+export const createBooksInvoice: API.OperationMethod<
+  CreateBooksInvoiceRequest,
+  BooksAPIInvoice,
+  CreateBooksInvoiceError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1792, __c56, 0) as any as S.Schema<CreateBooksInvoiceRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<BooksAPIInvoice>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksInvoice",
+}));
+
+export type CreateBooksLedgersError = BadRequest | MercuryOpError;
+/** Create ledgers (general ledger accounts) Creates up to 100 ledgers, i.e. general ledger (GL) accounts, in the organization's live chart of accounts. Each ledger needs a name, type, subType, debitCredit (natural balance), and sortCode (account number), and may name a parentId to nest it under an existing ledger of the same Books instance that is not read-only. Teal validates each ledger against the chart-of-accounts rules: subType must belong to type (see the `type` and `subType` fields of a ledger, as returned by getBooksLedgers), a child ledger has the same type and sub-type as its parent, and names and sort codes must be unique. The response has exactly one result per requested ledger, in request order: the created ledger, in the same shape as getBooksLedgers returns, or an error with a stable `code` and a `message` explaining how to fix it. A failed ledger does not fail the request or the other ledgers, so the status is 200 whatever the item outcomes. The response's `failedCount` is 0 exactly when every ledger succeeded, and `succeededCount` plus `failedCount` equals the number of results; when `failedCount` is above 0, check each result's `error`. Problems with the request as a whole, such as a missing scope, a parent ledger outside the Books instance or read-only (linked to a Mercury account), an empty list, or more than 100 ledgers, are reported with an HTTP error status and create nothing. */
+export const createBooksLedgers: API.OperationMethod<
+  CreateBooksLedgersRequest,
+  CreateBooksAPILedgersResponse,
+  CreateBooksLedgersError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1858, __c58, 2) as any as S.Schema<CreateBooksLedgersRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<CreateBooksAPILedgersResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksLedgers",
+}));
+
+export type CreateBooksPaymentApplicationsError = BadRequest | NotFound | MercuryOpError;
+/** Match a transaction to bills or invoices Matches a transaction's line entry to bills (accounts payable) it paid, or to invoices (accounts receivable) it collected, i.e. records the payment against them. The transaction's other lines are replaced by lines for the matched bills or invoices and any adjustments, so an existing split is removed and the transaction's category can change. Use the transaction's own `lineEntryId` from `GET /books/transactions` (getBooksTransactions) or `GET /books/transaction/{transactionId}` (getBooksTransaction). Get bill IDs from `GET /books/bills` (getBooksBills) and invoice IDs from `GET /books/invoices` (getBooksInvoices). Each item of `applications` gives a `billId` or an `invoiceId`, never both, and the positive `amount` of the line entry applied to it, as a JSON number of dollars with at most two decimal places; one request matches bills only or invoices only, each at most once. An application may carry `adjustments`, each a `ledgerId` (a ledger, i.e. general ledger (GL) account, such as a bank fee or discount ledger, from getBooksLedgers) and a positive `amount`, booked against that bill or invoice; the request's own `adjustments` are booked on the line entry, such as to close out an overpayment. Send from 1 to 100 applications; each adjustments list may have at most 100 items, and all adjustments together may name at most 100 different ledgers. Every ID must be a bill, or every one an invoice, in the Books instance, and every adjustment ledger must be in the instance and editable; otherwise the request fails with 400 or 403 and nothing changes. A line entry already matched differently (to other bills, invoices, or payroll runs, or with other amounts or adjustments) is refused with 409 and nothing changes; to change a match, unmatch it first with deleteBooksPaymentApplications. Retrying the same request is safe: a line entry is matched at most once, and a retried request whose match already landed returns 200 with the result. Matching an invoice sent with Mercury Invoicing also marks it paid there. Returns the same shape as deleteBooksPaymentApplications: `lineEntry` (its `id`, `journalEntryId`, `transactionId`, unsigned `amount`, `amountApplied`, and `amountAdjusted`, in dollars) and the matched `bills` or `invoices`, each with its `id`, `amountPaid`, `amountAdjusted`, `amountOutstanding`, `status`, and `displayStatus`; `payrollRuns` is always empty for a match. A 503 response means Books couldn't match the line entry, confirm the match, or return its result right now; retry the same request. */
+export const createBooksPaymentApplications: API.OperationMethod<
+  CreateBooksPaymentApplicationsRequest,
+  BooksAPIPaymentApplicationsResponse,
+  CreateBooksPaymentApplicationsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1988, __c62, 4) as any as S.Schema<CreateBooksPaymentApplicationsRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBooksPaymentApplications",
 }));
 
 export type CreateBudgetError = BadRequest | MercuryOpError;
@@ -2427,8 +5248,8 @@ export const createBudget: API.OperationMethod<
   CreateBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CreateBudgetRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CreateBudgetRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2445,8 +5266,8 @@ export const createCard: API.OperationMethod<
   CreateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1522, __c95, 2) as any as S.Schema<CreateCardRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<Card>,
+  input: __S(2114, __c66, 2) as any as S.Schema<CreateCardRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2463,8 +5284,8 @@ export const createCategory: API.OperationMethod<
   CreateCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateCategoryRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateCategoryRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2481,8 +5302,8 @@ export const createCustomer: API.OperationMethod<
   CreateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<CreateCustomerRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(2272, __c71, 0) as any as S.Schema<CreateCustomerRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2499,8 +5320,8 @@ export const createInternalTransfer: API.OperationMethod<
   CreateInternalTransferError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateInternalTransferRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<InternalTransferAPIResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateInternalTransferRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<InternalTransferAPIResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2517,14 +5338,32 @@ export const createInvoice: API.OperationMethod<
   CreateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateInvoiceRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CreateInvoiceRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateInvoice",
+}));
+
+export type CreateProductError = BadRequest | MercuryOpError;
+/** Create a product Create a new invoicing product (product catalog item). The combination of name and unit price must be unique within the organization. */
+export const createProduct: API.OperationMethod<
+  CreateProductRequest,
+  ApiV1ArProductResponseData,
+  CreateProductError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2560, __c80, 0) as any as S.Schema<CreateProductRequest>,
+  output: __S(2592, __c81, 0) as any as S.Schema<ApiV1ArProductResponseData>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type CreateReceiptUploadUrlError = BadRequest | MercuryOpError;
@@ -2535,8 +5374,8 @@ export const createReceiptUploadUrl: API.OperationMethod<
   CreateReceiptUploadUrlError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateReceiptUploadUrlRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<ApiV1ReceiptUploadUrlResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2553,8 +5392,8 @@ export const createRecipient: API.OperationMethod<
   CreateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateRecipientRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateRecipientRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2571,14 +5410,32 @@ export const createRecipientInvite: API.OperationMethod<
   CreateRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateRecipientInviteRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CreateRecipientInviteRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateRecipientInvite",
+}));
+
+export type CreateReimbursementError = BadRequest | MercuryOpError;
+/** Create a reimbursement Submit a new reimbursement as the token's user. Only that user can edit or cancel it. Returns the new reimbursement id. */
+export const createReimbursement: API.OperationMethod<
+  CreateReimbursementRequest,
+  ApiV1CreateReimbursementResponse,
+  CreateReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateReimbursementRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReimbursement",
 }));
 
 export type CreateTransactionError = BadRequest | NotFound | MercuryOpError;
@@ -2589,8 +5446,8 @@ export const createTransaction: API.OperationMethod<
   CreateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateTransactionRequest>,
-  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateTransactionRequest>,
+  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2607,14 +5464,68 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateWebhook",
+}));
+
+export type DeleteBooksCategorizationRuleError = BadRequest | NotFound | MercuryOpError;
+/** Delete a categorization rule Deletes one categorization rule of a Books instance by ID, so it no longer categorizes transactions from now on. Ledgers, i.e. general ledger (GL) accounts, that the rule already applied to transactions stay in place; deleting a rule does not un-categorize anything. Only rules that getBooksCategorizationRules returns can be deleted; any other ID, including the organization's other automation rules that Books doesn't show, is a 404. To find rule IDs, use getBooksCategorizationRules. Returns no content on success, and 404 otherwise. */
+export const deleteBooksCategorizationRule: API.OperationMethod<
+  DeleteBooksCategorizationRuleRequest,
+  DeleteBooksCategorizationRuleResponse,
+  DeleteBooksCategorizationRuleError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3040, __c95, 0) as any as S.Schema<DeleteBooksCategorizationRuleRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteBooksCategorizationRuleResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBooksCategorizationRule",
+}));
+
+export type DeleteBooksLedgersError = BadRequest | MercuryOpError;
+/** Delete ledgers (general ledger accounts) Deletes up to 100 ledgers, i.e. general ledger (GL) accounts, from the organization's chart of accounts, by ledger ID. To find ledger IDs, use getBooksLedgers. Ledgers are deleted one at a time in request order, so list each child ledger before its parent: a parent listed before its child still has that child when it is reached and is not deleted. A repeated ID is processed once, at its first position. This operation never deletes journal entries. **Per-item results.** The response has one result per distinct requested ID, in request order: its `ledgerId` and `deleted: true`, or `deleted: false` with an `error` that has a stable `code` and a `message` saying how to fix it. A ledger that fails does not fail the request or the other ledgers, so the status is 200 whatever the item outcomes. The response's `failedCount` is 0 exactly when every item succeeded, and `succeededCount` plus `failedCount` equals the number of results; when `failedCount` is above 0, check each result's `error`. **Per-item error codes (`error.code`) and how to fix them:** - `deletingLedgerWithActivity`: the ledger has activity, such as line entries. Move or delete its journal entries first; this operation won't delete them. - `deletingParentLedger`: the ledger still has child ledgers. Delete its children first, or list them before the parent in the same request. - `deletingLinkedLedger`: the ledger is linked to a bank or other source account. Unlink the account first. - `deletingRequiredLedger`: the chart of accounts requires this ledger. It cannot be deleted. - `integrationMapped`: an accounting, invoicing, commerce, or Plaid integration is mapped to the ledger. Remove the mapping first. - `unknownError`: the ledger could not be deleted for another reason. Read `message`; retry, or treat any code not listed here the same way. **Request errors.** These are returned as an HTTP error status, and nothing is deleted: the token lacks the scope to delete ledgers; a ledger is outside the Books instance or read-only (linked to a Mercury account); the list is empty; or it has more than 100 distinct IDs. */
+export const deleteBooksLedgers: API.OperationMethod<
+  DeleteBooksLedgersRequest,
+  DeleteBooksAPILedgersResponse,
+  DeleteBooksLedgersError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteBooksLedgersRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<DeleteBooksAPILedgersResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBooksLedgers",
+}));
+
+export type DeleteBooksPaymentApplicationsError = BadRequest | NotFound | MercuryOpError;
+/** Unmatch a transaction from its bills, invoices, or payroll runs Unmatches a transaction's line entry from every bill, invoice, or payroll run it was matched to, whether to a whole payroll run or to its lines, and removes its adjustments, so the bills, invoices, or payroll runs are owed again. Use the transaction's own `lineEntryId` from `GET /books/transactions` (getBooksTransactions) or `GET /books/transaction/{transactionId}` (getBooksTransaction). The transaction's other lines are replaced by one uncategorized line, so categorize it again afterwards with categorizeBooksTransactions; the line entry itself keeps its ID. When the unmatch completes, an invoice sent with Mercury Invoicing is also marked unpaid there. Unmatching a line entry with no matches changes nothing and returns 200 with empty `bills`, `invoices`, and `payrollRuns`, so retrying an unmatch is safe for Books. 409, and nothing changes, when the line entry has no matches in Books but Mercury Invoicing still records its payment, as after an unmatch whose result was lost: the invoice stays paid in Mercury Invoicing. Retrying won't fix this; contact Mercury support. Refused with 400, and nothing changes, when the payment was made through Bill Pay or is applied to a bill that came from Bill Pay. 404 when the Books instance has no such line entry. Returns the same shape as createBooksPaymentApplications: `lineEntry` (its `id`, `journalEntryId`, `transactionId`, unsigned `amount`, and `amountApplied` and `amountAdjusted`, both 0 now, in dollars), the unmatched `bills` and `invoices`, and the unmatched `payrollRuns`, one per payroll run whether the line entry was matched to the whole run or to its lines (read a run's lines with getBooksPayrollRun, which takes the same `id`). Each has its `id`, `amountPaid`, `amountAdjusted`, `amountOutstanding`, `status`, and `displayStatus`; a payroll run's amounts are signed, negative for a reversal run. A 503 response means Books couldn't unmatch the line entry or confirm the unmatch right now; retry the same request. */
+export const deleteBooksPaymentApplications: API.OperationMethod<
+  DeleteBooksPaymentApplicationsRequest,
+  BooksAPIPaymentApplicationsResponse,
+  DeleteBooksPaymentApplicationsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteBooksPaymentApplicationsRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<BooksAPIPaymentApplicationsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBooksPaymentApplications",
 }));
 
 export type DeleteCategoryError = NotFound | MercuryOpError;
@@ -2625,8 +5536,8 @@ export const deleteCategory: API.OperationMethod<
   DeleteCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteCategoryRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteCategoryResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteCategoryRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteCategoryResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2643,14 +5554,32 @@ export const deleteCustomer: API.OperationMethod<
   DeleteCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteCustomerRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteCustomerResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomerRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteCustomerResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCustomer",
+}));
+
+export type DeleteProductError = NotFound | MercuryOpError;
+/** Delete a product Delete an invoicing product (product catalog item). The product is unlinked from line items on open, pending, and recurring invoices. */
+export const deleteProduct: API.OperationMethod<
+  DeleteProductRequest,
+  DeleteProductResponse,
+  DeleteProductError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteProductRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteProductResponse>,
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeleteRecipientError = NotFound | MercuryOpError;
@@ -2661,8 +5590,8 @@ export const deleteRecipient: API.OperationMethod<
   DeleteRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteRecipientRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteRecipientRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteRecipientResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2679,8 +5608,8 @@ export const deleteRecipientInvite: API.OperationMethod<
   DeleteRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteRecipientInviteRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteRecipientInviteResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2697,14 +5626,32 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteWebhook",
+}));
+
+export type DenyReimbursementError = BadRequest | NotFound | MercuryOpError;
+/** Deny a reimbursement Deny a submitted reimbursement. The reason is recorded as a reviewer comment. The token's user needs the "Reimbursement approval and submission" or "Policy management and approval" permission, and access to the organization's reimbursement account. The token needs the `reimbursements:manage` scope or Read and Write access. */
+export const denyReimbursement: API.OperationMethod<
+  DenyReimbursementRequest,
+  DenyReimbursementResponse,
+  DenyReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3360, __c105, 0) as any as S.Schema<DenyReimbursementRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DenyReimbursementResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DenyReimbursement",
 }));
 
 export type EditCategoryError = BadRequest | NotFound | MercuryOpError;
@@ -2715,8 +5662,8 @@ export const editCategory: API.OperationMethod<
   EditCategoryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<EditCategoryRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CategoryData>,
+  input: __S(3392, __c106, 0) as any as S.Schema<EditCategoryRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CategoryData>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2733,8 +5680,8 @@ export const freezeCard: API.OperationMethod<
   FreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<FreezeCardRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<Card>,
+  input: __S(3424, __c107, 0) as any as S.Schema<FreezeCardRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2751,8 +5698,8 @@ export const getAccountCards: API.OperationMethod<
   GetAccountCardsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetAccountCardsRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<AccountCardsResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetAccountCardsRequest>,
+  output: __S(3459, __c108, 3) as any as S.Schema<AccountCardsResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2769,8 +5716,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<AccountsPaginatedResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<AccountsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2787,32 +5734,14 @@ export const getAccountStatements: API.OperationMethod<
   GetAccountStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetAccountStatementsRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetAccountStatementsRequest>,
+  output: __S(3555, __c111, 3) as any as S.Schema<DepositoryAccountStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccountStatements",
-}));
-
-export type GetAttachmentError = NotFound | MercuryOpError;
-/** Get an attachment Retrieve attachment details including download URL */
-export const getAttachment: API.OperationMethod<
-  GetAttachmentRequest,
-  ApiV1ArAttachmentResponseData,
-  GetAttachmentError,
-  MercuryOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetAttachmentRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
-  errors: [NotFound],
-  serviceErrors: MercuryServiceErrors,
-  protocol: MercuryProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetAttachment",
 }));
 
 export type GetAutoTransferRulesError = BadRequest | MercuryOpError;
@@ -2823,14 +5752,428 @@ export const getAutoTransferRules: API.OperationMethod<
   GetAutoTransferRulesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
-  output: __S(551, __c34, 7) as any as S.Schema<AutoTransferRulesResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetAutoTransferRulesRequest>,
+  output: __S(3623, __c113, 7) as any as S.Schema<AutoTransferRulesResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAutoTransferRules",
+}));
+
+export type GetBooksBalanceSheetError = BadRequest | MercuryOpError;
+/** Retrieve a balance sheet Returns the balance sheets for every period (daily, monthly, quarterly, or yearly) in a date range, one column per period. Each column reports balances as of its last day. The response has a list of columns, each with a label, startDate, endDate, and isPartial flag; a tree of rows; and retainedEarnings. Each row has a name, a rowKind, amounts (the row's own balance for each column, excluding its children), totalAmounts (the row's balance for each column, including all of its children), and nested children; the amount lists are ordered to match the columns. Column labels are YYYY-MM-DD for daily, YYYY-MM for monthly, YYYY-Qn (such as 2024-Q1) for quarterly, and YYYY for yearly columns. The rowKind is ledger for a single ledger, i.e. a general ledger (GL) account; summary for a heading that groups ledgers by type or subtype; or computed for a calculated metric. retainedEarnings has, for each column, the system-calculated retained earnings and current year earnings that are added to the Retained Earnings and Current Year Earnings ledger rows. The requested dates are widened to the boundaries of the periods containing them, so a monthly report ending mid-month reports balances as of the end of that month. Each column's startDate and endDate are clamped to the Books entries window (the entries start date through today, in UTC) and describe the days on which posted entries can exist, but journal entries dated in the future can still appear in the column containing today. endDate defaults to today (UTC), or the latest date the span limit allows for startDate, whichever is earlier, but never before startDate, startDate defaults to endDate, and period defaults to daily, so a request without dates returns today's balance sheet as a single column. includeEmpty defaults to false, and includeOnlyClosed defaults to false. Daily reports can span at most 1 year and all other reports at most 5 years; longer ranges fail with the reportDateRangeTooLarge error. To look up the ledgers referenced by ledgerId in the rows, use the list ledgers endpoint (getBooksLedgers). */
+export const getBooksBalanceSheet: API.OperationMethod<
+  GetBooksBalanceSheetRequest,
+  BooksAPIReport,
+  GetBooksBalanceSheetError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3648, __c114, 0) as any as S.Schema<GetBooksBalanceSheetRequest>,
+  output: __S(3716, __c116, 4) as any as S.Schema<BooksAPIReport>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksBalanceSheet",
+}));
+
+export type GetBooksBillError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve a bill (accounts payable) Returns a single bill, i.e. an accounts payable (AP) record of money the organization owes a vendor, by its ID. The bill is in the same shape as an item of the list endpoint (getBooksBills): its `id`, `referenceNumber` (the bill number), `vendor` (with `id` and `name`; omitted when the bill has no recorded vendor), `effectiveDate` (bill date), `dueDate`, `status`, `displayStatus`, `grossAmount` (total of all lines), `amountRemaining` (still owed after applied payments), `lines` (each with its ledger ID, i.e. general ledger (GL) account, description, and amount), and `paymentApplications` (each a line entry ID and the amount applied). `status` is the stored lifecycle status (`draft`, `open`, `processing`, `paid`, `cancelled`); `displayStatus` is what users see, which also distinguishes `overdue` and `partiallyPaid`. A vendor's `id` is a Books counterparty ID, not a recipient ID. Amounts are in dollars. The ID must be a bill: an unknown id or an invoice returns 404, and an id from another Books instance returns 403. To discover bill IDs, use the list endpoint (getBooksBills). */
+export const getBooksBill: API.OperationMethod<
+  GetBooksBillRequest,
+  GetBooksAPIBillResponse,
+  GetBooksBillError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3744, __c117, 0) as any as S.Schema<GetBooksBillRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<GetBooksAPIBillResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksBill",
+}));
+
+export type GetBooksBillsError = BadRequest | MercuryOpError;
+/** List bills (accounts payable) Returns one page of a Books instance's bills: accounts payable (AP), money the organization owes vendors. Each item has its `id`, `referenceNumber` (the bill number), `vendor` (the vendor the bill is owed to, with its `id` and `name`; omitted when the bill has no recorded vendor), `effectiveDate` (bill date), `dueDate`, `status`, `displayStatus`, `grossAmount` (total of all lines), `amountRemaining` (still owed after applied payments), `lines` (each with its ledger ID, i.e. general ledger (GL) account, description, and amount), and `paymentApplications` (each a line entry ID, such as a bank transaction's line, and the amount of it applied). `status` is the stored lifecycle status (`draft`, `open`, `processing`, `paid`, `cancelled`); `displayStatus` is what users see, which also distinguishes `overdue` (open and past due) and `partiallyPaid` (open with some payment applied). A vendor's `id` is a Books counterparty ID, which is not a recipient ID. Amounts are in dollars. Each response is one page of at most `limit` items (default 100, at most 1000). To see every match, pass `nextPageToken` back as pageToken with the same other parameters, and repeat until a response has no `nextPageToken`. To read specific bills by ID, pass their IDs as `ids`. To discover ledger IDs, use getBooksLedgers. */
+export const getBooksBills: API.OperationMethod<
+  GetBooksBillsRequest,
+  GetBooksAPIBillsResponse,
+  GetBooksBillsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3776, __c118, 0) as any as S.Schema<GetBooksBillsRequest>,
+  output: __S(3778, __c118, 2) as any as S.Schema<GetBooksAPIBillsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksBills",
+}));
+
+export type GetBooksCashFlowError = BadRequest | MercuryOpError;
+/** Retrieve a cash flow report Returns a cash flow report for a date range, either as a single column covering the whole range or broken down by period (daily, monthly, quarterly, or yearly). For each column, it shows the total starting and ending balances across all cash ledgers, as well as a per-ledger breakdown of starting balance, ending balance, and net cash flow. It is a per-ledger cash flow analysis, not a statement of cash flows grouped into operating, investing, and financing activities. The response has a list of columns, each with a label, startDate, endDate, and isPartial flag; ledgers, a tree of the ledgers that cash moved through; startingBalances and endingBalances, trees of the cash ledgers' balances at the start and end of each column; and startingCashBalances and endingCashBalances, the total debit balance of all cash ledgers at the start and end of each column. Each ledgers entry has a ledgerId, name, netCashFlows (for each column, the sum of the ledger's own cash line entries, excluding its children), totalNetCashFlows (the same sum including all of its children), and nested children. Each startingBalances and endingBalances entry has a ledgerId, name, sortCode, balances (the ledger's own debit balance for each column, excluding its children), totalBalances (the debit balance including all of its children), and nested children. Every per-column list is ordered to match the columns. Column labels are YYYY-MM-DD for daily, YYYY-MM for monthly, YYYY-Qn (such as 2024-Q1) for quarterly, and YYYY for yearly columns, and YYYY-MM-DD - YYYY-MM-DD for a single column covering the whole range. The response has no total across columns: the Total column on the Books Reports page is computed client-side, and totalNetCashFlows and totalBalances still have one amount per column. To total a range, sum a ledger's per-column net cash flows, or omit period to get a single column covering the whole range. The requested dates are widened to the boundaries of the periods containing them, so a monthly report starting mid-month still covers the whole first month. Each column's startDate and endDate are clamped to the Books entries window (the entries start date through today, in UTC) and describe the days on which posted entries can exist, but journal entries dated in the future can still appear in the column containing today. startDate defaults to the entries start date (or the earliest date the span limit allows for the end date, whichever is later, but never after the end date), endDate defaults to today (UTC), or the latest date the span limit allows for startDate, whichever is earlier, but never before startDate, omitting period returns a single column covering the whole range, and includeOnlyClosed defaults to false. Daily reports can span at most 1 year and all other reports at most 5 years; longer ranges fail with the reportDateRangeTooLarge error. To look up the ledgers referenced by ledgerId, use the list ledgers endpoint (getBooksLedgers). */
+export const getBooksCashFlow: API.OperationMethod<
+  GetBooksCashFlowRequest,
+  BooksAPICashFlowReport,
+  GetBooksCashFlowError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4032, __c126, 0) as any as S.Schema<GetBooksCashFlowRequest>,
+  output: __S(4039, __c126, 7) as any as S.Schema<BooksAPICashFlowReport>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksCashFlow",
+}));
+
+export type GetBooksCategorizationRulesError = BadRequest | MercuryOpError;
+/** List categorization rules Returns the categorization rules of a Books instance that Books can represent (see the end of this description for which are omitted), highest priority first: the rules that automatically categorize imported transactions to ledgers, i.e. general ledger (GL) accounts. When several rules match a transaction, the first one in this order applies. Rules are returned a page at a time, 50 by default and up to 100 with `limit`: when the response has a `nextPageToken`, pass it as `pageToken` to get the next page. A page token is a position in the priority order, so a rule added, deleted, or reordered between page requests can shift which rules the remaining pages hold: a rule moved across the position can be listed twice or not at all. Rules can also occasionally be renumbered while you page; if that happens, a page may skip or repeat rules, so restart from the first page if you need an exact snapshot. Each rule has: `id`; `conditions`, the conditions a transaction must match, at least one, all of which must match (logical AND; there is no OR, so an "any of" rule is written as separate rules); `outputs`, what the rule does to a matching transaction; `status`: `active` (it categorizes matching transactions), `inactive` (disabled), or `invalid` (no longer valid, so it categorizes nothing); `glCodeName`, the display name of the GL account it categorizes to; and `lastApplied`, the last time it matched a transaction. Each condition is an object whose `tag` says what it tests and whose `contents` holds its fields: `amount` (`operator`, one of `lessThan`, `lessThanOrEqualTo`, `greaterThan`, `greaterThanOrEqualTo`, or `equalTo`, and `amount`, a threshold in dollars), `description` (`contains`: the raw bank description contains this text, ignoring case), `counterparty` (`name`: the counterparty name is exactly this), `debitCard` (`debitCardId`), `creditCard` (`creditCardId`), `user` (`userId`: the team member who made the transaction), or `customCategory` (`customCategoryId`: the transaction's Mercury custom category). Amounts are signed: money in (credits) is positive and money out (debits) is negative, and the threshold is compared against the signed amount as is, so `lessThan` -50 matches outflows of more than $50. Each output has a `tag` and `contents` the same way; the only one today is `setLedger`, whose `ledgerId` is the ledger matching transactions are categorized to (look it up with getBooksLedgers). Rules Books can't represent are omitted: rules with a condition or output outside this vocabulary, such as accounting-integration rules that set a Mercury custom category, and rules whose GL account no longer maps to a Books ledger. So this list can be shorter than the organization's full rule list, and an omitted rule can still take precedence over a listed one. */
+export const getBooksCategorizationRules: API.OperationMethod<
+  GetBooksCategorizationRulesRequest,
+  GetBooksAPICategorizationRulesResponse,
+  GetBooksCategorizationRulesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4064, __c127, 0) as any as S.Schema<GetBooksCategorizationRulesRequest>,
+  output: __S(4066, __c127, 2) as any as S.Schema<GetBooksAPICategorizationRulesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksCategorizationRules",
+}));
+
+export type GetBooksClosesError = BadRequest | MercuryOpError;
+/** List close dates Lists every close recorded for the Books instance, sorted by `closeDate`, latest first. The first item is the current close date; the list is empty when the books have never been closed. Each close has its `closeId` and its `closeDate` (`YYYY-MM-DD`), the last day the books are closed through. Closes are soft: they are recorded but not enforced, so journal entries dated on or before a close can still be created and edited. */
+export const getBooksCloses: API.OperationMethod<
+  GetBooksClosesRequest,
+  GetBooksAPIClosesResponse,
+  GetBooksClosesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4096, __c128, 0) as any as S.Schema<GetBooksClosesRequest>,
+  output: __S(4099, __c128, 3) as any as S.Schema<GetBooksAPIClosesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksCloses",
+}));
+
+export type GetBooksInstancesError = BadRequest | MercuryOpError;
+/** List the Books instances you can act on Lists the Books instances, i.e. organizations' books (their general ledger: chart of accounts, journal entries, and reports), that this token can act on. Call this first, then pass an instance's `booksId` as the `booksId` argument of the other Books operations, such as the list ledgers endpoint (getBooksLedgers). A token can only act on its own organization's Books instance, so this lists at most that one instance; where `booksId` is optional, the token may omit it. Each instance has its `booksId`; the `organizationId`, `companyName`, and `callsign` of the organization it belongs to; and its `relationship` to the token's organization, which is `self`. Lists exactly the instances the other Books operations would let this token act on, given the scopes those operations need: the token's user must be an active member of the instance's organization with permission to manage Books, code transactions, and manage accounting integrations, and with access to all of its accounts, and the organization must have access to Books. An empty list means there is no instance this token can act on. Instances are sorted by `companyName`, ignoring case, and returned a page at a time: when the response has a `nextPageToken`, pass it as `pageToken` to get the next page. */
+export const getBooksInstances: API.OperationMethod<
+  GetBooksInstancesRequest,
+  GetBooksAPIInstancesResponse,
+  GetBooksInstancesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4128, __c129, 0) as any as S.Schema<GetBooksInstancesRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<GetBooksAPIInstancesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksInstances",
+}));
+
+export type GetBooksIntegrationsError = BadRequest | MercuryOpError;
+/** List integrations Returns the connection health of every integration a Books instance syncs data from: external bank and credit card accounts (Plaid), Stripe and PayPal accounts, and Gusto payroll. Use it to judge whether the books are complete enough to trust before reporting on them. Each entry in `integrations` is one existing connection, with `integrationId` (unique only within its `provider`), `name`, `provider` (`plaid`, `stripe`, `payPal`, or `gusto`), `connectionStatus`, `lastSyncedAt` when known, `sourceAccountId` when it feeds a source account, and `requiredAction`. `connectionStatus` is `autoSynced` (healthy), `setupInProgress` (first sync running), `setupPending` (waiting for the user to finish setup), `syncPaused` (paused by the user), `connectionLost` (broken; no new data arrives), or `inactive` (disabled; do not treat it as connected). `requiredAction` names what the user must do: `reconnectInMercury`, `completeSetupInMercury`, `resumeSyncInMercury`, or `none`. All fixes must be done by the user in the Mercury app; the API cannot reconnect, resume, or finish setting up an integration. `lastSyncedAt` means different things per provider: for Stripe, PayPal, and Gusto it is the last successful pull from the vendor into Mercury; for Plaid it is the last successful push from Mercury into Books. No staleness flag is returned; judge staleness from it. A provider the organization never connected has no entry, and neither has a removed Plaid connection, so a missing bank entry doesn't tell never-connected from removed. Mercury accounts and manual accounts are never included; to list every transaction feed, including those, use `getBooksSourceAccounts`. `failedChecks` lists the areas whose health could not be checked (`externalBanks`, `commerce`, `payroll`). For a listed area, health is unknown, not broken: don't treat its missing providers as never connected, and don't tell the user to reconnect them. When `failedChecks` is empty, a missing provider was never connected. */
+export const getBooksIntegrations: API.OperationMethod<
+  GetBooksIntegrationsRequest,
+  GetBooksAPIIntegrationsResponse,
+  GetBooksIntegrationsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4160, __c130, 0) as any as S.Schema<GetBooksIntegrationsRequest>,
+  output: __S(4163, __c130, 3) as any as S.Schema<GetBooksAPIIntegrationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksIntegrations",
+}));
+
+export type GetBooksInvoiceError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve an invoice (accounts receivable) Returns a single invoice, i.e. an accounts receivable (AR) record of money a customer owes the organization, by its ID. The invoice is in the same shape as an item of the list endpoint (getBooksInvoices): its `id`, `referenceNumber` (the invoice number), `customer` (the customer billed, with its `id` and `name`; omitted when the invoice has no recorded customer), `effectiveDate` (invoice date), `dueDate`, `status`, `displayStatus`, `grossAmount` (total of all lines), `amountRemaining` (still owed after applied payments), `lines` (each with its ledger ID, i.e. general ledger (GL) account, description, and amount), `notes` (omitted when none), and `paymentApplications` (each a line entry ID, such as a bank transaction's line, and the amount of it applied). `status` is the stored lifecycle status (`draft`, `open`, `processing`, `paid`, `cancelled`); `displayStatus` is what users see, which also distinguishes `overdue` (open and past due) and `partiallyPaid` (open with some payment applied). A customer's `id` is a Mercury Invoicing customer ID, as used by the Mercury Invoicing customers API (`/ar/customers`); a deleted customer still appears with its name. Amounts are in dollars. The ID must be an invoice: an unknown id or a bill returns 404, and an id from another Books instance returns 403. To discover invoice IDs, use the list endpoint (getBooksInvoices) or the ID returned by createBooksInvoice. */
+export const getBooksInvoice: API.OperationMethod<
+  GetBooksInvoiceRequest,
+  GetBooksAPIInvoiceResponse,
+  GetBooksInvoiceError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4192, __c131, 0) as any as S.Schema<GetBooksInvoiceRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<GetBooksAPIInvoiceResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksInvoice",
+}));
+
+export type GetBooksInvoicesError = BadRequest | MercuryOpError;
+/** List invoices (accounts receivable) Returns one page of a Books instance's invoices: accounts receivable (AR), money customers owe the organization. Each item has its `id`, `referenceNumber` (the invoice number), `customer` (the customer billed, with its `id` and `name`; omitted when the invoice has no recorded customer), `effectiveDate` (invoice date), `dueDate`, `status`, `displayStatus`, `grossAmount` (total of all lines), `amountRemaining` (still owed after applied payments), `lines` (each with its ledger ID, i.e. general ledger (GL) account, description, and amount), `notes` (omitted when none), and `paymentApplications` (each a line entry ID, such as a bank transaction's line, and the amount of it applied). `status` is the stored lifecycle status (`draft`, `open`, `processing`, `paid`, `cancelled`); `displayStatus` is what users see, which also distinguishes `overdue` (open and past due) and `partiallyPaid` (open with some payment applied). A customer's `id` is a Mercury Invoicing customer ID, as used by the Mercury Invoicing customers API (`/ar/customers`); a deleted customer still appears with its name. Amounts are in dollars. Each response is one page of at most `limit` items (default 100, at most 1000). To see every match, pass `nextPageToken` back as pageToken with the same other parameters, and repeat until a response has no `nextPageToken`. To read specific invoices by ID, pass their IDs as `ids`. To discover ledger IDs, use getBooksLedgers. */
+export const getBooksInvoices: API.OperationMethod<
+  GetBooksInvoicesRequest,
+  GetBooksAPIInvoicesResponse,
+  GetBooksInvoicesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4224, __c132, 0) as any as S.Schema<GetBooksInvoicesRequest>,
+  output: __S(4226, __c132, 2) as any as S.Schema<GetBooksAPIInvoicesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksInvoices",
+}));
+
+export type GetBooksJournalEntryError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve a journal entry Returns a single journal entry of a Books instance by its journal entry ID. A journal entry is a balanced set of line entries, each a debit or credit to one ledger, i.e. a general ledger (GL) account in the organization's chart of accounts. The response includes the journal entry's datetime, description, creation source, categorization and review status, and the IDs of its line entries; pass expand=lineEntries to include the line entries themselves, with their ledger IDs, amounts, and debit/credit direction. Use this when you already know the journal entry ID; to search or browse journal entries, use listBooksJournalEntries. */
+export const getBooksJournalEntry: API.OperationMethod<
+  GetBooksJournalEntryRequest,
+  GetBooksAPIJournalEntryResponse,
+  GetBooksJournalEntryError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4256, __c133, 0) as any as S.Schema<GetBooksJournalEntryRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetBooksAPIJournalEntryResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksJournalEntry",
+}));
+
+export type GetBooksLedgerError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve a ledger (general ledger account) Returns a single ledger, i.e. a general ledger (GL) account in the organization's chart of accounts, by its ledger ID. The response includes the account's name, sort code (account number), type, subtype, normal balance (debit or credit), financial account type, and parent ledger ID, and which changes the system allows: whether it is a required ledger (`isRequired`, `requiredLedgerPurpose`), whether line entries can be manually added to or removed from it (`editable`), and whether it can be deleted now (`deletable`) and, if not, why (`deleteBlockedReason`), as described for getBooksLedgers. Use this when you already know the ledger ID, for example one referenced by a journal entry line entry. To discover ledger IDs or browse the whole chart of accounts, use the list ledgers endpoint (getBooksLedgers) instead. */
+export const getBooksLedger: API.OperationMethod<
+  GetBooksLedgerRequest,
+  GetBooksAPILedgerResponse,
+  GetBooksLedgerError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4288, __c134, 0) as any as S.Schema<GetBooksLedgerRequest>,
+  output: __S(4289, __c134, 1) as any as S.Schema<GetBooksAPILedgerResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksLedger",
+}));
+
+export type GetBooksLedgerBalancesError = BadRequest | MercuryOpError;
+/** Retrieve ledger balances over a date range Returns the opening balance, closing balance, and net activity of one or more ledgers (general ledger (GL) accounts) over a date range, along with each ledger's debit/credit nature. Use this for questions such as "what was the balance of this account at the end of March?" or "how much moved through these accounts last quarter?". Each entry has `ledgerId`, `name`, `type`, `subType`, `specialType` (set only for system ledgers such as retained earnings), `openingBalance` (balance at the end of the day before `startDate`), `closingBalance` (balance at the end of `endDate`), `netActivity` (the change between them), and `debitCredit`. Amounts are positive when they increase the ledger on its natural side: a `debit` ledger (such as an asset or expense) grows with debits and a `credit` ledger (such as a liability, equity, or revenue) grows with credits. They are not normalized to a single debit-positive sign. Balances cover only each ledger's own line entries and do not roll up child ledgers; to total a parent ledger, request its children too. Opening-balance entries count, and the Retained Earnings and Current Year Earnings system ledgers also include the calculated earnings, so they match the balance sheet. A ledger with no activity returns zeros. Entries come back in request order, one per distinct ID. At most 100 distinct ledger IDs per request; every ID must belong to the Books instance. To discover ledger IDs, use the list ledgers endpoint (getBooksLedgers). */
+export const getBooksLedgerBalances: API.OperationMethod<
+  GetBooksLedgerBalancesRequest,
+  GetBooksAPILedgerBalancesResponse,
+  GetBooksLedgerBalancesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4320, __c135, 0) as any as S.Schema<GetBooksLedgerBalancesRequest>,
+  output: __S(4323, __c135, 3) as any as S.Schema<GetBooksAPILedgerBalancesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksLedgerBalances",
+}));
+
+export type GetBooksLedgersError = BadRequest | MercuryOpError;
+/** List the live chart of accounts Lists the ledgers, i.e. general ledger (GL) accounts, in the organization's live chart of accounts, sorted by name. Each ledger has its `id`, `name`, `sortCode` (account number), `type`, `subType`, `debitCredit` (natural balance), `financialAccountType` (set when the ledger represents a bank or card account), and `parentId` (use it to reconstruct the hierarchy). Each ledger also says which changes the system allows before you write: `isRequired` and `requiredLedgerPurpose` mark required ledgers, which the accounting system needs and which can't be deleted; `editable` says whether line entries can be manually added to or removed from the ledger; `deletable` says whether it can be deleted now, and when it can't, `deleteBlockedReason` says why: `required`, `hasActivity` (it has line entries), `linkedSource` (it is linked to a bank or card account), or `integrationMapped` (an invoicing, commerce, or Plaid integration is mapped to it). Filter with type, subType, debitCredit, and ids; filters combine, so a ledger must match all of them. Results are paginated: pass a response's nextPageToken as pageToken to fetch the next page. To read one ledger by ID, use getBooksLedger. */
+export const getBooksLedgers: API.OperationMethod<
+  GetBooksLedgersRequest,
+  GetBooksAPILedgersResponse,
+  GetBooksLedgersError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4384, __c137, 0) as any as S.Schema<GetBooksLedgersRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<GetBooksAPILedgersResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksLedgers",
+}));
+
+export type GetBooksLineEntriesError = BadRequest | MercuryOpError;
+/** List line entries (general ledger activity) across ledgers Returns line-level general ledger (GL) activity for a date range. Each line entry is one debit or credit posted by a journal entry to one ledger, i.e. a general ledger account in the organization's chart of accounts. Each line entry includes its ledger ID and name, its journal entry ID and description, when it was posted, its amount and whether it is a debit or a credit, its own description, its opposing ledger IDs (the ledgers on the other side of the journal entry, e.g. the bank account that paid an expense), and its tags. startDate and endDate are required. Filter with ledgerIds to read activity in specific accounts (omit it to search every ledger), with opposingLedgerIds to find lines whose other side hit specific accounts, and with debitCredit, minAmount, and maxAmount. Results are paginated: pass a response's nextPageToken as pageToken to fetch the next page. To discover ledger IDs, use getBooksLedgers; to read one ledger, use getBooksLedger; to read whole journal entries with all of their lines, use getBooksJournalEntries. */
+export const getBooksLineEntries: API.OperationMethod<
+  GetBooksLineEntriesRequest,
+  GetBooksAPILineEntriesResponse,
+  GetBooksLineEntriesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4416, __c138, 0) as any as S.Schema<GetBooksLineEntriesRequest>,
+  output: __S(4419, __c138, 3) as any as S.Schema<GetBooksAPILineEntriesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksLineEntries",
+}));
+
+export type GetBooksPayrollRunError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve a payroll run Returns a single payroll run by its ID, with how much of it is still awaiting payment. Payroll runs come from the organization's connected payroll provider: each run is one pay period's payroll, which Books records as an accrual to be matched to the payments that settle it. The run has the fields of an item of getBooksPayrollRuns (`id`, `runType`, `payPeriodStart`, `payPeriodEnd`, `postingDate`, `totalPayroll`, `employerCost`, `matchingStatus`), plus `amountPaid` (already matched to payments), `amountOutstanding` (what a payment can still be matched to: `totalPayroll` net of payments and adjustments), `initialAccrualJournalEntryId` (the journal entry that recorded the run, omitted when there is none), `relatedJournalEntryIds` (every journal entry touching the run: the initial accrual and the entries of payments matched to it; read one with retrieveBooksJournalEntry), and `lines`. Each line has its `sourceLineId`, `description`, `amount`, `amountPaid`, `amountOutstanding` (`amount` less `amountPaid`), `matchingStatus`, and `matchable`; only matchable lines can be matched to a payment. Before matching a payment to the run, read `amountOutstanding` on the run and on its lines. Amounts are in dollars; a line's `amount` and `amountOutstanding` are negative for an offset or reversal. An unknown ID returns 404, and an ID from another Books instance returns 403. To discover payroll run IDs, use getBooksPayrollRuns. */
+export const getBooksPayrollRun: API.OperationMethod<
+  GetBooksPayrollRunRequest,
+  GetBooksAPIPayrollRunResponse,
+  GetBooksPayrollRunError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4448, __c139, 0) as any as S.Schema<GetBooksPayrollRunRequest>,
+  output: __S(4452, __c139, 4) as any as S.Schema<GetBooksAPIPayrollRunResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksPayrollRun",
+}));
+
+export type GetBooksPayrollRunsError = BadRequest | MercuryOpError;
+/** List payroll runs Returns one page of a Books instance's payroll runs. Payroll runs come from the organization's connected payroll provider: each run is one pay period's payroll, which Books records as an accrual to be matched to the payments that settle it. Each run has its `id`, `runType` (`regular`, `offCycle`, or `oneTime`), `payPeriodStart` and `payPeriodEnd`, `postingDate` (the date it is posted to the ledger), `totalPayroll` (the cash requirement: net pay plus employee and employer taxes), `employerCost` (earnings, employer taxes, and employer contributions), and `matchingStatus` (`unmatched`, `partiallyMatched`, or `fullyMatched`), which says how much of the run has been matched to payments. Amounts are in dollars. To find runs still awaiting payment, pass `matchingStatuses=unmatched,partiallyMatched`. To see how much of one run a payment can still be matched to, retrieve it with getBooksPayrollRun and read `amountOutstanding` on the run and on each of its lines. Dates are YYYY-MM-DD and every date range is inclusive. Each response is one page of at most `limit` runs (default 50, at most 250). To see every match, pass `nextPageToken` back as pageToken with the same other parameters, and repeat until a response has no `nextPageToken`. */
+export const getBooksPayrollRuns: API.OperationMethod<
+  GetBooksPayrollRunsRequest,
+  GetBooksAPIPayrollRunsResponse,
+  GetBooksPayrollRunsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4480, __c140, 0) as any as S.Schema<GetBooksPayrollRunsRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<GetBooksAPIPayrollRunsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksPayrollRuns",
+}));
+
+export type GetBooksProfitAndLossError = BadRequest | MercuryOpError;
+/** Retrieve a profit and loss statement Returns a profit and loss statement (P&L), i.e. an income statement, for a date range, either as a single column covering the whole range or broken down by period (daily, monthly, quarterly, or yearly). The response has a list of columns, each with a label, startDate, endDate, and isPartial flag, and a tree of rows. Each row has a name, a rowKind, amounts (the row's own amount for each column, excluding its children), totalAmounts (the row's amount for each column, including all of its children), and nested children; the amount lists are ordered to match the columns. Column labels are YYYY-MM-DD for daily, YYYY-MM for monthly, YYYY-Qn (such as 2024-Q1) for quarterly, and YYYY for yearly columns, and YYYY-MM-DD - YYYY-MM-DD for a single column covering the whole range. The response has no total across columns: the Total column on the Books Reports page is computed client-side, and totalAmounts still has one amount per column. To total a range, sum a row's per-column amounts, or omit period to get a single column covering the whole range. The rowKind is ledger for a single ledger, i.e. a general ledger (GL) account; summary for a heading that groups ledgers by type or subtype; or computed for a calculated metric such as gross profit or net profit. Column amounts are full-period totals: the requested dates are widened to the boundaries of the periods containing them, so a monthly report starting mid-month still covers the whole first month. Each column's startDate and endDate are clamped to the Books entries window (the entries start date through today, in UTC) and describe the days on which posted entries can exist, but journal entries dated in the future can still appear in the column containing today. startDate defaults to the entries start date (or the earliest date the span limit allows for the end date, whichever is later, but never after the end date), endDate defaults to today (UTC), or the latest date the span limit allows for startDate, whichever is earlier, but never before startDate, omitting period returns a single column covering the whole range, includeEmpty defaults to false, and includeOnlyClosed defaults to false. Daily reports can span at most 1 year and all other reports at most 5 years; longer ranges fail with the reportDateRangeTooLarge error. To look up the ledgers referenced by ledgerId in the rows, use the list ledgers endpoint (getBooksLedgers). */
+export const getBooksProfitAndLoss: API.OperationMethod<
+  GetBooksProfitAndLossRequest,
+  BooksAPIReport,
+  GetBooksProfitAndLossError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4512, __c141, 0) as any as S.Schema<GetBooksProfitAndLossRequest>,
+  output: __S(3716, __c116, 4) as any as S.Schema<BooksAPIReport>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksProfitAndLoss",
+}));
+
+export type GetBooksSourceAccountsError = BadRequest | MercuryOpError;
+/** List source accounts (bank, card, and other transaction feeds) Returns every source account of a Books instance. A source account is a bank account, credit card, or other feed whose transactions Books imports into the general ledger. Call this first to find the source account whose transactions you want to list or categorize. Each source account has: `id`, to pass as `sourceAccountId` to `GET /books/transactions` (getBooksTransactions) and `GET /books/transaction/{transactionId}` (getBooksTransaction). It is not a ledger ID. `name`, its display name. `ledgerId`, the general ledger (GL) account its transactions post to. `debitCredit`, the side a positive transaction amount posts to: `debit` for an asset such as a bank account, `credit` for a liability such as a credit card. `businessPersonal`, `business` or `personal`. `origin`, where it comes from: `mercury` (a Mercury account), `plaid` (an external account linked through Plaid), `rutterCommerce` (a commerce platform connection), or `manual` (transactions added by hand). */
+export const getBooksSourceAccounts: API.OperationMethod<
+  GetBooksSourceAccountsRequest,
+  GetBooksAPISourceAccountsResponse,
+  GetBooksSourceAccountsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4544, __c142, 0) as any as S.Schema<GetBooksSourceAccountsRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<GetBooksAPISourceAccountsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksSourceAccounts",
+}));
+
+export type GetBooksTagGroupsError = BadRequest | MercuryOpError;
+/** List tag groups Returns the tag groups available to a Books instance. A tag is a label in a tag group, such as a client in a "Clients" group or a contractor in a "Contractors" group, and is applied to line entries, i.e. the debits and credits of a journal entry, through `tagIds`: on each line entry of bulkCreateBooksJournalEntries and bulkUpdateBooksJournalEntries, on each split of categorizeBooksTransactions, and as a filter of listBooksJournalEntries. A line entry can carry at most one tag from each group. Each tag group has its `id`, `name`, `ownership`, and `createdAt`. `ownership` is `platform` for a default group shared by every Books instance, which can't be renamed, or `instance` for a group that belongs to this Books instance. To list the tags in a group, pass its `id` as `tagGroupId` to getBooksTags. Results are newest first and returned a page at a time: when the response has a `nextPageToken`, pass it as `pageToken` to get the next page. */
+export const getBooksTagGroups: API.OperationMethod<
+  GetBooksTagGroupsRequest,
+  GetBooksAPITagGroupsResponse,
+  GetBooksTagGroupsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4576, __c143, 0) as any as S.Schema<GetBooksTagGroupsRequest>,
+  output: __S(4579, __c143, 3) as any as S.Schema<GetBooksAPITagGroupsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksTagGroups",
+}));
+
+export type GetBooksTagsError = BadRequest | MercuryOpError;
+/** List tags Returns the tags of a Books instance. A tag is a label in a tag group, such as a client in a "Clients" group or a contractor in a "Contractors" group, and is applied to line entries, i.e. the debits and credits of a journal entry, by passing tag IDs in `tagIds`: on each line entry of bulkCreateBooksJournalEntries and bulkUpdateBooksJournalEntries, on each split of categorizeBooksTransactions, and as a filter of listBooksJournalEntries. A line entry can carry at most one tag from each group. Each tag has its `id`, `name`, `tagGroupId`, `tagGroupName`, and `enabled`. Filter by group with `tagGroupId`; to find group IDs, use getBooksTagGroups. Filter by `name`, which is an exact match. Disabled tags are hidden unless `includeDisabled=true`. Results are newest first and returned a page at a time: when the response has a `nextPageToken`, pass it as `pageToken` to get the next page. */
+export const getBooksTags: API.OperationMethod<
+  GetBooksTagsRequest,
+  GetBooksAPITagsResponse,
+  GetBooksTagsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4608, __c144, 0) as any as S.Schema<GetBooksTagsRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<GetBooksAPITagsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksTags",
+}));
+
+export type GetBooksTransactionError = BadRequest | NotFound | MercuryOpError;
+/** Retrieve a transaction Returns a single transaction of a source account (a bank account, credit card, or other feed) by its transaction ID, with the same fields as an item of `GET /books/transactions` (getBooksTransactions): its `amount`, `datetime`, `description`, `reviewStatus`, `postedStatus`, and `categorizationMethod`, and once posted its `journalEntryId`, its own `lineEntryId` on the source account's `ledgerId`, and `categorizationLines`, the other lines of its journal entry with their `lineEntryId`, `ledgerId`, `ledgerName`, `amount`, and `debitCredit`. Use it to read a transaction's current categorization and its `journalEntryId` before recategorizing it with `POST /books/transactions/categorize` (categorizeBooksTransactions). sourceAccountId is required and must be the transaction's own source account (its `sourceAccountId`). Pass enrich=true to add Mercury banking details where available. To find transactions, use `GET /books/transactions` (getBooksTransactions). */
+export const getBooksTransaction: API.OperationMethod<
+  GetBooksTransactionRequest,
+  GetBooksAPITransactionResponse,
+  GetBooksTransactionError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4640, __c145, 0) as any as S.Schema<GetBooksTransactionRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<GetBooksAPITransactionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksTransaction",
+}));
+
+export type GetBooksTransactionsError = BadRequest | MercuryOpError;
+/** List a source account's transactions Returns one page of a source account's transactions within a date range. Use it to find transactions to categorize. sourceAccountId, startDate, endDate, and reviewStatus are required, as in the web app's transaction list. Get sourceAccountId from `GET /books/source-accounts` (getBooksSourceAccounts). To see both review statuses, make one request for each. A transaction needs categorizing when its `categorizationMethod` is `uncategorized`. To categorize or recategorize transactions, use `POST /books/transactions/categorize` (categorizeBooksTransactions) with each transaction's `journalEntryId`. A positive `amount` posts on the source account's `debitCredit` side, and a negative one on the opposite side. For a Mercury bank account, positive is money in. For a Mercury credit card, positive is a charge. Pass enrich=true to add Mercury banking details, such as the note, counterparty, and attachments. Each response is one page, and Books decides the page size. To see every transaction in the range, pass `nextPageToken` back as pageToken with the same other parameters, and repeat until a response has no `nextPageToken`. To read one transaction by ID, use `GET /books/transaction/{transactionId}` (getBooksTransaction). */
+export const getBooksTransactions: API.OperationMethod<
+  GetBooksTransactionsRequest,
+  GetBooksAPITransactionsResponse,
+  GetBooksTransactionsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4704, __c147, 0) as any as S.Schema<GetBooksTransactionsRequest>,
+  output: __S(4706, __c147, 2) as any as S.Schema<GetBooksAPITransactionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBooksTransactions",
 }));
 
 export type GetBudgetError = NotFound | MercuryOpError;
@@ -2841,8 +6184,8 @@ export const getBudget: API.OperationMethod<
   GetBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetBudgetRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetBudgetRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<ApiV1SpendBudgetResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2859,8 +6202,8 @@ export const getBudgetExpenditures: API.OperationMethod<
   GetBudgetExpendituresError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
-  output: __S(611, __c38, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetBudgetExpendituresRequest>,
+  output: __S(4835, __c151, 3) as any as S.Schema<ApiV1BudgetExpendituresResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2877,8 +6220,8 @@ export const getBudgetMembers: API.OperationMethod<
   GetBudgetMembersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetBudgetMembersRequest>,
-  output: __S(627, __c39, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetBudgetMembersRequest>,
+  output: __S(4867, __c152, 3) as any as S.Schema<ApiV1BudgetMembersResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2891,8 +6234,8 @@ export type GetCardError = NotFound | MercuryOpError;
 /** Get a card Retrieve details of a specific card by its ID. */
 export const getCard: API.OperationMethod<GetCardRequest, Card, GetCardError, MercuryOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(640, __c40, 0) as any as S.Schema<GetCardRequest>,
-    output: __S(866, __c54, 2) as any as S.Schema<Card>,
+    input: __S(4896, __c153, 0) as any as S.Schema<GetCardRequest>,
+    output: __S(5346, __c167, 2) as any as S.Schema<Card>,
     errors: [NotFound],
     serviceErrors: MercuryServiceErrors,
     protocol: MercuryProtocol,
@@ -2909,8 +6252,8 @@ export const getCreditAccountStatements: API.OperationMethod<
   GetCreditAccountStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
-  output: __S(660, __c41, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetCreditAccountStatementsRequest>,
+  output: __S(4932, __c154, 4) as any as S.Schema<CreditAccountStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2927,8 +6270,8 @@ export const getCustomer: API.OperationMethod<
   GetCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetCustomerRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetCustomerRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2945,8 +6288,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<ApiEventResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<ApiEventResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2963,8 +6306,8 @@ export const getEvents: API.OperationMethod<
   GetEventsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetEventsRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetEventsRequest>,
+  output: __S(5058, __c158, 2) as any as S.Schema<ApiEventsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -2981,14 +6324,32 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInvoice",
+}));
+
+export type GetInvoiceAttachmentError = NotFound | MercuryOpError;
+/** Get an invoice attachment Retrieve an invoice (accounts receivable) attachment by ID, including a download URL. Only works for attachments uploaded to invoices; it does not return transaction, recipient, or bill attachments. */
+export const getInvoiceAttachment: API.OperationMethod<
+  GetInvoiceAttachmentRequest,
+  ApiV1ArAttachmentResponseData,
+  GetInvoiceAttachmentError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5120, __c160, 0) as any as S.Schema<GetInvoiceAttachmentRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<ApiV1ArAttachmentResponseData>,
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceAttachment",
 }));
 
 export type GetInvoicePdfError = NotFound | MercuryOpError;
@@ -2999,8 +6360,8 @@ export const getInvoicePdf: API.OperationMethod<
   GetInvoicePdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetInvoicePdfRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetInvoicePdfResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetInvoicePdfRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetInvoicePdfResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3017,8 +6378,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(772, __c48, 4) as any as S.Schema<OrganizationResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<OrganizationResponse>,
   errors: [],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3035,8 +6396,8 @@ export const getReceipt: API.OperationMethod<
   GetReceiptError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetReceiptRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<ApiV1ReceiptResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetReceiptRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<ApiV1ReceiptResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3053,8 +6414,8 @@ export const getRecipient: API.OperationMethod<
   GetRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetRecipientRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetRecipientRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3071,8 +6432,8 @@ export const getRecipientInvite: API.OperationMethod<
   GetRecipientInviteError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetRecipientInviteRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<RecipientInviteApiResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetRecipientInviteRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<RecipientInviteApiResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3089,14 +6450,32 @@ export const getRecipients: API.OperationMethod<
   GetRecipientsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetRecipientsRequest>,
-  output: __S(946, __c59, 2) as any as S.Schema<RecipientsPaginatedResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetRecipientsRequest>,
+  output: __S(5570, __c174, 2) as any as S.Schema<RecipientsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRecipients",
+}));
+
+export type GetReimbursementError = NotFound | MercuryOpError;
+/** Get a reimbursement Retrieve details of a specific reimbursement by its id, including its review and payment status. Attachments include an id, a file name, and a presigned download URL. The URL expires after 24 hours. Request the reimbursement again for a new URL. */
+export const getReimbursement: API.OperationMethod<
+  GetReimbursementRequest,
+  ApiV1ReimbursementResponse,
+  GetReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5600, __c175, 0) as any as S.Schema<GetReimbursementRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<ApiV1ReimbursementResponse>,
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReimbursement",
 }));
 
 export type GetSafeRequestError = NotFound | MercuryOpError;
@@ -3107,8 +6486,8 @@ export const getSafeRequest: API.OperationMethod<
   GetSafeRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetSafeRequestRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<APISafeRequest>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetSafeRequestRequest>,
+  output: __S(5698, __c178, 2) as any as S.Schema<APISafeRequest>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3125,8 +6504,8 @@ export const getSafeRequestDocument: API.OperationMethod<
   GetSafeRequestDocumentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetSafeRequestDocumentRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetSafeRequestDocumentResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3143,8 +6522,8 @@ export const getSafeRequests: API.OperationMethod<
   GetSafeRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetSafeRequestsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<GetSafeRequestsResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetSafeRequestsRequest>,
+  output: __S(5762, __c180, 2) as any as S.Schema<GetSafeRequestsResponse>,
   errors: [],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3161,8 +6540,8 @@ export const getSendMoneyApprovalRequest: API.OperationMethod<
   GetSendMoneyApprovalRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetSendMoneyApprovalRequestRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3179,8 +6558,8 @@ export const getStatementPdf: API.OperationMethod<
   GetStatementPdfError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<GetStatementPdfRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetStatementPdfResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetStatementPdfRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetStatementPdfResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3197,8 +6576,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetTransactionRequest>,
-  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetTransactionRequest>,
+  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3215,8 +6594,8 @@ export const getTransactionByTransactionId: API.OperationMethod<
   GetTransactionByTransactionIdError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
-  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetTransactionByTransactionIdRequest>,
+  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3233,8 +6612,8 @@ export const getTransferMoneyApprovalRequest: API.OperationMethod<
   GetTransferMoneyApprovalRequestError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetTransferMoneyApprovalRequestRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3251,8 +6630,8 @@ export const getTreasury: API.OperationMethod<
   GetTreasuryError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<GetTreasuryRequest>,
-  output: __S(1175, __c73, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetTreasuryRequest>,
+  output: __S(6087, __c190, 7) as any as S.Schema<TreasuryAccountsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3269,8 +6648,8 @@ export const getTreasuryStatements: API.OperationMethod<
   GetTreasuryStatementsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetTreasuryStatementsRequest>,
+  output: __S(6115, __c191, 3) as any as S.Schema<TreasuryStatementsPaginatedResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3287,8 +6666,8 @@ export const getTreasuryTransactions: API.OperationMethod<
   GetTreasuryTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
-  output: __S(1204, __c75, 4) as any as S.Schema<TreasuryTransactionsResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetTreasuryTransactionsRequest>,
+  output: __S(6148, __c192, 4) as any as S.Schema<TreasuryTransactionsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3305,8 +6684,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<UserDetails>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(6208, __c194, 0) as any as S.Schema<UserDetails>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3323,8 +6702,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(1250, __c78, 2) as any as S.Schema<UsersPaginatedResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(6242, __c195, 2) as any as S.Schema<UsersPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3341,8 +6720,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3359,8 +6738,8 @@ export const getWebhooks: API.OperationMethod<
   GetWebhooksError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<GetWebhooksRequest>,
-  output: __S(1282, __c80, 2) as any as S.Schema<ApiWebhooksPaginatedResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetWebhooksRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<ApiWebhooksPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3377,14 +6756,32 @@ export const listAccountTransactions: API.OperationMethod<
   ListAccountTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListAccountTransactionsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<TransactionsResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListAccountTransactionsRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<TransactionsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountTransactions",
+}));
+
+export type ListBooksJournalEntriesError = BadRequest | MercuryOpError;
+/** List journal entries Returns the journal entries of a Books instance. A journal entry is a balanced set of line entries, each a debit or credit to one ledger, i.e. a general ledger (GL) account in the organization's chart of accounts. Each journal entry includes its ID, datetime, description, creation source, categorization and review status, and the IDs of its line entries; pass expand=lineEntries to include the line entries themselves, with their ledger IDs, amounts, and debit/credit direction. Filter by date range with startDate and endDate, by ledger with ledgerId or ledgerIdGroups, by amount with amount, minAmount, and maxAmount, by description with keywords, by tag with tagIds, and by creationSource or creationSources, categorizationStatus, reviewStatus, and categorizationMethod. A ledgerId filter must belong to the Books instance. Results are paginated: pass a response's nextPageToken as pageToken to fetch the next page. To read one journal entry by ID, use retrieveBooksJournalEntry; to discover ledger IDs, use getBooksLedgers; to read individual debits and credits across ledgers, use getBooksLineEntries. */
+export const listBooksJournalEntries: API.OperationMethod<
+  ListBooksJournalEntriesRequest,
+  GetBooksAPIJournalEntriesResponse,
+  ListBooksJournalEntriesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<ListBooksJournalEntriesRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<GetBooksAPIJournalEntriesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBooksJournalEntries",
 }));
 
 export type ListBudgetsError = BadRequest | MercuryOpError;
@@ -3395,8 +6792,8 @@ export const listBudgets: API.OperationMethod<
   ListBudgetsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListBudgetsRequest>,
-  output: __S(1362, __c85, 2) as any as S.Schema<ApiV1SpendBudgetsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListBudgetsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ApiV1SpendBudgetsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3413,8 +6810,8 @@ export const listCards: API.OperationMethod<
   ListCardsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListCardsRequest>,
-  output: __S(1378, __c86, 2) as any as S.Schema<CardListResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListCardsRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<CardListResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3431,8 +6828,8 @@ export const listCategories: API.OperationMethod<
   ListCategoriesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListCategoriesRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<CategoriesPaginatedResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListCategoriesRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<CategoriesPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3449,8 +6846,8 @@ export const listCredit: API.OperationMethod<
   ListCreditError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListCreditRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<CreditAccountsResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListCreditRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<CreditAccountsResponse>,
   errors: [],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3467,8 +6864,8 @@ export const listCustomers: API.OperationMethod<
   ListCustomersError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListCustomersRequest>,
-  output: __S(1426, __c89, 2) as any as S.Schema<ApiV1ArCustomerPaginatedResponseData>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListCustomersRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<ApiV1ArCustomerPaginatedResponseData>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3485,14 +6882,32 @@ export const listInvoiceAttachments: API.OperationMethod<
   ListInvoiceAttachmentsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListInvoiceAttachmentsRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<ApiV1ArAttachmentsResponseData>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListInvoiceAttachmentsRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<ApiV1ArAttachmentsResponseData>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInvoiceAttachments",
+}));
+
+export type ListInvoicePaymentsError = NotFound | MercuryOpError;
+/** List invoice payments Retrieve the payments applied to an invoice, oldest first. Each payment shows the amount, the date it was applied, and where the money came from: a Mercury transaction, a card payment, or a payment received outside Mercury. */
+export const listInvoicePayments: API.OperationMethod<
+  ListInvoicePaymentsRequest,
+  ApiV1ArInvoicePaymentsResponse,
+  ListInvoicePaymentsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<ListInvoicePaymentsRequest>,
+  output: __S(454, __c14, 6) as any as S.Schema<ApiV1ArInvoicePaymentsResponse>,
+  errors: [NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoicePayments",
 }));
 
 export type ListInvoicesError = BadRequest | MercuryOpError;
@@ -3503,8 +6918,8 @@ export const listInvoices: API.OperationMethod<
   ListInvoicesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListInvoicesRequest>,
-  output: __S(1459, __c91, 3) as any as S.Schema<ApiV1ArInvoicesPaginatedResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListInvoicesRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<ApiV1ArInvoicesPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3521,14 +6936,32 @@ export const listMerchants: API.OperationMethod<
   ListMerchantsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListMerchantsRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<MerchantsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListMerchantsRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<MerchantsResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMerchants",
+}));
+
+export type ListProductsError = BadRequest | MercuryOpError;
+/** List all products Retrieve a paginated list of invoicing products (product catalog items). Supports cursor-based pagination with limit, order, start_after, and end_before query parameters. */
+export const listProducts: API.OperationMethod<
+  ListProductsRequest,
+  ApiV1ArProductPaginatedResponseData,
+  ListProductsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c17, 0) as any as S.Schema<ListProductsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ApiV1ArProductPaginatedResponseData>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProducts",
 }));
 
 export type ListReceiptsError = BadRequest | MercuryOpError;
@@ -3539,8 +6972,8 @@ export const listReceipts: API.OperationMethod<
   ListReceiptsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<ListReceiptsRequest>,
-  output: __S(1490, __c93, 2) as any as S.Schema<ApiV1ReceiptsPaginatedResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListReceiptsRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ApiV1ReceiptsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3557,8 +6990,8 @@ export const listRecipientInvites: API.OperationMethod<
   ListRecipientInvitesError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListRecipientInvitesRequest>,
-  output: __S(1506, __c94, 2) as any as S.Schema<RecipientInviteApiPaginatedResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListRecipientInvitesRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<RecipientInviteApiPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3575,14 +7008,32 @@ export const listRecipientsAttachments: API.OperationMethod<
   ListRecipientsAttachmentsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListRecipientsAttachmentsRequest>,
-  output: __S(1539, __c96, 3) as any as S.Schema<RecipientsAttachmentsPaginatedResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListRecipientsAttachmentsRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<RecipientsAttachmentsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecipientsAttachments",
+}));
+
+export type ListReimbursementsError = BadRequest | MercuryOpError;
+/** List reimbursements Retrieve a paginated list of reimbursements for the organization ordered by creation time, ascending (oldest first) by default. Each reimbursement includes its attachments, with an id, a file name, and a presigned download URL. The URL expires after 24 hours. Request the reimbursement again for a new URL. Supports cursor-based pagination with limit, order, start_at, start_after, and end_before query parameters. */
+export const listReimbursements: API.OperationMethod<
+  ListReimbursementsRequest,
+  ApiV1ReimbursementsPaginatedResponse,
+  ListReimbursementsError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c21, 0) as any as S.Schema<ListReimbursementsRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<ApiV1ReimbursementsPaginatedResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReimbursements",
 }));
 
 export type ListSendMoneyApprovalRequestsError = BadRequest | MercuryOpError;
@@ -3593,8 +7044,8 @@ export const listSendMoneyApprovalRequests: API.OperationMethod<
   ListSendMoneyApprovalRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListSendMoneyApprovalRequestsRequest>,
-  output: __S(1554, __c97, 2) as any as S.Schema<SendMoneyApprovalRequestsPaginatedResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListSendMoneyApprovalRequestsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<SendMoneyApprovalRequestsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3611,8 +7062,8 @@ export const listTransactions: API.OperationMethod<
   ListTransactionsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListTransactionsRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<TransactionsPaginatedResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListTransactionsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<TransactionsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3629,14 +7080,32 @@ export const listTransferMoneyApprovalRequests: API.OperationMethod<
   ListTransferMoneyApprovalRequestsError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListTransferMoneyApprovalRequestsRequest>,
-  output: __S(1586, __c99, 2) as any as S.Schema<TransferMoneyApprovalRequestsPaginatedResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListTransferMoneyApprovalRequestsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<TransferMoneyApprovalRequestsPaginatedResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransferMoneyApprovalRequests",
+}));
+
+export type MarkReimbursementPaidError = BadRequest | NotFound | MercuryOpError;
+/** Mark a reimbursement as paid outside Mercury Record that the submitter was paid outside Mercury, for example by check or payroll. Mercury won't pay the reimbursement, and its payment status reads as paidOutsideMercury. Denied or canceled reimbursements, and ones with a Mercury payment in progress or completed, can't be marked. The optional note is recorded as a reviewer comment. Approving or denying the reimbursement afterwards undoes the mark. */
+export const markReimbursementPaid: API.OperationMethod<
+  MarkReimbursementPaidRequest,
+  MarkReimbursementPaidResponse,
+  MarkReimbursementPaidError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(928, __c29, 0) as any as S.Schema<MarkReimbursementPaidRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<MarkReimbursementPaidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkReimbursementPaid",
 }));
 
 export type MatchReceiptError = BadRequest | NotFound | MercuryOpError;
@@ -3647,8 +7116,8 @@ export const matchReceipt: API.OperationMethod<
   MatchReceiptError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<MatchReceiptRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MatchReceiptResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<MatchReceiptRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<MatchReceiptResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3665,8 +7134,8 @@ export const obtainAccessToken: API.OperationMethod<
   ObtainAccessTokenError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ObtainAccessTokenRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<OAuth2TokenResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ObtainAccessTokenRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<OAuth2TokenResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3683,8 +7152,8 @@ export const requestSendMoney: API.OperationMethod<
   RequestSendMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<RequestSendMoneyRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<RequestSendMoneyRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<SendMoneyApprovalRequestResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3701,8 +7170,8 @@ export const requestTransferMoney: API.OperationMethod<
   RequestTransferMoneyError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<RequestTransferMoneyRequest>,
-  output: __S(1152, __c72, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<RequestTransferMoneyRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<TransferMoneyApprovalRequestResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3719,14 +7188,32 @@ export const revealCardPan: API.OperationMethod<
   RevealCardPanError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<RevealCardPanRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<CardRevealResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<RevealCardPanRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<CardRevealResponse>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevealCardPan",
+}));
+
+export type SetBooksLedgerOpeningBalancesError = BadRequest | MercuryOpError;
+/** Set or clear ledger opening balances Sets or clears the opening balance of up to 100 ledgers, i.e. general ledger (GL) accounts, in the organization's chart of accounts. To find ledger IDs, use getBooksLedgers; a ledger's current opening balance is its `openingBalance` there. Each item names a `ledgerId` and a `balance`; each `ledgerId` may appear at most once. **How opening balances work.** Each ledger's opening balance is recorded on its own journal entry, dated the Books instance's entries start date and offset against the opening balances ledger. Setting a balance replaces any opening balance the ledger already has. A `balance` of `0` clears it. **Sign of `balance`.** The balance is in the ledger's natural direction (its `debitCredit`): a positive balance increases the ledger on its natural side (a debit for debit-natural ledgers such as assets and expenses, a credit for credit-natural ledgers such as liabilities, equity, and revenue), and a negative balance puts it on the opposite side. **Per-item results.** The response has exactly one result per requested ledger, in request order: its `ledgerId` and `success: true`, or `success: false` with an `error` that has a stable `code` and a `message` saying how to fix it. A ledger that fails does not fail the request or the other ledgers, so the status is 200 whatever the item outcomes. The response's `failedCount` is 0 exactly when every item succeeded, and `succeededCount` plus `failedCount` equals the number of results; when `failedCount` is above 0, check each result's `error`. Error codes include `invalidLedger` (for example the opening balances ledger itself, which can't carry an opening balance), and `unknownError`; treat any code not listed here as `unknownError`. **Request errors.** These are returned as an HTTP error status, and nothing is set: the token lacks the scope to update ledgers; a ledger is outside the Books instance; a ledger is linked to a Mercury account, whose transaction history determines its balance, so its opening balance can't be set (403, naming the ledger IDs); the list is empty; it has more than 100 items; or a `ledgerId` is repeated. */
+export const setBooksLedgerOpeningBalances: API.OperationMethod<
+  SetBooksLedgerOpeningBalancesRequest,
+  SetBooksAPILedgerOpeningBalancesResponse,
+  SetBooksLedgerOpeningBalancesError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1122, __c35, 2) as any as S.Schema<SetBooksLedgerOpeningBalancesRequest>,
+  output: __S(1125, __c35, 5) as any as S.Schema<SetBooksAPILedgerOpeningBalancesResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBooksLedgerOpeningBalances",
 }));
 
 export type StartOAuth2FlowError = BadRequest | MercuryOpError;
@@ -3737,8 +7224,8 @@ export const startOAuth2Flow: API.OperationMethod<
   StartOAuth2FlowError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<StartOAuth2FlowRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<StartOAuth2FlowResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<StartOAuth2FlowRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<StartOAuth2FlowResponse>,
   errors: [BadRequest],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3755,14 +7242,68 @@ export const unfreezeCard: API.OperationMethod<
   UnfreezeCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UnfreezeCardRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<Card>,
+  input: __S(1184, __c37, 0) as any as S.Schema<UnfreezeCardRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
   errors: [NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnfreezeCard",
+}));
+
+export type UpdateBooksBillError = BadRequest | NotFound | MercuryOpError;
+/** Edit a bill (accounts payable) Edits an existing bill, i.e. an accounts payable record, and returns the updated bill. Every field is optional; an omitted field is left unchanged. Editable fields: `vendor` (an existing Books counterparty id -- unlike create, a recipient alias is not accepted on edit), `referenceNumber`, `effectiveDate` and `dueDate` (both YYYY-MM-DD), `notes`, and `lineChanges`. `lineChanges` has three optional lists: `create` (new lines, each with a `ledgerId`, `description`, and dollar `amount`), `update` (existing lines by `id`, each field optional), and `delete` (existing line `id`s). As with create, a line amount may be negative, zero-amount lines are ignored, and the lines must total more than zero. The response is the updated bill, in the same shape the create and retrieve endpoints return. Limits: a cancelled bill cannot be edited. A paid bill accepts only changes to existing lines' `ledgerId`. A bill matched to a transaction that is not yet fully paid (partially paid) can still be edited, but its total and each line's amount cannot drop below what has already been paid on it, and a line with payments cannot be deleted (Teal enforces these). A paid or matched bill with accrual schedules cannot be edited. A bill created from Bill Pay may only have its line categories (`ledgerId`) changed; any other change is rejected. Request errors are returned as an HTTP error status and change nothing: the token lacks the scope to update accrual sources, a line ledger is outside the Books instance or read-only, or the vendor counterparty does not belong to this organization. The `id` must be a bill: editing an invoice through this endpoint returns 404, as does an unknown id. To make retries safe, send an `Idempotency-Key` header: a `lineChanges.create` is not naturally idempotent, so without a key a retry after a timeout can append duplicate lines; a replay with the same key and body returns the original result instead (a reused key with a different body is rejected with 422). */
+export const updateBooksBill: API.OperationMethod<
+  UpdateBooksBillRequest,
+  BooksAPIBill,
+  UpdateBooksBillError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdateBooksBillRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<BooksAPIBill>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBooksBill",
+}));
+
+export type UpdateBooksInvoiceError = BadRequest | NotFound | MercuryOpError;
+/** Edit an invoice (accounts receivable) Edits an existing invoice, i.e. an accounts receivable (AR) record of money a customer owes the organization, and returns the updated invoice in the same shape the create (createBooksInvoice), retrieve (getBooksInvoice), and list (getBooksInvoices) endpoints return: its `id`, `referenceNumber`, `customer`, dates, `status`, `displayStatus`, amounts, `lines`, `notes`, and `paymentApplications`. Every field is optional; an omitted field is left unchanged. Editable fields: `referenceNumber` (the invoice number), `customer` (a Mercury Invoicing customer ID of this organization, from the Mercury Invoicing customers API, `/ar/customers`), `effectiveDate` (invoice date) and `dueDate` (both YYYY-MM-DD), `notes`, and `lineChanges`. `lineChanges` has three optional lists: `create` (new lines, each with a `ledgerId`, i.e. a general ledger (GL) account such as a revenue ledger, a `description`, and a dollar `amount`), `update` (existing lines by `id`, each other field optional), and `delete` (existing line `id`s). A line amount may be negative, and the lines must total more than zero. Limits: a cancelled invoice cannot be edited. A paid invoice, and an invoice synced with Mercury Invoicing that is paid or partially paid, accepts only changes to existing lines' `ledgerId`. Any other invoice matched to a transaction (partially paid) can still be edited, but its total and each line's amount cannot drop below what has already been paid on it, and a line with payments cannot be deleted (Teal enforces these). A paid or matched invoice with accrual schedules cannot be edited. If an edit to an invoice synced with Mercury Invoicing is saved there but has not synced to Books yet, the response is HTTP 202 with `syncStatus: pending`, the invoice `id`, and a `message`; read the invoice back with getBooksInvoice once it has synced instead of sending the edit again. On an invoice synced with Mercury Invoicing, `customer` may be sent only as the invoice's current customer, which is accepted; a different customer is rejected with an error on `customer`. Request errors are returned as an HTTP error status and change nothing: the token lacks the scope to update accrual sources, a line ledger is outside the Books instance or read-only, or the customer does not belong to this organization. The `id` must be an invoice: a bill ID returns 404 (use updateBooksBill to edit bills), as does an unknown id. To make retries safe, send an `Idempotency-Key` header: a `lineChanges.create` is not naturally idempotent, so without a key a retry after a timeout can append duplicate lines; a replay with the same key and body returns the original result instead (a reused key with a different body is rejected with 422). */
+export const updateBooksInvoice: API.OperationMethod<
+  UpdateBooksInvoiceRequest,
+  BooksAPIInvoice,
+  UpdateBooksInvoiceError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1344, __c42, 0) as any as S.Schema<UpdateBooksInvoiceRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<BooksAPIInvoice>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBooksInvoice",
+}));
+
+export type UpdateBooksLedgersError = BadRequest | MercuryOpError;
+/** Update ledgers (general ledger accounts) Updates up to 100 existing ledgers, i.e. general ledger (GL) accounts, in the organization's live chart of accounts: rename (`name`), renumber (`sortCode`, the account number), re-parent (`parentId`), or retype (`type`, `subType`, `debitCredit`) them. To find ledger IDs, use getBooksLedgers. Each item names a `ledgerId` and only the fields to change; omitted fields are left unchanged. To remove a ledger's parent, list `parentId` in `clearFields` (and don't also set `parentId`). Each `ledgerId` may appear at most once. **Chart-of-accounts rules.** Teal validates each update: `subType` must belong to `type` (see the `type` and `subType` fields of a ledger, as returned by getBooksLedgers); a child ledger has the same type and sub-type as its parent, so a sub-ledger can't be retyped in place; a parent can't be the ledger itself or one of its descendants; names and sort codes must be unique; required ledgers allow changes only to `name`, `sortCode`, and `parentId`; expense and revenue ledgers can't be cash-flow ledgers, so a cash-flow ledger can't be retyped to either; and ledgers linked to a financial account may refuse some changes. **Per-item results.** The response has exactly one result per requested update, in request order: the updated ledger, in the same shape as getBooksLedgers returns, or an `error` with a stable `code` and a `message` saying how to fix it. A ledger that fails does not fail the request or the other ledgers, so the status is 200 whatever the item outcomes. The response's `failedCount` is 0 exactly when every item succeeded, and `succeededCount` plus `failedCount` equals the number of results; when `failedCount` is above 0, check each result's `error`. Error codes include `invalidLedger`, `missingParameters`, `duplicateName`, `duplicateSortCode`, `invalidLedgerType`, `invalidLedgerParent`, `invalidLedgerReportCashFlow`, `modifyingRequiredLedger`, and `unknownError`; treat any code not listed here as `unknownError`. **Request errors.** These are returned as an HTTP error status, and nothing is updated: the token lacks the scope to update ledgers; a ledger or new parent ledger is outside the Books instance or read-only (linked to a Mercury account); the list is empty; it has more than 100 updates; or a `ledgerId` is repeated. */
+export const updateBooksLedgers: API.OperationMethod<
+  UpdateBooksLedgersRequest,
+  UpdateBooksAPILedgersResponse,
+  UpdateBooksLedgersError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1378, __c43, 2) as any as S.Schema<UpdateBooksLedgersRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<UpdateBooksAPILedgersResponse>,
+  errors: [BadRequest],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBooksLedgers",
 }));
 
 export type UpdateBudgetError = BadRequest | NotFound | MercuryOpError;
@@ -3773,8 +7314,8 @@ export const updateBudget: API.OperationMethod<
   UpdateBudgetError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpdateBudgetRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<UpdateBudgetRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1BudgetIdResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3791,8 +7332,8 @@ export const updateCard: API.OperationMethod<
   UpdateCardError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<UpdateCardRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<Card>,
+  input: __S(1440, __c45, 0) as any as S.Schema<UpdateCardRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<Card>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3809,8 +7350,8 @@ export const updateCustomer: API.OperationMethod<
   UpdateCustomerError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdateCustomerRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
+  input: __S(1472, __c46, 0) as any as S.Schema<UpdateCustomerRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ApiV1ArCustomerResponseData>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3827,8 +7368,8 @@ export const updateInvoice: API.OperationMethod<
   UpdateInvoiceError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateInvoiceRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdateInvoiceRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ApiV1ArInvoiceResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3845,14 +7386,32 @@ export const updateRecipient: API.OperationMethod<
   UpdateRecipientError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateRecipientRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<RecipientInfo>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateRecipientRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<RecipientInfo>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRecipient",
+}));
+
+export type UpdateReimbursementError = BadRequest | NotFound | MercuryOpError;
+/** Update a reimbursement Replace the fields of an existing reimbursement. Only reimbursements still in review can be edited. */
+export const updateReimbursement: API.OperationMethod<
+  UpdateReimbursementRequest,
+  ApiV1CreateReimbursementResponse,
+  UpdateReimbursementError,
+  MercuryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c49, 0) as any as S.Schema<UpdateReimbursementRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<ApiV1CreateReimbursementResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: MercuryServiceErrors,
+  protocol: MercuryProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReimbursement",
 }));
 
 export type UpdateTransactionError = BadRequest | NotFound | MercuryOpError;
@@ -3863,8 +7422,8 @@ export const updateTransaction: API.OperationMethod<
   UpdateTransactionError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UpdateTransactionRequest>,
-  output: __S(60, __c3, 12) as any as S.Schema<Transaction>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UpdateTransactionRequest>,
+  output: __S(2476, __c77, 12) as any as S.Schema<Transaction>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3881,8 +7440,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<ApiWebhookResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<ApiWebhookResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3899,8 +7458,8 @@ export const uploadRecipientAttachment: API.OperationMethod<
   UploadRecipientAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UploadRecipientAttachmentRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<UploadRecipientAttachmentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3917,8 +7476,8 @@ export const uploadTransactionAttachment: API.OperationMethod<
   UploadTransactionAttachmentError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UploadTransactionAttachmentRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<UploadTransactionAttachmentResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3935,8 +7494,8 @@ export const verifyWebhook: API.OperationMethod<
   VerifyWebhookError,
   MercuryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<VerifyWebhookRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<VerifyWebhookResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<VerifyWebhookRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<VerifyWebhookResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: MercuryServiceErrors,
   protocol: MercuryProtocol,
@@ -3951,6 +7510,1594 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/reimbursements/{reimbursementId}/cancel",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelReimbursementRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookEndpointId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
+      ).annotate({ identifier: "GetWebhooksRequest" });
+    case 1:
+      return S.Array(__S(3008, __c94, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          webhooks: __S(65, __c2, 1),
+        }),
+      ).annotate({ identifier: "ApiWebhooksPaginatedResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          mercuryCategory: S.optional(S.String.pipe(T.Query())),
+          categoryId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/transactions", code: 200 })),
+      ).annotate({ identifier: "ListAccountTransactionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.Number,
+          transactions: __S(128, __c4, 0),
+        }),
+      ).annotate({ identifier: "TransactionsResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2476, __c77, 12));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          ledgerId: S.optional(S.String.pipe(T.Query())),
+          creationSource: S.optional(S.String.pipe(T.Query())),
+          creationSources: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          journalEntrySort: S.optional(S.String.pipe(T.Query())),
+          expand: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          keywords: S.optional(S.String.pipe(T.Query())),
+          amount: S.optional(S.Number.pipe(T.Query())),
+          minAmount: S.optional(S.Number.pipe(T.Query())),
+          maxAmount: S.optional(S.Number.pipe(T.Query())),
+          ledgerIdGroups: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          tagIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          categorizationStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          reviewStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          categorizationMethod: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/journal-entries", code: 200 })),
+      ).annotate({ identifier: "ListBooksJournalEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntries: __S(3840, __c120, 0),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPIJournalEntriesResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/budgets", code: 200 })),
+      ).annotate({ identifier: "ListBudgetsRequest" });
+    case 1:
+      return S.Array(__S(4800, __c150, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          budgets: __S(193, __c6, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "ApiV1SpendBudgetsResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          type: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          kind: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          userId: S.optional(S.String.pipe(T.Query())),
+          isAgentCard: S.optional(S.Boolean.pipe(T.Query())),
+          isSingleUse: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
+      ).annotate({ identifier: "ListCardsRequest" });
+    case 1:
+      return S.Array(__S(5346, __c167, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          cards: __S(225, __c7, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "CardListResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
+      ).annotate({ identifier: "ListCategoriesRequest" });
+    case 1:
+      return S.Array(__S(2240, __c70, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          categories: __S(257, __c8, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "CategoriesPaginatedResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credit", code: 200 })),
+      ).annotate({ identifier: "ListCreditRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          availableBalance: S.Number,
+          createdAt: S.String,
+          currentBalance: S.Number,
+          id: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CreditAccount" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(290, __c9, 2),
+        }),
+      ).annotate({ identifier: "CreditAccountsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
+      ).annotate({ identifier: "ListCustomersRequest" });
+    case 1:
+      return S.Array(__S(2337, __c73, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customers: __S(321, __c10, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerPaginatedResponseData" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
+      ).annotate({ identifier: "ListInvoiceAttachmentsRequest" });
+    case 1:
+      return S.Array(__S(5152, __c161, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: __S(353, __c11, 1),
+        }),
+      ).annotate({ identifier: "ApiV1ArAttachmentsResponseData" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          description: S.optional(S.NullOr(S.String)),
+          ledgerId: S.String,
+          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPICategorizationSplit" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntryId: S.String,
+          splits: __S(385, __c12, 1),
+        }),
+      ).annotate({ identifier: "BooksAPICategorizeTransactionItem" });
+    case 3:
+      return S.Array(__S(386, __c12, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          items: __S(387, __c12, 3),
+        }).pipe(T.Http({ method: "POST", uri: "/books/transactions/categorize", code: 200 })),
+      ).annotate({ identifier: "CategorizeBooksTransactionsRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          categorizationLines: __S(417, __c13, 1),
+          journalEntryId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPICategorizedTransaction" });
+    case 6:
+      return S.Array(__S(389, __c12, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(390, __c12, 6),
+        }),
+      ).annotate({ identifier: "CategorizeBooksAPITransactionsResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          debitCredit: S.Unknown,
+          ledgerId: S.String,
+          ledgerName: S.String,
+          lineEntryId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPITransactionCategorizationLine" });
+    case 1:
+      return S.Array(__S(416, __c13, 0));
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/payments", code: 200 })),
+      ).annotate({ identifier: "ListInvoicePaymentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          brand: S.Unknown,
+          last4: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicePaymentCardCharge" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          method: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicePaymentManual" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          counterpartyName: S.String,
+          id: S.Unknown,
+          kind: S.Unknown,
+          matchedBy: S.Unknown,
+          status: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicePaymentTransaction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          appliedDate: S.Unknown,
+          cardCharge: S.optional(S.NullOr(__S(449, __c14, 1))),
+          createdAt: S.Unknown,
+          currencyCode: S.Unknown,
+          id: S.Unknown,
+          manual: S.optional(S.NullOr(__S(450, __c14, 2))),
+          transaction: S.optional(S.NullOr(__S(451, __c14, 3))),
+          type: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicePayment" });
+    case 5:
+      return S.Array(__S(452, __c14, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          payments: __S(453, __c14, 5),
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicePaymentsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices", code: 200 })),
+      ).annotate({ identifier: "ListInvoicesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          achDebitEnabled: S.Boolean,
+          amount: S.Number,
+          canceledAt: S.optional(S.NullOr(S.Unknown)),
+          ccEmails: __S(4000, __c125, 0),
+          createdAt: S.Unknown,
+          creditCardEnabled: S.Boolean,
+          currencyCode: S.Unknown,
+          customerId: S.Unknown,
+          destinationAccountId: S.Unknown,
+          dueDate: S.Unknown,
+          id: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.String,
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          slug: S.String,
+          status: S.Unknown,
+          updatedAt: S.Unknown,
+          useRealAccountNumber: S.Boolean,
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicesData" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          invoices: __S(482, __c15, 2),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "ApiV1ArInvoicesPaginatedResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
+      ).annotate({ identifier: "ListMerchantsRequest" });
+    case 1:
+      return S.Array(__S(5280, __c165, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(513, __c16, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "MerchantsResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/products", code: 200 })),
+      ).annotate({ identifier: "ListProductsRequest" });
+    case 1:
+      return S.Array(__S(2592, __c81, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          products: __S(545, __c17, 1),
+        }),
+      ).annotate({ identifier: "ApiV1ArProductPaginatedResponseData" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/receipts", code: 200 })),
+      ).annotate({ identifier: "ListReceiptsRequest" });
+    case 1:
+      return S.Array(__S(5472, __c171, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          receipts: __S(577, __c18, 1),
+        }),
+      ).annotate({ identifier: "ApiV1ReceiptsPaginatedResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites", code: 200 })),
+      ).annotate({ identifier: "ListRecipientInvitesRequest" });
+    case 1:
+      return S.Array(__S(2816, __c88, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          invites: __S(609, __c19, 1),
+          page: __S(3520, __c110, 0),
+        }),
+      ).annotate({ identifier: "RecipientInviteApiPaginatedResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/recipients/attachments", code: 200 })),
+      ).annotate({ identifier: "ListRecipientsAttachmentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          formType: S.optional(S.NullOr(S.Unknown)),
+          id: S.Unknown,
+          recipientId: S.Unknown,
+          uploadedAt: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "RecipientAttachmentWithId" });
+    case 2:
+      return S.Array(__S(641, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: __S(642, __c20, 2),
+          page: __S(3520, __c110, 0),
+          total: S.Unknown,
+        }),
+      ).annotate({ identifier: "RecipientsAttachmentsPaginatedResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/spend/reimbursements", code: 200 })),
+      ).annotate({ identifier: "ListReimbursementsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          attachments: __S(5633, __c176, 1),
+          currency: S.String,
+          id: S.String,
+          paymentStatus: S.String,
+          reviewStatus: S.String,
+          submittedAt: S.String,
+          submitterUserId: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ReimbursementListItem" });
+    case 2:
+      return S.Array(__S(673, __c21, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          reimbursements: __S(674, __c21, 2),
+        }),
+      ).annotate({ identifier: "ApiV1ReimbursementsPaginatedResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/request-send-money", code: 200 })),
+      ).annotate({ identifier: "ListSendMoneyApprovalRequestsRequest" });
+    case 1:
+      return S.Array(__S(5856, __c183, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          requests: __S(705, __c22, 1),
+        }),
+      ).annotate({ identifier: "SendMoneyApprovalRequestsPaginatedResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          postedStart: S.optional(S.String.pipe(T.Query())),
+          postedEnd: S.optional(S.String.pipe(T.Query())),
+          accountId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          cardId: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          mercuryCategory: S.optional(S.String.pipe(T.Query())),
+          categoryId: S.optional(S.String.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/transactions", code: 200 })),
+      ).annotate({ identifier: "ListTransactionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          transactions: __S(128, __c4, 0),
+        }),
+      ).annotate({ identifier: "TransactionsPaginatedResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          dueDate: S.Unknown,
+          effectiveDate: S.Unknown,
+          lines: __S(801, __c25, 1),
+          notes: S.optional(S.NullOr(S.String)),
+          referenceNumber: S.optional(S.String),
+          vendor: __S(3872, __c121, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/books/bills", code: 200 })),
+      ).annotate({ identifier: "CreateBooksBillRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          description: S.String,
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "CreateBooksAPIBillLine" });
+    case 1:
+      return S.Array(__S(800, __c25, 0));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          description: S.String,
+          id: S.String,
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIBillLine" });
+    case 1:
+      return S.Array(__S(832, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          lineEntryId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIBillPaymentApplication" });
+    case 3:
+      return S.Array(__S(834, __c26, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Unknown,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIBillVendor" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountRemaining: S.Unknown,
+          displayStatus: S.Unknown,
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.Unknown,
+          grossAmount: S.Unknown,
+          id: S.String,
+          lines: __S(833, __c26, 1),
+          notes: S.optional(S.NullOr(S.String)),
+          paymentApplications: __S(835, __c26, 3),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+          status: S.Unknown,
+          vendor: S.optional(S.NullOr(__S(836, __c26, 4))),
+        }),
+      ).annotate({ identifier: "BooksAPIBill" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceAccountId: S.optional(S.String.pipe(T.Query())),
+          destinationAccountId: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          start_at: S.optional(S.String.pipe(T.Query())),
+          start_after: S.optional(S.String.pipe(T.Query())),
+          end_before: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/request-transfer", code: 200 })),
+      ).annotate({ identifier: "ListTransferMoneyApprovalRequestsRequest" });
+    case 1:
+      return S.Array(__S(6048, __c189, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: __S(3520, __c110, 0),
+          requests: __S(897, __c28, 1),
+        }),
+      ).annotate({ identifier: "TransferMoneyApprovalRequestsPaginatedResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+          note: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/reimbursements/{reimbursementId}/mark-paid",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MarkReimbursementPaidRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          receiptId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/receipts/{receiptId}/match", code: 200 })),
+      ).annotate({ identifier: "MatchReceiptRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          code_verifier: S.String,
+          grant_type: S.String,
+          redirect_uri: S.String,
+          refresh_token: S.String.pipe(T.SensitiveValue({})),
+          scope: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/oauth2/token", code: 200 })),
+      ).annotate({ identifier: "ObtainAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          access_token: S.String.pipe(T.SensitiveValue({})),
+          expires_in: S.optional(S.Number),
+          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          scope: S.optional(S.String),
+          token_type: S.String,
+        }),
+      ).annotate({ identifier: "OAuth2TokenResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          amount: S.Number,
+          chargeType: S.optional(S.String),
+          duplicateCheckOverride: S.optional(S.Boolean),
+          externalMemo: S.optional(S.String),
+          idempotencyKey: S.String,
+          note: S.optional(S.String),
+          paymentMethod: S.String,
+          purpose: S.optional(__S(2913, __c91, 1)),
+          recipientId: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 }),
+        ),
+      ).annotate({ identifier: "RequestSendMoneyRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          destinationAccountId: S.String,
+          idempotencyKey: S.String,
+          note: S.optional(S.NullOr(S.String)),
+          sourceAccountId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/request-transfer", code: 200 })),
+      ).annotate({ identifier: "RequestTransferMoneyRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}/reveal", code: 200 })),
+      ).annotate({ identifier: "RevealCardPanRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cardNumber: S.String,
+          cvc: S.String,
+          expiration: __S(5312, __c166, 0),
+        }),
+      ).annotate({ identifier: "CardRevealResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          balance: S.Unknown,
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "SetBooksAPILedgerOpeningBalance" });
+    case 1:
+      return S.Array(__S(1120, __c35, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          openingBalances: __S(1121, __c35, 1),
+        }).pipe(T.Http({ method: "PUT", uri: "/books/ledgers/opening-balances", code: 200 })),
+      ).annotate({ identifier: "SetBooksLedgerOpeningBalancesRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          ledgerId: S.String,
+          success: S.Boolean,
+        }),
+      ).annotate({ identifier: "BooksAPISetLedgerOpeningBalanceResult" });
+    case 4:
+      return S.Array(__S(1123, __c35, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          failedCount: S.Number,
+          results: __S(1124, __c35, 4),
+          succeededCount: S.Number,
+        }),
+      ).annotate({ identifier: "SetBooksAPILedgerOpeningBalancesResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String.pipe(T.Query()),
+          redirect_uri: S.String.pipe(T.Query()),
+          scope: S.String.pipe(T.Query()),
+          state: S.optional(S.String.pipe(T.Query())),
+          response_type: S.String.pipe(T.Query()),
+          code_challenge: S.optional(S.String.pipe(T.Query())),
+          code_challenge_method: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
+      ).annotate({ identifier: "StartOAuth2FlowRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
+      ).annotate({ identifier: "UnfreezeCardRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          conditions: __S(1248, __c39, 0),
+          outputs: __S(1251, __c39, 3),
+        }).pipe(T.Http({ method: "POST", uri: "/books/rules", code: 200 })),
+      ).annotate({ identifier: "CreateBooksCategorizationRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          rule: __S(1252, __c39, 4),
+        }),
+      ).annotate({ identifier: "CreateBooksAPICategorizationRuleResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPICategorizationRuleSetLedgerOutput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contents: __S(1249, __c39, 1),
+          tag: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPICategorizationRuleOutput" });
+    case 3:
+      return S.Array(__S(1250, __c39, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: __S(1248, __c39, 0),
+          glCodeName: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          lastApplied: S.optional(S.NullOr(S.Unknown)),
+          outputs: __S(1251, __c39, 3),
+          status: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateBooksAPICategorizationRuleResponseRule" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          billId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.optional(S.NullOr(S.Unknown)),
+          lineChanges: S.optional(S.NullOr(__S(1314, __c41, 2))),
+          notes: S.optional(S.NullOr(S.String)),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+          vendor: S.optional(S.NullOr(S.Unknown)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/books/bill/{billId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBooksBillRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          ledgerId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UpdateBooksAPIBillLine" });
+    case 1:
+      return S.Array(__S(1312, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          create: S.optional(S.NullOr(__S(801, __c25, 1))),
+          delete: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          update: S.optional(S.NullOr(__S(1313, __c41, 1))),
+        }),
+      ).annotate({ identifier: "UpdateBooksBillRequestLineChanges" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          customer: S.optional(S.NullOr(S.Unknown)),
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.optional(S.NullOr(S.Unknown)),
+          lineChanges: S.optional(S.NullOr(__S(1314, __c41, 2))),
+          notes: S.optional(S.NullOr(S.String)),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/books/invoice/{invoiceId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBooksInvoiceRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clearFields: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          debitCredit: S.optional(S.NullOr(S.Unknown)),
+          ledgerId: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          parentId: S.optional(S.NullOr(S.String)),
+          sortCode: S.optional(S.NullOr(S.String)),
+          subType: S.optional(S.NullOr(S.Unknown)),
+          type: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UpdateBooksAPILedger" });
+    case 1:
+      return S.Array(__S(1376, __c43, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          ledgers: __S(1377, __c43, 1),
+        }).pipe(T.Http({ method: "PUT", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "UpdateBooksLedgersRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          amountPerUserPerPeriod: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          frequency: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          startDate: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets/{budgetId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBudgetRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+          nickname: S.optional(S.Unknown),
+          spendLimit: S.optional(S.NullOr(__S(5248, __c164, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
+      ).annotate({ identifier: "UpdateCardRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+          address: S.optional(S.NullOr(__S(2304, __c72, 0))),
+          email: S.Unknown,
+          name: S.String,
+          resendOpenInvoices: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "UpdateCustomerRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+          achDebitEnabled: S.Boolean,
+          ccEmails: __S(4000, __c125, 0),
+          creditCardEnabled: S.Boolean,
+          dueDate: S.Unknown,
+          internalNote: S.optional(S.NullOr(S.String)),
+          invoiceDate: S.Unknown,
+          invoiceNumber: S.String,
+          lineItems: __S(2529, __c79, 1),
+          payerMemo: S.optional(S.NullOr(S.String)),
+          poNumber: S.optional(S.NullOr(S.String)),
+          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
+          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
+          useRealAccountNumber: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}", code: 200 })),
+      ).annotate({ identifier: "UpdateInvoiceRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+          address: S.optional(__S(2432, __c76, 0)),
+          checkInfo: S.optional(__S(2752, __c86, 0)),
+          contactEmail: S.optional(S.String),
+          domesticWireRoutingInfo: S.optional(__S(2688, __c84, 0)),
+          electronicRoutingInfo: S.optional(__S(2689, __c84, 1)),
+          emails: S.optional(__S(4000, __c125, 0)),
+          name: S.optional(S.String),
+          nickname: S.optional(S.String),
+          realTimePaymentRoutingInfo: S.optional(__S(2688, __c84, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "UpdateRecipientRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+          amount: S.Number,
+          categoryId: S.optional(S.NullOr(S.String)),
+          currency: S.Unknown,
+          datePaidFor: S.Unknown,
+          merchantName: S.String,
+          notes: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/spend/reimbursements/{reimbursementId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateReimbursementRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionId: S.String.pipe(T.Label()),
+          categoryId: S.optional(S.Unknown),
+          note: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
+      ).annotate({ identifier: "UpdateTransactionRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          closeDate: S.Unknown,
+        }).pipe(T.Http({ method: "POST", uri: "/books/closes", code: 200 })),
+      ).annotate({ identifier: "CreateBooksCloseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          closeDate: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateBooksAPICloseResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookEndpointId: S.String.pipe(T.Label()),
+          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          status: S.optional(S.NullOr(S.Unknown)),
+          url: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
+      ).annotate({ identifier: "UpdateWebhookRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+          file: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/recipient/{recipientId}/attachments",
+            code: 200,
+            contentType: "multipart",
+          }),
+        ),
+      ).annotate({ identifier: "UploadRecipientAttachmentRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionId: S.String.pipe(T.Label()),
+          attachmentType: S.optional(S.String),
+          file: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/transaction/{transactionId}/attachments",
+            code: 200,
+            contentType: "multipart",
+          }),
+        ),
+      ).annotate({ identifier: "UploadTransactionAttachmentRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookEndpointId: S.String.pipe(T.Label()),
+          eventType: S.optional(S.NullOr(S.Unknown)),
+        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}/verify", code: 200 })),
+      ).annotate({ identifier: "VerifyWebhookRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          customer: S.Unknown,
+          dueDate: S.Unknown,
+          effectiveDate: S.Unknown,
+          lines: __S(801, __c25, 1),
+          notes: S.optional(S.NullOr(S.String)),
+          referenceNumber: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/books/invoices", code: 200 })),
+      ).annotate({ identifier: "CreateBooksInvoiceRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountRemaining: S.Unknown,
+          customer: S.optional(S.NullOr(__S(836, __c26, 4))),
+          displayStatus: S.Unknown,
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.Unknown,
+          grossAmount: S.Unknown,
+          id: S.String,
+          lines: __S(833, __c26, 1),
+          notes: S.optional(S.NullOr(S.String)),
+          paymentApplications: __S(835, __c26, 3),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+          status: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPIInvoice" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          debitCredit: S.Unknown,
+          name: S.String,
+          parentId: S.optional(S.NullOr(S.String)),
+          sortCode: S.String,
+          subType: S.Unknown,
+          type: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateBooksAPILedger" });
+    case 1:
+      return S.Array(__S(1856, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          ledgers: __S(1857, __c58, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "CreateBooksLedgersRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          ledger: S.optional(S.NullOr(__S(1952, __c61, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPICreateLedgerResult" });
+    case 1:
+      return S.Array(__S(1888, __c59, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          failedCount: S.Number,
+          results: __S(1889, __c59, 1),
+          succeededCount: S.Number,
+        }),
+      ).annotate({ identifier: "CreateBooksAPILedgersResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Unknown,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPICreateLedgerResultError" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          debitCredit: S.Unknown,
+          deletable: S.Boolean,
+          deleteBlockedReason: S.optional(S.NullOr(S.Unknown)),
+          editable: S.Boolean,
+          financialAccountType: S.optional(S.NullOr(S.Unknown)),
+          id: S.String,
+          isRequired: S.Boolean,
+          name: S.String,
+          openingBalance: S.optional(S.NullOr(S.Unknown)),
+          parentId: S.optional(S.NullOr(S.String)),
+          requiredLedgerPurpose: S.optional(S.NullOr(S.Unknown)),
+          sortCode: S.String,
+          subType: S.Unknown,
+          type: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPICreateLedgerResultLedger" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplicationAdjustment" });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          adjustments: S.optional(S.NullOr(__S(1985, __c62, 1))),
+          amount: S.Unknown,
+          billId: S.optional(S.NullOr(S.String)),
+          invoiceId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplication" });
+    case 3:
+      return S.Array(__S(1986, __c62, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          lineEntryId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          adjustments: S.optional(S.NullOr(__S(1985, __c62, 1))),
+          applications: __S(1987, __c62, 3),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/books/line-entry/{lineEntryId}/payment-applications",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBooksPaymentApplicationsRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountAdjusted: S.Unknown,
+          amountOutstanding: S.Unknown,
+          amountPaid: S.Unknown,
+          displayStatus: S.Unknown,
+          id: S.String,
+          status: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplicationAccrualSource" });
+    case 1:
+      return S.Array(__S(2016, __c63, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          amountAdjusted: S.Unknown,
+          amountApplied: S.Unknown,
+          id: S.String,
+          journalEntryId: S.String,
+          transactionId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplicationsResponseLineEntry" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          bills: __S(2017, __c63, 1),
+          invoices: __S(2017, __c63, 1),
+          lineEntry: __S(2018, __c63, 2),
+          payrollRuns: __S(2017, __c63, 1),
+        }),
+      ).annotate({ identifier: "BooksAPIPaymentApplicationsResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountPerUserPerPeriod: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          frequency: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          startDate: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets", code: 200 })),
+      ).annotate({ identifier: "CreateBudgetRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1BudgetIdResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          singleUse: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateCardRequestCardConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          interval: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateCardRequestSpendLimit" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.NullOr(S.Unknown)),
+          cardConfiguration: S.optional(S.NullOr(__S(2112, __c66, 0))),
+          kind: S.Unknown,
+          nickname: S.optional(S.NullOr(S.String)),
+          spendLimit: S.optional(S.NullOr(__S(2113, __c66, 1))),
+          type: S.Unknown,
+          userId: S.Unknown,
+        }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
+      ).annotate({ identifier: "CreateCardRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/reimbursements/{reimbursementId}/approve",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ApproveReimbursementRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ApproveReimbursementResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.Unknown,
+          visibleForCardSpend: S.Boolean,
+          visibleForOther: S.Boolean,
+          visibleForReimbursements: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/categories", code: 200 })),
+      ).annotate({ identifier: "CreateCategoryRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Unknown,
+          name: S.String,
+          visibleForCardSpend: S.Boolean,
+          visibleForOther: S.Boolean,
+          visibleForReimbursements: S.Boolean,
+        }),
+      ).annotate({ identifier: "CategoryData" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(2304, __c72, 0))),
+          email: S.Unknown,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
+      ).annotate({ identifier: "CreateCustomerRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address1: S.String,
+          address2: S.optional(S.NullOr(S.String)),
+          city: S.String,
+          country: S.Unknown,
+          name: S.String,
+          postalCode: S.String,
+          region: S.Unknown,
+        }),
+      ).annotate({ identifier: "CreateCustomerRequestAddress" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address1: S.String,
+          address2: S.optional(S.NullOr(S.String)),
+          city: S.String,
+          country: S.Unknown,
+          postalCode: S.String,
+          region: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerResponseDataAddress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.NullOr(__S(2336, __c73, 0))),
+          deletedAt: S.optional(S.NullOr(S.Unknown)),
+          email: S.Unknown,
+          id: S.Unknown,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ArCustomerResponseData" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           amount: S.Number,
           destinationAccountId: S.String,
           idempotencyKey: S.String,
@@ -3961,13 +9108,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          creditTransaction: __S(60, __c3, 12),
-          debitTransaction: __S(60, __c3, 12),
+          creditTransaction: __S(2476, __c77, 12),
+          debitTransaction: __S(2476, __c77, 12),
         }),
       ).annotate({ identifier: "InternalTransferAPIResponse" });
   }
 }
-function __c1(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3984,7 +9131,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(16, __c1, 0))),
+          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           routingNumber: S.String,
         }),
@@ -3993,7 +9140,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          address: S.optional(S.NullOr(__S(16, __c1, 0))),
+          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
           bankName: S.optional(S.NullOr(S.String)),
           electronicAccountType: S.String,
           routingNumber: S.String,
@@ -4075,29 +9222,29 @@ function __c1(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          australia: S.optional(S.NullOr(__S(21, __c1, 5))),
-          brazil: S.optional(S.NullOr(__S(22, __c1, 6))),
-          canada: S.optional(S.NullOr(__S(23, __c1, 7))),
-          chile: S.optional(S.NullOr(__S(22, __c1, 6))),
-          colombia: S.optional(S.NullOr(__S(22, __c1, 6))),
-          dominicanRepublic: S.optional(S.NullOr(__S(24, __c1, 8))),
-          honduras: S.optional(S.NullOr(__S(24, __c1, 8))),
-          india: S.optional(S.NullOr(__S(25, __c1, 9))),
-          kazakhstan: S.optional(S.NullOr(__S(22, __c1, 6))),
-          pakistan: S.optional(S.NullOr(__S(26, __c1, 10))),
-          paraguay: S.optional(S.NullOr(__S(22, __c1, 6))),
-          philippines: S.optional(S.NullOr(__S(27, __c1, 11))),
-          russia: S.optional(S.NullOr(__S(28, __c1, 12))),
-          southAfrica: S.optional(S.NullOr(__S(29, __c1, 13))),
+          australia: S.optional(S.NullOr(__S(2405, __c75, 5))),
+          brazil: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          canada: S.optional(S.NullOr(__S(2407, __c75, 7))),
+          chile: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          colombia: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          dominicanRepublic: S.optional(S.NullOr(__S(2408, __c75, 8))),
+          honduras: S.optional(S.NullOr(__S(2408, __c75, 8))),
+          india: S.optional(S.NullOr(__S(2409, __c75, 9))),
+          kazakhstan: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          pakistan: S.optional(S.NullOr(__S(2410, __c75, 10))),
+          paraguay: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          philippines: S.optional(S.NullOr(__S(2411, __c75, 11))),
+          russia: S.optional(S.NullOr(__S(2412, __c75, 12))),
+          southAfrica: S.optional(S.NullOr(__S(2413, __c75, 13))),
         }),
       ).annotate({ identifier: "InternationalWireCountrySpecificData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(16, __c1, 0))),
-          bankDetails: S.optional(S.NullOr(__S(19, __c1, 3))),
-          correspondentInfo: S.optional(S.NullOr(__S(20, __c1, 4))),
-          countrySpecific: __S(30, __c1, 14),
+          address: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          bankDetails: S.optional(S.NullOr(__S(2403, __c75, 3))),
+          correspondentInfo: S.optional(S.NullOr(__S(2404, __c75, 4))),
+          countrySpecific: __S(2414, __c75, 14),
           emailAddress: S.optional(S.NullOr(S.String)),
           iban: S.String,
           phoneNumber: S.optional(S.NullOr(S.String)),
@@ -4106,7 +9253,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "InternationalWireRoutingInfo" });
   }
 }
-function __c2(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4120,7 +9267,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "AddressData" });
   }
 }
-function __c3(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4142,7 +9289,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "TransactionAttachment" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4173,12 +9320,12 @@ function __c3(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(32, __c2, 0))),
-          creditCardInfo: S.optional(S.NullOr(__S(52, __c3, 4))),
-          debitCardInfo: S.optional(S.NullOr(__S(53, __c3, 5))),
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(18, __c1, 2))),
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(31, __c1, 15))),
+          address: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          creditCardInfo: S.optional(S.NullOr(__S(2468, __c77, 4))),
+          debitCardInfo: S.optional(S.NullOr(__S(2469, __c77, 5))),
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(2402, __c75, 2))),
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2415, __c75, 15))),
         }),
       ).annotate({ identifier: "TransactionMethodData" });
     case 7:
@@ -4192,7 +9339,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "GlAllocation" });
     case 8:
-      return S.Array(__S(55, __c3, 7));
+      return S.Array(__S(2471, __c77, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4213,17 +9360,17 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "RelatedTransactionData" });
     case 11:
-      return S.Array(__S(58, __c3, 10));
+      return S.Array(__S(2474, __c77, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           accountId: S.Unknown,
-          accountingStatus: S.optional(S.NullOr(__S(48, __c3, 0))),
+          accountingStatus: S.optional(S.NullOr(__S(2464, __c77, 0))),
           amount: S.Number,
-          attachments: __S(50, __c3, 2),
+          attachments: __S(2466, __c77, 2),
           bankDescription: S.optional(S.NullOr(S.String)),
           cardId: S.optional(S.NullOr(S.String)),
-          categoryData: S.optional(S.NullOr(__S(1712, __c107, 0))),
+          categoryData: S.optional(S.NullOr(__S(2240, __c70, 0))),
           checkNumber: S.optional(S.NullOr(S.String)),
           compliantWithReceiptPolicy: S.Boolean,
           counterpartyId: S.String,
@@ -4231,24 +9378,24 @@ function __c3(j: number): any {
           counterpartyNickname: S.optional(S.NullOr(S.String)),
           createdAt: S.String,
           creditAccountPeriodId: S.optional(S.NullOr(S.String)),
-          currencyExchangeInfo: S.optional(S.NullOr(__S(51, __c3, 3))),
+          currencyExchangeInfo: S.optional(S.NullOr(__S(2467, __c77, 3))),
           dashboardLink: S.String,
-          details: S.optional(S.NullOr(__S(54, __c3, 6))),
+          details: S.optional(S.NullOr(__S(2470, __c77, 6))),
           estimatedDeliveryDate: S.String,
           externalMemo: S.optional(S.NullOr(S.String)),
           failedAt: S.optional(S.NullOr(S.String)),
           feeId: S.optional(S.NullOr(S.String)),
           generalLedgerCodeName: S.optional(S.NullOr(S.String)),
-          glAllocations: __S(56, __c3, 8),
+          glAllocations: __S(2472, __c77, 8),
           hasGeneratedReceipt: S.Boolean,
           id: S.String,
           kind: S.String,
-          merchant: S.optional(S.NullOr(__S(57, __c3, 9))),
+          merchant: S.optional(S.NullOr(__S(2473, __c77, 9))),
           mercuryCategory: S.optional(S.NullOr(S.String)),
           note: S.optional(S.NullOr(S.String)),
           postedAt: S.optional(S.NullOr(S.String)),
           reasonForFailure: S.optional(S.NullOr(S.String)),
-          relatedTransactions: __S(59, __c3, 11),
+          relatedTransactions: __S(2475, __c77, 11),
           requestId: S.optional(S.NullOr(S.String)),
           status: S.String,
           trackingNumber: S.optional(S.NullOr(S.String)),
@@ -4256,13 +9403,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Transaction" });
   }
 }
-function __c4(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           achDebitEnabled: S.Boolean,
-          ccEmails: __S(80, __c5, 0),
+          ccEmails: __S(4000, __c125, 0),
           creditCardEnabled: S.Boolean,
           currencyCode: S.optional(S.NullOr(S.Unknown)),
           customerId: S.Unknown,
@@ -4271,7 +9418,7 @@ function __c4(j: number): any {
           internalNote: S.optional(S.NullOr(S.String)),
           invoiceDate: S.Unknown,
           invoiceNumber: S.optional(S.NullOr(S.String)),
-          lineItems: __S(97, __c6, 1),
+          lineItems: __S(2529, __c79, 1),
           payerMemo: S.optional(S.NullOr(S.String)),
           poNumber: S.optional(S.NullOr(S.String)),
           sendEmailOption: S.optional(S.NullOr(S.Unknown)),
@@ -4282,32 +9429,27 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateInvoiceRequest" });
   }
 }
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c6(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
+          productId: S.optional(S.NullOr(S.Unknown)),
           quantity: S.Number,
           salesTaxRate: S.optional(S.NullOr(S.Number)),
           unitPrice: S.Number,
         }),
       ).annotate({ identifier: "ApiV1ArLineItemData" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(2528, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           achDebitEnabled: S.Boolean,
           amount: S.Number,
           canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(80, __c5, 0),
+          ccEmails: __S(4000, __c125, 0),
           createdAt: S.Unknown,
           creditCardEnabled: S.Boolean,
           currencyCode: S.Unknown,
@@ -4318,7 +9460,7 @@ function __c6(j: number): any {
           internalNote: S.optional(S.NullOr(S.String)),
           invoiceDate: S.Unknown,
           invoiceNumber: S.String,
-          lineItems: __S(97, __c6, 1),
+          lineItems: __S(2529, __c79, 1),
           payerMemo: S.optional(S.NullOr(S.String)),
           poNumber: S.optional(S.NullOr(S.String)),
           servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
@@ -4331,7 +9473,33 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ApiV1ArInvoiceResponse" });
   }
 }
-function __c7(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          unitPrice: S.Unknown,
+        }).pipe(T.Http({ method: "POST", uri: "/ar/products", code: 200 })),
+      ).annotate({ identifier: "CreateProductRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          id: S.Unknown,
+          name: S.String,
+          unitPrice: S.Unknown,
+          updatedAt: S.Unknown,
+        }),
+      ).annotate({ identifier: "ApiV1ArProductResponseData" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4348,25 +9516,46 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ApiV1ReceiptUploadUrlResponse" });
   }
 }
-function __c8(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(32, __c2, 0)),
-          checkInfo: S.optional(__S(160, __c10, 0)),
+          address: S.optional(__S(2432, __c76, 0)),
+          checkInfo: S.optional(__S(2752, __c86, 0)),
           contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(176, __c11, 0)),
-          electronicRoutingInfo: S.optional(__S(177, __c11, 1)),
-          emails: __S(80, __c5, 0),
+          domesticWireRoutingInfo: S.optional(__S(2688, __c84, 0)),
+          electronicRoutingInfo: S.optional(__S(2689, __c84, 1)),
+          emails: __S(4000, __c125, 0),
           name: S.String,
           nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(176, __c11, 0)),
+          realTimePaymentRoutingInfo: S.optional(__S(2688, __c84, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/recipients", code: 200 })),
       ).annotate({ identifier: "CreateRecipientRequest" });
   }
 }
-function __c9(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          address: __S(2400, __c75, 0),
+          routingNumber: S.String,
+        }),
+      ).annotate({ identifier: "DomesticWireRoutingInfoRaw" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountNumber: S.String,
+          address: __S(2400, __c75, 0),
+          electronicAccountType: S.Unknown,
+          routingNumber: S.String,
+        }),
+      ).annotate({ identifier: "ElectronicRoutingInfoRaw" });
+  }
+}
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4382,12 +9571,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Address" });
   }
 }
-function __c10(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: __S(16, __c1, 0),
+          address: __S(2400, __c75, 0),
         }),
       ).annotate({ identifier: "CheckInfoRaw" });
     case 1:
@@ -4400,54 +9589,33 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "RecipientAttachment" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.NullOr(__S(144, __c9, 0))),
-          attachments: __S(162, __c10, 2),
-          checkInfo: S.optional(S.NullOr(__S(160, __c10, 0))),
+          address: S.optional(S.NullOr(__S(2720, __c85, 0))),
+          attachments: __S(2754, __c86, 2),
+          checkInfo: S.optional(S.NullOr(__S(2752, __c86, 0))),
           contactEmail: S.optional(S.NullOr(S.String)),
           dateLastPaid: S.optional(S.NullOr(S.String)),
-          defaultAddress: S.optional(S.NullOr(__S(16, __c1, 0))),
+          defaultAddress: S.optional(S.NullOr(__S(2400, __c75, 0))),
           defaultPaymentMethod: S.String,
-          domesticWireRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
-          electronicRoutingInfo: S.optional(S.NullOr(__S(18, __c1, 2))),
-          emails: __S(80, __c5, 0),
+          domesticWireRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
+          electronicRoutingInfo: S.optional(S.NullOr(__S(2402, __c75, 2))),
+          emails: __S(4000, __c125, 0),
           id: S.String,
-          internationalWireRoutingInfo: S.optional(S.NullOr(__S(31, __c1, 15))),
+          internationalWireRoutingInfo: S.optional(S.NullOr(__S(2415, __c75, 15))),
           inviteId: S.optional(S.NullOr(S.String)),
           isBusiness: S.optional(S.NullOr(S.Boolean)),
           name: S.String,
           nickname: S.optional(S.NullOr(S.String)),
-          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(17, __c1, 1))),
+          realTimePaymentRoutingInfo: S.optional(S.NullOr(__S(2401, __c75, 1))),
           status: S.String,
         }),
       ).annotate({ identifier: "RecipientInfo" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          address: __S(16, __c1, 0),
-          routingNumber: S.String,
-        }),
-      ).annotate({ identifier: "DomesticWireRoutingInfoRaw" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountNumber: S.String,
-          address: __S(16, __c1, 0),
-          electronicAccountType: S.Unknown,
-          routingNumber: S.String,
-        }),
-      ).annotate({ identifier: "ElectronicRoutingInfoRaw" });
-  }
-}
-function __c12(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4456,7 +9624,7 @@ function __c12(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           notes: S.optional(S.NullOr(S.String)),
           organizationNameOnRequest: S.optional(S.NullOr(S.String)),
-          paymentMethods: __S(800, __c50, 0),
+          paymentMethods: __S(5216, __c163, 0),
           recipientId: S.optional(S.NullOr(S.Unknown)),
           requireTaxDocument: S.Boolean,
           sendEmail: S.Boolean,
@@ -4464,7 +9632,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateRecipientInviteRequest" });
   }
 }
-function __c13(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4476,7 +9644,7 @@ function __c13(j: number): any {
           name: S.String,
           notes: S.optional(S.NullOr(S.String)),
           onboardingUrl: S.String,
-          paymentMethods: __S(800, __c50, 0),
+          paymentMethods: __S(5216, __c163, 0),
           recipientId: S.optional(S.NullOr(S.Unknown)),
           requireTaxDocument: S.Boolean,
           status: S.Unknown,
@@ -4484,24 +9652,40 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RecipientInviteApiResponse" });
   }
 }
-function __c14(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          categoryId: S.optional(S.NullOr(S.String)),
+          currency: S.Unknown,
+          datePaidFor: S.Unknown,
+          merchantName: S.String,
+          notes: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/spend/reimbursements", code: 200 })),
+      ).annotate({ identifier: "CreateReimbursementRequest" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           amount: S.Number,
+          duplicateCheckOverride: S.optional(S.Boolean),
           externalMemo: S.optional(S.String),
           idempotencyKey: S.String,
           note: S.optional(S.String),
           paymentMethod: S.String,
-          purpose: S.optional(__S(241, __c15, 1)),
+          purpose: S.optional(__S(2913, __c91, 1)),
           recipientId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/account/{accountId}/transactions", code: 200 })),
       ).annotate({ identifier: "CreateTransactionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4513,71 +9697,12 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          simple: S.optional(S.NullOr(__S(240, __c15, 0))),
+          simple: S.optional(S.NullOr(__S(2912, __c91, 0))),
         }),
       ).annotate({ identifier: "PostTransactionSendMoneyPurpose" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
-          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
-          url: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-      ).annotate({ identifier: "CreateWebhookRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.Unknown,
-          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
-          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
-          id: S.Unknown,
-          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          status: S.Unknown,
-          updatedAt: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ApiWebhookResponse" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expenseCategoryId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/categories/{expenseCategoryId}", code: 200 })),
-      ).annotate({ identifier: "DeleteCategoryRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "DeleteCustomerRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "DeleteRecipientRequest" });
-  }
-}
-function __c21(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4587,13 +9712,133 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ArchiveBudgetRequest" });
   }
 }
-function __c22(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ArchiveBudgetResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          url: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
+      ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c23(j: number): any {
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Unknown,
+          eventTypes: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          filterPaths: S.optional(S.NullOr(__S(5216, __c163, 0))),
+          id: S.Unknown,
+          secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          status: S.Unknown,
+          updatedAt: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ApiWebhookResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/books/rule/{ruleId}", code: 200 })),
+      ).annotate({ identifier: "DeleteBooksCategorizationRuleRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          ledgerIds: __S(4000, __c125, 0),
+        }).pipe(T.Http({ method: "DELETE", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "DeleteBooksLedgersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          deleted: S.Boolean,
+          error: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          ledgerId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIDeleteLedgerResult" });
+    case 2:
+      return S.Array(__S(3073, __c96, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          failedCount: S.Number,
+          results: __S(3074, __c96, 2),
+          succeededCount: S.Number,
+        }),
+      ).annotate({ identifier: "DeleteBooksAPILedgersResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          lineEntryId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/books/line-entry/{lineEntryId}/payment-applications",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteBooksPaymentApplicationsRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expenseCategoryId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/categories/{expenseCategoryId}", code: 200 })),
+      ).annotate({ identifier: "DeleteCategoryRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/ar/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "DeleteCustomerRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          productId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/ar/products/{productId}", code: 200 })),
+      ).annotate({ identifier: "DeleteProductRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recipientId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/recipient/{recipientId}", code: 200 })),
+      ).annotate({ identifier: "DeleteRecipientRequest" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4603,7 +9848,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteRecipientInviteRequest" });
   }
 }
-function __c24(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4613,7 +9858,42 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c25(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          budgetId: S.String.pipe(T.Label()),
+          allowOverspend: S.optional(S.NullOr(S.Boolean)),
+          transactionId: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/budgets/{budgetId}/assign-transaction",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignTransactionToBudgetRequest" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+          reason: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/spend/reimbursements/{reimbursementId}/deny",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DenyReimbursementRequest" });
+  }
+}
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4627,7 +9907,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "EditCategoryRequest" });
   }
 }
-function __c26(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4637,7 +9917,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "FreezeCardRequest" });
   }
 }
-function __c27(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4654,7 +9934,7 @@ function __c27(j: number): any {
           nameOnCard: S.String,
           network: S.String,
           physicalCardStatus: S.optional(S.NullOr(S.String)),
-          spendLimit: __S(816, __c51, 0),
+          spendLimit: __S(5248, __c164, 0),
           status: S.String,
           type: S.String,
           updatedAt: S.String,
@@ -4662,16 +9942,16 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "AccountCard" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cards: __S(434, __c27, 2),
+          cards: __S(3458, __c108, 2),
         }),
       ).annotate({ identifier: "AccountCardsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4703,17 +9983,17 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "Account" });
     case 2:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(3489, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(450, __c28, 2),
-          page: __S(464, __c29, 0),
+          accounts: __S(3490, __c109, 2),
+          page: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "AccountsPaginatedResponse" });
   }
 }
-function __c29(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4724,7 +10004,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "AccountsPaginatedResponsePage" });
   }
 }
-function __c30(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4742,7 +10022,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountNumber: S.String,
-          companyLegalAddress: __S(144, __c9, 0),
+          companyLegalAddress: __S(2720, __c85, 0),
           companyLegalName: S.String,
           downloadUrl: S.String,
           ein: S.optional(S.NullOr(S.String)),
@@ -4751,21 +10031,21 @@ function __c30(j: number): any {
           id: S.String,
           routingNumber: S.String,
           startDate: S.String,
-          transactions: __S(497, __c31, 1),
+          transactions: __S(3585, __c112, 1),
         }),
       ).annotate({ identifier: "DepositoryAccountStatement" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(3553, __c111, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          statements: __S(482, __c30, 2),
+          page: __S(3520, __c110, 0),
+          statements: __S(3554, __c111, 2),
         }),
       ).annotate({ identifier: "DepositoryAccountStatementsPaginatedResponse" });
   }
 }
-function __c31(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4776,32 +10056,10 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "AccountStatementTransaction" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(3584, __c112, 0));
   }
 }
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          attachmentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/attachments/{attachmentId}", code: 200 })),
-      ).annotate({ identifier: "GetAttachmentRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fileName: S.String,
-          id: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ApiV1ArAttachmentResponseData" });
-  }
-}
-function __c34(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4822,11 +10080,11 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "AutoTransferRuleDetailsContentsReservoirAccountsItem" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reservoirAccounts: S.optional(__S(546, __c34, 2)),
+          reservoirAccounts: S.optional(__S(3618, __c113, 2)),
           lowerBound: S.optional(S.NullOr(S.Unknown)),
           reservoirAccountId: S.optional(S.Unknown),
           targetBalance: S.optional(S.Unknown),
@@ -4836,7 +10094,7 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          contents: S.optional(__S(547, __c34, 3)),
+          contents: S.optional(__S(3619, __c113, 3)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoTransferRuleDetails" });
@@ -4845,7 +10103,7 @@ function __c34(j: number): any {
         S.Struct({
           controlledAccountId: S.Unknown,
           description: S.String,
-          details: __S(548, __c34, 4),
+          details: __S(3620, __c113, 4),
           frequency: S.String,
           id: S.Unknown,
           isPaused: S.Boolean,
@@ -4855,17 +10113,1174 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "AutoTransferRule" });
     case 6:
-      return S.Array(__S(549, __c34, 5));
+      return S.Array(__S(3621, __c113, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          rules: __S(550, __c34, 6),
+          page: __S(3520, __c110, 0),
+          rules: __S(3622, __c113, 6),
         }),
       ).annotate({ identifier: "AutoTransferRulesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          period: S.optional(S.String.pipe(T.Query())),
+          includeEmpty: S.optional(S.Boolean.pipe(T.Query())),
+          includeOnlyClosed: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/reports/balance-sheet", code: 200 })),
+      ).annotate({ identifier: "GetBooksBalanceSheetRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endDate: S.optional(S.NullOr(S.Unknown)),
+          isPartial: S.Boolean,
+          label: S.String,
+          startDate: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "BooksAPIReportColumn" });
+    case 1:
+      return S.Array(__S(3680, __c115, 0));
+    case 2:
+      return S.Array(S.Number);
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          calculatedCurrentYearEarnings: __S(3682, __c115, 2),
+          calculatedRetainedEarnings: __S(3682, __c115, 2),
+        }),
+      ).annotate({ identifier: "BooksAPIReportRetainedEarnings" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3714, __c116, 2)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amounts: __S(3682, __c115, 2),
+          children: __S(3713, __c116, 1),
+          debitCredit: S.Unknown,
+          ledgerId: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          parentId: S.optional(S.NullOr(S.String)),
+          rowKind: S.Unknown,
+          sortCode: S.optional(S.NullOr(S.String)),
+          subType: S.optional(S.NullOr(S.Unknown)),
+          totalAmounts: __S(3682, __c115, 2),
+          type: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "BooksAPIReportRow" });
+    case 3:
+      return S.Array(__S(3714, __c116, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          columns: __S(3681, __c115, 1),
+          retainedEarnings: S.optional(S.NullOr(__S(3712, __c116, 0))),
+          rows: __S(3715, __c116, 3),
+        }),
+      ).annotate({ identifier: "BooksAPIReport" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          billId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/bill/{billId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksBillRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bill: __S(864, __c27, 0),
+        }),
+      ).annotate({ identifier: "GetBooksAPIBillResponse" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          effectiveDateStart: S.optional(S.String.pipe(T.Query())),
+          effectiveDateEnd: S.optional(S.String.pipe(T.Query())),
+          dueDateStart: S.optional(S.String.pipe(T.Query())),
+          dueDateEnd: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          displayStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          vendorIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          referenceNumber: S.optional(S.String.pipe(T.Query())),
+          grossAmount: S.optional(S.Number.pipe(T.Query())),
+          minGrossAmount: S.optional(S.Number.pipe(T.Query())),
+          maxGrossAmount: S.optional(S.Number.pipe(T.Query())),
+          amountRemaining: S.optional(S.Number.pipe(T.Query())),
+          minAmountRemaining: S.optional(S.Number.pipe(T.Query())),
+          maxAmountRemaining: S.optional(S.Number.pipe(T.Query())),
+          keywords: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/bills", code: 200 })),
+      ).annotate({ identifier: "GetBooksBillsRequest" });
+    case 1:
+      return S.Array(__S(864, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          bills: __S(3777, __c118, 1),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPIBillsResponse" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          debitCredit: S.Unknown,
+          description: S.String,
+          ledgerId: S.String,
+          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPICreateJournalEntryLineEntry" });
+    case 1:
+      return S.Array(__S(3808, __c119, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          datetime: S.Unknown,
+          description: S.String,
+          lineEntries: __S(3809, __c119, 1),
+        }),
+      ).annotate({ identifier: "CreateBooksAPIJournalEntryRequest" });
+    case 3:
+      return S.Array(__S(3810, __c119, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          expand: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(3811, __c119, 3).pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "POST", uri: "/books/journal-entries", code: 200 })),
+      ).annotate({ identifier: "BulkCreateBooksJournalEntriesRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntries: __S(3840, __c120, 0),
+        }),
+      ).annotate({ identifier: "CreateBooksAPIJournalEntriesBulkResponse" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(3925, __c122, 21));
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contents: S.optional(S.String),
+          tag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BooksJournalEntryAccrualSourceExternalPartyId" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "BooksAccrualSourceFile" });
+    case 1:
+      return S.Array(__S(3904, __c122, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          accrualSourceId: S.String,
+          amount: S.Unknown,
+          description: S.String,
+          externalId: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          lineNumber: S.Number,
+        }),
+      ).annotate({ identifier: "BooksAccrualSourceLine" });
+    case 3:
+      return S.Array(__S(3906, __c122, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          accrualAdjustmentId: S.String,
+          amount: S.Unknown,
+          creditAccountId: S.String,
+          debitAccountId: S.String,
+        }),
+      ).annotate({ identifier: "BooksPaymentApplicationAccrualAdjustment" });
+    case 5:
+      return S.Array(__S(3908, __c122, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntryDescription: S.String,
+          journalEntryId: S.String,
+          lineEntryAmount: S.Unknown,
+          lineEntryDescription: S.String,
+          lineEntryId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAccrualSourcePaymentApplicationLineEntry" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          adjustments: __S(3909, __c122, 5),
+          lineEntry: __S(3910, __c122, 6),
+          matchedAmount: S.Unknown,
+          paymentApplicationId: S.String,
+          sourceType: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "BooksAccrualSourcePaymentApplication" });
+    case 8:
+      return S.Array(__S(3911, __c122, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          needsActionReason: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAccrualSourceUnappliedPayment" });
+    case 10:
+      return S.Array(__S(3913, __c122, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          amountOutstanding: S.Unknown,
+          amountPaid: S.Unknown,
+          billPayInvoiceAttachment: S.optional(S.NullOr(__S(3968, __c124, 0))),
+          displayStatus: S.Unknown,
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.Unknown,
+          externalId: S.optional(S.NullOr(S.String)),
+          externalPartyId: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          files: S.optional(S.NullOr(__S(3905, __c122, 1))),
+          grossAmount: S.Unknown,
+          id: S.optional(S.NullOr(S.String)),
+          journalEntryIds: __S(4000, __c125, 0),
+          lines: S.optional(S.NullOr(__S(3907, __c122, 3))),
+          needsActionReason: S.optional(S.NullOr(S.Unknown)),
+          notes: S.optional(S.NullOr(S.String)),
+          paymentApplications: S.optional(S.NullOr(__S(3912, __c122, 8))),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+          status: S.Unknown,
+          type: S.String,
+          unappliedPayments: S.optional(S.NullOr(__S(3914, __c122, 10))),
+        }),
+      ).annotate({ identifier: "BooksJournalEntryAccrualSource" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          confidence: S.Number,
+          createdAt: S.Unknown,
+          id: S.String,
+          ledgerId: S.String,
+          method: S.Unknown,
+          ruleId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BooksJournalEntryAutocatResult" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          amountOutstanding: S.Unknown,
+          amountPaid: S.Unknown,
+          displayStatus: S.Unknown,
+          dueDate: S.optional(S.NullOr(S.Unknown)),
+          effectiveDate: S.Unknown,
+          externalId: S.optional(S.NullOr(S.String)),
+          externalPartyId: S.optional(S.NullOr(__S(3872, __c121, 0))),
+          grossAmount: S.Unknown,
+          id: S.String,
+          lines: S.optional(S.NullOr(__S(3907, __c122, 3))),
+          notes: S.optional(S.NullOr(S.String)),
+          referenceNumber: S.optional(S.NullOr(S.String)),
+          status: S.Unknown,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "BooksLineEntryAccrualSource" });
+    case 14:
+      return S.Array(S.Unknown);
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.Unknown,
+          display: S.String,
+          icon: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksLineEntryTransactionMerchantType" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          attachments: S.optional(S.NullOr(__S(3969, __c124, 1))),
+          cardLastFourDigits: S.optional(S.NullOr(S.String)),
+          categorizationMethod: S.optional(S.NullOr(S.Unknown)),
+          counterpartyName: S.optional(S.NullOr(S.String)),
+          customCategoryId: S.optional(S.NullOr(S.String)),
+          customCategoryName: S.optional(S.NullOr(S.String)),
+          datetime: S.Unknown,
+          description: S.String,
+          externalMetadataId: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          journalEntryId: S.optional(S.NullOr(S.String)),
+          ledgerId: S.optional(S.NullOr(S.String)),
+          lineEntryId: S.optional(S.NullOr(S.String)),
+          merchantType: S.optional(S.NullOr(__S(3919, __c122, 15))),
+          note: S.optional(S.NullOr(S.String)),
+          opposingLineEntryIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          personal: S.Boolean,
+          postedStatus: S.Unknown,
+          reviewStatus: S.Unknown,
+          sourceAccountId: S.String,
+          teamMemberId: S.optional(S.NullOr(S.String)),
+          teamMemberName: S.optional(S.NullOr(S.String)),
+          transactionMethodKind: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "BooksLineEntryTransaction" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          accrualSource: S.optional(S.NullOr(__S(3917, __c122, 13))),
+          amount: S.Unknown,
+          categorizationStatus: S.Unknown,
+          datetime: S.Unknown,
+          debitCredit: S.Unknown,
+          description: S.optional(S.NullOr(S.String)),
+          editable: S.Boolean,
+          id: S.String,
+          journalEntryDescription: S.String,
+          journalEntryId: S.String,
+          ledgerId: S.String,
+          ledgerName: S.String,
+          opposingLedgerIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          paymentApplications: S.optional(S.NullOr(__S(3918, __c122, 14))),
+          relatedLineEntryId: S.optional(S.NullOr(S.String)),
+          sortOrder: S.optional(S.NullOr(S.Number)),
+          tags: S.optional(S.NullOr(__S(3937, __c123, 1))),
+          transaction: S.optional(S.NullOr(__S(3920, __c122, 16))),
+          transactionId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BooksLineEntry" });
+    case 18:
+      return S.Array(__S(3921, __c122, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          datetime: S.Unknown,
+          description: S.String,
+          journalEntryId: S.String,
+          lineEntries: __S(3922, __c122, 18),
+        }),
+      ).annotate({ identifier: "BooksJournalEntryTransferFromEntry" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          fromEntry: __S(3923, __c122, 19),
+          toEntry: __S(3923, __c122, 19),
+        }),
+      ).annotate({ identifier: "BooksJournalEntryTransfer" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          accrualSource: S.optional(S.NullOr(__S(3915, __c122, 11))),
+          autocatResult: S.optional(S.NullOr(__S(3916, __c122, 12))),
+          categorizationStatus: S.Unknown,
+          creationDate: S.Unknown,
+          creationSource: S.Unknown,
+          datetime: S.Unknown,
+          description: S.String,
+          id: S.String,
+          isOpeningBalance: S.Boolean,
+          lineEntries: S.optional(S.NullOr(__S(3922, __c122, 18))),
+          lineEntryIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          reviewStatus: S.Unknown,
+          reviewStatusSetAt: S.optional(S.NullOr(S.Unknown)),
+          transfer: S.optional(S.NullOr(__S(3924, __c122, 20))),
+        }),
+      ).annotate({ identifier: "BooksJournalEntry" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          tagGroupId: S.String,
+        }),
+      ).annotate({ identifier: "BooksTag" });
+    case 1:
+      return S.Array(__S(3936, __c123, 0));
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          downloadUrl: S.String,
+          fileName: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "BooksJournalEntryAccrualSourceBillPayInvoiceAttachment" });
+    case 1:
+      return S.Array(__S(3968, __c124, 0));
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          period: S.optional(S.String.pipe(T.Query())),
+          includeOnlyClosed: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/reports/cash-flow", code: 200 })),
+      ).annotate({ identifier: "GetBooksCashFlowRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4034, __c126, 2)));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          balances: __S(3682, __c115, 2),
+          children: __S(4033, __c126, 1),
+          ledgerId: S.String,
+          name: S.String,
+          parentId: S.optional(S.NullOr(S.String)),
+          sortCode: S.String,
+          totalBalances: __S(3682, __c115, 2),
+        }),
+      ).annotate({ identifier: "BooksAPICashBalanceRow" });
+    case 3:
+      return S.Array(__S(4034, __c126, 2));
+    case 4:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4037, __c126, 5)));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          children: __S(4036, __c126, 4),
+          ledgerId: S.String,
+          name: S.String,
+          netCashFlows: __S(3682, __c115, 2),
+          parentId: S.optional(S.NullOr(S.String)),
+          totalNetCashFlows: __S(3682, __c115, 2),
+        }),
+      ).annotate({ identifier: "BooksAPICashFlowLedgerRow" });
+    case 6:
+      return S.Array(__S(4037, __c126, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          columns: __S(3681, __c115, 1),
+          endingBalances: __S(4035, __c126, 3),
+          endingCashBalances: __S(3682, __c115, 2),
+          ledgers: __S(4038, __c126, 6),
+          startingBalances: __S(4035, __c126, 3),
+          startingCashBalances: __S(3682, __c115, 2),
+        }),
+      ).annotate({ identifier: "BooksAPICashFlowReport" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/rules", code: 200 })),
+      ).annotate({ identifier: "GetBooksCategorizationRulesRequest" });
+    case 1:
+      return S.Array(__S(1252, __c39, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          rules: __S(4065, __c127, 1),
+        }),
+      ).annotate({ identifier: "GetBooksAPICategorizationRulesResponse" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/closes", code: 200 })),
+      ).annotate({ identifier: "GetBooksClosesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          closeDate: S.Unknown,
+          closeId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIClose" });
+    case 2:
+      return S.Array(__S(4097, __c128, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          closes: __S(4098, __c128, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPIClosesResponse" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/instances", code: 200 })),
+      ).annotate({ identifier: "GetBooksInstancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.Unknown,
+          callsign: S.String,
+          companyName: S.String,
+          organizationId: S.Unknown,
+          relationship: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPIInstance" });
+    case 2:
+      return S.Array(__S(4129, __c129, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          instances: __S(4130, __c129, 2),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPIInstancesResponse" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/integrations", code: 200 })),
+      ).annotate({ identifier: "GetBooksIntegrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          connectionStatus: S.Unknown,
+          integrationId: S.String,
+          lastSyncedAt: S.optional(S.NullOr(S.Unknown)),
+          name: S.String,
+          provider: S.Unknown,
+          requiredAction: S.Unknown,
+          sourceAccountId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "BooksAPIIntegration" });
+    case 2:
+      return S.Array(__S(4161, __c130, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          failedChecks: __S(5216, __c163, 0),
+          integrations: __S(4162, __c130, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPIIntegrationsResponse" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/invoice/{invoiceId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksInvoiceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          invoice: __S(1824, __c57, 0),
+        }),
+      ).annotate({ identifier: "GetBooksAPIInvoiceResponse" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          effectiveDateStart: S.optional(S.String.pipe(T.Query())),
+          effectiveDateEnd: S.optional(S.String.pipe(T.Query())),
+          dueDateStart: S.optional(S.String.pipe(T.Query())),
+          dueDateEnd: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          displayStatus: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          customerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          referenceNumber: S.optional(S.String.pipe(T.Query())),
+          grossAmount: S.optional(S.Number.pipe(T.Query())),
+          minGrossAmount: S.optional(S.Number.pipe(T.Query())),
+          maxGrossAmount: S.optional(S.Number.pipe(T.Query())),
+          amountRemaining: S.optional(S.Number.pipe(T.Query())),
+          minAmountRemaining: S.optional(S.Number.pipe(T.Query())),
+          maxAmountRemaining: S.optional(S.Number.pipe(T.Query())),
+          keywords: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/invoices", code: 200 })),
+      ).annotate({ identifier: "GetBooksInvoicesRequest" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          invoices: __S(4225, __c132, 1),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPIInvoicesResponse" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntryId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          expand: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/journal-entry/{journalEntryId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksJournalEntryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          journalEntry: __S(3925, __c122, 21),
+        }),
+      ).annotate({ identifier: "GetBooksAPIJournalEntryResponse" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ledgerId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/ledger/{ledgerId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksLedgerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ledger: __S(1952, __c61, 0),
+        }),
+      ).annotate({ identifier: "GetBooksAPILedgerResponse" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ledgerIds: __S(4000, __c125, 0).pipe(T.Query()),
+          startDate: S.String.pipe(T.Query()),
+          endDate: S.String.pipe(T.Query()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/ledger-balances", code: 200 })),
+      ).annotate({ identifier: "GetBooksLedgerBalancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          closingBalance: S.Unknown,
+          debitCredit: S.Unknown,
+          ledgerId: S.String,
+          name: S.String,
+          netActivity: S.Unknown,
+          openingBalance: S.Unknown,
+          specialType: S.optional(S.NullOr(S.Unknown)),
+          subType: S.Unknown,
+          type: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPILedgerBalance" });
+    case 2:
+      return S.Array(__S(4321, __c135, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ledgerBalances: __S(4322, __c135, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPILedgerBalancesResponse" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          journalEntryIds: __S(4000, __c125, 0),
+        }).pipe(T.Http({ method: "DELETE", uri: "/books/journal-entries", code: 200 })),
+      ).annotate({ identifier: "BulkDeleteBooksJournalEntriesRequest" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          subType: S.optional(S.String.pipe(T.Query())),
+          debitCredit: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/ledgers", code: 200 })),
+      ).annotate({ identifier: "GetBooksLedgersRequest" });
+    case 1:
+      return S.Array(__S(1952, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ledgers: __S(4385, __c137, 1),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPILedgersResponse" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.String.pipe(T.Query()),
+          endDate: S.String.pipe(T.Query()),
+          ledgerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          opposingLedgerIds: S.optional(__S(4000, __c125, 0).pipe(T.Query())),
+          debitCredit: S.optional(S.String.pipe(T.Query())),
+          minAmount: S.optional(S.Number.pipe(T.Query())),
+          maxAmount: S.optional(S.Number.pipe(T.Query())),
+          sort: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/line-entries", code: 200 })),
+      ).annotate({ identifier: "GetBooksLineEntriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          datetime: S.Unknown,
+          debitCredit: S.Unknown,
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          journalEntryDescription: S.String,
+          journalEntryId: S.String,
+          ledgerId: S.String,
+          ledgerName: S.String,
+          opposingLedgerIds: __S(4000, __c125, 0),
+          tags: __S(3937, __c123, 1),
+        }),
+      ).annotate({ identifier: "BooksAPILineEntry" });
+    case 2:
+      return S.Array(__S(4417, __c138, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          lineEntries: __S(4418, __c138, 2),
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPILineEntriesResponse" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          payrollRunId: S.String.pipe(T.Label()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/payroll-run/{payrollRunId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksPayrollRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          amountOutstanding: S.Unknown,
+          amountPaid: S.Unknown,
+          description: S.String,
+          matchable: S.Boolean,
+          matchingStatus: S.Unknown,
+          sourceLineId: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPIPayrollRunLine" });
+    case 2:
+      return S.Array(__S(4449, __c139, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          amountOutstanding: S.Unknown,
+          amountPaid: S.Unknown,
+          employerCost: S.Unknown,
+          id: S.String,
+          initialAccrualJournalEntryId: S.optional(S.NullOr(S.String)),
+          lines: __S(4450, __c139, 2),
+          matchingStatus: S.Unknown,
+          payPeriodEnd: S.Unknown,
+          payPeriodStart: S.Unknown,
+          postingDate: S.Unknown,
+          relatedJournalEntryIds: __S(4000, __c125, 0),
+          runType: S.Unknown,
+          totalPayroll: S.Unknown,
+        }),
+      ).annotate({ identifier: "GetBooksAPIPayrollRunResponsePayrollRun" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          payrollRun: __S(4451, __c139, 3),
+        }),
+      ).annotate({ identifier: "GetBooksAPIPayrollRunResponse" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          matchingStatuses: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          runTypes: S.optional(__S(5216, __c163, 0).pipe(T.Query())),
+          payPeriodStartFrom: S.optional(S.String.pipe(T.Query())),
+          payPeriodStartTo: S.optional(S.String.pipe(T.Query())),
+          payPeriodEndFrom: S.optional(S.String.pipe(T.Query())),
+          payPeriodEndTo: S.optional(S.String.pipe(T.Query())),
+          postingDateFrom: S.optional(S.String.pipe(T.Query())),
+          postingDateTo: S.optional(S.String.pipe(T.Query())),
+          minTotalPayroll: S.optional(S.Number.pipe(T.Query())),
+          maxTotalPayroll: S.optional(S.Number.pipe(T.Query())),
+          minEmployerCost: S.optional(S.Number.pipe(T.Query())),
+          maxEmployerCost: S.optional(S.Number.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/payroll-runs", code: 200 })),
+      ).annotate({ identifier: "GetBooksPayrollRunsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          employerCost: S.Unknown,
+          id: S.String,
+          matchingStatus: S.Unknown,
+          payPeriodEnd: S.Unknown,
+          payPeriodStart: S.Unknown,
+          postingDate: S.Unknown,
+          runType: S.Unknown,
+          totalPayroll: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPIPayrollRun" });
+    case 2:
+      return S.Array(__S(4481, __c140, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          payrollRuns: __S(4482, __c140, 2),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetBooksAPIPayrollRunsResponse" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
+          period: S.optional(S.String.pipe(T.Query())),
+          includeEmpty: S.optional(S.Boolean.pipe(T.Query())),
+          includeOnlyClosed: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/reports/profit-and-loss", code: 200 })),
+      ).annotate({ identifier: "GetBooksProfitAndLossRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/source-accounts", code: 200 })),
+      ).annotate({ identifier: "GetBooksSourceAccountsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          businessPersonal: S.Unknown,
+          debitCredit: S.Unknown,
+          id: S.String,
+          ledgerId: S.String,
+          name: S.String,
+          origin: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPISourceAccount" });
+    case 2:
+      return S.Array(__S(4545, __c142, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sourceAccounts: __S(4546, __c142, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPISourceAccountsResponse" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/tag-groups", code: 200 })),
+      ).annotate({ identifier: "GetBooksTagGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Unknown,
+          id: S.String,
+          name: S.String,
+          ownership: S.Unknown,
+        }),
+      ).annotate({ identifier: "BooksAPITagGroup" });
+    case 2:
+      return S.Array(__S(4577, __c143, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+          tagGroups: __S(4578, __c143, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPITagGroupsResponse" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          tagGroupId: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          includeDisabled: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/tags", code: 200 })),
+      ).annotate({ identifier: "GetBooksTagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          id: S.String,
+          name: S.String,
+          tagGroupId: S.String,
+          tagGroupName: S.String,
+        }),
+      ).annotate({ identifier: "BooksAPITag" });
+    case 2:
+      return S.Array(__S(4609, __c144, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+          tags: __S(4610, __c144, 2),
+        }),
+      ).annotate({ identifier: "GetBooksAPITagsResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionId: S.String.pipe(T.Label()),
+          sourceAccountId: S.String.pipe(T.Query()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          enrich: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/transaction/{transactionId}", code: 200 })),
+      ).annotate({ identifier: "GetBooksTransactionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          transaction: __S(4672, __c146, 0),
+        }),
+      ).annotate({ identifier: "GetBooksAPITransactionResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          attachments: S.optional(S.NullOr(__S(3969, __c124, 1))),
+          cardLastFourDigits: S.optional(S.NullOr(S.String)),
+          categorizationLines: __S(417, __c13, 1),
+          categorizationMethod: S.optional(S.NullOr(S.Unknown)),
+          counterpartyName: S.optional(S.NullOr(S.String)),
+          customCategoryId: S.optional(S.NullOr(S.String)),
+          customCategoryName: S.optional(S.NullOr(S.String)),
+          datetime: S.Unknown,
+          description: S.String,
+          id: S.String,
+          journalEntryId: S.optional(S.NullOr(S.String)),
+          ledgerId: S.optional(S.NullOr(S.String)),
+          lineEntryId: S.optional(S.NullOr(S.String)),
+          merchantType: S.optional(S.NullOr(S.String)),
+          note: S.optional(S.NullOr(S.String)),
+          personal: S.Boolean,
+          postedStatus: S.Unknown,
+          reviewStatus: S.Unknown,
+          sourceAccountId: S.String,
+          teamMemberId: S.optional(S.NullOr(S.String)),
+          teamMemberName: S.optional(S.NullOr(S.String)),
+          transactionMethodKind: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "GetBooksAPITransactionResponseTransaction" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sourceAccountId: S.String.pipe(T.Query()),
+          booksId: S.optional(S.String.pipe(T.Query())),
+          startDate: S.String.pipe(T.Query()),
+          endDate: S.String.pipe(T.Query()),
+          reviewStatus: S.String.pipe(T.Query()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          enrich: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/books/transactions", code: 200 })),
+      ).annotate({ identifier: "GetBooksTransactionsRequest" });
+    case 1:
+      return S.Array(__S(4672, __c146, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.NullOr(S.String)),
+          prevPageToken: S.optional(S.NullOr(S.String)),
+          transactions: __S(4705, __c147, 1),
+        }),
+      ).annotate({ identifier: "GetBooksAPITransactionsResponse" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Unknown,
+          debitCredit: S.Unknown,
+          description: S.String,
+          ledgerId: S.String,
+          sortOrder: S.optional(S.NullOr(S.Number)),
+          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPIUpdateJournalEntryLECreate" });
+    case 1:
+      return S.Array(__S(4736, __c148, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(S.NullOr(S.Unknown)),
+          debitCredit: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          ledgerId: S.optional(S.NullOr(S.String)),
+          sortOrder: S.optional(S.NullOr(S.Number)),
+          tagIds: S.optional(S.NullOr(__S(4000, __c125, 0))),
+        }),
+      ).annotate({ identifier: "BooksAPIUpdateJournalEntryLEUpdate" });
+    case 3:
+      return S.Array(__S(4738, __c148, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          create: S.optional(S.NullOr(__S(4737, __c148, 1))),
+          delete: S.optional(S.NullOr(__S(4000, __c125, 0))),
+          update: S.optional(S.NullOr(__S(4739, __c148, 3))),
+        }),
+      ).annotate({ identifier: "UpdateBooksAPIJournalEntryRequestLineEntryChanges" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          datetime: S.optional(S.NullOr(S.Unknown)),
+          description: S.optional(S.NullOr(S.String)),
+          journalEntryId: S.String,
+          lineEntryChanges: S.optional(S.NullOr(__S(4740, __c148, 4))),
+          reviewStatus: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "UpdateBooksAPIJournalEntryRequest" });
+    case 6:
+      return S.Array(__S(4741, __c148, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          booksId: S.optional(S.String.pipe(T.Query())),
+          updates: __S(4742, __c148, 6),
+        }).pipe(T.Http({ method: "PUT", uri: "/books/journal-entries", code: 200 })),
+      ).annotate({ identifier: "BulkUpdateBooksJournalEntriesRequest" });
+  }
+}
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4875,7 +11290,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetBudgetRequest" });
   }
 }
-function __c36(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4892,25 +11307,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ApiV1SpendBudgetResponse" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          budgetId: S.String.pipe(T.Label()),
-          allowOverspend: S.optional(S.NullOr(S.Boolean)),
-          transactionId: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/spend/budgets/{budgetId}/assign-transaction",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignTransactionToBudgetRequest" });
-  }
-}
-function __c38(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4935,17 +11332,17 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1BudgetExpenditure" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(4833, __c151, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          expenditures: __S(610, __c38, 2),
-          page: __S(464, __c29, 0),
+          expenditures: __S(4834, __c151, 2),
+          page: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "ApiV1BudgetExpendituresResponse" });
   }
 }
-function __c39(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4970,17 +11367,17 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "ApiV1BudgetMember" });
     case 2:
-      return S.Array(__S(625, __c39, 1));
+      return S.Array(__S(4865, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(626, __c39, 2),
-          page: __S(464, __c29, 0),
+          members: __S(4866, __c152, 2),
+          page: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "ApiV1BudgetMembersResponse" });
   }
 }
-function __c40(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4990,7 +11387,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetCardRequest" });
   }
 }
-function __c41(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5014,30 +11411,30 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          companyLegalAddress: __S(144, __c9, 0),
+          companyLegalAddress: __S(2720, __c85, 0),
           companyLegalName: S.String,
-          details: __S(657, __c41, 1),
+          details: __S(4929, __c154, 1),
           downloadUrl: S.String,
           ein: S.optional(S.NullOr(S.String)),
           endDate: S.String,
           endingBalance: S.Number,
           id: S.String,
           startDate: S.String,
-          transactions: __S(497, __c31, 1),
+          transactions: __S(3585, __c112, 1),
         }),
       ).annotate({ identifier: "AccountStatement" });
     case 3:
-      return S.Array(__S(658, __c41, 2));
+      return S.Array(__S(4930, __c154, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          statements: __S(659, __c41, 3),
+          page: __S(3520, __c110, 0),
+          statements: __S(4931, __c154, 3),
         }),
       ).annotate({ identifier: "CreditAccountStatementsPaginatedResponse" });
   }
 }
-function __c42(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5047,7 +11444,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetCustomerRequest" });
   }
 }
-function __c43(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5057,12 +11454,12 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetEventRequest" });
   }
 }
-function __c44(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          changedPaths: __S(80, __c5, 0),
+          changedPaths: __S(4000, __c125, 0),
           id: S.Unknown,
           mergePatch: S.Unknown,
           occurredAt: S.Unknown,
@@ -5075,7 +11472,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ApiEventResponse" });
   }
 }
-function __c45(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5089,17 +11486,17 @@ function __c45(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
       ).annotate({ identifier: "GetEventsRequest" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(5024, __c157, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(721, __c45, 1),
-          page: __S(464, __c29, 0),
+          events: __S(5057, __c158, 1),
+          page: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "ApiEventsPaginatedResponse" });
   }
 }
-function __c46(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5109,7 +11506,119 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attachmentId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ar/attachments/{attachmentId}", code: 200 })),
+      ).annotate({ identifier: "GetInvoiceAttachmentRequest" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          id: S.Unknown,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ArAttachmentResponseData" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cardId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelCardRequest" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          atmAmountCents: S.optional(S.NullOr(S.Number)),
+          interval: S.Unknown,
+        }),
+      ).annotate({ identifier: "CardSpendLimit" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CardMerchantLock" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          month: S.Number,
+          year: S.Number,
+        }),
+      ).annotate({ identifier: "CardExpiration" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amountCents: S.Number,
+          id: S.String,
+          name: S.String,
+          remainingAmountCents: S.Number,
+        }),
+      ).annotate({ identifier: "CardBudget" });
+    case 1:
+      return S.Array(__S(5344, __c167, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          budgets: __S(5345, __c167, 1),
+          categoryLocks: __S(5216, __c163, 0),
+          createdAt: S.Unknown,
+          expiration: __S(5312, __c166, 0),
+          id: S.String,
+          isAgentCard: S.Boolean,
+          isSingleUse: S.Boolean,
+          kind: S.Unknown,
+          lastFour: S.String,
+          merchantLock: S.optional(S.NullOr(__S(5280, __c165, 0))),
+          nameOnCard: S.String,
+          nickname: S.optional(S.NullOr(S.String)),
+          physicalCardStatus: S.optional(S.NullOr(S.Unknown)),
+          spendLimit: S.optional(S.NullOr(__S(5248, __c164, 0))),
+          spendLimitType: S.Unknown,
+          status: S.Unknown,
+          type: S.Unknown,
+          updatedAt: S.Unknown,
+          userId: S.String,
+        }),
+      ).annotate({ identifier: "Card" });
+  }
+}
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5119,7 +11628,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetInvoicePdfRequest" });
   }
 }
-function __c48(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5133,12 +11642,12 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationDBA" });
     case 2:
-      return S.Array(__S(769, __c48, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           billingCadence: S.Unknown,
-          dbas: __S(770, __c48, 2),
+          dbas: __S(5410, __c169, 2),
           ein: S.optional(S.NullOr(S.String)),
           id: S.Unknown,
           kind: S.Unknown,
@@ -5149,102 +11658,12 @@ function __c48(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          organization: __S(771, __c48, 3),
+          organization: __S(5411, __c169, 3),
         }),
       ).annotate({ identifier: "OrganizationResponse" });
   }
 }
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelCardRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          atmAmountCents: S.optional(S.NullOr(S.Number)),
-          interval: S.Unknown,
-        }),
-      ).annotate({ identifier: "CardSpendLimit" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CardMerchantLock" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          month: S.Number,
-          year: S.Number,
-        }),
-      ).annotate({ identifier: "CardExpiration" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          id: S.String,
-          name: S.String,
-          remainingAmountCents: S.Number,
-        }),
-      ).annotate({ identifier: "CardBudget" });
-    case 1:
-      return S.Array(__S(864, __c54, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          budgets: __S(865, __c54, 1),
-          categoryLocks: __S(800, __c50, 0),
-          createdAt: S.Unknown,
-          expiration: __S(848, __c53, 0),
-          id: S.String,
-          isAgentCard: S.Boolean,
-          isSingleUse: S.Boolean,
-          kind: S.Unknown,
-          lastFour: S.String,
-          merchantLock: S.optional(S.NullOr(__S(832, __c52, 0))),
-          nameOnCard: S.String,
-          nickname: S.optional(S.NullOr(S.String)),
-          physicalCardStatus: S.optional(S.NullOr(S.Unknown)),
-          spendLimit: S.optional(S.NullOr(__S(816, __c51, 0))),
-          spendLimitType: S.Unknown,
-          status: S.Unknown,
-          type: S.Unknown,
-          updatedAt: S.Unknown,
-          userId: S.String,
-        }),
-      ).annotate({ identifier: "Card" });
-  }
-}
-function __c55(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5254,12 +11673,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetReceiptRequest" });
   }
 }
-function __c56(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
+          failureReason: S.optional(S.NullOr(S.Unknown)),
           fileName: S.String,
           id: S.String,
           matchedTransactionId: S.optional(S.NullOr(S.Unknown)),
@@ -5269,7 +11689,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ApiV1ReceiptResponse" });
   }
 }
-function __c57(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5279,7 +11699,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetRecipientRequest" });
   }
 }
-function __c58(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5289,7 +11709,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetRecipientInviteRequest" });
   }
 }
-function __c59(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5301,18 +11721,62 @@ function __c59(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/recipients", code: 200 })),
       ).annotate({ identifier: "GetRecipientsRequest" });
     case 1:
-      return S.Array(__S(163, __c10, 3));
+      return S.Array(__S(2755, __c86, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          recipients: __S(945, __c59, 1),
+          page: __S(3520, __c110, 0),
+          recipients: __S(5569, __c174, 1),
           total: S.Unknown,
         }),
       ).annotate({ identifier: "RecipientsPaginatedResponse" });
   }
 }
-function __c60(j: number): any {
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reimbursementId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/spend/reimbursements/{reimbursementId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetReimbursementRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.Number,
+          attachments: __S(5633, __c176, 1),
+          categoryId: S.optional(S.NullOr(S.String)),
+          currency: S.String,
+          datePaidFor: S.String,
+          id: S.Unknown,
+          merchantName: S.optional(S.NullOr(S.String)),
+          notes: S.optional(S.NullOr(S.String)),
+          paymentStatus: S.String,
+          reviewStatus: S.String,
+          submittedAt: S.String,
+          submitterUserId: S.String,
+          transactionId: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "ApiV1ReimbursementResponse" });
+  }
+}
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fileName: S.String,
+          id: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ApiV1ReimbursementAttachment" });
+    case 1:
+      return S.Array(__S(5632, __c176, 0));
+  }
+}
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5322,7 +11786,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetSafeRequestRequest" });
   }
 }
-function __c61(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5358,8 +11822,8 @@ function __c61(j: number): any {
           includesProRataRightsLetter: S.Boolean,
           investmentAmount: S.Number,
           investmentDate: S.String,
-          investor: __S(976, __c61, 0),
-          organization: __S(977, __c61, 1),
+          investor: __S(5696, __c178, 0),
+          organization: __S(5697, __c178, 1),
           paidAt: S.optional(S.NullOr(S.String)),
           signedByInvestorAt: S.optional(S.NullOr(S.String)),
           signedByOwnerAt: S.optional(S.NullOr(S.String)),
@@ -5369,7 +11833,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "APISafeRequest" });
   }
 }
-function __c62(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5379,21 +11843,31 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetSafeRequestDocumentRequest" });
   }
 }
-function __c63(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/safes", code: 200 })),
       ).annotate({ identifier: "GetSafeRequestsRequest" });
     case 1:
-      return S.Array(__S(978, __c61, 2));
+      return S.Array(__S(5698, __c178, 2));
     case 2:
-      return S.suspend(() => __S(1009, __c63, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5761, __c180, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSafeRequestsResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invoiceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelInvoiceRequest" });
+  }
+}
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5403,21 +11877,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetSendMoneyApprovalRequestRequest" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reviewedAt: S.String,
-          reviewerUserId: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "PaymentApprovalReview" });
-    case 1:
-      return S.Array(__S(1040, __c65, 0));
-  }
-}
-function __c66(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5432,14 +11892,28 @@ function __c66(j: number): any {
           requestId: S.String,
           requestedByUserId: S.Unknown,
           requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(1041, __c65, 1),
+          reviews: __S(5889, __c184, 1),
           scheduledSendDate: S.optional(S.NullOr(S.Unknown)),
           status: S.String,
         }),
       ).annotate({ identifier: "SendMoneyApprovalRequestResponse" });
   }
 }
-function __c67(j: number): any {
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reviewedAt: S.String,
+          reviewerUserId: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "PaymentApprovalReview" });
+    case 1:
+      return S.Array(__S(5888, __c184, 0));
+  }
+}
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5449,7 +11923,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetStatementPdfRequest" });
   }
 }
-function __c68(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5466,17 +11940,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetTransactionRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelInvoiceRequest" });
-  }
-}
-function __c70(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5486,7 +11950,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetTransactionByTransactionIdRequest" });
   }
 }
-function __c71(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5496,7 +11960,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetTransferMoneyApprovalRequestRequest" });
   }
 }
-function __c72(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5510,14 +11974,14 @@ function __c72(j: number): any {
           requestId: S.String,
           requestedByUserId: S.Unknown,
           requesterMayApprove: S.optional(S.NullOr(S.Boolean)),
-          reviews: __S(1041, __c65, 1),
+          reviews: __S(5889, __c184, 1),
           sourceAccountId: S.Unknown,
           status: S.String,
         }),
       ).annotate({ identifier: "TransferMoneyApprovalRequestResponse" });
   }
 }
-function __c73(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5538,11 +12002,11 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryDividend" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(6081, __c190, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dividends: __S(1170, __c73, 2),
+          dividends: __S(6082, __c190, 2),
           month: S.Unknown,
           netAmount: S.Number,
           status: S.Unknown,
@@ -5550,7 +12014,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryNetReturn" });
     case 4:
-      return S.Array(__S(1171, __c73, 3));
+      return S.Array(__S(6083, __c190, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5558,22 +12022,22 @@ function __c73(j: number): any {
           createdAt: S.String,
           currentBalance: S.Number,
           id: S.String,
-          netReturns: __S(1172, __c73, 4),
+          netReturns: __S(6084, __c190, 4),
           status: S.String,
         }),
       ).annotate({ identifier: "TreasuryAccount" });
     case 6:
-      return S.Array(__S(1173, __c73, 5));
+      return S.Array(__S(6085, __c190, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(1174, __c73, 6),
-          page: __S(464, __c29, 0),
+          accounts: __S(6086, __c190, 6),
+          page: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "TreasuryAccountsPaginatedResponse" });
   }
 }
-function __c74(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5602,17 +12066,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "TreasuryStatement" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(6113, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          statements: __S(1186, __c74, 2),
+          page: __S(3520, __c110, 0),
+          statements: __S(6114, __c191, 2),
         }),
       ).annotate({ identifier: "TreasuryStatementsPaginatedResponse" });
   }
 }
-function __c75(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5645,24 +12109,24 @@ function __c75(j: number): any {
           balance: S.Number,
           canonicalDay: S.String,
           description: S.String,
-          details: S.optional(S.NullOr(__S(1201, __c75, 1))),
+          details: S.optional(S.NullOr(__S(6145, __c192, 1))),
           id: S.String,
           security: S.optional(S.NullOr(S.String)),
           type: S.String,
         }),
       ).annotate({ identifier: "TreasuryTxn" });
     case 3:
-      return S.Array(__S(1202, __c75, 2));
+      return S.Array(__S(6146, __c192, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.NullOr(S.Unknown)),
-          transactions: __S(1203, __c75, 3),
+          transactions: __S(6147, __c192, 3),
         }),
       ).annotate({ identifier: "TreasuryTransactionsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5672,7 +12136,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c77(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5686,7 +12150,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UserDetails" });
   }
 }
-function __c78(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5698,855 +12162,14 @@ function __c78(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(1232, __c77, 0));
+      return S.Array(__S(6208, __c194, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          page: __S(464, __c29, 0),
-          users: __S(1249, __c78, 1),
+          page: __S(3520, __c110, 0),
+          users: __S(6241, __c195, 1),
         }),
       ).annotate({ identifier: "UsersPaginatedResponse" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookEndpointId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-      ).annotate({ identifier: "GetWebhooksRequest" });
-    case 1:
-      return S.Array(__S(272, __c17, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(464, __c29, 0),
-          webhooks: __S(1281, __c80, 1),
-        }),
-      ).annotate({ identifier: "ApiWebhooksPaginatedResponse" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          mercuryCategory: S.optional(S.String.pipe(T.Query())),
-          categoryId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/account/{accountId}/transactions", code: 200 })),
-      ).annotate({ identifier: "ListAccountTransactionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.Number,
-          transactions: __S(1312, __c82, 0),
-        }),
-      ).annotate({ identifier: "TransactionsResponse" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(60, __c3, 12));
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amountPerUserPerPeriod: S.optional(S.NullOr(S.Number)),
-          description: S.optional(S.NullOr(S.String)),
-          endDate: S.optional(S.NullOr(S.String)),
-          frequency: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          startDate: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets", code: 200 })),
-      ).annotate({ identifier: "CreateBudgetRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }),
-      ).annotate({ identifier: "ApiV1BudgetIdResponse" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_at: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/spend/budgets", code: 200 })),
-      ).annotate({ identifier: "ListBudgetsRequest" });
-    case 1:
-      return S.Array(__S(576, __c36, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          budgets: __S(1361, __c85, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "ApiV1SpendBudgetsResponse" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
-          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
-          type: S.optional(__S(800, __c50, 0).pipe(T.Query())),
-          kind: S.optional(__S(800, __c50, 0).pipe(T.Query())),
-          userId: S.optional(S.String.pipe(T.Query())),
-          isAgentCard: S.optional(S.Boolean.pipe(T.Query())),
-          isSingleUse: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
-      ).annotate({ identifier: "ListCardsRequest" });
-    case 1:
-      return S.Array(__S(866, __c54, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cards: __S(1377, __c86, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "CardListResponse" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/categories", code: 200 })),
-      ).annotate({ identifier: "ListCategoriesRequest" });
-    case 1:
-      return S.Array(__S(1712, __c107, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          categories: __S(1393, __c87, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "CategoriesPaginatedResponse" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credit", code: 200 })),
-      ).annotate({ identifier: "ListCreditRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          availableBalance: S.Number,
-          createdAt: S.String,
-          currentBalance: S.Number,
-          id: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "CreditAccount" });
-    case 2:
-      return S.Array(__S(1409, __c88, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(1410, __c88, 2),
-        }),
-      ).annotate({ identifier: "CreditAccountsResponse" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/customers", code: 200 })),
-      ).annotate({ identifier: "ListCustomersRequest" });
-    case 1:
-      return S.Array(__S(1905, __c119, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          customers: __S(1425, __c89, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerPaginatedResponseData" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices/{invoiceId}/attachments", code: 200 })),
-      ).annotate({ identifier: "ListInvoiceAttachmentsRequest" });
-    case 1:
-      return S.Array(__S(528, __c33, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attachments: __S(1441, __c90, 1),
-        }),
-      ).annotate({ identifier: "ApiV1ArAttachmentsResponseData" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/ar/invoices", code: 200 })),
-      ).annotate({ identifier: "ListInvoicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          achDebitEnabled: S.Boolean,
-          amount: S.Number,
-          canceledAt: S.optional(S.NullOr(S.Unknown)),
-          ccEmails: __S(80, __c5, 0),
-          createdAt: S.Unknown,
-          creditCardEnabled: S.Boolean,
-          currencyCode: S.Unknown,
-          customerId: S.Unknown,
-          destinationAccountId: S.Unknown,
-          dueDate: S.Unknown,
-          id: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.String,
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          slug: S.String,
-          status: S.Unknown,
-          updatedAt: S.Unknown,
-          useRealAccountNumber: S.Boolean,
-        }),
-      ).annotate({ identifier: "ApiV1ArInvoicesData" });
-    case 2:
-      return S.Array(__S(1457, __c91, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          invoices: __S(1458, __c91, 2),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "ApiV1ArInvoicesPaginatedResponse" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/merchants", code: 200 })),
-      ).annotate({ identifier: "ListMerchantsRequest" });
-    case 1:
-      return S.Array(__S(832, __c52, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1473, __c92, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "MerchantsResponse" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_at: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/spend/receipts", code: 200 })),
-      ).annotate({ identifier: "ListReceiptsRequest" });
-    case 1:
-      return S.Array(__S(896, __c56, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(464, __c29, 0),
-          receipts: __S(1489, __c93, 1),
-        }),
-      ).annotate({ identifier: "ApiV1ReceiptsPaginatedResponse" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients/invites", code: 200 })),
-      ).annotate({ identifier: "ListRecipientInvitesRequest" });
-    case 1:
-      return S.Array(__S(208, __c13, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          invites: __S(1505, __c94, 1),
-          page: __S(464, __c29, 0),
-        }),
-      ).annotate({ identifier: "RecipientInviteApiPaginatedResponse" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          singleUse: S.Boolean,
-        }),
-      ).annotate({ identifier: "CreateCardRequestCardConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          amountCents: S.Number,
-          interval: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateCardRequestSpendLimit" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.NullOr(S.Unknown)),
-          cardConfiguration: S.optional(S.NullOr(__S(1520, __c95, 0))),
-          kind: S.Unknown,
-          nickname: S.optional(S.NullOr(S.String)),
-          spendLimit: S.optional(S.NullOr(__S(1521, __c95, 1))),
-          type: S.Unknown,
-          userId: S.Unknown,
-        }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
-      ).annotate({ identifier: "CreateCardRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/recipients/attachments", code: 200 })),
-      ).annotate({ identifier: "ListRecipientsAttachmentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          fileName: S.String,
-          formType: S.optional(S.NullOr(S.Unknown)),
-          id: S.Unknown,
-          recipientId: S.Unknown,
-          uploadedAt: S.Unknown,
-          url: S.String,
-        }),
-      ).annotate({ identifier: "RecipientAttachmentWithId" });
-    case 2:
-      return S.Array(__S(1537, __c96, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          attachments: __S(1538, __c96, 2),
-          page: __S(464, __c29, 0),
-          total: S.Unknown,
-        }),
-      ).annotate({ identifier: "RecipientsAttachmentsPaginatedResponse" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/request-send-money", code: 200 })),
-      ).annotate({ identifier: "ListSendMoneyApprovalRequestsRequest" });
-    case 1:
-      return S.Array(__S(1056, __c66, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(464, __c29, 0),
-          requests: __S(1553, __c97, 1),
-        }),
-      ).annotate({ identifier: "SendMoneyApprovalRequestsPaginatedResponse" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(800, __c50, 0).pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-          postedStart: S.optional(S.String.pipe(T.Query())),
-          postedEnd: S.optional(S.String.pipe(T.Query())),
-          accountId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
-          cardId: S.optional(__S(80, __c5, 0).pipe(T.Query())),
-          mercuryCategory: S.optional(S.String.pipe(T.Query())),
-          categoryId: S.optional(S.String.pipe(T.Query())),
-          start_at: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/transactions", code: 200 })),
-      ).annotate({ identifier: "ListTransactionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(464, __c29, 0),
-          transactions: __S(1312, __c82, 0),
-        }),
-      ).annotate({ identifier: "TransactionsPaginatedResponse" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sourceAccountId: S.optional(S.String.pipe(T.Query())),
-          destinationAccountId: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          start_at: S.optional(S.String.pipe(T.Query())),
-          start_after: S.optional(S.String.pipe(T.Query())),
-          end_before: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/request-transfer", code: 200 })),
-      ).annotate({ identifier: "ListTransferMoneyApprovalRequestsRequest" });
-    case 1:
-      return S.Array(__S(1152, __c72, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: __S(464, __c29, 0),
-          requests: __S(1585, __c99, 1),
-        }),
-      ).annotate({ identifier: "TransferMoneyApprovalRequestsPaginatedResponse" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          receiptId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/spend/receipts/{receiptId}/match", code: 200 })),
-      ).annotate({ identifier: "MatchReceiptRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          code_verifier: S.String,
-          grant_type: S.String,
-          redirect_uri: S.String,
-          refresh_token: S.String.pipe(T.SensitiveValue({})),
-          scope: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/oauth2/token", code: 200 })),
-      ).annotate({ identifier: "ObtainAccessTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          access_token: S.String.pipe(T.SensitiveValue({})),
-          expires_in: S.optional(S.Number),
-          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          scope: S.optional(S.String),
-          token_type: S.String,
-        }),
-      ).annotate({ identifier: "OAuth2TokenResponse" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          amount: S.Number,
-          chargeType: S.optional(S.String),
-          externalMemo: S.optional(S.String),
-          idempotencyKey: S.String,
-          note: S.optional(S.String),
-          paymentMethod: S.String,
-          purpose: S.optional(__S(241, __c15, 1)),
-          recipientId: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/account/{accountId}/request-send-money", code: 200 }),
-        ),
-      ).annotate({ identifier: "RequestSendMoneyRequest" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.Number,
-          destinationAccountId: S.String,
-          idempotencyKey: S.String,
-          note: S.optional(S.NullOr(S.String)),
-          sourceAccountId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/request-transfer", code: 200 })),
-      ).annotate({ identifier: "RequestTransferMoneyRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/cards/{cardId}/reveal", code: 200 })),
-      ).annotate({ identifier: "RevealCardPanRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cardNumber: S.String,
-          cvc: S.String,
-          expiration: __S(848, __c53, 0),
-        }),
-      ).annotate({ identifier: "CardRevealResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String.pipe(T.Query()),
-          redirect_uri: S.String.pipe(T.Query()),
-          scope: S.String.pipe(T.Query()),
-          state: S.optional(S.String.pipe(T.Query())),
-          response_type: S.String.pipe(T.Query()),
-          code_challenge: S.optional(S.String.pipe(T.Query())),
-          code_challenge_method: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/oauth2/auth", code: 200 })),
-      ).annotate({ identifier: "StartOAuth2FlowRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.Unknown,
-          visibleForCardSpend: S.Boolean,
-          visibleForOther: S.Boolean,
-          visibleForReimbursements: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/categories", code: 200 })),
-      ).annotate({ identifier: "CreateCategoryRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Unknown,
-          name: S.String,
-          visibleForCardSpend: S.Boolean,
-          visibleForOther: S.Boolean,
-          visibleForReimbursements: S.Boolean,
-        }),
-      ).annotate({ identifier: "CategoryData" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}/unfreeze", code: 200 })),
-      ).annotate({ identifier: "UnfreezeCardRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          budgetId: S.String.pipe(T.Label()),
-          amountPerUserPerPeriod: S.optional(S.NullOr(S.Number)),
-          description: S.optional(S.NullOr(S.String)),
-          endDate: S.optional(S.NullOr(S.String)),
-          frequency: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          startDate: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/spend/budgets/{budgetId}", code: 200 })),
-      ).annotate({ identifier: "UpdateBudgetRequest" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cardId: S.String.pipe(T.Label()),
-          nickname: S.optional(S.Unknown),
-          spendLimit: S.optional(S.NullOr(__S(816, __c51, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/cards/{cardId}", code: 200 })),
-      ).annotate({ identifier: "UpdateCardRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-          address: S.optional(S.NullOr(__S(1920, __c120, 0))),
-          email: S.Unknown,
-          name: S.String,
-          resendOpenInvoices: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "UpdateCustomerRequest" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invoiceId: S.String.pipe(T.Label()),
-          achDebitEnabled: S.Boolean,
-          ccEmails: __S(80, __c5, 0),
-          creditCardEnabled: S.Boolean,
-          dueDate: S.Unknown,
-          internalNote: S.optional(S.NullOr(S.String)),
-          invoiceDate: S.Unknown,
-          invoiceNumber: S.String,
-          lineItems: __S(97, __c6, 1),
-          payerMemo: S.optional(S.NullOr(S.String)),
-          poNumber: S.optional(S.NullOr(S.String)),
-          servicePeriodEndDate: S.optional(S.NullOr(S.Unknown)),
-          servicePeriodStartDate: S.optional(S.NullOr(S.Unknown)),
-          useRealAccountNumber: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/invoices/{invoiceId}", code: 200 })),
-      ).annotate({ identifier: "UpdateInvoiceRequest" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-          address: S.optional(__S(32, __c2, 0)),
-          checkInfo: S.optional(__S(160, __c10, 0)),
-          contactEmail: S.optional(S.String),
-          domesticWireRoutingInfo: S.optional(__S(176, __c11, 0)),
-          electronicRoutingInfo: S.optional(__S(177, __c11, 1)),
-          emails: S.optional(__S(80, __c5, 0)),
-          name: S.optional(S.String),
-          nickname: S.optional(S.String),
-          realTimePaymentRoutingInfo: S.optional(__S(176, __c11, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/recipient/{recipientId}", code: 200 })),
-      ).annotate({ identifier: "UpdateRecipientRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionId: S.String.pipe(T.Label()),
-          categoryId: S.optional(S.Unknown),
-          note: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "PATCH", uri: "/transaction/{transactionId}", code: 200 })),
-      ).annotate({ identifier: "UpdateTransactionRequest" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookEndpointId: S.String.pipe(T.Label()),
-          eventTypes: S.optional(S.NullOr(__S(800, __c50, 0))),
-          filterPaths: S.optional(S.NullOr(__S(800, __c50, 0))),
-          status: S.optional(S.NullOr(S.Unknown)),
-          url: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}", code: 200 })),
-      ).annotate({ identifier: "UpdateWebhookRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipientId: S.String.pipe(T.Label()),
-          file: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/recipient/{recipientId}/attachments",
-            code: 200,
-            contentType: "multipart",
-          }),
-        ),
-      ).annotate({ identifier: "UploadRecipientAttachmentRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionId: S.String.pipe(T.Label()),
-          attachmentType: S.optional(S.String),
-          file: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/transaction/{transactionId}/attachments",
-            code: 200,
-            contentType: "multipart",
-          }),
-        ),
-      ).annotate({ identifier: "UploadTransactionAttachmentRequest" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1920, __c120, 0))),
-          email: S.Unknown,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/ar/customers", code: 200 })),
-      ).annotate({ identifier: "CreateCustomerRequest" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address1: S.String,
-          address2: S.optional(S.NullOr(S.String)),
-          city: S.String,
-          country: S.Unknown,
-          postalCode: S.String,
-          region: S.Unknown,
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerResponseDataAddress" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.optional(S.NullOr(__S(1904, __c119, 0))),
-          deletedAt: S.optional(S.NullOr(S.Unknown)),
-          email: S.Unknown,
-          id: S.Unknown,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ApiV1ArCustomerResponseData" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address1: S.String,
-          address2: S.optional(S.NullOr(S.String)),
-          city: S.String,
-          country: S.Unknown,
-          name: S.String,
-          postalCode: S.String,
-          region: S.Unknown,
-        }),
-      ).annotate({ identifier: "CreateCustomerRequestAddress" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookEndpointId: S.String.pipe(T.Label()),
-          eventType: S.optional(S.NullOr(S.Unknown)),
-        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookEndpointId}/verify", code: 200 })),
-      ).annotate({ identifier: "VerifyWebhookRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

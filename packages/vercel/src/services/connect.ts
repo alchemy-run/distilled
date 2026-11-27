@@ -365,7 +365,7 @@ export interface ConnectConnectorCreateDataCase0 {
   clientId: string;
   /** OAuth client name. */
   clientName?: string | undefined;
-  /** OAuth client secret. */
+  /** OAuth client secret. On update, an empty string removes the stored secret. An update that changes the authorization server also removes it unless the same update sends a new one. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token endpoint authentication method. Common values are client_secret_post, client_secret_basic, none, and private_key_jwt. If omitted, Vercel selects a supported method from serverConfig and otherwise uses client_secret_post. */
   tokenEndpointAuthMethod?: string | undefined;
@@ -817,38 +817,43 @@ export interface ConnectConnectorCreateResultAppTokens {
   /** Whether callers can request resource-specific app tokens. */
   supportsResources?: boolean | undefined;
 }
-/** Principal kind. */
-export type ConnectConnectorCreateResultCreatedByCase0Type = "user";
+export type ConnectConnectorCreateResultCreatedByCase0Type = "app";
 /** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
 export interface ConnectConnectorCreateResultCreatedByCase0 {
-  /** Vercel user ID. */
   id: string;
-  /** Principal kind. */
   type: ConnectConnectorCreateResultCreatedByCase0Type;
 }
-export type ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreateResultCreatedByCase1Environment =
-  | string
-  | ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1;
 /** Principal kind. */
-export type ConnectConnectorCreateResultCreatedByCase1Type = "project";
+export type ConnectConnectorCreateResultCreatedByCase1Type = "user";
 /** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
 export interface ConnectConnectorCreateResultCreatedByCase1 {
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreateResultCreatedByCase1Environment;
-  /** Vercel project ID. */
+  /** Vercel user ID. */
   id: string;
   /** Principal kind. */
   type: ConnectConnectorCreateResultCreatedByCase1Type;
 }
+export type ConnectConnectorCreateResultCreatedByCase2EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export type ConnectConnectorCreateResultCreatedByCase2Environment =
+  | string
+  | ConnectConnectorCreateResultCreatedByCase2EnvironmentCase1;
+/** Principal kind. */
+export type ConnectConnectorCreateResultCreatedByCase2Type = "project";
+/** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreateResultCreatedByCase2 {
+  environment: ConnectConnectorCreateResultCreatedByCase2Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultCreatedByCase2Type;
+}
 /** Principal that created the connector. */
 export type ConnectConnectorCreateResultCreatedBy =
   | ConnectConnectorCreateResultCreatedByCase0
-  | ConnectConnectorCreateResultCreatedByCase1;
+  | ConnectConnectorCreateResultCreatedByCase1
+  | ConnectConnectorCreateResultCreatedByCase2;
 /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
 export type ConnectConnectorCreateResultCreationMode = "managed" | "manual";
 /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
@@ -899,38 +904,43 @@ export type ConnectConnectorCreateResultType =
   | "snowflake"
   | "snowflake-wif"
   | "stripe-api-key";
-/** Principal kind. */
-export type ConnectConnectorCreateResultUpdatedByCase0Type = "user";
+export type ConnectConnectorCreateResultUpdatedByCase0Type = "app";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
 export interface ConnectConnectorCreateResultUpdatedByCase0 {
-  /** Vercel user ID. */
   id: string;
-  /** Principal kind. */
   type: ConnectConnectorCreateResultUpdatedByCase0Type;
 }
-export type ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreateResultUpdatedByCase1Environment =
-  | string
-  | ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1;
 /** Principal kind. */
-export type ConnectConnectorCreateResultUpdatedByCase1Type = "project";
+export type ConnectConnectorCreateResultUpdatedByCase1Type = "user";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
 export interface ConnectConnectorCreateResultUpdatedByCase1 {
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreateResultUpdatedByCase1Environment;
-  /** Vercel project ID. */
+  /** Vercel user ID. */
   id: string;
   /** Principal kind. */
   type: ConnectConnectorCreateResultUpdatedByCase1Type;
 }
+export type ConnectConnectorCreateResultUpdatedByCase2EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export type ConnectConnectorCreateResultUpdatedByCase2Environment =
+  | string
+  | ConnectConnectorCreateResultUpdatedByCase2EnvironmentCase1;
+/** Principal kind. */
+export type ConnectConnectorCreateResultUpdatedByCase2Type = "project";
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorCreateResultUpdatedByCase2 {
+  environment: ConnectConnectorCreateResultUpdatedByCase2Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultUpdatedByCase2Type;
+}
 /** Principal that most recently updated the connector. */
 export type ConnectConnectorCreateResultUpdatedBy =
   | ConnectConnectorCreateResultUpdatedByCase0
-  | ConnectConnectorCreateResultUpdatedByCase1;
+  | ConnectConnectorCreateResultUpdatedByCase1
+  | ConnectConnectorCreateResultUpdatedByCase2;
 /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
 export type ConnectConnectorCreateResultUserTokensScopesList = Array<string>;
 /** Supported OAuth authorization-detail type names. */
@@ -1093,6 +1103,10 @@ export type CreateConnectorAuthorizationRequestRequestAdditionalParamsMap = {
 };
 export interface CreateConnectorAuthorizationRequestRequest {
   connector: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
   subject?: CreateConnectorAuthorizationRequestRequestSubject | undefined;
   installationId?: string | undefined;
   audience?: CreateConnectorAuthorizationRequestRequestAudienceList | undefined;
@@ -1192,38 +1206,43 @@ export interface ConnectConnectorAppTokens {
   /** Whether callers can request resource-specific app tokens. */
   supportsResources?: boolean | undefined;
 }
-/** Principal kind. */
-export type ConnectConnectorCreatedByCase0Type = "user";
+export type ConnectConnectorCreatedByCase0Type = "app";
 /** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
 export interface ConnectConnectorCreatedByCase0 {
-  /** Vercel user ID. */
   id: string;
-  /** Principal kind. */
   type: ConnectConnectorCreatedByCase0Type;
 }
-export type ConnectConnectorCreatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreatedByCase1Environment =
-  | string
-  | ConnectConnectorCreatedByCase1EnvironmentCase1;
 /** Principal kind. */
-export type ConnectConnectorCreatedByCase1Type = "project";
+export type ConnectConnectorCreatedByCase1Type = "user";
 /** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
 export interface ConnectConnectorCreatedByCase1 {
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreatedByCase1Environment;
-  /** Vercel project ID. */
+  /** Vercel user ID. */
   id: string;
   /** Principal kind. */
   type: ConnectConnectorCreatedByCase1Type;
 }
+export type ConnectConnectorCreatedByCase2EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export type ConnectConnectorCreatedByCase2Environment =
+  | string
+  | ConnectConnectorCreatedByCase2EnvironmentCase1;
+/** Principal kind. */
+export type ConnectConnectorCreatedByCase2Type = "project";
+/** Principal that originally created the connector -- either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreatedByCase2 {
+  environment: ConnectConnectorCreatedByCase2Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreatedByCase2Type;
+}
 /** Principal that created the connector. */
 export type ConnectConnectorCreatedBy =
   | ConnectConnectorCreatedByCase0
-  | ConnectConnectorCreatedByCase1;
+  | ConnectConnectorCreatedByCase1
+  | ConnectConnectorCreatedByCase2;
 /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
 export type ConnectConnectorCreationMode = "managed" | "manual";
 /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
@@ -1255,38 +1274,43 @@ export type ConnectConnectorType =
   | "snowflake"
   | "snowflake-wif"
   | "stripe-api-key";
-/** Principal kind. */
-export type ConnectConnectorUpdatedByCase0Type = "user";
+export type ConnectConnectorUpdatedByCase0Type = "app";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
 export interface ConnectConnectorUpdatedByCase0 {
-  /** Vercel user ID. */
   id: string;
-  /** Principal kind. */
   type: ConnectConnectorUpdatedByCase0Type;
 }
-export type ConnectConnectorUpdatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-/** Deployment environment of the project principal. */
-export type ConnectConnectorUpdatedByCase1Environment =
-  | string
-  | ConnectConnectorUpdatedByCase1EnvironmentCase1;
 /** Principal kind. */
-export type ConnectConnectorUpdatedByCase1Type = "project";
+export type ConnectConnectorUpdatedByCase1Type = "user";
 /** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
 export interface ConnectConnectorUpdatedByCase1 {
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorUpdatedByCase1Environment;
-  /** Vercel project ID. */
+  /** Vercel user ID. */
   id: string;
   /** Principal kind. */
   type: ConnectConnectorUpdatedByCase1Type;
 }
+export type ConnectConnectorUpdatedByCase2EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export type ConnectConnectorUpdatedByCase2Environment =
+  | string
+  | ConnectConnectorUpdatedByCase2EnvironmentCase1;
+/** Principal kind. */
+export type ConnectConnectorUpdatedByCase2Type = "project";
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorUpdatedByCase2 {
+  environment: ConnectConnectorUpdatedByCase2Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorUpdatedByCase2Type;
+}
 /** Principal that most recently updated the connector. */
 export type ConnectConnectorUpdatedBy =
   | ConnectConnectorUpdatedByCase0
-  | ConnectConnectorUpdatedByCase1;
+  | ConnectConnectorUpdatedByCase1
+  | ConnectConnectorUpdatedByCase2;
 /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
 export type ConnectConnectorUserTokensScopesList = Array<string>;
 /** Supported OAuth authorization-detail type names. */
@@ -1500,6 +1524,10 @@ export type GetConnectorTokenRequestAuthorizationDetailsList =
   Array<CreateConnectorAuthorizationRequestRequestAuthorizationDetailsItem>;
 export interface GetConnectorTokenRequest {
   connector: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
   subject?: GetConnectorTokenRequestSubject | undefined;
   installationId?: string | undefined;
   audience?: GetConnectorTokenRequestAudienceList | undefined;
@@ -1922,7 +1950,7 @@ export interface ConnectConnectorUpdateDataCase0 {
   clientId?: string | undefined;
   /** OAuth client name. */
   clientName?: string | undefined;
-  /** OAuth client secret. */
+  /** OAuth client secret. On update, an empty string removes the stored secret. An update that changes the authorization server also removes it unless the same update sends a new one. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token endpoint authentication method. Common values are client_secret_post, client_secret_basic, none, and private_key_jwt. If omitted, Vercel selects a supported method from serverConfig and otherwise uses client_secret_post. */
   tokenEndpointAuthMethod?: string | undefined;
@@ -2223,7 +2251,7 @@ export type ConnectConnectorUpdateData =
   | ConnectConnectorUpdateDataCase10
   | ConnectConnectorUpdateDataCase11Map;
 export interface UpdateConnectorRequest {
-  /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
+  /** Stable connector ID or URL-encoded team- or organization-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
   connector: string;
   /** The team ID that scopes the request. Do not send it with slug. If both are omitted, Vercel uses the team associated with the token or the authenticated user's default team. The request returns 401 if no team can be selected. */
   teamId?: string | undefined;
@@ -2245,7 +2273,7 @@ export interface UpdateConnectorRequest {
   icon?: string | undefined;
   backgroundColor?: string | undefined;
   accentColor?: string | undefined;
-  /** Full team-scoped UID, such as `slack/my-bot`. It cannot contain whitespace, `%`, `#`, control characters, or Vercel-owned namespaces. Changing it breaks callers that use the old UID. The stable connector ID does not change. */
+  /** Full team- or organization-scoped UID, such as `slack/my-bot`. It cannot contain whitespace, `%`, `#`, control characters, or Vercel-owned namespaces. Changing it breaks callers that use the old UID. The stable connector ID does not change. */
   uid?: string | undefined;
   /** Display name for the connector. It is trimmed and cannot be empty or contain control characters. */
   name?: string | undefined;
@@ -2291,6 +2319,8 @@ export interface ConnectConnectorUpdateResult {
   reinstallNeeded?: boolean | undefined;
   /** Result of synchronizing the change with the external service. */
   serviceSync?: ConnectServiceSync | undefined;
+  /** When true, scopes were removed. The provider keeps scopes it already granted, so remove the app from the provider workspace and install it again before the removal takes effect. Reinstalling alone does not remove scopes. */
+  uninstallNeeded?: boolean | undefined;
 }
 export type UpsertConnectorProjectConnectionRequestEnvironmentsItemCase0 =
   | "development"
@@ -2842,6 +2872,8 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connector: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
           audience: S.optional(__S(152, __c19, 0)),
@@ -3040,6 +3072,7 @@ function __c13(j: number): any {
           reconsentNeeded: S.optional(__S(105, __c13, 1)),
           reinstallNeeded: S.optional(S.Boolean),
           serviceSync: S.optional(__S(108, __c13, 4)),
+          uninstallNeeded: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConnectConnectorUpdateResult" });
   }
@@ -3220,6 +3253,8 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connector: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
           subject: S.optional(S.Unknown),
           installationId: S.optional(S.String),
           audience: S.optional(__S(152, __c19, 0)),

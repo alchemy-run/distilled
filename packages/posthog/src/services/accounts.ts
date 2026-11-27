@@ -122,6 +122,32 @@ export interface Account {
   created_by: number | null;
   updated_at: string | null;
 }
+/** Loaded person IDs to enrich, up to 500. */
+export type CreateAccountsPersonsMembershipRequestPersonIdsList = Array<string>;
+export interface CreateAccountsPersonsMembershipRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Loaded person IDs to enrich, up to 500. */
+  person_ids: CreateAccountsPersonsMembershipRequestPersonIdsList;
+}
+export interface PersonAccount {
+  /** Accessible account ID. */
+  id: string;
+  /** Account display name. */
+  name: string;
+}
+/** Accessible accounts this person belongs to. */
+export type AccountPersonMembershipsAccountsList = Array<PersonAccount>;
+export interface AccountPersonMemberships {
+  /** Current person ID from the requested account. */
+  person_id: string;
+  /** Accessible accounts this person belongs to. */
+  accounts: AccountPersonMembershipsAccountsList;
+}
+export type CreateAccountsPersonsMembershipResponseBodyList = Array<AccountPersonMemberships>;
+export type CreateAccountsPersonsMembershipResponse =
+  CreateAccountsPersonsMembershipResponseBodyList;
 export type BreakdownFilterBreakdownCase1Item = string | number;
 export type BreakdownFilterBreakdownCase1List = Array<BreakdownFilterBreakdownCase1Item>;
 export type BreakdownFilterBreakdown = string | BreakdownFilterBreakdownCase1List | number;
@@ -807,11 +833,13 @@ export interface HogQLQueryModifiers {
   mergeFederatedAggregateJoins?: boolean | null | undefined;
   /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
   negatedPersonFiltersNotIn?: boolean | null | undefined;
+  /** Move eligible non-nullable equality filters from CROSS JOIN queries into ALL INNER JOIN constraints */
+  optimizeCrossJoins?: boolean | null | undefined;
   optimizeJoinedFilters?: boolean | null | undefined;
   optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
   parserMode?: ParserMode | (string & {}) | null | undefined;
-  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. Unset, it applies to a persons join from `posthog.flag_evaluations` or from the union of events and flag_evaluations, and to no other join. */
   personIdPushdown?: boolean | null | undefined;
   personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
   personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
@@ -819,6 +847,8 @@ export interface HogQLQueryModifiers {
   propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
   pushDownPredicates?: boolean | null | undefined;
   s3TableUseInvalidColumns?: boolean | null | undefined;
+  /** Filter the sessions join of an events query by its session property filters and run it as a `GLOBAL LEFT JOIN`, so the sessions are read once instead of once per events shard. Applies only when every session filter is an equality or `IN` against non-empty strings, which are false for an event with no matching session. */
+  sessionFilterGlobalJoin?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
   sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
@@ -831,7 +861,7 @@ export interface HogQLQueryModifiers {
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null | undefined;
   useMaterializedViews?: boolean | null | undefined;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's tab switch or `ph_new_events_schema` cookie applies, then the project. A project reads the native table once PostHog has moved it there. Before that, it can opt in early by storing `true` here in its project settings. A stored `false` is ignored. */
   useNewEventsSchema?: boolean | null | undefined;
   usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
@@ -899,7 +929,13 @@ export type QueryScanFixLocation =
   | "view"
   | "insight_date_range"
   | "dashboard_date_filter";
-export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export type QueryScanFindingKind =
+  | "no_event_filter"
+  | "no_start_date"
+  | "persons_join"
+  | "repeated_cte_expansion"
+  | "cross_join_equality"
+  | "date_arrays_before_breakdown_limit";
 export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
@@ -999,6 +1035,22 @@ export interface DataWarehouseSourceUsage {
   uses_history_table?: boolean | null | undefined;
 }
 export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
+export type WarehouseSuggestionNoteKind = "materialize" | "unmaterialize";
+export interface WarehouseSuggestionNote {
+  /** Whether this user can edit the view, which accepting the suggestion needs. */
+  can_act: boolean;
+  /** The suggestion id to pass to `warehouse-suggestions-get`, `-accept-prepare` or `-dismiss`. */
+  id: string;
+  /** What the suggestion proposes. */
+  kind: WarehouseSuggestionNoteKind | (string & {});
+  /** Plain-language note for the person, with the next step. */
+  message: string;
+  /** Absolute link to the view's page in Models. */
+  url: string;
+  /** The view's current name. */
+  view_name: string;
+}
+export type ActorsQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export interface DataWarehouseSyncWarning {
   /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
   data_is_current?: boolean | null | undefined;
@@ -1062,6 +1114,8 @@ export interface ActorsQueryResponse {
   types?: ActorsQueryResponseTypesList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: ActorsQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: ActorsQueryResponseWarningsList | null | undefined;
 }
@@ -1251,6 +1305,41 @@ export interface PaginatedAccountList {
   next?: string | null | undefined;
   previous?: string | null | undefined;
   results: PaginatedAccountListResultsList;
+}
+export interface ListAccountsAutomationsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this account. */
+  id: string;
+  /** Number of results to return per page. */
+  limit?: number | undefined;
+  /** The initial index from which to return the results. */
+  offset?: number | undefined;
+}
+export interface AccountAutomation {
+  /** ID of the workflow the caller can read. */
+  workflow_id: string;
+  /** Name of the workflow. */
+  workflow_name: string;
+  /** ID of this execution, including repeated workflow runs. */
+  invocation_id: string;
+  /** Run status: running, succeeded, failed, or canceled. */
+  status: string;
+  /** Original trigger or scheduling time. */
+  triggered_at: string;
+  /** Last successfully completed step time, or null when evidence is unavailable. */
+  last_completed_step_at: string | null;
+  /** Current name of the last completed step, or null when unavailable. */
+  last_completed_step_name: string | null;
+  /** Future pause time from retained logs, or null. This does not guarantee an action. */
+  expected_resume_at: string | null;
+}
+export type PaginatedAccountAutomationListResultsList = Array<AccountAutomation>;
+export interface PaginatedAccountAutomationList {
+  count: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results: PaginatedAccountAutomationListResultsList;
 }
 export interface ListAccountsEmailThreadMessagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1675,6 +1764,23 @@ export const createAccount: API.OperationMethod<
   span: "CreateAccount",
 }));
 
+export type CreateAccountsPersonsMembershipError = PosthogOpError;
+export const createAccountsPersonsMembership: API.OperationMethod<
+  CreateAccountsPersonsMembershipRequest,
+  CreateAccountsPersonsMembershipResponse,
+  CreateAccountsPersonsMembershipError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<CreateAccountsPersonsMembershipRequest>,
+  output: __S(453, __c14, 5) as any as S.Schema<CreateAccountsPersonsMembershipResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsPersonsMembership",
+}));
+
 export type CreateAccountsPersonsQueryError = PosthogOpError;
 /** Run an account-user table query. Requires query, account, and person read scopes. */
 export const createAccountsPersonsQuery: API.OperationMethod<
@@ -1683,8 +1789,8 @@ export const createAccountsPersonsQuery: API.OperationMethod<
   CreateAccountsPersonsQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(394, __c12, 10) as any as S.Schema<CreateAccountsPersonsQueryRequest>,
-  output: __S(389, __c12, 5) as any as S.Schema<ActorsQueryResponse>,
+  input: __S(524, __c16, 12) as any as S.Schema<CreateAccountsPersonsQueryRequest>,
+  output: __S(519, __c16, 7) as any as S.Schema<ActorsQueryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1700,8 +1806,8 @@ export const createAccountsPresence: API.OperationMethod<
   CreateAccountsPresenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateAccountsPresenceRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<CreateAccountsPresenceResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<CreateAccountsPresenceRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<CreateAccountsPresenceResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1717,7 +1823,7 @@ export const getAccount: API.OperationMethod<
   GetAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetAccountRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<Account>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1734,7 +1840,7 @@ export const getAccountsByExternalId: API.OperationMethod<
   GetAccountsByExternalIdError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetAccountsByExternalIdRequest>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetAccountsByExternalIdRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<Account>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1751,8 +1857,8 @@ export const getAccountsPerson: API.OperationMethod<
   GetAccountsPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetAccountsPersonRequest>,
-  output: __S(579, __c18, 3) as any as S.Schema<AccountPersonsPage>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetAccountsPersonRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<AccountPersonsPage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1768,14 +1874,31 @@ export const listAccounts: API.OperationMethod<
   ListAccountsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListAccountsRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<PaginatedAccountList>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListAccountsRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<PaginatedAccountList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccounts",
+}));
+
+export type ListAccountsAutomationsError = PosthogOpError;
+export const listAccountsAutomations: API.OperationMethod<
+  ListAccountsAutomationsRequest,
+  PaginatedAccountAutomationList,
+  ListAccountsAutomationsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c24, 0) as any as S.Schema<ListAccountsAutomationsRequest>,
+  output: __S(771, __c24, 3) as any as S.Schema<PaginatedAccountAutomationList>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsAutomations",
 }));
 
 export type ListAccountsEmailThreadMessagesError = PosthogOpError;
@@ -1785,8 +1908,8 @@ export const listAccountsEmailThreadMessages: API.OperationMethod<
   ListAccountsEmailThreadMessagesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListAccountsEmailThreadMessagesRequest>,
-  output: __S(645, __c20, 5) as any as S.Schema<PaginatedAccountEmailThreadMessageList>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListAccountsEmailThreadMessagesRequest>,
+  output: __S(133, __c4, 5) as any as S.Schema<PaginatedAccountEmailThreadMessageList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1802,8 +1925,8 @@ export const listAccountsEmailThreads: API.OperationMethod<
   ListAccountsEmailThreadsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListAccountsEmailThreadsRequest>,
-  output: __S(677, __c21, 5) as any as S.Schema<PaginatedAccountEmailThreadList>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListAccountsEmailThreadsRequest>,
+  output: __S(165, __c5, 5) as any as S.Schema<PaginatedAccountEmailThreadList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1819,8 +1942,8 @@ export const listAccountsMeetings: API.OperationMethod<
   ListAccountsMeetingsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ListAccountsMeetingsRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<PaginatedMeetingList>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListAccountsMeetingsRequest>,
+  output: __S(229, __c7, 5) as any as S.Schema<PaginatedMeetingList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1836,8 +1959,8 @@ export const listAccountsPresence: API.OperationMethod<
   ListAccountsPresenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ListAccountsPresenceRequest>,
-  output: __S(163, __c5, 3) as any as S.Schema<ListAccountsPresenceResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListAccountsPresenceRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<ListAccountsPresenceResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1853,8 +1976,8 @@ export const listAccountsSummaries: API.OperationMethod<
   ListAccountsSummariesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListAccountsSummariesRequest>,
-  output: __S(197, __c6, 5) as any as S.Schema<PaginatedAccountChannelSummaryList>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListAccountsSummariesRequest>,
+  output: __S(293, __c9, 5) as any as S.Schema<PaginatedAccountChannelSummaryList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1870,8 +1993,8 @@ export const listAccountsSupportTicketMessages: API.OperationMethod<
   ListAccountsSupportTicketMessagesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListAccountsSupportTicketMessagesRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<PaginatedAccountSupportTicketMessageList>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListAccountsSupportTicketMessagesRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<PaginatedAccountSupportTicketMessageList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1887,8 +2010,8 @@ export const listAccountsSupportTickets: API.OperationMethod<
   ListAccountsSupportTicketsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListAccountsSupportTicketsRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<ListAccountsSupportTicketsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListAccountsSupportTicketsRequest>,
+  output: __S(355, __c11, 3) as any as S.Schema<ListAccountsSupportTicketsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1904,7 +2027,7 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<UpdateAccountRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateAccountRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<Account>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -1921,7 +2044,7 @@ export const updateAccountsPartial: API.OperationMethod<
   UpdateAccountsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<UpdateAccountsPartialRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateAccountsPartialRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<Account>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2014,6 +2137,135 @@ function __c4(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          thread_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/accounts/{id}/email_threads/{thread_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAccountsEmailThreadMessagesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          email: S.String,
+        }),
+      ).annotate({ identifier: "AccountEmailThreadAddress" });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sent_at: S.String,
+          sender: __S(129, __c4, 1),
+          to_recipients: __S(130, __c4, 2),
+          cc_recipients: __S(130, __c4, 2),
+          sender_authenticated: S.Boolean,
+          direction: S.String,
+          content: S.String,
+        }),
+      ).annotate({ identifier: "AccountEmailThreadMessage" });
+    case 4:
+      return S.Array(__S(131, __c4, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(132, __c4, 4),
+        }),
+      ).annotate({ identifier: "PaginatedAccountEmailThreadMessageList" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/accounts/{id}/email_threads/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAccountsEmailThreadsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.String,
+          display_name: S.String,
+          kind: S.String,
+          person_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AccountEmailThreadParticipant" });
+    case 2:
+      return S.Array(__S(161, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          subject: S.String,
+          preview: S.String,
+          first_message_at: S.NullOr(S.String),
+          first_message: S.NullOr(__S(193, __c6, 1)),
+          last_message_at: S.NullOr(S.String),
+          last_message: S.NullOr(__S(193, __c6, 1)),
+          message_count: S.Number,
+          participants: __S(162, __c5, 2),
+        }),
+      ).annotate({ identifier: "AccountEmailThread" });
+    case 4:
+      return S.Array(__S(163, __c5, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(164, __c5, 4),
+        }),
+      ).annotate({ identifier: "PaginatedAccountEmailThreadList" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          email: S.NullOr(S.String),
+          person_id: S.NullOr(S.String),
+          distinct_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ConversationMessageSender" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sender: __S(192, __c6, 0),
+          sent_at: S.String,
+          direction: S.String,
+        }),
+      ).annotate({ identifier: "ConversationMessageSummary" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -2036,7 +2288,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "MeetingParticipant" });
     case 2:
-      return S.Array(__S(129, __c4, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2048,23 +2300,23 @@ function __c4(j: number): any {
           end_time: S.NullOr(S.String),
           organizer_email: S.String,
           status: S.String,
-          participants: __S(130, __c4, 2),
+          participants: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "Meeting" });
     case 4:
-      return S.Array(__S(131, __c4, 3));
+      return S.Array(__S(227, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(132, __c4, 4),
+          results: __S(228, __c7, 4),
         }),
       ).annotate({ identifier: "PaginatedMeetingList" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2083,18 +2335,18 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          viewers: __S(481, __c15, 1),
+          viewers: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "AccountPresence" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
-      return S.suspend(() => __S(162, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(258, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAccountsPresenceResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2120,7 +2372,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ChannelSummaryMessage" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2131,24 +2383,24 @@ function __c6(j: number): any {
           period_end: S.String,
           content: S.String,
           message_count: S.Number,
-          messages: __S(194, __c6, 2),
+          messages: __S(290, __c9, 2),
           generated_at: S.String,
         }),
       ).annotate({ identifier: "AccountChannelSummary" });
     case 4:
-      return S.Array(__S(195, __c6, 3));
+      return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(196, __c6, 4),
+          results: __S(292, __c9, 4),
         }),
       ).annotate({ identifier: "PaginatedAccountChannelSummaryList" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2178,19 +2430,19 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AccountSupportTicketMessage" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(226, __c7, 2),
+          results: __S(322, __c10, 2),
         }),
       ).annotate({ identifier: "PaginatedAccountSupportTicketMessageList" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2213,7 +2465,7 @@ function __c8(j: number): any {
           status: S.String,
           last_message_at: S.NullOr(S.String),
           last_message_text: S.NullOr(S.String),
-          last_message: S.NullOr(__S(705, __c22, 1)),
+          last_message: S.NullOr(__S(193, __c6, 1)),
           deep_link: S.String,
           created_at: S.String,
           started_by: S.String,
@@ -2221,14 +2473,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "SupportTicket" });
     case 2:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
-      return S.suspend(() => __S(258, __c8, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(354, __c11, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAccountsSupportTicketsResponse",
       });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2248,7 +2500,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateAccountRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2268,7 +2520,47 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateAccountsPartialRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          person_ids: __S(64, __c2, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/accounts/{id}/persons/memberships/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAccountsPersonsMembershipRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "PersonAccount" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          person_id: S.String,
+          accounts: __S(450, __c14, 2),
+        }),
+      ).annotate({ identifier: "AccountPersonMemberships" });
+    case 4:
+      return S.Array(__S(451, __c14, 3));
+    case 5:
+      return S.suspend(() => __S(452, __c14, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateAccountsPersonsMembershipResponse",
+      });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2281,7 +2573,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Breakdown" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2293,7 +2585,7 @@ function __c11(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(353, __c11, 1))),
+          breakdowns: S.optional(S.NullOr(__S(481, __c15, 1))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
     case 3:
@@ -2313,7 +2605,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "MetricsQueryFilter" });
     case 5:
-      return S.Array(__S(356, __c11, 4));
+      return S.Array(__S(484, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2325,7 +2617,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allValue: S.optional(S.NullOr(S.String)),
-          current: S.optional(S.NullOr(__S(358, __c11, 6))),
+          current: S.optional(S.NullOr(__S(486, __c15, 6))),
           customValues: S.optional(S.NullOr(__S(64, __c2, 0))),
           includeAll: S.optional(S.NullOr(S.Boolean)),
           label: S.optional(S.NullOr(S.String)),
@@ -2337,22 +2629,22 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "MetricsDashboardVariable" });
     case 8:
-      return S.Array(__S(359, __c11, 7));
+      return S.Array(__S(487, __c15, 7));
     case 9:
       return S.Array(S.Unknown);
     case 10:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(354, __c11, 2))),
-          compareFilter: S.optional(S.NullOr(__S(355, __c11, 3))),
+          breakdown_filter: S.optional(S.NullOr(__S(482, __c15, 2))),
+          compareFilter: S.optional(S.NullOr(__S(483, __c15, 3))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          metricFilters: S.optional(S.NullOr(__S(357, __c11, 5))),
-          metricVariables: S.optional(S.NullOr(__S(360, __c11, 8))),
-          properties: S.optional(S.NullOr(__S(361, __c11, 9))),
+          metricFilters: S.optional(S.NullOr(__S(485, __c15, 5))),
+          metricVariables: S.optional(S.NullOr(__S(488, __c15, 8))),
+          properties: S.optional(S.NullOr(__S(489, __c15, 9))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
     case 11:
@@ -2367,19 +2659,19 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "CustomBotCondition" });
     case 13:
-      return S.Array(__S(364, __c11, 12));
+      return S.Array(__S(492, __c15, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.NullOr(S.String)),
           combiner: S.String,
           id: S.String,
-          items: __S(365, __c11, 13),
+          items: __S(493, __c15, 13),
           name: S.String,
         }),
       ).annotate({ identifier: "CustomBotRule" });
     case 15:
-      return S.Array(__S(366, __c11, 14));
+      return S.Array(__S(494, __c15, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -2390,18 +2682,18 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "CustomChannelCondition" });
     case 17:
-      return S.Array(__S(368, __c11, 16));
+      return S.Array(__S(496, __c15, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           channel_type: S.String,
           combiner: S.String,
           id: S.String,
-          items: __S(369, __c11, 17),
+          items: __S(497, __c15, 17),
         }),
       ).annotate({ identifier: "CustomChannelRule" });
     case 19:
-      return S.Array(__S(370, __c11, 18));
+      return S.Array(__S(498, __c15, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -2412,7 +2704,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "DataWarehouseEventsModifier" });
     case 21:
-      return S.Array(__S(372, __c11, 20));
+      return S.Array(__S(500, __c15, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -2420,9 +2712,9 @@ function __c11(j: number): any {
           bounceRatePageViewMode: S.optional(S.NullOr(S.String)),
           convertToProjectTimezone: S.optional(S.NullOr(S.Boolean)),
           cookielessTrafficIsRegular: S.optional(S.NullOr(S.Boolean)),
-          customBotDefinitions: S.optional(S.NullOr(__S(367, __c11, 15))),
-          customChannelTypeRules: S.optional(S.NullOr(__S(371, __c11, 19))),
-          dataWarehouseEventsModifiers: S.optional(S.NullOr(__S(373, __c11, 21))),
+          customBotDefinitions: S.optional(S.NullOr(__S(495, __c15, 15))),
+          customChannelTypeRules: S.optional(S.NullOr(__S(499, __c15, 19))),
+          dataWarehouseEventsModifiers: S.optional(S.NullOr(__S(501, __c15, 21))),
           debug: S.optional(S.NullOr(S.Boolean)),
           forceClickhouseDataSkippingIndexes: S.optional(S.NullOr(__S(64, __c2, 0))),
           formatCsvAllowDoubleQuotes: S.optional(S.NullOr(S.Boolean)),
@@ -2433,6 +2725,7 @@ function __c11(j: number): any {
           materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
           mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
           negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
+          optimizeCrossJoins: S.optional(S.NullOr(S.Boolean)),
           optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
           optimizeProjections: S.optional(S.NullOr(S.Boolean)),
           parserMode: S.optional(S.NullOr(S.String)),
@@ -2443,6 +2736,7 @@ function __c11(j: number): any {
           propertyGroupsMode: S.optional(S.NullOr(S.String)),
           pushDownPredicates: S.optional(S.NullOr(S.Boolean)),
           s3TableUseInvalidColumns: S.optional(S.NullOr(S.Boolean)),
+          sessionFilterGlobalJoin: S.optional(S.NullOr(S.Boolean)),
           sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
           sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
           sessionTableVersion: S.optional(S.NullOr(S.String)),
@@ -2484,12 +2778,12 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "QueryScanWarning" });
     case 26:
-      return S.Array(__S(377, __c11, 25));
+      return S.Array(__S(505, __c15, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
           assistant_prompt: S.optional(S.NullOr(S.String)),
-          findings: __S(378, __c11, 26),
+          findings: __S(506, __c15, 26),
           project_share: S.optional(S.NullOr(S.Number)),
           range_share: S.optional(S.NullOr(S.Number)),
         }),
@@ -2497,7 +2791,7 @@ function __c11(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(379, __c11, 27))),
+          analysis: S.optional(S.NullOr(__S(507, __c15, 27))),
           analysis_requested: S.optional(S.NullOr(S.Boolean)),
           duration_ms: S.Number,
           killed: S.optional(S.NullOr(S.Boolean)),
@@ -2522,8 +2816,8 @@ function __c11(j: number): any {
           labels: S.optional(S.NullOr(__S(64, __c2, 0))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
-          query_progress: S.optional(S.NullOr(__S(376, __c11, 24))),
-          query_scan: S.optional(S.NullOr(__S(380, __c11, 28))),
+          query_progress: S.optional(S.NullOr(__S(504, __c15, 24))),
+          query_scan: S.optional(S.NullOr(__S(508, __c15, 28))),
           results: S.optional(S.Unknown),
           start_time: S.optional(S.NullOr(S.String)),
           task_id: S.optional(S.NullOr(S.String)),
@@ -2539,10 +2833,10 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "ResolvedDateRangeResponse" });
     case 31:
-      return S.Array(__S(375, __c11, 23));
+      return S.Array(__S(503, __c15, 23));
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2552,7 +2846,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "QueryTiming" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2563,31 +2857,45 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "DataWarehouseSourceUsage" });
     case 3:
-      return S.Array(__S(386, __c12, 2));
+      return S.Array(__S(514, __c16, 2));
     case 4:
-      return S.Array(S.Unknown);
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          columns: __S(375, __c11, 23),
+          can_act: S.Boolean,
+          id: S.String,
+          kind: S.String,
+          message: S.String,
+          url: S.String,
+          view_name: S.String,
+        }),
+      ).annotate({ identifier: "WarehouseSuggestionNote" });
+    case 5:
+      return S.Array(__S(516, __c16, 4));
+    case 6:
+      return S.Array(S.Unknown);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          columns: __S(503, __c15, 23),
           error: S.optional(S.NullOr(S.String)),
           hasMore: S.optional(S.NullOr(S.Boolean)),
           hogql: S.String,
           limit: S.Number,
           missing_actors_count: S.optional(S.NullOr(S.Number)),
-          modifiers: S.optional(S.NullOr(__S(374, __c11, 22))),
+          modifiers: S.optional(S.NullOr(__S(502, __c15, 22))),
           offset: S.Number,
-          query_status: S.optional(S.NullOr(__S(381, __c11, 29))),
-          resolved_compare_date_range: S.optional(S.NullOr(__S(382, __c11, 30))),
-          resolved_date_range: S.optional(S.NullOr(__S(382, __c11, 30))),
-          results: __S(383, __c11, 31),
-          timings: S.optional(S.NullOr(__S(385, __c12, 1))),
+          query_status: S.optional(S.NullOr(__S(509, __c15, 29))),
+          resolved_compare_date_range: S.optional(S.NullOr(__S(510, __c15, 30))),
+          resolved_date_range: S.optional(S.NullOr(__S(510, __c15, 30))),
+          results: __S(511, __c15, 31),
+          timings: S.optional(S.NullOr(__S(513, __c16, 1))),
           types: S.optional(S.NullOr(__S(64, __c2, 0))),
-          used_data_warehouse_sources: S.optional(S.NullOr(__S(387, __c12, 3))),
-          warnings: S.optional(S.NullOr(__S(388, __c12, 4))),
+          used_data_warehouse_sources: S.optional(S.NullOr(__S(515, __c16, 3))),
+          warehouse_suggestions: S.optional(S.NullOr(__S(517, __c16, 5))),
+          warnings: S.optional(S.NullOr(__S(518, __c16, 6))),
         }),
       ).annotate({ identifier: "ActorsQueryResponse" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
@@ -2596,51 +2904,51 @@ function __c12(j: number): any {
           scene: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryLogTags" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String,
           kind: S.optional(S.String),
-          modifiers: S.optional(S.NullOr(__S(374, __c11, 22))),
-          response: S.optional(S.NullOr(__S(389, __c12, 5))),
-          tags: S.optional(S.NullOr(__S(390, __c12, 6))),
+          modifiers: S.optional(S.NullOr(__S(502, __c15, 22))),
+          response: S.optional(S.NullOr(__S(519, __c16, 7))),
+          tags: S.optional(S.NullOr(__S(520, __c16, 8))),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccountUsersQuery" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
-          fixedProperties: S.optional(S.NullOr(__S(363, __c11, 11))),
+          fixedProperties: S.optional(S.NullOr(__S(491, __c15, 11))),
           kind: S.optional(S.String),
           limit: S.optional(S.NullOr(S.Number)),
-          modifiers: S.optional(S.NullOr(__S(374, __c11, 22))),
+          modifiers: S.optional(S.NullOr(__S(502, __c15, 22))),
           offset: S.optional(S.NullOr(S.Number)),
           orderBy: S.optional(S.NullOr(__S(64, __c2, 0))),
           properties: S.optional(S.NullOr(S.Unknown)),
-          response: S.optional(S.NullOr(__S(389, __c12, 5))),
+          response: S.optional(S.NullOr(__S(519, __c16, 7))),
           search: S.optional(S.NullOr(S.String)),
           select: S.optional(S.NullOr(__S(64, __c2, 0))),
-          source: __S(391, __c12, 7),
-          tags: S.optional(S.NullOr(__S(390, __c12, 6))),
+          source: __S(521, __c16, 9),
+          tags: S.optional(S.NullOr(__S(520, __c16, 8))),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccountPersonsActorsQuery" });
-    case 9:
-      return S.Record(S.String, __S(416, __c13, 0));
-    case 10:
+    case 11:
+      return S.Record(S.String, __S(544, __c17, 0));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           async: S.optional(S.NullOr(S.Boolean)),
           client_query_id: S.optional(S.NullOr(S.String)),
-          filters_override: S.optional(S.NullOr(__S(362, __c11, 10))),
+          filters_override: S.optional(S.NullOr(__S(490, __c15, 10))),
           limit_context: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          query: __S(392, __c12, 8),
+          query: __S(522, __c16, 10),
           refresh: S.optional(S.NullOr(S.String)),
-          variables_override: S.optional(S.NullOr(__S(393, __c12, 9))),
+          variables_override: S.optional(S.NullOr(__S(523, __c16, 11))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2651,13 +2959,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateAccountsPersonsQueryRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2673,12 +2981,12 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "CreateAccountsPresenceRequest" });
     case 1:
-      return S.suspend(() => __S(481, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(609, __c19, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateAccountsPresenceResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2688,10 +2996,10 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "AccountPresenceViewer" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(608, __c19, 0));
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2704,7 +3012,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetAccountRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2721,7 +3029,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetAccountsByExternalIdRequest" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2749,17 +3057,17 @@ function __c18(j: number): any {
           id: S.String,
           display_name: S.String,
           distinct_ids: __S(64, __c2, 0),
-          properties: __S(416, __c13, 0),
+          properties: __S(544, __c17, 0),
           account_first_seen: S.String,
           account_last_seen: S.String,
         }),
       ).annotate({ identifier: "AccountPerson" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(578, __c18, 2),
+          results: __S(706, __c22, 2),
           columns: __S(64, __c2, 0),
           limit: S.Number,
           offset: S.Number,
@@ -2769,7 +3077,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "AccountPersonsPage" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2794,65 +3102,12 @@ function __c19(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(609, __c19, 1),
+          results: __S(737, __c23, 1),
         }),
       ).annotate({ identifier: "PaginatedAccountList" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          thread_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/accounts/{id}/email_threads/{thread_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListAccountsEmailThreadMessagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          email: S.String,
-        }),
-      ).annotate({ identifier: "AccountEmailThreadAddress" });
-    case 2:
-      return S.Array(__S(641, __c20, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sent_at: S.String,
-          sender: __S(641, __c20, 1),
-          to_recipients: __S(642, __c20, 2),
-          cc_recipients: __S(642, __c20, 2),
-          sender_authenticated: S.Boolean,
-          direction: S.String,
-          content: S.String,
-        }),
-      ).annotate({ identifier: "AccountEmailThreadMessage" });
-    case 4:
-      return S.Array(__S(643, __c20, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(644, __c20, 4),
-        }),
-      ).annotate({ identifier: "PaginatedAccountEmailThreadMessageList" });
-  }
-}
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2864,68 +3119,35 @@ function __c21(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/accounts/{id}/email_threads/",
+            uri: "/api/projects/{project_id}/accounts/{id}/automations/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListAccountsEmailThreadsRequest" });
+      ).annotate({ identifier: "ListAccountsAutomationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          email: S.String,
-          display_name: S.String,
-          kind: S.String,
-          person_id: S.NullOr(S.String),
+          workflow_id: S.String,
+          workflow_name: S.String,
+          invocation_id: S.String,
+          status: S.String,
+          triggered_at: S.String,
+          last_completed_step_at: S.NullOr(S.String),
+          last_completed_step_name: S.NullOr(S.String),
+          expected_resume_at: S.NullOr(S.String),
         }),
-      ).annotate({ identifier: "AccountEmailThreadParticipant" });
+      ).annotate({ identifier: "AccountAutomation" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          subject: S.String,
-          preview: S.String,
-          first_message_at: S.NullOr(S.String),
-          first_message: S.NullOr(__S(705, __c22, 1)),
-          last_message_at: S.NullOr(S.String),
-          last_message: S.NullOr(__S(705, __c22, 1)),
-          message_count: S.Number,
-          participants: __S(674, __c21, 2),
-        }),
-      ).annotate({ identifier: "AccountEmailThread" });
-    case 4:
-      return S.Array(__S(675, __c21, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(676, __c21, 4),
+          results: __S(770, __c24, 2),
         }),
-      ).annotate({ identifier: "PaginatedAccountEmailThreadList" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          email: S.NullOr(S.String),
-          person_id: S.NullOr(S.String),
-          distinct_id: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ConversationMessageSender" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sender: __S(704, __c22, 0),
-          sent_at: S.String,
-          direction: S.String,
-        }),
-      ).annotate({ identifier: "ConversationMessageSummary" });
+      ).annotate({ identifier: "PaginatedAccountAutomationList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

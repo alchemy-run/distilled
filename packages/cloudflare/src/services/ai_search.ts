@@ -382,6 +382,7 @@ export interface InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite {
 }
 export interface InstancesChatCompletionsRequestAiSearchOptionsReranking {
   enabled?: boolean | undefined;
+  /** Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4. */
   matchThreshold?: number | undefined;
   model?: string | undefined;
 }
@@ -1079,6 +1080,8 @@ export interface InstancesCreateRequestIndexMethod {
 }
 export type InstancesCreateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesCreateRequestIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | InstancesCreateRequestIndexingOptionsKeywordTokenizer
@@ -1161,6 +1164,17 @@ export interface InstancesCreateRequestRetrievalOptions {
     | (string & {})
     | undefined;
 }
+export type InstancesCreateRequestSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesCreateRequestSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: InstancesCreateRequestSourceParamsD1Template | (string & {}) | undefined;
+}
 export type InstancesCreateRequestSourceParamsExcludeItemsList = Array<string>;
 export type InstancesCreateRequestSourceParamsIncludeItemsList = Array<string>;
 export type InstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -1234,6 +1248,8 @@ export interface InstancesCreateRequestSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface InstancesCreateRequestSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesCreateRequestSourceParamsD1 | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesCreateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -1251,7 +1267,7 @@ export type InstancesCreateRequestSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesCreateRequestType = "r2" | "web-crawler";
+export type InstancesCreateRequestType = "r2" | "web-crawler" | "d1";
 export interface CreateInstanceRequest {
   accountId: string;
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -1285,12 +1301,13 @@ export interface CreateInstanceRequest {
   rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | undefined;
   sourceParams?: InstancesCreateRequestSourceParams | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesCreateRequestSyncInterval | (number & {}) | undefined;
   tokenId?: string | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: InstancesCreateRequestType | (string & {}) | undefined;
 }
 export type InstancesCreateResponseCacheThreshold =
@@ -1324,6 +1341,8 @@ export type InstancesCreateResponseFusionMethod = "max" | "rrf";
 export type InstancesCreateResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type InstancesCreateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesCreateResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?: InstancesCreateResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
@@ -1401,6 +1420,17 @@ export interface InstancesCreateResponseRetrievalOptions {
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?: InstancesCreateResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
+export type InstancesCreateResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesCreateResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: InstancesCreateResponseSourceParamsD1Template | null | undefined;
+}
 export type InstancesCreateResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesCreateResponseSourceParamsIncludeItemsList = Array<string>;
 export type InstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -1460,6 +1490,8 @@ export interface InstancesCreateResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesCreateResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesCreateResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesCreateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -1477,7 +1509,7 @@ export type InstancesCreateResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesCreateResponseType = "r2" | "web-crawler";
+export type InstancesCreateResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -1520,13 +1552,14 @@ export interface CreateInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: InstancesCreateResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesCreateResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: InstancesCreateResponseType | null | undefined;
 }
 export interface CreateInstanceJobRequest {
@@ -1665,6 +1698,8 @@ export type NamespacesInstancesCreateRequestFusionMethod = "max" | "rrf";
 export type NamespacesInstancesCreateRequestIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesCreateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesCreateRequestIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesCreateRequestIndexingOptionsKeywordTokenizer
@@ -1746,6 +1781,17 @@ export interface NamespacesInstancesCreateRequestRetrievalOptions {
     | (string & {})
     | undefined;
 }
+export type NamespacesInstancesCreateRequestSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesCreateRequestSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: NamespacesInstancesCreateRequestSourceParamsD1Template | (string & {}) | undefined;
+}
 export type NamespacesInstancesCreateRequestSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesCreateRequestSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesCreateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -1812,6 +1858,8 @@ export interface NamespacesInstancesCreateRequestSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface NamespacesInstancesCreateRequestSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesCreateRequestSourceParamsD1 | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesCreateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -1829,7 +1877,7 @@ export type NamespacesInstancesCreateRequestSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesCreateRequestType = "r2" | "web-crawler";
+export type NamespacesInstancesCreateRequestType = "r2" | "web-crawler" | "d1";
 export interface CreateNamespaceInstanceRequest {
   accountId: string;
   namespace: string;
@@ -1864,12 +1912,13 @@ export interface CreateNamespaceInstanceRequest {
   rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | undefined;
   sourceParams?: NamespacesInstancesCreateRequestSourceParams | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateRequestSyncInterval | (number & {}) | undefined;
   tokenId?: string | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: NamespacesInstancesCreateRequestType | (string & {}) | undefined;
 }
 export type NamespacesInstancesCreateResponseCacheThreshold =
@@ -1903,6 +1952,8 @@ export type NamespacesInstancesCreateResponseFusionMethod = "max" | "rrf";
 export type NamespacesInstancesCreateResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesCreateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesCreateResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesCreateResponseIndexingOptionsKeywordTokenizer
@@ -1993,6 +2044,17 @@ export interface NamespacesInstancesCreateResponseRetrievalOptions {
     | null
     | undefined;
 }
+export type NamespacesInstancesCreateResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesCreateResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: NamespacesInstancesCreateResponseSourceParamsD1Template | null | undefined;
+}
 export type NamespacesInstancesCreateResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesCreateResponseSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesCreateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -2063,6 +2125,8 @@ export interface NamespacesInstancesCreateResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesCreateResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesCreateResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesCreateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -2080,7 +2144,7 @@ export type NamespacesInstancesCreateResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesCreateResponseType = "r2" | "web-crawler";
+export type NamespacesInstancesCreateResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -2123,13 +2187,14 @@ export interface CreateNamespaceInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: NamespacesInstancesCreateResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesCreateResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: NamespacesInstancesCreateResponseType | null | undefined;
 }
 export interface CreateNamespaceInstanceJobRequest {
@@ -2246,6 +2311,8 @@ export type InstancesDeleteResponseFusionMethod = "max" | "rrf";
 export type InstancesDeleteResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type InstancesDeleteResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesDeleteResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?: InstancesDeleteResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
@@ -2316,6 +2383,17 @@ export interface InstancesDeleteResponseRetrievalOptions {
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?: InstancesDeleteResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
+export type InstancesDeleteResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesDeleteResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: InstancesDeleteResponseSourceParamsD1Template | null | undefined;
+}
 export type InstancesDeleteResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesDeleteResponseSourceParamsIncludeItemsList = Array<string>;
 export type InstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -2375,6 +2453,8 @@ export interface InstancesDeleteResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesDeleteResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesDeleteResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesDeleteResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -2392,7 +2472,7 @@ export type InstancesDeleteResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesDeleteResponseType = "r2" | "web-crawler";
+export type InstancesDeleteResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -2435,13 +2515,14 @@ export interface DeleteInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: InstancesDeleteResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesDeleteResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: InstancesDeleteResponseType | null | undefined;
 }
 export interface DeleteNamespaceRequest {
@@ -2485,6 +2566,8 @@ export type NamespacesInstancesDeleteResponseFusionMethod = "max" | "rrf";
 export type NamespacesInstancesDeleteResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesDeleteResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesDeleteResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesDeleteResponseIndexingOptionsKeywordTokenizer
@@ -2575,6 +2658,17 @@ export interface NamespacesInstancesDeleteResponseRetrievalOptions {
     | null
     | undefined;
 }
+export type NamespacesInstancesDeleteResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesDeleteResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: NamespacesInstancesDeleteResponseSourceParamsD1Template | null | undefined;
+}
 export type NamespacesInstancesDeleteResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesDeleteResponseSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesDeleteResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -2645,6 +2739,8 @@ export interface NamespacesInstancesDeleteResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesDeleteResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesDeleteResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesDeleteResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -2662,7 +2758,7 @@ export type NamespacesInstancesDeleteResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesDeleteResponseType = "r2" | "web-crawler";
+export type NamespacesInstancesDeleteResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -2705,13 +2801,14 @@ export interface DeleteNamespaceInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: NamespacesInstancesDeleteResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesDeleteResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: NamespacesInstancesDeleteResponseType | null | undefined;
 }
 export interface DeleteNamespaceInstanceItemRequest {
@@ -2887,6 +2984,8 @@ export interface InstancesListResultItemIndexMethod {
 }
 export type InstancesListResultItemIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesListResultItemIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   keywordTokenizer?: InstancesListResultItemIndexingOptionsKeywordTokenizer | null | undefined;
   useOcr?: boolean | null | undefined;
 }
@@ -2961,6 +3060,12 @@ export interface InstancesListResultItemRetrievalOptions {
   boostBy?: InstancesListResultItemRetrievalOptionsBoostByList | null | undefined;
   keywordMatchMode?: InstancesListResultItemRetrievalOptionsKeywordMatchMode | null | undefined;
 }
+export interface InstancesListResultItemSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query?: string | null | undefined;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: string | null | undefined;
+}
 export type InstancesListResultItemSourceParamsExcludeItemsList = Array<string>;
 export type InstancesListResultItemSourceParamsIncludeItemsList = Array<string>;
 export type InstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -3012,6 +3117,8 @@ export interface InstancesListResultItemSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesListResultItemSourceParams {
+  /** D1 source configuration of a d1 instance. */
+  d1?: InstancesListResultItemSourceParamsD1 | null | undefined;
   excludeItems?: InstancesListResultItemSourceParamsExcludeItemsList | null | undefined;
   includeItems?: InstancesListResultItemSourceParamsIncludeItemsList | null | undefined;
   prefix?: string | null | undefined;
@@ -3027,7 +3134,7 @@ export type InstancesListResultItemSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesListResultItemType = "r2" | "web-crawler";
+export type InstancesListResultItemType = "r2" | "web-crawler" | "d1";
 export interface InstancesListResultItem {
   id: string;
   aiGatewayId: string;
@@ -3066,10 +3173,13 @@ export interface InstancesListResultItem {
   source: string;
   sourceParams: InstancesListResultItemSourceParams;
   status: string;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarization: boolean;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarizationModel: string;
   syncInterval: InstancesListResultItemSyncInterval;
   systemPromptAiSearch: string;
+  /** Deprecated and has no effect. Use indexing_options.file_summary instead. */
   systemPromptIndexSummarization: string;
   systemPromptRewriteQuery: string;
   tokenId: string;
@@ -3220,6 +3330,8 @@ export type NamespacesInstancesListResultItemFusionMethod = "max" | "rrf";
 export type NamespacesInstancesListResultItemIndexMethod = InstancesListResultItemIndexMethod;
 export type NamespacesInstancesListResultItemIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesListResultItemIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   keywordTokenizer?:
     | NamespacesInstancesListResultItemIndexingOptionsKeywordTokenizer
     | null
@@ -3314,6 +3426,7 @@ export interface NamespacesInstancesListResultItemRetrievalOptions {
     | null
     | undefined;
 }
+export type NamespacesInstancesListResultItemSourceParamsD1 = InstancesListResultItemSourceParamsD1;
 export type NamespacesInstancesListResultItemSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesListResultItemSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesListResultItemSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -3374,6 +3487,8 @@ export interface NamespacesInstancesListResultItemSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesListResultItemSourceParams {
+  /** D1 source configuration of a d1 instance. */
+  d1?: InstancesListResultItemSourceParamsD1 | null | undefined;
   excludeItems?: NamespacesInstancesListResultItemSourceParamsExcludeItemsList | null | undefined;
   includeItems?: NamespacesInstancesListResultItemSourceParamsIncludeItemsList | null | undefined;
   prefix?: string | null | undefined;
@@ -3389,7 +3504,7 @@ export type NamespacesInstancesListResultItemSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesListResultItemType = "r2" | "web-crawler";
+export type NamespacesInstancesListResultItemType = "r2" | "web-crawler" | "d1";
 export interface NamespacesInstancesListResultItem {
   id: string;
   aiGatewayId: string;
@@ -3428,10 +3543,13 @@ export interface NamespacesInstancesListResultItem {
   source: string;
   sourceParams: NamespacesInstancesListResultItemSourceParams;
   status: string;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarization: boolean;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarizationModel: string;
   syncInterval: NamespacesInstancesListResultItemSyncInterval;
   systemPromptAiSearch: string;
+  /** Deprecated and has no effect. Use indexing_options.file_summary instead. */
   systemPromptIndexSummarization: string;
   systemPromptRewriteQuery: string;
   tokenId: string;
@@ -3646,6 +3764,8 @@ export type InstancesReadResponseFusionMethod = "max" | "rrf";
 export type InstancesReadResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type InstancesReadResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesReadResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?: InstancesReadResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
@@ -3710,6 +3830,17 @@ export interface InstancesReadResponseRetrievalOptions {
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?: InstancesReadResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
+export type InstancesReadResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesReadResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: InstancesReadResponseSourceParamsD1Template | null | undefined;
+}
 export type InstancesReadResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesReadResponseSourceParamsIncludeItemsList = Array<string>;
 export type InstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -3769,6 +3900,8 @@ export interface InstancesReadResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesReadResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesReadResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesReadResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -3786,7 +3919,7 @@ export type InstancesReadResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesReadResponseType = "r2" | "web-crawler";
+export type InstancesReadResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ReadInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -3829,13 +3962,14 @@ export interface ReadInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: InstancesReadResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesReadResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: InstancesReadResponseType | null | undefined;
 }
 export interface ReadNamespaceRequest {
@@ -3925,6 +4059,8 @@ export type NamespacesInstancesReadResponseFusionMethod = "max" | "rrf";
 export type NamespacesInstancesReadResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesReadResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesReadResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesReadResponseIndexingOptionsKeywordTokenizer
@@ -4012,6 +4148,17 @@ export interface NamespacesInstancesReadResponseRetrievalOptions {
     | null
     | undefined;
 }
+export type NamespacesInstancesReadResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesReadResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: NamespacesInstancesReadResponseSourceParamsD1Template | null | undefined;
+}
 export type NamespacesInstancesReadResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesReadResponseSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesReadResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -4080,6 +4227,8 @@ export interface NamespacesInstancesReadResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesReadResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesReadResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesReadResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -4097,7 +4246,7 @@ export type NamespacesInstancesReadResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesReadResponseType = "r2" | "web-crawler";
+export type NamespacesInstancesReadResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ReadNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -4140,13 +4289,14 @@ export interface ReadNamespaceInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: NamespacesInstancesReadResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesReadResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: NamespacesInstancesReadResponseType | null | undefined;
 }
 export interface ReadTokenRequest {
@@ -4821,6 +4971,8 @@ export type InstancesUpdateRequestFusionMethod = "max" | "rrf";
 export type InstancesUpdateRequestIndexMethod = InstancesCreateRequestIndexMethod;
 export type InstancesUpdateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesUpdateRequestIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | InstancesUpdateRequestIndexingOptionsKeywordTokenizer
@@ -4896,6 +5048,17 @@ export interface InstancesUpdateRequestRetrievalOptions {
     | (string & {})
     | undefined;
 }
+export type InstancesUpdateRequestSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesUpdateRequestSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. Omit to keep the stored query. */
+  query?: string | undefined;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. Omit to keep the stored template. */
+  template?: InstancesUpdateRequestSourceParamsD1Template | (string & {}) | undefined;
+}
 export type InstancesUpdateRequestSourceParamsExcludeItemsList = Array<string>;
 export type InstancesUpdateRequestSourceParamsIncludeItemsList = Array<string>;
 export type InstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -4955,6 +5118,8 @@ export interface InstancesUpdateRequestSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface InstancesUpdateRequestSourceParams {
+  /** D1 source configuration of a d1 instance; ignored for other types. An omitted d1, query, or template keeps its stored value. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesUpdateRequestSourceParamsD1 | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesUpdateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -5003,13 +5168,17 @@ export interface UpdateInstanceRequest {
   rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | undefined;
   sourceParams?: InstancesUpdateRequestSourceParams | undefined;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarization?: boolean | undefined;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarizationModel?: string | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesUpdateRequestSyncInterval | (number & {}) | undefined;
   systemPromptAiSearch?: string | undefined;
+  /** Deprecated and has no effect. Use indexing_options.file_summary instead. */
   systemPromptIndexSummarization?: string | undefined;
   systemPromptRewriteQuery?: string | undefined;
   tokenId?: string | undefined;
@@ -5045,6 +5214,8 @@ export type InstancesUpdateResponseFusionMethod = "max" | "rrf";
 export type InstancesUpdateResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type InstancesUpdateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface InstancesUpdateResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?: InstancesUpdateResponseIndexingOptionsKeywordTokenizer | null | undefined;
   /** Enables OCR ingestion for PDFs and images. Changing this triggers a full re-index. Defaults to false. */
@@ -5115,6 +5286,17 @@ export interface InstancesUpdateResponseRetrievalOptions {
   /** Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'. */
   keywordMatchMode?: InstancesUpdateResponseRetrievalOptionsKeywordMatchMode | null | undefined;
 }
+export type InstancesUpdateResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface InstancesUpdateResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: InstancesUpdateResponseSourceParamsD1Template | null | undefined;
+}
 export type InstancesUpdateResponseSourceParamsExcludeItemsList = Array<string>;
 export type InstancesUpdateResponseSourceParamsIncludeItemsList = Array<string>;
 export type InstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -5174,6 +5356,8 @@ export interface InstancesUpdateResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface InstancesUpdateResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: InstancesUpdateResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: InstancesUpdateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -5191,7 +5375,7 @@ export type InstancesUpdateResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type InstancesUpdateResponseType = "r2" | "web-crawler";
+export type InstancesUpdateResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -5234,13 +5418,14 @@ export interface UpdateInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: InstancesUpdateResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: InstancesUpdateResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: InstancesUpdateResponseType | null | undefined;
 }
 export type NamespacesUpdateRequestPublicEndpointParamsAuthorizedHostsList = Array<string>;
@@ -5362,6 +5547,8 @@ export type NamespacesInstancesUpdateRequestFusionMethod = "max" | "rrf";
 export type NamespacesInstancesUpdateRequestIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesUpdateRequestIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesUpdateRequestIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesUpdateRequestIndexingOptionsKeywordTokenizer
@@ -5443,6 +5630,17 @@ export interface NamespacesInstancesUpdateRequestRetrievalOptions {
     | (string & {})
     | undefined;
 }
+export type NamespacesInstancesUpdateRequestSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesUpdateRequestSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. Omit to keep the stored query. */
+  query?: string | undefined;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. Omit to keep the stored template. */
+  template?: NamespacesInstancesUpdateRequestSourceParamsD1Template | (string & {}) | undefined;
+}
 export type NamespacesInstancesUpdateRequestSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateRequestSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateRequestSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -5509,6 +5707,8 @@ export interface NamespacesInstancesUpdateRequestSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | undefined;
 }
 export interface NamespacesInstancesUpdateRequestSourceParams {
+  /** D1 source configuration of a d1 instance; ignored for other types. An omitted d1, query, or template keeps its stored value. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesUpdateRequestSourceParamsD1 | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesUpdateRequestSourceParamsExcludeItemsList | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -5558,13 +5758,17 @@ export interface UpdateNamespaceInstanceRequest {
   rewriteQuery?: boolean | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | undefined;
   sourceParams?: NamespacesInstancesUpdateRequestSourceParams | undefined;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarization?: boolean | undefined;
+  /** Deprecated and ignored during indexing and search; changing it still re-indexes existing files on the next sync. Use indexing_options.file_summary instead. */
   summarizationModel?: string | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesUpdateRequestSyncInterval | (number & {}) | undefined;
   systemPromptAiSearch?: string | undefined;
+  /** Deprecated and has no effect. Use indexing_options.file_summary instead. */
   systemPromptIndexSummarization?: string | undefined;
   systemPromptRewriteQuery?: string | undefined;
   tokenId?: string | undefined;
@@ -5600,6 +5804,8 @@ export type NamespacesInstancesUpdateResponseFusionMethod = "max" | "rrf";
 export type NamespacesInstancesUpdateResponseIndexMethod = InstancesCreateRequestIndexMethod;
 export type NamespacesInstancesUpdateResponseIndexingOptionsKeywordTokenizer = "porter" | "trigram";
 export interface NamespacesInstancesUpdateResponseIndexingOptions {
+  /** Generates a per-file summary, topics, and keywords during indexing for text files and media transcripts of at least three chunks. The summary and keywords are stored as the item's context metadata (a context you set is kept), and the topics are added to chunk context headers where they fit. Best effort: a file whose summary fails is indexed without one. The model calls are billed to your account through the instance's AI Gateway. Changing this triggers a full re-index. Defaults to false. */
+  fileSummary?: boolean | null | undefined;
   /** Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter. */
   keywordTokenizer?:
     | NamespacesInstancesUpdateResponseIndexingOptionsKeywordTokenizer
@@ -5690,6 +5896,17 @@ export interface NamespacesInstancesUpdateResponseRetrievalOptions {
     | null
     | undefined;
 }
+export type NamespacesInstancesUpdateResponseSourceParamsD1Template =
+  | "labelled"
+  | "content_only"
+  | "key_value"
+  | "json";
+export interface NamespacesInstancesUpdateResponseSourceParamsD1 {
+  /** Read-only SELECT query run against the D1 database. It must return an `id` column that uniquely identifies each row. Columns named `title` and `content` set the document title and body, and up to 5 `meta_*` columns become filterable custom metadata; any other column is indexed as a labelled field. Every sync reads the full result, up to 100,000 rows, with the instance's token, and those reads count against your D1 usage. Leading and trailing whitespace is trimmed before the query is stored. */
+  query: string;
+  /** How each row is rendered into the indexed document: labelled renders the title, the labelled fields, then the content; content_only renders the title and content (labelled fields only when there is no content); key_value renders every column as name: value; json renders every column as a JSON object. */
+  template?: NamespacesInstancesUpdateResponseSourceParamsD1Template | null | undefined;
+}
 export type NamespacesInstancesUpdateResponseSourceParamsExcludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateResponseSourceParamsIncludeItemsList = Array<string>;
 export type NamespacesInstancesUpdateResponseSourceParamsWebCrawlerDiscoverOptionsSource =
@@ -5760,6 +5977,8 @@ export interface NamespacesInstancesUpdateResponseSourceParamsWebCrawler {
   crawlOptions?: WebCrawlerCrawlOptions | null | undefined;
 }
 export interface NamespacesInstancesUpdateResponseSourceParams {
+  /** D1 source configuration. Required when creating a d1 instance and ignored for other types. For d1, include_items and exclude_items match each row's item key, `&lt;id&gt;.md`; a submitted source_params replaces both lists (an omitted list is cleared), so omit source_params to keep them. */
+  d1?: NamespacesInstancesUpdateResponseSourceParamsD1 | null | undefined;
   /** List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it. */
   excludeItems?: NamespacesInstancesUpdateResponseSourceParamsExcludeItemsList | null | undefined;
   /** List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it. */
@@ -5777,7 +5996,7 @@ export type NamespacesInstancesUpdateResponseSyncInterval =
   | 21600
   | 43200
   | 86400;
-export type NamespacesInstancesUpdateResponseType = "r2" | "web-crawler";
+export type NamespacesInstancesUpdateResponseType = "r2" | "web-crawler" | "d1";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
@@ -5820,13 +6039,14 @@ export interface UpdateNamespaceInstanceResponse {
   rewriteQuery?: boolean | null | undefined;
   /** Minimum similarity score a chunk must reach to be returned. Defaults to 0.4. */
   scoreThreshold?: number | null | undefined;
+  /** The R2 bucket name for r2, the website URL for web-crawler, or the D1 database ID (UUID) for d1. A d1 instance also requires token_id, and the token needs D1 Read permission. The d1 database cannot be changed after creation. */
   source?: string | null | undefined;
   sourceParams?: NamespacesInstancesUpdateResponseSourceParams | null | undefined;
   status?: string | null | undefined;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 86400 (24h). */
   syncInterval?: NamespacesInstancesUpdateResponseSyncInterval | null | undefined;
   tokenId?: string | null | undefined;
-  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. */
+  /** Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage. d1 is never inferred; it indexes the rows returned by source_params.d1.query. */
   type?: NamespacesInstancesUpdateResponseType | null | undefined;
 }
 export interface UpdateTokenRequest {
@@ -6006,7 +6226,7 @@ export const createInstance: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<CreateInstanceResponse>,
+  output: __S(261, __c16, 5) as any as S.Schema<CreateInstanceResponse>,
   errors: [
     ValidationError,
     NotFound,
@@ -6036,8 +6256,8 @@ export const createInstanceJob: API.OperationMethod<
   CreateInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateInstanceJobRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<CreateInstanceJobResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateInstanceJobRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateInstanceJobResponse>,
   errors: [ValidationError, NotFound, InvalidRoute, UnableToConnect, SyncInCooldown],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6054,8 +6274,8 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<CreateNamespaceResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CreateNamespaceResponse>,
   errors: [NamespaceAlreadyExists, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6083,8 +6303,8 @@ export const createNamespaceInstance: API.OperationMethod<
   CreateNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateNamespaceInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<CreateNamespaceInstanceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateNamespaceInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<CreateNamespaceInstanceResponse>,
   errors: [
     ValidationError,
     NamespaceNotFound,
@@ -6112,8 +6332,8 @@ export const createNamespaceInstanceJob: API.OperationMethod<
   CreateNamespaceInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<CreateNamespaceInstanceJobRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<CreateNamespaceInstanceJobResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateNamespaceInstanceJobRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateNamespaceInstanceJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6130,8 +6350,8 @@ export const createOrUpdateNamespaceInstanceItem: API.OperationMethod<
   CreateOrUpdateNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateOrUpdateNamespaceInstanceItemRequest>,
-  output: __S(403, __c25, 3) as any as S.Schema<CreateOrUpdateNamespaceInstanceItemResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateOrUpdateNamespaceInstanceItemRequest>,
+  output: __S(419, __c26, 3) as any as S.Schema<CreateOrUpdateNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6154,8 +6374,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<CreateTokenResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<CreateTokenResponse>,
   errors: [ValidationError, NotFound, InvalidRoute, InvalidTokenCredentials, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6177,8 +6397,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<DeleteInstanceResponse>,
   errors: [ValidationError, NotFound, InvalidRoute, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6195,8 +6415,8 @@ export const deleteNamespace: API.OperationMethod<
   DeleteNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeleteNamespaceRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteNamespaceResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteNamespaceRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeleteNamespaceResponse>,
   errors: [NamespaceNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6219,8 +6439,8 @@ export const deleteNamespaceInstance: API.OperationMethod<
   DeleteNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DeleteNamespaceInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<DeleteNamespaceInstanceResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteNamespaceInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<DeleteNamespaceInstanceResponse>,
   errors: [ValidationError, NamespaceNotFound, AiSearchInstanceNotFound, InvalidRoute, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6237,8 +6457,8 @@ export const deleteNamespaceInstanceItem: API.OperationMethod<
   DeleteNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteNamespaceInstanceItemRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<DeleteNamespaceInstanceItemResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteNamespaceInstanceItemRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<DeleteNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6262,8 +6482,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [
     ValidationError,
     NotFound,
@@ -6287,8 +6507,8 @@ export const downloadNamespaceInstanceItem: API.OperationMethod<
   DownloadNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DownloadNamespaceInstanceItemRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<DownloadNamespaceInstanceItemResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<DownloadNamespaceInstanceItemRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<DownloadNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6305,8 +6525,8 @@ export const getInstanceJob: API.OperationMethod<
   GetInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetInstanceJobRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<GetInstanceJobResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetInstanceJobRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetInstanceJobResponse>,
   errors: [ValidationError, NotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6323,8 +6543,8 @@ export const getNamespaceInstanceItem: API.OperationMethod<
   GetNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetNamespaceInstanceItemRequest>,
-  output: __S(579, __c36, 3) as any as S.Schema<GetNamespaceInstanceItemResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetNamespaceInstanceItemRequest>,
+  output: __S(595, __c37, 3) as any as S.Schema<GetNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6341,8 +6561,8 @@ export const getNamespaceInstanceJob: API.OperationMethod<
   GetNamespaceInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetNamespaceInstanceJobRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<GetNamespaceInstanceJobResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetNamespaceInstanceJobRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetNamespaceInstanceJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6361,8 +6581,8 @@ export const listInstanceJobs: API.PaginatedOperationMethod<
   InstancesJobsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(608, __c38, 0) as any as S.Schema<ListInstanceJobsRequest>,
-    output: __S(626, __c39, 2) as any as S.Schema<ListInstanceJobsResponse>,
+    input: __S(624, __c39, 0) as any as S.Schema<ListInstanceJobsRequest>,
+    output: __S(642, __c40, 2) as any as S.Schema<ListInstanceJobsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6390,8 +6610,8 @@ export const listInstances: API.PaginatedOperationMethod<
   InstancesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(640, __c40, 0) as any as S.Schema<ListInstancesRequest>,
-    output: __S(661, __c41, 5) as any as S.Schema<ListInstancesResponse>,
+    input: __S(656, __c41, 0) as any as S.Schema<ListInstancesRequest>,
+    output: __S(679, __c42, 7) as any as S.Schema<ListInstancesResponse>,
     errors: [InvalidRoute, Forbidden],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6419,8 +6639,8 @@ export const listNamespaceInstanceItems: API.PaginatedOperationMethod<
   NamespacesInstancesItemsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c42, 0) as any as S.Schema<ListNamespaceInstanceItemsRequest>,
-    output: __S(677, __c42, 5) as any as S.Schema<ListNamespaceInstanceItemsResponse>,
+    input: __S(688, __c43, 0) as any as S.Schema<ListNamespaceInstanceItemsRequest>,
+    output: __S(693, __c43, 5) as any as S.Schema<ListNamespaceInstanceItemsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6448,8 +6668,8 @@ export const listNamespaceInstanceJobs: API.PaginatedOperationMethod<
   NamespacesInstancesJobsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(688, __c43, 0) as any as S.Schema<ListNamespaceInstanceJobsRequest>,
-    output: __S(626, __c39, 2) as any as S.Schema<ListNamespaceInstanceJobsResponse>,
+    input: __S(704, __c44, 0) as any as S.Schema<ListNamespaceInstanceJobsRequest>,
+    output: __S(642, __c40, 2) as any as S.Schema<ListNamespaceInstanceJobsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6481,8 +6701,8 @@ export const listNamespaceInstances: API.PaginatedOperationMethod<
   NamespacesInstancesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(704, __c44, 0) as any as S.Schema<ListNamespaceInstancesRequest>,
-    output: __S(661, __c41, 5) as any as S.Schema<ListNamespaceInstancesResponse>,
+    input: __S(720, __c45, 0) as any as S.Schema<ListNamespaceInstancesRequest>,
+    output: __S(679, __c42, 7) as any as S.Schema<ListNamespaceInstancesResponse>,
     errors: [NamespaceNotFound, InvalidRoute, Forbidden],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6510,8 +6730,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   NamespacesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(720, __c45, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(723, __c45, 3) as any as S.Schema<ListNamespacesResponse>,
+    input: __S(736, __c46, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(739, __c46, 3) as any as S.Schema<ListNamespacesResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6539,8 +6759,8 @@ export const listTokens: API.PaginatedOperationMethod<
   TokensListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(736, __c46, 0) as any as S.Schema<ListTokensRequest>,
-    output: __S(739, __c46, 3) as any as S.Schema<ListTokensResponse>,
+    input: __S(752, __c47, 0) as any as S.Schema<ListTokensRequest>,
+    output: __S(755, __c47, 3) as any as S.Schema<ListTokensResponse>,
     errors: [InvalidRoute, Forbidden],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -6566,8 +6786,8 @@ export const logsInstanceJob: API.OperationMethod<
   LogsInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<LogsInstanceJobRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<LogsInstanceJobResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<LogsInstanceJobRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<LogsInstanceJobResponse>,
   errors: [ValidationError, NotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6584,8 +6804,8 @@ export const logsNamespaceInstanceItem: API.OperationMethod<
   LogsNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<LogsNamespaceInstanceItemRequest>,
-  output: __S(787, __c49, 3) as any as S.Schema<LogsNamespaceInstanceItemResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<LogsNamespaceInstanceItemRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<LogsNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6602,8 +6822,8 @@ export const logsNamespaceInstanceJob: API.OperationMethod<
   LogsNamespaceInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<LogsNamespaceInstanceJobRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<LogsNamespaceInstanceJobResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<LogsNamespaceInstanceJobRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<LogsNamespaceInstanceJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6620,8 +6840,8 @@ export const moveNamespacesInstance: API.OperationMethod<
   MoveNamespacesInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<MoveNamespacesInstanceRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<MoveNamespacesInstanceResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<MoveNamespacesInstanceRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<MoveNamespacesInstanceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6638,8 +6858,8 @@ export const patchNamespaceInstanceJob: API.OperationMethod<
   PatchNamespaceInstanceJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<PatchNamespaceInstanceJobRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<PatchNamespaceInstanceJobResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<PatchNamespaceInstanceJobRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<PatchNamespaceInstanceJobResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6661,8 +6881,8 @@ export const readInstance: API.OperationMethod<
   ReadInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ReadInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<ReadInstanceResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ReadInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<ReadInstanceResponse>,
   errors: [ValidationError, AiSearchInstanceNotFound, InvalidRoute, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6679,8 +6899,8 @@ export const readNamespace: API.OperationMethod<
   ReadNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ReadNamespaceRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<ReadNamespaceResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ReadNamespaceRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ReadNamespaceResponse>,
   errors: [NamespaceNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6703,8 +6923,8 @@ export const readNamespaceInstance: API.OperationMethod<
   ReadNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ReadNamespaceInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<ReadNamespaceInstanceResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ReadNamespaceInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<ReadNamespaceInstanceResponse>,
   errors: [ValidationError, NamespaceNotFound, AiSearchInstanceNotFound, InvalidRoute, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6727,8 +6947,8 @@ export const readToken: API.OperationMethod<
   ReadTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ReadTokenRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<ReadTokenResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ReadTokenRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<ReadTokenResponse>,
   errors: [ValidationError, NotFound, InvalidRoute, TokenNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6745,8 +6965,8 @@ export const searchInstance: API.OperationMethod<
   SearchInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(918, __c57, 6) as any as S.Schema<SearchInstanceRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<SearchInstanceResponse>,
+  input: __S(934, __c58, 6) as any as S.Schema<SearchInstanceRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<SearchInstanceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6763,8 +6983,8 @@ export const searchNamespace: API.OperationMethod<
   SearchNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(950, __c59, 6) as any as S.Schema<SearchNamespaceRequest>,
-  output: __S(953, __c59, 9) as any as S.Schema<SearchNamespaceResponse>,
+  input: __S(966, __c60, 6) as any as S.Schema<SearchNamespaceRequest>,
+  output: __S(969, __c60, 9) as any as S.Schema<SearchNamespaceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6781,8 +7001,8 @@ export const searchNamespaceInstance: API.OperationMethod<
   SearchNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(966, __c60, 6) as any as S.Schema<SearchNamespaceInstanceRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<SearchNamespaceInstanceResponse>,
+  input: __S(982, __c61, 6) as any as S.Schema<SearchNamespaceInstanceRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<SearchNamespaceInstanceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6799,8 +7019,8 @@ export const statsInstance: API.OperationMethod<
   StatsInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<StatsInstanceRequest>,
-  output: __S(995, __c62, 3) as any as S.Schema<StatsInstanceResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<StatsInstanceRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<StatsInstanceResponse>,
   errors: [ValidationError, NotFound, InvalidRoute],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6817,8 +7037,8 @@ export const statsNamespaceInstance: API.OperationMethod<
   StatsNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<StatsNamespaceInstanceRequest>,
-  output: __S(995, __c62, 3) as any as S.Schema<StatsNamespaceInstanceResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<StatsNamespaceInstanceRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<StatsNamespaceInstanceResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6835,8 +7055,8 @@ export const syncNamespaceInstanceItem: API.OperationMethod<
   SyncNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SyncNamespaceInstanceItemRequest>,
-  output: __S(1027, __c64, 3) as any as S.Schema<SyncNamespaceInstanceItemResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<SyncNamespaceInstanceItemRequest>,
+  output: __S(1043, __c65, 3) as any as S.Schema<SyncNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6859,8 +7079,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<UpdateInstanceResponse>,
   errors: [ValidationError, NotFound, InvalidRoute, InvalidTokenCredentials, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6877,8 +7097,8 @@ export const updateNamespace: API.OperationMethod<
   UpdateNamespaceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UpdateNamespaceRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<UpdateNamespaceResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UpdateNamespaceRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<UpdateNamespaceResponse>,
   errors: [NamespaceNotFound, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -6903,8 +7123,8 @@ export const updateNamespaceInstance: API.OperationMethod<
   UpdateNamespaceInstanceError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<UpdateNamespaceInstanceRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<UpdateNamespaceInstanceResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateNamespaceInstanceRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<UpdateNamespaceInstanceResponse>,
   errors: [
     ValidationError,
     NamespaceNotFound,
@@ -6936,8 +7156,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<UpdateTokenResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<UpdateTokenResponse>,
   errors: [
     ValidationError,
     NotFound,
@@ -6961,8 +7181,8 @@ export const uploadNamespaceInstanceItem: API.OperationMethod<
   UploadNamespaceInstanceItemError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1105, __c69, 1) as any as S.Schema<UploadNamespaceInstanceItemRequest>,
-  output: __S(1110, __c69, 6) as any as S.Schema<UploadNamespaceInstanceItemResponse>,
+  input: __S(1137, __c71, 1) as any as S.Schema<UploadNamespaceInstanceItemRequest>,
+  output: __S(1142, __c71, 6) as any as S.Schema<UploadNamespaceInstanceItemResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -7391,25 +7611,25 @@ function __c11(j: number): any {
           chunk: S.optional(S.Boolean),
           chunkOverlap: S.optional(S.Number.pipe(T.Body("chunk_overlap"))),
           chunkSize: S.optional(S.Number.pipe(T.Body("chunk_size"))),
-          customMetadata: S.optional(__S(225, __c14, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(241, __c15, 1).pipe(T.Body("custom_metadata"))),
           embeddingModel: S.optional(S.String.pipe(T.Body("embedding_model"))),
           fusionMethod: S.optional(S.String.pipe(T.Body("fusion_method"))),
           hybridSearchEnabled: S.optional(S.Boolean.pipe(T.Body("hybrid_search_enabled"))),
-          indexMethod: S.optional(__S(226, __c14, 2).pipe(T.Body("index_method"))),
-          indexingOptions: S.optional(__S(256, __c16, 0).pipe(T.Body("indexing_options"))),
+          indexMethod: S.optional(__S(242, __c15, 2).pipe(T.Body("index_method"))),
+          indexingOptions: S.optional(__S(272, __c17, 0).pipe(T.Body("indexing_options"))),
           maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
-          metadata: S.optional(__S(257, __c16, 1)),
+          metadata: S.optional(__S(273, __c17, 1)),
           publicEndpointParams: S.optional(
-            __S(258, __c16, 2).pipe(T.Body("public_endpoint_params")),
+            __S(274, __c17, 2).pipe(T.Body("public_endpoint_params")),
           ),
           reranking: S.optional(S.Boolean),
           rerankingModel: S.optional(S.String.pipe(T.Body("reranking_model"))),
-          retrievalOptions: S.optional(__S(259, __c16, 3).pipe(T.Body("retrieval_options"))),
+          retrievalOptions: S.optional(__S(275, __c17, 3).pipe(T.Body("retrieval_options"))),
           rewriteModel: S.optional(S.String.pipe(T.Body("rewrite_model"))),
           rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
           scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
           source: S.optional(S.String),
-          sourceParams: S.optional(__S(263, __c16, 7).pipe(T.Body("source_params"))),
+          sourceParams: S.optional(__S(225, __c14, 1).pipe(T.Body("source_params"))),
           syncInterval: S.optional(S.Number.pipe(T.Body("sync_interval"))),
           tokenId: S.optional(S.String.pipe(T.Body("token_id"))),
           type: S.optional(S.String),
@@ -7484,12 +7704,34 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          query: S.String,
+          template: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstancesCreateRequestSourceParamsD1" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          d1: S.optional(__S(224, __c14, 0)),
+          excludeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("exclude_items"))),
+          includeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("include_items"))),
+          prefix: S.optional(S.String),
+          r2Jurisdiction: S.optional(S.String.pipe(T.Body("r2_jurisdiction"))),
+          webCrawler: S.optional(__S(278, __c17, 6).pipe(T.Body("web_crawler"))),
+        }),
+      ).annotate({ identifier: "InstancesCreateRequestSourceParams" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           dataType: S.String.pipe(T.Body("data_type")),
           fieldName: S.String.pipe(T.Body("field_name")),
         }),
       ).annotate({ identifier: "InstancesCreateRequestCustomMetadataItem" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7514,7 +7756,7 @@ function __c14(j: number): any {
         identifier: "InstancesCreateRequestSourceParamsWebCrawlerParseOptionsContentSelectorItem",
       });
     case 5:
-      return S.Array(__S(228, __c14, 4));
+      return S.Array(__S(244, __c15, 4));
     case 6:
       return S.Record(S.String, S.String);
     case 7:
@@ -7532,6 +7774,7 @@ function __c14(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
+          fileSummary: S.optional(S.NullOr(S.Boolean).pipe(T.Body("file_summary"))),
           keywordTokenizer: S.optional(S.NullOr(S.String).pipe(T.Body("keyword_tokenizer"))),
           useOcr: S.optional(S.NullOr(S.Boolean).pipe(T.Body("use_ocr"))),
         }),
@@ -7543,7 +7786,7 @@ function __c14(j: number): any {
             S.NullOr(S.Boolean).pipe(T.Body("created_from_aisearch_wizard")),
           ),
           createdFromEmdashPlugin: S.optional(
-            S.NullOr(__S(227, __c14, 3)).pipe(T.Body("created_from_emdash_plugin")),
+            S.NullOr(__S(243, __c15, 3)).pipe(T.Body("created_from_emdash_plugin")),
           ),
           workerDomain: S.optional(S.NullOr(S.String).pipe(T.Body("worker_domain"))),
         }),
@@ -7582,9 +7825,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentSelector: S.optional(
-            S.NullOr(__S(229, __c14, 5)).pipe(T.Body("content_selector")),
+            S.NullOr(__S(245, __c15, 5)).pipe(T.Body("content_selector")),
           ),
-          includeHeaders: S.optional(S.NullOr(__S(230, __c14, 6)).pipe(T.Body("include_headers"))),
+          includeHeaders: S.optional(S.NullOr(__S(246, __c15, 6)).pipe(T.Body("include_headers"))),
           includeImages: S.optional(S.NullOr(S.Boolean).pipe(T.Body("include_images"))),
           specificSitemaps: S.optional(
             S.NullOr(__S(112, __c7, 0)).pipe(T.Body("specific_sitemaps")),
@@ -7598,26 +7841,16 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           discoverOptions: S.optional(
-            S.NullOr(__S(235, __c14, 11)).pipe(T.Body("discover_options")),
+            S.NullOr(__S(251, __c15, 11)).pipe(T.Body("discover_options")),
           ),
-          parseOptions: S.optional(S.NullOr(__S(236, __c14, 12)).pipe(T.Body("parse_options"))),
+          parseOptions: S.optional(S.NullOr(__S(252, __c15, 12)).pipe(T.Body("parse_options"))),
           parseType: S.optional(S.NullOr(S.String).pipe(T.Body("parse_type"))),
-          crawlOptions: S.optional(S.NullOr(__S(231, __c14, 7)).pipe(T.Body("crawl_options"))),
+          crawlOptions: S.optional(S.NullOr(__S(247, __c15, 7)).pipe(T.Body("crawl_options"))),
         }),
       ).annotate({ identifier: "InstancesCreateResponseSourceParamsWebCrawler" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          excludeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("exclude_items"))),
-          includeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("include_items"))),
-          prefix: S.optional(S.NullOr(S.String)),
-          r2Jurisdiction: S.optional(S.NullOr(S.String).pipe(T.Body("r2_jurisdiction"))),
-          webCrawler: S.optional(S.NullOr(__S(237, __c14, 13)).pipe(T.Body("web_crawler"))),
-        }),
-      ).annotate({ identifier: "InstancesCreateResponseSourceParams" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7627,15 +7860,33 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "InstancesCreateResponseRetrievalOptionsBoostByItem" });
     case 1:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(256, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          boostBy: S.optional(S.NullOr(__S(241, __c15, 1)).pipe(T.Body("boost_by"))),
+          boostBy: S.optional(S.NullOr(__S(257, __c16, 1)).pipe(T.Body("boost_by"))),
           keywordMatchMode: S.optional(S.NullOr(S.String).pipe(T.Body("keyword_match_mode"))),
         }),
       ).annotate({ identifier: "InstancesCreateResponseRetrievalOptions" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String,
+          template: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "InstancesCreateResponseSourceParamsD1" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          d1: S.optional(S.NullOr(__S(259, __c16, 3))),
+          excludeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("exclude_items"))),
+          includeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("include_items"))),
+          prefix: S.optional(S.NullOr(S.String)),
+          r2Jurisdiction: S.optional(S.NullOr(S.String).pipe(T.Body("r2_jurisdiction"))),
+          webCrawler: S.optional(S.NullOr(__S(253, __c15, 13)).pipe(T.Body("web_crawler"))),
+        }),
+      ).annotate({ identifier: "InstancesCreateResponseSourceParams" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7649,7 +7900,7 @@ function __c15(j: number): any {
           chunkOverlap: S.optional(S.NullOr(S.Number).pipe(T.Body("chunk_overlap"))),
           chunkSize: S.optional(S.NullOr(S.Number).pipe(T.Body("chunk_size"))),
           createdBy: S.optional(S.NullOr(S.String).pipe(T.Body("created_by"))),
-          customMetadata: S.optional(S.NullOr(__S(225, __c14, 1)).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(S.NullOr(__S(241, __c15, 1)).pipe(T.Body("custom_metadata"))),
           embeddingModel: S.optional(S.NullOr(S.String).pipe(T.Body("embedding_model"))),
           enable: S.optional(S.NullOr(S.Boolean)),
           engineVersion: S.optional(S.NullOr(S.Number).pipe(T.Body("engine_version"))),
@@ -7657,30 +7908,30 @@ function __c15(j: number): any {
           hybridSearchEnabled: S.optional(
             S.NullOr(S.Boolean).pipe(T.Body("hybrid_search_enabled")),
           ),
-          indexMethod: S.optional(S.NullOr(__S(226, __c14, 2)).pipe(T.Body("index_method"))),
+          indexMethod: S.optional(S.NullOr(__S(242, __c15, 2)).pipe(T.Body("index_method"))),
           indexingOptions: S.optional(
-            S.NullOr(__S(232, __c14, 8)).pipe(T.Body("indexing_options")),
+            S.NullOr(__S(248, __c15, 8)).pipe(T.Body("indexing_options")),
           ),
           lastActivity: S.optional(S.NullOr(S.String).pipe(T.Body("last_activity"))),
           maxNumResults: S.optional(S.NullOr(S.Number).pipe(T.Body("max_num_results"))),
-          metadata: S.optional(S.NullOr(__S(233, __c14, 9))),
+          metadata: S.optional(S.NullOr(__S(249, __c15, 9))),
           modifiedBy: S.optional(S.NullOr(S.String).pipe(T.Body("modified_by"))),
           namespace: S.optional(S.NullOr(S.String)),
           paused: S.optional(S.NullOr(S.Boolean)),
           publicEndpointId: S.optional(S.NullOr(S.String).pipe(T.Body("public_endpoint_id"))),
           publicEndpointParams: S.optional(
-            S.NullOr(__S(234, __c14, 10)).pipe(T.Body("public_endpoint_params")),
+            S.NullOr(__S(250, __c15, 10)).pipe(T.Body("public_endpoint_params")),
           ),
           reranking: S.optional(S.NullOr(S.Boolean)),
           rerankingModel: S.optional(S.NullOr(S.String).pipe(T.Body("reranking_model"))),
           retrievalOptions: S.optional(
-            S.NullOr(__S(242, __c15, 2)).pipe(T.Body("retrieval_options")),
+            S.NullOr(__S(258, __c16, 2)).pipe(T.Body("retrieval_options")),
           ),
           rewriteModel: S.optional(S.NullOr(S.String).pipe(T.Body("rewrite_model"))),
           rewriteQuery: S.optional(S.NullOr(S.Boolean).pipe(T.Body("rewrite_query"))),
           scoreThreshold: S.optional(S.NullOr(S.Number).pipe(T.Body("score_threshold"))),
           source: S.optional(S.NullOr(S.String)),
-          sourceParams: S.optional(S.NullOr(__S(238, __c14, 14)).pipe(T.Body("source_params"))),
+          sourceParams: S.optional(S.NullOr(__S(260, __c16, 4)).pipe(T.Body("source_params"))),
           status: S.optional(S.NullOr(S.String)),
           syncInterval: S.optional(S.NullOr(S.Number).pipe(T.Body("sync_interval"))),
           tokenId: S.optional(S.NullOr(S.String).pipe(T.Body("token_id"))),
@@ -7689,11 +7940,12 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          fileSummary: S.optional(S.Boolean.pipe(T.Body("file_summary"))),
           keywordTokenizer: S.optional(S.String.pipe(T.Body("keyword_tokenizer"))),
           useOcr: S.optional(S.Boolean.pipe(T.Body("use_ocr"))),
         }),
@@ -7705,7 +7957,7 @@ function __c16(j: number): any {
             S.Boolean.pipe(T.Body("created_from_aisearch_wizard")),
           ),
           createdFromEmdashPlugin: S.optional(
-            __S(227, __c14, 3).pipe(T.Body("created_from_emdash_plugin")),
+            __S(243, __c15, 3).pipe(T.Body("created_from_emdash_plugin")),
           ),
           workerDomain: S.optional(S.String.pipe(T.Body("worker_domain"))),
         }),
@@ -7746,8 +7998,8 @@ function __c16(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          contentSelector: S.optional(__S(229, __c14, 5).pipe(T.Body("content_selector"))),
-          includeHeaders: S.optional(__S(230, __c14, 6).pipe(T.Body("include_headers"))),
+          contentSelector: S.optional(__S(245, __c15, 5).pipe(T.Body("content_selector"))),
+          includeHeaders: S.optional(__S(246, __c15, 6).pipe(T.Body("include_headers"))),
           includeImages: S.optional(S.Boolean.pipe(T.Body("include_images"))),
           specificSitemaps: S.optional(__S(112, __c7, 0).pipe(T.Body("specific_sitemaps"))),
           useBrowserRendering: S.optional(S.Boolean.pipe(T.Body("use_browser_rendering"))),
@@ -7756,25 +8008,15 @@ function __c16(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          discoverOptions: S.optional(__S(260, __c16, 4).pipe(T.Body("discover_options"))),
-          parseOptions: S.optional(__S(261, __c16, 5).pipe(T.Body("parse_options"))),
+          discoverOptions: S.optional(__S(276, __c17, 4).pipe(T.Body("discover_options"))),
+          parseOptions: S.optional(__S(277, __c17, 5).pipe(T.Body("parse_options"))),
           parseType: S.optional(S.String.pipe(T.Body("parse_type"))),
-          crawlOptions: S.optional(__S(231, __c14, 7).pipe(T.Body("crawl_options"))),
+          crawlOptions: S.optional(__S(247, __c15, 7).pipe(T.Body("crawl_options"))),
         }),
       ).annotate({ identifier: "InstancesCreateRequestSourceParamsWebCrawler" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          excludeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("exclude_items"))),
-          includeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("include_items"))),
-          prefix: S.optional(S.String),
-          r2Jurisdiction: S.optional(S.String.pipe(T.Body("r2_jurisdiction"))),
-          webCrawler: S.optional(__S(262, __c16, 6).pipe(T.Body("web_crawler"))),
-        }),
-      ).annotate({ identifier: "InstancesCreateRequestSourceParams" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7794,7 +8036,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateInstanceJobRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7810,7 +8052,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateInstanceJobResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7819,7 +8061,7 @@ function __c19(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           publicEndpointParams: S.optional(
-            __S(352, __c22, 0).pipe(T.Body("public_endpoint_params")),
+            __S(368, __c23, 0).pipe(T.Body("public_endpoint_params")),
           ),
         })
           .pipe(
@@ -7833,7 +8075,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateNamespaceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7857,7 +8099,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "NamespacesCreateResponsePublicEndpointParams" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7867,13 +8109,13 @@ function __c21(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           publicEndpointId: S.optional(S.NullOr(S.String).pipe(T.Body("public_endpoint_id"))),
           publicEndpointParams: S.optional(
-            S.NullOr(__S(320, __c20, 0)).pipe(T.Body("public_endpoint_params")),
+            S.NullOr(__S(336, __c21, 0)).pipe(T.Body("public_endpoint_params")),
           ),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateNamespaceResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7893,7 +8135,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "NamespacesCreateRequestPublicEndpointParams" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7909,25 +8151,25 @@ function __c23(j: number): any {
           chunk: S.optional(S.Boolean),
           chunkOverlap: S.optional(S.Number.pipe(T.Body("chunk_overlap"))),
           chunkSize: S.optional(S.Number.pipe(T.Body("chunk_size"))),
-          customMetadata: S.optional(__S(225, __c14, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(241, __c15, 1).pipe(T.Body("custom_metadata"))),
           embeddingModel: S.optional(S.String.pipe(T.Body("embedding_model"))),
           fusionMethod: S.optional(S.String.pipe(T.Body("fusion_method"))),
           hybridSearchEnabled: S.optional(S.Boolean.pipe(T.Body("hybrid_search_enabled"))),
-          indexMethod: S.optional(__S(226, __c14, 2).pipe(T.Body("index_method"))),
-          indexingOptions: S.optional(__S(256, __c16, 0).pipe(T.Body("indexing_options"))),
+          indexMethod: S.optional(__S(242, __c15, 2).pipe(T.Body("index_method"))),
+          indexingOptions: S.optional(__S(272, __c17, 0).pipe(T.Body("indexing_options"))),
           maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
-          metadata: S.optional(__S(257, __c16, 1)),
+          metadata: S.optional(__S(273, __c17, 1)),
           publicEndpointParams: S.optional(
-            __S(258, __c16, 2).pipe(T.Body("public_endpoint_params")),
+            __S(274, __c17, 2).pipe(T.Body("public_endpoint_params")),
           ),
           reranking: S.optional(S.Boolean),
           rerankingModel: S.optional(S.String.pipe(T.Body("reranking_model"))),
-          retrievalOptions: S.optional(__S(259, __c16, 3).pipe(T.Body("retrieval_options"))),
+          retrievalOptions: S.optional(__S(275, __c17, 3).pipe(T.Body("retrieval_options"))),
           rewriteModel: S.optional(S.String.pipe(T.Body("rewrite_model"))),
           rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
           scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
           source: S.optional(S.String),
-          sourceParams: S.optional(__S(263, __c16, 7).pipe(T.Body("source_params"))),
+          sourceParams: S.optional(__S(225, __c14, 1).pipe(T.Body("source_params"))),
           syncInterval: S.optional(S.Number.pipe(T.Body("sync_interval"))),
           tokenId: S.optional(S.String.pipe(T.Body("token_id"))),
           type: S.optional(S.String),
@@ -7943,7 +8185,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateNamespaceInstanceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7964,7 +8206,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateNamespaceInstanceJobRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7988,7 +8230,7 @@ function __c25(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 2:
-      return S.Record(S.String, __S(401, __c25, 1));
+      return S.Record(S.String, __S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7999,7 +8241,7 @@ function __c25(j: number): any {
           fileSize: S.Number.pipe(T.Body("file_size")),
           key: S.String,
           lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-          metadata: __S(402, __c25, 2),
+          metadata: __S(418, __c26, 2),
           namespace: S.String,
           nextAction: S.String.pipe(T.Body("next_action")),
           sourceId: S.String.pipe(T.Body("source_id")),
@@ -8009,7 +8251,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateOrUpdateNamespaceInstanceItemResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8027,7 +8269,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateTokenRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8045,7 +8287,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateTokenResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8064,7 +8306,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8083,7 +8325,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8091,7 +8333,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8111,7 +8353,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceInstanceRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8138,7 +8380,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteNamespaceInstanceItemResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8157,7 +8399,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8182,7 +8424,7 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8202,7 +8444,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetInstanceJobRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8224,7 +8466,7 @@ function __c36(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 2:
-      return S.Record(S.String, __S(577, __c36, 1));
+      return S.Record(S.String, __S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8235,7 +8477,7 @@ function __c36(j: number): any {
           fileSize: S.Number.pipe(T.Body("file_size")),
           key: S.String,
           lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-          metadata: __S(578, __c36, 2),
+          metadata: __S(594, __c37, 2),
           namespace: S.String,
           nextAction: S.String.pipe(T.Body("next_action")),
           sourceId: S.String.pipe(T.Body("source_id")),
@@ -8245,7 +8487,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetNamespaceInstanceItemResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8266,7 +8508,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetNamespaceInstanceJobRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8287,7 +8529,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListInstanceJobsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8302,17 +8544,17 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "InstancesJobsListResultItem" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(640, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(625, __c39, 1).pipe(T.EnvelopePayload()),
+          result: __S(641, __c40, 1).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListInstanceJobsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8333,7 +8575,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListInstancesRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8344,15 +8586,33 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "InstancesListResultItemRetrievalOptionsBoostByItem" });
     case 1:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(672, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          boostBy: S.optional(S.NullOr(__S(657, __c41, 1)).pipe(T.Body("boost_by"))),
+          boostBy: S.optional(S.NullOr(__S(673, __c42, 1)).pipe(T.Body("boost_by"))),
           keywordMatchMode: S.optional(S.NullOr(S.String).pipe(T.Body("keyword_match_mode"))),
         }),
       ).annotate({ identifier: "InstancesListResultItemRetrievalOptions" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(S.NullOr(S.String)),
+          template: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "InstancesListResultItemSourceParamsD1" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          d1: S.optional(S.NullOr(__S(675, __c42, 3))),
+          excludeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("exclude_items"))),
+          includeItems: S.optional(S.NullOr(__S(112, __c7, 0)).pipe(T.Body("include_items"))),
+          prefix: S.optional(S.NullOr(S.String)),
+          r2Jurisdiction: S.optional(S.NullOr(S.String).pipe(T.Body("r2_jurisdiction"))),
+          webCrawler: S.optional(S.NullOr(__S(253, __c15, 13)).pipe(T.Body("web_crawler"))),
+        }),
+      ).annotate({ identifier: "InstancesListResultItemSourceParams" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8366,31 +8626,31 @@ function __c41(j: number): any {
           chunkSize: S.Number.pipe(T.Body("chunk_size")),
           createdAt: S.String.pipe(T.Body("created_at")),
           createdBy: S.String.pipe(T.Body("created_by")),
-          customMetadata: __S(225, __c14, 1).pipe(T.Body("custom_metadata")),
+          customMetadata: __S(241, __c15, 1).pipe(T.Body("custom_metadata")),
           embeddingModel: S.String.pipe(T.Body("embedding_model")),
           enable: S.Boolean,
           engineVersion: S.Number.pipe(T.Body("engine_version")),
           fusionMethod: S.String.pipe(T.Body("fusion_method")),
           hybridSearchEnabled: S.Boolean.pipe(T.Body("hybrid_search_enabled")),
-          indexMethod: __S(226, __c14, 2).pipe(T.Body("index_method")),
-          indexingOptions: __S(232, __c14, 8).pipe(T.Body("indexing_options")),
+          indexMethod: __S(242, __c15, 2).pipe(T.Body("index_method")),
+          indexingOptions: __S(248, __c15, 8).pipe(T.Body("indexing_options")),
           lastActivity: S.String.pipe(T.Body("last_activity")),
           maxNumResults: S.Number.pipe(T.Body("max_num_results")),
-          metadata: __S(233, __c14, 9),
+          metadata: __S(249, __c15, 9),
           modifiedAt: S.String.pipe(T.Body("modified_at")),
           modifiedBy: S.String.pipe(T.Body("modified_by")),
           namespace: S.String,
           paused: S.Boolean,
           publicEndpointId: S.String.pipe(T.Body("public_endpoint_id")),
-          publicEndpointParams: __S(234, __c14, 10).pipe(T.Body("public_endpoint_params")),
+          publicEndpointParams: __S(250, __c15, 10).pipe(T.Body("public_endpoint_params")),
           reranking: S.Boolean,
           rerankingModel: S.String.pipe(T.Body("reranking_model")),
-          retrievalOptions: __S(658, __c41, 2).pipe(T.Body("retrieval_options")),
+          retrievalOptions: __S(674, __c42, 2).pipe(T.Body("retrieval_options")),
           rewriteModel: S.String.pipe(T.Body("rewrite_model")),
           rewriteQuery: S.Boolean.pipe(T.Body("rewrite_query")),
           scoreThreshold: S.Number.pipe(T.Body("score_threshold")),
           source: S.String,
-          sourceParams: __S(238, __c14, 14).pipe(T.Body("source_params")),
+          sourceParams: __S(676, __c42, 4).pipe(T.Body("source_params")),
           status: S.String,
           summarization: S.Boolean,
           summarizationModel: S.String.pipe(T.Body("summarization_model")),
@@ -8404,18 +8664,18 @@ function __c41(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "InstancesListResultItem" });
-    case 4:
-      return S.Array(__S(659, __c41, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(677, __c42, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          result: __S(660, __c41, 4).pipe(T.EnvelopePayload()),
+          result: __S(678, __c42, 6).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8445,7 +8705,7 @@ function __c42(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 2:
-      return S.Record(S.String, __S(673, __c42, 1));
+      return S.Record(S.String, __S(689, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8456,7 +8716,7 @@ function __c42(j: number): any {
           fileSize: S.Number.pipe(T.Body("file_size")),
           key: S.String,
           lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-          metadata: __S(674, __c42, 2),
+          metadata: __S(690, __c43, 2),
           namespace: S.String,
           nextAction: S.String.pipe(T.Body("next_action")),
           sourceId: S.String.pipe(T.Body("source_id")),
@@ -8465,17 +8725,17 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "NamespacesInstancesItemsListResultItem" });
     case 4:
-      return S.Array(__S(675, __c42, 3));
+      return S.Array(__S(691, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(676, __c42, 4).pipe(T.EnvelopePayload()),
+          result: __S(692, __c43, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListNamespaceInstanceItemsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8497,7 +8757,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListNamespaceInstanceJobsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8522,7 +8782,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListNamespaceInstancesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8549,22 +8809,22 @@ function __c45(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           publicEndpointId: S.optional(S.NullOr(S.String).pipe(T.Body("public_endpoint_id"))),
           publicEndpointParams: S.optional(
-            S.NullOr(__S(320, __c20, 0)).pipe(T.Body("public_endpoint_params")),
+            S.NullOr(__S(336, __c21, 0)).pipe(T.Body("public_endpoint_params")),
           ),
         }),
       ).annotate({ identifier: "NamespacesListResultItem" });
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(722, __c45, 2).pipe(T.EnvelopePayload()),
+          result: __S(738, __c46, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8594,17 +8854,17 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "TokensListResultItem" });
     case 2:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(753, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(738, __c46, 2).pipe(T.EnvelopePayload()),
+          result: __S(754, __c47, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTokensResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8626,7 +8886,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "LogsInstanceJobRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8638,14 +8898,14 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "InstancesJobsLogsResultItem" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
-        __S(769, __c48, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(785, __c49, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LogsInstanceJobResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8679,14 +8939,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "NamespacesInstancesItemsLogsResultItem" });
     case 2:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(801, __c50, 1));
     case 3:
       return S.suspend(() =>
-        __S(786, __c49, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(802, __c50, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LogsNamespaceInstanceItemResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8709,7 +8969,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "LogsNamespaceInstanceJobRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8730,7 +8990,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "MoveNamespacesInstanceRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8752,7 +9012,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PatchNamespaceInstanceJobRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8771,7 +9031,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ReadInstanceRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8790,7 +9050,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ReadNamespaceRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8810,7 +9070,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ReadNamespaceInstanceRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8829,17 +9089,17 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ReadTokenRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 1:
-      return S.Record(S.String, __S(912, __c57, 0));
+      return S.Record(S.String, __S(928, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cache: S.optional(__S(64, __c4, 0)),
-          customMetadata: S.optional(__S(913, __c57, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(929, __c58, 1).pipe(T.Body("custom_metadata"))),
           queryRewrite: S.optional(__S(65, __c4, 1).pipe(T.Body("query_rewrite"))),
           reranking: S.optional(__S(66, __c4, 2)),
           retrieval: S.optional(__S(67, __c4, 3)),
@@ -8850,19 +9110,19 @@ function __c57(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          content: __S(915, __c57, 3),
+          content: __S(931, __c58, 3),
           role: S.String,
         }),
       ).annotate({ identifier: "InstancesSearchRequestMessagesItem" });
     case 5:
-      return S.Array(__S(916, __c57, 4));
+      return S.Array(__S(932, __c58, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.String.pipe(T.Label()),
-          aiSearchOptions: S.optional(__S(914, __c57, 2).pipe(T.Body("ai_search_options"))),
-          messages: S.optional(__S(917, __c57, 5)),
+          aiSearchOptions: S.optional(__S(930, __c58, 2).pipe(T.Body("ai_search_options"))),
+          messages: S.optional(__S(933, __c58, 5)),
           query: S.optional(S.String),
         })
           .pipe(
@@ -8876,7 +9136,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "SearchInstanceRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8888,18 +9148,18 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SearchInstanceResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 1:
-      return S.Record(S.String, __S(944, __c59, 0));
+      return S.Record(S.String, __S(960, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           instanceIds: __S(112, __c7, 0).pipe(T.Body("instance_ids")),
           cache: S.optional(__S(64, __c4, 0)),
-          customMetadata: S.optional(__S(945, __c59, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(961, __c60, 1).pipe(T.Body("custom_metadata"))),
           queryRewrite: S.optional(__S(65, __c4, 1).pipe(T.Body("query_rewrite"))),
           reranking: S.optional(__S(66, __c4, 2)),
           retrieval: S.optional(__S(67, __c4, 3)),
@@ -8910,19 +9170,19 @@ function __c59(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          content: __S(947, __c59, 3),
+          content: __S(963, __c60, 3),
           role: S.String,
         }),
       ).annotate({ identifier: "NamespacesSearchRequestMessagesItem" });
     case 5:
-      return S.Array(__S(948, __c59, 4));
+      return S.Array(__S(964, __c60, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String.pipe(T.Label()),
-          aiSearchOptions: __S(946, __c59, 2).pipe(T.Body("ai_search_options")),
-          messages: S.optional(__S(949, __c59, 5)),
+          aiSearchOptions: __S(962, __c60, 2).pipe(T.Body("ai_search_options")),
+          messages: S.optional(__S(965, __c60, 5)),
           query: S.optional(S.String),
         })
           .pipe(
@@ -8942,29 +9202,29 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "NamespacesSearchResponseErrorsItem" });
     case 8:
-      return S.Array(__S(951, __c59, 7));
+      return S.Array(__S(967, __c60, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           chunks: __S(129, __c8, 1),
           queryKind: S.String.pipe(T.Body("query_kind")),
-          errors: S.optional(S.NullOr(__S(952, __c59, 8))),
+          errors: S.optional(S.NullOr(__S(968, __c60, 8))),
           searchQuery: S.optional(S.NullOr(S.String).pipe(T.Body("search_query"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SearchNamespaceResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 1:
-      return S.Record(S.String, __S(960, __c60, 0));
+      return S.Record(S.String, __S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cache: S.optional(__S(64, __c4, 0)),
-          customMetadata: S.optional(__S(961, __c60, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(977, __c61, 1).pipe(T.Body("custom_metadata"))),
           queryRewrite: S.optional(__S(65, __c4, 1).pipe(T.Body("query_rewrite"))),
           reranking: S.optional(__S(66, __c4, 2)),
           retrieval: S.optional(__S(67, __c4, 3)),
@@ -8975,20 +9235,20 @@ function __c60(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          content: __S(963, __c60, 3),
+          content: __S(979, __c61, 3),
           role: S.String,
         }),
       ).annotate({ identifier: "NamespacesInstancesSearchRequestMessagesItem" });
     case 5:
-      return S.Array(__S(964, __c60, 4));
+      return S.Array(__S(980, __c61, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           namespace: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          aiSearchOptions: S.optional(__S(962, __c60, 2).pipe(T.Body("ai_search_options"))),
-          messages: S.optional(__S(965, __c60, 5)),
+          aiSearchOptions: S.optional(__S(978, __c61, 2).pipe(T.Body("ai_search_options"))),
+          messages: S.optional(__S(981, __c61, 5)),
           query: S.optional(S.String),
         })
           .pipe(
@@ -9002,7 +9262,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SearchNamespaceInstanceRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9021,7 +9281,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "StatsInstanceRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9041,8 +9301,8 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          r2: S.optional(S.NullOr(__S(992, __c62, 0))),
-          vectorize: S.optional(S.NullOr(__S(993, __c62, 1))),
+          r2: S.optional(S.NullOr(__S(1008, __c63, 0))),
+          vectorize: S.optional(S.NullOr(__S(1009, __c63, 1))),
         }),
       ).annotate({ identifier: "InstancesStatsResponseEngine" });
     case 3:
@@ -9050,7 +9310,7 @@ function __c62(j: number): any {
         S.Struct({
           completed: S.optional(S.NullOr(S.Number)),
           degraded: S.optional(S.NullOr(S.Boolean)),
-          engine: S.optional(S.NullOr(__S(994, __c62, 2))),
+          engine: S.optional(S.NullOr(__S(1010, __c63, 2))),
           error: S.optional(S.NullOr(S.Number)),
           fileEmbedErrors: S.optional(S.NullOr(__S(32, __c2, 0)).pipe(T.Body("file_embed_errors"))),
           indexSourceErrors: S.optional(
@@ -9065,7 +9325,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "StatsInstanceResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9085,7 +9345,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "StatsNamespaceInstanceRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9109,7 +9369,7 @@ function __c64(j: number): any {
     case 1:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 2:
-      return S.Record(S.String, __S(1025, __c64, 1));
+      return S.Record(S.String, __S(1041, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9120,7 +9380,7 @@ function __c64(j: number): any {
           fileSize: S.Number.pipe(T.Body("file_size")),
           key: S.String,
           lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-          metadata: __S(1026, __c64, 2),
+          metadata: __S(1042, __c65, 2),
           namespace: S.String,
           nextAction: S.String.pipe(T.Body("next_action")),
           sourceId: S.String.pipe(T.Body("source_id")),
@@ -9130,7 +9390,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SyncNamespaceInstanceItemResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9145,25 +9405,25 @@ function __c65(j: number): any {
           chunk: S.optional(S.Boolean),
           chunkOverlap: S.optional(S.Number.pipe(T.Body("chunk_overlap"))),
           chunkSize: S.optional(S.Number.pipe(T.Body("chunk_size"))),
-          customMetadata: S.optional(__S(225, __c14, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(241, __c15, 1).pipe(T.Body("custom_metadata"))),
           embeddingModel: S.optional(S.String.pipe(T.Body("embedding_model"))),
           fusionMethod: S.optional(S.String.pipe(T.Body("fusion_method"))),
-          indexMethod: S.optional(__S(226, __c14, 2).pipe(T.Body("index_method"))),
-          indexingOptions: S.optional(__S(256, __c16, 0).pipe(T.Body("indexing_options"))),
+          indexMethod: S.optional(__S(242, __c15, 2).pipe(T.Body("index_method"))),
+          indexingOptions: S.optional(__S(272, __c17, 0).pipe(T.Body("indexing_options"))),
           maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
-          metadata: S.optional(__S(257, __c16, 1)),
+          metadata: S.optional(__S(273, __c17, 1)),
           paused: S.optional(S.Boolean),
           publicEndpointParams: S.optional(
-            __S(258, __c16, 2).pipe(T.Body("public_endpoint_params")),
+            __S(274, __c17, 2).pipe(T.Body("public_endpoint_params")),
           ),
           reranking: S.optional(S.Boolean),
           rerankingModel: S.optional(S.String.pipe(T.Body("reranking_model"))),
-          retrievalOptions: S.optional(__S(259, __c16, 3).pipe(T.Body("retrieval_options"))),
+          retrievalOptions: S.optional(__S(275, __c17, 3).pipe(T.Body("retrieval_options"))),
           rewriteModel: S.optional(S.String.pipe(T.Body("rewrite_model"))),
           rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
           scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
           source: S.optional(S.String),
-          sourceParams: S.optional(__S(263, __c16, 7).pipe(T.Body("source_params"))),
+          sourceParams: S.optional(__S(1073, __c67, 1).pipe(T.Body("source_params"))),
           summarization: S.optional(S.Boolean),
           summarizationModel: S.optional(S.String.pipe(T.Body("summarization_model"))),
           syncInterval: S.optional(S.Number.pipe(T.Body("sync_interval"))),
@@ -9187,7 +9447,29 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(S.String),
+          template: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InstancesUpdateRequestSourceParamsD1" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          d1: S.optional(__S(1072, __c67, 0)),
+          excludeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("exclude_items"))),
+          includeItems: S.optional(__S(112, __c7, 0).pipe(T.Body("include_items"))),
+          prefix: S.optional(S.String),
+          r2Jurisdiction: S.optional(S.String.pipe(T.Body("r2_jurisdiction"))),
+          webCrawler: S.optional(__S(278, __c17, 6).pipe(T.Body("web_crawler"))),
+        }),
+      ).annotate({ identifier: "InstancesUpdateRequestSourceParams" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9196,7 +9478,7 @@ function __c66(j: number): any {
           name: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           publicEndpointParams: S.optional(
-            __S(352, __c22, 0).pipe(T.Body("public_endpoint_params")),
+            __S(368, __c23, 0).pipe(T.Body("public_endpoint_params")),
           ),
         })
           .pipe(
@@ -9210,7 +9492,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UpdateNamespaceRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9226,25 +9508,25 @@ function __c67(j: number): any {
           chunk: S.optional(S.Boolean),
           chunkOverlap: S.optional(S.Number.pipe(T.Body("chunk_overlap"))),
           chunkSize: S.optional(S.Number.pipe(T.Body("chunk_size"))),
-          customMetadata: S.optional(__S(225, __c14, 1).pipe(T.Body("custom_metadata"))),
+          customMetadata: S.optional(__S(241, __c15, 1).pipe(T.Body("custom_metadata"))),
           embeddingModel: S.optional(S.String.pipe(T.Body("embedding_model"))),
           fusionMethod: S.optional(S.String.pipe(T.Body("fusion_method"))),
-          indexMethod: S.optional(__S(226, __c14, 2).pipe(T.Body("index_method"))),
-          indexingOptions: S.optional(__S(256, __c16, 0).pipe(T.Body("indexing_options"))),
+          indexMethod: S.optional(__S(242, __c15, 2).pipe(T.Body("index_method"))),
+          indexingOptions: S.optional(__S(272, __c17, 0).pipe(T.Body("indexing_options"))),
           maxNumResults: S.optional(S.Number.pipe(T.Body("max_num_results"))),
-          metadata: S.optional(__S(257, __c16, 1)),
+          metadata: S.optional(__S(273, __c17, 1)),
           paused: S.optional(S.Boolean),
           publicEndpointParams: S.optional(
-            __S(258, __c16, 2).pipe(T.Body("public_endpoint_params")),
+            __S(274, __c17, 2).pipe(T.Body("public_endpoint_params")),
           ),
           reranking: S.optional(S.Boolean),
           rerankingModel: S.optional(S.String.pipe(T.Body("reranking_model"))),
-          retrievalOptions: S.optional(__S(259, __c16, 3).pipe(T.Body("retrieval_options"))),
+          retrievalOptions: S.optional(__S(275, __c17, 3).pipe(T.Body("retrieval_options"))),
           rewriteModel: S.optional(S.String.pipe(T.Body("rewrite_model"))),
           rewriteQuery: S.optional(S.Boolean.pipe(T.Body("rewrite_query"))),
           scoreThreshold: S.optional(S.Number.pipe(T.Body("score_threshold"))),
           source: S.optional(S.String),
-          sourceParams: S.optional(__S(263, __c16, 7).pipe(T.Body("source_params"))),
+          sourceParams: S.optional(__S(1073, __c67, 1).pipe(T.Body("source_params"))),
           summarization: S.optional(S.Boolean),
           summarizationModel: S.optional(S.String.pipe(T.Body("summarization_model"))),
           syncInterval: S.optional(S.Number.pipe(T.Body("sync_interval"))),
@@ -9268,7 +9550,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateNamespaceInstanceRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9291,7 +9573,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateTokenRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9307,7 +9589,7 @@ function __c69(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           namespace: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          file: __S(1104, __c69, 0),
+          file: __S(1136, __c71, 0),
         })
           .pipe(
             T.Http({
@@ -9321,7 +9603,7 @@ function __c69(j: number): any {
     case 2:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 3:
-      return S.Record(S.String, __S(1106, __c69, 2));
+      return S.Record(S.String, __S(1138, __c71, 2));
     case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
@@ -9336,7 +9618,7 @@ function __c69(j: number): any {
         ),
       );
     case 5:
-      return S.Array(__S(1108, __c69, 4));
+      return S.Array(__S(1140, __c71, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9347,13 +9629,13 @@ function __c69(j: number): any {
           fileSize: S.Number.pipe(T.Body("file_size")),
           key: S.String,
           lastSeenAt: S.String.pipe(T.Body("last_seen_at")),
-          metadata: __S(1107, __c69, 3),
+          metadata: __S(1139, __c71, 3),
           namespace: S.String,
           nextAction: S.String.pipe(T.Body("next_action")),
           sourceId: S.String.pipe(T.Body("source_id")),
           status: S.String,
           error: S.optional(S.NullOr(S.String)),
-          warnings: S.optional(S.NullOr(__S(1109, __c69, 5))),
+          warnings: S.optional(S.NullOr(__S(1141, __c71, 5))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UploadNamespaceInstanceItemResponse" });
   }

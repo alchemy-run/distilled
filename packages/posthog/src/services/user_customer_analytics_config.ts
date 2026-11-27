@@ -51,6 +51,42 @@ export interface PinnedAccountProperty {
 }
 /** Account properties pinned in sidebar display order. */
 export type UserCustomerAnalyticsConfigPinnedPropertiesList = Array<PinnedAccountProperty>;
+/** * `personal` - Personal * `role` - Role * `project` - Project */
+export type PinnedAccountPropertiesSourceKindEnum = "personal" | "role" | "project";
+export interface PinnedAccountPropertiesRole {
+  /** Organization role UUID. */
+  id: string;
+  /** Organization role name. */
+  name: string;
+}
+/** Roles that added pins to pinned_properties, in merge order. Empty unless kind is role. */
+export type PinnedAccountPropertiesSourceRolesList = Array<PinnedAccountPropertiesRole>;
+export interface PinnedAccountPropertiesSource {
+  /** Whether pinned_properties comes from personal pins, merged role defaults, or the project default. * `personal` - Personal * `role` - Role * `project` - Project */
+  kind: PinnedAccountPropertiesSourceKindEnum;
+  /** Roles that added pins to pinned_properties, in merge order. Empty unless kind is role. */
+  roles: PinnedAccountPropertiesSourceRolesList;
+}
+/** * `project` - Project * `role` - Role */
+export type DefaultPinnedAccountPropertiesSourceKindEnum = "project" | "role";
+export interface DefaultPinnedAccountPropertiesSource {
+  /** Whether this default option is the project default or a role default. * `project` - Project * `role` - Role */
+  kind: DefaultPinnedAccountPropertiesSourceKindEnum;
+  /** Role this default belongs to when kind is role, or null for the project default. */
+  role: PinnedAccountPropertiesRole | null;
+}
+/** Ordered account properties saved for this default. */
+export type AvailableDefaultPinnedAccountPropertiesPinnedPropertiesList =
+  Array<PinnedAccountProperty>;
+export interface AvailableDefaultPinnedAccountProperties {
+  /** Which default this entry represents. */
+  source: DefaultPinnedAccountPropertiesSource;
+  /** Ordered account properties saved for this default. */
+  pinned_properties: AvailableDefaultPinnedAccountPropertiesPinnedPropertiesList;
+}
+/** Project and role defaults the requesting user can reset their pinned properties to. */
+export type UserCustomerAnalyticsConfigAvailableDefaultPinnedPropertiesList =
+  Array<AvailableDefaultPinnedAccountProperties>;
 /** * `weekdays` - Weekdays * `every_day` - Every day */
 export type TaskDigestCadenceEnum = "weekdays" | "every_day";
 export interface TaskDigestPreferences {
@@ -76,6 +112,10 @@ export interface AccountDetailTabsConfig {
 export interface UserCustomerAnalyticsConfig2 {
   /** Account properties pinned in sidebar display order. */
   pinned_properties: UserCustomerAnalyticsConfigPinnedPropertiesList;
+  /** Where pinned_properties came from: personal pins, merged role defaults, or the project default. */
+  pinned_properties_source: PinnedAccountPropertiesSource;
+  /** Project and role defaults the requesting user can reset their pinned properties to. */
+  available_default_pinned_properties: UserCustomerAnalyticsConfigAvailableDefaultPinnedPropertiesList;
   /** Task digest email preferences. Disabled until the user turns the digest on. */
   task_digest: TaskDigestPreferences;
   /** Personal order, visibility, and default for account tabs. */
@@ -84,6 +124,12 @@ export interface UserCustomerAnalyticsConfig2 {
 /** Complete ordered list of account properties to pin. Omit to keep the current pins; pass an empty list to clear them. */
 export type UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList =
   Array<PinnedAccountProperty>;
+export interface FollowedDefaultPinnedProperties {
+  /** Follow the project default or the default of one of the requesting user's roles. * `project` - Project * `role` - Role */
+  kind: DefaultPinnedAccountPropertiesSourceKindEnum | (string & {});
+  /** Role whose default to follow. Required when kind is role. */
+  role_id?: string | null | undefined;
+}
 export interface TaskDigestPreferencesUpdate {
   /** Whether the task digest email is sent to this user. */
   enabled?: boolean | undefined;
@@ -100,6 +146,8 @@ export interface UpdateUserCustomerAnalyticsConfigPartialRequest {
   pinned_properties?:
     | UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList
     | undefined;
+  /** Show a default set of pinned properties and keep it in sync with later changes to that default. Replaces any personal pins. Cannot be combined with pinned_properties. */
+  followed_default?: FollowedDefaultPinnedProperties | undefined;
   /** Task digest email preferences to change. Omit the object to keep them all; omit a field inside it to keep that one. */
   task_digest?: TaskDigestPreferencesUpdate | undefined;
   /** Complete personal account tab configuration. Omit to keep it unchanged. */
@@ -114,7 +162,7 @@ export const getUserCustomerAnalyticsConfig: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetUserCustomerAnalyticsConfigRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<UserCustomerAnalyticsConfig2>,
+  output: __S(27, __c1, 11) as any as S.Schema<UserCustomerAnalyticsConfig2>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -124,15 +172,15 @@ export const getUserCustomerAnalyticsConfig: API.OperationMethod<
 }));
 
 export type UpdateUserCustomerAnalyticsConfigPartialError = BadRequest | PosthogOpError;
-/** Update account sidebar configuration Replace the requesting user's ordered account sidebar properties when pinned_properties is provided, and change the task digest email preferences when task_digest is provided. Anything omitted keeps its current value. At most 50 account custom properties, relationships, and account fields can be pinned. */
+/** Update account sidebar configuration Replace the requesting user's ordered account sidebar properties when pinned_properties is provided, or follow a project or role default when followed_default is provided, and change the task digest email preferences when task_digest is provided. Anything omitted keeps its current value. At most 50 account custom properties, relationships, and account fields can be pinned. */
 export const updateUserCustomerAnalyticsConfigPartial: API.OperationMethod<
   UpdateUserCustomerAnalyticsConfigPartialRequest,
   UserCustomerAnalyticsConfig2,
   UpdateUserCustomerAnalyticsConfigPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<UpdateUserCustomerAnalyticsConfigPartialRequest>,
-  output: __S(13, __c1, 5) as any as S.Schema<UserCustomerAnalyticsConfig2>,
+  input: __S(34, __c2, 2) as any as S.Schema<UpdateUserCustomerAnalyticsConfigPartialRequest>,
+  output: __S(27, __c1, 11) as any as S.Schema<UserCustomerAnalyticsConfig2>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -169,8 +217,40 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PinnedAccountProperty" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c1, 0));
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "PinnedAccountPropertiesRole" });
+    case 3:
+      return S.Array(__S(18, __c1, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          roles: __S(19, __c1, 3),
+        }),
+      ).annotate({ identifier: "PinnedAccountPropertiesSource" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          role: S.NullOr(__S(18, __c1, 2)),
+        }),
+      ).annotate({ identifier: "DefaultPinnedAccountPropertiesSource" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          source: __S(21, __c1, 5),
+          pinned_properties: __S(17, __c1, 1),
+        }),
+      ).annotate({ identifier: "AvailableDefaultPinnedAccountProperties" });
+    case 7:
+      return S.Array(__S(22, __c1, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
@@ -178,22 +258,24 @@ function __c1(j: number): any {
           cadence: S.String,
         }),
       ).annotate({ identifier: "TaskDigestPreferences" });
-    case 3:
+    case 9:
       return S.Array(S.String);
-    case 4:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          ordered_tab_ids: __S(11, __c1, 3),
-          hidden_tab_ids: __S(11, __c1, 3),
+          ordered_tab_ids: __S(25, __c1, 9),
+          hidden_tab_ids: __S(25, __c1, 9),
           default_tab_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AccountDetailTabsConfig" });
-    case 5:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          pinned_properties: __S(9, __c1, 1),
-          task_digest: __S(10, __c1, 2),
-          account_detail_tabs: __S(12, __c1, 4),
+          pinned_properties: __S(17, __c1, 1),
+          pinned_properties_source: __S(20, __c1, 4),
+          available_default_pinned_properties: __S(23, __c1, 7),
+          task_digest: __S(24, __c1, 8),
+          account_detail_tabs: __S(26, __c1, 10),
         }),
       ).annotate({ identifier: "UserCustomerAnalyticsConfig2" });
   }
@@ -203,19 +285,27 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          kind: S.String,
+          role_id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "FollowedDefaultPinnedProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           enabled: S.optional(S.Boolean),
           send_time: S.optional(S.String),
           cadence: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskDigestPreferencesUpdate" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          pinned_properties: S.optional(__S(9, __c1, 1)),
-          task_digest: S.optional(__S(16, __c2, 0)),
-          account_detail_tabs: S.optional(__S(12, __c1, 4)),
+          pinned_properties: S.optional(__S(17, __c1, 1)),
+          followed_default: S.optional(__S(32, __c2, 0)),
+          task_digest: S.optional(__S(33, __c2, 1)),
+          account_detail_tabs: S.optional(__S(26, __c1, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",

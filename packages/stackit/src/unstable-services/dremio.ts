@@ -423,7 +423,7 @@ export const deleteDremioUser: API.OperationMethod<
   span: "DeleteDremioUser",
 }));
 
-export type GetDremioInstanceError = BadRequest | NotFound | StackitOpError;
+export type GetDremioInstanceError = BadRequest | NotFound | UnprocessableEntity | StackitOpError;
 /** Returns the details for the given Dremio instance. */
 export const getDremioInstance: API.OperationMethod<
   GetDremioInstanceRequest,
@@ -433,7 +433,7 @@ export const getDremioInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetDremioInstanceRequest>,
   output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, NotFound],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -441,7 +441,7 @@ export const getDremioInstance: API.OperationMethod<
   span: "GetDremioInstance",
 }));
 
-export type GetDremioUserError = BadRequest | NotFound | StackitOpError;
+export type GetDremioUserError = BadRequest | NotFound | UnprocessableEntity | StackitOpError;
 /** Returns the details for the given dremio admin user */
 export const getDremioUser: API.OperationMethod<
   GetDremioUserRequest,
@@ -451,7 +451,7 @@ export const getDremioUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetDremioUserRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<DremioUserResponse>,
-  errors: [BadRequest, NotFound],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -459,7 +459,7 @@ export const getDremioUser: API.OperationMethod<
   span: "GetDremioUser",
 }));
 
-export type ListDremioInstancesError = BadRequest | StackitOpError;
+export type ListDremioInstancesError = BadRequest | UnprocessableEntity | StackitOpError;
 /** Returns a list of all Dremio instances within the project. */
 export const listDremioInstances: API.OperationMethod<
   ListDremioInstancesRequest,
@@ -469,7 +469,7 @@ export const listDremioInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<ListDremioInstancesRequest>,
   output: __S(18, __c1, 2) as any as S.Schema<ListDremiosResponseOutput>,
-  errors: [BadRequest],
+  errors: [BadRequest, UnprocessableEntity],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -477,7 +477,7 @@ export const listDremioInstances: API.OperationMethod<
   span: "ListDremioInstances",
 }));
 
-export type ListDremioUsersError = BadRequest | StackitOpError;
+export type ListDremioUsersError = BadRequest | UnprocessableEntity | StackitOpError;
 /** Returns a list of all Dremio admin users for the given dremio instance. */
 export const listDremioUsers: API.OperationMethod<
   ListDremioUsersRequest,
@@ -487,7 +487,7 @@ export const listDremioUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ListDremioUsersRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<ListDremioUsersResponse>,
-  errors: [BadRequest],
+  errors: [BadRequest, UnprocessableEntity],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -544,7 +544,7 @@ function __c1(j: number): any {
             method: "GET",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "ListDremioInstancesRequest" });
@@ -574,7 +574,7 @@ function __c2(j: number): any {
             method: "GET",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "ListDremioUsersRequest" });
@@ -606,7 +606,7 @@ function __c3(j: number): any {
             method: "PUT",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "UpdateDremioInstanceRequest" });
@@ -628,7 +628,7 @@ function __c4(j: number): any {
             method: "POST",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "CreateDremioInstanceRequest" });
@@ -754,7 +754,7 @@ function __c7(j: number): any {
             method: "POST",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "CreateDremioUserRequest" });
@@ -791,7 +791,7 @@ function __c9(j: number): any {
             method: "DELETE",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "DeleteDremioInstanceRequest" });
@@ -817,7 +817,7 @@ function __c11(j: number): any {
             method: "DELETE",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users/{dremioUserId}",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "DeleteDremioUserRequest" });
@@ -836,7 +836,7 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "GetDremioInstanceRequest" });
@@ -856,7 +856,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios/{dremioId}/users/{dremioUserId}",
             code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
+            baseUrl: "https://dremio.api.stackit.cloud",
           }),
         ),
       ).annotate({ identifier: "GetDremioUserRequest" });

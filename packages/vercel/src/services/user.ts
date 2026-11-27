@@ -106,6 +106,13 @@ export interface AuthUserAccountUpdateContextOrganization {
   name: string;
   slug: string;
 }
+/** Orphans only: the team whose Directory Sync invite SSO sign-in redeems for a managed account once Update Account is complete. */
+export interface AuthUserAccountUpdateContextOrphanSsoTeam {
+  avatar: string | null;
+  name: string;
+  slug: string;
+  teamId: string;
+}
 export type AuthUserAccountUpdateContextVerifiedEmuDomainsList = Array<string>;
 /** Context for the Update Account screen. Present only when `isAccountUpdateRequired` is true. `managedTeams` is empty for orphan mode (user matches an EMU domain but is not on the team). When the teams the user must complete Update Account for include an organization's backing team, that team is listed as the organization, followed by the organization's Enterprise Managed root and child teams the user is a member of, including through Directory Sync group mappings. */
 export interface AuthUserAccountUpdateContext {
@@ -113,6 +120,8 @@ export interface AuthUserAccountUpdateContext {
   canOptOut: boolean;
   managedTeams: AuthUserAccountUpdateContextManagedTeamsList;
   organization?: AuthUserAccountUpdateContextOrganization | undefined;
+  /** Orphans only: the team whose Directory Sync invite SSO sign-in redeems for a managed account once Update Account is complete. */
+  orphanSsoTeam?: AuthUserAccountUpdateContextOrphanSsoTeam | undefined;
   verifiedEmuDomains: AuthUserAccountUpdateContextVerifiedEmuDomainsList;
 }
 export type AuthUserActiveDashboardViewsItemFavoritesViewPreference = "closed" | "open";
@@ -265,6 +274,8 @@ export interface AuthUserResourceConfig {
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
   elasticConcurrencyEnabled?: boolean | undefined;
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  enableMessageboardPrivateBoards?: boolean | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
   flagsExplorerOverridesThreshold?: number | undefined;
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
   flagsExplorerUnlimitedOverrides?: boolean | undefined;
@@ -274,6 +285,16 @@ export interface AuthUserResourceConfig {
   integrationStores?: number | undefined;
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
   kvDatabases?: number | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  messageboardAttachmentBytes?: number | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  messageboardBoards?: number | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  messageboardChannelsPerBoard?: number | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  messageboardMessages?: number | undefined;
+  /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
+  messageboardStoredAttachmentBytes?: number | undefined;
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
   microfrontendGroupsPerTeam?: number | undefined;
   /** An object containing infomation related to the amount of platform resources may be allocated to the User account. */
@@ -516,6 +537,7 @@ export type ListEventTypeName =
   | "agentic-provisioning-plan-changed"
   | "agentic-provisioning-team-created"
   | "ai-agent-usage-billing"
+  | "ai-agent-usage-billing-consent"
   | "ai-alert-investigation"
   | "ai-code-review"
   | "ai-gateway-access-policy-created"
@@ -536,7 +558,17 @@ export type ListEventTypeName =
   | "ai-gateway-guardrails-updated"
   | "ai-gateway-headquarters-updated"
   | "ai-gateway-hipaa-compliance-toggled"
+  | "ai-gateway-inference-hooks-endpoint-updated"
+  | "ai-gateway-inference-hooks-headers-cleared"
+  | "ai-gateway-inference-hooks-headers-updated"
+  | "ai-gateway-inference-hooks-previous-signing-secret-retired"
+  | "ai-gateway-inference-hooks-removed"
+  | "ai-gateway-inference-hooks-settings-updated"
+  | "ai-gateway-inference-hooks-signing-secret-created"
+  | "ai-gateway-inference-hooks-signing-secret-rotated"
+  | "ai-gateway-inference-hooks-toggled"
   | "ai-gateway-inference-regions-updated"
+  | "ai-gateway-member-budget-changes"
   | "ai-gateway-model-allowlist-models-updated"
   | "ai-gateway-model-allowlist-toggled"
   | "ai-gateway-model-catalog-alert-settings-updated"
@@ -553,6 +585,7 @@ export type ListEventTypeName =
   | "ai-gateway-rule-deleted"
   | "ai-gateway-rule-updated"
   | "ai-gateway-scope-budget-updated"
+  | "ai-gateway-system-credential-fallback-opt-out-toggled"
   | "ai-gateway-transcripts-default-disabled"
   | "ai-gateway-transcripts-default-enabled"
   | "ai-gateway-transcripts-disabled"
@@ -566,7 +599,12 @@ export type ListEventTypeName =
   | "ai-gateway-zero-data-retention-toggled"
   | "ai-omniagent"
   | "ai-security-review"
+  | "ai-verification"
+  | "alert-group-detected"
+  | "alert-group-investigation-completed"
+  | "alert-group-published"
   | "alert-investigation-project-allowlist-updated"
+  | "alert-resolved"
   | "alert-rule-created"
   | "alert-rule-deleted"
   | "alert-rule-updated"
@@ -590,6 +628,8 @@ export type ListEventTypeName =
   | "attack-mode-enabled"
   | "audit-log-export-downloaded"
   | "audit-log-export-requested"
+  | "authorization-session-created"
+  | "authorization-session-revoked"
   | "authorize-git-deployment"
   | "auto-expose-system-envs"
   | "avatar"
@@ -605,11 +645,13 @@ export type ListEventTypeName =
   | "cert-renew"
   | "cert-replace"
   | "cert-system-create"
+  | "code-owners-assume-owners"
   | "code-owners-config-updated"
   | "compliance-document-downloaded"
   | "compliance-document-previewed"
   | "compliance-documents-bulk-downloaded"
   | "concurrent-builds-update"
+  | "connect-approve-connector-request"
   | "connect-attach-project"
   | "connect-bitbucket"
   | "connect-bitbucket-app"
@@ -624,6 +666,7 @@ export type ListEventTypeName =
   | "connect-create-connector"
   | "connect-create-mcp-event-subscription"
   | "connect-delete-connector"
+  | "connect-delete-connector-request"
   | "connect-delete-installation"
   | "connect-detach-project"
   | "connect-github"
@@ -632,10 +675,15 @@ export type ListEventTypeName =
   | "connect-gitlab"
   | "connect-gitlab-app"
   | "connect-import-tokens"
+  | "connect-provision-connector-request"
+  | "connect-reject-connector-request"
   | "connect-revoke-all-tokens"
+  | "connect-submit-connector-request"
   | "connect-update-connector"
+  | "connect-update-connector-request"
   | "connect-update-trigger-destinations"
   | "connect-upsert-installation"
+  | "connect-withdraw-connector-request"
   | "custom-alert-created"
   | "custom-alert-deleted"
   | "custom-alert-updated"
@@ -697,6 +745,10 @@ export type ListEventTypeName =
   | "drain-disabled"
   | "drain-enabled"
   | "drain-updated"
+  | "drive-created"
+  | "drive-deleted"
+  | "drive-snapshot-created"
+  | "drive-snapshot-deleted"
   | "edge-cache-dangerously-delete-by-src-images"
   | "edge-cache-dangerously-delete-by-tags"
   | "edge-cache-dangerously-delete-immutable-static"
@@ -758,6 +810,10 @@ export type ListEventTypeName =
   | "flags-connection-created"
   | "flags-connection-deleted"
   | "flags-explorer-subscription"
+  | "flags-layer-created"
+  | "flags-layer-deleted"
+  | "flags-layer-updated"
+  | "flags-overrides-signed"
   | "flags-sdk-key"
   | "flags-sdk-key-added"
   | "flags-sdk-key-deleted"
@@ -766,6 +822,7 @@ export type ListEventTypeName =
   | "flags-settings"
   | "flags-transferred"
   | "flat-rate-cdn-auto-upgrade-consent"
+  | "flat-rate-cdn-migration-opt-out"
   | "git-integration-repo-push"
   | "git_account_integration_link_added"
   | "global-config-backup-restored"
@@ -824,12 +881,19 @@ export type ListEventTypeName =
   | "messageboard-channel-created"
   | "messageboard-channel-updated"
   | "messageboard-created"
+  | "messageboard-grant-created"
+  | "messageboard-grant-revoked"
+  | "messageboard-grant-updated"
   | "messageboard-private-channel-created"
   | "messageboard-private-channel-updated"
   | "messageboard-private-created"
+  | "messageboard-private-grant-created"
+  | "messageboard-private-grant-revoked"
+  | "messageboard-private-grant-updated"
   | "messageboard-private-project-granted"
   | "messageboard-private-project-revoked"
   | "messageboard-project-channel-created"
+  | "messageboard-project-created"
   | "messageboard-project-granted"
   | "messageboard-project-private-channel-created"
   | "messageboard-project-revoked"
@@ -861,9 +925,14 @@ export type ListEventTypeName =
   | "oidc-policy-deleted"
   | "oidc-policy-updated"
   | "oidc-policy-used-to-obtain-app-token"
+  | "organization-admin-invite-revoked"
+  | "organization-admin-removed"
   | "organization-avatar-update"
   | "organization-create"
   | "organization-delete"
+  | "organization-domain-verification-created"
+  | "organization-domain-verification-deleted"
+  | "organization-domain-verification-verified"
   | "organization-dsync-delete"
   | "organization-dsync-group-delete"
   | "organization-dsync-group-upsert"
@@ -873,6 +942,7 @@ export type ListEventTypeName =
   | "organization-emu-updated"
   | "organization-name-update"
   | "organization-slug-update"
+  | "organization-sso-adopted"
   | "organization-sso-deleted"
   | "organization-sso-enforced"
   | "organization-sso-new-teams-update"
@@ -905,6 +975,11 @@ export type ListEventTypeName =
   | "payment-method-added"
   | "payment-method-default-updated"
   | "payment-method-removed"
+  | "perimeter-created"
+  | "perimeter-deleted"
+  | "perimeter-renamed"
+  | "perimeter-rolled-back"
+  | "perimeter-updated"
   | "plan"
   | "preview-deployment-suffix-disabled"
   | "preview-deployment-suffix-enabled"
@@ -1009,6 +1084,7 @@ export type ListEventTypeName =
   | "project-prioritize-production-builds-updated"
   | "project-program-enrollment-changed"
   | "project-protected-sourcemaps-updated"
+  | "project-remove-vercel-request-headers-updated"
   | "project-rollback-description-updated"
   | "project-rolling-release-aborted"
   | "project-rolling-release-approved"
@@ -1019,7 +1095,6 @@ export type ListEventTypeName =
   | "project-rolling-release-enabled"
   | "project-rolling-release-paused"
   | "project-rolling-release-started"
-  | "project-rolling-release-suggested-actions-generated"
   | "project-rolling-release-timer"
   | "project-root-directory-updated"
   | "project-routes-version-promoted"
@@ -1048,12 +1123,21 @@ export type ListEventTypeName =
   | "runtime-cache-purge-all"
   | "saml-connection-created"
   | "saml-connection-deleted"
+  | "saml-idp-material-deleted"
+  | "saml-idp-material-set"
+  | "saml-idp-material-system-deleted"
+  | "saml-idp-material-system-set"
+  | "saml-login-provider-changed"
+  | "sandbox-ai-gateway-credentials-configured"
   | "sandbox-alias-assigned"
   | "sandbox-alias-delete"
   | "sandbox-drive-created"
   | "sandbox-drive-deleted"
   | "sandbox-drive-snapshot-created"
   | "sandbox-drive-snapshot-deleted"
+  | "sandbox-expiry-notification-lead-time-updated"
+  | "sandbox-npm-credentials-configured"
+  | "sandbox-processes-updated"
   | "sandbox-signed-commit-identity-configured"
   | "sandbox-snapshot-regions-updated"
   | "scale"
@@ -1193,6 +1277,7 @@ export type ListEventTypeName =
   | "user-emu-recovery-email-sent"
   | "user-emu-recovery-initiated"
   | "user-emu-toggled"
+  | "user-landing-page-updated"
   | "user-mfa-challenge-failed"
   | "user-mfa-challenge-initiated"
   | "user-mfa-challenge-verified"
@@ -1219,6 +1304,8 @@ export type ListEventTypeName =
   | "v0-chat-message-sent"
   | "v0-migration-payment-confirmed"
   | "v0-migration-subscription-completed"
+  | "v0-shared-pool-credit-limit-default-updated"
+  | "v0-shared-pool-credit-limit-updated"
   | "vcr-image-deleted"
   | "vcr-image-pushed"
   | "vcr-repository-created"
@@ -1229,10 +1316,13 @@ export type ListEventTypeName =
   | "vcr-repository-visibility-changed"
   | "vercel-agent-elevated-permissions-approved"
   | "vercel-agent-elevated-permissions-requested"
+  | "vercel-agent-security-finding-closed"
   | "vercel-agent-security-finding-created"
   | "vercel-agent-security-finding-dismissed"
   | "vercel-agent-security-finding-reopened"
   | "vercel-agent-security-finding-resolved"
+  | "vercel-agent-security-review-policy-deleted"
+  | "vercel-agent-security-review-policy-updated"
   | "vercel-agent-session-created"
   | "vercel-agent-team-trial-credits-applied"
   | "vercel-app-installation-request-dismissed"
@@ -1241,7 +1331,9 @@ export type ListEventTypeName =
   | "vercel-app-installed"
   | "vercel-app-tokens-revoked"
   | "vercel-app-uninstalled"
+  | "vercel-ci-repository-github-runners-updated"
   | "vercel-ci-repository-settings-updated"
+  | "vercel-ci-run-approved"
   | "vercel-toolbar"
   | "vpc-peering-connection-accepted"
   | "vpc-peering-connection-deleted"
@@ -1286,6 +1378,7 @@ export type ListEventTypeReplacedByItem =
   | "agentic-provisioning-plan-changed"
   | "agentic-provisioning-team-created"
   | "ai-agent-usage-billing"
+  | "ai-agent-usage-billing-consent"
   | "ai-alert-investigation"
   | "ai-code-review"
   | "ai-gateway-access-policy-created"
@@ -1306,7 +1399,17 @@ export type ListEventTypeReplacedByItem =
   | "ai-gateway-guardrails-updated"
   | "ai-gateway-headquarters-updated"
   | "ai-gateway-hipaa-compliance-toggled"
+  | "ai-gateway-inference-hooks-endpoint-updated"
+  | "ai-gateway-inference-hooks-headers-cleared"
+  | "ai-gateway-inference-hooks-headers-updated"
+  | "ai-gateway-inference-hooks-previous-signing-secret-retired"
+  | "ai-gateway-inference-hooks-removed"
+  | "ai-gateway-inference-hooks-settings-updated"
+  | "ai-gateway-inference-hooks-signing-secret-created"
+  | "ai-gateway-inference-hooks-signing-secret-rotated"
+  | "ai-gateway-inference-hooks-toggled"
   | "ai-gateway-inference-regions-updated"
+  | "ai-gateway-member-budget-changes"
   | "ai-gateway-model-allowlist-models-updated"
   | "ai-gateway-model-allowlist-toggled"
   | "ai-gateway-model-catalog-alert-settings-updated"
@@ -1323,6 +1426,7 @@ export type ListEventTypeReplacedByItem =
   | "ai-gateway-rule-deleted"
   | "ai-gateway-rule-updated"
   | "ai-gateway-scope-budget-updated"
+  | "ai-gateway-system-credential-fallback-opt-out-toggled"
   | "ai-gateway-transcripts-default-disabled"
   | "ai-gateway-transcripts-default-enabled"
   | "ai-gateway-transcripts-disabled"
@@ -1336,7 +1440,12 @@ export type ListEventTypeReplacedByItem =
   | "ai-gateway-zero-data-retention-toggled"
   | "ai-omniagent"
   | "ai-security-review"
+  | "ai-verification"
+  | "alert-group-detected"
+  | "alert-group-investigation-completed"
+  | "alert-group-published"
   | "alert-investigation-project-allowlist-updated"
+  | "alert-resolved"
   | "alert-rule-created"
   | "alert-rule-deleted"
   | "alert-rule-updated"
@@ -1360,6 +1469,8 @@ export type ListEventTypeReplacedByItem =
   | "attack-mode-enabled"
   | "audit-log-export-downloaded"
   | "audit-log-export-requested"
+  | "authorization-session-created"
+  | "authorization-session-revoked"
   | "authorize-git-deployment"
   | "auto-expose-system-envs"
   | "avatar"
@@ -1375,11 +1486,13 @@ export type ListEventTypeReplacedByItem =
   | "cert-renew"
   | "cert-replace"
   | "cert-system-create"
+  | "code-owners-assume-owners"
   | "code-owners-config-updated"
   | "compliance-document-downloaded"
   | "compliance-document-previewed"
   | "compliance-documents-bulk-downloaded"
   | "concurrent-builds-update"
+  | "connect-approve-connector-request"
   | "connect-attach-project"
   | "connect-bitbucket"
   | "connect-bitbucket-app"
@@ -1394,6 +1507,7 @@ export type ListEventTypeReplacedByItem =
   | "connect-create-connector"
   | "connect-create-mcp-event-subscription"
   | "connect-delete-connector"
+  | "connect-delete-connector-request"
   | "connect-delete-installation"
   | "connect-detach-project"
   | "connect-github"
@@ -1402,10 +1516,15 @@ export type ListEventTypeReplacedByItem =
   | "connect-gitlab"
   | "connect-gitlab-app"
   | "connect-import-tokens"
+  | "connect-provision-connector-request"
+  | "connect-reject-connector-request"
   | "connect-revoke-all-tokens"
+  | "connect-submit-connector-request"
   | "connect-update-connector"
+  | "connect-update-connector-request"
   | "connect-update-trigger-destinations"
   | "connect-upsert-installation"
+  | "connect-withdraw-connector-request"
   | "custom-alert-created"
   | "custom-alert-deleted"
   | "custom-alert-updated"
@@ -1467,6 +1586,10 @@ export type ListEventTypeReplacedByItem =
   | "drain-disabled"
   | "drain-enabled"
   | "drain-updated"
+  | "drive-created"
+  | "drive-deleted"
+  | "drive-snapshot-created"
+  | "drive-snapshot-deleted"
   | "edge-cache-dangerously-delete-by-src-images"
   | "edge-cache-dangerously-delete-by-tags"
   | "edge-cache-dangerously-delete-immutable-static"
@@ -1528,6 +1651,10 @@ export type ListEventTypeReplacedByItem =
   | "flags-connection-created"
   | "flags-connection-deleted"
   | "flags-explorer-subscription"
+  | "flags-layer-created"
+  | "flags-layer-deleted"
+  | "flags-layer-updated"
+  | "flags-overrides-signed"
   | "flags-sdk-key"
   | "flags-sdk-key-added"
   | "flags-sdk-key-deleted"
@@ -1536,6 +1663,7 @@ export type ListEventTypeReplacedByItem =
   | "flags-settings"
   | "flags-transferred"
   | "flat-rate-cdn-auto-upgrade-consent"
+  | "flat-rate-cdn-migration-opt-out"
   | "git-integration-repo-push"
   | "git_account_integration_link_added"
   | "global-config-backup-restored"
@@ -1594,12 +1722,19 @@ export type ListEventTypeReplacedByItem =
   | "messageboard-channel-created"
   | "messageboard-channel-updated"
   | "messageboard-created"
+  | "messageboard-grant-created"
+  | "messageboard-grant-revoked"
+  | "messageboard-grant-updated"
   | "messageboard-private-channel-created"
   | "messageboard-private-channel-updated"
   | "messageboard-private-created"
+  | "messageboard-private-grant-created"
+  | "messageboard-private-grant-revoked"
+  | "messageboard-private-grant-updated"
   | "messageboard-private-project-granted"
   | "messageboard-private-project-revoked"
   | "messageboard-project-channel-created"
+  | "messageboard-project-created"
   | "messageboard-project-granted"
   | "messageboard-project-private-channel-created"
   | "messageboard-project-revoked"
@@ -1631,9 +1766,14 @@ export type ListEventTypeReplacedByItem =
   | "oidc-policy-deleted"
   | "oidc-policy-updated"
   | "oidc-policy-used-to-obtain-app-token"
+  | "organization-admin-invite-revoked"
+  | "organization-admin-removed"
   | "organization-avatar-update"
   | "organization-create"
   | "organization-delete"
+  | "organization-domain-verification-created"
+  | "organization-domain-verification-deleted"
+  | "organization-domain-verification-verified"
   | "organization-dsync-delete"
   | "organization-dsync-group-delete"
   | "organization-dsync-group-upsert"
@@ -1643,6 +1783,7 @@ export type ListEventTypeReplacedByItem =
   | "organization-emu-updated"
   | "organization-name-update"
   | "organization-slug-update"
+  | "organization-sso-adopted"
   | "organization-sso-deleted"
   | "organization-sso-enforced"
   | "organization-sso-new-teams-update"
@@ -1675,6 +1816,11 @@ export type ListEventTypeReplacedByItem =
   | "payment-method-added"
   | "payment-method-default-updated"
   | "payment-method-removed"
+  | "perimeter-created"
+  | "perimeter-deleted"
+  | "perimeter-renamed"
+  | "perimeter-rolled-back"
+  | "perimeter-updated"
   | "plan"
   | "preview-deployment-suffix-disabled"
   | "preview-deployment-suffix-enabled"
@@ -1779,6 +1925,7 @@ export type ListEventTypeReplacedByItem =
   | "project-prioritize-production-builds-updated"
   | "project-program-enrollment-changed"
   | "project-protected-sourcemaps-updated"
+  | "project-remove-vercel-request-headers-updated"
   | "project-rollback-description-updated"
   | "project-rolling-release-aborted"
   | "project-rolling-release-approved"
@@ -1789,7 +1936,6 @@ export type ListEventTypeReplacedByItem =
   | "project-rolling-release-enabled"
   | "project-rolling-release-paused"
   | "project-rolling-release-started"
-  | "project-rolling-release-suggested-actions-generated"
   | "project-rolling-release-timer"
   | "project-root-directory-updated"
   | "project-routes-version-promoted"
@@ -1818,12 +1964,21 @@ export type ListEventTypeReplacedByItem =
   | "runtime-cache-purge-all"
   | "saml-connection-created"
   | "saml-connection-deleted"
+  | "saml-idp-material-deleted"
+  | "saml-idp-material-set"
+  | "saml-idp-material-system-deleted"
+  | "saml-idp-material-system-set"
+  | "saml-login-provider-changed"
+  | "sandbox-ai-gateway-credentials-configured"
   | "sandbox-alias-assigned"
   | "sandbox-alias-delete"
   | "sandbox-drive-created"
   | "sandbox-drive-deleted"
   | "sandbox-drive-snapshot-created"
   | "sandbox-drive-snapshot-deleted"
+  | "sandbox-expiry-notification-lead-time-updated"
+  | "sandbox-npm-credentials-configured"
+  | "sandbox-processes-updated"
   | "sandbox-signed-commit-identity-configured"
   | "sandbox-snapshot-regions-updated"
   | "scale"
@@ -1963,6 +2118,7 @@ export type ListEventTypeReplacedByItem =
   | "user-emu-recovery-email-sent"
   | "user-emu-recovery-initiated"
   | "user-emu-toggled"
+  | "user-landing-page-updated"
   | "user-mfa-challenge-failed"
   | "user-mfa-challenge-initiated"
   | "user-mfa-challenge-verified"
@@ -1989,6 +2145,8 @@ export type ListEventTypeReplacedByItem =
   | "v0-chat-message-sent"
   | "v0-migration-payment-confirmed"
   | "v0-migration-subscription-completed"
+  | "v0-shared-pool-credit-limit-default-updated"
+  | "v0-shared-pool-credit-limit-updated"
   | "vcr-image-deleted"
   | "vcr-image-pushed"
   | "vcr-repository-created"
@@ -1999,10 +2157,13 @@ export type ListEventTypeReplacedByItem =
   | "vcr-repository-visibility-changed"
   | "vercel-agent-elevated-permissions-approved"
   | "vercel-agent-elevated-permissions-requested"
+  | "vercel-agent-security-finding-closed"
   | "vercel-agent-security-finding-created"
   | "vercel-agent-security-finding-dismissed"
   | "vercel-agent-security-finding-reopened"
   | "vercel-agent-security-finding-resolved"
+  | "vercel-agent-security-review-policy-deleted"
+  | "vercel-agent-security-review-policy-updated"
   | "vercel-agent-session-created"
   | "vercel-agent-team-trial-credits-applied"
   | "vercel-app-installation-request-dismissed"
@@ -2011,7 +2172,9 @@ export type ListEventTypeReplacedByItem =
   | "vercel-app-installed"
   | "vercel-app-tokens-revoked"
   | "vercel-app-uninstalled"
+  | "vercel-ci-repository-github-runners-updated"
   | "vercel-ci-repository-settings-updated"
+  | "vercel-ci-run-approved"
   | "vercel-toolbar"
   | "vpc-peering-connection-accepted"
   | "vpc-peering-connection-deleted"
@@ -2149,24 +2312,49 @@ export interface UserEventPayloadCase1 {
   enabled: boolean;
   slackConfigured: boolean;
 }
-export type UserEventPayloadCase2Action =
+export type UserEventPayloadCase2EnvironmentsList = Array<string>;
+export type UserEventPayloadCase2FieldsList = Array<string>;
+export type UserEventPayloadCase2SubjectType = "app" | "user";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase2 {
+  acceptedTokenCount?: number | undefined;
+  clientId?: string | undefined;
+  clientName?: string | undefined;
+  clientUid?: string | undefined;
+  environments?: UserEventPayloadCase2EnvironmentsList | undefined;
+  eventName?: string | undefined;
+  fields?: UserEventPayloadCase2FieldsList | undefined;
+  importedTokenCount?: number | undefined;
+  installationId?: string | undefined;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  requestId?: string | undefined;
+  requestName?: string | undefined;
+  result?: string | undefined;
+  subjectType?: UserEventPayloadCase2SubjectType | undefined;
+  subscriptionId?: string | undefined;
+  tokenCount?: number | undefined;
+  tokensDeleted?: number | undefined;
+  triggerDestinationCount?: number | undefined;
+}
+export type UserEventPayloadCase3Action =
   | "archived"
   | "created"
   | "deleted"
   | "unarchived"
   | "updated";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase2 {
-  action: UserEventPayloadCase2Action;
+export interface UserEventPayloadCase3 {
+  action: UserEventPayloadCase3Action;
   id: string;
   projectId: string;
   projectName?: string | undefined;
   slug: string;
 }
-export type UserEventPayloadCase3Action = "created" | "deleted" | "transitioned" | "updated";
+export type UserEventPayloadCase4Action = "created" | "deleted" | "transitioned" | "updated";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase3 {
-  action: UserEventPayloadCase3Action;
+export interface UserEventPayloadCase4 {
+  action: UserEventPayloadCase4Action;
   id: string;
   name: string;
   projectId: string;
@@ -2174,32 +2362,42 @@ export interface UserEventPayloadCase3 {
   slug: string;
   state: string;
 }
-export type UserEventPayloadCase4Action = "added" | "deleted" | "rotated";
+export type UserEventPayloadCase5Action = "created" | "deleted" | "updated";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase4 {
-  action: UserEventPayloadCase4Action;
+export interface UserEventPayloadCase5 {
+  action: UserEventPayloadCase5Action;
+  id: string;
+  name: string;
+  projectId: string;
+  projectName?: string | undefined;
+  slug: string;
+}
+export type UserEventPayloadCase6Action = "added" | "deleted" | "rotated";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase6 {
+  action: UserEventPayloadCase6Action;
   environment: string;
   label?: string | undefined;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase5Action = "read";
-export type UserEventPayloadCase5EnvironmentList = Array<string>;
+export type UserEventPayloadCase7Action = "read";
+export type UserEventPayloadCase7EnvironmentList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase5 {
-  action: UserEventPayloadCase5Action;
-  environment: UserEventPayloadCase5EnvironmentList;
+export interface UserEventPayloadCase7 {
+  action: UserEventPayloadCase7Action;
+  environment: UserEventPayloadCase7EnvironmentList;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase6 {
+export interface UserEventPayloadCase8 {
   policyId: string;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase7 {
+export interface UserEventPayloadCase9 {
   expiresAt: string | null;
   grantId: string | null;
   namedSandboxId: string;
@@ -2209,142 +2407,100 @@ export interface UserEventPayloadCase7 {
   sandboxId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase8 {
+export interface UserEventPayloadCase10 {
   namespace: string;
   projectId: string;
   projectName: string;
   scheduleId: string;
   scheduleName: string;
 }
-export type UserEventPayloadCase9UpdatedFieldsItem =
+export type UserEventPayloadCase11UpdatedFieldsItem =
   | "expression"
   | "jitter"
   | "payload"
   | "target"
   | "timezone";
-export type UserEventPayloadCase9UpdatedFieldsList = Array<UserEventPayloadCase9UpdatedFieldsItem>;
+export type UserEventPayloadCase11UpdatedFieldsList =
+  Array<UserEventPayloadCase11UpdatedFieldsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase9 {
+export interface UserEventPayloadCase11 {
   namespace: string;
   projectId: string;
   projectName: string;
   scheduleId: string;
   scheduleName: string;
-  updatedFields: UserEventPayloadCase9UpdatedFieldsList;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase10 {
-  boardId: string;
-  operationId: string;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase11 {
-  boardId: string;
-  channelId: string;
-  operationId: string;
+  updatedFields: UserEventPayloadCase11UpdatedFieldsList;
 }
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase12 {
   boardId: string;
-  channelId: string;
+  grantId: string;
+  operationId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase13 {
+  boardId: string;
+  operationId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase14 {
+  boardId: string;
   environment: string;
   name: string;
   operationId: string;
   projectId: string;
   userId?: string | undefined;
 }
-export type UserEventPayloadCase13FieldsList = Array<string>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase13 {
-  boardId: string;
-  channelId: string;
-  fields: UserEventPayloadCase13FieldsList;
-  operationId: string;
-}
-export type UserEventPayloadCase14Visibility = "private" | "team";
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase14 {
-  boardId: string;
-  operationId: string;
-  visibility: UserEventPayloadCase14Visibility;
-}
-export type UserEventPayloadCase15EnvironmentsList = Array<string>;
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase15 {
   boardId: string;
-  environments: UserEventPayloadCase15EnvironmentsList;
+  channelId: string;
   operationId: string;
-  projectId: string;
 }
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase16 {
   boardId: string;
+  channelId: string;
+  environment: string;
+  /** Left out when the board no longer lets the team in, though its log still shows the board. */
+  name?: string | undefined;
+  operationId: string;
+  projectId: string;
+  userId?: string | undefined;
+}
+export type UserEventPayloadCase17FieldsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase17 {
+  boardId: string;
+  channelId: string;
+  fields: UserEventPayloadCase17FieldsList;
+  operationId: string;
+}
+export type UserEventPayloadCase18Visibility = "private" | "team";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase18 {
+  boardId: string;
+  operationId: string;
+  visibility: UserEventPayloadCase18Visibility;
+}
+export type UserEventPayloadCase19EnvironmentsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase19 {
+  boardId: string;
+  environments: UserEventPayloadCase19EnvironmentsList;
   operationId: string;
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase17 {
-  operationId: string;
-  schemaId: string;
-}
-/** Present on new events only. Equivalent to "stripe" when absent. */
-export type UserEventPayloadCase18Provider = "chatgpt" | "stripe";
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase18 {
-  /** Present on new events only. Equivalent to "stripe" when absent. */
-  provider?: UserEventPayloadCase18Provider | undefined;
-  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
-  providerAccount?: string | undefined;
-  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
-  stripeAccount?: string | undefined;
-  /** Present when `provider` is "stripe". */
-  stripeOrganisation?: string | undefined;
-  accountRequestId: string;
-  teamId: string;
-}
-/** Present on new events only. Equivalent to "stripe" when absent. */
-export type UserEventPayloadCase19Provider = "chatgpt" | "stripe";
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase19 {
-  /** Present on new events only. Equivalent to "stripe" when absent. */
-  provider?: UserEventPayloadCase19Provider | undefined;
-  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
-  providerAccount?: string | undefined;
-  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
-  stripeAccount?: string | undefined;
-  /** Present when `provider` is "stripe". */
-  stripeOrganisation?: string | undefined;
-  teamId: string;
-}
-/** Present on new events only. Equivalent to "stripe" when absent. */
-export type UserEventPayloadCase20Provider = "chatgpt" | "stripe";
-/** The payload of the event, if requested. */
 export interface UserEventPayloadCase20 {
-  /** Present on new events only. Equivalent to "stripe" when absent. */
-  provider?: UserEventPayloadCase20Provider | undefined;
-  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
-  providerAccount?: string | undefined;
-  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
-  stripeAccount?: string | undefined;
-  /** Present when `provider` is "stripe". */
-  stripeOrganisation?: string | undefined;
-  teamId: string;
-  teamSlug: string;
+  boardId: string;
+  operationId: string;
+  projectId: string;
 }
-/** Present on new events only. Equivalent to "stripe" when absent. */
-export type UserEventPayloadCase21Provider = "chatgpt" | "stripe";
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase21 {
-  /** Present on new events only. Equivalent to "stripe" when absent. */
-  provider?: UserEventPayloadCase21Provider | undefined;
-  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
-  providerAccount?: string | undefined;
-  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
-  stripeAccount?: string | undefined;
-  /** Present when `provider` is "stripe". */
-  stripeOrganisation?: string | undefined;
-  blockCode: string;
-  reason: string;
+  operationId: string;
+  schemaId: string;
 }
 /** Present on new events only. Equivalent to "stripe" when absent. */
 export type UserEventPayloadCase22Provider = "chatgpt" | "stripe";
@@ -2356,12 +2512,13 @@ export interface UserEventPayloadCase22 {
   providerAccount?: string | undefined;
   /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
   stripeAccount?: string | undefined;
-  projectName: string;
-  resourceId: string;
+  /** Present when `provider` is "stripe". */
+  stripeOrganisation?: string | undefined;
+  accountRequestId: string;
+  teamId: string;
 }
 /** Present on new events only. Equivalent to "stripe" when absent. */
 export type UserEventPayloadCase23Provider = "chatgpt" | "stripe";
-export type UserEventPayloadCase23ActorType = "admin";
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase23 {
   /** Present on new events only. Equivalent to "stripe" when absent. */
@@ -2373,15 +2530,9 @@ export interface UserEventPayloadCase23 {
   /** Present when `provider` is "stripe". */
   stripeOrganisation?: string | undefined;
   teamId: string;
-  /** Okta user id. */
-  actorId: string;
-  actorName?: string | undefined;
-  actorType: UserEventPayloadCase23ActorType;
 }
 /** Present on new events only. Equivalent to "stripe" when absent. */
 export type UserEventPayloadCase24Provider = "chatgpt" | "stripe";
-export type UserEventPayloadCase24FromPlan = "hobby" | "pro";
-export type UserEventPayloadCase24ToPlan = "hobby" | "pro";
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase24 {
   /** Present on new events only. Equivalent to "stripe" when absent. */
@@ -2392,333 +2543,455 @@ export interface UserEventPayloadCase24 {
   stripeAccount?: string | undefined;
   /** Present when `provider` is "stripe". */
   stripeOrganisation?: string | undefined;
-  fromPlan: UserEventPayloadCase24FromPlan;
+  teamId: string;
+  teamSlug: string;
+}
+/** Present on new events only. Equivalent to "stripe" when absent. */
+export type UserEventPayloadCase25Provider = "chatgpt" | "stripe";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase25 {
+  /** Present on new events only. Equivalent to "stripe" when absent. */
+  provider?: UserEventPayloadCase25Provider | undefined;
+  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
+  providerAccount?: string | undefined;
+  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
+  stripeAccount?: string | undefined;
+  /** Present when `provider` is "stripe". */
+  stripeOrganisation?: string | undefined;
+  blockCode: string;
+  reason: string;
+}
+/** Present on new events only. Equivalent to "stripe" when absent. */
+export type UserEventPayloadCase26Provider = "chatgpt" | "stripe";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase26 {
+  /** Present on new events only. Equivalent to "stripe" when absent. */
+  provider?: UserEventPayloadCase26Provider | undefined;
+  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
+  providerAccount?: string | undefined;
+  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
+  stripeAccount?: string | undefined;
+  projectName: string;
+  resourceId: string;
+}
+/** Present on new events only. Equivalent to "stripe" when absent. */
+export type UserEventPayloadCase27Provider = "chatgpt" | "stripe";
+export type UserEventPayloadCase27ActorType = "admin";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase27 {
+  /** Present on new events only. Equivalent to "stripe" when absent. */
+  provider?: UserEventPayloadCase27Provider | undefined;
+  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
+  providerAccount?: string | undefined;
+  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
+  stripeAccount?: string | undefined;
+  /** Present when `provider` is "stripe". */
+  stripeOrganisation?: string | undefined;
+  teamId: string;
+  /** Okta user id. */
+  actorId: string;
+  actorName?: string | undefined;
+  actorType: UserEventPayloadCase27ActorType;
+}
+/** Present on new events only. Equivalent to "stripe" when absent. */
+export type UserEventPayloadCase28Provider = "chatgpt" | "stripe";
+export type UserEventPayloadCase28FromPlan = "hobby" | "pro";
+export type UserEventPayloadCase28ToPlan = "hobby" | "pro";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase28 {
+  /** Present on new events only. Equivalent to "stripe" when absent. */
+  provider?: UserEventPayloadCase28Provider | undefined;
+  /** Present on new events only. Equivalent to `stripeAccount` when absent. */
+  providerAccount?: string | undefined;
+  /** Present when `provider` is "stripe". Equivalent to `providerAccount`. */
+  stripeAccount?: string | undefined;
+  /** Present when `provider` is "stripe". */
+  stripeOrganisation?: string | undefined;
+  fromPlan: UserEventPayloadCase28FromPlan;
   resourceId: string;
   teamId: string;
-  toPlan: UserEventPayloadCase24ToPlan;
+  toPlan: UserEventPayloadCase28ToPlan;
 }
-export interface UserEventPayloadCase25AccessPolicy {
+export interface UserEventPayloadCase29AccessPolicy {
   id: string;
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase25 {
-  accessPolicy: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase29 {
+  accessPolicy: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase26AccessPolicy = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase30AccessPolicy = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase26 {
-  accessPolicy: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase30 {
+  accessPolicy: UserEventPayloadCase29AccessPolicy;
   previousName?: string | undefined;
 }
-export type UserEventPayloadCase27AccessPolicy = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase27MemberKind = "project" | "team" | "user";
-export interface UserEventPayloadCase27Member {
+export type UserEventPayloadCase31AccessPolicy = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase31MemberKind = "iam-access-group" | "project" | "team" | "user";
+export interface UserEventPayloadCase31Member {
   id: string;
-  kind: UserEventPayloadCase27MemberKind;
+  kind: UserEventPayloadCase31MemberKind;
   name?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase27 {
-  accessPolicy: UserEventPayloadCase25AccessPolicy;
-  member: UserEventPayloadCase27Member;
-}
-export type UserEventPayloadCase28ApiKey = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase28BudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase28BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
-/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase28Budget {
-  alertThresholds?: UserEventPayloadCase28BudgetAlertThresholdsList | undefined;
-  /** Spend cap, in dollars. */
-  limitAmount: number;
-  refreshPeriod: UserEventPayloadCase28BudgetRefreshPeriod;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase28 {
-  apiKey: UserEventPayloadCase25AccessPolicy;
-  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  budget?: UserEventPayloadCase28Budget | null | undefined;
-  /** True when the key was created to bypass all of the team's restrictions (the ZDR-only model restriction and the provider/model allowlist). */
-  bypassAll?: boolean | undefined;
-  /** True when the key was created with a ZDR exemption. */
-  zdrExemption?: boolean | undefined;
-}
-export type UserEventPayloadCase29ApiKey = UserEventPayloadCase25AccessPolicy;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase29 {
-  apiKey: UserEventPayloadCase25AccessPolicy;
-}
-export type UserEventPayloadCase30ApiKey = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase30BudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase30BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
-/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase30Budget {
-  alertThresholds?: UserEventPayloadCase30BudgetAlertThresholdsList | undefined;
-  /** Spend cap, in dollars. */
-  limitAmount: number;
-  refreshPeriod: UserEventPayloadCase30BudgetRefreshPeriod;
-}
-export type UserEventPayloadCase30Change = "disable" | "enable" | "remove" | "set";
-export type UserEventPayloadCase30PreviousBudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase30PreviousBudgetRefreshPeriod =
-  | "daily"
-  | "monthly"
-  | "none"
-  | "weekly";
-/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase30PreviousBudget {
-  alertThresholds?: UserEventPayloadCase30PreviousBudgetAlertThresholdsList | undefined;
-  /** Spend cap, in dollars. */
-  limitAmount: number;
-  refreshPeriod: UserEventPayloadCase30PreviousBudgetRefreshPeriod;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase30 {
-  apiKey: UserEventPayloadCase25AccessPolicy;
-  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  budget?: UserEventPayloadCase30Budget | null | undefined;
-  change: UserEventPayloadCase30Change;
-  justification?: string | undefined;
-  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  previousBudget?: UserEventPayloadCase30PreviousBudget | null | undefined;
-}
-export type UserEventPayloadCase31Change =
-  | "disable"
-  | "disable-commitment"
-  | "enable"
-  | "enable-commitment"
-  | "update";
-export interface UserEventPayloadCase31Commitment {
-  deferredInvoiceTargetBalance: string;
-  maximumMonthlySpend: string | null;
-}
-export interface UserEventPayloadCase31Previous {
-  maximumMonthlySpend: string | null;
-  minimumBalance: string;
-  targetBalance: string;
-}
-export type UserEventPayloadCase31Settings = UserEventPayloadCase31Previous;
-/** The payload of the event, if requested. */
 export interface UserEventPayloadCase31 {
-  change: UserEventPayloadCase31Change;
-  commitment?: UserEventPayloadCase31Commitment | undefined;
-  previous?: UserEventPayloadCase31Previous | undefined;
-  settings?: UserEventPayloadCase31Previous | undefined;
+  accessPolicy: UserEventPayloadCase29AccessPolicy;
+  member: UserEventPayloadCase31Member;
 }
+export type UserEventPayloadCase32ApiKey = UserEventPayloadCase29AccessPolicy;
 export type UserEventPayloadCase32BudgetAlertThresholdsList = Array<number>;
 export type UserEventPayloadCase32BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
 /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
 export interface UserEventPayloadCase32Budget {
   alertThresholds?: UserEventPayloadCase32BudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
   /** Spend cap, in dollars. */
   limitAmount: number;
   refreshPeriod: UserEventPayloadCase32BudgetRefreshPeriod;
 }
-export type UserEventPayloadCase32Change = "disable" | "enable" | "remove" | "set";
-export type UserEventPayloadCase32PreviousBudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase32PreviousBudgetRefreshPeriod =
-  | "daily"
-  | "monthly"
-  | "none"
-  | "weekly";
-/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase32PreviousBudget {
-  alertThresholds?: UserEventPayloadCase32PreviousBudgetAlertThresholdsList | undefined;
-  /** Spend cap, in dollars. */
-  limitAmount: number;
-  refreshPeriod: UserEventPayloadCase32PreviousBudgetRefreshPeriod;
-}
-export type UserEventPayloadCase32ScopeType = "api-key" | "project" | "team" | "user";
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase32 {
+  apiKey: UserEventPayloadCase29AccessPolicy;
   /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
   budget?: UserEventPayloadCase32Budget | null | undefined;
-  change: UserEventPayloadCase32Change;
-  justification?: string | undefined;
-  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  previousBudget?: UserEventPayloadCase32PreviousBudget | null | undefined;
-  scopeType: UserEventPayloadCase32ScopeType;
+  /** True when the key was created to bypass all of the team's restrictions (the ZDR-only model restriction and the provider/model allowlist). */
+  bypassAll?: boolean | undefined;
+  /** True when the key was created with a ZDR exemption. */
+  zdrExemption?: boolean | undefined;
 }
-export type UserEventPayloadCase33BudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase33BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
+export type UserEventPayloadCase33ApiKey = UserEventPayloadCase29AccessPolicy;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase33 {
+  apiKey: UserEventPayloadCase29AccessPolicy;
+}
+export type UserEventPayloadCase34ApiKey = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase34BudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase34BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
 /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase33Budget {
-  alertThresholds?: UserEventPayloadCase33BudgetAlertThresholdsList | undefined;
+export interface UserEventPayloadCase34Budget {
+  alertThresholds?: UserEventPayloadCase34BudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
   /** Spend cap, in dollars. */
   limitAmount: number;
-  refreshPeriod: UserEventPayloadCase33BudgetRefreshPeriod;
+  refreshPeriod: UserEventPayloadCase34BudgetRefreshPeriod;
 }
-export type UserEventPayloadCase33Change = "disable" | "enable" | "remove" | "set";
-export type UserEventPayloadCase33PreviousBudgetAlertThresholdsList = Array<number>;
-export type UserEventPayloadCase33PreviousBudgetRefreshPeriod =
+export type UserEventPayloadCase34Change = "disable" | "enable" | "remove" | "set";
+export type UserEventPayloadCase34PreviousBudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase34PreviousBudgetRefreshPeriod =
   | "daily"
   | "monthly"
   | "none"
   | "weekly";
 /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-export interface UserEventPayloadCase33PreviousBudget {
-  alertThresholds?: UserEventPayloadCase33PreviousBudgetAlertThresholdsList | undefined;
+export interface UserEventPayloadCase34PreviousBudget {
+  alertThresholds?: UserEventPayloadCase34PreviousBudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
   /** Spend cap, in dollars. */
   limitAmount: number;
-  refreshPeriod: UserEventPayloadCase33PreviousBudgetRefreshPeriod;
+  refreshPeriod: UserEventPayloadCase34PreviousBudgetRefreshPeriod;
 }
-export type UserEventPayloadCase33ScopeType = "project" | "team" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase33 {
+export interface UserEventPayloadCase34 {
+  apiKey: UserEventPayloadCase29AccessPolicy;
   /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  budget?: UserEventPayloadCase33Budget | null | undefined;
-  change: UserEventPayloadCase33Change;
+  budget?: UserEventPayloadCase34Budget | null | undefined;
+  change: UserEventPayloadCase34Change;
   justification?: string | undefined;
   /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
-  previousBudget?: UserEventPayloadCase33PreviousBudget | null | undefined;
+  previousBudget?: UserEventPayloadCase34PreviousBudget | null | undefined;
+}
+export type UserEventPayloadCase35Change =
+  | "disable"
+  | "disable-commitment"
+  | "enable"
+  | "enable-commitment"
+  | "update"
+  | "update-commitment";
+export interface UserEventPayloadCase35Commitment {
+  deferredInvoiceTargetBalance: string;
+  maximumMonthlySpend: string | null;
+}
+export interface UserEventPayloadCase35PreviousCase0 {
+  maximumMonthlySpend: string | null;
+  minimumBalance: string;
+  targetBalance: string;
+}
+export type UserEventPayloadCase35PreviousCase1 = UserEventPayloadCase35Commitment;
+export type UserEventPayloadCase35Previous =
+  | UserEventPayloadCase35PreviousCase0
+  | UserEventPayloadCase35Commitment;
+export type UserEventPayloadCase35Settings = UserEventPayloadCase35PreviousCase0;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase35 {
+  change: UserEventPayloadCase35Change;
+  commitment?: UserEventPayloadCase35Commitment | undefined;
+  previous?: UserEventPayloadCase35Previous | undefined;
+  settings?: UserEventPayloadCase35PreviousCase0 | undefined;
+}
+export type UserEventPayloadCase36BudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase36BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
+export type UserEventPayloadCase36BudgetAppliesToItem = "team" | "user";
+export type UserEventPayloadCase36BudgetAppliesToList =
+  Array<UserEventPayloadCase36BudgetAppliesToItem>;
+/** `api-key` defaults may cover only some key spend attributions. */
+export interface UserEventPayloadCase36Budget {
+  alertThresholds?: UserEventPayloadCase36BudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
+  /** Spend cap, in dollars. */
+  limitAmount: number;
+  refreshPeriod: UserEventPayloadCase36BudgetRefreshPeriod;
+  appliesTo?: UserEventPayloadCase36BudgetAppliesToList | undefined;
+}
+export type UserEventPayloadCase36Change = "disable" | "enable" | "remove" | "set";
+export type UserEventPayloadCase36PreviousBudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase36PreviousBudgetRefreshPeriod =
+  | "daily"
+  | "monthly"
+  | "none"
+  | "weekly";
+export type UserEventPayloadCase36PreviousBudgetAppliesToItem = "team" | "user";
+export type UserEventPayloadCase36PreviousBudgetAppliesToList =
+  Array<UserEventPayloadCase36PreviousBudgetAppliesToItem>;
+/** `api-key` defaults may cover only some key spend attributions. */
+export interface UserEventPayloadCase36PreviousBudget {
+  alertThresholds?: UserEventPayloadCase36PreviousBudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
+  /** Spend cap, in dollars. */
+  limitAmount: number;
+  refreshPeriod: UserEventPayloadCase36PreviousBudgetRefreshPeriod;
+  appliesTo?: UserEventPayloadCase36PreviousBudgetAppliesToList | undefined;
+}
+export type UserEventPayloadCase36ScopeType = "api-key" | "app" | "project" | "team" | "user";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase36 {
+  /** `api-key` defaults may cover only some key spend attributions. */
+  budget?: UserEventPayloadCase36Budget | null | undefined;
+  change: UserEventPayloadCase36Change;
+  justification?: string | undefined;
+  /** `api-key` defaults may cover only some key spend attributions. */
+  previousBudget?: UserEventPayloadCase36PreviousBudget | null | undefined;
+  scopeType: UserEventPayloadCase36ScopeType;
+}
+export type UserEventPayloadCase37BudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase37BudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
+/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
+export interface UserEventPayloadCase37Budget {
+  alertThresholds?: UserEventPayloadCase37BudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
+  /** Spend cap, in dollars. */
+  limitAmount: number;
+  refreshPeriod: UserEventPayloadCase37BudgetRefreshPeriod;
+}
+export type UserEventPayloadCase37Change = "disable" | "enable" | "remove" | "set";
+export type UserEventPayloadCase37PreviousBudgetAlertThresholdsList = Array<number>;
+export type UserEventPayloadCase37PreviousBudgetRefreshPeriod =
+  | "daily"
+  | "monthly"
+  | "none"
+  | "weekly";
+/** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
+export interface UserEventPayloadCase37PreviousBudget {
+  alertThresholds?: UserEventPayloadCase37PreviousBudgetAlertThresholdsList | undefined;
+  /** When the budget lapses to the scope's default, in ms since the epoch. */
+  expiresAt?: number | undefined;
+  /** Spend cap, in dollars. */
+  limitAmount: number;
+  refreshPeriod: UserEventPayloadCase37PreviousBudgetRefreshPeriod;
+}
+export type UserEventPayloadCase37ScopeType = "app" | "project" | "team" | "user";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase37 {
+  /** Associates the event with a Vercel App; rendered when `appName` is absent. */
+  appId?: string | undefined;
+  appName?: string | undefined;
+  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
+  budget?: UserEventPayloadCase37Budget | null | undefined;
+  change: UserEventPayloadCase37Change;
+  justification?: string | undefined;
+  /** Spend budget on an AI Gateway API key, scope, or budget default, as surfaced in activity messages. Defined locally (rather than imported from `@api/pubsub-types`) because `@api/pubsub-types` already depends on `@api/events`; importing it here would create a circular dependency. Must stay structurally aligned with `APIKeyBudget` in `@api/pubsub-types/event-payloads/api-keys`. */
+  previousBudget?: UserEventPayloadCase37PreviousBudget | null | undefined;
   /** Associates the event with a project for filtering; not rendered. */
   projectId?: string | undefined;
   projectName?: string | undefined;
-  scopeType: UserEventPayloadCase33ScopeType;
+  scopeType: UserEventPayloadCase37ScopeType;
   /** Associates the event with a member for filtering; not rendered. */
   userId?: string | undefined;
   userName?: string | undefined;
 }
-export interface UserEventPayloadCase34Credential {
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase38 {
+  enabled: boolean;
+}
+export interface UserEventPayloadCase39Credential {
   id: string;
   name: string;
   providerSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase34 {
-  credential: UserEventPayloadCase34Credential;
+export interface UserEventPayloadCase39 {
+  credential: UserEventPayloadCase39Credential;
 }
-export interface UserEventPayloadCase35Changes {
+export interface UserEventPayloadCase40Changes {
   active?: boolean | undefined;
   keyReplaced?: boolean | undefined;
   previousName?: string | undefined;
   zeroDataRetention?: boolean | undefined;
 }
-export type UserEventPayloadCase35Credential = UserEventPayloadCase34Credential;
+export type UserEventPayloadCase40Credential = UserEventPayloadCase39Credential;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase35 {
-  changes?: UserEventPayloadCase35Changes | undefined;
-  credential: UserEventPayloadCase34Credential;
+export interface UserEventPayloadCase40 {
+  changes?: UserEventPayloadCase40Changes | undefined;
+  credential: UserEventPayloadCase39Credential;
 }
-export type UserEventPayloadCase36AddedList = Array<string>;
-export type UserEventPayloadCase36ChangedList = Array<string>;
-export type UserEventPayloadCase36Credential = UserEventPayloadCase34Credential;
-export type UserEventPayloadCase36RemovedList = Array<string>;
+export type UserEventPayloadCase41AddedList = Array<string>;
+export type UserEventPayloadCase41ChangedList = Array<string>;
+export type UserEventPayloadCase41Credential = UserEventPayloadCase39Credential;
+export type UserEventPayloadCase41RemovedList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase36 {
-  added: UserEventPayloadCase36AddedList;
-  changed: UserEventPayloadCase36ChangedList;
-  credential: UserEventPayloadCase34Credential;
-  removed: UserEventPayloadCase36RemovedList;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase37 {
-  enabled: boolean;
+export interface UserEventPayloadCase41 {
+  added: UserEventPayloadCase41AddedList;
+  changed: UserEventPayloadCase41ChangedList;
+  credential: UserEventPayloadCase39Credential;
+  removed: UserEventPayloadCase41RemovedList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase38 {
+export interface UserEventPayloadCase42 {
   amount: string;
   purchaseIntentId: string;
 }
-export type UserEventPayloadCase39AddedList = Array<string>;
-export type UserEventPayloadCase39RemovedList = Array<string>;
+export type UserEventPayloadCase43AddedList = Array<string>;
+export type UserEventPayloadCase43RemovedList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase39 {
-  added: UserEventPayloadCase39AddedList;
-  removed: UserEventPayloadCase39RemovedList;
+export interface UserEventPayloadCase43 {
+  added: UserEventPayloadCase43AddedList;
+  removed: UserEventPayloadCase43RemovedList;
 }
-export interface UserEventPayloadCase40PrivateModel {
+export interface UserEventPayloadCase44PrivateModel {
   providerSlug: string;
   slug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase40 {
-  privateModel: UserEventPayloadCase40PrivateModel;
+export interface UserEventPayloadCase44 {
+  privateModel: UserEventPayloadCase44PrivateModel;
 }
-export interface UserEventPayloadCase41PrivateModel {
+export interface UserEventPayloadCase45PrivateModel {
   slug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase41 {
-  privateModel: UserEventPayloadCase41PrivateModel;
+export interface UserEventPayloadCase45 {
+  privateModel: UserEventPayloadCase45PrivateModel;
 }
-export type UserEventPayloadCase42PrivateProvider = UserEventPayloadCase41PrivateModel;
+export type UserEventPayloadCase46PrivateProvider = UserEventPayloadCase45PrivateModel;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase42 {
-  privateProvider: UserEventPayloadCase41PrivateModel;
+export interface UserEventPayloadCase46 {
+  privateProvider: UserEventPayloadCase45PrivateModel;
 }
-export interface UserEventPayloadCase43PiiRedaction {
+export interface UserEventPayloadCase47PiiRedaction {
   from: boolean;
   to: boolean;
 }
-export type UserEventPayloadCase43PoliciesAddedList = Array<string>;
-export type UserEventPayloadCase43PoliciesModifiedList = Array<string>;
-export type UserEventPayloadCase43PoliciesRemovedList = Array<string>;
+export type UserEventPayloadCase47PoliciesAddedList = Array<string>;
+export type UserEventPayloadCase47PoliciesModifiedList = Array<string>;
+export type UserEventPayloadCase47PoliciesRemovedList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase43 {
+export interface UserEventPayloadCase47 {
   moderationPolicyCount: number;
-  piiRedaction: UserEventPayloadCase43PiiRedaction;
-  policiesAdded: UserEventPayloadCase43PoliciesAddedList;
-  policiesModified: UserEventPayloadCase43PoliciesModifiedList;
-  policiesRemoved: UserEventPayloadCase43PoliciesRemovedList;
+  piiRedaction: UserEventPayloadCase47PiiRedaction;
+  policiesAdded: UserEventPayloadCase47PoliciesAddedList;
+  policiesModified: UserEventPayloadCase47PoliciesModifiedList;
+  policiesRemoved: UserEventPayloadCase47PoliciesRemovedList;
 }
-export type UserEventPayloadCase44RegionsList = Array<string>;
+export type UserEventPayloadCase48RegionsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase44 {
-  regions: UserEventPayloadCase44RegionsList;
+export interface UserEventPayloadCase48 {
+  regions: UserEventPayloadCase48RegionsList;
 }
-export type UserEventPayloadCase45CountriesList = Array<string>;
+export type UserEventPayloadCase49CountriesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase45 {
-  countries: UserEventPayloadCase45CountriesList;
+export interface UserEventPayloadCase49 {
+  countries: UserEventPayloadCase49CountriesList;
 }
-export type UserEventPayloadCase46RetentionCeilingMode = "days" | "until-requested";
-export type UserEventPayloadCase46RetentionDefaultMode = "days" | "until-requested";
-export interface UserEventPayloadCase46Retention {
+export type UserEventPayloadCase50Mode = "enforce" | "shadow";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase50 {
+  enabled: boolean;
+  mode: UserEventPayloadCase50Mode;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase51 {
+  endpointOrigin: string;
+}
+export type UserEventPayloadCase52FailureMode = "closed" | "open";
+export type UserEventPayloadCase52Mode = "enforce" | "shadow";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase52 {
+  failureMode?: UserEventPayloadCase52FailureMode | undefined;
+  mode?: UserEventPayloadCase52Mode | undefined;
+  rolloutPercent?: number | undefined;
+  timeoutMs?: number | undefined;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase53 {
+  previousSecretGracePeriodHours?: number | undefined;
+}
+export type UserEventPayloadCase54HeaderNamesList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase54 {
+  headerNames: UserEventPayloadCase54HeaderNamesList;
+}
+export type UserEventPayloadCase55RetentionCeilingMode = "days" | "until-requested";
+export type UserEventPayloadCase55RetentionDefaultMode = "days" | "until-requested";
+export interface UserEventPayloadCase55Retention {
   ceilingDays?: number | undefined;
-  ceilingMode: UserEventPayloadCase46RetentionCeilingMode;
+  ceilingMode: UserEventPayloadCase55RetentionCeilingMode;
   defaultDays?: number | undefined;
-  defaultMode: UserEventPayloadCase46RetentionDefaultMode;
+  defaultMode: UserEventPayloadCase55RetentionDefaultMode;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase46 {
-  retention: UserEventPayloadCase46Retention;
+export interface UserEventPayloadCase55 {
+  retention: UserEventPayloadCase55Retention;
 }
-export interface UserEventPayloadCase47Rule {
+export interface UserEventPayloadCase56Rule {
   id: string;
   model?: string | undefined;
   rewriteModel?: string | undefined;
   type: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase47 {
-  rule: UserEventPayloadCase47Rule;
+export interface UserEventPayloadCase56 {
+  rule: UserEventPayloadCase56Rule;
 }
-export type UserEventPayloadCase48ChangedFieldsItem =
+export type UserEventPayloadCase57ChangedFieldsItem =
   | "description"
   | "enabled"
   | "reason"
   | "rewriteModel";
-export type UserEventPayloadCase48ChangedFieldsList =
-  Array<UserEventPayloadCase48ChangedFieldsItem>;
-export type UserEventPayloadCase48Rule = UserEventPayloadCase47Rule;
+export type UserEventPayloadCase57ChangedFieldsList =
+  Array<UserEventPayloadCase57ChangedFieldsItem>;
+export type UserEventPayloadCase57Rule = UserEventPayloadCase56Rule;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase48 {
-  changedFields?: UserEventPayloadCase48ChangedFieldsList | undefined;
+export interface UserEventPayloadCase57 {
+  changedFields?: UserEventPayloadCase57ChangedFieldsList | undefined;
   enabled?: boolean | undefined;
   previousRewriteModel?: string | undefined;
-  rule: UserEventPayloadCase47Rule;
+  rule: UserEventPayloadCase56Rule;
 }
-export interface UserEventPayloadCase49VirtualModelConfig {
+export interface UserEventPayloadCase58VirtualModelConfig {
   displayName?: string | undefined;
   id: string;
   modelSlug?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase49 {
-  virtualModelConfig: UserEventPayloadCase49VirtualModelConfig;
+export interface UserEventPayloadCase58 {
+  virtualModelConfig: UserEventPayloadCase58VirtualModelConfig;
 }
-export type UserEventPayloadCase50ChangedFieldsItem =
+export type UserEventPayloadCase59ChangedFieldsItem =
   | "allowFallbackFromFast"
   | "baseUrl"
   | "byokCredentialIds"
@@ -2744,113 +3017,113 @@ export type UserEventPayloadCase50ChangedFieldsItem =
   | "status"
   | "visibility"
   | "zeroDataRetention";
-export type UserEventPayloadCase50ChangedFieldsList =
-  Array<UserEventPayloadCase50ChangedFieldsItem>;
-export type UserEventPayloadCase50VirtualModelConfig = UserEventPayloadCase49VirtualModelConfig;
+export type UserEventPayloadCase59ChangedFieldsList =
+  Array<UserEventPayloadCase59ChangedFieldsItem>;
+export type UserEventPayloadCase59VirtualModelConfig = UserEventPayloadCase58VirtualModelConfig;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase50 {
-  changedFields?: UserEventPayloadCase50ChangedFieldsList | undefined;
-  virtualModelConfig: UserEventPayloadCase49VirtualModelConfig;
+export interface UserEventPayloadCase59 {
+  changedFields?: UserEventPayloadCase59ChangedFieldsList | undefined;
+  virtualModelConfig: UserEventPayloadCase58VirtualModelConfig;
 }
-export type UserEventPayloadCase51AccessGroup = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase51EntitlementsList = Array<string>;
-export type UserEventPayloadCase51TeamPermissionsList = Array<string>;
-export type UserEventPayloadCase51TeamRolesList = Array<string>;
+export type UserEventPayloadCase60AccessGroup = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase60EntitlementsList = Array<string>;
+export type UserEventPayloadCase60TeamPermissionsList = Array<string>;
+export type UserEventPayloadCase60TeamRolesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase51 {
-  accessGroup: UserEventPayloadCase25AccessPolicy;
-  entitlements?: UserEventPayloadCase51EntitlementsList | undefined;
-  teamPermissions?: UserEventPayloadCase51TeamPermissionsList | undefined;
-  teamRoles?: UserEventPayloadCase51TeamRolesList | undefined;
+export interface UserEventPayloadCase60 {
+  accessGroup: UserEventPayloadCase29AccessPolicy;
+  entitlements?: UserEventPayloadCase60EntitlementsList | undefined;
+  teamPermissions?: UserEventPayloadCase60TeamPermissionsList | undefined;
+  teamRoles?: UserEventPayloadCase60TeamRolesList | undefined;
 }
-export type UserEventPayloadCase52AccessGroup = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase61AccessGroup = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase52 {
-  accessGroup: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase61 {
+  accessGroup: UserEventPayloadCase29AccessPolicy;
   author?: string | undefined;
 }
-export type UserEventPayloadCase53AccessGroup = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase53NextRole =
+export type UserEventPayloadCase62AccessGroup = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase62NextRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export type UserEventPayloadCase53PreviousRole =
+export type UserEventPayloadCase62PreviousRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase53Project {
+export interface UserEventPayloadCase62Project {
   id: string;
   name?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase53 {
-  accessGroup: UserEventPayloadCase25AccessPolicy;
-  next_role?: UserEventPayloadCase53NextRole | null | undefined;
-  previous_role?: UserEventPayloadCase53PreviousRole | undefined;
-  project: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase62 {
+  accessGroup: UserEventPayloadCase29AccessPolicy;
+  next_role?: UserEventPayloadCase62NextRole | null | undefined;
+  previous_role?: UserEventPayloadCase62PreviousRole | undefined;
+  project: UserEventPayloadCase62Project;
 }
-export type UserEventPayloadCase54AccessGroup = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase54EntitlementsAddedList = Array<string>;
-export type UserEventPayloadCase54EntitlementsRemovedList = Array<string>;
-export type UserEventPayloadCase54PreviousTeamPermissionsList = Array<string>;
-export type UserEventPayloadCase54PreviousTeamRolesList = Array<string>;
-export type UserEventPayloadCase54TeamPermissionsList = Array<string>;
-export type UserEventPayloadCase54TeamRolesList = Array<string>;
+export type UserEventPayloadCase63AccessGroup = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase63EntitlementsAddedList = Array<string>;
+export type UserEventPayloadCase63EntitlementsRemovedList = Array<string>;
+export type UserEventPayloadCase63PreviousTeamPermissionsList = Array<string>;
+export type UserEventPayloadCase63PreviousTeamRolesList = Array<string>;
+export type UserEventPayloadCase63TeamPermissionsList = Array<string>;
+export type UserEventPayloadCase63TeamRolesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase54 {
-  accessGroup: UserEventPayloadCase25AccessPolicy;
-  entitlementsAdded?: UserEventPayloadCase54EntitlementsAddedList | undefined;
-  entitlementsRemoved?: UserEventPayloadCase54EntitlementsRemovedList | undefined;
+export interface UserEventPayloadCase63 {
+  accessGroup: UserEventPayloadCase29AccessPolicy;
+  entitlementsAdded?: UserEventPayloadCase63EntitlementsAddedList | undefined;
+  entitlementsRemoved?: UserEventPayloadCase63EntitlementsRemovedList | undefined;
   name?: string | undefined;
   previousName?: string | undefined;
-  previousTeamPermissions?: UserEventPayloadCase54PreviousTeamPermissionsList | undefined;
-  previousTeamRoles?: UserEventPayloadCase54PreviousTeamRolesList | undefined;
-  teamPermissions?: UserEventPayloadCase54TeamPermissionsList | undefined;
-  teamRoles?: UserEventPayloadCase54TeamRolesList | undefined;
+  previousTeamPermissions?: UserEventPayloadCase63PreviousTeamPermissionsList | undefined;
+  previousTeamRoles?: UserEventPayloadCase63PreviousTeamRolesList | undefined;
+  teamPermissions?: UserEventPayloadCase63TeamPermissionsList | undefined;
+  teamRoles?: UserEventPayloadCase63TeamRolesList | undefined;
 }
-export type UserEventPayloadCase55AccessGroup = UserEventPayloadCase53Project;
-export interface UserEventPayloadCase55User {
+export type UserEventPayloadCase64AccessGroup = UserEventPayloadCase62Project;
+export interface UserEventPayloadCase64User {
   id: string;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase55 {
-  accessGroup: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase64 {
+  accessGroup: UserEventPayloadCase62Project;
   directoryType?: string | undefined;
-  user: UserEventPayloadCase55User;
+  user: UserEventPayloadCase64User;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase56 {
+export interface UserEventPayloadCase65 {
   currency?: string | undefined;
   price?: number | undefined;
 }
 /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
-export type UserEventPayloadCase57DeploymentAllowListedReadyStateReasonInternal =
+export type UserEventPayloadCase66DeploymentAllowListedReadyStateReasonInternal =
   | "EARLY_IGNORE_STEP"
   | "IGNORE_STEP"
   | "NAMESPACE_PRUNED"
   | "UNAFFECTED_PROJECT"
   | "UNVERIFIED_COMMIT";
-export type UserEventPayloadCase57DeploymentMetaMap = { [key: string]: string | undefined };
-export interface UserEventPayloadCase57Deployment {
+export type UserEventPayloadCase66DeploymentMetaMap = { [key: string]: string | undefined };
+export interface UserEventPayloadCase66Deployment {
   /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
   allowListedReadyStateReasonInternal?:
-    | UserEventPayloadCase57DeploymentAllowListedReadyStateReasonInternal
+    | UserEventPayloadCase66DeploymentAllowListedReadyStateReasonInternal
     | undefined;
   id: string;
-  meta: UserEventPayloadCase57DeploymentMetaMap;
+  meta: UserEventPayloadCase66DeploymentMetaMap;
   name: string;
   readyState?: string | undefined;
   url: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase57 {
+export interface UserEventPayloadCase66 {
   alias?: string | undefined;
   aliasId?: string | undefined;
   aliasUpdatedAt?: number | undefined;
-  deployment?: UserEventPayloadCase57Deployment | null | undefined;
+  deployment?: UserEventPayloadCase66Deployment | null | undefined;
   deploymentId?: string | null | undefined;
   deploymentUrl?: string | undefined;
   oldDeploymentId?: string | null | undefined;
@@ -2861,97 +3134,97 @@ export interface UserEventPayloadCase57 {
   target?: string | null | undefined;
 }
 /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
-export type UserEventPayloadCase58DeploymentAllowListedReadyStateReasonInternal =
+export type UserEventPayloadCase67DeploymentAllowListedReadyStateReasonInternal =
   | "EARLY_IGNORE_STEP"
   | "IGNORE_STEP"
   | "NAMESPACE_PRUNED"
   | "UNAFFECTED_PROJECT"
   | "UNVERIFIED_COMMIT";
-export type UserEventPayloadCase58DeploymentMetaMap = { [key: string]: string | undefined };
-export interface UserEventPayloadCase58Deployment {
+export type UserEventPayloadCase67DeploymentMetaMap = { [key: string]: string | undefined };
+export interface UserEventPayloadCase67Deployment {
   /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
   allowListedReadyStateReasonInternal?:
-    | UserEventPayloadCase58DeploymentAllowListedReadyStateReasonInternal
+    | UserEventPayloadCase67DeploymentAllowListedReadyStateReasonInternal
     | undefined;
   id: string;
-  meta: UserEventPayloadCase58DeploymentMetaMap;
+  meta: UserEventPayloadCase67DeploymentMetaMap;
   name: string;
   readyState?: string | undefined;
   url: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase58 {
+export interface UserEventPayloadCase67 {
   aliasCount: number;
-  deployment?: UserEventPayloadCase58Deployment | null | undefined;
+  deployment?: UserEventPayloadCase67Deployment | null | undefined;
   projectId: string;
 }
-export interface UserEventPayloadCase59NewTeam {
+export interface UserEventPayloadCase68NewTeam {
   name: string;
 }
-export type UserEventPayloadCase59OldTeam = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase68OldTeam = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase59 {
+export interface UserEventPayloadCase68 {
   alias: string;
   name?: string | undefined;
-  newTeam?: UserEventPayloadCase59NewTeam | undefined;
-  oldTeam?: UserEventPayloadCase59NewTeam | undefined;
+  newTeam?: UserEventPayloadCase68NewTeam | undefined;
+  oldTeam?: UserEventPayloadCase68NewTeam | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase60 {
+export interface UserEventPayloadCase69 {
   alias: string;
   aliasId: string;
   deploymentId: string | null;
   name?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase61 {
+export interface UserEventPayloadCase70 {
   alias?: string | undefined;
   email?: string | undefined;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase62 {
+export interface UserEventPayloadCase71 {
   alias?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase63 {
+export interface UserEventPayloadCase72 {
   alias?: string | undefined;
   email?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase64 {
+export interface UserEventPayloadCase73 {
   alias?: string | undefined;
   aliasId?: string | undefined;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase65Action = "created" | "removed";
+export type UserEventPayloadCase74Action = "created" | "removed";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase65 {
-  action: UserEventPayloadCase65Action;
+export interface UserEventPayloadCase74 {
+  action: UserEventPayloadCase74Action;
   alias: string;
   projectId?: string | undefined;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase66 {
+export interface UserEventPayloadCase75 {
   alias: string;
   deploymentUrl: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase67 {
+export interface UserEventPayloadCase76 {
   alias?: string | undefined;
   userId?: string | undefined;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase68 {
+export interface UserEventPayloadCase77 {
   alias?: string | undefined;
   aliasId?: string | undefined;
   userId?: string | undefined;
   username?: string | undefined;
 }
-export type UserEventPayloadCase69PermissionsItem =
+export type UserEventPayloadCase78PermissionsItem =
   | "*"
   | "manage:speed-insights"
   | "manage:web-analytics"
@@ -2968,7 +3241,10 @@ export type UserEventPayloadCase69PermissionsItem =
   | "read-write:billing"
   | "read-write:blob"
   | "read-write:connect"
+  | "read-write:connect-any-user-token"
+  | "read-write:connect-app-token"
   | "read-write:deployment"
+  | "read-write:desktop-device"
   | "read-write:domain"
   | "read-write:domain-registrar"
   | "read-write:drains"
@@ -2994,6 +3270,7 @@ export type UserEventPayloadCase69PermissionsItem =
   | "read-write:schedule"
   | "read-write:team-members"
   | "read-write:vcr"
+  | "read-write:vercel-ci"
   | "read-write:webhooks"
   | "read:access-group"
   | "read:ai-gateway-budgets"
@@ -3008,6 +3285,7 @@ export type UserEventPayloadCase69PermissionsItem =
   | "read:billing"
   | "read:connect"
   | "read:deployment"
+  | "read:deployment-check"
   | "read:domain"
   | "read:drive"
   | "read:event"
@@ -3030,27 +3308,30 @@ export type UserEventPayloadCase69PermissionsItem =
   | "read:team"
   | "read:user"
   | "read:vcr"
+  | "read:vercel-ci"
   | "read:web-analytics"
   | "read:webhooks"
   | "use:ai-gateway"
   | "use:github"
-  | "use:private-npm";
-export type UserEventPayloadCase69PermissionsList = Array<UserEventPayloadCase69PermissionsItem>;
-export type UserEventPayloadCase69ScopesItem = "email" | "offline_access" | "openid" | "profile";
-export type UserEventPayloadCase69ScopesList = Array<UserEventPayloadCase69ScopesItem>;
+  | "use:private-npm"
+  | "use:project-flags-overrides-non-production"
+  | "use:project-flags-overrides-production";
+export type UserEventPayloadCase78PermissionsList = Array<UserEventPayloadCase78PermissionsItem>;
+export type UserEventPayloadCase78ScopesItem = "email" | "offline_access" | "openid" | "profile";
+export type UserEventPayloadCase78ScopesList = Array<UserEventPayloadCase78ScopesItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase69 {
+export interface UserEventPayloadCase78 {
   appId?: string | undefined;
   appName: string;
-  permissions?: UserEventPayloadCase69PermissionsList | undefined;
-  scopes: UserEventPayloadCase69ScopesList;
+  permissions?: UserEventPayloadCase78PermissionsList | undefined;
+  scopes: UserEventPayloadCase78ScopesList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase70 {
+export interface UserEventPayloadCase79 {
   appId?: string | undefined;
   appName: string;
 }
-export type UserEventPayloadCase71NextPermissionsItem =
+export type UserEventPayloadCase80NextPermissionsItem =
   | "*"
   | "manage:speed-insights"
   | "manage:web-analytics"
@@ -3067,7 +3348,10 @@ export type UserEventPayloadCase71NextPermissionsItem =
   | "read-write:billing"
   | "read-write:blob"
   | "read-write:connect"
+  | "read-write:connect-any-user-token"
+  | "read-write:connect-app-token"
   | "read-write:deployment"
+  | "read-write:desktop-device"
   | "read-write:domain"
   | "read-write:domain-registrar"
   | "read-write:drains"
@@ -3093,6 +3377,7 @@ export type UserEventPayloadCase71NextPermissionsItem =
   | "read-write:schedule"
   | "read-write:team-members"
   | "read-write:vcr"
+  | "read-write:vercel-ci"
   | "read-write:webhooks"
   | "read:access-group"
   | "read:ai-gateway-budgets"
@@ -3107,6 +3392,7 @@ export type UserEventPayloadCase71NextPermissionsItem =
   | "read:billing"
   | "read:connect"
   | "read:deployment"
+  | "read:deployment-check"
   | "read:domain"
   | "read:drive"
   | "read:event"
@@ -3129,27 +3415,30 @@ export type UserEventPayloadCase71NextPermissionsItem =
   | "read:team"
   | "read:user"
   | "read:vcr"
+  | "read:vercel-ci"
   | "read:web-analytics"
   | "read:webhooks"
   | "use:ai-gateway"
   | "use:github"
-  | "use:private-npm";
-export type UserEventPayloadCase71NextPermissionsList =
-  Array<UserEventPayloadCase71NextPermissionsItem>;
-export type UserEventPayloadCase71NextScopesItem =
+  | "use:private-npm"
+  | "use:project-flags-overrides-non-production"
+  | "use:project-flags-overrides-production";
+export type UserEventPayloadCase80NextPermissionsList =
+  Array<UserEventPayloadCase80NextPermissionsItem>;
+export type UserEventPayloadCase80NextScopesItem =
   | "email"
   | "offline_access"
   | "openid"
   | "profile";
-export type UserEventPayloadCase71NextScopesList = Array<UserEventPayloadCase71NextScopesItem>;
+export type UserEventPayloadCase80NextScopesList = Array<UserEventPayloadCase80NextScopesItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase71 {
+export interface UserEventPayloadCase80 {
   appId?: string | undefined;
   appName: string;
-  nextPermissions?: UserEventPayloadCase71NextPermissionsList | undefined;
-  nextScopes: UserEventPayloadCase71NextScopesList;
+  nextPermissions?: UserEventPayloadCase80NextPermissionsList | undefined;
+  nextScopes: UserEventPayloadCase80NextScopesList;
 }
-export type UserEventPayloadCase72AfterPermissionsItem =
+export type UserEventPayloadCase81AfterPermissionsItem =
   | "manage:speed-insights"
   | "manage:web-analytics"
   | "read-write:access-group"
@@ -3165,6 +3454,8 @@ export type UserEventPayloadCase72AfterPermissionsItem =
   | "read-write:billing"
   | "read-write:blob"
   | "read-write:connect"
+  | "read-write:connect-any-user-token"
+  | "read-write:connect-app-token"
   | "read-write:deployment"
   | "read-write:domain"
   | "read-write:domain-registrar"
@@ -3191,6 +3482,7 @@ export type UserEventPayloadCase72AfterPermissionsItem =
   | "read-write:schedule"
   | "read-write:team-members"
   | "read-write:vcr"
+  | "read-write:vercel-ci"
   | "read-write:webhooks"
   | "read:access-group"
   | "read:ai-gateway-budgets"
@@ -3205,6 +3497,7 @@ export type UserEventPayloadCase72AfterPermissionsItem =
   | "read:billing"
   | "read:connect"
   | "read:deployment"
+  | "read:deployment-check"
   | "read:domain"
   | "read:drive"
   | "read:event"
@@ -3226,32 +3519,35 @@ export type UserEventPayloadCase72AfterPermissionsItem =
   | "read:speed-insights"
   | "read:team"
   | "read:vcr"
+  | "read:vercel-ci"
   | "read:web-analytics"
   | "read:webhooks"
   | "use:ai-gateway"
-  | "use:private-npm";
-export type UserEventPayloadCase72AfterPermissionsList =
-  Array<UserEventPayloadCase72AfterPermissionsItem>;
-export type UserEventPayloadCase72AfterResourcesProjectIdsItemsType = "string";
-export interface UserEventPayloadCase72AfterResourcesProjectIdsItems {
-  type: UserEventPayloadCase72AfterResourcesProjectIdsItemsType;
+  | "use:private-npm"
+  | "use:project-flags-overrides-non-production"
+  | "use:project-flags-overrides-production";
+export type UserEventPayloadCase81AfterPermissionsList =
+  Array<UserEventPayloadCase81AfterPermissionsItem>;
+export type UserEventPayloadCase81AfterResourcesProjectIdsItemsType = "string";
+export interface UserEventPayloadCase81AfterResourcesProjectIdsItems {
+  type: UserEventPayloadCase81AfterResourcesProjectIdsItemsType;
 }
-export type UserEventPayloadCase72AfterResourcesProjectIdsType = "list";
+export type UserEventPayloadCase81AfterResourcesProjectIdsType = "list";
 /** Specific project IDs or all projects on the team (`['*']`). */
-export interface UserEventPayloadCase72AfterResourcesProjectIds {
-  items: UserEventPayloadCase72AfterResourcesProjectIdsItems;
+export interface UserEventPayloadCase81AfterResourcesProjectIds {
+  items: UserEventPayloadCase81AfterResourcesProjectIdsItems;
   required: boolean;
-  type: UserEventPayloadCase72AfterResourcesProjectIdsType;
+  type: UserEventPayloadCase81AfterResourcesProjectIdsType;
 }
-export interface UserEventPayloadCase72AfterResources {
+export interface UserEventPayloadCase81AfterResources {
   /** Specific project IDs or all projects on the team (`['*']`). */
-  projectIds: UserEventPayloadCase72AfterResourcesProjectIds;
+  projectIds: UserEventPayloadCase81AfterResourcesProjectIds;
 }
-export interface UserEventPayloadCase72After {
-  permissions?: UserEventPayloadCase72AfterPermissionsList | undefined;
-  resources?: UserEventPayloadCase72AfterResources | undefined;
+export interface UserEventPayloadCase81After {
+  permissions?: UserEventPayloadCase81AfterPermissionsList | undefined;
+  resources?: UserEventPayloadCase81AfterResources | undefined;
 }
-export type UserEventPayloadCase72BeforePermissionsItem =
+export type UserEventPayloadCase81BeforePermissionsItem =
   | "manage:speed-insights"
   | "manage:web-analytics"
   | "read-write:access-group"
@@ -3267,6 +3563,8 @@ export type UserEventPayloadCase72BeforePermissionsItem =
   | "read-write:billing"
   | "read-write:blob"
   | "read-write:connect"
+  | "read-write:connect-any-user-token"
+  | "read-write:connect-app-token"
   | "read-write:deployment"
   | "read-write:domain"
   | "read-write:domain-registrar"
@@ -3293,6 +3591,7 @@ export type UserEventPayloadCase72BeforePermissionsItem =
   | "read-write:schedule"
   | "read-write:team-members"
   | "read-write:vcr"
+  | "read-write:vercel-ci"
   | "read-write:webhooks"
   | "read:access-group"
   | "read:ai-gateway-budgets"
@@ -3307,6 +3606,7 @@ export type UserEventPayloadCase72BeforePermissionsItem =
   | "read:billing"
   | "read:connect"
   | "read:deployment"
+  | "read:deployment-check"
   | "read:domain"
   | "read:drive"
   | "read:event"
@@ -3328,41 +3628,44 @@ export type UserEventPayloadCase72BeforePermissionsItem =
   | "read:speed-insights"
   | "read:team"
   | "read:vcr"
+  | "read:vercel-ci"
   | "read:web-analytics"
   | "read:webhooks"
   | "use:ai-gateway"
-  | "use:private-npm";
-export type UserEventPayloadCase72BeforePermissionsList =
-  Array<UserEventPayloadCase72BeforePermissionsItem>;
-export type UserEventPayloadCase72BeforeResourcesProjectIdsItemsType = "string";
-export interface UserEventPayloadCase72BeforeResourcesProjectIdsItems {
-  type: UserEventPayloadCase72BeforeResourcesProjectIdsItemsType;
+  | "use:private-npm"
+  | "use:project-flags-overrides-non-production"
+  | "use:project-flags-overrides-production";
+export type UserEventPayloadCase81BeforePermissionsList =
+  Array<UserEventPayloadCase81BeforePermissionsItem>;
+export type UserEventPayloadCase81BeforeResourcesProjectIdsItemsType = "string";
+export interface UserEventPayloadCase81BeforeResourcesProjectIdsItems {
+  type: UserEventPayloadCase81BeforeResourcesProjectIdsItemsType;
 }
-export type UserEventPayloadCase72BeforeResourcesProjectIdsType = "list";
+export type UserEventPayloadCase81BeforeResourcesProjectIdsType = "list";
 /** Specific project IDs or all projects on the team (`['*']`). */
-export interface UserEventPayloadCase72BeforeResourcesProjectIds {
-  items: UserEventPayloadCase72BeforeResourcesProjectIdsItems;
+export interface UserEventPayloadCase81BeforeResourcesProjectIds {
+  items: UserEventPayloadCase81BeforeResourcesProjectIdsItems;
   required: boolean;
-  type: UserEventPayloadCase72BeforeResourcesProjectIdsType;
+  type: UserEventPayloadCase81BeforeResourcesProjectIdsType;
 }
-export interface UserEventPayloadCase72BeforeResources {
+export interface UserEventPayloadCase81BeforeResources {
   /** Specific project IDs or all projects on the team (`['*']`). */
-  projectIds: UserEventPayloadCase72BeforeResourcesProjectIds;
+  projectIds: UserEventPayloadCase81BeforeResourcesProjectIds;
 }
-export interface UserEventPayloadCase72Before {
-  permissions?: UserEventPayloadCase72BeforePermissionsList | undefined;
-  resources?: UserEventPayloadCase72BeforeResources | undefined;
+export interface UserEventPayloadCase81Before {
+  permissions?: UserEventPayloadCase81BeforePermissionsList | undefined;
+  resources?: UserEventPayloadCase81BeforeResources | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase72 {
-  after?: UserEventPayloadCase72After | undefined;
+export interface UserEventPayloadCase81 {
+  after?: UserEventPayloadCase81After | undefined;
   appId?: string | undefined;
   appName: string;
-  before?: UserEventPayloadCase72Before | undefined;
+  before?: UserEventPayloadCase81Before | undefined;
   installationId?: string | undefined;
   organizationId?: string | undefined;
 }
-export type UserEventPayloadCase73PermissionsItem =
+export type UserEventPayloadCase82PermissionsItem =
   | "manage:speed-insights"
   | "manage:web-analytics"
   | "read-write:access-group"
@@ -3378,6 +3681,8 @@ export type UserEventPayloadCase73PermissionsItem =
   | "read-write:billing"
   | "read-write:blob"
   | "read-write:connect"
+  | "read-write:connect-any-user-token"
+  | "read-write:connect-app-token"
   | "read-write:deployment"
   | "read-write:domain"
   | "read-write:domain-registrar"
@@ -3404,6 +3709,7 @@ export type UserEventPayloadCase73PermissionsItem =
   | "read-write:schedule"
   | "read-write:team-members"
   | "read-write:vcr"
+  | "read-write:vercel-ci"
   | "read-write:webhooks"
   | "read:access-group"
   | "read:ai-gateway-budgets"
@@ -3418,6 +3724,7 @@ export type UserEventPayloadCase73PermissionsItem =
   | "read:billing"
   | "read:connect"
   | "read:deployment"
+  | "read:deployment-check"
   | "read:domain"
   | "read:drive"
   | "read:event"
@@ -3439,51 +3746,54 @@ export type UserEventPayloadCase73PermissionsItem =
   | "read:speed-insights"
   | "read:team"
   | "read:vcr"
+  | "read:vercel-ci"
   | "read:web-analytics"
   | "read:webhooks"
   | "use:ai-gateway"
-  | "use:private-npm";
-export type UserEventPayloadCase73PermissionsList = Array<UserEventPayloadCase73PermissionsItem>;
-export type UserEventPayloadCase73ResourcesProjectIdsItemsType = "string";
-export interface UserEventPayloadCase73ResourcesProjectIdsItems {
-  type: UserEventPayloadCase73ResourcesProjectIdsItemsType;
+  | "use:private-npm"
+  | "use:project-flags-overrides-non-production"
+  | "use:project-flags-overrides-production";
+export type UserEventPayloadCase82PermissionsList = Array<UserEventPayloadCase82PermissionsItem>;
+export type UserEventPayloadCase82ResourcesProjectIdsItemsType = "string";
+export interface UserEventPayloadCase82ResourcesProjectIdsItems {
+  type: UserEventPayloadCase82ResourcesProjectIdsItemsType;
 }
-export type UserEventPayloadCase73ResourcesProjectIdsType = "list";
+export type UserEventPayloadCase82ResourcesProjectIdsType = "list";
 /** Specific project IDs or all projects on the team (`['*']`). */
-export interface UserEventPayloadCase73ResourcesProjectIds {
-  items: UserEventPayloadCase73ResourcesProjectIdsItems;
+export interface UserEventPayloadCase82ResourcesProjectIds {
+  items: UserEventPayloadCase82ResourcesProjectIdsItems;
   required: boolean;
-  type: UserEventPayloadCase73ResourcesProjectIdsType;
+  type: UserEventPayloadCase82ResourcesProjectIdsType;
 }
-export interface UserEventPayloadCase73Resources {
+export interface UserEventPayloadCase82Resources {
   /** Specific project IDs or all projects on the team (`['*']`). */
-  projectIds: UserEventPayloadCase73ResourcesProjectIds;
+  projectIds: UserEventPayloadCase82ResourcesProjectIds;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase73 {
+export interface UserEventPayloadCase82 {
   appId?: string | undefined;
   appName: string;
   organizationId?: string | undefined;
-  permissions?: UserEventPayloadCase73PermissionsList | undefined;
-  resources?: UserEventPayloadCase73Resources | undefined;
+  permissions?: UserEventPayloadCase82PermissionsList | undefined;
+  resources?: UserEventPayloadCase82Resources | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase74 {
+export interface UserEventPayloadCase83 {
   appId?: string | undefined;
   appName: string;
   secretLastFourChars?: string | undefined;
 }
 /** Note that not all historical events have this field. */
-export interface UserEventPayloadCase75App {
+export interface UserEventPayloadCase84App {
   /** The App's ID. */
   id: string;
   /** The App's name at the moment this even was published (it may have changed since then). */
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase75 {
+export interface UserEventPayloadCase84 {
   /** Note that not all historical events have this field. */
-  app?: UserEventPayloadCase75App | undefined;
+  app?: UserEventPayloadCase84App | undefined;
   /** The App's ID. Note that not all historical events have this field. */
   appId?: string | undefined;
   /** The App's name at the moment this even was published (it may have changed since then). */
@@ -3492,13 +3802,13 @@ export interface UserEventPayloadCase75 {
   issuedBefore?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase76 {
+export interface UserEventPayloadCase85 {
   appId?: string | undefined;
   appName: string;
   organizationId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase77 {
+export interface UserEventPayloadCase86 {
   attackModeActiveUntil?: number | null | undefined;
   attackModeEnabled: boolean;
   prevAttackModeActiveUntil?: number | null | undefined;
@@ -3506,259 +3816,289 @@ export interface UserEventPayloadCase77 {
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase78 {
+export interface UserEventPayloadCase87 {
+  /** UNIX timestamp in milliseconds. */
+  expiresAt: number;
+  name?: string | undefined;
+  /** The session it was started from. */
+  originSessionId: string;
+  sessionId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase88 {
+  name?: string | undefined;
+  sessionId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase89 {
   autoExposeSystemEnvs: boolean;
   projectId?: string | undefined;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase79 {
+export interface UserEventPayloadCase90 {
   avatar?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase80 {
+export interface UserEventPayloadCase91 {
   amount: number;
   invoiceId: string;
   lineItemCount: number;
   refundReason: string;
 }
-export type UserEventPayloadCase81SettlementMethod =
+export type UserEventPayloadCase92SettlementMethod =
   | "credited-paid"
   | "credited-payment-pending"
   | "refunded-paid"
   | "refunded-payment-pending";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase81 {
+export interface UserEventPayloadCase92 {
   amount: number;
   invoiceId: string;
   newInvoiceId: string;
-  settlementMethod: UserEventPayloadCase81SettlementMethod;
+  settlementMethod: UserEventPayloadCase92SettlementMethod;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase82 {
+export interface UserEventPayloadCase93 {
   subscriptionId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase83 {
+export interface UserEventPayloadCase94 {
   paymentMethodId: string;
   subscriptionId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase84 {
+export interface UserEventPayloadCase95 {
   brand?: string | undefined;
   last4?: string | undefined;
   paymentMethodId: string;
 }
-export type UserEventPayloadCase85ChangedFieldsItem =
+export type UserEventPayloadCase96ChangedFieldsItem =
   | "address"
   | "email"
   | "language"
   | "name"
   | "purchaseOrder"
   | "tax";
-export type UserEventPayloadCase85ChangedFieldsList =
-  Array<UserEventPayloadCase85ChangedFieldsItem>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase85 {
-  changedFields: UserEventPayloadCase85ChangedFieldsList;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase86 {
-  subscriptionId?: string | undefined;
-  planSlug: string;
-}
-export type UserEventPayloadCase87Action = "cancel_plan";
-export type UserEventPayloadCase87DataCase0PlanSlug = "v0_business" | "v0_teams";
-export type UserEventPayloadCase87DataCase0Reason = "non-payment";
-export interface UserEventPayloadCase87DataCase0 {
-  planSlug: UserEventPayloadCase87DataCase0PlanSlug;
-  reason?: UserEventPayloadCase87DataCase0Reason | undefined;
-}
-export type UserEventPayloadCase87DataCase1PlanSlug = "hobby";
-export interface UserEventPayloadCase87DataCase1 {
-  planSlug: UserEventPayloadCase87DataCase1PlanSlug;
-}
-export type UserEventPayloadCase87Data =
-  | UserEventPayloadCase87DataCase0
-  | UserEventPayloadCase87DataCase1;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase87 {
-  subscriptionId?: string | undefined;
-  action: UserEventPayloadCase87Action;
-  data: UserEventPayloadCase87Data;
-}
-export type UserEventPayloadCase88Action = "resume_plan";
-export type UserEventPayloadCase88DataPlanSlug = "v0_business" | "v0_teams";
-export interface UserEventPayloadCase88Data {
-  planSlug: UserEventPayloadCase88DataPlanSlug;
-}
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase88 {
-  subscriptionId?: string | undefined;
-  action: UserEventPayloadCase88Action;
-  data: UserEventPayloadCase88Data;
-}
-export type UserEventPayloadCase89Action = "mutate";
-export type UserEventPayloadCase89DataMap = { [key: string]: unknown | undefined };
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase89 {
-  subscriptionId?: string | undefined;
-  action: UserEventPayloadCase89Action;
-  data: UserEventPayloadCase89DataMap;
-}
-export type UserEventPayloadCase90ProductAliasesList = Array<string>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase90 {
-  subscriptionId?: string | undefined;
-  productAliases: UserEventPayloadCase90ProductAliasesList;
-}
-export type UserEventPayloadCase91Project = UserEventPayloadCase25AccessPolicy;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase91 {
-  bulkRedirectsLimit: number;
-  prevBulkRedirectsLimit: number;
-  project: UserEventPayloadCase25AccessPolicy;
-}
-export type UserEventPayloadCase92Project = UserEventPayloadCase25AccessPolicy;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase92 {
-  project: UserEventPayloadCase25AccessPolicy;
-  versionId: string;
-}
-export type UserEventPayloadCase93CnsList = Array<string>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase93 {
-  cn?: string | undefined;
-  cns?: UserEventPayloadCase93CnsList | undefined;
-  custom: boolean;
-  id?: string | undefined;
-}
-export type UserEventPayloadCase94CnsList = Array<string>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase94 {
-  cns: UserEventPayloadCase94CnsList;
-  custom: boolean;
-  id: string;
-}
-export type UserEventPayloadCase95CnsList = Array<string>;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase95 {
-  cn?: string | undefined;
-  cns?: UserEventPayloadCase95CnsList | undefined;
-  id?: string | undefined;
-}
-export type UserEventPayloadCase96NewTeam = UserEventPayloadCase59NewTeam;
-export type UserEventPayloadCase96OldTeam = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase96ChangedFieldsList =
+  Array<UserEventPayloadCase96ChangedFieldsItem>;
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase96 {
-  id: string;
-  newTeam?: UserEventPayloadCase59NewTeam | undefined;
-  oldTeam?: UserEventPayloadCase59NewTeam | undefined;
+  changedFields: UserEventPayloadCase96ChangedFieldsList;
 }
 /** The payload of the event, if requested. */
 export interface UserEventPayloadCase97 {
+  subscriptionId?: string | undefined;
+  planSlug: string;
+}
+export type UserEventPayloadCase98Action = "cancel_plan";
+export type UserEventPayloadCase98DataCase0PlanSlug = "v0_business" | "v0_teams";
+export type UserEventPayloadCase98DataCase0Reason = "non-payment";
+export interface UserEventPayloadCase98DataCase0 {
+  planSlug: UserEventPayloadCase98DataCase0PlanSlug;
+  reason?: UserEventPayloadCase98DataCase0Reason | undefined;
+}
+export type UserEventPayloadCase98DataCase1PlanSlug = "hobby";
+export interface UserEventPayloadCase98DataCase1 {
+  planSlug: UserEventPayloadCase98DataCase1PlanSlug;
+}
+export type UserEventPayloadCase98Data =
+  | UserEventPayloadCase98DataCase0
+  | UserEventPayloadCase98DataCase1;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase98 {
+  subscriptionId?: string | undefined;
+  action: UserEventPayloadCase98Action;
+  data: UserEventPayloadCase98Data;
+}
+export type UserEventPayloadCase99Action = "resume_plan";
+export type UserEventPayloadCase99DataPlanSlug = "v0_business" | "v0_teams";
+export interface UserEventPayloadCase99Data {
+  planSlug: UserEventPayloadCase99DataPlanSlug;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase99 {
+  subscriptionId?: string | undefined;
+  action: UserEventPayloadCase99Action;
+  data: UserEventPayloadCase99Data;
+}
+export type UserEventPayloadCase100Action = "mutate";
+export type UserEventPayloadCase100DataMap = { [key: string]: unknown | undefined };
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase100 {
+  subscriptionId?: string | undefined;
+  action: UserEventPayloadCase100Action;
+  data: UserEventPayloadCase100DataMap;
+}
+export type UserEventPayloadCase101ProductAliasesList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase101 {
+  subscriptionId?: string | undefined;
+  productAliases: UserEventPayloadCase101ProductAliasesList;
+}
+export type UserEventPayloadCase102Project = UserEventPayloadCase29AccessPolicy;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase102 {
+  bulkRedirectsLimit: number;
+  prevBulkRedirectsLimit: number;
+  project: UserEventPayloadCase29AccessPolicy;
+}
+export type UserEventPayloadCase103Project = UserEventPayloadCase29AccessPolicy;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase103 {
+  project: UserEventPayloadCase29AccessPolicy;
+  versionId: string;
+}
+export type UserEventPayloadCase104CnsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase104 {
+  cn?: string | undefined;
+  cns?: UserEventPayloadCase104CnsList | undefined;
+  custom: boolean;
+  id?: string | undefined;
+}
+export type UserEventPayloadCase105CnsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase105 {
+  cns: UserEventPayloadCase105CnsList;
+  custom: boolean;
+  id: string;
+}
+export type UserEventPayloadCase106CnsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase106 {
+  cn?: string | undefined;
+  cns?: UserEventPayloadCase106CnsList | undefined;
+  id?: string | undefined;
+}
+export type UserEventPayloadCase107NewTeam = UserEventPayloadCase68NewTeam;
+export type UserEventPayloadCase107OldTeam = UserEventPayloadCase68NewTeam;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase107 {
+  id: string;
+  newTeam?: UserEventPayloadCase68NewTeam | undefined;
+  oldTeam?: UserEventPayloadCase68NewTeam | undefined;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase108 {
   dst: string;
   src: string;
 }
-export type UserEventPayloadCase98CnsList = Array<string>;
+export type UserEventPayloadCase109CnsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase98 {
+export interface UserEventPayloadCase109 {
   cn?: string | undefined;
-  cns?: UserEventPayloadCase98CnsList | undefined;
+  cns?: UserEventPayloadCase109CnsList | undefined;
   id: string;
 }
-export type UserEventPayloadCase99CnsList = Array<string>;
+export type UserEventPayloadCase110CnsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase99 {
+export interface UserEventPayloadCase110 {
   cn?: string | undefined;
-  cns?: UserEventPayloadCase99CnsList | undefined;
+  cns?: UserEventPayloadCase110CnsList | undefined;
 }
-export interface UserEventPayloadCase100Next {
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase111 {
+  /** Stable GitHub user id. */
+  actorAccountId: number | null;
+  /** Display name only. Logins are mutable; join on `actorAccountId`. */
+  actorLogin: string;
+  gitOwnerName: string;
+  gitRepositoryName: string;
+  headSha: string;
+  /** The actor opted in on their own pull request instead of approving it. */
+  isAuthor?: boolean | undefined;
+  prNumber: number;
+  reviewUrl: string;
+  /** The `:must-assume` team the approval counted for, e.g. "vercel/leads". */
+  team: string;
+}
+export interface UserEventPayloadCase112Next {
   autoAddReviewers: boolean;
   enabled: boolean;
 }
-export type UserEventPayloadCase100Previous = UserEventPayloadCase100Next;
+export type UserEventPayloadCase112Previous = UserEventPayloadCase112Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase100 {
+export interface UserEventPayloadCase112 {
   gitOwnerName: string;
   gitRepositoryName: string;
-  next: UserEventPayloadCase100Next;
-  previous: UserEventPayloadCase100Next;
+  next: UserEventPayloadCase112Next;
+  previous: UserEventPayloadCase112Next;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase101 {
+export interface UserEventPayloadCase113 {
   documentId: string;
   fingerprint: string;
   slug: string;
   title: string;
 }
 /** A single document included in a bulk compliance download. */
-export type UserEventPayloadCase102DocumentsItem = UserEventPayloadCase101;
-export type UserEventPayloadCase102DocumentsList = Array<UserEventPayloadCase101>;
+export type UserEventPayloadCase114DocumentsItem = UserEventPayloadCase113;
+export type UserEventPayloadCase114DocumentsList = Array<UserEventPayloadCase113>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase102 {
+export interface UserEventPayloadCase114 {
   count: number;
-  documents: UserEventPayloadCase102DocumentsList;
+  documents: UserEventPayloadCase114DocumentsList;
 }
-export type UserEventPayloadCase103Configuration = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase115Configuration = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase103 {
-  configuration: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase115 {
+  configuration: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase104Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase104Project = UserEventPayloadCase53Project;
-export type UserEventPayloadCase104Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase116Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase116Project = UserEventPayloadCase62Project;
+export type UserEventPayloadCase116Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase104 {
+export interface UserEventPayloadCase116 {
   buildsEnabled?: boolean | undefined;
-  configuration: UserEventPayloadCase53Project;
-  project: UserEventPayloadCase53Project;
-  team: UserEventPayloadCase25AccessPolicy;
+  configuration: UserEventPayloadCase62Project;
+  project: UserEventPayloadCase62Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase105Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase105Project = UserEventPayloadCase53Project;
-export type UserEventPayloadCase105Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase117Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase117Project = UserEventPayloadCase62Project;
+export type UserEventPayloadCase117Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase105 {
+export interface UserEventPayloadCase117 {
   buildsEnabled?: boolean | undefined;
-  configuration: UserEventPayloadCase53Project;
+  configuration: UserEventPayloadCase62Project;
   passive?: boolean | undefined;
-  project: UserEventPayloadCase53Project;
-  team: UserEventPayloadCase25AccessPolicy;
+  project: UserEventPayloadCase62Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase106Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase106Project = UserEventPayloadCase53Project;
-export type UserEventPayloadCase106Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase118Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase118Project = UserEventPayloadCase62Project;
+export type UserEventPayloadCase118Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase106 {
-  configuration: UserEventPayloadCase53Project;
-  project: UserEventPayloadCase53Project;
-  team: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase118 {
+  configuration: UserEventPayloadCase62Project;
+  project: UserEventPayloadCase62Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase107Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase107Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase119Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase119Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase107 {
-  configuration: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase119 {
+  configuration: UserEventPayloadCase62Project;
   newName: string;
-  team: UserEventPayloadCase25AccessPolicy;
+  team: UserEventPayloadCase29AccessPolicy;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase108 {
+export interface UserEventPayloadCase120 {
   githubLogin: string;
   host?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase109 {
+export interface UserEventPayloadCase121 {
   githubLogin: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase110 {
+export interface UserEventPayloadCase122 {
   githubLogin: string;
   host: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase111 {
+export interface UserEventPayloadCase123 {
   gitlabEmail: string;
   gitlabLogin: string;
   gitlabName?: string | undefined;
@@ -3766,177 +4106,155 @@ export interface UserEventPayloadCase111 {
   zeitAccountType?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase112 {
+export interface UserEventPayloadCase124 {
   gitlabLogin: string;
   gitlabUserId: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase113 {
+export interface UserEventPayloadCase125 {
   bitbucketEmail: string;
   bitbucketLogin: string;
   bitbucketName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase114 {
+export interface UserEventPayloadCase126 {
   bitbucketAccountId: string;
   bitbucketLogin: string;
 }
-export type UserEventPayloadCase115EnvironmentsList = Array<string>;
-export type UserEventPayloadCase115FieldsList = Array<string>;
-export type UserEventPayloadCase115SubjectType = "app" | "user";
+export type UserEventPayloadCase127Project = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase115 {
-  acceptedTokenCount?: number | undefined;
-  clientId?: string | undefined;
-  clientName?: string | undefined;
-  clientUid?: string | undefined;
-  environments?: UserEventPayloadCase115EnvironmentsList | undefined;
-  eventName?: string | undefined;
-  fields?: UserEventPayloadCase115FieldsList | undefined;
-  importedTokenCount?: number | undefined;
-  installationId?: string | undefined;
-  projectId?: string | undefined;
-  projectName?: string | undefined;
-  subjectType?: UserEventPayloadCase115SubjectType | undefined;
-  subscriptionId?: string | undefined;
-  tokenCount?: number | undefined;
-  tokensDeleted?: number | undefined;
-  triggerDestinationCount?: number | undefined;
-}
-export type UserEventPayloadCase116Project = UserEventPayloadCase25AccessPolicy;
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase116 {
+export interface UserEventPayloadCase127 {
   prevPurchasedAmount: number;
-  project: UserEventPayloadCase25AccessPolicy;
+  project: UserEventPayloadCase29AccessPolicy;
   purchasedAmount: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase117 {
+export interface UserEventPayloadCase128 {
   metricName: string;
   [key: string]: unknown;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase118 {
+export interface UserEventPayloadCase129 {
   reason?: string | undefined;
   suffix: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase119 {
+export interface UserEventPayloadCase130 {
   status: string;
   suffix: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase120 {
+export interface UserEventPayloadCase131 {
   suffix: string;
 }
-export type UserEventPayloadCase121OldPasswordProtectionDeploymentType =
+export type UserEventPayloadCase132OldPasswordProtectionDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase121OldPasswordProtection {
-  deploymentType: UserEventPayloadCase121OldPasswordProtectionDeploymentType;
+export interface UserEventPayloadCase132OldPasswordProtection {
+  deploymentType: UserEventPayloadCase132OldPasswordProtectionDeploymentType;
 }
-export type UserEventPayloadCase121PasswordProtectionDeploymentType =
+export type UserEventPayloadCase132PasswordProtectionDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase121PasswordProtection {
-  deploymentType: UserEventPayloadCase121PasswordProtectionDeploymentType;
+export interface UserEventPayloadCase132PasswordProtection {
+  deploymentType: UserEventPayloadCase132PasswordProtectionDeploymentType;
 }
-export type UserEventPayloadCase121Scope = "team";
+export type UserEventPayloadCase132Scope = "team";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase121 {
-  oldPasswordProtection: UserEventPayloadCase121OldPasswordProtection | null;
+export interface UserEventPayloadCase132 {
+  oldPasswordProtection: UserEventPayloadCase132OldPasswordProtection | null;
   passwordChanged?: boolean | undefined;
-  passwordProtection: UserEventPayloadCase121PasswordProtection | null;
-  scope: UserEventPayloadCase121Scope;
+  passwordProtection: UserEventPayloadCase132PasswordProtection | null;
+  scope: UserEventPayloadCase132Scope;
 }
-export type UserEventPayloadCase122OldSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
+export type UserEventPayloadCase133OldSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase122OldSsoProtectionCve55182MigrationAppliedFrom =
+export type UserEventPayloadCase133OldSsoProtectionCve55182MigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase122OldSsoProtectionDeploymentType =
+export type UserEventPayloadCase133OldSsoProtectionDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase122OldSsoProtection {
+export interface UserEventPayloadCase133OldSsoProtection {
   april2026SecurityIncidentMigrationAppliedFrom?:
-    | UserEventPayloadCase122OldSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom
+    | UserEventPayloadCase133OldSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom
     | null
     | undefined;
   cve55182MigrationAppliedFrom?:
-    | UserEventPayloadCase122OldSsoProtectionCve55182MigrationAppliedFrom
+    | UserEventPayloadCase133OldSsoProtectionCve55182MigrationAppliedFrom
     | null
     | undefined;
-  deploymentType: UserEventPayloadCase122OldSsoProtectionDeploymentType;
+  deploymentType: UserEventPayloadCase133OldSsoProtectionDeploymentType;
 }
-export type UserEventPayloadCase122Scope = "organization" | "team";
-export type UserEventPayloadCase122SsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
+export type UserEventPayloadCase133Scope = "organization" | "team";
+export type UserEventPayloadCase133SsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase122SsoProtectionCve55182MigrationAppliedFrom =
+export type UserEventPayloadCase133SsoProtectionCve55182MigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase122SsoProtectionDeploymentType =
+export type UserEventPayloadCase133SsoProtectionDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase122SsoProtection {
+export interface UserEventPayloadCase133SsoProtection {
   april2026SecurityIncidentMigrationAppliedFrom?:
-    | UserEventPayloadCase122SsoProtectionApril2026SecurityIncidentMigrationAppliedFrom
+    | UserEventPayloadCase133SsoProtectionApril2026SecurityIncidentMigrationAppliedFrom
     | null
     | undefined;
   cve55182MigrationAppliedFrom?:
-    | UserEventPayloadCase122SsoProtectionCve55182MigrationAppliedFrom
+    | UserEventPayloadCase133SsoProtectionCve55182MigrationAppliedFrom
     | null
     | undefined;
-  deploymentType: UserEventPayloadCase122SsoProtectionDeploymentType;
+  deploymentType: UserEventPayloadCase133SsoProtectionDeploymentType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase122 {
-  oldSsoProtection: UserEventPayloadCase122OldSsoProtection | null;
-  scope: UserEventPayloadCase122Scope;
-  ssoProtection: UserEventPayloadCase122SsoProtection | null;
+export interface UserEventPayloadCase133 {
+  oldSsoProtection: UserEventPayloadCase133OldSsoProtection | null;
+  scope: UserEventPayloadCase133Scope;
+  ssoProtection: UserEventPayloadCase133SsoProtection | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase123 {
+export interface UserEventPayloadCase134 {
   hookName: string;
   projectId: string;
   projectName: string;
   ref: string;
 }
-export interface UserEventPayloadCase124JobDeployHook {
+export interface UserEventPayloadCase135JobDeployHook {
   createdAt: number;
   id: string;
   name: string;
   ref: string;
 }
-export interface UserEventPayloadCase124Job {
-  deployHook: UserEventPayloadCase124JobDeployHook;
+export interface UserEventPayloadCase135Job {
+  deployHook: UserEventPayloadCase135JobDeployHook;
   state: string;
 }
-export type UserEventPayloadCase124Project = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase135Project = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase124 {
-  job: UserEventPayloadCase124Job;
-  project: UserEventPayloadCase59NewTeam;
+export interface UserEventPayloadCase135 {
+  job: UserEventPayloadCase135Job;
+  project: UserEventPayloadCase68NewTeam;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase125 {
+export interface UserEventPayloadCase136 {
   checkId: string;
   checkName: string;
   projectId: string;
@@ -3959,57 +4277,57 @@ export interface DeploymentCheckUpdatedPayload {
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase127AliasList = Array<string>;
+export type UserEventPayloadCase138AliasList = Array<string>;
 /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
-export type UserEventPayloadCase127DeploymentAllowListedReadyStateReasonInternal =
+export type UserEventPayloadCase138DeploymentAllowListedReadyStateReasonInternal =
   | "EARLY_IGNORE_STEP"
   | "IGNORE_STEP"
   | "NAMESPACE_PRUNED"
   | "UNAFFECTED_PROJECT"
   | "UNVERIFIED_COMMIT";
-export type UserEventPayloadCase127DeploymentMetaMap = { [key: string]: string | undefined };
-export interface UserEventPayloadCase127Deployment {
+export type UserEventPayloadCase138DeploymentMetaMap = { [key: string]: string | undefined };
+export interface UserEventPayloadCase138Deployment {
   /** A narrowed subset of the deployment's `readyStateReasonInternal` -- only values in the public allowlist are permitted here. Callers should run their raw reason through `toAllowListedReadyStateReasonInternal` from `@api/events` before assigning. This keeps abuse / moderation / admin reasons out of the public activity log. */
   allowListedReadyStateReasonInternal?:
-    | UserEventPayloadCase127DeploymentAllowListedReadyStateReasonInternal
+    | UserEventPayloadCase138DeploymentAllowListedReadyStateReasonInternal
     | undefined;
   id: string;
-  meta: UserEventPayloadCase127DeploymentMetaMap;
+  meta: UserEventPayloadCase138DeploymentMetaMap;
   name: string;
   readyState?: string | undefined;
   url: string;
 }
-export type UserEventPayloadCase127GitCredentialSource = "external-token";
-export type UserEventPayloadCase127RegionsList = Array<string>;
+export type UserEventPayloadCase138GitCredentialSource = "external-token";
+export type UserEventPayloadCase138RegionsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase127 {
-  alias?: UserEventPayloadCase127AliasList | undefined;
-  deployment?: UserEventPayloadCase127Deployment | null | undefined;
+export interface UserEventPayloadCase138 {
+  alias?: UserEventPayloadCase138AliasList | undefined;
+  deployment?: UserEventPayloadCase138Deployment | null | undefined;
   deploymentId?: string | undefined;
   forced?: boolean | undefined;
-  gitCredentialSource?: UserEventPayloadCase127GitCredentialSource | undefined;
+  gitCredentialSource?: UserEventPayloadCase138GitCredentialSource | undefined;
   name?: string | undefined;
   plan?: string | undefined;
   project?: string | undefined;
   projectId?: string | undefined;
-  regions?: UserEventPayloadCase127RegionsList | undefined;
+  regions?: UserEventPayloadCase138RegionsList | undefined;
   target?: string | null | undefined;
   type?: string | undefined;
   url: string;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase0CommitVerification =
+export type UserEventPayloadCase139JobCase0CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase0DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase0DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export interface UserEventPayloadCase128JobCase0GitComments {
+export interface UserEventPayloadCase139JobCase0GitComments {
   onCommit: boolean;
   onPullRequest: boolean;
 }
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase0GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase0GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4030,9 +4348,9 @@ export type UserEventPayloadCase128JobCase0GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase0GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase0GitHashtagVercelItem>;
-export interface UserEventPayloadCase128JobCase0HeadInfo {
+export type UserEventPayloadCase139JobCase0GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase0GitHashtagVercelItem>;
+export interface UserEventPayloadCase139JobCase0HeadInfo {
   owner: string;
   ref: string;
   repoUuid: string;
@@ -4040,109 +4358,109 @@ export interface UserEventPayloadCase128JobCase0HeadInfo {
   slug: string;
 }
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase0JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase0JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase0JobPairsList =
-  Array<UserEventPayloadCase128JobCase0JobPairsItemList>;
+export type UserEventPayloadCase139JobCase0JobPairsList =
+  Array<UserEventPayloadCase139JobCase0JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase0JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase0NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase0JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase0NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase0NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase0NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase0NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase0NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase0Provider = "bitbucket";
+export type UserEventPayloadCase139JobCase0Provider = "bitbucket";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase0SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase0SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase0SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase0SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase0Type = "bitbucket-push";
-export interface UserEventPayloadCase128JobCase0 {
+export type UserEventPayloadCase139JobCase0SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase0SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase0Type = "bitbucket-push";
+export interface UserEventPayloadCase139JobCase0 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase0CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase0CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   eventful?: boolean | undefined;
   forceNew?: boolean | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase0GitHashtagVercelList | undefined;
-  headInfo: UserEventPayloadCase128JobCase0HeadInfo;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase0GitHashtagVercelList | undefined;
+  headInfo: UserEventPayloadCase139JobCase0HeadInfo;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase0JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase0JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase0JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase0JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   name: string;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase0NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase0NsnbSideEffect | undefined;
   owner: string;
   prId?: number | undefined;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase0Provider;
+  provider: UserEventPayloadCase139JobCase0Provider;
   ref: string;
   repoPushedAt?: number | null | undefined;
   repoUuid: string;
   sha: string;
   silent?: boolean | undefined;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase0SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase0SkippedJobPairsList | undefined;
   slug: string;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase0Type;
+  type: UserEventPayloadCase139JobCase0Type;
   url?: string | undefined;
   withCache?: boolean | undefined;
   workspaceUuid: string;
 }
-export type UserEventPayloadCase128JobCase1GitComments = UserEventPayloadCase128JobCase0GitComments;
-export type UserEventPayloadCase128JobCase1HeadInfo = UserEventPayloadCase128JobCase0HeadInfo;
-export type UserEventPayloadCase128JobCase1Provider = "bitbucket";
-export type UserEventPayloadCase128JobCase1Type = "bitbucket-now-comment";
+export type UserEventPayloadCase139JobCase1GitComments = UserEventPayloadCase139JobCase0GitComments;
+export type UserEventPayloadCase139JobCase1HeadInfo = UserEventPayloadCase139JobCase0HeadInfo;
+export type UserEventPayloadCase139JobCase1Provider = "bitbucket";
+export type UserEventPayloadCase139JobCase1Type = "bitbucket-now-comment";
 /** Represents the payload for a Bitbucket comment job This interface defines the structure of data needed when creating a job to handle comments on Bitbucket pull requests or commits. */
-export interface UserEventPayloadCase128JobCase1 {
+export interface UserEventPayloadCase139JobCase1 {
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
   eventful?: boolean | undefined;
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
-  headInfo: UserEventPayloadCase128JobCase0HeadInfo;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
+  headInfo: UserEventPayloadCase139JobCase0HeadInfo;
   linkedProjectId?: string | undefined;
   name: string;
   owner: string;
   prId: number;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase1Provider;
+  provider: UserEventPayloadCase139JobCase1Provider;
   ref: string;
   repoUuid: string;
   sha: string;
   slug: string;
-  type: UserEventPayloadCase128JobCase1Type;
+  type: UserEventPayloadCase139JobCase1Type;
   workspaceUuid: string;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase2CommitVerification =
+export type UserEventPayloadCase139JobCase2CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase2DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase2DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export type UserEventPayloadCase128JobCase2GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase2GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase2GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase2GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4163,10 +4481,10 @@ export type UserEventPayloadCase128JobCase2GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase2GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase2GitHashtagVercelItem>;
+export type UserEventPayloadCase139JobCase2GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase2GitHashtagVercelItem>;
 /** Information about the head commit/branch for a GitHub repository */
-export interface UserEventPayloadCase128JobCase2HeadInfo {
+export interface UserEventPayloadCase139JobCase2HeadInfo {
   org: string;
   ref: string;
   repo: string;
@@ -4174,31 +4492,31 @@ export interface UserEventPayloadCase128JobCase2HeadInfo {
   sha: string;
 }
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase2JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase2JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase2JobPairsList =
-  Array<UserEventPayloadCase128JobCase2JobPairsItemList>;
+export type UserEventPayloadCase139JobCase2JobPairsList =
+  Array<UserEventPayloadCase139JobCase2JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase2JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase2NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase2JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase2NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase2NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase2NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase2NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase2NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase2Provider =
+export type UserEventPayloadCase139JobCase2Provider =
   | "github"
   | "github-custom-host"
   | "github-limited";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase2SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase2SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase2SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase2SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase2Type = "pr";
-export interface UserEventPayloadCase128JobCase2 {
+export type UserEventPayloadCase139JobCase2SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase2SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase2Type = "pr";
+export interface UserEventPayloadCase139JobCase2 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
   beforeSha?: string | undefined;
@@ -4207,64 +4525,64 @@ export interface UserEventPayloadCase128JobCase2 {
   /** Remote account type of the committer details (github type etc, not vercel). Note that the committer name/email are user input verbatim and not verified. Github does appear to resolve the given email to the username so we can trust that. If the username matches that of the sender, which is verified info, then we can use the account id and account type. See api-incoming, where we determine and set this property Note that even with that, the account may still have been spoofed. */
   committerGitUserType?: string | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase2CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase2CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
   customHost?: string | undefined;
   defaultBranch?: string | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   eventful?: boolean | undefined;
   forceNew?: boolean | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase2GitHashtagVercelList | undefined;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase2GitHashtagVercelList | undefined;
   githubDeploymentId?: string | undefined;
   /** Information about the head commit/branch for a GitHub repository */
-  headInfo: UserEventPayloadCase128JobCase2HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase2HeadInfo;
   installationId: number;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   isPrivate: boolean;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase2JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase2JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase2JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase2JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase2NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase2NsnbSideEffect | undefined;
   org: string;
   prId: number;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase2Provider;
+  provider: UserEventPayloadCase139JobCase2Provider;
   repo: string;
   repoId: number;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase2SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase2SkippedJobPairsList | undefined;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase2Type;
+  type: UserEventPayloadCase139JobCase2Type;
   url?: string | undefined;
   withCache?: boolean | undefined;
 }
-export interface UserEventPayloadCase128JobCase3CommitInfo {
+export interface UserEventPayloadCase139JobCase3CommitInfo {
   earliestSha?: string | undefined;
   total: number;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase3CommitVerification =
+export type UserEventPayloadCase139JobCase3CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase3DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase3DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export type UserEventPayloadCase128JobCase3GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase3GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase3GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase3GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4285,120 +4603,120 @@ export type UserEventPayloadCase128JobCase3GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase3GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase3GitHashtagVercelItem>;
+export type UserEventPayloadCase139JobCase3GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase3GitHashtagVercelItem>;
 /** Information about the head commit/branch for a GitHub repository */
-export type UserEventPayloadCase128JobCase3HeadInfo = UserEventPayloadCase128JobCase2HeadInfo;
+export type UserEventPayloadCase139JobCase3HeadInfo = UserEventPayloadCase139JobCase2HeadInfo;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase3JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase3JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase3JobPairsList =
-  Array<UserEventPayloadCase128JobCase3JobPairsItemList>;
+export type UserEventPayloadCase139JobCase3JobPairsList =
+  Array<UserEventPayloadCase139JobCase3JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase3JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase3NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase3JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase3NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase3NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase3NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase3NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase3NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase3Provider =
+export type UserEventPayloadCase139JobCase3Provider =
   | "github"
   | "github-custom-host"
   | "github-limited";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase3SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase3SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase3SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase3SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase3Type = "push";
-export interface UserEventPayloadCase128JobCase3 {
+export type UserEventPayloadCase139JobCase3SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase3SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase3Type = "push";
+export interface UserEventPayloadCase139JobCase3 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
   beforeSha?: string | undefined;
-  commitInfo?: UserEventPayloadCase128JobCase3CommitInfo | undefined;
+  commitInfo?: UserEventPayloadCase139JobCase3CommitInfo | undefined;
   /** Remote account id of the committer details (github id etc, not vercel). Note that the committer name/email are user input verbatim and not verified. Github does appear to resolve the given email to the username so we can trust that. If the username matches that of the sender, which is verified info, then we can use the account id and account type. See api-incoming, where we determine and set this property Note that even with that, the account may still have been spoofed. */
   committerGitUserId?: number | undefined;
   /** Remote account type of the committer details (github type etc, not vercel). Note that the committer name/email are user input verbatim and not verified. Github does appear to resolve the given email to the username so we can trust that. If the username matches that of the sender, which is verified info, then we can use the account id and account type. See api-incoming, where we determine and set this property Note that even with that, the account may still have been spoofed. */
   committerGitUserType?: string | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase3CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase3CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
   customHost?: string | undefined;
   defaultBranch?: string | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   eventful?: boolean | undefined;
   forced?: boolean | undefined;
   forceNew?: boolean | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase3GitHashtagVercelList | undefined;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase3GitHashtagVercelList | undefined;
   githubDeploymentId?: string | undefined;
   /** Information about the head commit/branch for a GitHub repository */
-  headInfo: UserEventPayloadCase128JobCase2HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase2HeadInfo;
   installationId: number;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   isPrivate: boolean;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase3JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase3JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase3JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase3JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase3NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase3NsnbSideEffect | undefined;
   org: string;
   prId: number | null;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase3Provider;
+  provider: UserEventPayloadCase139JobCase3Provider;
   repo: string;
   repoId: number;
   repoPushedAt: number | null;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase3SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase3SkippedJobPairsList | undefined;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase3Type;
+  type: UserEventPayloadCase139JobCase3Type;
   url?: string | undefined;
   withCache?: boolean | undefined;
 }
-export type UserEventPayloadCase128JobCase4GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase4GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Information about the head commit/branch for a GitHub repository */
-export type UserEventPayloadCase128JobCase4HeadInfo = UserEventPayloadCase128JobCase2HeadInfo;
-export type UserEventPayloadCase128JobCase4Provider =
+export type UserEventPayloadCase139JobCase4HeadInfo = UserEventPayloadCase139JobCase2HeadInfo;
+export type UserEventPayloadCase139JobCase4Provider =
   | "github"
   | "github-custom-host"
   | "github-limited";
-export type UserEventPayloadCase128JobCase4Type = "now-comment";
-export interface UserEventPayloadCase128JobCase4 {
+export type UserEventPayloadCase139JobCase4Type = "now-comment";
+export interface UserEventPayloadCase139JobCase4 {
   beforeSha?: string | undefined;
   createdAt?: number | undefined;
   customEnvId?: unknown | null | undefined;
   customHost?: string | undefined;
   eventful?: boolean | undefined;
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Information about the head commit/branch for a GitHub repository */
-  headInfo: UserEventPayloadCase128JobCase2HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase2HeadInfo;
   installationId: number;
   isPrivate: boolean;
   linkedProjectId?: string | undefined;
   org: string;
   prId: number;
   projectId: unknown | null;
-  provider: UserEventPayloadCase128JobCase4Provider;
+  provider: UserEventPayloadCase139JobCase4Provider;
   repo: string;
   repoId: number;
-  type: UserEventPayloadCase128JobCase4Type;
+  type: UserEventPayloadCase139JobCase4Type;
 }
-export interface UserEventPayloadCase128JobCase5Commit {
+export interface UserEventPayloadCase139JobCase5Commit {
   authorAvatar?: string | null | undefined;
   authorEmail?: string | null | undefined;
   authorId?: number | null | undefined;
@@ -4407,15 +4725,15 @@ export interface UserEventPayloadCase128JobCase5Commit {
   id: string;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase5CommitVerification =
+export type UserEventPayloadCase139JobCase5CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase5DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase5DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export type UserEventPayloadCase128JobCase5GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase5GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase5GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase5GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4436,9 +4754,9 @@ export type UserEventPayloadCase128JobCase5GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase5GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase5GitHashtagVercelItem>;
-export interface UserEventPayloadCase128JobCase5HeadInfoProject {
+export type UserEventPayloadCase139JobCase5GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase5GitHashtagVercelItem>;
+export interface UserEventPayloadCase139JobCase5HeadInfoProject {
   defaultBranch?: string | null | undefined;
   id: string;
   name?: string | null | undefined;
@@ -4447,114 +4765,114 @@ export interface UserEventPayloadCase128JobCase5HeadInfoProject {
   url?: string | null | undefined;
 }
 /** GitLab */
-export interface UserEventPayloadCase128JobCase5HeadInfo {
-  project: UserEventPayloadCase128JobCase5HeadInfoProject;
+export interface UserEventPayloadCase139JobCase5HeadInfo {
+  project: UserEventPayloadCase139JobCase5HeadInfoProject;
   ref: string;
   sha: string;
 }
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase5JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase5JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase5JobPairsList =
-  Array<UserEventPayloadCase128JobCase5JobPairsItemList>;
+export type UserEventPayloadCase139JobCase5JobPairsList =
+  Array<UserEventPayloadCase139JobCase5JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase5JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase5NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase5JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase5NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase5NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase5NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase5NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase5NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase5Project = UserEventPayloadCase128JobCase5HeadInfoProject;
-export type UserEventPayloadCase128JobCase5Provider = "gitlab";
+export type UserEventPayloadCase139JobCase5Project = UserEventPayloadCase139JobCase5HeadInfoProject;
+export type UserEventPayloadCase139JobCase5Provider = "gitlab";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase5SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase5SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase5SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase5SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase5Type = "gitlab-push";
-export interface UserEventPayloadCase128JobCase5 {
+export type UserEventPayloadCase139JobCase5SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase5SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase5Type = "gitlab-push";
+export interface UserEventPayloadCase139JobCase5 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
-  commit?: UserEventPayloadCase128JobCase5Commit | undefined;
+  commit?: UserEventPayloadCase139JobCase5Commit | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase5CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase5CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   eventful?: boolean | undefined;
   forceNew?: boolean | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase5GitHashtagVercelList | undefined;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase5GitHashtagVercelList | undefined;
   /** GitLab */
-  headInfo: UserEventPayloadCase128JobCase5HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase5HeadInfo;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase5JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase5JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase5JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase5JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase5NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase5NsnbSideEffect | undefined;
   prId?: number | undefined;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
-  project: UserEventPayloadCase128JobCase5HeadInfoProject;
+  project: UserEventPayloadCase139JobCase5HeadInfoProject;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase5Provider;
+  provider: UserEventPayloadCase139JobCase5Provider;
   ref: string;
   repoPushedAt?: number | null | undefined;
   sha: string;
   silent?: boolean | undefined;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase5SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase5SkippedJobPairsList | undefined;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase5Type;
+  type: UserEventPayloadCase139JobCase5Type;
   url?: string | undefined;
   withCache?: boolean | undefined;
 }
-export type UserEventPayloadCase128JobCase6GitComments = UserEventPayloadCase128JobCase0GitComments;
-export type UserEventPayloadCase128JobCase6HeadInfoProject =
-  UserEventPayloadCase128JobCase5HeadInfoProject;
+export type UserEventPayloadCase139JobCase6GitComments = UserEventPayloadCase139JobCase0GitComments;
+export type UserEventPayloadCase139JobCase6HeadInfoProject =
+  UserEventPayloadCase139JobCase5HeadInfoProject;
 /** GitLab */
-export type UserEventPayloadCase128JobCase6HeadInfo = UserEventPayloadCase128JobCase5HeadInfo;
-export type UserEventPayloadCase128JobCase6Project = UserEventPayloadCase128JobCase5HeadInfoProject;
-export type UserEventPayloadCase128JobCase6Provider = "gitlab";
-export type UserEventPayloadCase128JobCase6Type = "gitlab-now-comment";
-export interface UserEventPayloadCase128JobCase6 {
+export type UserEventPayloadCase139JobCase6HeadInfo = UserEventPayloadCase139JobCase5HeadInfo;
+export type UserEventPayloadCase139JobCase6Project = UserEventPayloadCase139JobCase5HeadInfoProject;
+export type UserEventPayloadCase139JobCase6Provider = "gitlab";
+export type UserEventPayloadCase139JobCase6Type = "gitlab-now-comment";
+export interface UserEventPayloadCase139JobCase6 {
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
   eventful?: boolean | undefined;
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** GitLab */
-  headInfo: UserEventPayloadCase128JobCase5HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase5HeadInfo;
   linkedProjectId?: string | undefined;
   prId: number;
-  project: UserEventPayloadCase128JobCase5HeadInfoProject;
+  project: UserEventPayloadCase139JobCase5HeadInfoProject;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase6Provider;
+  provider: UserEventPayloadCase139JobCase6Provider;
   ref: string;
   sha: string;
-  type: UserEventPayloadCase128JobCase6Type;
+  type: UserEventPayloadCase139JobCase6Type;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase7CommitVerification =
+export type UserEventPayloadCase139JobCase7CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase7DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase7DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export type UserEventPayloadCase128JobCase7GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase7GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase7GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase7GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4575,102 +4893,102 @@ export type UserEventPayloadCase128JobCase7GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase7GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase7GitHashtagVercelItem>;
-export interface UserEventPayloadCase128JobCase7HeadInfoCommitMetadataAuthor {
+export type UserEventPayloadCase139JobCase7GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase7GitHashtagVercelItem>;
+export interface UserEventPayloadCase139JobCase7HeadInfoCommitMetadataAuthor {
   date: string;
   email: string;
   name: string;
 }
-export type UserEventPayloadCase128JobCase7HeadInfoCommitMetadataCommitter =
-  UserEventPayloadCase128JobCase7HeadInfoCommitMetadataAuthor;
-export interface UserEventPayloadCase128JobCase7HeadInfoCommitMetadata {
-  author: UserEventPayloadCase128JobCase7HeadInfoCommitMetadataAuthor;
-  committer: UserEventPayloadCase128JobCase7HeadInfoCommitMetadataAuthor;
+export type UserEventPayloadCase139JobCase7HeadInfoCommitMetadataCommitter =
+  UserEventPayloadCase139JobCase7HeadInfoCommitMetadataAuthor;
+export interface UserEventPayloadCase139JobCase7HeadInfoCommitMetadata {
+  author: UserEventPayloadCase139JobCase7HeadInfoCommitMetadataAuthor;
+  committer: UserEventPayloadCase139JobCase7HeadInfoCommitMetadataAuthor;
   message: string;
 }
 /** Vercel */
-export interface UserEventPayloadCase128JobCase7HeadInfo {
-  commitMetadata?: UserEventPayloadCase128JobCase7HeadInfoCommitMetadata | undefined;
+export interface UserEventPayloadCase139JobCase7HeadInfo {
+  commitMetadata?: UserEventPayloadCase139JobCase7HeadInfoCommitMetadata | undefined;
   org: string;
   ref: string;
   repo: string;
   sha: string;
 }
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase7JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase7JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase7JobPairsList =
-  Array<UserEventPayloadCase128JobCase7JobPairsItemList>;
+export type UserEventPayloadCase139JobCase7JobPairsList =
+  Array<UserEventPayloadCase139JobCase7JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase7JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase7NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase7JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase7NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase7NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase7NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase7NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase7NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase7Provider = "vercel";
+export type UserEventPayloadCase139JobCase7Provider = "vercel";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase7SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase7SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase7SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase7SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase7Type = "vercel-push";
-export interface UserEventPayloadCase128JobCase7 {
+export type UserEventPayloadCase139JobCase7SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase7SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase7Type = "vercel-push";
+export interface UserEventPayloadCase139JobCase7 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase7CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase7CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   customEnvId?: string | null | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase7GitHashtagVercelList | undefined;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase7GitHashtagVercelList | undefined;
   /** Vercel */
-  headInfo: UserEventPayloadCase128JobCase7HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase7HeadInfo;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase7JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase7JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase7JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase7JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase7NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase7NsnbSideEffect | undefined;
   org: string;
   prId?: number | null | undefined;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase7Provider;
+  provider: UserEventPayloadCase139JobCase7Provider;
   ref: string;
   repo: string;
   repoId: string;
   repoPushedAt?: number | null | undefined;
   sha: string;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase7SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase7SkippedJobPairsList | undefined;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase7Type;
+  type: UserEventPayloadCase139JobCase7Type;
   url?: string | undefined;
 }
 /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-export type UserEventPayloadCase128JobCase8CommitVerification =
+export type UserEventPayloadCase139JobCase8CommitVerification =
   | "unknown"
   | "unverified"
   | "verified";
-export type UserEventPayloadCase128JobCase8DeployHook = UserEventPayloadCase124JobDeployHook;
+export type UserEventPayloadCase139JobCase8DeployHook = UserEventPayloadCase135JobDeployHook;
 /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-export type UserEventPayloadCase128JobCase8GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase8GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase8GitHashtagVercelItem =
+export type UserEventPayloadCase139JobCase8GitHashtagVercelItem =
   | "#VERCEL_BUILD_MACHINE=TURBO"
   | "#VERCEL_BUILD_PRIO_1"
   | "#VERCEL_BUILD_PRIO_10"
@@ -4691,10 +5009,10 @@ export type UserEventPayloadCase128JobCase8GitHashtagVercelItem =
   | "#VERCEL_SKIP"
   | "#VERCEL_V0_MESSAGE";
 /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-export type UserEventPayloadCase128JobCase8GitHashtagVercelList =
-  Array<UserEventPayloadCase128JobCase8GitHashtagVercelItem>;
+export type UserEventPayloadCase139JobCase8GitHashtagVercelList =
+  Array<UserEventPayloadCase139JobCase8GitHashtagVercelItem>;
 /** Cursor Origin */
-export interface UserEventPayloadCase128JobCase8HeadInfo {
+export interface UserEventPayloadCase139JobCase8HeadInfo {
   /** Owner (namespace) slug, e.g. `acme`. */
   owner: string;
   /** Origin namespace id (`ns_...`). */
@@ -4707,201 +5025,201 @@ export interface UserEventPayloadCase128JobCase8HeadInfo {
   sha: string;
 }
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase8JobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase8JobPairsItemList = Array<string>;
 /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-export type UserEventPayloadCase128JobCase8JobPairsList =
-  Array<UserEventPayloadCase128JobCase8JobPairsItemList>;
+export type UserEventPayloadCase139JobCase8JobPairsList =
+  Array<UserEventPayloadCase139JobCase8JobPairsItemList>;
 /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-export type UserEventPayloadCase128JobCase8JobProjectIdsList = Array<string>;
-export type UserEventPayloadCase128JobCase8NsnbSideEffectAction =
+export type UserEventPayloadCase139JobCase8JobProjectIdsList = Array<string>;
+export type UserEventPayloadCase139JobCase8NsnbSideEffectAction =
   | "auto-approved-member"
   | "auto-approved-pending-invite";
 /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-export interface UserEventPayloadCase128JobCase8NsnbSideEffect {
-  action: UserEventPayloadCase128JobCase8NsnbSideEffectAction;
+export interface UserEventPayloadCase139JobCase8NsnbSideEffect {
+  action: UserEventPayloadCase139JobCase8NsnbSideEffectAction;
   gitUserLogin: string;
 }
-export type UserEventPayloadCase128JobCase8Provider = "cursor-origin";
+export type UserEventPayloadCase139JobCase8Provider = "cursor-origin";
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase8SkippedJobPairsItemList = Array<string>;
+export type UserEventPayloadCase139JobCase8SkippedJobPairsItemList = Array<string>;
 /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-export type UserEventPayloadCase128JobCase8SkippedJobPairsList =
-  Array<UserEventPayloadCase128JobCase8SkippedJobPairsItemList>;
-export type UserEventPayloadCase128JobCase8Type = "cursor-origin-push";
-export interface UserEventPayloadCase128JobCase8 {
+export type UserEventPayloadCase139JobCase8SkippedJobPairsList =
+  Array<UserEventPayloadCase139JobCase8SkippedJobPairsItemList>;
+export type UserEventPayloadCase139JobCase8Type = "cursor-origin-push";
+export interface UserEventPayloadCase139JobCase8 {
   authorized?: boolean | undefined;
   authorizedBy?: string | undefined;
   beforeSha?: string | undefined;
   /** Since 6 Nov 2025 The verification status of the commit. - 'verified' if the commit is verified - 'unverified' if the commit is not verified - 'unknown' if the commit verification status is unknown or not supported */
-  commitVerification?: UserEventPayloadCase128JobCase8CommitVerification | undefined;
+  commitVerification?: UserEventPayloadCase139JobCase8CommitVerification | undefined;
   /** Since April 2023 Cached count of how many projects are connected to the repo. Saves a few Cosmos queries down the road in the main flow. */
   connectedProjectCount?: number | undefined;
   createdAt?: number | undefined;
   customEnvId?: string | null | undefined;
   defaultBranch?: string | undefined;
-  deployHook?: UserEventPayloadCase124JobDeployHook | undefined;
+  deployHook?: UserEventPayloadCase135JobDeployHook | undefined;
   deploymentId?: string | undefined;
   eventful?: boolean | undefined;
   forced?: boolean | undefined;
   forceNew?: boolean | undefined;
   /** Since June 2023 Determines if comments should be posted to the git host. Replaces `github.silent` in the vercel.json. */
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Since February 2022 All the hashtag-vercel tags found in the commit message triggering the deploy. For example, #VERCEL_DO_SOMETHING */
-  gitHashtagVercel?: UserEventPayloadCase128JobCase8GitHashtagVercelList | undefined;
+  gitHashtagVercel?: UserEventPayloadCase139JobCase8GitHashtagVercelList | undefined;
   /** Cursor Origin */
-  headInfo: UserEventPayloadCase128JobCase8HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase8HeadInfo;
   /** Origin installation id (`i_...`) used to resolve the credential. */
   installationId: string;
   /** Since 28 Feb 2024 If set to true, identifies that the git job was created for a manual git deployment */
   isManualGitDeploy?: boolean | undefined;
   /** Since December 2022 Pairs of projects and owner ids to build for this build request. */
-  jobPairs?: UserEventPayloadCase128JobCase8JobPairsList | undefined;
+  jobPairs?: UserEventPayloadCase139JobCase8JobPairsList | undefined;
   /** Since December 2022 All project ids associated to this job. Think monorepo. This job will be for one of these project. */
-  jobProjectIds?: UserEventPayloadCase128JobCase8JobProjectIdsList | undefined;
+  jobProjectIds?: UserEventPayloadCase139JobCase8JobProjectIdsList | undefined;
   linkedProjectId?: string | undefined;
   /** Since March 2026 Records a successful NSNB auto-add result so later GitHub PR comments can deterministically explain why this SHA was allowed to deploy. */
-  nsnbSideEffect?: UserEventPayloadCase128JobCase8NsnbSideEffect | undefined;
+  nsnbSideEffect?: UserEventPayloadCase139JobCase8NsnbSideEffect | undefined;
   owner: string;
   prId?: number | null | undefined;
   /** Since April 2023 If set then it is a cached result of asking the remote for the PR ID the commit that triggered this Job. Or zero if it was not a PR. This prevents a few git round trips by the git updater. */
   prIdOrZero?: number | undefined;
   projectId?: string | undefined;
-  provider: UserEventPayloadCase128JobCase8Provider;
+  provider: UserEventPayloadCase139JobCase8Provider;
   ref: string;
   repo: string;
   repoId: string;
   repoPushedAt?: number | null | undefined;
   sha: string;
   /** Since June 2024 Pairs of projects and owner ids to immediately finish (without building) because we want to create them in a skipped state. */
-  skippedJobPairs?: UserEventPayloadCase128JobCase8SkippedJobPairsList | undefined;
+  skippedJobPairs?: UserEventPayloadCase139JobCase8SkippedJobPairsList | undefined;
   target?: string | null | undefined;
-  type: UserEventPayloadCase128JobCase8Type;
+  type: UserEventPayloadCase139JobCase8Type;
   url?: string | undefined;
 }
-export type UserEventPayloadCase128JobCase9GitComments = UserEventPayloadCase128JobCase0GitComments;
+export type UserEventPayloadCase139JobCase9GitComments = UserEventPayloadCase139JobCase0GitComments;
 /** Cursor Origin */
-export type UserEventPayloadCase128JobCase9HeadInfo = UserEventPayloadCase128JobCase8HeadInfo;
-export type UserEventPayloadCase128JobCase9Provider = "cursor-origin";
-export type UserEventPayloadCase128JobCase9Type = "cursor-origin-now-comment";
-export interface UserEventPayloadCase128JobCase9 {
+export type UserEventPayloadCase139JobCase9HeadInfo = UserEventPayloadCase139JobCase8HeadInfo;
+export type UserEventPayloadCase139JobCase9Provider = "cursor-origin";
+export type UserEventPayloadCase139JobCase9Type = "cursor-origin-now-comment";
+export interface UserEventPayloadCase139JobCase9 {
   createdAt?: number | undefined;
   customEnvId?: unknown | null | undefined;
   eventful?: boolean | undefined;
-  gitComments?: UserEventPayloadCase128JobCase0GitComments | undefined;
+  gitComments?: UserEventPayloadCase139JobCase0GitComments | undefined;
   /** Cursor Origin */
-  headInfo: UserEventPayloadCase128JobCase8HeadInfo;
+  headInfo: UserEventPayloadCase139JobCase8HeadInfo;
   /** Origin installation id (`i_...`) used to resolve the credential. */
   installationId: string;
   linkedProjectId?: string | undefined;
   owner: string;
   prId: number;
   projectId: unknown | null;
-  provider: UserEventPayloadCase128JobCase9Provider;
+  provider: UserEventPayloadCase139JobCase9Provider;
   repo: string;
   repoId: string;
-  type: UserEventPayloadCase128JobCase9Type;
+  type: UserEventPayloadCase139JobCase9Type;
 }
-export type UserEventPayloadCase128Job =
-  | UserEventPayloadCase128JobCase0
-  | UserEventPayloadCase128JobCase1
-  | UserEventPayloadCase128JobCase2
-  | UserEventPayloadCase128JobCase3
-  | UserEventPayloadCase128JobCase4
-  | UserEventPayloadCase128JobCase5
-  | UserEventPayloadCase128JobCase6
-  | UserEventPayloadCase128JobCase7
-  | UserEventPayloadCase128JobCase8
-  | UserEventPayloadCase128JobCase9;
+export type UserEventPayloadCase139Job =
+  | UserEventPayloadCase139JobCase0
+  | UserEventPayloadCase139JobCase1
+  | UserEventPayloadCase139JobCase2
+  | UserEventPayloadCase139JobCase3
+  | UserEventPayloadCase139JobCase4
+  | UserEventPayloadCase139JobCase5
+  | UserEventPayloadCase139JobCase6
+  | UserEventPayloadCase139JobCase7
+  | UserEventPayloadCase139JobCase8
+  | UserEventPayloadCase139JobCase9;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase128 {
-  job: UserEventPayloadCase128Job;
+export interface UserEventPayloadCase139 {
+  job: UserEventPayloadCase139Job;
 }
-export type UserEventPayloadCase129NewTeam = UserEventPayloadCase59NewTeam;
-export type UserEventPayloadCase129OldTeam = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase140NewTeam = UserEventPayloadCase68NewTeam;
+export type UserEventPayloadCase140OldTeam = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase129 {
-  newTeam?: UserEventPayloadCase59NewTeam | undefined;
-  oldTeam?: UserEventPayloadCase59NewTeam | undefined;
+export interface UserEventPayloadCase140 {
+  newTeam?: UserEventPayloadCase68NewTeam | undefined;
+  oldTeam?: UserEventPayloadCase68NewTeam | undefined;
   url: string;
 }
-export type UserEventPayloadCase130Reason = "ip_allow_list";
+export type UserEventPayloadCase141Reason = "ip_allow_list";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase130 {
+export interface UserEventPayloadCase141 {
   gitCommitterName: string;
   gitUserPlatform: string;
   projectId?: string | undefined;
   projectName: string;
-  reason?: UserEventPayloadCase130Reason | undefined;
+  reason?: UserEventPayloadCase141Reason | undefined;
   sha: string;
   source: string;
 }
-export type UserEventPayloadCase131DeploymentMetaMap = { [key: string]: string | undefined };
-export interface UserEventPayloadCase131Deployment {
+export type UserEventPayloadCase142DeploymentMetaMap = { [key: string]: string | undefined };
+export interface UserEventPayloadCase142Deployment {
   id: string;
-  meta: UserEventPayloadCase131DeploymentMetaMap;
+  meta: UserEventPayloadCase142DeploymentMetaMap;
   name: string;
   url: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase131 {
-  deployment: UserEventPayloadCase131Deployment;
+export interface UserEventPayloadCase142 {
+  deployment: UserEventPayloadCase142Deployment;
   deploymentId: string;
   projectId?: string | undefined;
   url: string;
 }
 /** Which rule blocked the deploy. */
-export type UserEventPayloadCase132RuleName = "deploymentSources" | "gitSources";
+export type UserEventPayloadCase143RuleName = "deploymentSources" | "gitSources";
 /** Team-level or project-level rule. */
-export type UserEventPayloadCase132RuleProvenance = "default" | "project" | "team";
+export type UserEventPayloadCase143RuleProvenance = "default" | "project" | "team";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase132 {
+export interface UserEventPayloadCase143 {
   /** The blocked deployment's id (e.g. `dpl_...`). When present, the message links it to the deployment details (inspector) page. Optional so events emitted before this field was added still render. */
   deploymentId?: string | undefined;
   projectId?: string | undefined;
   projectName: string;
   /** Which rule blocked the deploy. */
-  ruleName: UserEventPayloadCase132RuleName;
+  ruleName: UserEventPayloadCase143RuleName;
   /** Team-level or project-level rule. */
-  ruleProvenance: UserEventPayloadCase132RuleProvenance;
+  ruleProvenance: UserEventPayloadCase143RuleProvenance;
   /** Classified deploy source, e.g. 'cli', 'git', 'integration'. */
   source: string;
 }
-export type UserEventPayloadCase133Mode = "none";
-export type UserEventPayloadCase133PreviousMode = "none";
-export type UserEventPayloadCase133Scope = "organization";
+export type UserEventPayloadCase144Mode = "none";
+export type UserEventPayloadCase144PreviousMode = "none";
+export type UserEventPayloadCase144Scope = "organization";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase133 {
-  mode: UserEventPayloadCase133Mode | null;
-  previousMode: UserEventPayloadCase133PreviousMode | null;
-  scope: UserEventPayloadCase133Scope;
+export interface UserEventPayloadCase144 {
+  mode: UserEventPayloadCase144Mode | null;
+  previousMode: UserEventPayloadCase144PreviousMode | null;
+  scope: UserEventPayloadCase144Scope;
 }
-export type UserEventPayloadCase134Mode = "all" | "email-domain" | "none";
-export type UserEventPayloadCase134PreviousMode = "all" | "email-domain" | "none";
+export type UserEventPayloadCase145Mode = "all" | "email-domain" | "none";
+export type UserEventPayloadCase145PreviousMode = "all" | "email-domain" | "none";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase134 {
-  mode: UserEventPayloadCase134Mode;
-  previousMode: UserEventPayloadCase134PreviousMode;
+export interface UserEventPayloadCase145 {
+  mode: UserEventPayloadCase145Mode;
+  previousMode: UserEventPayloadCase145PreviousMode;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase135 {
+export interface UserEventPayloadCase146 {
   deploymentId: string;
   deploymentName: string | null;
   deploymentUrl: string | null;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase136ProjectIdsList = Array<string>;
+export type UserEventPayloadCase147ProjectIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase136 {
+export interface UserEventPayloadCase147 {
   configurationId: string;
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
   ownerId: string;
-  projectIds?: UserEventPayloadCase136ProjectIdsList | undefined;
+  projectIds?: UserEventPayloadCase147ProjectIdsList | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase137 {
+export interface UserEventPayloadCase148 {
   domain: string;
   id: string;
   mxPriority?: number | undefined;
@@ -4909,14 +5227,14 @@ export interface UserEventPayloadCase137 {
   type: string;
   value: string;
 }
-export type UserEventPayloadCase138Action = "add" | "delete" | "update";
-export type UserEventPayloadCase138Initiator = "system" | "user";
+export type UserEventPayloadCase149Action = "add" | "delete" | "update";
+export type UserEventPayloadCase149Initiator = "system" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase138 {
-  action: UserEventPayloadCase138Action;
+export interface UserEventPayloadCase149 {
+  action: UserEventPayloadCase149Action;
   domain: string;
   id: string;
-  initiator: UserEventPayloadCase138Initiator;
+  initiator: UserEventPayloadCase149Initiator;
   mxPriority?: number | undefined;
   name: string;
   previousValue?: string | undefined;
@@ -4925,7 +5243,7 @@ export interface UserEventPayloadCase138 {
   value: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase139 {
+export interface UserEventPayloadCase150 {
   domain: string;
   id: string;
   name: string;
@@ -4933,257 +5251,273 @@ export interface UserEventPayloadCase139 {
   value: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase140 {
+export interface UserEventPayloadCase151 {
   name: string;
   zone?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase141 {
+export interface UserEventPayloadCase152 {
   currency?: string | undefined;
   name: string;
   price: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase142 {
+export interface UserEventPayloadCase153 {
   cdnEnabled: boolean;
   name: string;
 }
-export type UserEventPayloadCase143NewTeam = UserEventPayloadCase59NewTeam;
-export type UserEventPayloadCase143OldTeam = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase154NewTeam = UserEventPayloadCase68NewTeam;
+export type UserEventPayloadCase154OldTeam = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase143 {
+export interface UserEventPayloadCase154 {
   name: string;
-  newTeam?: UserEventPayloadCase59NewTeam | undefined;
-  oldTeam?: UserEventPayloadCase59NewTeam | undefined;
+  newTeam?: UserEventPayloadCase68NewTeam | undefined;
+  oldTeam?: UserEventPayloadCase68NewTeam | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase144 {
+export interface UserEventPayloadCase155 {
   name: string;
   ownerName: string;
   teamId: string;
   userId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase145 {
+export interface UserEventPayloadCase156 {
   domainId: string;
   name: string;
 }
-export type UserEventPayloadCase146NameserversList = Array<string>;
+export type UserEventPayloadCase157NameserversList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase146 {
+export interface UserEventPayloadCase157 {
   id: string;
   name: string;
-  nameservers: UserEventPayloadCase146NameserversList;
+  nameservers: UserEventPayloadCase157NameserversList;
   previousServiceType: string;
   serviceType: string;
 }
-export type UserEventPayloadCase147CustomNameserversList = Array<string>;
-export type UserEventPayloadCase147PrevCustomNameserversList = Array<string>;
+export type UserEventPayloadCase158CustomNameserversList = Array<string>;
+export type UserEventPayloadCase158PrevCustomNameserversList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase147 {
-  customNameservers: UserEventPayloadCase147CustomNameserversList | null;
+export interface UserEventPayloadCase158 {
+  customNameservers: UserEventPayloadCase158CustomNameserversList | null;
   domain: string;
-  prevCustomNameservers: UserEventPayloadCase147PrevCustomNameserversList | null;
+  prevCustomNameservers: UserEventPayloadCase158PrevCustomNameserversList | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase148 {
+export interface UserEventPayloadCase159 {
   domain: string;
 }
-export type UserEventPayloadCase149EchMode = "auto" | "disabled" | "enabled";
-export type UserEventPayloadCase149PreviousEchMode = "auto" | "disabled" | "enabled";
+export type UserEventPayloadCase160EchMode = "auto" | "disabled" | "enabled";
+export type UserEventPayloadCase160PreviousEchMode = "auto" | "disabled" | "enabled";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase149 {
+export interface UserEventPayloadCase160 {
   domain: string;
-  echMode: UserEventPayloadCase149EchMode;
-  previousEchMode: UserEventPayloadCase149PreviousEchMode;
+  echMode: UserEventPayloadCase160EchMode;
+  previousEchMode: UserEventPayloadCase160PreviousEchMode;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase150 {
+export interface UserEventPayloadCase161 {
   domain: string;
   zone: boolean;
 }
-export type UserEventPayloadCase151Initiator = "system" | "user";
+export type UserEventPayloadCase162Initiator = "system" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase151 {
+export interface UserEventPayloadCase162 {
   domain: string;
-  initiator: UserEventPayloadCase151Initiator;
+  initiator: UserEventPayloadCase162Initiator;
   previousZone?: boolean | undefined;
   source?: string | undefined;
   zone: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase152 {
+export interface UserEventPayloadCase163 {
   fromId: string | null;
   fromName: string | null;
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase153 {
+export interface UserEventPayloadCase164 {
   destinationId: string | null;
   destinationName: string | null;
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase154 {
+export interface UserEventPayloadCase165 {
   destinationId: string;
   destinationName: string;
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase155 {
+export interface UserEventPayloadCase166 {
   domain: string;
   renew?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase156 {
+export interface UserEventPayloadCase167 {
   currency?: string | undefined;
   name: string;
   price?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase157 = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase168 = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase158 {
+export interface UserEventPayloadCase169 {
   drainName: string | null;
   drainUrl: string | null;
   id?: string | undefined;
   integrationName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase159 {
+export interface UserEventPayloadCase170 {
   drainUrl: string | null;
   integrationName?: string | undefined;
 }
-export type UserEventPayloadCase160SrcImagesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase160 {
+export interface UserEventPayloadCase171 {
+  driveName: string;
   projectId: string;
   projectName: string;
-  srcImages: UserEventPayloadCase160SrcImagesList;
+  region: string;
 }
-export type UserEventPayloadCase161TagsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase161 {
+export interface UserEventPayloadCase172 {
+  driveName: string;
   projectId: string;
   projectName: string;
-  tags: UserEventPayloadCase161TagsList;
+  region: string;
+  snapshotId: string;
+  snapshotName: string;
+}
+export type UserEventPayloadCase173SrcImagesList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase173 {
+  projectId: string;
+  projectName: string;
+  srcImages: UserEventPayloadCase173SrcImagesList;
+}
+export type UserEventPayloadCase174TagsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase174 {
+  projectId: string;
+  projectName: string;
+  tags: UserEventPayloadCase174TagsList;
   target?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase162 {
+export interface UserEventPayloadCase175 {
   path: string;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase163 {
+export interface UserEventPayloadCase176 {
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase164 {
+export interface UserEventPayloadCase177 {
   edgeConfigDigest: string;
   edgeConfigId: string;
   edgeConfigSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase165 {
+export interface UserEventPayloadCase178 {
   edgeConfigDigest: string;
   edgeConfigId: string;
   edgeConfigSlug: string;
   edgeConfigBackupVersionId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase166 {
+export interface UserEventPayloadCase179 {
   edgeConfigId: string;
   edgeConfigSchema?: unknown | undefined;
   edgeConfigSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase167 {
+export interface UserEventPayloadCase180 {
   edgeConfigDigest?: string | undefined;
   edgeConfigId: string;
   edgeConfigSlug: string;
 }
-export interface UserEventPayloadCase168EdgeConfig {
+export interface UserEventPayloadCase181EdgeConfig {
   id: string;
   slug: string;
 }
-export type UserEventPayloadCase168FromAccountType = "team" | "user";
-export interface UserEventPayloadCase168FromAccount {
+export type UserEventPayloadCase181FromAccountType = "team" | "user";
+export interface UserEventPayloadCase181FromAccount {
   id: string;
   slug?: string | undefined;
-  type: UserEventPayloadCase168FromAccountType;
+  type: UserEventPayloadCase181FromAccountType;
   username?: string | undefined;
 }
-export type UserEventPayloadCase168ToAccountType = "team" | "user";
-export interface UserEventPayloadCase168ToAccount {
+export type UserEventPayloadCase181ToAccountType = "team" | "user";
+export interface UserEventPayloadCase181ToAccount {
   id: string;
   slug?: string | undefined;
-  type: UserEventPayloadCase168ToAccountType;
+  type: UserEventPayloadCase181ToAccountType;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase168 {
-  edgeConfig: UserEventPayloadCase168EdgeConfig;
-  fromAccount: UserEventPayloadCase168FromAccount;
-  toAccount: UserEventPayloadCase168ToAccount;
+export interface UserEventPayloadCase181 {
+  edgeConfig: UserEventPayloadCase181EdgeConfig;
+  fromAccount: UserEventPayloadCase181FromAccount;
+  toAccount: UserEventPayloadCase181ToAccount;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase169 {
+export interface UserEventPayloadCase182 {
   edgeConfigId: string;
   edgeConfigSlug: string;
   edgeConfigTokenId: string;
   label: string;
 }
 /** ids of deleted tokens */
-export type UserEventPayloadCase170EdgeConfigTokenIdsList = Array<string>;
+export type UserEventPayloadCase183EdgeConfigTokenIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase170 {
+export interface UserEventPayloadCase183 {
   edgeConfigId: string;
   edgeConfigSlug: string;
   /** ids of deleted tokens */
-  edgeConfigTokenIds: UserEventPayloadCase170EdgeConfigTokenIdsList;
+  edgeConfigTokenIds: UserEventPayloadCase183EdgeConfigTokenIdsList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase171 {
+export interface UserEventPayloadCase184 {
   email: string;
   name: string;
 }
-export interface UserEventPayloadCase172PreviousRule {
+export interface UserEventPayloadCase185PreviousRule {
   email: string;
 }
-export type UserEventPayloadCase172Team = UserEventPayloadCase53Project;
+export type UserEventPayloadCase185Team = UserEventPayloadCase62Project;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase172 {
-  previousRule: UserEventPayloadCase172PreviousRule;
-  team: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase185 {
+  previousRule: UserEventPayloadCase185PreviousRule;
+  team: UserEventPayloadCase62Project;
 }
-export type UserEventPayloadCase173NextRule = UserEventPayloadCase172PreviousRule;
-export type UserEventPayloadCase173PreviousRule = UserEventPayloadCase172PreviousRule;
-export type UserEventPayloadCase173Team = UserEventPayloadCase53Project;
+export type UserEventPayloadCase186NextRule = UserEventPayloadCase185PreviousRule;
+export type UserEventPayloadCase186PreviousRule = UserEventPayloadCase185PreviousRule;
+export type UserEventPayloadCase186Team = UserEventPayloadCase62Project;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase173 {
-  nextRule?: UserEventPayloadCase172PreviousRule | undefined;
-  previousRule?: UserEventPayloadCase172PreviousRule | undefined;
-  team: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase186 {
+  nextRule?: UserEventPayloadCase185PreviousRule | undefined;
+  previousRule?: UserEventPayloadCase185PreviousRule | undefined;
+  team: UserEventPayloadCase62Project;
 }
-export interface UserEventPayloadCase174DeletedUser {
+export interface UserEventPayloadCase187DeletedUser {
   email: string;
   username: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase174 {
+export interface UserEventPayloadCase187 {
   deletedUid?: string | undefined;
-  deletedUser?: UserEventPayloadCase174DeletedUser | undefined;
+  deletedUser?: UserEventPayloadCase187DeletedUser | undefined;
   emailDomain?: string | undefined;
 }
-export type UserEventPayloadCase175CustomEnvironmentSlugsList = Array<string>;
-export type UserEventPayloadCase175TargetCase1List = Array<string>;
-export type UserEventPayloadCase175Target = string | UserEventPayloadCase175TargetCase1List;
+export type UserEventPayloadCase188CustomEnvironmentSlugsList = Array<string>;
+export type UserEventPayloadCase188TargetCase1List = Array<string>;
+export type UserEventPayloadCase188Target = string | UserEventPayloadCase188TargetCase1List;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase175 {
-  customEnvironmentSlugs?: UserEventPayloadCase175CustomEnvironmentSlugsList | undefined;
+export interface UserEventPayloadCase188 {
+  customEnvironmentSlugs?: UserEventPayloadCase188CustomEnvironmentSlugsList | undefined;
   edgeConfigId?: string | null | undefined;
   edgeConfigTokenId?: string | null | undefined;
   gitBranch?: string | undefined;
@@ -5193,46 +5527,52 @@ export interface UserEventPayloadCase175 {
   projectId?: string | undefined;
   projectName?: string | undefined;
   source?: string | undefined;
-  target?: UserEventPayloadCase175Target | undefined;
+  target?: UserEventPayloadCase188Target | undefined;
 }
-export type UserEventPayloadCase176CustomEnvironmentSlugsList = Array<string>;
-export type UserEventPayloadCase176TargetCase1List = Array<string>;
-export type UserEventPayloadCase176Target = string | UserEventPayloadCase176TargetCase1List;
-export type UserEventPayloadCase176UpdateDiffNewCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase176UpdateDiffNewTargetItem =
+export type UserEventPayloadCase189CustomEnvironmentSlugsList = Array<string>;
+export type UserEventPayloadCase189TargetCase1List = Array<string>;
+export type UserEventPayloadCase189Target = string | UserEventPayloadCase189TargetCase1List;
+export type UserEventPayloadCase189UpdateDiffCustomEnvironmentSlugsByIdMap = {
+  [key: string]: string | undefined;
+};
+export type UserEventPayloadCase189UpdateDiffNewCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase189UpdateDiffNewTargetItem =
   | "development"
   | "preview"
   | "production";
-export type UserEventPayloadCase176UpdateDiffNewTargetList =
-  Array<UserEventPayloadCase176UpdateDiffNewTargetItem>;
-export type UserEventPayloadCase176UpdateDiffOldCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase176UpdateDiffOldTargetItem =
+export type UserEventPayloadCase189UpdateDiffNewTargetList =
+  Array<UserEventPayloadCase189UpdateDiffNewTargetItem>;
+export type UserEventPayloadCase189UpdateDiffOldCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase189UpdateDiffOldTargetItem =
   | "development"
   | "preview"
   | "production";
-export type UserEventPayloadCase176UpdateDiffOldTargetList =
-  Array<UserEventPayloadCase176UpdateDiffOldTargetItem>;
-export interface UserEventPayloadCase176UpdateDiff {
+export type UserEventPayloadCase189UpdateDiffOldTargetList =
+  Array<UserEventPayloadCase189UpdateDiffOldTargetItem>;
+export interface UserEventPayloadCase189UpdateDiff {
   changedComment?: boolean | undefined;
   changedGitBranch?: boolean | undefined;
   /** Indicates a value was submitted, not whether its plaintext changed. */
   changedValue: boolean;
+  customEnvironmentSlugsById?:
+    | UserEventPayloadCase189UpdateDiffCustomEnvironmentSlugsByIdMap
+    | undefined;
   key?: string | undefined;
   newCustomEnvironmentIds?:
-    | UserEventPayloadCase176UpdateDiffNewCustomEnvironmentIdsList
+    | UserEventPayloadCase189UpdateDiffNewCustomEnvironmentIdsList
     | undefined;
   newKey?: string | undefined;
-  newTarget?: UserEventPayloadCase176UpdateDiffNewTargetList | undefined;
+  newTarget?: UserEventPayloadCase189UpdateDiffNewTargetList | undefined;
   newType?: string | undefined;
   oldCustomEnvironmentIds?:
-    | UserEventPayloadCase176UpdateDiffOldCustomEnvironmentIdsList
+    | UserEventPayloadCase189UpdateDiffOldCustomEnvironmentIdsList
     | undefined;
-  oldTarget?: UserEventPayloadCase176UpdateDiffOldTargetList | undefined;
+  oldTarget?: UserEventPayloadCase189UpdateDiffOldTargetList | undefined;
   oldType?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase176 {
-  customEnvironmentSlugs?: UserEventPayloadCase176CustomEnvironmentSlugsList | undefined;
+export interface UserEventPayloadCase189 {
+  customEnvironmentSlugs?: UserEventPayloadCase189CustomEnvironmentSlugsList | undefined;
   edgeConfigId?: string | null | undefined;
   edgeConfigTokenId?: string | null | undefined;
   gitBranch?: string | undefined;
@@ -5242,15 +5582,15 @@ export interface UserEventPayloadCase176 {
   projectId?: string | undefined;
   projectName?: string | undefined;
   source?: string | undefined;
-  target?: UserEventPayloadCase176Target | undefined;
-  updateDiff?: UserEventPayloadCase176UpdateDiff | undefined;
+  target?: UserEventPayloadCase189Target | undefined;
+  updateDiff?: UserEventPayloadCase189UpdateDiff | undefined;
 }
-export type UserEventPayloadCase177CustomEnvironmentSlugsList = Array<string>;
-export type UserEventPayloadCase177TargetCase1List = Array<string>;
-export type UserEventPayloadCase177Target = string | UserEventPayloadCase177TargetCase1List;
+export type UserEventPayloadCase190CustomEnvironmentSlugsList = Array<string>;
+export type UserEventPayloadCase190TargetCase1List = Array<string>;
+export type UserEventPayloadCase190Target = string | UserEventPayloadCase190TargetCase1List;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase177 {
-  customEnvironmentSlugs?: UserEventPayloadCase177CustomEnvironmentSlugsList | undefined;
+export interface UserEventPayloadCase190 {
+  customEnvironmentSlugs?: UserEventPayloadCase190CustomEnvironmentSlugsList | undefined;
   edgeConfigId?: string | null | undefined;
   edgeConfigTokenId?: string | null | undefined;
   gitBranch?: string | undefined;
@@ -5260,54 +5600,54 @@ export interface UserEventPayloadCase177 {
   projectId?: string | undefined;
   projectName?: string | undefined;
   source?: string | undefined;
-  target?: UserEventPayloadCase177Target | undefined;
+  target?: UserEventPayloadCase190Target | undefined;
   deploymentId: string;
   deploymentUrl: string;
 }
-export type UserEventPayloadCase178ChangedFieldsList = Array<string>;
-export type UserEventPayloadCase178Visibility = "config" | "secret";
+export type UserEventPayloadCase191ChangedFieldsList = Array<string>;
+export type UserEventPayloadCase191Visibility = "config" | "secret";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase178 {
-  changedFields?: UserEventPayloadCase178ChangedFieldsList | undefined;
+export interface UserEventPayloadCase191 {
+  changedFields?: UserEventPayloadCase191ChangedFieldsList | undefined;
   key: string;
   organizationId: string;
   provider: string;
   repository: string;
-  visibility: UserEventPayloadCase178Visibility;
+  visibility: UserEventPayloadCase191Visibility;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
-export type UserEventPayloadCase179CustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase179LastEditedByPrincipalCase0Type = "user";
+export type UserEventPayloadCase192CustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase192LastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase179LastEditedByPrincipalCase0 {
+export interface UserEventPayloadCase192LastEditedByPrincipalCase0 {
   avatar?: string | undefined;
   id: string;
   name?: string | null | undefined;
-  type: UserEventPayloadCase179LastEditedByPrincipalCase0Type;
+  type: UserEventPayloadCase192LastEditedByPrincipalCase0Type;
   username: string;
 }
-export type UserEventPayloadCase179LastEditedByPrincipalCase1Type = "app";
+export type UserEventPayloadCase192LastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase179LastEditedByPrincipalCase1 {
+export interface UserEventPayloadCase192LastEditedByPrincipalCase1 {
   avatar?: string | undefined;
   id: string;
   name: string;
-  type: UserEventPayloadCase179LastEditedByPrincipalCase1Type;
+  type: UserEventPayloadCase192LastEditedByPrincipalCase1Type;
 }
-export type UserEventPayloadCase179LastEditedByPrincipal =
-  | UserEventPayloadCase179LastEditedByPrincipalCase0
-  | UserEventPayloadCase179LastEditedByPrincipalCase1;
+export type UserEventPayloadCase192LastEditedByPrincipal =
+  | UserEventPayloadCase192LastEditedByPrincipalCase0
+  | UserEventPayloadCase192LastEditedByPrincipalCase1;
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-export type UserEventPayloadCase179ProjectIdList = Array<string>;
+export type UserEventPayloadCase192ProjectIdList = Array<string>;
 /** environments this env variable targets */
-export type UserEventPayloadCase179TargetItem = "development" | "preview" | "production";
+export type UserEventPayloadCase192TargetItem = "development" | "preview" | "production";
 /** environments this env variable targets */
-export type UserEventPayloadCase179TargetList = Array<UserEventPayloadCase179TargetItem>;
+export type UserEventPayloadCase192TargetList = Array<UserEventPayloadCase192TargetItem>;
 /** The type of this cosmos doc instance, if blank, assume secret. */
-export type UserEventPayloadCase179Type = "encrypted" | "plain" | "sensitive" | "system";
-export type UserEventPayloadCase179ProjectNamesList = Array<string>;
+export type UserEventPayloadCase192Type = "encrypted" | "plain" | "sensitive" | "system";
+export type UserEventPayloadCase192ProjectNamesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase179 {
+export interface UserEventPayloadCase192 {
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
@@ -5319,7 +5659,7 @@ export interface UserEventPayloadCase179 {
   /** The unique identifier of the user who created the Shared Env Var. */
   createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: UserEventPayloadCase179CustomEnvironmentIdsList | undefined;
+  customEnvironmentIds?: UserEventPayloadCase192CustomEnvironmentIdsList | undefined;
   /** whether or not this env variable is decrypted */
   decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
@@ -5332,15 +5672,15 @@ export interface UserEventPayloadCase179 {
   key?: string | undefined;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string | undefined;
-  lastEditedByPrincipal?: UserEventPayloadCase179LastEditedByPrincipal | undefined;
+  lastEditedByPrincipal?: UserEventPayloadCase192LastEditedByPrincipal | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
   ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: UserEventPayloadCase179ProjectIdList | undefined;
+  projectId?: UserEventPayloadCase192ProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: UserEventPayloadCase179TargetList | undefined;
+  target?: UserEventPayloadCase192TargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: UserEventPayloadCase179Type | undefined;
+  type?: UserEventPayloadCase192Type | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
   updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
@@ -5348,51 +5688,51 @@ export interface UserEventPayloadCase179 {
   /** The value of the Shared Env Var. */
   value?: string | Redacted.Redacted<string> | undefined;
   ipAddress?: string | undefined;
-  projectNames?: UserEventPayloadCase179ProjectNamesList | undefined;
+  projectNames?: UserEventPayloadCase192ProjectNamesList | undefined;
 }
-export type UserEventPayloadCase180TargetItem = "development" | "preview" | "production";
-export type UserEventPayloadCase180TargetList = Array<UserEventPayloadCase180TargetItem>;
+export type UserEventPayloadCase193TargetItem = "development" | "preview" | "production";
+export type UserEventPayloadCase193TargetList = Array<UserEventPayloadCase193TargetItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase180 {
+export interface UserEventPayloadCase193 {
   envId: string;
   envKey: string;
   organizationId: string;
   provider: string;
   repository: string;
-  target: UserEventPayloadCase180TargetList;
+  target: UserEventPayloadCase193TargetList;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
-export type UserEventPayloadCase181NewEnvVarCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase0Type = "user";
+export type UserEventPayloadCase194NewEnvVarCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase0 {
+export interface UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase0 {
   avatar?: string | undefined;
   id: string;
   name?: string | null | undefined;
-  type: UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase0Type;
+  type: UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase0Type;
   username: string;
 }
-export type UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase1Type = "app";
+export type UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase1 {
+export interface UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase1 {
   avatar?: string | undefined;
   id: string;
   name: string;
-  type: UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase1Type;
+  type: UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase1Type;
 }
-export type UserEventPayloadCase181NewEnvVarLastEditedByPrincipal =
-  | UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase0
-  | UserEventPayloadCase181NewEnvVarLastEditedByPrincipalCase1;
+export type UserEventPayloadCase194NewEnvVarLastEditedByPrincipal =
+  | UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase0
+  | UserEventPayloadCase194NewEnvVarLastEditedByPrincipalCase1;
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-export type UserEventPayloadCase181NewEnvVarProjectIdList = Array<string>;
+export type UserEventPayloadCase194NewEnvVarProjectIdList = Array<string>;
 /** environments this env variable targets */
-export type UserEventPayloadCase181NewEnvVarTargetItem = "development" | "preview" | "production";
+export type UserEventPayloadCase194NewEnvVarTargetItem = "development" | "preview" | "production";
 /** environments this env variable targets */
-export type UserEventPayloadCase181NewEnvVarTargetList =
-  Array<UserEventPayloadCase181NewEnvVarTargetItem>;
+export type UserEventPayloadCase194NewEnvVarTargetList =
+  Array<UserEventPayloadCase194NewEnvVarTargetItem>;
 /** The type of this cosmos doc instance, if blank, assume secret. */
-export type UserEventPayloadCase181NewEnvVarType = "encrypted" | "plain" | "sensitive" | "system";
-export interface UserEventPayloadCase181NewEnvVar {
+export type UserEventPayloadCase194NewEnvVarType = "encrypted" | "plain" | "sensitive" | "system";
+export interface UserEventPayloadCase194NewEnvVar {
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
@@ -5404,7 +5744,7 @@ export interface UserEventPayloadCase181NewEnvVar {
   /** The unique identifier of the user who created the Shared Env Var. */
   createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: UserEventPayloadCase181NewEnvVarCustomEnvironmentIdsList | undefined;
+  customEnvironmentIds?: UserEventPayloadCase194NewEnvVarCustomEnvironmentIdsList | undefined;
   /** whether or not this env variable is decrypted */
   decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
@@ -5417,15 +5757,15 @@ export interface UserEventPayloadCase181NewEnvVar {
   key?: string | undefined;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string | undefined;
-  lastEditedByPrincipal?: UserEventPayloadCase181NewEnvVarLastEditedByPrincipal | undefined;
+  lastEditedByPrincipal?: UserEventPayloadCase194NewEnvVarLastEditedByPrincipal | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
   ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: UserEventPayloadCase181NewEnvVarProjectIdList | undefined;
+  projectId?: UserEventPayloadCase194NewEnvVarProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: UserEventPayloadCase181NewEnvVarTargetList | undefined;
+  target?: UserEventPayloadCase194NewEnvVarTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: UserEventPayloadCase181NewEnvVarType | undefined;
+  type?: UserEventPayloadCase194NewEnvVarType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
   updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
@@ -5434,37 +5774,37 @@ export interface UserEventPayloadCase181NewEnvVar {
   value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
-export type UserEventPayloadCase181OldEnvVarCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase0Type = "user";
+export type UserEventPayloadCase194OldEnvVarCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase0 {
+export interface UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase0 {
   avatar?: string | undefined;
   id: string;
   name?: string | null | undefined;
-  type: UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase0Type;
+  type: UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase0Type;
   username: string;
 }
-export type UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase1Type = "app";
+export type UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
-export interface UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase1 {
+export interface UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase1 {
   avatar?: string | undefined;
   id: string;
   name: string;
-  type: UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase1Type;
+  type: UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase1Type;
 }
-export type UserEventPayloadCase181OldEnvVarLastEditedByPrincipal =
-  | UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase0
-  | UserEventPayloadCase181OldEnvVarLastEditedByPrincipalCase1;
+export type UserEventPayloadCase194OldEnvVarLastEditedByPrincipal =
+  | UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase0
+  | UserEventPayloadCase194OldEnvVarLastEditedByPrincipalCase1;
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-export type UserEventPayloadCase181OldEnvVarProjectIdList = Array<string>;
+export type UserEventPayloadCase194OldEnvVarProjectIdList = Array<string>;
 /** environments this env variable targets */
-export type UserEventPayloadCase181OldEnvVarTargetItem = "development" | "preview" | "production";
+export type UserEventPayloadCase194OldEnvVarTargetItem = "development" | "preview" | "production";
 /** environments this env variable targets */
-export type UserEventPayloadCase181OldEnvVarTargetList =
-  Array<UserEventPayloadCase181OldEnvVarTargetItem>;
+export type UserEventPayloadCase194OldEnvVarTargetList =
+  Array<UserEventPayloadCase194OldEnvVarTargetItem>;
 /** The type of this cosmos doc instance, if blank, assume secret. */
-export type UserEventPayloadCase181OldEnvVarType = "encrypted" | "plain" | "sensitive" | "system";
-export interface UserEventPayloadCase181OldEnvVar {
+export type UserEventPayloadCase194OldEnvVarType = "encrypted" | "plain" | "sensitive" | "system";
+export interface UserEventPayloadCase194OldEnvVar {
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
@@ -5476,7 +5816,7 @@ export interface UserEventPayloadCase181OldEnvVar {
   /** The unique identifier of the user who created the Shared Env Var. */
   createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: UserEventPayloadCase181OldEnvVarCustomEnvironmentIdsList | undefined;
+  customEnvironmentIds?: UserEventPayloadCase194OldEnvVarCustomEnvironmentIdsList | undefined;
   /** whether or not this env variable is decrypted */
   decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
@@ -5489,15 +5829,15 @@ export interface UserEventPayloadCase181OldEnvVar {
   key?: string | undefined;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string | undefined;
-  lastEditedByPrincipal?: UserEventPayloadCase181OldEnvVarLastEditedByPrincipal | undefined;
+  lastEditedByPrincipal?: UserEventPayloadCase194OldEnvVarLastEditedByPrincipal | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
   ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: UserEventPayloadCase181OldEnvVarProjectIdList | undefined;
+  projectId?: UserEventPayloadCase194OldEnvVarProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: UserEventPayloadCase181OldEnvVarTargetList | undefined;
+  target?: UserEventPayloadCase194OldEnvVarTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: UserEventPayloadCase181OldEnvVarType | undefined;
+  type?: UserEventPayloadCase194OldEnvVarType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
   updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
@@ -5505,157 +5845,183 @@ export interface UserEventPayloadCase181OldEnvVar {
   /** The value of the Shared Env Var. */
   value?: string | Redacted.Redacted<string> | undefined;
 }
-export type UserEventPayloadCase181UpdateDiffNewCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase181UpdateDiffNewTargetItem =
+export type UserEventPayloadCase194UpdateDiffCustomEnvironmentSlugsByIdMap = {
+  [key: string]: string | undefined;
+};
+export type UserEventPayloadCase194UpdateDiffNewCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase194UpdateDiffNewTargetItem =
   | "development"
   | "preview"
   | "production";
-export type UserEventPayloadCase181UpdateDiffNewTargetList =
-  Array<UserEventPayloadCase181UpdateDiffNewTargetItem>;
-export type UserEventPayloadCase181UpdateDiffOldCustomEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase181UpdateDiffOldTargetItem =
+export type UserEventPayloadCase194UpdateDiffNewTargetList =
+  Array<UserEventPayloadCase194UpdateDiffNewTargetItem>;
+export type UserEventPayloadCase194UpdateDiffOldCustomEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase194UpdateDiffOldTargetItem =
   | "development"
   | "preview"
   | "production";
-export type UserEventPayloadCase181UpdateDiffOldTargetList =
-  Array<UserEventPayloadCase181UpdateDiffOldTargetItem>;
-export interface UserEventPayloadCase181UpdateDiffNewProjectsItem {
+export type UserEventPayloadCase194UpdateDiffOldTargetList =
+  Array<UserEventPayloadCase194UpdateDiffOldTargetItem>;
+export interface UserEventPayloadCase194UpdateDiffNewProjectsItem {
   projectId: string;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase181UpdateDiffNewProjectsList =
-  Array<UserEventPayloadCase181UpdateDiffNewProjectsItem>;
-export type UserEventPayloadCase181UpdateDiffOldProjectsItem =
-  UserEventPayloadCase181UpdateDiffNewProjectsItem;
-export type UserEventPayloadCase181UpdateDiffOldProjectsList =
-  Array<UserEventPayloadCase181UpdateDiffNewProjectsItem>;
-export interface UserEventPayloadCase181UpdateDiff {
+export type UserEventPayloadCase194UpdateDiffNewProjectsList =
+  Array<UserEventPayloadCase194UpdateDiffNewProjectsItem>;
+export type UserEventPayloadCase194UpdateDiffOldProjectsItem =
+  UserEventPayloadCase194UpdateDiffNewProjectsItem;
+export type UserEventPayloadCase194UpdateDiffOldProjectsList =
+  Array<UserEventPayloadCase194UpdateDiffNewProjectsItem>;
+export interface UserEventPayloadCase194UpdateDiff {
   changedComment?: boolean | undefined;
   changedGitBranch?: boolean | undefined;
   /** Indicates a value was submitted, not whether its plaintext changed. */
   changedValue: boolean;
+  customEnvironmentSlugsById?:
+    | UserEventPayloadCase194UpdateDiffCustomEnvironmentSlugsByIdMap
+    | undefined;
   key?: string | undefined;
   newCustomEnvironmentIds?:
-    | UserEventPayloadCase181UpdateDiffNewCustomEnvironmentIdsList
+    | UserEventPayloadCase194UpdateDiffNewCustomEnvironmentIdsList
     | undefined;
   newKey?: string | undefined;
-  newTarget?: UserEventPayloadCase181UpdateDiffNewTargetList | undefined;
+  newTarget?: UserEventPayloadCase194UpdateDiffNewTargetList | undefined;
   newType?: string | undefined;
   oldCustomEnvironmentIds?:
-    | UserEventPayloadCase181UpdateDiffOldCustomEnvironmentIdsList
+    | UserEventPayloadCase194UpdateDiffOldCustomEnvironmentIdsList
     | undefined;
-  oldTarget?: UserEventPayloadCase181UpdateDiffOldTargetList | undefined;
+  oldTarget?: UserEventPayloadCase194UpdateDiffOldTargetList | undefined;
   oldType?: string | undefined;
   id: string;
-  newProjects?: UserEventPayloadCase181UpdateDiffNewProjectsList | undefined;
-  oldProjects?: UserEventPayloadCase181UpdateDiffOldProjectsList | undefined;
+  newProjects?: UserEventPayloadCase194UpdateDiffNewProjectsList | undefined;
+  oldProjects?: UserEventPayloadCase194UpdateDiffOldProjectsList | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase181 {
-  newEnvVar?: UserEventPayloadCase181NewEnvVar | undefined;
-  oldEnvVar?: UserEventPayloadCase181OldEnvVar | undefined;
-  updateDiff?: UserEventPayloadCase181UpdateDiff | undefined;
+export interface UserEventPayloadCase194 {
+  newEnvVar?: UserEventPayloadCase194NewEnvVar | undefined;
+  oldEnvVar?: UserEventPayloadCase194OldEnvVar | undefined;
+  updateDiff?: UserEventPayloadCase194UpdateDiff | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase182 {
+export interface UserEventPayloadCase195 {
   expiresAt?: number | null | undefined;
   projectId: string;
   scope: string;
   source: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase183 {
+export interface UserEventPayloadCase196 {
   projectId: string;
   scope: string;
   source: string;
 }
-export type UserEventPayloadCase184ConfigVersion = string | number;
+export type UserEventPayloadCase197ConfigVersion = string | number;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase184 {
-  configVersion: UserEventPayloadCase184ConfigVersion;
+export interface UserEventPayloadCase197 {
+  configVersion: UserEventPayloadCase197ConfigVersion;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase185ConfigVersion = string | number;
+export type UserEventPayloadCase198ConfigVersion = string | number;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase185 {
-  configVersion: UserEventPayloadCase185ConfigVersion;
+export interface UserEventPayloadCase198 {
+  configVersion: UserEventPayloadCase198ConfigVersion;
 }
-export type UserEventPayloadCase186ConfigChangesList = Array<unknown>;
-export type UserEventPayloadCase186ConfigVersion = string | number;
+export type UserEventPayloadCase199ConfigChangesList = Array<unknown>;
+export type UserEventPayloadCase199ConfigVersion = string | number;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase186 {
+export interface UserEventPayloadCase199 {
   configChangeCount?: number | undefined;
-  configChanges?: UserEventPayloadCase186ConfigChangesList | undefined;
-  configVersion: UserEventPayloadCase186ConfigVersion;
+  configChanges?: UserEventPayloadCase199ConfigChangesList | undefined;
+  configVersion: UserEventPayloadCase199ConfigVersion;
 }
-export type UserEventPayloadCase187ConfigChangesList = Array<unknown>;
+export type UserEventPayloadCase200ConfigChangesList = Array<unknown>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase187 {
+export interface UserEventPayloadCase200 {
   configChangeCount: number;
-  configChanges: UserEventPayloadCase187ConfigChangesList;
+  configChanges: UserEventPayloadCase200ConfigChangesList;
   configVersion: number;
   projectId: string;
   projectName?: string | undefined;
   restore: boolean;
 }
-export type UserEventPayloadCase188RuleGroupsValueAction = "challenge" | "deny" | "log";
-export interface UserEventPayloadCase188RuleGroupsValue {
-  action?: UserEventPayloadCase188RuleGroupsValueAction | undefined;
+export type UserEventPayloadCase201RuleGroupsValueAction = "challenge" | "deny" | "log";
+export interface UserEventPayloadCase201RuleGroupsValue {
+  action?: UserEventPayloadCase201RuleGroupsValueAction | undefined;
   active: boolean;
 }
-export type UserEventPayloadCase188RuleGroupsMap = {
-  [key: string]: UserEventPayloadCase188RuleGroupsValue | undefined;
+export type UserEventPayloadCase201RuleGroupsMap = {
+  [key: string]: UserEventPayloadCase201RuleGroupsValue | undefined;
 };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase188 {
+export interface UserEventPayloadCase201 {
   projectId: string;
-  ruleGroups: UserEventPayloadCase188RuleGroupsMap;
+  ruleGroups: UserEventPayloadCase201RuleGroupsMap;
   rulesetName: string;
 }
-export type UserEventPayloadCase189Action = "challenge" | "deny" | "log";
+export type UserEventPayloadCase202Action = "challenge" | "deny" | "log";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase189 {
-  action?: UserEventPayloadCase189Action | undefined;
+export interface UserEventPayloadCase202 {
+  action?: UserEventPayloadCase202Action | undefined;
   active: boolean;
   projectId: string;
   rulesetName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase190 {
+export interface UserEventPayloadCase203 {
   consumerProjectId: string;
   consumerProjectName?: string | undefined;
   projectId: string;
   projectName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase191 {
+export interface UserEventPayloadCase204 {
   newOwnerId: string;
   previousOwnerId: string;
   projectId: string;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase192Action = "disable" | "enable";
+export type UserEventPayloadCase205Action = "disable" | "enable";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase192 {
-  action: UserEventPayloadCase192Action;
+export interface UserEventPayloadCase205 {
+  action: UserEventPayloadCase205Action;
 }
-export type UserEventPayloadCase193Source = "create" | "enable" | "upgrade";
+/** The keys of the overridden flags, never their values. */
+export type UserEventPayloadCase206FlagsList = Array<string>;
+/** The projects that accept the overrides: a whole microfrontends group. */
+export type UserEventPayloadCase206ProjectIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase193 {
-  source: UserEventPayloadCase193Source;
+export interface UserEventPayloadCase206 {
+  environment: string;
+  /** Seconds until the overrides expire. */
+  expiresIn: number;
+  /** The keys of the overridden flags, never their values. */
+  flags: UserEventPayloadCase206FlagsList;
+  projectId: string;
+  /** The projects that accept the overrides: a whole microfrontends group. */
+  projectIds: UserEventPayloadCase206ProjectIdsList;
+  projectName?: string | undefined;
+}
+export type UserEventPayloadCase207Source = "create" | "enable" | "upgrade";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase207 {
+  source: UserEventPayloadCase207Source;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase208 {
+  effectiveAt: number;
 }
 /** Mirrors `PushFailureStage` in `api-git-providers`. */
-export type UserEventPayloadCase194FailureStage =
+export type UserEventPayloadCase209FailureStage =
   | "authorization"
   | "push"
   | "unexpected"
   | "unknown"
   | "validation";
-export type UserEventPayloadCase194Outcome = "failure" | "success";
-export type UserEventPayloadCase194Provider = "bitbucket" | "cursor-origin" | "github" | "gitlab";
+export type UserEventPayloadCase209Outcome = "failure" | "success";
+export type UserEventPayloadCase209Provider = "bitbucket" | "cursor-origin" | "github" | "gitlab";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase194 {
+export interface UserEventPayloadCase209 {
   /** Stable account id on `provider`. */
   actorAccountId: string | null;
   /** Display name only. Logins are mutable; join on `actorAccountId`. */
@@ -5667,11 +6033,11 @@ export interface UserEventPayloadCase194 {
   /** Sanitized code, never a raw error message. */
   failureCode?: string | undefined;
   /** Mirrors `PushFailureStage` in `api-git-providers`. */
-  failureStage?: UserEventPayloadCase194FailureStage | undefined;
+  failureStage?: UserEventPayloadCase209FailureStage | undefined;
   /** Set only when an App installation token was minted (GitHub only). */
   installationId: string | null;
-  outcome: UserEventPayloadCase194Outcome;
-  provider: UserEventPayloadCase194Provider;
+  outcome: UserEventPayloadCase209Outcome;
+  provider: UserEventPayloadCase209Provider;
   resultCommitSha: string | null;
   sourceCommitSha: string | null;
   /** Source repository, "owner/name". Null when the pushed content was generated in-request (push-files-to-repo) rather than copied from a repository. */
@@ -5679,7 +6045,7 @@ export interface UserEventPayloadCase194 {
   usedAppToken: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase195 {
+export interface UserEventPayloadCase210 {
   fromDeploymentId: string;
   projectId: string;
   projectName: string;
@@ -5687,71 +6053,71 @@ export interface UserEventPayloadCase195 {
   toDeploymentId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase196 {
+export interface UserEventPayloadCase211 {
   configurationId: string;
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
 }
-export interface UserEventPayloadCase197NewOwner {
+export interface UserEventPayloadCase212NewOwner {
   id: string;
   username: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase197 {
+export interface UserEventPayloadCase212 {
   configurationId: string;
   integrationId: string;
   integrationName?: string | undefined;
   integrationSlug: string;
-  newOwner: UserEventPayloadCase197NewOwner | null;
+  newOwner: UserEventPayloadCase212NewOwner | null;
   userId: string;
 }
-export type UserEventPayloadCase198ConfirmedScopesList = Array<string>;
-export type UserEventPayloadCase198ProjectIdsList = Array<string>;
+export type UserEventPayloadCase213ConfirmedScopesList = Array<string>;
+export type UserEventPayloadCase213ProjectIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase198 {
+export interface UserEventPayloadCase213 {
   configurationId: string;
-  confirmedScopes: UserEventPayloadCase198ConfirmedScopesList;
+  confirmedScopes: UserEventPayloadCase213ConfirmedScopesList;
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
   ownerId: string;
-  projectIds?: UserEventPayloadCase198ProjectIdsList | undefined;
+  projectIds?: UserEventPayloadCase213ProjectIdsList | undefined;
 }
-export interface UserEventPayloadCase199Integration {
+export interface UserEventPayloadCase214Integration {
   configurationId: string;
   id: string;
   name: string;
   slug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase199 {
-  integration: UserEventPayloadCase199Integration;
+export interface UserEventPayloadCase214 {
+  integration: UserEventPayloadCase214Integration;
   destinationTeamId: string;
   destinationTeamName: string;
 }
-export type UserEventPayloadCase200Integration = UserEventPayloadCase199Integration;
+export type UserEventPayloadCase215Integration = UserEventPayloadCase214Integration;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase200 {
-  integration: UserEventPayloadCase199Integration;
+export interface UserEventPayloadCase215 {
+  integration: UserEventPayloadCase214Integration;
   originTeamId: string;
   originTeamName: string;
 }
-export interface UserEventPayloadCase201ConfigurationsItem {
+export interface UserEventPayloadCase216ConfigurationsItem {
   configurationId: string;
   integrationId: string;
   integrationName?: string | undefined;
   integrationSlug: string;
 }
-export type UserEventPayloadCase201ConfigurationsList =
-  Array<UserEventPayloadCase201ConfigurationsItem>;
+export type UserEventPayloadCase216ConfigurationsList =
+  Array<UserEventPayloadCase216ConfigurationsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase201 {
-  configurations: UserEventPayloadCase201ConfigurationsList;
+export interface UserEventPayloadCase216 {
+  configurations: UserEventPayloadCase216ConfigurationsList;
   ownerId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase202 {
+export interface UserEventPayloadCase217 {
   billingPlanId: string;
   billingPlanName?: string | undefined;
   configurationId: string;
@@ -5760,43 +6126,43 @@ export interface UserEventPayloadCase202 {
   integrationSlug: string;
   ownerId: string;
 }
-export type UserEventPayloadCase203ProjectIdsCase0List = Array<string>;
-export type UserEventPayloadCase203ProjectIdsCase1 = "all";
-export type UserEventPayloadCase203ProjectIds =
-  | UserEventPayloadCase203ProjectIdsCase0List
-  | UserEventPayloadCase203ProjectIdsCase1;
+export type UserEventPayloadCase218ProjectIdsCase0List = Array<string>;
+export type UserEventPayloadCase218ProjectIdsCase1 = "all";
+export type UserEventPayloadCase218ProjectIds =
+  | UserEventPayloadCase218ProjectIdsCase0List
+  | UserEventPayloadCase218ProjectIdsCase1;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase203 {
+export interface UserEventPayloadCase218 {
   configurationId: string;
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
   ownerId: string;
-  projectIds?: UserEventPayloadCase203ProjectIds | undefined;
+  projectIds?: UserEventPayloadCase218ProjectIds | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase204 {
+export interface UserEventPayloadCase219 {
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
 }
-export interface UserEventPayloadCase205QueriesItemPrimaryKeyItem {
+export interface UserEventPayloadCase220QueriesItemPrimaryKeyItem {
   column: string;
   value: string | null;
 }
-export type UserEventPayloadCase205QueriesItemPrimaryKeyList =
-  Array<UserEventPayloadCase205QueriesItemPrimaryKeyItem>;
-export type UserEventPayloadCase205QueriesItemTablesList = Array<string>;
-export interface UserEventPayloadCase205QueriesItem {
+export type UserEventPayloadCase220QueriesItemPrimaryKeyList =
+  Array<UserEventPayloadCase220QueriesItemPrimaryKeyItem>;
+export type UserEventPayloadCase220QueriesItemTablesList = Array<string>;
+export interface UserEventPayloadCase220QueriesItem {
   command: string | null;
-  primaryKey?: UserEventPayloadCase205QueriesItemPrimaryKeyList | undefined;
+  primaryKey?: UserEventPayloadCase220QueriesItemPrimaryKeyList | undefined;
   rowCount?: number | undefined;
-  tables?: UserEventPayloadCase205QueriesItemTablesList | undefined;
+  tables?: UserEventPayloadCase220QueriesItemTablesList | undefined;
 }
-export type UserEventPayloadCase205QueriesList = Array<UserEventPayloadCase205QueriesItem>;
-export type UserEventPayloadCase205QueryType = "data-edit" | "data-view" | "schema" | "user";
+export type UserEventPayloadCase220QueriesList = Array<UserEventPayloadCase220QueriesItem>;
+export type UserEventPayloadCase220QueryType = "data-edit" | "data-view" | "schema" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase205 {
+export interface UserEventPayloadCase220 {
   configurationId: string;
   databaseName: string;
   errorCode: string | null;
@@ -5804,35 +6170,35 @@ export interface UserEventPayloadCase205 {
   integrationId: string;
   integrationProductSlug: string;
   integrationSlug: string;
-  queries: UserEventPayloadCase205QueriesList;
+  queries: UserEventPayloadCase220QueriesList;
   queryCount: number;
-  queryType: UserEventPayloadCase205QueryType;
+  queryType: UserEventPayloadCase220QueryType;
   readonly: boolean;
   resourceId: string;
   rolledBack: boolean;
 }
-export interface UserEventPayloadCase206CommandsItem {
+export interface UserEventPayloadCase221CommandsItem {
   command: string;
   errorCode?: string | undefined;
 }
-export type UserEventPayloadCase206CommandsList = Array<UserEventPayloadCase206CommandsItem>;
-export type UserEventPayloadCase206RequestKind = "raw_commands";
+export type UserEventPayloadCase221CommandsList = Array<UserEventPayloadCase221CommandsItem>;
+export type UserEventPayloadCase221RequestKind = "raw_commands";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase206 {
+export interface UserEventPayloadCase221 {
   configurationId: string;
   errorCode?: string | undefined;
   integrationId: string;
   integrationProductSlug: string;
   integrationSlug: string;
   resourceId: string;
-  commands: UserEventPayloadCase206CommandsList;
+  commands: UserEventPayloadCase221CommandsList;
   errorIndex?: number | undefined;
   readonly: boolean;
-  requestKind: UserEventPayloadCase206RequestKind;
+  requestKind: UserEventPayloadCase221RequestKind;
 }
-export type UserEventPayloadCase207RequestKind = "list_keys";
+export type UserEventPayloadCase222RequestKind = "list_keys";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase207 {
+export interface UserEventPayloadCase222 {
   configurationId: string;
   errorCode?: string | undefined;
   integrationId: string;
@@ -5840,25 +6206,25 @@ export interface UserEventPayloadCase207 {
   integrationSlug: string;
   resourceId: string;
   pattern?: string | undefined;
-  requestKind: UserEventPayloadCase207RequestKind;
+  requestKind: UserEventPayloadCase222RequestKind;
   type?: string | undefined;
 }
-export type UserEventPayloadCase208KeysList = Array<string>;
-export type UserEventPayloadCase208RequestKind = "get_keys_metadata";
+export type UserEventPayloadCase223KeysList = Array<string>;
+export type UserEventPayloadCase223RequestKind = "get_keys_metadata";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase208 {
+export interface UserEventPayloadCase223 {
   configurationId: string;
   errorCode?: string | undefined;
   integrationId: string;
   integrationProductSlug: string;
   integrationSlug: string;
   resourceId: string;
-  keys: UserEventPayloadCase208KeysList;
-  requestKind: UserEventPayloadCase208RequestKind;
+  keys: UserEventPayloadCase223KeysList;
+  requestKind: UserEventPayloadCase223RequestKind;
 }
-export type UserEventPayloadCase209RequestKind = "get_key_data";
+export type UserEventPayloadCase224RequestKind = "get_key_data";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase209 {
+export interface UserEventPayloadCase224 {
   configurationId: string;
   errorCode?: string | undefined;
   integrationId: string;
@@ -5866,17 +6232,17 @@ export interface UserEventPayloadCase209 {
   integrationSlug: string;
   resourceId: string;
   key: string;
-  requestKind: UserEventPayloadCase209RequestKind;
+  requestKind: UserEventPayloadCase224RequestKind;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase210 {
+export interface UserEventPayloadCase225 {
   integrationId: string;
   integrationName: string;
   integrationSlug: string;
   previousSecretExpiresAt: number | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase211 {
+export interface UserEventPayloadCase226 {
   accessTokenRotation: boolean;
   integrationId: string;
   integrationName: string;
@@ -5884,7 +6250,7 @@ export interface UserEventPayloadCase211 {
   permanentTokensExpireAt?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase212 {
+export interface UserEventPayloadCase227 {
   algorithm: string;
   issuerId: string;
   issuerName: string;
@@ -5892,48 +6258,49 @@ export interface UserEventPayloadCase212 {
   origin: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase213 {
+export interface UserEventPayloadCase228 {
   issuerId: string;
   issuerName: string;
   managedBy?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase214 {
+export interface UserEventPayloadCase229 {
   issuerId: string;
   issuerName: string;
   keyId?: string | undefined;
 }
-export type UserEventPayloadCase215EnvironmentsList = Array<string>;
+export type UserEventPayloadCase230EnvironmentsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase215 {
+export interface UserEventPayloadCase230 {
   clientId?: string | undefined;
-  environments?: UserEventPayloadCase215EnvironmentsList | undefined;
+  environments?: UserEventPayloadCase230EnvironmentsList | undefined;
   issuerId: string;
   issuerName: string;
   kind: string;
   projectId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase216 {
+export interface UserEventPayloadCase231 {
   issuerId: string;
   issuerName: string;
   kind: string;
   policyKey: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase217 {
+export interface UserEventPayloadCase232 {
   integrationName?: string | undefined;
   logDrainUrl: string | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase218 {
+export interface UserEventPayloadCase233 {
   integrationName?: string | undefined;
   logDrainUrl: string;
 }
-export type UserEventPayloadCase219Provider =
+export type UserEventPayloadCase234Provider =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "github"
   | "github-custom-host"
   | "github-limited"
@@ -5941,14 +6308,15 @@ export type UserEventPayloadCase219Provider =
   | "google"
   | "saml";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase219 {
+export interface UserEventPayloadCase234 {
   login: string;
-  provider: UserEventPayloadCase219Provider;
+  provider: UserEventPayloadCase234Provider;
 }
-export type UserEventPayloadCase220Provider =
+export type UserEventPayloadCase235Provider =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "github"
   | "github-custom-host"
   | "github-limited"
@@ -5956,13 +6324,14 @@ export type UserEventPayloadCase220Provider =
   | "google"
   | "saml";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase220 {
-  provider: UserEventPayloadCase220Provider;
+export interface UserEventPayloadCase235 {
+  provider: UserEventPayloadCase235Provider;
 }
-export type UserEventPayloadCase221FactorsCase0ItemOrigin =
+export type UserEventPayloadCase236FactorsCase0ItemOrigin =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu-recovery"
   | "github"
@@ -5974,19 +6343,20 @@ export type UserEventPayloadCase221FactorsCase0ItemOrigin =
   | "otp-link"
   | "saml"
   | "webauthn";
-export interface UserEventPayloadCase221FactorsCase0Item {
+export interface UserEventPayloadCase236FactorsCase0Item {
   legacy?: boolean | undefined;
-  origin: UserEventPayloadCase221FactorsCase0ItemOrigin;
+  origin: UserEventPayloadCase236FactorsCase0ItemOrigin;
   ssoType?: string | undefined;
   teamId?: string | undefined;
   username?: string | undefined;
 }
-export type UserEventPayloadCase221FactorsCase0List =
-  Array<UserEventPayloadCase221FactorsCase0Item>;
-export type UserEventPayloadCase221FactorsCase1ItemCase0Origin =
+export type UserEventPayloadCase236FactorsCase0List =
+  Array<UserEventPayloadCase236FactorsCase0Item>;
+export type UserEventPayloadCase236FactorsCase1ItemCase0Origin =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu-recovery"
   | "github"
@@ -5998,52 +6368,52 @@ export type UserEventPayloadCase221FactorsCase1ItemCase0Origin =
   | "otp-link"
   | "saml"
   | "webauthn";
-export interface UserEventPayloadCase221FactorsCase1ItemCase0 {
+export interface UserEventPayloadCase236FactorsCase1ItemCase0 {
   legacy?: boolean | undefined;
-  origin: UserEventPayloadCase221FactorsCase1ItemCase0Origin;
+  origin: UserEventPayloadCase236FactorsCase1ItemCase0Origin;
   ssoType?: string | undefined;
   teamId?: string | undefined;
   username?: string | undefined;
 }
-export type UserEventPayloadCase221FactorsCase1ItemCase1Origin =
+export type UserEventPayloadCase236FactorsCase1ItemCase1Origin =
   | "recovery-code"
   | "totp"
   | "webauthn";
-export interface UserEventPayloadCase221FactorsCase1ItemCase1 {
-  origin: UserEventPayloadCase221FactorsCase1ItemCase1Origin;
+export interface UserEventPayloadCase236FactorsCase1ItemCase1 {
+  origin: UserEventPayloadCase236FactorsCase1ItemCase1Origin;
 }
-export type UserEventPayloadCase221FactorsCase1Item =
-  | UserEventPayloadCase221FactorsCase1ItemCase0
-  | UserEventPayloadCase221FactorsCase1ItemCase1;
-export type UserEventPayloadCase221FactorsCase1List =
-  Array<UserEventPayloadCase221FactorsCase1Item>;
-export type UserEventPayloadCase221Factors =
-  | UserEventPayloadCase221FactorsCase0List
-  | UserEventPayloadCase221FactorsCase1List;
-export interface UserEventPayloadCase221GeolocationCityNames {
+export type UserEventPayloadCase236FactorsCase1Item =
+  | UserEventPayloadCase236FactorsCase1ItemCase0
+  | UserEventPayloadCase236FactorsCase1ItemCase1;
+export type UserEventPayloadCase236FactorsCase1List =
+  Array<UserEventPayloadCase236FactorsCase1Item>;
+export type UserEventPayloadCase236Factors =
+  | UserEventPayloadCase236FactorsCase0List
+  | UserEventPayloadCase236FactorsCase1List;
+export interface UserEventPayloadCase236GeolocationCityNames {
   en: string;
 }
-export interface UserEventPayloadCase221GeolocationCity {
-  names: UserEventPayloadCase221GeolocationCityNames;
+export interface UserEventPayloadCase236GeolocationCity {
+  names: UserEventPayloadCase236GeolocationCityNames;
 }
-export type UserEventPayloadCase221GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase221GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase221GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase221GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
-export interface UserEventPayloadCase221Geolocation {
-  city?: UserEventPayloadCase221GeolocationCity | undefined;
-  country: UserEventPayloadCase221GeolocationCity;
-  most_specific_subdivision?: UserEventPayloadCase221GeolocationCity | undefined;
+export type UserEventPayloadCase236GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase236GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase236GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase236GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
+export interface UserEventPayloadCase236Geolocation {
+  city?: UserEventPayloadCase236GeolocationCity | undefined;
+  country: UserEventPayloadCase236GeolocationCity;
+  most_specific_subdivision?: UserEventPayloadCase236GeolocationCity | undefined;
   regionName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase221 {
+export interface UserEventPayloadCase236 {
   env?: string | undefined;
-  factors?: UserEventPayloadCase221Factors | undefined;
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
+  factors?: UserEventPayloadCase236Factors | undefined;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
   /** Browser login correlation ID. This is not an authentication credential. */
   loginSessionId?: string | undefined;
   os?: string | undefined;
@@ -6060,62 +6430,62 @@ export interface UserEventPayloadCase221 {
   viaSamlSso?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase222 {
+export interface UserEventPayloadCase237 {
   projectId: string;
   projectName: string;
   toDeploymentId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase223 {
+export interface UserEventPayloadCase238 {
   invoiceCollection: boolean;
 }
-export interface UserEventPayloadCase224PeriodsItem {
+export interface UserEventPayloadCase239PeriodsItem {
   endDate: string;
   percent: string;
   periodNumber: number;
   startDate: string;
 }
-export type UserEventPayloadCase224PeriodsList = Array<UserEventPayloadCase224PeriodsItem>;
+export type UserEventPayloadCase239PeriodsList = Array<UserEventPayloadCase239PeriodsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase224 {
-  periods: UserEventPayloadCase224PeriodsList;
+export interface UserEventPayloadCase239 {
+  periods: UserEventPayloadCase239PeriodsList;
 }
-export type UserEventPayloadCase225AllowedIntegrationIdsList = Array<string>;
+export type UserEventPayloadCase240AllowedIntegrationIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase225 {
+export interface UserEventPayloadCase240 {
   allowedIntegrationCount?: number | undefined;
-  allowedIntegrationIds?: UserEventPayloadCase225AllowedIntegrationIdsList | undefined;
+  allowedIntegrationIds?: UserEventPayloadCase240AllowedIntegrationIdsList | undefined;
   enabled: boolean;
   resourceOnlyIntegrationCount?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase226 = AuthUserAccountUpdateContextOrganization;
-export interface UserEventPayloadCase227Prev {
+export type UserEventPayloadCase241 = AuthUserAccountUpdateContextOrganization;
+export interface UserEventPayloadCase242Prev {
   enablePolyrepoBranchRouting?: boolean | undefined;
   fallbackEnvironment: string;
   name: string;
   slug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase227 {
+export interface UserEventPayloadCase242 {
   enablePolyrepoBranchRouting?: boolean | undefined;
   fallbackEnvironment?: string | undefined;
   id: string;
   name?: string | undefined;
-  prev: UserEventPayloadCase227Prev;
+  prev: UserEventPayloadCase242Prev;
   slug?: string | undefined;
 }
-export type UserEventPayloadCase228Group = AuthUserAccountUpdateContextOrganization;
-export type UserEventPayloadCase228Project = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase243Group = AuthUserAccountUpdateContextOrganization;
+export type UserEventPayloadCase243Project = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase228 {
+export interface UserEventPayloadCase243 {
   group: AuthUserAccountUpdateContextOrganization;
-  project: UserEventPayloadCase25AccessPolicy;
+  project: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase229Group = AuthUserAccountUpdateContextOrganization;
+export type UserEventPayloadCase244Group = AuthUserAccountUpdateContextOrganization;
 /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-export type UserEventPayloadCase229PrevProjectMicrofrontendsCase0GroupIdsList = Array<string>;
-export interface UserEventPayloadCase229PrevProjectMicrofrontendsCase0 {
+export type UserEventPayloadCase244PrevProjectMicrofrontendsCase0GroupIdsList = Array<string>;
+export interface UserEventPayloadCase244PrevProjectMicrofrontendsCase0 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -6123,14 +6493,14 @@ export interface UserEventPayloadCase229PrevProjectMicrofrontendsCase0 {
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
   freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-  groupIds: UserEventPayloadCase229PrevProjectMicrofrontendsCase0GroupIdsList;
+  groupIds: UserEventPayloadCase244PrevProjectMicrofrontendsCase0GroupIdsList;
   isDefaultApp: boolean;
   /** Timestamp when the microfrontends settings were last updated. */
   updatedAt: number;
 }
 /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-export type UserEventPayloadCase229PrevProjectMicrofrontendsCase1GroupIdsList = Array<string>;
-export interface UserEventPayloadCase229PrevProjectMicrofrontendsCase1 {
+export type UserEventPayloadCase244PrevProjectMicrofrontendsCase1GroupIdsList = Array<string>;
+export interface UserEventPayloadCase244PrevProjectMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
@@ -6140,33 +6510,33 @@ export interface UserEventPayloadCase229PrevProjectMicrofrontendsCase1 {
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
   freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-  groupIds: UserEventPayloadCase229PrevProjectMicrofrontendsCase1GroupIdsList;
+  groupIds: UserEventPayloadCase244PrevProjectMicrofrontendsCase1GroupIdsList;
   isDefaultApp?: boolean | undefined;
   /** Whether observability data should be routed to this microfrontend project or a root project. */
   routeObservabilityToThisProject?: boolean | undefined;
   /** Timestamp when the microfrontends settings were last updated. */
   updatedAt: number;
 }
-export type UserEventPayloadCase229PrevProjectMicrofrontendsCase2GroupIdsList = Array<unknown>;
-export interface UserEventPayloadCase229PrevProjectMicrofrontendsCase2 {
+export type UserEventPayloadCase244PrevProjectMicrofrontendsCase2GroupIdsList = Array<unknown>;
+export interface UserEventPayloadCase244PrevProjectMicrofrontendsCase2 {
   enabled: boolean;
   freeProjectForLegacyLimits?: boolean | undefined;
-  groupIds: UserEventPayloadCase229PrevProjectMicrofrontendsCase2GroupIdsList;
+  groupIds: UserEventPayloadCase244PrevProjectMicrofrontendsCase2GroupIdsList;
   updatedAt: number;
 }
-export type UserEventPayloadCase229PrevProjectMicrofrontends =
-  | UserEventPayloadCase229PrevProjectMicrofrontendsCase0
-  | UserEventPayloadCase229PrevProjectMicrofrontendsCase1
-  | UserEventPayloadCase229PrevProjectMicrofrontendsCase2;
-export interface UserEventPayloadCase229PrevProject {
-  microfrontends?: UserEventPayloadCase229PrevProjectMicrofrontends | undefined;
+export type UserEventPayloadCase244PrevProjectMicrofrontends =
+  | UserEventPayloadCase244PrevProjectMicrofrontendsCase0
+  | UserEventPayloadCase244PrevProjectMicrofrontendsCase1
+  | UserEventPayloadCase244PrevProjectMicrofrontendsCase2;
+export interface UserEventPayloadCase244PrevProject {
+  microfrontends?: UserEventPayloadCase244PrevProjectMicrofrontends | undefined;
 }
-export interface UserEventPayloadCase229Prev {
-  project: UserEventPayloadCase229PrevProject;
+export interface UserEventPayloadCase244Prev {
+  project: UserEventPayloadCase244PrevProject;
 }
 /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-export type UserEventPayloadCase229ProjectMicrofrontendsCase0GroupIdsList = Array<string>;
-export interface UserEventPayloadCase229ProjectMicrofrontendsCase0 {
+export type UserEventPayloadCase244ProjectMicrofrontendsCase0GroupIdsList = Array<string>;
+export interface UserEventPayloadCase244ProjectMicrofrontendsCase0 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
   /** Whether microfrontends are enabled for this project. */
@@ -6174,14 +6544,14 @@ export interface UserEventPayloadCase229ProjectMicrofrontendsCase0 {
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
   freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-  groupIds: UserEventPayloadCase229ProjectMicrofrontendsCase0GroupIdsList;
+  groupIds: UserEventPayloadCase244ProjectMicrofrontendsCase0GroupIdsList;
   isDefaultApp: boolean;
   /** Timestamp when the microfrontends settings were last updated. */
   updatedAt: number;
 }
 /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-export type UserEventPayloadCase229ProjectMicrofrontendsCase1GroupIdsList = Array<string>;
-export interface UserEventPayloadCase229ProjectMicrofrontendsCase1 {
+export type UserEventPayloadCase244ProjectMicrofrontendsCase1GroupIdsList = Array<string>;
+export interface UserEventPayloadCase244ProjectMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
   defaultRoute?: string | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
@@ -6191,75 +6561,91 @@ export interface UserEventPayloadCase229ProjectMicrofrontendsCase1 {
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
   freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
-  groupIds: UserEventPayloadCase229ProjectMicrofrontendsCase1GroupIdsList;
+  groupIds: UserEventPayloadCase244ProjectMicrofrontendsCase1GroupIdsList;
   isDefaultApp?: boolean | undefined;
   /** Whether observability data should be routed to this microfrontend project or a root project. */
   routeObservabilityToThisProject?: boolean | undefined;
   /** Timestamp when the microfrontends settings were last updated. */
   updatedAt: number;
 }
-export type UserEventPayloadCase229ProjectMicrofrontendsCase2GroupIdsList = Array<unknown>;
-export interface UserEventPayloadCase229ProjectMicrofrontendsCase2 {
+export type UserEventPayloadCase244ProjectMicrofrontendsCase2GroupIdsList = Array<unknown>;
+export interface UserEventPayloadCase244ProjectMicrofrontendsCase2 {
   enabled: boolean;
   freeProjectForLegacyLimits?: boolean | undefined;
-  groupIds: UserEventPayloadCase229ProjectMicrofrontendsCase2GroupIdsList;
+  groupIds: UserEventPayloadCase244ProjectMicrofrontendsCase2GroupIdsList;
   updatedAt: number;
 }
-export type UserEventPayloadCase229ProjectMicrofrontends =
-  | UserEventPayloadCase229ProjectMicrofrontendsCase0
-  | UserEventPayloadCase229ProjectMicrofrontendsCase1
-  | UserEventPayloadCase229ProjectMicrofrontendsCase2;
-export interface UserEventPayloadCase229Project {
+export type UserEventPayloadCase244ProjectMicrofrontends =
+  | UserEventPayloadCase244ProjectMicrofrontendsCase0
+  | UserEventPayloadCase244ProjectMicrofrontendsCase1
+  | UserEventPayloadCase244ProjectMicrofrontendsCase2;
+export interface UserEventPayloadCase244Project {
   id: string;
-  microfrontends?: UserEventPayloadCase229ProjectMicrofrontends | undefined;
+  microfrontends?: UserEventPayloadCase244ProjectMicrofrontends | undefined;
   name: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase229 {
+export interface UserEventPayloadCase244 {
   group: AuthUserAccountUpdateContextOrganization;
-  prev: UserEventPayloadCase229Prev;
-  project: UserEventPayloadCase229Project;
+  prev: UserEventPayloadCase244Prev;
+  project: UserEventPayloadCase244Project;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase230 {
+export interface UserEventPayloadCase245 {
   alertId: string;
   alertName: string;
 }
-export type UserEventPayloadCase231ActorType = "admin";
+export type UserEventPayloadCase246ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase231 {
+export interface UserEventPayloadCase246 {
   reason: string;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase231ActorType;
+  actorType: UserEventPayloadCase246ActorType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase232 {
+export interface UserEventPayloadCase247 {
   projectId?: string | undefined;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase233 {
+export interface UserEventPayloadCase248 {
+  organizationId: string;
+  organizationSlug: string;
+  targetUser: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase249 {
+  organizationId: string;
+  organizationSlug: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase250 {
   avatar: string | null;
   organizationId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase234 {
+export interface UserEventPayloadCase251 {
   name: string;
   organizationId: string;
   rootTeamId: string;
   slug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase235 {
+export interface UserEventPayloadCase252 {
+  domain: string;
+  organizationId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase253 {
   directoryId: string;
   organizationId: string;
 }
-export type UserEventPayloadCase236NextOrganizationPermissionsItem = "OrgAdmin";
-export type UserEventPayloadCase236NextOrganizationPermissionsList =
-  Array<UserEventPayloadCase236NextOrganizationPermissionsItem>;
-export type UserEventPayloadCase236NextTeamRolesItem =
+export type UserEventPayloadCase254NextOrganizationPermissionsItem = "OrgAdmin";
+export type UserEventPayloadCase254NextOrganizationPermissionsList =
+  Array<UserEventPayloadCase254NextOrganizationPermissionsItem>;
+export type UserEventPayloadCase254NextTeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -6268,9 +6654,9 @@ export type UserEventPayloadCase236NextTeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase236NextTeamRolesList =
-  Array<UserEventPayloadCase236NextTeamRolesItem>;
-export type UserEventPayloadCase236NextTeamsValueTeamRolesItem =
+export type UserEventPayloadCase254NextTeamRolesList =
+  Array<UserEventPayloadCase254NextTeamRolesItem>;
+export type UserEventPayloadCase254NextTeamsValueTeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -6279,46 +6665,46 @@ export type UserEventPayloadCase236NextTeamsValueTeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase236NextTeamsValueTeamRolesList =
-  Array<UserEventPayloadCase236NextTeamsValueTeamRolesItem>;
-export interface UserEventPayloadCase236NextTeamsValue {
-  teamRoles: UserEventPayloadCase236NextTeamsValueTeamRolesList;
+export type UserEventPayloadCase254NextTeamsValueTeamRolesList =
+  Array<UserEventPayloadCase254NextTeamsValueTeamRolesItem>;
+export interface UserEventPayloadCase254NextTeamsValue {
+  teamRoles: UserEventPayloadCase254NextTeamsValueTeamRolesList;
 }
-export type UserEventPayloadCase236NextTeamsMap = {
-  [key: string]: UserEventPayloadCase236NextTeamsValue | undefined;
+export type UserEventPayloadCase254NextTeamsMap = {
+  [key: string]: UserEventPayloadCase254NextTeamsValue | undefined;
 };
-export interface UserEventPayloadCase236Next {
-  organizationPermissions: UserEventPayloadCase236NextOrganizationPermissionsList;
-  teamRoles: UserEventPayloadCase236NextTeamRolesList;
-  teams: UserEventPayloadCase236NextTeamsMap;
+export interface UserEventPayloadCase254Next {
+  organizationPermissions: UserEventPayloadCase254NextOrganizationPermissionsList;
+  teamRoles: UserEventPayloadCase254NextTeamRolesList;
+  teams: UserEventPayloadCase254NextTeamsMap;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase236 {
+export interface UserEventPayloadCase254 {
   directoryGroupId: string;
   directoryId: string;
   groupName: string;
-  next: UserEventPayloadCase236Next;
+  next: UserEventPayloadCase254Next;
   organizationId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase237 {
+export interface UserEventPayloadCase255 {
   directoryGroupId: string;
   directoryId: string;
   organizationId: string;
 }
-export type UserEventPayloadCase238CopiedDomainsList = Array<string>;
-export type UserEventPayloadCase238EnabledTeamIdsList = Array<string>;
+export type UserEventPayloadCase256CopiedDomainsList = Array<string>;
+export type UserEventPayloadCase256EnabledTeamIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase238 {
-  copiedDomains: UserEventPayloadCase238CopiedDomainsList;
+export interface UserEventPayloadCase256 {
+  copiedDomains: UserEventPayloadCase256CopiedDomainsList;
   enabledOrganizationEmu: boolean;
-  enabledTeamIds: UserEventPayloadCase238EnabledTeamIdsList;
+  enabledTeamIds: UserEventPayloadCase256EnabledTeamIdsList;
   organizationId: string;
   teamId: string;
   teamSlug: string;
 }
-export type UserEventPayloadCase239EnforcedTeamIdsList = Array<string>;
-export type UserEventPayloadCase239Trigger =
+export type UserEventPayloadCase257EnforcedTeamIdsList = Array<string>;
+export type UserEventPayloadCase257Trigger =
   | "directory_sync_updated"
   | "domain_deleted"
   | "domain_verified"
@@ -6328,118 +6714,127 @@ export type UserEventPayloadCase239Trigger =
   | "team_participation_updated"
   | "team_removed"
   | "toggle";
-export type UserEventPayloadCase239UnenforcedTeamIdsList = Array<string>;
+export type UserEventPayloadCase257UnenforcedTeamIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase239 {
+export interface UserEventPayloadCase257 {
   enabled: boolean;
-  enforcedTeamIds: UserEventPayloadCase239EnforcedTeamIdsList;
+  enforcedTeamIds: UserEventPayloadCase257EnforcedTeamIdsList;
   organizationId: string;
   previousEnabled: boolean;
-  trigger: UserEventPayloadCase239Trigger;
-  unenforcedTeamIds: UserEventPayloadCase239UnenforcedTeamIdsList;
+  trigger: UserEventPayloadCase257Trigger;
+  unenforcedTeamIds: UserEventPayloadCase257UnenforcedTeamIdsList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase240 {
+export interface UserEventPayloadCase258 {
   enabled: boolean;
   organizationId: string;
   teamId: string;
   teamSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase241 {
+export interface UserEventPayloadCase259 {
   name: string;
   organizationId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase242 {
+export interface UserEventPayloadCase260 {
   organizationId: string;
   slug: string;
 }
-export type UserEventPayloadCase243BillingPlan = "enterprise" | "platform";
+export type UserEventPayloadCase261BillingPlan = "enterprise" | "platform";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase243 {
-  billingPlan: UserEventPayloadCase243BillingPlan;
+export interface UserEventPayloadCase261 {
+  billingPlan: UserEventPayloadCase261BillingPlan;
   organizationId: string;
   teamId: string;
 }
-export type UserEventPayloadCase244NextDsyncMode = "organization" | "team";
-export interface UserEventPayloadCase244Next {
-  dsyncMode: UserEventPayloadCase244NextDsyncMode;
+export type UserEventPayloadCase262NextDsyncMode = "organization" | "team";
+export interface UserEventPayloadCase262Next {
+  dsyncMode: UserEventPayloadCase262NextDsyncMode;
 }
-export type UserEventPayloadCase244PreviousDsyncMode = "organization" | "team";
-export interface UserEventPayloadCase244Previous {
-  dsyncMode: UserEventPayloadCase244PreviousDsyncMode;
+export type UserEventPayloadCase262PreviousDsyncMode = "organization" | "team";
+export interface UserEventPayloadCase262Previous {
+  dsyncMode: UserEventPayloadCase262PreviousDsyncMode;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase244 {
-  next: UserEventPayloadCase244Next;
+export interface UserEventPayloadCase262 {
+  next: UserEventPayloadCase262Next;
   organizationId: string;
-  previous: UserEventPayloadCase244Previous;
+  previous: UserEventPayloadCase262Previous;
   teamId: string;
   teamName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase245 {
+export interface UserEventPayloadCase263 {
+  connectionType: string;
+  enforced: boolean;
+  organizationId: string;
+  organizationSlug: string;
+  sourceTeamId: string;
+  sourceTeamName: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase264 {
   connectionType: string;
   organizationId: string;
   organizationSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase246 {
+export interface UserEventPayloadCase265 {
   enforced: boolean;
   organizationId: string;
   organizationSlug: string;
   previousEnforced: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase247 {
+export interface UserEventPayloadCase266 {
   enabled: boolean;
   organizationId: string;
   organizationSlug: string;
   previousEnabled: boolean;
 }
-export type UserEventPayloadCase248Mode = "organization" | "team";
-export type UserEventPayloadCase248PreviousMode = "organization" | "team";
+export type UserEventPayloadCase267Mode = "organization" | "team";
+export type UserEventPayloadCase267PreviousMode = "organization" | "team";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase248 {
-  mode: UserEventPayloadCase248Mode;
+export interface UserEventPayloadCase267 {
+  mode: UserEventPayloadCase267Mode;
   organizationId: string;
-  previousMode: UserEventPayloadCase248PreviousMode;
+  previousMode: UserEventPayloadCase267PreviousMode;
   teamId: string;
   teamName: string;
 }
-export type UserEventPayloadCase249SiftRoute = UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase268SiftRoute = UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase249 {
+export interface UserEventPayloadCase268 {
   blockReason?: string | undefined;
   cause: string;
   ownerId: string;
-  siftRoute?: UserEventPayloadCase59NewTeam | undefined;
+  siftRoute?: UserEventPayloadCase68NewTeam | undefined;
   source: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase250 {
+export interface UserEventPayloadCase269 {
   cause: string;
   ownerId: string;
   reason?: string | null | undefined;
   source: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase251 {
+export interface UserEventPayloadCase270 {
   blockReason?: string | undefined;
   cause: string;
   ownerId: string;
   source: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase252 {
+export interface UserEventPayloadCase271 {
   cause: string;
   ownerId: string;
   source: string;
 }
-export type UserEventPayloadCase253NextEnforcementScope = "all" | "preview";
-export type UserEventPayloadCase253NextNewResourceBlockingPolicy = "allow" | "block";
-export interface UserEventPayloadCase253Next {
+export type UserEventPayloadCase272NextEnforcementScope = "all" | "preview";
+export type UserEventPayloadCase272NextNewResourceBlockingPolicy = "allow" | "block";
+export interface UserEventPayloadCase272Next {
   allowUnsafeScriptSrcKeywords: boolean;
   computedConnectSrc?: string | undefined;
   computedConnectSrcPreview?: string | undefined;
@@ -6447,15 +6842,15 @@ export interface UserEventPayloadCase253Next {
   computedScriptSrcPreview?: string | undefined;
   connectSrcNotificationsEnabled?: boolean | undefined;
   enabled: boolean;
-  enforcementScope?: UserEventPayloadCase253NextEnforcementScope | undefined;
+  enforcementScope?: UserEventPayloadCase272NextEnforcementScope | undefined;
   enforcePercentage: number;
   mode: string;
-  newResourceBlockingPolicy: UserEventPayloadCase253NextNewResourceBlockingPolicy;
+  newResourceBlockingPolicy: UserEventPayloadCase272NextNewResourceBlockingPolicy;
   omitScriptNonce?: boolean | undefined;
 }
-export type UserEventPayloadCase253PreviousEnforcementScope = "all" | "preview";
-export type UserEventPayloadCase253PreviousNewResourceBlockingPolicy = "allow" | "block";
-export interface UserEventPayloadCase253Previous {
+export type UserEventPayloadCase272PreviousEnforcementScope = "all" | "preview";
+export type UserEventPayloadCase272PreviousNewResourceBlockingPolicy = "allow" | "block";
+export interface UserEventPayloadCase272Previous {
   allowUnsafeScriptSrcKeywords: boolean;
   computedConnectSrc?: string | undefined;
   computedConnectSrcPreview?: string | undefined;
@@ -6463,34 +6858,34 @@ export interface UserEventPayloadCase253Previous {
   computedScriptSrcPreview?: string | undefined;
   connectSrcNotificationsEnabled?: boolean | undefined;
   enabled: boolean;
-  enforcementScope?: UserEventPayloadCase253PreviousEnforcementScope | undefined;
+  enforcementScope?: UserEventPayloadCase272PreviousEnforcementScope | undefined;
   enforcePercentage: number;
   mode: string;
-  newResourceBlockingPolicy: UserEventPayloadCase253PreviousNewResourceBlockingPolicy;
+  newResourceBlockingPolicy: UserEventPayloadCase272PreviousNewResourceBlockingPolicy;
   omitScriptNonce?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase253 {
-  next: UserEventPayloadCase253Next;
-  previous: UserEventPayloadCase253Previous | null;
+export interface UserEventPayloadCase272 {
+  next: UserEventPayloadCase272Next;
+  previous: UserEventPayloadCase272Previous | null;
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase254 {
+export interface UserEventPayloadCase273 {
   headerName: string;
   justification: string;
   previousStatus: string;
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase255 {
+export interface UserEventPayloadCase274 {
   headerName: string;
   justification: string | null;
   previousStatus: string;
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase256 {
+export interface UserEventPayloadCase275 {
   connectSrcCount: number;
   connectSrcNormalizationRulesCleared?: boolean | undefined;
   connectSrcOriginCount: number;
@@ -6501,50 +6896,50 @@ export interface UserEventPayloadCase256 {
   projectName: string;
   scriptCount: number;
 }
-export type UserEventPayloadCase257ApprovalScope = "all" | "preview";
-export type UserEventPayloadCase257Kind = "connectSrc" | "script";
+export type UserEventPayloadCase276ApprovalScope = "all" | "preview";
+export type UserEventPayloadCase276Kind = "connectSrc" | "script";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase257 {
-  approvalScope?: UserEventPayloadCase257ApprovalScope | undefined;
+export interface UserEventPayloadCase276 {
+  approvalScope?: UserEventPayloadCase276ApprovalScope | undefined;
   justification: string;
-  kind?: UserEventPayloadCase257Kind | undefined;
+  kind?: UserEventPayloadCase276Kind | undefined;
   previousStatus: string;
   projectId: string;
   url: string;
 }
-export type UserEventPayloadCase258Type = "script";
+export type UserEventPayloadCase277Type = "script";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase258 {
+export interface UserEventPayloadCase277 {
   projectId: string;
   resourceUrl: string;
-  type: UserEventPayloadCase258Type;
+  type: UserEventPayloadCase277Type;
 }
-export type UserEventPayloadCase259Type = "header";
+export type UserEventPayloadCase278Type = "header";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase259 {
+export interface UserEventPayloadCase278 {
   headerName: string;
   projectId: string;
-  type: UserEventPayloadCase259Type;
+  type: UserEventPayloadCase278Type;
 }
-export type UserEventPayloadCase260Type = "connectSrc";
+export type UserEventPayloadCase279Type = "connectSrc";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase260 {
+export interface UserEventPayloadCase279 {
   projectId: string;
   resourceUrl: string;
-  type: UserEventPayloadCase260Type;
+  type: UserEventPayloadCase279Type;
 }
-export type UserEventPayloadCase261Kind = "connectSrc" | "script";
+export type UserEventPayloadCase280Kind = "connectSrc" | "script";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase261 {
+export interface UserEventPayloadCase280 {
   headerName?: string | undefined;
   justification: string | null;
-  kind?: UserEventPayloadCase261Kind | undefined;
+  kind?: UserEventPayloadCase280Kind | undefined;
   previousStatus: string;
   projectId: string;
   url?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase262 {
+export interface UserEventPayloadCase281 {
   justification: string;
   pattern: string;
   projectId: string;
@@ -6552,12 +6947,12 @@ export interface UserEventPayloadCase262 {
   [key: string]: unknown;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase263 {
+export interface UserEventPayloadCase282 {
   newName: string;
   oldName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase264 {
+export interface UserEventPayloadCase283 {
   connectorId: string;
   connectorService: string;
   connectorType: string;
@@ -6571,103 +6966,118 @@ export interface UserEventPayloadCase264 {
   sessionId: string;
   tenantId?: string | undefined;
 }
-export type UserEventPayloadCase265NextPassportDeploymentType =
+export type UserEventPayloadCase284NextPassportDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase265NextPassport {
+export interface UserEventPayloadCase284NextPassport {
   connectorId: string;
-  deploymentType: UserEventPayloadCase265NextPassportDeploymentType;
+  deploymentType: UserEventPayloadCase284NextPassportDeploymentType;
 }
-export interface UserEventPayloadCase265Next {
-  passport?: UserEventPayloadCase265NextPassport | null | undefined;
+export interface UserEventPayloadCase284Next {
+  passport?: UserEventPayloadCase284NextPassport | null | undefined;
 }
-export type UserEventPayloadCase265PreviousPassportDeploymentType =
+export type UserEventPayloadCase284PreviousPassportDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase265PreviousPassport {
+export interface UserEventPayloadCase284PreviousPassport {
   connectorId: string;
-  deploymentType: UserEventPayloadCase265PreviousPassportDeploymentType;
+  deploymentType: UserEventPayloadCase284PreviousPassportDeploymentType;
 }
-export interface UserEventPayloadCase265Previous {
-  passport?: UserEventPayloadCase265PreviousPassport | null | undefined;
+export interface UserEventPayloadCase284Previous {
+  passport?: UserEventPayloadCase284PreviousPassport | null | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase265 {
-  next: UserEventPayloadCase265Next;
-  previous: UserEventPayloadCase265Previous;
+export interface UserEventPayloadCase284 {
+  next: UserEventPayloadCase284Next;
+  previous: UserEventPayloadCase284Previous;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase266NextPassportDeploymentType =
+export type UserEventPayloadCase285NextPassportDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase266NextPassport {
+export interface UserEventPayloadCase285NextPassport {
   connectorId: string;
-  deploymentType: UserEventPayloadCase266NextPassportDeploymentType;
+  deploymentType: UserEventPayloadCase285NextPassportDeploymentType;
 }
-export interface UserEventPayloadCase266Next {
-  passport?: UserEventPayloadCase266NextPassport | null | undefined;
+export interface UserEventPayloadCase285Next {
+  passport?: UserEventPayloadCase285NextPassport | null | undefined;
 }
-export type UserEventPayloadCase266PreviousPassportDeploymentType =
+export type UserEventPayloadCase285PreviousPassportDeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase266PreviousPassport {
+export interface UserEventPayloadCase285PreviousPassport {
   connectorId: string;
-  deploymentType: UserEventPayloadCase266PreviousPassportDeploymentType;
+  deploymentType: UserEventPayloadCase285PreviousPassportDeploymentType;
 }
-export interface UserEventPayloadCase266Previous {
-  passport?: UserEventPayloadCase266PreviousPassport | null | undefined;
+export interface UserEventPayloadCase285Previous {
+  passport?: UserEventPayloadCase285PreviousPassport | null | undefined;
 }
-export type UserEventPayloadCase266Scope = "organization";
+export type UserEventPayloadCase285Scope = "organization";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase266 {
-  next: UserEventPayloadCase266Next;
-  previous: UserEventPayloadCase266Previous;
-  scope?: UserEventPayloadCase266Scope | undefined;
+export interface UserEventPayloadCase285 {
+  next: UserEventPayloadCase285Next;
+  previous: UserEventPayloadCase285Previous;
+  scope?: UserEventPayloadCase285Scope | undefined;
 }
-export type UserEventPayloadCase267NextItemEnvIdCase1 = "preview" | "production";
-export type UserEventPayloadCase267NextItemEnvId =
+export interface UserEventPayloadCase286Perimeter {
+  id: string;
+  name: string;
+  version: number;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase286 {
+  perimeter: UserEventPayloadCase286Perimeter;
+}
+export type UserEventPayloadCase287Perimeter = UserEventPayloadCase286Perimeter;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase287 {
+  perimeter: UserEventPayloadCase286Perimeter;
+  sourceVersion: number;
+}
+export type UserEventPayloadCase288NextItemEnvIdCase1 = "preview" | "production";
+export type UserEventPayloadCase288NextItemEnvId =
   | string
-  | UserEventPayloadCase267NextItemEnvIdCase1;
-export interface UserEventPayloadCase267NextItem {
+  | UserEventPayloadCase288NextItemEnvIdCase1;
+export interface UserEventPayloadCase288NextItem {
   /** Explicit opt-in; missing values are false. */
   enableBuilds?: boolean | undefined;
   /** Explicit opt-in; missing values are false. Authorization does not enable a workload. */
   enableFunctions?: boolean | undefined;
-  envId: UserEventPayloadCase267NextItemEnvId;
+  envId: UserEventPayloadCase288NextItemEnvId;
   perimeterId: string;
 }
-export type UserEventPayloadCase267NextList = Array<UserEventPayloadCase267NextItem>;
-export type UserEventPayloadCase267PreviousItemEnvIdCase1 = "preview" | "production";
-export type UserEventPayloadCase267PreviousItemEnvId =
+export type UserEventPayloadCase288NextList = Array<UserEventPayloadCase288NextItem>;
+export type UserEventPayloadCase288PreviousItemEnvIdCase1 = "preview" | "production";
+export type UserEventPayloadCase288PreviousItemEnvId =
   | string
-  | UserEventPayloadCase267PreviousItemEnvIdCase1;
-export interface UserEventPayloadCase267PreviousItem {
+  | UserEventPayloadCase288PreviousItemEnvIdCase1;
+export interface UserEventPayloadCase288PreviousItem {
   /** Explicit opt-in; missing values are false. */
   enableBuilds?: boolean | undefined;
   /** Explicit opt-in; missing values are false. Authorization does not enable a workload. */
   enableFunctions?: boolean | undefined;
-  envId: UserEventPayloadCase267PreviousItemEnvId;
+  envId: UserEventPayloadCase288PreviousItemEnvId;
   perimeterId: string;
 }
-export type UserEventPayloadCase267PreviousList = Array<UserEventPayloadCase267PreviousItem>;
+export type UserEventPayloadCase288PreviousList = Array<UserEventPayloadCase288PreviousItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase267 {
-  next: UserEventPayloadCase267NextList;
-  previous: UserEventPayloadCase267PreviousList;
+export interface UserEventPayloadCase288 {
+  next: UserEventPayloadCase288NextList;
+  previous: UserEventPayloadCase288PreviousList;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase268RemovedUsersValueJoinedFromGitUserId = string | number;
-export type UserEventPayloadCase268RemovedUsersValueJoinedFromOrigin =
+export type UserEventPayloadCase289RemovedUsersValueJoinedFromGitUserId = string | number;
+export type UserEventPayloadCase289RemovedUsersValueJoinedFromOrigin =
   | "account-update"
   | "bitbucket"
   | "dsync"
@@ -6688,20 +7098,22 @@ export type UserEventPayloadCase268RemovedUsersValueJoinedFromOrigin =
   | "organization-teams"
   | "saml"
   | "teams";
-export interface UserEventPayloadCase268RemovedUsersValueJoinedFrom {
+export interface UserEventPayloadCase289RemovedUsersValueJoinedFrom {
   commitId?: string | undefined;
   dsyncConnectedAt?: number | undefined;
   dsyncUserId?: string | undefined;
-  gitUserId?: UserEventPayloadCase268RemovedUsersValueJoinedFromGitUserId | undefined;
+  gitUserId?: UserEventPayloadCase289RemovedUsersValueJoinedFromGitUserId | undefined;
   gitUserLogin?: string | undefined;
   idpUserId?: string | undefined;
-  origin: UserEventPayloadCase268RemovedUsersValueJoinedFromOrigin;
+  origin: UserEventPayloadCase289RemovedUsersValueJoinedFromOrigin;
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
-export type UserEventPayloadCase268RemovedUsersValueRole =
+export type UserEventPayloadCase289RemovedUsersValueRole =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -6710,17 +7122,17 @@ export type UserEventPayloadCase268RemovedUsersValueRole =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export interface UserEventPayloadCase268RemovedUsersValue {
+export interface UserEventPayloadCase289RemovedUsersValue {
   confirmed: boolean;
   confirmedAt?: number | undefined;
-  joinedFrom?: UserEventPayloadCase268RemovedUsersValueJoinedFrom | undefined;
-  role: UserEventPayloadCase268RemovedUsersValueRole;
+  joinedFrom?: UserEventPayloadCase289RemovedUsersValueJoinedFrom | undefined;
+  role: UserEventPayloadCase289RemovedUsersValueRole;
 }
-export type UserEventPayloadCase268RemovedUsersMap = {
-  [key: string]: UserEventPayloadCase268RemovedUsersValue | undefined;
+export type UserEventPayloadCase289RemovedUsersMap = {
+  [key: string]: UserEventPayloadCase289RemovedUsersValue | undefined;
 };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase268 {
+export interface UserEventPayloadCase289 {
   /** Whether the plan change was system-initiated rather than human-initiated. */
   automated?: boolean | undefined;
   isDowngrade?: boolean | undefined;
@@ -6732,12 +7144,12 @@ export interface UserEventPayloadCase268 {
   /** Why the plan changed. For downgrades, this is a {@link DowngradeReason} from `@api/pubsub-types` (e.g. `user_downgrade`, `trial_expired`). */
   reason?: string | undefined;
   removedMemberCount?: number | undefined;
-  removedUsers?: UserEventPayloadCase268RemovedUsersMap | undefined;
+  removedUsers?: UserEventPayloadCase289RemovedUsersMap | undefined;
   timestamp?: number | undefined;
   userAgent?: string | undefined;
 }
-export type UserEventPayloadCase269RemovedUsersValueJoinedFromGitUserId = string | number;
-export type UserEventPayloadCase269RemovedUsersValueJoinedFromOrigin =
+export type UserEventPayloadCase290RemovedUsersValueJoinedFromGitUserId = string | number;
+export type UserEventPayloadCase290RemovedUsersValueJoinedFromOrigin =
   | "account-update"
   | "bitbucket"
   | "dsync"
@@ -6758,20 +7170,22 @@ export type UserEventPayloadCase269RemovedUsersValueJoinedFromOrigin =
   | "organization-teams"
   | "saml"
   | "teams";
-export interface UserEventPayloadCase269RemovedUsersValueJoinedFrom {
+export interface UserEventPayloadCase290RemovedUsersValueJoinedFrom {
   commitId?: string | undefined;
   dsyncConnectedAt?: number | undefined;
   dsyncUserId?: string | undefined;
-  gitUserId?: UserEventPayloadCase269RemovedUsersValueJoinedFromGitUserId | undefined;
+  gitUserId?: UserEventPayloadCase290RemovedUsersValueJoinedFromGitUserId | undefined;
   gitUserLogin?: string | undefined;
   idpUserId?: string | undefined;
-  origin: UserEventPayloadCase269RemovedUsersValueJoinedFromOrigin;
+  origin: UserEventPayloadCase290RemovedUsersValueJoinedFromOrigin;
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
-export type UserEventPayloadCase269RemovedUsersValueRole =
+export type UserEventPayloadCase290RemovedUsersValueRole =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -6780,18 +7194,18 @@ export type UserEventPayloadCase269RemovedUsersValueRole =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export interface UserEventPayloadCase269RemovedUsersValue {
+export interface UserEventPayloadCase290RemovedUsersValue {
   confirmed: boolean;
   confirmedAt?: number | undefined;
-  joinedFrom?: UserEventPayloadCase269RemovedUsersValueJoinedFrom | undefined;
-  role: UserEventPayloadCase269RemovedUsersValueRole;
+  joinedFrom?: UserEventPayloadCase290RemovedUsersValueJoinedFrom | undefined;
+  role: UserEventPayloadCase290RemovedUsersValueRole;
 }
-export type UserEventPayloadCase269RemovedUsersMap = {
-  [key: string]: UserEventPayloadCase269RemovedUsersValue | undefined;
+export type UserEventPayloadCase290RemovedUsersMap = {
+  [key: string]: UserEventPayloadCase290RemovedUsersValue | undefined;
 };
-export type UserEventPayloadCase269ActorType = "admin";
+export type UserEventPayloadCase290ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase269 {
+export interface UserEventPayloadCase290 {
   /** Whether the plan change was system-initiated rather than human-initiated. */
   automated?: boolean | undefined;
   isDowngrade?: boolean | undefined;
@@ -6803,166 +7217,166 @@ export interface UserEventPayloadCase269 {
   /** Why the plan changed. For downgrades, this is a {@link DowngradeReason} from `@api/pubsub-types` (e.g. `user_downgrade`, `trial_expired`). */
   reason?: string | undefined;
   removedMemberCount?: number | undefined;
-  removedUsers?: UserEventPayloadCase269RemovedUsersMap | undefined;
+  removedUsers?: UserEventPayloadCase290RemovedUsersMap | undefined;
   timestamp?: number | undefined;
   userAgent?: string | undefined;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase269ActorType;
+  actorType: UserEventPayloadCase290ActorType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase270 {
+export interface UserEventPayloadCase291 {
   currency?: string | undefined;
   enabled?: boolean | undefined;
   price?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase271 {
+export interface UserEventPayloadCase292 {
   previewDeploymentSuffix?: string | null | undefined;
   previousPreviewDeploymentSuffix?: string | null | undefined;
 }
-export type UserEventPayloadCase272ActorType = "admin";
+export type UserEventPayloadCase293ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase272 {
+export interface UserEventPayloadCase293 {
   previousTeamSuffix: string | null;
   projectCount: number;
   reason: string;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase272ActorType;
+  actorType: UserEventPayloadCase293ActorType;
 }
-export type UserEventPayloadCase273EndpointPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase273Endpoint {
+export type UserEventPayloadCase294EndpointPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase294Endpoint {
   awsServiceName: string;
   configurationId: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase273EndpointPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase294EndpointPrivateDnsNamesList | undefined;
   vercelRegion: string;
 }
-export type UserEventPayloadCase273Scope = "network";
+export type UserEventPayloadCase294Scope = "network";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase273 {
-  endpoint: UserEventPayloadCase273Endpoint;
+export interface UserEventPayloadCase294 {
+  endpoint: UserEventPayloadCase294Endpoint;
   networkName?: string | undefined;
-  scope: UserEventPayloadCase273Scope;
+  scope: UserEventPayloadCase294Scope;
 }
-export type UserEventPayloadCase274EndpointPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase274Endpoint {
+export type UserEventPayloadCase295EndpointPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase295Endpoint {
   awsServiceName: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase274EndpointPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase295EndpointPrivateDnsNamesList | undefined;
   projectId: string;
   vercelRegion: string;
 }
-export type UserEventPayloadCase274Scope = "project";
+export type UserEventPayloadCase295Scope = "project";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase274 {
-  endpoint: UserEventPayloadCase274Endpoint;
+export interface UserEventPayloadCase295 {
+  endpoint: UserEventPayloadCase295Endpoint;
   projectName?: string | undefined;
-  scope?: UserEventPayloadCase274Scope | undefined;
+  scope?: UserEventPayloadCase295Scope | undefined;
 }
-export type UserEventPayloadCase275PrivateLinkEndpoint = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase275Scope = "project";
+export type UserEventPayloadCase296PrivateLinkEndpoint = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase296Scope = "project";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase275 {
-  privateLinkEndpoint: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase296 {
+  privateLinkEndpoint: UserEventPayloadCase29AccessPolicy;
   projectId: string;
   projectName?: string | undefined;
-  scope?: UserEventPayloadCase275Scope | undefined;
+  scope?: UserEventPayloadCase296Scope | undefined;
 }
-export type UserEventPayloadCase276CurrentPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase276Current {
+export type UserEventPayloadCase297CurrentPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase297Current {
   awsServiceName: string;
   configurationId: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase276CurrentPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase297CurrentPrivateDnsNamesList | undefined;
   vercelRegion: string;
 }
-export type UserEventPayloadCase276PrevPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase276Prev {
+export type UserEventPayloadCase297PrevPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase297Prev {
   awsServiceName: string;
   configurationId: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase276PrevPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase297PrevPrivateDnsNamesList | undefined;
   vercelRegion: string;
 }
-export type UserEventPayloadCase276Scope = "network";
+export type UserEventPayloadCase297Scope = "network";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase276 {
-  current: UserEventPayloadCase276Current;
+export interface UserEventPayloadCase297 {
+  current: UserEventPayloadCase297Current;
   networkName?: string | undefined;
-  prev: UserEventPayloadCase276Prev;
-  scope: UserEventPayloadCase276Scope;
+  prev: UserEventPayloadCase297Prev;
+  scope: UserEventPayloadCase297Scope;
 }
-export type UserEventPayloadCase277CurrentPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase277Current {
+export type UserEventPayloadCase298CurrentPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase298Current {
   awsServiceName: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase277CurrentPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase298CurrentPrivateDnsNamesList | undefined;
   projectId: string;
   vercelRegion: string;
 }
-export type UserEventPayloadCase277PrevPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase277Prev {
+export type UserEventPayloadCase298PrevPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase298Prev {
   awsServiceName: string;
   id: string;
   name: string;
-  privateDnsNames?: UserEventPayloadCase277PrevPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase298PrevPrivateDnsNamesList | undefined;
   projectId: string;
   vercelRegion: string;
 }
-export type UserEventPayloadCase277Scope = "project";
+export type UserEventPayloadCase298Scope = "project";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase277 {
-  current: UserEventPayloadCase277Current;
-  prev: UserEventPayloadCase277Prev;
+export interface UserEventPayloadCase298 {
+  current: UserEventPayloadCase298Current;
+  prev: UserEventPayloadCase298Prev;
   projectName?: string | undefined;
-  scope?: UserEventPayloadCase277Scope | undefined;
+  scope?: UserEventPayloadCase298Scope | undefined;
 }
-export type UserEventPayloadCase278PreviousEndpointEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase278PreviousEndpointPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase278PreviousEndpoint {
-  environmentIds?: UserEventPayloadCase278PreviousEndpointEnvironmentIdsList | undefined;
+export type UserEventPayloadCase299PreviousEndpointEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase299PreviousEndpointPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase299PreviousEndpoint {
+  environmentIds?: UserEventPayloadCase299PreviousEndpointEnvironmentIdsList | undefined;
   name: string;
-  privateDnsNames?: UserEventPayloadCase278PreviousEndpointPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase299PreviousEndpointPrivateDnsNamesList | undefined;
 }
-export type UserEventPayloadCase278PrivateLinkEndpointEnvironmentIdsList = Array<string>;
-export type UserEventPayloadCase278PrivateLinkEndpointPrivateDnsNamesList = Array<string>;
-export interface UserEventPayloadCase278PrivateLinkEndpoint {
+export type UserEventPayloadCase299PrivateLinkEndpointEnvironmentIdsList = Array<string>;
+export type UserEventPayloadCase299PrivateLinkEndpointPrivateDnsNamesList = Array<string>;
+export interface UserEventPayloadCase299PrivateLinkEndpoint {
   id: string;
-  environmentIds?: UserEventPayloadCase278PrivateLinkEndpointEnvironmentIdsList | undefined;
+  environmentIds?: UserEventPayloadCase299PrivateLinkEndpointEnvironmentIdsList | undefined;
   name: string;
-  privateDnsNames?: UserEventPayloadCase278PrivateLinkEndpointPrivateDnsNamesList | undefined;
+  privateDnsNames?: UserEventPayloadCase299PrivateLinkEndpointPrivateDnsNamesList | undefined;
 }
-export type UserEventPayloadCase278Scope = "project";
+export type UserEventPayloadCase299Scope = "project";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase278 {
-  previousEndpoint: UserEventPayloadCase278PreviousEndpoint;
-  privateLinkEndpoint: UserEventPayloadCase278PrivateLinkEndpoint;
+export interface UserEventPayloadCase299 {
+  previousEndpoint: UserEventPayloadCase299PreviousEndpoint;
+  privateLinkEndpoint: UserEventPayloadCase299PrivateLinkEndpoint;
   projectId: string;
   projectName?: string | undefined;
-  scope?: UserEventPayloadCase278Scope | undefined;
+  scope?: UserEventPayloadCase299Scope | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase279 {
+export interface UserEventPayloadCase300 {
   branch: string;
   projectId?: string | undefined;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase280 {
+export interface UserEventPayloadCase301 {
   directoryListing: boolean;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase281PrevProjectAnalytics {
+export interface UserEventPayloadCase302PrevProjectAnalytics {
   canceledAt?: number | null | undefined;
   disabledAt: number;
   enabledAt: number;
@@ -6971,77 +7385,77 @@ export interface UserEventPayloadCase281PrevProjectAnalytics {
   sampleRatePercent?: number | null | undefined;
   spendLimitInDollars?: number | null | undefined;
 }
-export type UserEventPayloadCase281ProjectAnalytics = UserEventPayloadCase281PrevProjectAnalytics;
+export type UserEventPayloadCase302ProjectAnalytics = UserEventPayloadCase302PrevProjectAnalytics;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase281 {
-  prevProjectAnalytics: UserEventPayloadCase281PrevProjectAnalytics | null;
-  projectAnalytics: UserEventPayloadCase281PrevProjectAnalytics | null;
+export interface UserEventPayloadCase302 {
+  prevProjectAnalytics: UserEventPayloadCase302PrevProjectAnalytics | null;
+  projectAnalytics: UserEventPayloadCase302PrevProjectAnalytics | null;
   projectId: string;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase282PrevProjectAnalyticsMap = { [key: string]: unknown | undefined };
-export type UserEventPayloadCase282ProjectAnalyticsMap = { [key: string]: unknown | undefined };
+export type UserEventPayloadCase303PrevProjectAnalyticsMap = { [key: string]: unknown | undefined };
+export type UserEventPayloadCase303ProjectAnalyticsMap = { [key: string]: unknown | undefined };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase282 {
-  prevProjectAnalytics?: UserEventPayloadCase282PrevProjectAnalyticsMap | null | undefined;
-  projectAnalytics?: UserEventPayloadCase282ProjectAnalyticsMap | undefined;
+export interface UserEventPayloadCase303 {
+  prevProjectAnalytics?: UserEventPayloadCase303PrevProjectAnalyticsMap | null | undefined;
+  projectAnalytics?: UserEventPayloadCase303ProjectAnalyticsMap | undefined;
   projectId: string;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase283Action = "disabled" | "enabled" | "regenerated" | "updated";
+export type UserEventPayloadCase304Action = "disabled" | "enabled" | "regenerated" | "updated";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase283 {
-  action: UserEventPayloadCase283Action;
+export interface UserEventPayloadCase304 {
+  action: UserEventPayloadCase304Action;
   isEnvVar?: boolean | undefined;
   note?: string | undefined;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase284 {
+export interface UserEventPayloadCase305 {
   avatar?: string | null | undefined;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase285 {
+export interface UserEventPayloadCase306 {
   avatarDarkMode?: string | null | undefined;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase286 {
+export interface UserEventPayloadCase307 {
   enableAffectedProjectsDeployments: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase287 {
+export interface UserEventPayloadCase308 {
   enableExternalRewriteCaching: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase288 {
+export interface UserEventPayloadCase309 {
   next: unknown;
   previous: unknown;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase289 {
+export interface UserEventPayloadCase310 {
   productionDeploymentsFastLane: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase290 {
+export interface UserEventPayloadCase311 {
   projectId: string;
   projectName: string;
   sourceFilesOutsideRootDirectory: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase291 {
+export interface UserEventPayloadCase312 {
   /** Deployment whose outcome caused a system-initiated elastic resize. */
   deploymentId?: string | undefined;
   isSystemInitiated?: boolean | undefined;
@@ -7054,7 +7468,7 @@ export interface UserEventPayloadCase291 {
   /** For system-initiated (elastic) changes, why the build machine was upgraded/downgraded. Stored as the raw reason code (see `ElasticChangeReason` in `@api/build-machines-types`) and rendered as a human-readable clause in the activity/audit log. */
   reason?: string | undefined;
 }
-export type UserEventPayloadCase292Widget =
+export type UserEventPayloadCase313Widget =
   | "alert"
   | "analytics-online"
   | "analytics-page-views"
@@ -7072,160 +7486,160 @@ export type UserEventPayloadCase292Widget =
   | "speed-insights-lcp"
   | "speed-insights-res";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase292 {
+export interface UserEventPayloadCase313 {
   projectId: string;
   projectName: string;
-  widget: UserEventPayloadCase292Widget | null;
+  widget: UserEventPayloadCase313Widget | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase293 {
+export interface UserEventPayloadCase314 {
   certId?: string | undefined;
   origin?: string | undefined;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
-export type UserEventPayloadCase294TargetList = Array<string>;
+export type UserEventPayloadCase315TargetList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase294 {
+export interface UserEventPayloadCase315 {
   projectId?: string | undefined;
   projectName?: string | undefined;
-  target?: UserEventPayloadCase294TargetList | undefined;
+  target?: UserEventPayloadCase315TargetList | undefined;
   updated?: boolean | undefined;
 }
-export type UserEventPayloadCase295ProjectNewConnectConfigurationsItemAwsSubnetIdsList =
+export type UserEventPayloadCase316ProjectNewConnectConfigurationsItemAwsSubnetIdsList =
   Array<string>;
-export interface UserEventPayloadCase295ProjectNewConnectConfigurationsItemAws {
+export interface UserEventPayloadCase316ProjectNewConnectConfigurationsItemAws {
   securityGroupId?: string | undefined;
-  subnetIds: UserEventPayloadCase295ProjectNewConnectConfigurationsItemAwsSubnetIdsList;
+  subnetIds: UserEventPayloadCase316ProjectNewConnectConfigurationsItemAwsSubnetIdsList;
 }
-export type UserEventPayloadCase295ProjectNewConnectConfigurationsItemEnvIdCase1 =
+export type UserEventPayloadCase316ProjectNewConnectConfigurationsItemEnvIdCase1 =
   | "preview"
   | "production";
-export type UserEventPayloadCase295ProjectNewConnectConfigurationsItemEnvId =
+export type UserEventPayloadCase316ProjectNewConnectConfigurationsItemEnvId =
   | string
-  | UserEventPayloadCase295ProjectNewConnectConfigurationsItemEnvIdCase1;
-export interface UserEventPayloadCase295ProjectNewConnectConfigurationsItem {
-  aws?: UserEventPayloadCase295ProjectNewConnectConfigurationsItemAws | undefined;
+  | UserEventPayloadCase316ProjectNewConnectConfigurationsItemEnvIdCase1;
+export interface UserEventPayloadCase316ProjectNewConnectConfigurationsItem {
+  aws?: UserEventPayloadCase316ProjectNewConnectConfigurationsItemAws | undefined;
   buildsEnabled: boolean;
   connectConfigurationId: string;
   createdAt: number;
   dc?: string | undefined;
-  envId: UserEventPayloadCase295ProjectNewConnectConfigurationsItemEnvId;
+  envId: UserEventPayloadCase316ProjectNewConnectConfigurationsItemEnvId;
   passive: boolean;
   updatedAt: number;
 }
-export type UserEventPayloadCase295ProjectNewConnectConfigurationsList =
-  Array<UserEventPayloadCase295ProjectNewConnectConfigurationsItem>;
-export type UserEventPayloadCase295ProjectOldConnectConfigurationsItemAwsSubnetIdsList =
+export type UserEventPayloadCase316ProjectNewConnectConfigurationsList =
+  Array<UserEventPayloadCase316ProjectNewConnectConfigurationsItem>;
+export type UserEventPayloadCase316ProjectOldConnectConfigurationsItemAwsSubnetIdsList =
   Array<string>;
-export interface UserEventPayloadCase295ProjectOldConnectConfigurationsItemAws {
+export interface UserEventPayloadCase316ProjectOldConnectConfigurationsItemAws {
   securityGroupId?: string | undefined;
-  subnetIds: UserEventPayloadCase295ProjectOldConnectConfigurationsItemAwsSubnetIdsList;
+  subnetIds: UserEventPayloadCase316ProjectOldConnectConfigurationsItemAwsSubnetIdsList;
 }
-export type UserEventPayloadCase295ProjectOldConnectConfigurationsItemEnvIdCase1 =
+export type UserEventPayloadCase316ProjectOldConnectConfigurationsItemEnvIdCase1 =
   | "preview"
   | "production";
-export type UserEventPayloadCase295ProjectOldConnectConfigurationsItemEnvId =
+export type UserEventPayloadCase316ProjectOldConnectConfigurationsItemEnvId =
   | string
-  | UserEventPayloadCase295ProjectOldConnectConfigurationsItemEnvIdCase1;
-export interface UserEventPayloadCase295ProjectOldConnectConfigurationsItem {
-  aws?: UserEventPayloadCase295ProjectOldConnectConfigurationsItemAws | undefined;
+  | UserEventPayloadCase316ProjectOldConnectConfigurationsItemEnvIdCase1;
+export interface UserEventPayloadCase316ProjectOldConnectConfigurationsItem {
+  aws?: UserEventPayloadCase316ProjectOldConnectConfigurationsItemAws | undefined;
   buildsEnabled: boolean;
   connectConfigurationId: string;
   createdAt: number;
   dc?: string | undefined;
-  envId: UserEventPayloadCase295ProjectOldConnectConfigurationsItemEnvId;
+  envId: UserEventPayloadCase316ProjectOldConnectConfigurationsItemEnvId;
   passive: boolean;
   updatedAt: number;
 }
-export type UserEventPayloadCase295ProjectOldConnectConfigurationsList =
-  Array<UserEventPayloadCase295ProjectOldConnectConfigurationsItem>;
-export interface UserEventPayloadCase295Project {
+export type UserEventPayloadCase316ProjectOldConnectConfigurationsList =
+  Array<UserEventPayloadCase316ProjectOldConnectConfigurationsItem>;
+export interface UserEventPayloadCase316Project {
   id: string;
   name?: string | undefined;
-  newConnectConfigurations: UserEventPayloadCase295ProjectNewConnectConfigurationsList | null;
-  oldConnectConfigurations: UserEventPayloadCase295ProjectOldConnectConfigurationsList | null;
+  newConnectConfigurations: UserEventPayloadCase316ProjectNewConnectConfigurationsList | null;
+  oldConnectConfigurations: UserEventPayloadCase316ProjectOldConnectConfigurationsList | null;
 }
-export type UserEventPayloadCase295Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase316Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase295 {
-  project: UserEventPayloadCase295Project;
-  team: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase316 {
+  project: UserEventPayloadCase316Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase296 = UserEventPayloadCase181UpdateDiffNewProjectsItem;
-export type UserEventPayloadCase297Action = "disabled" | "enabled";
+export type UserEventPayloadCase317 = UserEventPayloadCase194UpdateDiffNewProjectsItem;
+export type UserEventPayloadCase318Action = "disabled" | "enabled";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase297 {
-  action: UserEventPayloadCase297Action;
+export interface UserEventPayloadCase318 {
+  action: UserEventPayloadCase318Action;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase298 {
+export interface UserEventPayloadCase319 {
   name: string;
   ownerId: string;
 }
-export type UserEventPayloadCase299BuildQueueConfiguration =
+export type UserEventPayloadCase320BuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
-export type UserEventPayloadCase299OldBuildQueueConfiguration =
+export type UserEventPayloadCase320OldBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase299 {
-  buildQueueConfiguration?: UserEventPayloadCase299BuildQueueConfiguration | undefined;
+export interface UserEventPayloadCase320 {
+  buildQueueConfiguration?: UserEventPayloadCase320BuildQueueConfiguration | undefined;
   elasticConcurrencyEnabled: boolean;
-  oldBuildQueueConfiguration?: UserEventPayloadCase299OldBuildQueueConfiguration | undefined;
+  oldBuildQueueConfiguration?: UserEventPayloadCase320OldBuildQueueConfiguration | undefined;
   oldElasticConcurrencyEnabled: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase300 {
+export interface UserEventPayloadCase321 {
   autoAssignCustomDomains: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase301 {
+export interface UserEventPayloadCase322 {
   previewDeploymentsEnabled: boolean;
   projectId: string;
   projectName: string;
 }
 /** The type of matching to perform */
-export type UserEventPayloadCase302NextBranchMatcherType = "endsWith" | "equals" | "startsWith";
-export interface UserEventPayloadCase302NextBranchMatcher {
+export type UserEventPayloadCase323NextBranchMatcherType = "endsWith" | "equals" | "startsWith";
+export interface UserEventPayloadCase323NextBranchMatcher {
   /** The pattern to match against branch names */
   pattern: string;
   /** The type of matching to perform */
-  type: UserEventPayloadCase302NextBranchMatcherType;
+  type: UserEventPayloadCase323NextBranchMatcherType;
 }
-export interface UserEventPayloadCase302Next {
-  branchMatcher?: UserEventPayloadCase302NextBranchMatcher | undefined;
+export interface UserEventPayloadCase323Next {
+  branchMatcher?: UserEventPayloadCase323NextBranchMatcher | undefined;
 }
 /** The type of matching to perform */
-export type UserEventPayloadCase302PreviousBranchMatcherType = "endsWith" | "equals" | "startsWith";
-export interface UserEventPayloadCase302PreviousBranchMatcher {
+export type UserEventPayloadCase323PreviousBranchMatcherType = "endsWith" | "equals" | "startsWith";
+export interface UserEventPayloadCase323PreviousBranchMatcher {
   /** The pattern to match against branch names */
   pattern: string;
   /** The type of matching to perform */
-  type: UserEventPayloadCase302PreviousBranchMatcherType;
+  type: UserEventPayloadCase323PreviousBranchMatcherType;
 }
-export interface UserEventPayloadCase302Previous {
-  branchMatcher?: UserEventPayloadCase302PreviousBranchMatcher | undefined;
+export interface UserEventPayloadCase323Previous {
+  branchMatcher?: UserEventPayloadCase323PreviousBranchMatcher | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase302 {
+export interface UserEventPayloadCase323 {
   customEnvironmentId: string;
   customEnvironmentSlug: string;
-  next: UserEventPayloadCase302Next;
-  previous: UserEventPayloadCase302Previous;
+  next: UserEventPayloadCase323Next;
+  previous: UserEventPayloadCase323Previous;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase303 {
+export interface UserEventPayloadCase324 {
   customEnvironmentId: string;
   customEnvironmentSlug: string;
   enableSchedulesByDefault: boolean;
@@ -7233,7 +7647,7 @@ export interface UserEventPayloadCase303 {
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase304 {
+export interface UserEventPayloadCase325 {
   customEnvironmentId: string;
   customEnvironmentSlug: string;
   enableSchedulesByDefault?: boolean | undefined;
@@ -7241,85 +7655,85 @@ export interface UserEventPayloadCase304 {
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase305 {
+export interface UserEventPayloadCase326 {
   customEnvironmentId: string;
   customEnvironmentSlug: string;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase306 {
+export interface UserEventPayloadCase327 {
   enableFunctionsBeta: boolean;
   projectId: string;
   projectName?: string | undefined;
 }
-export interface UserEventPayloadCase307Next {
+export interface UserEventPayloadCase328Next {
   functionDefaultTimeout: number;
 }
-export interface UserEventPayloadCase307Previous {
+export interface UserEventPayloadCase328Previous {
   functionDefaultTimeout: number | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase307 {
-  next: UserEventPayloadCase307Next;
-  previous: UserEventPayloadCase307Previous;
+export interface UserEventPayloadCase328 {
+  next: UserEventPayloadCase328Next;
+  previous: UserEventPayloadCase328Previous;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase308Next {
+export interface UserEventPayloadCase329Next {
   functionDefaultMemoryType: string;
 }
-export interface UserEventPayloadCase308Previous {
+export interface UserEventPayloadCase329Previous {
   functionDefaultMemoryType: string | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase308 {
-  next: UserEventPayloadCase308Next;
-  previous: UserEventPayloadCase308Previous;
+export interface UserEventPayloadCase329 {
+  next: UserEventPayloadCase329Next;
+  previous: UserEventPayloadCase329Previous;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase309NextFunctionDefaultRegionsList = Array<string>;
-export interface UserEventPayloadCase309Next {
-  functionDefaultRegions: UserEventPayloadCase309NextFunctionDefaultRegionsList;
+export type UserEventPayloadCase330NextFunctionDefaultRegionsList = Array<string>;
+export interface UserEventPayloadCase330Next {
+  functionDefaultRegions: UserEventPayloadCase330NextFunctionDefaultRegionsList;
 }
-export type UserEventPayloadCase309PreviousFunctionDefaultRegionsList = Array<string>;
-export interface UserEventPayloadCase309Previous {
-  functionDefaultRegions: UserEventPayloadCase309PreviousFunctionDefaultRegionsList | null;
+export type UserEventPayloadCase330PreviousFunctionDefaultRegionsList = Array<string>;
+export interface UserEventPayloadCase330Previous {
+  functionDefaultRegions: UserEventPayloadCase330PreviousFunctionDefaultRegionsList | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase309 {
-  next: UserEventPayloadCase309Next;
-  previous: UserEventPayloadCase309Previous;
+export interface UserEventPayloadCase330 {
+  next: UserEventPayloadCase330Next;
+  previous: UserEventPayloadCase330Previous;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase310Next {
+export interface UserEventPayloadCase331Next {
   functionZeroConfigFailover: boolean;
 }
-export interface UserEventPayloadCase310Previous {
+export interface UserEventPayloadCase331Previous {
   functionZeroConfigFailover: boolean | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase310 {
-  next: UserEventPayloadCase310Next;
-  previous: UserEventPayloadCase310Previous;
+export interface UserEventPayloadCase331 {
+  next: UserEventPayloadCase331Next;
+  previous: UserEventPayloadCase331Previous;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase311 {
+export interface UserEventPayloadCase332 {
   previewDeploymentSuffix: string | null;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase312 {
+export interface UserEventPayloadCase333 {
   newProjectName: string;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase313NextGitProvider =
+export type UserEventPayloadCase334NextGitProvider =
   | "bitbucket"
   | "cursor-origin"
   | "github"
@@ -7328,12 +7742,12 @@ export type UserEventPayloadCase313NextGitProvider =
   | "gitlab"
   | "v0"
   | "vercel";
-export interface UserEventPayloadCase313Next {
-  gitProvider: UserEventPayloadCase313NextGitProvider;
+export interface UserEventPayloadCase334Next {
+  gitProvider: UserEventPayloadCase334NextGitProvider;
   gitRepoId: string;
   gitRepositoryName: string;
 }
-export type UserEventPayloadCase313PreviousGitProvider =
+export type UserEventPayloadCase334PreviousGitProvider =
   | "bitbucket"
   | "cursor-origin"
   | "github"
@@ -7342,19 +7756,19 @@ export type UserEventPayloadCase313PreviousGitProvider =
   | "gitlab"
   | "v0"
   | "vercel";
-export interface UserEventPayloadCase313Previous {
-  gitProvider: UserEventPayloadCase313PreviousGitProvider;
+export interface UserEventPayloadCase334Previous {
+  gitProvider: UserEventPayloadCase334PreviousGitProvider;
   gitRepoId: string;
   gitRepositoryName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase313 {
-  next: UserEventPayloadCase313Next;
-  previous?: UserEventPayloadCase313Previous | undefined;
+export interface UserEventPayloadCase334 {
+  next: UserEventPayloadCase334Next;
+  previous?: UserEventPayloadCase334Previous | undefined;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase314GitProvider =
+export type UserEventPayloadCase335GitProvider =
   | "bitbucket"
   | "cursor-origin"
   | "github"
@@ -7364,87 +7778,87 @@ export type UserEventPayloadCase314GitProvider =
   | "v0"
   | "vercel";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase314 {
-  gitProvider: UserEventPayloadCase314GitProvider;
+export interface UserEventPayloadCase335 {
+  gitProvider: UserEventPayloadCase335GitProvider;
   gitRepoId: string;
   gitRepositoryName: string;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase315 {
+export interface UserEventPayloadCase336 {
   onPullRequest: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase316 {
+export interface UserEventPayloadCase337 {
   onCommit: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase317 {
+export interface UserEventPayloadCase338 {
   disableRepositoryDispatchEvents: boolean;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase318CreateDeployments = "disabled" | "enabled";
+export type UserEventPayloadCase339CreateDeployments = "disabled" | "enabled";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase318 {
-  createDeployments: UserEventPayloadCase318CreateDeployments;
+export interface UserEventPayloadCase339 {
+  createDeployments: UserEventPayloadCase339CreateDeployments;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase319 {
+export interface UserEventPayloadCase340 {
   projectId: string;
   projectName: string;
   requireVerifiedCommits: boolean | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase320 {
+export interface UserEventPayloadCase341 {
   requireVerifiedCommits: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase321 {
+export interface UserEventPayloadCase342 {
   disableRepositoryDispatchEvents: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase322 {
+export interface UserEventPayloadCase343 {
   gitCommitStatus: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase323 {
+export interface UserEventPayloadCase344 {
   gitLFS: boolean;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase324ConsolidatedGitCommitStatus {
+export interface UserEventPayloadCase345ConsolidatedGitCommitStatus {
   enabled: boolean;
   propagateFailures: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase324 {
-  consolidatedGitCommitStatus: UserEventPayloadCase324ConsolidatedGitCommitStatus | null;
+export interface UserEventPayloadCase345 {
+  consolidatedGitCommitStatus: UserEventPayloadCase345ConsolidatedGitCommitStatus | null;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase325Next {
+export interface UserEventPayloadCase346Next {
   commandForIgnoringBuildStep?: string | undefined;
 }
-export type UserEventPayloadCase325Previous = UserEventPayloadCase325Next;
+export type UserEventPayloadCase346Previous = UserEventPayloadCase346Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase325 {
-  next: UserEventPayloadCase325Next;
-  previous: UserEventPayloadCase325Next;
+export interface UserEventPayloadCase346 {
+  next: UserEventPayloadCase346Next;
+  previous: UserEventPayloadCase346Next;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase326 {
+export interface UserEventPayloadCase347 {
   configuredBy?: string | undefined;
   domain: string;
   gitBranch: string | null;
@@ -7455,7 +7869,7 @@ export interface UserEventPayloadCase326 {
   target: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase327 {
+export interface UserEventPayloadCase348 {
   domain: string;
   projectId: string;
   projectName: string;
@@ -7464,7 +7878,7 @@ export interface UserEventPayloadCase327 {
   target: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase328 {
+export interface UserEventPayloadCase349 {
   domain: string;
   newProjectId: string;
   newProjectName: string;
@@ -7472,36 +7886,36 @@ export interface UserEventPayloadCase328 {
   oldProjectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase329 {
+export interface UserEventPayloadCase350 {
   domain: string;
   projectId: string;
   projectName: string;
   redirect?: string | null | undefined;
   redirectStatusCode?: number | null | undefined;
 }
-export type UserEventPayloadCase330ProjectsItemRole =
+export type UserEventPayloadCase351ProjectsItemRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase330ProjectsItem {
+export interface UserEventPayloadCase351ProjectsItem {
   membershipCreatedAt: number;
   projectId: string;
-  role: UserEventPayloadCase330ProjectsItemRole;
+  role: UserEventPayloadCase351ProjectsItemRole;
 }
-export type UserEventPayloadCase330ProjectsList = Array<UserEventPayloadCase330ProjectsItem>;
-export interface UserEventPayloadCase330TeamMembership {
+export type UserEventPayloadCase351ProjectsList = Array<UserEventPayloadCase351ProjectsItem>;
+export interface UserEventPayloadCase351TeamMembership {
   uid: string;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase330 {
+export interface UserEventPayloadCase351 {
   directoryType?: string | undefined;
-  projects: UserEventPayloadCase330ProjectsList;
-  teamMembership?: UserEventPayloadCase330TeamMembership | undefined;
+  projects: UserEventPayloadCase351ProjectsList;
+  teamMembership?: UserEventPayloadCase351TeamMembership | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase331 {
+export interface UserEventPayloadCase352 {
   configuredBy?: string | null | undefined;
   domain: string;
   prevConfiguredBy?: string | null | undefined;
@@ -7509,84 +7923,84 @@ export interface UserEventPayloadCase331 {
   projectName: string;
   target: string;
 }
-export interface UserEventPayloadCase332Project {
+export interface UserEventPayloadCase353Project {
   id?: string | undefined;
   name: string;
 }
-export type UserEventPayloadCase332ProjectMembershipRole =
+export type UserEventPayloadCase353ProjectMembershipRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase332ProjectMembership {
+export interface UserEventPayloadCase353ProjectMembership {
   createdAt: number;
-  role: UserEventPayloadCase332ProjectMembershipRole;
+  role: UserEventPayloadCase353ProjectMembershipRole;
   uid: string;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase332 {
-  project: UserEventPayloadCase332Project;
-  projectMembership: UserEventPayloadCase332ProjectMembership | null;
+export interface UserEventPayloadCase353 {
+  project: UserEventPayloadCase353Project;
+  projectMembership: UserEventPayloadCase353ProjectMembership | null;
 }
-export type UserEventPayloadCase333ProjectRole =
+export type UserEventPayloadCase354ProjectRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase333Project {
+export interface UserEventPayloadCase354Project {
   id?: string | undefined;
   invitedUserId?: string | undefined;
   invitedUserName: string;
   name: string;
-  role: UserEventPayloadCase333ProjectRole;
+  role: UserEventPayloadCase354ProjectRole;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase333 {
-  project: UserEventPayloadCase333Project;
+export interface UserEventPayloadCase354 {
+  project: UserEventPayloadCase354Project;
 }
-export type UserEventPayloadCase334Project = UserEventPayloadCase332Project;
-export type UserEventPayloadCase334RemovedMembershipRole =
+export type UserEventPayloadCase355Project = UserEventPayloadCase353Project;
+export type UserEventPayloadCase355RemovedMembershipRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase334RemovedMembership {
+export interface UserEventPayloadCase355RemovedMembership {
   createdAt: number;
-  role: UserEventPayloadCase334RemovedMembershipRole;
+  role: UserEventPayloadCase355RemovedMembershipRole;
   uid: string;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase334 {
-  project: UserEventPayloadCase332Project;
-  removedMembership: UserEventPayloadCase334RemovedMembership;
+export interface UserEventPayloadCase355 {
+  project: UserEventPayloadCase353Project;
+  removedMembership: UserEventPayloadCase355RemovedMembership;
 }
-export type UserEventPayloadCase335Project = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase335ProjectMembershipRole =
+export type UserEventPayloadCase356Project = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase356ProjectMembershipRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export type UserEventPayloadCase335ProjectMembershipPreviousRole =
+export type UserEventPayloadCase356ProjectMembershipPreviousRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
-export interface UserEventPayloadCase335ProjectMembership {
+export interface UserEventPayloadCase356ProjectMembership {
   createdAt?: number | undefined;
-  role?: UserEventPayloadCase335ProjectMembershipRole | undefined;
+  role?: UserEventPayloadCase356ProjectMembershipRole | undefined;
   uid?: string | undefined;
-  previousRole?: UserEventPayloadCase335ProjectMembershipPreviousRole | undefined;
+  previousRole?: UserEventPayloadCase356ProjectMembershipPreviousRole | undefined;
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase335 {
-  project: UserEventPayloadCase25AccessPolicy;
-  projectMembership: UserEventPayloadCase335ProjectMembership;
+export interface UserEventPayloadCase356 {
+  project: UserEventPayloadCase29AccessPolicy;
+  projectMembership: UserEventPayloadCase356ProjectMembership;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase336 {
+export interface UserEventPayloadCase357 {
   newProjectId?: string | undefined;
   newProjectName: string;
   originAccountName: string;
@@ -7595,14 +8009,14 @@ export interface UserEventPayloadCase336 {
   transferId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase337 {
+export interface UserEventPayloadCase358 {
   destinationAccountName: string | null;
   previousProjectId?: string | undefined;
   projectName: string;
   transferId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase338 {
+export interface UserEventPayloadCase359 {
   destinationAccountId: string;
   destinationAccountName: string;
   originAccountName: string;
@@ -7611,7 +8025,7 @@ export interface UserEventPayloadCase338 {
   transferId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase339 {
+export interface UserEventPayloadCase360 {
   destinationAccountName: string;
   newProjectId?: string | undefined;
   newProjectName: string;
@@ -7620,637 +8034,677 @@ export interface UserEventPayloadCase339 {
   transferId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase340 {
+export interface UserEventPayloadCase361 {
   projectId: string;
   projectName: string;
   source: string;
 }
-export interface UserEventPayloadCase341OldOptionsAllowlistPathsItem {
+export interface UserEventPayloadCase362OldOptionsAllowlistPathsItem {
   value: string;
 }
-export type UserEventPayloadCase341OldOptionsAllowlistPathsList =
-  Array<UserEventPayloadCase341OldOptionsAllowlistPathsItem>;
-export interface UserEventPayloadCase341OldOptionsAllowlist {
-  paths: UserEventPayloadCase341OldOptionsAllowlistPathsList;
+export type UserEventPayloadCase362OldOptionsAllowlistPathsList =
+  Array<UserEventPayloadCase362OldOptionsAllowlistPathsItem>;
+export interface UserEventPayloadCase362OldOptionsAllowlist {
+  paths: UserEventPayloadCase362OldOptionsAllowlistPathsList;
 }
-export type UserEventPayloadCase341OptionsAllowlistPathsItem =
-  UserEventPayloadCase341OldOptionsAllowlistPathsItem;
-export type UserEventPayloadCase341OptionsAllowlistPathsList =
-  Array<UserEventPayloadCase341OldOptionsAllowlistPathsItem>;
-export interface UserEventPayloadCase341OptionsAllowlist {
-  paths: UserEventPayloadCase341OptionsAllowlistPathsList;
+export type UserEventPayloadCase362OptionsAllowlistPathsItem =
+  UserEventPayloadCase362OldOptionsAllowlistPathsItem;
+export type UserEventPayloadCase362OptionsAllowlistPathsList =
+  Array<UserEventPayloadCase362OldOptionsAllowlistPathsItem>;
+export interface UserEventPayloadCase362OptionsAllowlist {
+  paths: UserEventPayloadCase362OptionsAllowlistPathsList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase341 {
-  oldOptionsAllowlist?: UserEventPayloadCase341OldOptionsAllowlist | null | undefined;
-  optionsAllowlist?: UserEventPayloadCase341OptionsAllowlist | null | undefined;
+export interface UserEventPayloadCase362 {
+  oldOptionsAllowlist?: UserEventPayloadCase362OldOptionsAllowlist | null | undefined;
+  optionsAllowlist?: UserEventPayloadCase362OptionsAllowlist | null | undefined;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase342OldPasswordProtectionCase0DeploymentType =
-  | "all"
-  | "all_except_custom_domains"
-  | "preview"
-  | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase342OldPasswordProtectionCase0 {
-  deploymentType: UserEventPayloadCase342OldPasswordProtectionCase0DeploymentType;
-}
-export type UserEventPayloadCase342OldPasswordProtectionCase1 =
-  | "all"
-  | "all_except_custom_domains"
-  | "preview"
-  | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase342OldPasswordProtection =
-  | UserEventPayloadCase342OldPasswordProtectionCase0
-  | UserEventPayloadCase342OldPasswordProtectionCase1;
-export type UserEventPayloadCase342PasswordProtectionCase0DeploymentType =
-  | "all"
-  | "all_except_custom_domains"
-  | "preview"
-  | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase342PasswordProtectionCase0 {
-  deploymentType: UserEventPayloadCase342PasswordProtectionCase0DeploymentType;
-}
-export type UserEventPayloadCase342PasswordProtectionCase1 =
-  | "all"
-  | "all_except_custom_domains"
-  | "preview"
-  | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase342PasswordProtection =
-  | UserEventPayloadCase342PasswordProtectionCase0
-  | UserEventPayloadCase342PasswordProtectionCase1;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase342 {
-  oldPasswordProtection: UserEventPayloadCase342OldPasswordProtection | null;
+export interface UserEventPayloadCase363 {
+  projectId: string;
+  projectName: string;
+  removeVercelRequestHeaders: boolean;
+}
+export type UserEventPayloadCase364OldPasswordProtectionCase0DeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export interface UserEventPayloadCase364OldPasswordProtectionCase0 {
+  deploymentType: UserEventPayloadCase364OldPasswordProtectionCase0DeploymentType;
+}
+export type UserEventPayloadCase364OldPasswordProtectionCase1 =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export type UserEventPayloadCase364OldPasswordProtection =
+  | UserEventPayloadCase364OldPasswordProtectionCase0
+  | UserEventPayloadCase364OldPasswordProtectionCase1;
+export type UserEventPayloadCase364PasswordProtectionCase0DeploymentType =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export interface UserEventPayloadCase364PasswordProtectionCase0 {
+  deploymentType: UserEventPayloadCase364PasswordProtectionCase0DeploymentType;
+}
+export type UserEventPayloadCase364PasswordProtectionCase1 =
+  | "all"
+  | "all_except_custom_domains"
+  | "preview"
+  | "prod_deployment_urls_and_all_previews";
+export type UserEventPayloadCase364PasswordProtection =
+  | UserEventPayloadCase364PasswordProtectionCase0
+  | UserEventPayloadCase364PasswordProtectionCase1;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase364 {
+  oldPasswordProtection: UserEventPayloadCase364OldPasswordProtection | null;
   passwordChanged?: boolean | undefined;
-  passwordProtection: UserEventPayloadCase342PasswordProtection | null;
+  passwordProtection: UserEventPayloadCase364PasswordProtection | null;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase343 {
+export interface UserEventPayloadCase365 {
   projectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase344 {
+export interface UserEventPayloadCase366 {
   expiresAt: number;
   projectId: string;
 }
-export type UserEventPayloadCase345ReasonCode = "BACKOFFICE" | "BUDGET_REACHED" | "PUBLIC_API";
+export type UserEventPayloadCase367BudgetScope = "organization" | "product" | "project" | "team";
+export type UserEventPayloadCase367ReasonCode = "BACKOFFICE" | "BUDGET_REACHED" | "PUBLIC_API";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase345 {
+export interface UserEventPayloadCase367 {
+  /** The budget that paused the project, for `BUDGET_REACHED`. Absent on older events. */
+  budgetId?: string | undefined;
+  budgetScope?: UserEventPayloadCase367BudgetScope | undefined;
   projectId: string;
   /** Display name for Activity links. Optional for events stored before it was published. */
   projectName?: string | undefined;
-  reasonCode?: UserEventPayloadCase345ReasonCode | undefined;
+  reasonCode?: UserEventPayloadCase367ReasonCode | undefined;
 }
-export type UserEventPayloadCase346Consent = "granted" | "refused";
+export type UserEventPayloadCase368Consent = "granted" | "refused";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase346 {
-  consent: UserEventPayloadCase346Consent;
+export interface UserEventPayloadCase368 {
+  consent: UserEventPayloadCase368Consent;
   projectId?: string | undefined;
   projectName: string;
 }
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase0Project {
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase0Project {
   id: string;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase0Type = "project";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase0Type = "project";
 /** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase0 {
-  project: UserEventPayloadCase347RollbackDescriptionPrincipalCase0Project;
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase0Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase0 {
+  project: UserEventPayloadCase369RollbackDescriptionPrincipalCase0Project;
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase0Type;
 }
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase1App {
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase1App {
   /** The protocol-facing OAuth client ID. This may differ from {@link id} when Client ID Metadata Documents (CIMD) are used. */
   clientId?: string | undefined;
   /** The internal ID of the Vercel App backing this principal. */
   id: string;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase1Type = "app";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase1Type = "app";
 /** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase1 {
-  app: UserEventPayloadCase347RollbackDescriptionPrincipalCase1App;
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase1Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase1 {
+  app: UserEventPayloadCase369RollbackDescriptionPrincipalCase1App;
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase1Type;
 }
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase2Integration {
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase2Integration {
   configurationId: string;
   integrationId: string;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase2Type = "integration";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase2Type = "integration";
 /** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase2 {
-  integration: UserEventPayloadCase347RollbackDescriptionPrincipalCase2Integration;
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase2Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase2 {
+  integration: UserEventPayloadCase369RollbackDescriptionPrincipalCase2Integration;
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase2Type;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase3Type = "system";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase3Type = "system";
 /** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase3 {
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase3Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase3 {
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase3Type;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4Type = "user";
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase0App =
-  UserEventPayloadCase347RollbackDescriptionPrincipalCase1App;
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase0Type = "app";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4Type = "user";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase0App =
+  UserEventPayloadCase369RollbackDescriptionPrincipalCase1App;
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase0Type = "app";
 /** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase0 {
-  app: UserEventPayloadCase347RollbackDescriptionPrincipalCase1App;
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase0Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase0 {
+  app: UserEventPayloadCase369RollbackDescriptionPrincipalCase1App;
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase0Type;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase1Integration =
-  UserEventPayloadCase347RollbackDescriptionPrincipalCase2Integration;
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase1Type = "integration";
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase1Integration =
+  UserEventPayloadCase369RollbackDescriptionPrincipalCase2Integration;
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase1Type = "integration";
 /** Set when a Vercel App or Integration acts on behalf of a {@link User}. Captures user-consented OAuth delegation that the ACL layer may inspect to evaluate scope restrictions. This is NOT for impersonation or token-exchange provenance -- those live on `auth.token`, not on the principal. */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase1 {
-  integration: UserEventPayloadCase347RollbackDescriptionPrincipalCase2Integration;
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase1Type;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase1 {
+  integration: UserEventPayloadCase369RollbackDescriptionPrincipalCase2Integration;
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase1Type;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4Via =
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase0
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase4ViaCase1;
-export type UserEventPayloadCase347RollbackDescriptionPrincipalCase4User =
-  UserEventPayloadCase347RollbackDescriptionPrincipalCase0Project;
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4Via =
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase0
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase4ViaCase1;
+export type UserEventPayloadCase369RollbackDescriptionPrincipalCase4User =
+  UserEventPayloadCase369RollbackDescriptionPrincipalCase0Project;
 /** The principal who rolled back the project. Absent on historical rollbacks where the principal was a user (in this case, see `userId`). */
-export interface UserEventPayloadCase347RollbackDescriptionPrincipalCase4 {
-  type: UserEventPayloadCase347RollbackDescriptionPrincipalCase4Type;
-  via: UserEventPayloadCase347RollbackDescriptionPrincipalCase4Via | null;
-  user: UserEventPayloadCase347RollbackDescriptionPrincipalCase0Project;
+export interface UserEventPayloadCase369RollbackDescriptionPrincipalCase4 {
+  type: UserEventPayloadCase369RollbackDescriptionPrincipalCase4Type;
+  via: UserEventPayloadCase369RollbackDescriptionPrincipalCase4Via | null;
+  user: UserEventPayloadCase369RollbackDescriptionPrincipalCase0Project;
 }
-export type UserEventPayloadCase347RollbackDescriptionPrincipal =
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase0
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase1
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase2
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase3
-  | UserEventPayloadCase347RollbackDescriptionPrincipalCase4;
+export type UserEventPayloadCase369RollbackDescriptionPrincipal =
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase0
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase1
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase2
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase3
+  | UserEventPayloadCase369RollbackDescriptionPrincipalCase4;
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-export interface UserEventPayloadCase347RollbackDescription {
+export interface UserEventPayloadCase369RollbackDescription {
   /** Timestamp of when the rollback was requested. */
   createdAt: number;
   /** User-supplied explanation of why they rolled back the project. Limited to 250 characters. */
   description: string;
-  principal?: UserEventPayloadCase347RollbackDescriptionPrincipal | undefined;
+  principal?: UserEventPayloadCase369RollbackDescriptionPrincipal | undefined;
   /** The ID of the user who rolled back the project, when the principal was a user. */
   userId?: string | undefined;
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase347 {
+export interface UserEventPayloadCase369 {
   deploymentId: string;
   projectAccountId: string;
   projectId: string;
   projectName: string;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: UserEventPayloadCase347RollbackDescription | undefined;
+  rollbackDescription?: UserEventPayloadCase369RollbackDescription | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase348 {
+export interface UserEventPayloadCase370 {
   projectId: string;
   projectName: string;
   targetDeploymentId?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase349 {
+export interface UserEventPayloadCase371 {
   projectId: string;
   projectName: string;
   targetDeploymentId?: string | undefined;
   newTargetPercentage?: number | undefined;
 }
-/** The payload of the event, if requested. */
-export interface UserEventPayloadCase350 {
-  projectId: string;
-  projectName: string;
-  targetDeploymentId?: string | undefined;
-  action?: string | undefined;
+export type UserEventPayloadCase372NextDeploymentSourcesList = Array<unknown>;
+export type UserEventPayloadCase372NextGitSourcesList = Array<unknown>;
+export interface UserEventPayloadCase372Next {
+  deploymentSources?: UserEventPayloadCase372NextDeploymentSourcesList | null | undefined;
+  gitSources?: UserEventPayloadCase372NextGitSourcesList | null | undefined;
 }
-export type UserEventPayloadCase351NextDeploymentSourcesList = Array<unknown>;
-export type UserEventPayloadCase351NextGitSourcesList = Array<unknown>;
-export interface UserEventPayloadCase351Next {
-  deploymentSources?: UserEventPayloadCase351NextDeploymentSourcesList | null | undefined;
-  gitSources?: UserEventPayloadCase351NextGitSourcesList | null | undefined;
-}
-export type UserEventPayloadCase351PreviousDeploymentSourcesList = Array<unknown>;
-export type UserEventPayloadCase351PreviousGitSourcesList = Array<unknown>;
-export interface UserEventPayloadCase351Previous {
-  deploymentSources?: UserEventPayloadCase351PreviousDeploymentSourcesList | null | undefined;
-  gitSources?: UserEventPayloadCase351PreviousGitSourcesList | null | undefined;
+export type UserEventPayloadCase372PreviousDeploymentSourcesList = Array<unknown>;
+export type UserEventPayloadCase372PreviousGitSourcesList = Array<unknown>;
+export interface UserEventPayloadCase372Previous {
+  deploymentSources?: UserEventPayloadCase372PreviousDeploymentSourcesList | null | undefined;
+  gitSources?: UserEventPayloadCase372PreviousGitSourcesList | null | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase351 {
-  next: UserEventPayloadCase351Next | null;
-  previous: UserEventPayloadCase351Previous | null;
+export interface UserEventPayloadCase372 {
+  next: UserEventPayloadCase372Next | null;
+  previous: UserEventPayloadCase372Previous | null;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase352FailoverRegionsList = Array<string>;
+export type UserEventPayloadCase373FailoverRegionsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase352 {
-  failoverRegions?: UserEventPayloadCase352FailoverRegionsList | undefined;
+export interface UserEventPayloadCase373 {
+  failoverRegions?: UserEventPayloadCase373FailoverRegionsList | undefined;
   projectId: string;
   projectName: string;
   region?: string | undefined;
 }
-export type UserEventPayloadCase353NextIssuerMode = "global" | "team";
-export interface UserEventPayloadCase353Next {
-  issuerMode: UserEventPayloadCase353NextIssuerMode;
+export type UserEventPayloadCase374NextIssuerMode = "global" | "team";
+export interface UserEventPayloadCase374Next {
+  issuerMode: UserEventPayloadCase374NextIssuerMode;
 }
-export type UserEventPayloadCase353PreviousIssuerMode = "global" | "team";
-export interface UserEventPayloadCase353Previous {
-  issuerMode?: UserEventPayloadCase353PreviousIssuerMode | undefined;
+export type UserEventPayloadCase374PreviousIssuerMode = "global" | "team";
+export interface UserEventPayloadCase374Previous {
+  issuerMode?: UserEventPayloadCase374PreviousIssuerMode | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase353 {
-  next: UserEventPayloadCase353Next;
-  previous: UserEventPayloadCase353Previous;
+export interface UserEventPayloadCase374 {
+  next: UserEventPayloadCase374Next;
+  previous: UserEventPayloadCase374Previous;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase354 {
+export interface UserEventPayloadCase375 {
   customerSupportCodeVisibility: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase355 {
+export interface UserEventPayloadCase376 {
   gitForkProtection: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase356 {
+export interface UserEventPayloadCase377 {
   projectId: string;
   projectName: string;
   protectedSourcemaps: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase357 {
+export interface UserEventPayloadCase378 {
   inheritDeploymentProtection: boolean;
   projectId: string;
   projectName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase358 {
+export interface UserEventPayloadCase379 {
   projectId: string;
   projectName: string;
   publicSource: boolean;
 }
-export interface UserEventPayloadCase359Next {
+export interface UserEventPayloadCase380Next {
   expiration?: string | undefined;
   expirationCanceled?: string | undefined;
   expirationErrored?: string | undefined;
   expirationProduction?: string | undefined;
 }
-export type UserEventPayloadCase359Previous = UserEventPayloadCase359Next;
+export type UserEventPayloadCase380Previous = UserEventPayloadCase380Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase359 {
-  next: UserEventPayloadCase359Next;
-  previous: UserEventPayloadCase359Next;
+export interface UserEventPayloadCase380 {
+  next: UserEventPayloadCase380Next;
+  previous: UserEventPayloadCase380Next;
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
-export interface UserEventPayloadCase360Next {
+export interface UserEventPayloadCase381Next {
   skewProtectionBoundaryAt: number;
 }
-export interface UserEventPayloadCase360Previous {
+export interface UserEventPayloadCase381Previous {
   skewProtectionBoundaryAt?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase360 {
-  next: UserEventPayloadCase360Next;
-  previous: UserEventPayloadCase360Previous;
+export interface UserEventPayloadCase381 {
+  next: UserEventPayloadCase381Next;
+  previous: UserEventPayloadCase381Previous;
   projectId: string;
   projectName: string;
 }
-export interface UserEventPayloadCase361Next {
+export interface UserEventPayloadCase382Next {
   skewProtectionMaxAge: number;
 }
-export interface UserEventPayloadCase361Previous {
+export interface UserEventPayloadCase382Previous {
   skewProtectionMaxAge?: number | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase361 {
-  next: UserEventPayloadCase361Next;
-  previous: UserEventPayloadCase361Previous;
+export interface UserEventPayloadCase382 {
+  next: UserEventPayloadCase382Next;
+  previous: UserEventPayloadCase382Previous;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase362NextSkewProtectionAllowedDomainsList = Array<string>;
-export interface UserEventPayloadCase362Next {
-  skewProtectionAllowedDomains: UserEventPayloadCase362NextSkewProtectionAllowedDomainsList;
+export type UserEventPayloadCase383NextSkewProtectionAllowedDomainsList = Array<string>;
+export interface UserEventPayloadCase383Next {
+  skewProtectionAllowedDomains: UserEventPayloadCase383NextSkewProtectionAllowedDomainsList;
 }
-export type UserEventPayloadCase362PreviousSkewProtectionAllowedDomainsList = Array<string>;
-export interface UserEventPayloadCase362Previous {
+export type UserEventPayloadCase383PreviousSkewProtectionAllowedDomainsList = Array<string>;
+export interface UserEventPayloadCase383Previous {
   skewProtectionAllowedDomains?:
-    | UserEventPayloadCase362PreviousSkewProtectionAllowedDomainsList
+    | UserEventPayloadCase383PreviousSkewProtectionAllowedDomainsList
     | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase362 {
-  next: UserEventPayloadCase362Next;
-  previous: UserEventPayloadCase362Previous;
+export interface UserEventPayloadCase383 {
+  next: UserEventPayloadCase383Next;
+  previous: UserEventPayloadCase383Previous;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase363OldSsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom =
+export type UserEventPayloadCase384OldSsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363OldSsoProtectionCase0Cve55182MigrationAppliedFrom =
+export type UserEventPayloadCase384OldSsoProtectionCase0Cve55182MigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363OldSsoProtectionCase0DeploymentType =
+export type UserEventPayloadCase384OldSsoProtectionCase0DeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase363OldSsoProtectionCase0 {
+export interface UserEventPayloadCase384OldSsoProtectionCase0 {
   april2026SecurityIncidentMigrationAppliedFrom?:
-    | UserEventPayloadCase363OldSsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom
+    | UserEventPayloadCase384OldSsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom
     | null
     | undefined;
   cve55182MigrationAppliedFrom?:
-    | UserEventPayloadCase363OldSsoProtectionCase0Cve55182MigrationAppliedFrom
+    | UserEventPayloadCase384OldSsoProtectionCase0Cve55182MigrationAppliedFrom
     | null
     | undefined;
-  deploymentType: UserEventPayloadCase363OldSsoProtectionCase0DeploymentType;
+  deploymentType: UserEventPayloadCase384OldSsoProtectionCase0DeploymentType;
 }
-export type UserEventPayloadCase363OldSsoProtectionCase1 =
+export type UserEventPayloadCase384OldSsoProtectionCase1 =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363OldSsoProtection =
-  | UserEventPayloadCase363OldSsoProtectionCase0
-  | UserEventPayloadCase363OldSsoProtectionCase1;
-export type UserEventPayloadCase363SsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom =
+export type UserEventPayloadCase384OldSsoProtection =
+  | UserEventPayloadCase384OldSsoProtectionCase0
+  | UserEventPayloadCase384OldSsoProtectionCase1;
+export type UserEventPayloadCase384SsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363SsoProtectionCase0Cve55182MigrationAppliedFrom =
+export type UserEventPayloadCase384SsoProtectionCase0Cve55182MigrationAppliedFrom =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363SsoProtectionCase0DeploymentType =
+export type UserEventPayloadCase384SsoProtectionCase0DeploymentType =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export interface UserEventPayloadCase363SsoProtectionCase0 {
+export interface UserEventPayloadCase384SsoProtectionCase0 {
   april2026SecurityIncidentMigrationAppliedFrom?:
-    | UserEventPayloadCase363SsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom
+    | UserEventPayloadCase384SsoProtectionCase0April2026SecurityIncidentMigrationAppliedFrom
     | null
     | undefined;
   cve55182MigrationAppliedFrom?:
-    | UserEventPayloadCase363SsoProtectionCase0Cve55182MigrationAppliedFrom
+    | UserEventPayloadCase384SsoProtectionCase0Cve55182MigrationAppliedFrom
     | null
     | undefined;
-  deploymentType: UserEventPayloadCase363SsoProtectionCase0DeploymentType;
+  deploymentType: UserEventPayloadCase384SsoProtectionCase0DeploymentType;
 }
-export type UserEventPayloadCase363SsoProtectionCase1 =
+export type UserEventPayloadCase384SsoProtectionCase1 =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews";
-export type UserEventPayloadCase363SsoProtection =
-  | UserEventPayloadCase363SsoProtectionCase0
-  | UserEventPayloadCase363SsoProtectionCase1;
+export type UserEventPayloadCase384SsoProtection =
+  | UserEventPayloadCase384SsoProtectionCase0
+  | UserEventPayloadCase384SsoProtectionCase1;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase363 {
-  oldSsoProtection: UserEventPayloadCase363OldSsoProtection | null;
+export interface UserEventPayloadCase384 {
+  oldSsoProtection: UserEventPayloadCase384OldSsoProtection | null;
   projectId?: string | undefined;
   projectName?: string | undefined;
-  ssoProtection: UserEventPayloadCase363SsoProtection | null;
+  ssoProtection: UserEventPayloadCase384SsoProtection | null;
 }
-export type UserEventPayloadCase364NextProjectStaticIpsRegionsList = Array<string>;
-export interface UserEventPayloadCase364NextProjectStaticIps {
+export type UserEventPayloadCase385NextProjectStaticIpsRegionsList = Array<string>;
+export interface UserEventPayloadCase385NextProjectStaticIps {
   buildRegion?: string | undefined;
   builds?: boolean | undefined;
   enabled: boolean;
-  regions?: UserEventPayloadCase364NextProjectStaticIpsRegionsList | undefined;
+  regions?: UserEventPayloadCase385NextProjectStaticIpsRegionsList | undefined;
 }
-export interface UserEventPayloadCase364NextProject {
+export interface UserEventPayloadCase385NextProject {
   id?: string | undefined;
-  staticIps: UserEventPayloadCase364NextProjectStaticIps;
+  staticIps: UserEventPayloadCase385NextProjectStaticIps;
 }
-export interface UserEventPayloadCase364Next {
-  project: UserEventPayloadCase364NextProject;
+export interface UserEventPayloadCase385Next {
+  project: UserEventPayloadCase385NextProject;
 }
-export type UserEventPayloadCase364PreviousProjectStaticIpsRegionsList = Array<string>;
-export interface UserEventPayloadCase364PreviousProjectStaticIps {
+export type UserEventPayloadCase385PreviousProjectStaticIpsRegionsList = Array<string>;
+export interface UserEventPayloadCase385PreviousProjectStaticIps {
   buildRegion?: string | undefined;
   builds?: boolean | undefined;
   enabled: boolean;
-  regions?: UserEventPayloadCase364PreviousProjectStaticIpsRegionsList | undefined;
+  regions?: UserEventPayloadCase385PreviousProjectStaticIpsRegionsList | undefined;
 }
-export interface UserEventPayloadCase364PreviousProject {
+export interface UserEventPayloadCase385PreviousProject {
   id?: string | undefined;
-  staticIps: UserEventPayloadCase364PreviousProjectStaticIps;
+  staticIps: UserEventPayloadCase385PreviousProjectStaticIps;
 }
-export interface UserEventPayloadCase364Previous {
-  project: UserEventPayloadCase364PreviousProject;
+export interface UserEventPayloadCase385Previous {
+  project: UserEventPayloadCase385PreviousProject;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase364 {
-  next: UserEventPayloadCase364Next;
-  previous: UserEventPayloadCase364Previous;
+export interface UserEventPayloadCase385 {
+  next: UserEventPayloadCase385Next;
+  previous: UserEventPayloadCase385Previous;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase365AddedAddressesList = Array<string>;
-export type UserEventPayloadCase365OldTrustedIps =
+export type UserEventPayloadCase386AddedAddressesList = Array<string>;
+export type UserEventPayloadCase386OldTrustedIps =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews"
   | "production";
-export type UserEventPayloadCase365RemovedAddressesList = Array<string>;
-export type UserEventPayloadCase365TrustedIps =
+export type UserEventPayloadCase386RemovedAddressesList = Array<string>;
+export type UserEventPayloadCase386TrustedIps =
   | "all"
   | "all_except_custom_domains"
   | "preview"
   | "prod_deployment_urls_and_all_previews"
   | "production";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase365 {
-  addedAddresses?: UserEventPayloadCase365AddedAddressesList | null | undefined;
-  oldTrustedIps?: UserEventPayloadCase365OldTrustedIps | null | undefined;
+export interface UserEventPayloadCase386 {
+  addedAddresses?: UserEventPayloadCase386AddedAddressesList | null | undefined;
+  oldTrustedIps?: UserEventPayloadCase386OldTrustedIps | null | undefined;
   projectId: string;
   projectName: string;
-  removedAddresses?: UserEventPayloadCase365RemovedAddressesList | null | undefined;
-  trustedIps?: UserEventPayloadCase365TrustedIps | null | undefined;
+  removedAddresses?: UserEventPayloadCase386RemovedAddressesList | null | undefined;
+  trustedIps?: UserEventPayloadCase386TrustedIps | null | undefined;
 }
-export type UserEventPayloadCase366AddedProjectsItem = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase366AddedProjectsList = Array<UserEventPayloadCase25AccessPolicy>;
-export type UserEventPayloadCase366AddedProvidersList = Array<string>;
-export type UserEventPayloadCase366RemovedProjectsItem = UserEventPayloadCase25AccessPolicy;
-export type UserEventPayloadCase366RemovedProjectsList = Array<UserEventPayloadCase25AccessPolicy>;
-export type UserEventPayloadCase366RemovedProvidersList = Array<string>;
+export type UserEventPayloadCase387AddedProjectsItem = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase387AddedProjectsList = Array<UserEventPayloadCase29AccessPolicy>;
+export type UserEventPayloadCase387AddedProvidersList = Array<string>;
+export type UserEventPayloadCase387RemovedProjectsItem = UserEventPayloadCase29AccessPolicy;
+export type UserEventPayloadCase387RemovedProjectsList = Array<UserEventPayloadCase29AccessPolicy>;
+export type UserEventPayloadCase387RemovedProvidersList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase366 {
-  addedProjects: UserEventPayloadCase366AddedProjectsList;
-  addedProviders: UserEventPayloadCase366AddedProvidersList;
+export interface UserEventPayloadCase387 {
+  addedProjects: UserEventPayloadCase387AddedProjectsList;
+  addedProviders: UserEventPayloadCase387AddedProvidersList;
   enableVercelCiSameRepository?: boolean | undefined;
   projectId: string;
   projectName: string;
-  removedProjects: UserEventPayloadCase366RemovedProjectsList;
-  removedProviders: UserEventPayloadCase366RemovedProvidersList;
+  removedProjects: UserEventPayloadCase387RemovedProjectsList;
+  removedProviders: UserEventPayloadCase387RemovedProvidersList;
 }
-export type UserEventPayloadCase367ReasonCode = "BACKOFFICE" | "PUBLIC_API";
+export type UserEventPayloadCase388ReasonCode = "BACKOFFICE" | "PUBLIC_API";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase367 {
+export interface UserEventPayloadCase388 {
   projectId: string;
   /** Display name for Activity links. Optional for events stored before it was published. */
   projectName?: string | undefined;
-  reasonCode?: UserEventPayloadCase367ReasonCode | undefined;
+  reasonCode?: UserEventPayloadCase388ReasonCode | undefined;
 }
-export interface UserEventPayloadCase368PrevProjectWebAnalytics {
+export interface UserEventPayloadCase389PrevProjectWebAnalytics {
   canceledAt?: number | undefined;
   disabledAt?: number | undefined;
   enabledAt?: number | undefined;
   hasData?: boolean | undefined;
   id: string;
 }
-export type UserEventPayloadCase368ProjectWebAnalytics =
-  UserEventPayloadCase368PrevProjectWebAnalytics;
+export type UserEventPayloadCase389ProjectWebAnalytics =
+  UserEventPayloadCase389PrevProjectWebAnalytics;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase368 {
-  prevProjectWebAnalytics?: UserEventPayloadCase368PrevProjectWebAnalytics | null | undefined;
+export interface UserEventPayloadCase389 {
+  prevProjectWebAnalytics?: UserEventPayloadCase389PrevProjectWebAnalytics | null | undefined;
   projectId: string;
   projectName: string;
-  projectWebAnalytics?: UserEventPayloadCase368PrevProjectWebAnalytics | undefined;
+  projectWebAnalytics?: UserEventPayloadCase389PrevProjectWebAnalytics | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase369 {
+export interface UserEventPayloadCase390 {
   gitProvider: string;
   gitProviderGroupDescriptor: string;
   gitScope: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase370 {
+export interface UserEventPayloadCase391 {
   connectionId: string;
   connectionType: string;
 }
-export type UserEventPayloadCase371ActorType = "admin";
-export type UserEventPayloadCase371CertificateFingerprintsList = Array<string>;
-export type UserEventPayloadCase371PreviousCertificateFingerprintsList = Array<string>;
+export type UserEventPayloadCase392ActorType = "admin";
+export type UserEventPayloadCase392CertificateFingerprintsList = Array<string>;
+export type UserEventPayloadCase392PreviousCertificateFingerprintsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase371 {
+export interface UserEventPayloadCase392 {
   connectionId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase371ActorType;
-  certificateFingerprints: UserEventPayloadCase371CertificateFingerprintsList;
+  actorType: UserEventPayloadCase392ActorType;
+  certificateFingerprints: UserEventPayloadCase392CertificateFingerprintsList;
+  attributeMappingChanged?: boolean | undefined;
   created: boolean;
   previousCertificateFingerprints?:
-    | UserEventPayloadCase371PreviousCertificateFingerprintsList
+    | UserEventPayloadCase392PreviousCertificateFingerprintsList
     | undefined;
+  /** The IdP or the user id rule changed, so members re-bind by email once. */
+  rebind?: boolean | undefined;
 }
-export type UserEventPayloadCase372ActorType = "admin";
-export type UserEventPayloadCase372CertificateFingerprintsList = Array<string>;
+export type UserEventPayloadCase393CertificateFingerprintsList = Array<string>;
+export type UserEventPayloadCase393PreviousCertificateFingerprintsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase372 {
+export interface UserEventPayloadCase393 {
+  attributeMappingChanged?: boolean | undefined;
+  certificateFingerprints: UserEventPayloadCase393CertificateFingerprintsList;
+  connectionId: string;
+  created: boolean;
+  previousCertificateFingerprints?:
+    | UserEventPayloadCase393PreviousCertificateFingerprintsList
+    | undefined;
+  /** The IdP or the user id rule changed, so members re-bind by email once. */
+  rebind?: boolean | undefined;
+}
+export type UserEventPayloadCase394ActorType = "admin";
+export type UserEventPayloadCase394CertificateFingerprintsList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase394 {
   connectionId?: string | undefined;
   actorName?: string | undefined;
-  actorType?: UserEventPayloadCase372ActorType | undefined;
-  certificateFingerprints?: UserEventPayloadCase372CertificateFingerprintsList | undefined;
+  actorType?: UserEventPayloadCase394ActorType | undefined;
+  certificateFingerprints?: UserEventPayloadCase394CertificateFingerprintsList | undefined;
 }
-export type UserEventPayloadCase373ActorType = "admin";
+export type UserEventPayloadCase395CertificateFingerprintsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase373 {
+export interface UserEventPayloadCase395 {
+  certificateFingerprints: UserEventPayloadCase395CertificateFingerprintsList;
   connectionId: string;
+}
+export type UserEventPayloadCase396To = "vercel" | "workos";
+export type UserEventPayloadCase396CertificateFingerprintsList = Array<string>;
+export type UserEventPayloadCase396ActorType = "admin";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase396 {
+  connectionId?: string | undefined;
+  to?: UserEventPayloadCase396To | undefined;
+  certificateFingerprints?: UserEventPayloadCase396CertificateFingerprintsList | undefined;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase373ActorType;
+  actorType?: UserEventPayloadCase396ActorType | undefined;
+}
+export type UserEventPayloadCase397ActorType = "admin";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase397 {
+  connectionId?: string | undefined;
+  actorName?: string | undefined;
+  actorType?: UserEventPayloadCase397ActorType | undefined;
   keyId: string;
 }
-export type UserEventPayloadCase374ActorType = "admin";
+export type UserEventPayloadCase398ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase374 {
-  connectionId: string;
+export interface UserEventPayloadCase398 {
+  connectionId?: string | undefined;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase374ActorType;
+  actorType?: UserEventPayloadCase398ActorType | undefined;
   keyId: string;
   signingEnabled: boolean;
   signingKeyId: string | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase375 {
+export interface UserEventPayloadCase399 {
+  projectId: string;
+  sandboxId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase400 {
   alias: string;
   projectId?: string | undefined;
   sandboxId?: string | undefined;
   sandboxName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase376 {
-  driveName: string;
+export interface UserEventPayloadCase401 {
+  expiryNotificationLeadTime: number;
   projectId: string;
   projectName: string;
-  region: string;
+  sandboxName: string;
 }
+export type UserEventPayloadCase402Processes = "preserve" | "stop";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase377 {
-  driveName: string;
+export interface UserEventPayloadCase402 {
+  processes: UserEventPayloadCase402Processes;
   projectId: string;
-  projectName: string;
-  region: string;
-  snapshotId: string;
-  snapshotName: string;
+  sandboxName: string;
 }
-export type UserEventPayloadCase378TargetRegionsList = Array<string>;
+export type UserEventPayloadCase403TargetRegionsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase378 {
+export interface UserEventPayloadCase403 {
   projectId: string;
   projectName: string;
   snapshotId: string;
-  targetRegions: UserEventPayloadCase378TargetRegionsList;
+  targetRegions: UserEventPayloadCase403TargetRegionsList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase379 {
+export interface UserEventPayloadCase404 {
   email: string;
   name: string;
   projectId: string;
   sandboxId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase380 {
+export interface UserEventPayloadCase405 {
   instances: number;
   url: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase381 {
+export interface UserEventPayloadCase406 {
   email: string;
   verified: boolean;
 }
-export type UserEventPayloadCase382ActorType = "admin";
+export type UserEventPayloadCase407ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase382 {
+export interface UserEventPayloadCase407 {
   email: string;
   verified: boolean;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase382ActorType;
+  actorType: UserEventPayloadCase407ActorType;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase383 = UserEventPayloadCase172PreviousRule;
-export type UserEventPayloadCase384NameCase1 = UserEventPayloadCase59NewTeam;
-export type UserEventPayloadCase384Name = string | UserEventPayloadCase59NewTeam;
+export type UserEventPayloadCase408 = UserEventPayloadCase185PreviousRule;
+export type UserEventPayloadCase409NameCase1 = UserEventPayloadCase68NewTeam;
+export type UserEventPayloadCase409Name = string | UserEventPayloadCase68NewTeam;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase384 {
-  name: UserEventPayloadCase384Name;
+export interface UserEventPayloadCase409 {
+  name: UserEventPayloadCase409Name;
   uid: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase385 {
+export interface UserEventPayloadCase410 {
   newName: string;
   oldName: string;
   uid?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase386 {
+export interface UserEventPayloadCase411 {
   enabled: boolean;
   firstEnabledAt?: number | undefined;
   projectId?: string | undefined;
@@ -8258,57 +8712,58 @@ export interface UserEventPayloadCase386 {
   updatedAt: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase387 {
+export interface UserEventPayloadCase412 {
   bio: string;
 }
-export interface UserEventPayloadCase388ScalingRulesValue {
+export interface UserEventPayloadCase413ScalingRulesValue {
   max: number;
   min: number;
 }
-export type UserEventPayloadCase388ScalingRulesMap = {
-  [key: string]: UserEventPayloadCase388ScalingRulesValue | undefined;
+export type UserEventPayloadCase413ScalingRulesMap = {
+  [key: string]: UserEventPayloadCase413ScalingRulesValue | undefined;
 };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase388 {
+export interface UserEventPayloadCase413 {
   max: number;
   min: number;
-  scalingRules: UserEventPayloadCase388ScalingRulesMap;
+  scalingRules: UserEventPayloadCase413ScalingRulesMap;
   url: string;
 }
-export type UserEventPayloadCase389FactorsItemOrigin =
+export type UserEventPayloadCase414FactorsItemOrigin =
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "github"
   | "gitlab"
   | "google"
   | "otp"
   | "saml";
-export interface UserEventPayloadCase389FactorsItem {
+export interface UserEventPayloadCase414FactorsItem {
   legacy?: boolean | undefined;
-  origin: UserEventPayloadCase389FactorsItemOrigin;
+  origin: UserEventPayloadCase414FactorsItemOrigin;
   ssoType?: string | undefined;
   teamId?: string | undefined;
   username?: string | undefined;
 }
-export type UserEventPayloadCase389FactorsList = Array<UserEventPayloadCase389FactorsItem>;
-export type UserEventPayloadCase389GeolocationCityNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase389GeolocationCity = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase389GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase389GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase389GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase389GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase389Geolocation = UserEventPayloadCase221Geolocation;
+export type UserEventPayloadCase414FactorsList = Array<UserEventPayloadCase414FactorsItem>;
+export type UserEventPayloadCase414GeolocationCityNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase414GeolocationCity = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase414GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase414GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase414GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase414GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase414Geolocation = UserEventPayloadCase236Geolocation;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase389 {
+export interface UserEventPayloadCase414 {
   env?: string | undefined;
-  factors?: UserEventPayloadCase389FactorsList | undefined;
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
+  factors?: UserEventPayloadCase414FactorsList | undefined;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
   os?: string | undefined;
   ssoType?: string | undefined;
   userAgent?: string | undefined;
@@ -8323,7 +8778,7 @@ export interface UserEventPayloadCase389 {
   viaSamlSso?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase390 {
+export interface UserEventPayloadCase415 {
   bitbucketEmail: string;
   bitbucketLogin: string;
   bitbucketName: string;
@@ -8332,14 +8787,14 @@ export interface UserEventPayloadCase390 {
   zeitAccountType: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase391 {
+export interface UserEventPayloadCase416 {
   email: string;
   githubLogin: string;
   zeitAccount: string;
   zeitAccountType: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase392 {
+export interface UserEventPayloadCase417 {
   email: string;
   gitlabEmail: string;
   gitlabLogin: string;
@@ -8347,40 +8802,30 @@ export interface UserEventPayloadCase392 {
   zeitAccount: string;
   zeitAccountType: string;
 }
-export interface UserEventPayloadCase393Previous {
+export interface UserEventPayloadCase418Previous {
   sampleRatePercent: number | null;
   spendLimitInDollars: number | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase393 {
+export interface UserEventPayloadCase418 {
   analyticsId?: string | undefined;
-  previous: UserEventPayloadCase393Previous;
+  previous: UserEventPayloadCase418Previous;
   projectId?: string | undefined;
   projectName?: string | undefined;
   sampleRatePercent: number | null;
   spendLimitInDollars: number | null;
 }
-/** Array of 50, 75, 100 to keep track of notifications sent out */
-export type UserEventPayloadCase394BudgetBudgetItemNotifiedAtList = Array<number>;
-/** Array of the last 3 months of spend data */
-export type UserEventPayloadCase394BudgetBudgetItemPreviousSpendList = Array<number>;
-/** The acive pricing plan the team is billed with */
-export type UserEventPayloadCase394BudgetBudgetItemPricingPlan =
-  | "flex"
-  | "legacy"
-  | "platform"
-  | "plus"
-  | "unbundled";
+export type UserEventPayloadCase419BudgetBudgetItemNotifiedAtList = Array<number>;
+export type UserEventPayloadCase419BudgetBudgetItemPreviousSpendList = Array<number>;
 /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-export type UserEventPayloadCase394BudgetBudgetItemScope =
+export type UserEventPayloadCase419BudgetBudgetItemScope =
   | "organization"
   | "product"
   | "project"
   | "team";
-/** The budget type */
-export type UserEventPayloadCase394BudgetBudgetItemType = "fixed";
+export type UserEventPayloadCase419BudgetBudgetItemType = "fixed";
 /** Represents a budget for tracking and notifying teams on their spending. */
-export interface UserEventPayloadCase394BudgetBudgetItem {
+export interface UserEventPayloadCase419BudgetBudgetItem {
   /** Date time when budget is created */
   createdAt: number;
   /** Budget amount (USD / dollars) */
@@ -8389,57 +8834,40 @@ export interface UserEventPayloadCase394BudgetBudgetItem {
   id: string;
   /** Is the budget currently active for a customer */
   isActive: boolean;
-  /** Array of 50, 75, 100 to keep track of notifications sent out */
-  notifiedAt: UserEventPayloadCase394BudgetBudgetItemNotifiedAtList;
+  notifiedAt: UserEventPayloadCase419BudgetBudgetItemNotifiedAtList;
   /** Should all projects be paused if budget is exceeded */
   pauseProjects?: boolean | undefined;
-  /** Array of the last 3 months of spend data */
-  previousSpend: UserEventPayloadCase394BudgetBudgetItemPreviousSpendList;
-  /** The acive pricing plan the team is billed with */
-  pricingPlan?: UserEventPayloadCase394BudgetBudgetItemPricingPlan | undefined;
+  previousSpend: UserEventPayloadCase419BudgetBudgetItemPreviousSpendList;
   /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-  scope?: UserEventPayloadCase394BudgetBudgetItemScope | undefined;
+  scope?: UserEventPayloadCase419BudgetBudgetItemScope | undefined;
   /** What the budget caps: team id for `team`, organization id for `organization`, project id for `project`, product id for `product`. */
   scopeId?: string | undefined;
   /** Partition key */
   teamId: string;
-  /** The budget type */
-  type: UserEventPayloadCase394BudgetBudgetItemType;
+  type: UserEventPayloadCase419BudgetBudgetItemType;
   /** Date time when budget is updated last */
   updatedAt?: number | undefined;
   /** Webhook id that corresponds to a webhook in Cosmos webhook collection */
   webhookId?: string | undefined;
-  /** Keep track if the webhook has been called for the month */
-  webhookNotified?: boolean | undefined;
 }
-export interface UserEventPayloadCase394Budget {
+export interface UserEventPayloadCase419Budget {
   /** Represents a budget for tracking and notifying teams on their spending. */
-  budgetItem: UserEventPayloadCase394BudgetBudgetItem;
+  budgetItem: UserEventPayloadCase419BudgetBudgetItem;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase394 {
-  budget: UserEventPayloadCase394Budget;
+export interface UserEventPayloadCase419 {
+  budget: UserEventPayloadCase419Budget;
   /** Stored for project budgets. Same value as `budget.scopeId`. */
   projectId?: string | undefined;
   projectName?: string | undefined;
 }
-/** Array of 50, 75, 100 to keep track of notifications sent out */
-export type UserEventPayloadCase395BudgetNotifiedAtList = Array<number>;
-/** Array of the last 3 months of spend data */
-export type UserEventPayloadCase395BudgetPreviousSpendList = Array<number>;
-/** The acive pricing plan the team is billed with */
-export type UserEventPayloadCase395BudgetPricingPlan =
-  | "flex"
-  | "legacy"
-  | "platform"
-  | "plus"
-  | "unbundled";
+export type UserEventPayloadCase420BudgetNotifiedAtList = Array<number>;
+export type UserEventPayloadCase420BudgetPreviousSpendList = Array<number>;
 /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-export type UserEventPayloadCase395BudgetScope = "organization" | "product" | "project" | "team";
-/** The budget type */
-export type UserEventPayloadCase395BudgetType = "fixed";
+export type UserEventPayloadCase420BudgetScope = "organization" | "product" | "project" | "team";
+export type UserEventPayloadCase420BudgetType = "fixed";
 /** Represents a budget for tracking and notifying teams on their spending. */
-export interface UserEventPayloadCase395Budget {
+export interface UserEventPayloadCase420Budget {
   /** Date time when budget is created */
   createdAt: number;
   /** Budget amount (USD / dollars) */
@@ -8448,33 +8876,26 @@ export interface UserEventPayloadCase395Budget {
   id: string;
   /** Is the budget currently active for a customer */
   isActive: boolean;
-  /** Array of 50, 75, 100 to keep track of notifications sent out */
-  notifiedAt: UserEventPayloadCase395BudgetNotifiedAtList;
+  notifiedAt: UserEventPayloadCase420BudgetNotifiedAtList;
   /** Should all projects be paused if budget is exceeded */
   pauseProjects?: boolean | undefined;
-  /** Array of the last 3 months of spend data */
-  previousSpend: UserEventPayloadCase395BudgetPreviousSpendList;
-  /** The acive pricing plan the team is billed with */
-  pricingPlan?: UserEventPayloadCase395BudgetPricingPlan | undefined;
+  previousSpend: UserEventPayloadCase420BudgetPreviousSpendList;
   /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-  scope?: UserEventPayloadCase395BudgetScope | undefined;
+  scope?: UserEventPayloadCase420BudgetScope | undefined;
   /** What the budget caps: team id for `team`, organization id for `organization`, project id for `project`, product id for `product`. */
   scopeId?: string | undefined;
   /** Partition key */
   teamId: string;
-  /** The budget type */
-  type: UserEventPayloadCase395BudgetType;
+  type: UserEventPayloadCase420BudgetType;
   /** Date time when budget is updated last */
   updatedAt?: number | undefined;
   /** Webhook id that corresponds to a webhook in Cosmos webhook collection */
   webhookId?: string | undefined;
-  /** Keep track if the webhook has been called for the month */
-  webhookNotified?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase395 {
+export interface UserEventPayloadCase420 {
   /** Represents a budget for tracking and notifying teams on their spending. */
-  budget: UserEventPayloadCase395Budget;
+  budget: UserEventPayloadCase420Budget;
   /** Stored for project budgets. Same value as `budget.scopeId`. */
   projectId?: string | undefined;
   projectName?: string | undefined;
@@ -8482,23 +8903,13 @@ export interface UserEventPayloadCase395 {
   scopeName?: string | undefined;
   webhookUrl?: string | undefined;
 }
-/** Array of 50, 75, 100 to keep track of notifications sent out */
-export type UserEventPayloadCase396BudgetNotifiedAtList = Array<number>;
-/** Array of the last 3 months of spend data */
-export type UserEventPayloadCase396BudgetPreviousSpendList = Array<number>;
-/** The acive pricing plan the team is billed with */
-export type UserEventPayloadCase396BudgetPricingPlan =
-  | "flex"
-  | "legacy"
-  | "platform"
-  | "plus"
-  | "unbundled";
+export type UserEventPayloadCase421BudgetNotifiedAtList = Array<number>;
+export type UserEventPayloadCase421BudgetPreviousSpendList = Array<number>;
 /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-export type UserEventPayloadCase396BudgetScope = "organization" | "product" | "project" | "team";
-/** The budget type */
-export type UserEventPayloadCase396BudgetType = "fixed";
+export type UserEventPayloadCase421BudgetScope = "organization" | "product" | "project" | "team";
+export type UserEventPayloadCase421BudgetType = "fixed";
 /** Represents a budget for tracking and notifying teams on their spending. */
-export interface UserEventPayloadCase396Budget {
+export interface UserEventPayloadCase421Budget {
   /** Date time when budget is created */
   createdAt: number;
   /** Budget amount (USD / dollars) */
@@ -8507,56 +8918,39 @@ export interface UserEventPayloadCase396Budget {
   id: string;
   /** Is the budget currently active for a customer */
   isActive: boolean;
-  /** Array of 50, 75, 100 to keep track of notifications sent out */
-  notifiedAt: UserEventPayloadCase396BudgetNotifiedAtList;
+  notifiedAt: UserEventPayloadCase421BudgetNotifiedAtList;
   /** Should all projects be paused if budget is exceeded */
   pauseProjects?: boolean | undefined;
-  /** Array of the last 3 months of spend data */
-  previousSpend: UserEventPayloadCase396BudgetPreviousSpendList;
-  /** The acive pricing plan the team is billed with */
-  pricingPlan?: UserEventPayloadCase396BudgetPricingPlan | undefined;
+  previousSpend: UserEventPayloadCase421BudgetPreviousSpendList;
   /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-  scope?: UserEventPayloadCase396BudgetScope | undefined;
+  scope?: UserEventPayloadCase421BudgetScope | undefined;
   /** What the budget caps: team id for `team`, organization id for `organization`, project id for `project`, product id for `product`. */
   scopeId?: string | undefined;
   /** Partition key */
   teamId: string;
-  /** The budget type */
-  type: UserEventPayloadCase396BudgetType;
+  type: UserEventPayloadCase421BudgetType;
   /** Date time when budget is updated last */
   updatedAt?: number | undefined;
   /** Webhook id that corresponds to a webhook in Cosmos webhook collection */
   webhookId?: string | undefined;
-  /** Keep track if the webhook has been called for the month */
-  webhookNotified?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase396 {
+export interface UserEventPayloadCase421 {
   /** Represents a budget for tracking and notifying teams on their spending. */
-  budget: UserEventPayloadCase396Budget;
+  budget: UserEventPayloadCase421Budget;
   /** Stored for project budgets. Same value as `budget.scopeId`. */
   projectId?: string | undefined;
   projectName?: string | undefined;
   /** Stored when activity clients can't resolve the name, as for products. */
   scopeName?: string | undefined;
 }
-/** Array of 50, 75, 100 to keep track of notifications sent out */
-export type UserEventPayloadCase397BudgetNotifiedAtList = Array<number>;
-/** Array of the last 3 months of spend data */
-export type UserEventPayloadCase397BudgetPreviousSpendList = Array<number>;
-/** The acive pricing plan the team is billed with */
-export type UserEventPayloadCase397BudgetPricingPlan =
-  | "flex"
-  | "legacy"
-  | "platform"
-  | "plus"
-  | "unbundled";
+export type UserEventPayloadCase422BudgetNotifiedAtList = Array<number>;
+export type UserEventPayloadCase422BudgetPreviousSpendList = Array<number>;
 /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-export type UserEventPayloadCase397BudgetScope = "organization" | "product" | "project" | "team";
-/** The budget type */
-export type UserEventPayloadCase397BudgetType = "fixed";
+export type UserEventPayloadCase422BudgetScope = "organization" | "product" | "project" | "team";
+export type UserEventPayloadCase422BudgetType = "fixed";
 /** Represents a budget for tracking and notifying teams on their spending. */
-export interface UserEventPayloadCase397Budget {
+export interface UserEventPayloadCase422Budget {
   /** Date time when budget is created */
   createdAt: number;
   /** Budget amount (USD / dollars) */
@@ -8565,50 +8959,33 @@ export interface UserEventPayloadCase397Budget {
   id: string;
   /** Is the budget currently active for a customer */
   isActive: boolean;
-  /** Array of 50, 75, 100 to keep track of notifications sent out */
-  notifiedAt: UserEventPayloadCase397BudgetNotifiedAtList;
+  notifiedAt: UserEventPayloadCase422BudgetNotifiedAtList;
   /** Should all projects be paused if budget is exceeded */
   pauseProjects?: boolean | undefined;
-  /** Array of the last 3 months of spend data */
-  previousSpend: UserEventPayloadCase397BudgetPreviousSpendList;
-  /** The acive pricing plan the team is billed with */
-  pricingPlan?: UserEventPayloadCase397BudgetPricingPlan | undefined;
+  previousSpend: UserEventPayloadCase422BudgetPreviousSpendList;
   /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-  scope?: UserEventPayloadCase397BudgetScope | undefined;
+  scope?: UserEventPayloadCase422BudgetScope | undefined;
   /** What the budget caps: team id for `team`, organization id for `organization`, project id for `project`, product id for `product`. */
   scopeId?: string | undefined;
   /** Partition key */
   teamId: string;
-  /** The budget type */
-  type: UserEventPayloadCase397BudgetType;
+  type: UserEventPayloadCase422BudgetType;
   /** Date time when budget is updated last */
   updatedAt?: number | undefined;
   /** Webhook id that corresponds to a webhook in Cosmos webhook collection */
   webhookId?: string | undefined;
-  /** Keep track if the webhook has been called for the month */
-  webhookNotified?: boolean | undefined;
 }
-/** Array of 50, 75, 100 to keep track of notifications sent out */
-export type UserEventPayloadCase397PrevBudgetNotifiedAtList = Array<number>;
-/** Array of the last 3 months of spend data */
-export type UserEventPayloadCase397PrevBudgetPreviousSpendList = Array<number>;
-/** The acive pricing plan the team is billed with */
-export type UserEventPayloadCase397PrevBudgetPricingPlan =
-  | "flex"
-  | "legacy"
-  | "platform"
-  | "plus"
-  | "unbundled";
+export type UserEventPayloadCase422PrevBudgetNotifiedAtList = Array<number>;
+export type UserEventPayloadCase422PrevBudgetPreviousSpendList = Array<number>;
 /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-export type UserEventPayloadCase397PrevBudgetScope =
+export type UserEventPayloadCase422PrevBudgetScope =
   | "organization"
   | "product"
   | "project"
   | "team";
-/** The budget type */
-export type UserEventPayloadCase397PrevBudgetType = "fixed";
+export type UserEventPayloadCase422PrevBudgetType = "fixed";
 /** Represents a budget for tracking and notifying teams on their spending. */
-export interface UserEventPayloadCase397PrevBudget {
+export interface UserEventPayloadCase422PrevBudget {
   /** Date time when budget is created */
   createdAt: number;
   /** Budget amount (USD / dollars) */
@@ -8617,35 +8994,28 @@ export interface UserEventPayloadCase397PrevBudget {
   id: string;
   /** Is the budget currently active for a customer */
   isActive: boolean;
-  /** Array of 50, 75, 100 to keep track of notifications sent out */
-  notifiedAt: UserEventPayloadCase397PrevBudgetNotifiedAtList;
+  notifiedAt: UserEventPayloadCase422PrevBudgetNotifiedAtList;
   /** Should all projects be paused if budget is exceeded */
   pauseProjects?: boolean | undefined;
-  /** Array of the last 3 months of spend data */
-  previousSpend: UserEventPayloadCase397PrevBudgetPreviousSpendList;
-  /** The acive pricing plan the team is billed with */
-  pricingPlan?: UserEventPayloadCase397PrevBudgetPricingPlan | undefined;
+  previousSpend: UserEventPayloadCase422PrevBudgetPreviousSpendList;
   /** Which budget this is. Matches Copper SDK `BudgetScope`. Omitted on events published before team/org/project scopes existed (treat as team). */
-  scope?: UserEventPayloadCase397PrevBudgetScope | undefined;
+  scope?: UserEventPayloadCase422PrevBudgetScope | undefined;
   /** What the budget caps: team id for `team`, organization id for `organization`, project id for `project`, product id for `product`. */
   scopeId?: string | undefined;
   /** Partition key */
   teamId: string;
-  /** The budget type */
-  type: UserEventPayloadCase397PrevBudgetType;
+  type: UserEventPayloadCase422PrevBudgetType;
   /** Date time when budget is updated last */
   updatedAt?: number | undefined;
   /** Webhook id that corresponds to a webhook in Cosmos webhook collection */
   webhookId?: string | undefined;
-  /** Keep track if the webhook has been called for the month */
-  webhookNotified?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase397 {
+export interface UserEventPayloadCase422 {
   /** Represents a budget for tracking and notifying teams on their spending. */
-  budget: UserEventPayloadCase397Budget;
+  budget: UserEventPayloadCase422Budget;
   /** Represents a budget for tracking and notifying teams on their spending. */
-  prevBudget?: UserEventPayloadCase397PrevBudget | undefined;
+  prevBudget?: UserEventPayloadCase422PrevBudget | undefined;
   prevWebhookUrl?: string | undefined;
   /** Stored for project budgets. Same value as `budget.scopeId`. */
   projectId?: string | undefined;
@@ -8656,222 +9026,249 @@ export interface UserEventPayloadCase397 {
   webhookUrl?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase398 {
+export interface UserEventPayloadCase423 {
   projectId?: string | undefined;
   projectName?: string | undefined;
   webhookUrl?: string | undefined;
 }
-export type UserEventPayloadCase399StoreType = "postgres" | "redis";
+export type UserEventPayloadCase424StoreType = "postgres" | "redis";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase399 {
-  storeType: UserEventPayloadCase399StoreType;
+export interface UserEventPayloadCase424 {
+  storeType: UserEventPayloadCase424StoreType;
 }
-export type UserEventPayloadCase400StoreType =
+export type UserEventPayloadCase425StoreType =
   | "blob"
   | "edge-config"
   | "integration"
   | "postgres"
   | "redis";
-export interface UserEventPayloadCase400Store {
+export interface UserEventPayloadCase425Store {
   id: string;
   name?: string | undefined;
-  type: UserEventPayloadCase400StoreType;
+  type: UserEventPayloadCase425StoreType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase400 {
-  store: UserEventPayloadCase400Store;
+export interface UserEventPayloadCase425 {
+  store: UserEventPayloadCase425Store;
 }
-export type UserEventPayloadCase401StoreType =
+export type UserEventPayloadCase426StoreType =
   | "blob"
   | "edge-config"
   | "integration"
   | "postgres"
   | "redis";
-export interface UserEventPayloadCase401Store {
+export interface UserEventPayloadCase426Store {
   id: string;
   name?: string | undefined;
-  type: UserEventPayloadCase401StoreType;
+  type: UserEventPayloadCase426StoreType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase401 {
-  store: UserEventPayloadCase401Store;
+export interface UserEventPayloadCase426 {
+  store: UserEventPayloadCase426Store;
   destinationTeamId: string;
   destinationTeamName: string;
 }
-export type UserEventPayloadCase402StoreType =
+export type UserEventPayloadCase427StoreType =
   | "blob"
   | "edge-config"
   | "integration"
   | "postgres"
   | "redis";
-export interface UserEventPayloadCase402Store {
+export interface UserEventPayloadCase427Store {
   id: string;
   name?: string | undefined;
-  type: UserEventPayloadCase402StoreType;
+  type: UserEventPayloadCase427StoreType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase402 {
-  store: UserEventPayloadCase402Store;
+export interface UserEventPayloadCase427 {
+  store: UserEventPayloadCase427Store;
   originTeamId: string;
   originTeamName: string;
 }
-export type UserEventPayloadCase403Access = "private" | "public";
-export type UserEventPayloadCase403Type =
+export type UserEventPayloadCase428Access = "private" | "public";
+export type UserEventPayloadCase428Type =
   | "blob"
   | "edge-config"
   | "integration"
   | "postgres"
   | "redis";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase403 {
-  access?: UserEventPayloadCase403Access | undefined;
+export interface UserEventPayloadCase428 {
+  access?: UserEventPayloadCase428Access | undefined;
   computeUnitsMax?: number | undefined;
   computeUnitsMin?: number | undefined;
   id: string;
   name?: string | undefined;
   suspendTimeoutSeconds?: number | undefined;
-  type: UserEventPayloadCase403Type;
+  type: UserEventPayloadCase428Type;
 }
-export type UserEventPayloadCase404Store = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase429Store = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase404 {
+export interface UserEventPayloadCase429 {
   ownerId?: string | undefined;
-  store: UserEventPayloadCase25AccessPolicy;
+  store: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase405Access = "private" | "public";
-export type UserEventPayloadCase405Type =
+export type UserEventPayloadCase430Access = "private" | "public";
+export type UserEventPayloadCase430Type =
   | "blob"
   | "edge-config"
   | "integration"
   | "postgres"
   | "redis";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase405 {
-  access?: UserEventPayloadCase405Access | undefined;
+export interface UserEventPayloadCase430 {
+  access?: UserEventPayloadCase430Access | undefined;
   computeUnitsMax?: number | undefined;
   computeUnitsMin?: number | undefined;
   id: string;
   name?: string | undefined;
   suspendTimeoutSeconds?: number | undefined;
-  type: UserEventPayloadCase405Type;
+  type: UserEventPayloadCase430Type;
   locked: boolean;
 }
-export type UserEventPayloadCase406ActorType = "admin" | "user";
+export type UserEventPayloadCase431ActorType = "admin" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase406 {
+export interface UserEventPayloadCase431 {
   actorId?: string | undefined;
-  actorType?: UserEventPayloadCase406ActorType | undefined;
+  actorType?: UserEventPayloadCase431ActorType | undefined;
   caseNumber?: string | undefined;
   client?: string | undefined;
   reason?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase407 = UserEventPayloadCase41PrivateModel;
-export type UserEventPayloadCase408Action = "enable" | "update";
-export interface UserEventPayloadCase408CodeReviewSelection {
+export type UserEventPayloadCase432 = UserEventPayloadCase45PrivateModel;
+export type UserEventPayloadCase433BillingConsent = "security-review-usage-billing-v1";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase433 {
+  billingConsent: UserEventPayloadCase433BillingConsent;
+  source: string;
+}
+export type UserEventPayloadCase434Action = "enable" | "update";
+export interface UserEventPayloadCase434CodeReviewSelection {
   initial: boolean;
   submitted: boolean;
 }
-export type UserEventPayloadCase408Endpoint = "/v1/vade/usage-billing";
-export interface UserEventPayloadCase408Next {
+export type UserEventPayloadCase434Endpoint = "/v1/vade/usage-billing";
+export interface UserEventPayloadCase434Next {
   enabled: boolean;
   maximumOverdraft: string | null;
 }
-export type UserEventPayloadCase408Previous = UserEventPayloadCase408Next;
-export type UserEventPayloadCase408RemovedTopupIdsList = Array<string>;
+export type UserEventPayloadCase434Previous = UserEventPayloadCase434Next;
+export type UserEventPayloadCase434RemovedTopupIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase408 {
-  action: UserEventPayloadCase408Action;
+export interface UserEventPayloadCase434 {
+  action: UserEventPayloadCase434Action;
   codeReviewEnabled: boolean;
-  codeReviewSelection?: UserEventPayloadCase408CodeReviewSelection | undefined;
+  codeReviewSelection?: UserEventPayloadCase434CodeReviewSelection | undefined;
   cumulativeBalance: string;
-  endpoint: UserEventPayloadCase408Endpoint;
+  endpoint: UserEventPayloadCase434Endpoint;
   ledgerId: string;
-  next: UserEventPayloadCase408Next;
-  previous: UserEventPayloadCase408Next;
-  removedTopupIds: UserEventPayloadCase408RemovedTopupIdsList;
+  next: UserEventPayloadCase434Next;
+  previous: UserEventPayloadCase434Next;
+  removedTopupIds: UserEventPayloadCase434RemovedTopupIdsList;
   source: string;
   topupCleanupCompleted: boolean;
 }
-export type UserEventPayloadCase409Action = "disable" | "enable" | "update";
-export type UserEventPayloadCase409CodeReviewSelection = UserEventPayloadCase408CodeReviewSelection;
-export type UserEventPayloadCase409Endpoint =
+export type UserEventPayloadCase435Action = "disable" | "enable" | "update";
+export type UserEventPayloadCase435CodeReviewSelection = UserEventPayloadCase434CodeReviewSelection;
+export type UserEventPayloadCase435Endpoint =
   | "/v1/vade/code-review/configure"
   | "/v1/vade/configure";
 /** Which repository visibilities get automatic reviews */
-export type UserEventPayloadCase409NextScope = "all" | "private" | "public" | "selected_repos";
+export type UserEventPayloadCase435NextScope = "all" | "private" | "public" | "selected_repos";
 /** GitHub repos to scope automatic reviews to. Format: "owner/repo" (lowercase). Only used when scope='selected_repos'. */
-export type UserEventPayloadCase409NextSelectedReposList = Array<string>;
+export type UserEventPayloadCase435NextSelectedReposList = Array<string>;
 /** Automatic code review settings */
-export interface UserEventPayloadCase409Next {
+export interface UserEventPayloadCase435Next {
   /** Whether automatic code reviews are enabled */
   enabled: boolean;
   /** Whether to include draft pull requests in automatic reviews */
   includeDrafts: boolean;
   /** Which repository visibilities get automatic reviews */
-  scope: UserEventPayloadCase409NextScope;
+  scope: UserEventPayloadCase435NextScope;
   /** GitHub repos to scope automatic reviews to. Format: "owner/repo" (lowercase). Only used when scope='selected_repos'. */
-  selectedRepos?: UserEventPayloadCase409NextSelectedReposList | null | undefined;
+  selectedRepos?: UserEventPayloadCase435NextSelectedReposList | null | undefined;
 }
 /** Which repository visibilities get automatic reviews */
-export type UserEventPayloadCase409PreviousScope = "all" | "private" | "public" | "selected_repos";
+export type UserEventPayloadCase435PreviousScope = "all" | "private" | "public" | "selected_repos";
 /** GitHub repos to scope automatic reviews to. Format: "owner/repo" (lowercase). Only used when scope='selected_repos'. */
-export type UserEventPayloadCase409PreviousSelectedReposList = Array<string>;
+export type UserEventPayloadCase435PreviousSelectedReposList = Array<string>;
 /** Automatic code review settings */
-export interface UserEventPayloadCase409Previous {
+export interface UserEventPayloadCase435Previous {
   /** Whether automatic code reviews are enabled */
   enabled: boolean;
   /** Whether to include draft pull requests in automatic reviews */
   includeDrafts: boolean;
   /** Which repository visibilities get automatic reviews */
-  scope: UserEventPayloadCase409PreviousScope;
+  scope: UserEventPayloadCase435PreviousScope;
   /** GitHub repos to scope automatic reviews to. Format: "owner/repo" (lowercase). Only used when scope='selected_repos'. */
-  selectedRepos?: UserEventPayloadCase409PreviousSelectedReposList | null | undefined;
+  selectedRepos?: UserEventPayloadCase435PreviousSelectedReposList | null | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase409 {
-  action?: UserEventPayloadCase409Action | undefined;
-  codeReviewSelection?: UserEventPayloadCase408CodeReviewSelection | undefined;
-  endpoint?: UserEventPayloadCase409Endpoint | undefined;
+export interface UserEventPayloadCase435 {
+  action?: UserEventPayloadCase435Action | undefined;
+  codeReviewSelection?: UserEventPayloadCase434CodeReviewSelection | undefined;
+  endpoint?: UserEventPayloadCase435Endpoint | undefined;
   /** Automatic code review settings */
-  next: UserEventPayloadCase409Next;
+  next: UserEventPayloadCase435Next;
   /** Automatic code review settings */
-  previous?: UserEventPayloadCase409Previous | undefined;
+  previous?: UserEventPayloadCase435Previous | undefined;
   /** Caller-reported surface, not proof of a browser interaction or consent. */
   source?: string | undefined;
 }
-export type UserEventPayloadCase410NextProjectIdsList = Array<string>;
-export type UserEventPayloadCase410NextProjectScope = "all" | "selected";
+export type UserEventPayloadCase436NextProjectIdsList = Array<string>;
+export type UserEventPayloadCase436NextProjectScope = "all" | "none" | "selected";
+export type UserEventPayloadCase436NextRepositoryScope = "all" | "none" | "selected";
 /** Mirrors the `security-review` setting value in `@api/api-settings`. */
-export interface UserEventPayloadCase410Next {
+export interface UserEventPayloadCase436Next {
   enabled: boolean;
-  projectIds?: UserEventPayloadCase410NextProjectIdsList | undefined;
-  projectScope: UserEventPayloadCase410NextProjectScope;
+  projectIds?: UserEventPayloadCase436NextProjectIdsList | undefined;
+  projectScope: UserEventPayloadCase436NextProjectScope;
+  repositoryScope?: UserEventPayloadCase436NextRepositoryScope | undefined;
 }
-export type UserEventPayloadCase410PreviousProjectIdsList = Array<string>;
-export type UserEventPayloadCase410PreviousProjectScope = "all" | "selected";
+export type UserEventPayloadCase436PreviousProjectIdsList = Array<string>;
+export type UserEventPayloadCase436PreviousProjectScope = "all" | "none" | "selected";
+export type UserEventPayloadCase436PreviousRepositoryScope = "all" | "none" | "selected";
 /** Mirrors the `security-review` setting value in `@api/api-settings`. */
-export interface UserEventPayloadCase410Previous {
+export interface UserEventPayloadCase436Previous {
   enabled: boolean;
-  projectIds?: UserEventPayloadCase410PreviousProjectIdsList | undefined;
-  projectScope: UserEventPayloadCase410PreviousProjectScope;
+  projectIds?: UserEventPayloadCase436PreviousProjectIdsList | undefined;
+  projectScope: UserEventPayloadCase436PreviousProjectScope;
+  repositoryScope?: UserEventPayloadCase436PreviousRepositoryScope | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase410 {
+export interface UserEventPayloadCase436 {
   /** Mirrors the `security-review` setting value in `@api/api-settings`. */
-  next: UserEventPayloadCase410Next;
+  next: UserEventPayloadCase436Next;
   /** Mirrors the `security-review` setting value in `@api/api-settings`. */
-  previous: UserEventPayloadCase410Previous;
+  previous: UserEventPayloadCase436Previous;
+}
+export type UserEventPayloadCase437NextRepositoryScope = "all" | "none" | "selected";
+export interface UserEventPayloadCase437Next {
+  enabled: boolean;
+  repositoryScope?: UserEventPayloadCase437NextRepositoryScope | undefined;
+  attachScreenshots?: boolean | undefined;
+}
+export type UserEventPayloadCase437PreviousRepositoryScope = "all" | "none" | "selected";
+export interface UserEventPayloadCase437Previous {
+  enabled: boolean;
+  repositoryScope?: UserEventPayloadCase437PreviousRepositoryScope | undefined;
+  attachScreenshots?: boolean | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase411 {
+export interface UserEventPayloadCase437 {
+  next: UserEventPayloadCase437Next;
+  previous: UserEventPayloadCase437Previous;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase438 {
   amount: string;
   currency: string;
   expiresAt: string;
   trialCreditsIssuedAt: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase412 {
+export interface UserEventPayloadCase439 {
   eventId: string;
   occurredAt: number;
   sessionId: string;
@@ -8881,15 +9278,15 @@ export interface UserEventPayloadCase412 {
   surface: string;
 }
 /** Requested Vercel scopes that are not included in the baseline token. */
-export type UserEventPayloadCase413ElevatedScopesList = Array<string>;
+export type UserEventPayloadCase440ElevatedScopesList = Array<string>;
 /** External GitHub scopes requested by the plan; these are not Vercel token scopes. */
-export type UserEventPayloadCase413GithubScopesList = Array<string>;
+export type UserEventPayloadCase440GithubScopesList = Array<string>;
 /** Baseline plus elevated Vercel scopes used when minting scoped tokens. */
-export type UserEventPayloadCase413MergedScopesList = Array<string>;
+export type UserEventPayloadCase440MergedScopesList = Array<string>;
 /** Scopes requested by the model-authored plan. */
-export type UserEventPayloadCase413RequestedScopesList = Array<string>;
+export type UserEventPayloadCase440RequestedScopesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase413 {
+export interface UserEventPayloadCase440 {
   eventId: string;
   occurredAt: number;
   sessionId: string;
@@ -8899,22 +9296,22 @@ export interface UserEventPayloadCase413 {
   surface: string;
   elevatedScopeCount: number;
   /** Requested Vercel scopes that are not included in the baseline token. */
-  elevatedScopes: UserEventPayloadCase413ElevatedScopesList;
+  elevatedScopes: UserEventPayloadCase440ElevatedScopesList;
   githubScopeCount: number;
   /** External GitHub scopes requested by the plan; these are not Vercel token scopes. */
-  githubScopes: UserEventPayloadCase413GithubScopesList;
+  githubScopes: UserEventPayloadCase440GithubScopesList;
   mergedScopeCount: number;
   /** Baseline plus elevated Vercel scopes used when minting scoped tokens. */
-  mergedScopes: UserEventPayloadCase413MergedScopesList;
+  mergedScopes: UserEventPayloadCase440MergedScopesList;
   planId: string;
   requestedScopeCount: number;
   /** Scopes requested by the model-authored plan. */
-  requestedScopes: UserEventPayloadCase413RequestedScopesList;
+  requestedScopes: UserEventPayloadCase440RequestedScopesList;
 }
 /** A repository's findings are in code no project runs. */
-export type UserEventPayloadCase414TargetKind = "project" | "repository";
+export type UserEventPayloadCase441TargetKind = "project" | "repository";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase414 {
+export interface UserEventPayloadCase441 {
   eventId: string;
   occurredAt: number;
   sessionId: string;
@@ -8936,15 +9333,15 @@ export interface UserEventPayloadCase414 {
   severity: string;
   targetId: string;
   /** A repository's findings are in code no project runs. */
-  targetKind: UserEventPayloadCase414TargetKind;
+  targetKind: UserEventPayloadCase441TargetKind;
   targetName: string;
   vulnerabilityClass: string;
 }
 /** A repository's findings are in code no project runs. */
-export type UserEventPayloadCase415TargetKind = "project" | "repository";
-export type UserEventPayloadCase415DismissalReason = "accepted-risk" | "false-positive";
+export type UserEventPayloadCase442TargetKind = "project" | "repository";
+export type UserEventPayloadCase442CloseReason = "accepted-risk" | "false-positive" | "resolved";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase415 {
+export interface UserEventPayloadCase442 {
   eventId: string;
   occurredAt: number;
   sessionId: string;
@@ -8966,34 +9363,72 @@ export interface UserEventPayloadCase415 {
   severity: string;
   targetId: string;
   /** A repository's findings are in code no project runs. */
-  targetKind: UserEventPayloadCase415TargetKind;
+  targetKind: UserEventPayloadCase442TargetKind;
   targetName: string;
   vulnerabilityClass: string;
-  dismissalReason: UserEventPayloadCase415DismissalReason;
+  closeReason: UserEventPayloadCase442CloseReason;
 }
-export type UserEventPayloadCase416Next = "auto-approval" | "block" | "manual-approval";
-export type UserEventPayloadCase416Previous = "auto-approval" | "block" | "manual-approval";
+/** A repository's findings are in code no project runs. */
+export type UserEventPayloadCase443TargetKind = "project" | "repository";
+export type UserEventPayloadCase443DismissalReason = "accepted-risk" | "false-positive";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase416 {
-  next: UserEventPayloadCase416Next | null;
-  previous: UserEventPayloadCase416Previous | null;
+export interface UserEventPayloadCase443 {
+  eventId: string;
+  occurredAt: number;
+  sessionId: string;
+  /** Currently emitted session kinds: chat, investigation. */
+  sessionKind: string;
+  /** Currently emitted surfaces: dashboard, internal, slack, automation, github. */
+  surface: string;
+  branchRef: string | null;
+  commitSha?: string | null | undefined;
+  /** Null for a repository's findings and those of an undeployed commit. */
+  deploymentId: string | null;
+  /** Null for a repository's findings. */
+  environment: string | null;
+  findingId: string;
+  findingNumber: number;
+  pullRequestNumber?: number | null | undefined;
+  /** The GitHub repository, such as `acme/app`, commit, and pull request the event's review read: the one that found the finding, or for a resolution, the one that fixed it. Null for uploaded files; absent from events recorded before they were sent. */
+  repository?: string | null | undefined;
+  severity: string;
+  targetId: string;
+  /** A repository's findings are in code no project runs. */
+  targetKind: UserEventPayloadCase443TargetKind;
+  targetName: string;
+  vulnerabilityClass: string;
+  dismissalReason: UserEventPayloadCase443DismissalReason;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase444 {
+  eventId: string;
+  occurredAt: number;
+  projectId: string | null;
+  projectName?: string | undefined;
+}
+export type UserEventPayloadCase445Next = "auto-approval" | "block" | "manual-approval";
+export type UserEventPayloadCase445Previous = "auto-approval" | "block" | "manual-approval";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase445 {
+  next: UserEventPayloadCase445Next | null;
+  previous: UserEventPayloadCase445Previous | null;
   teamSlug?: string | undefined;
 }
-export type UserEventPayloadCase417ActorType = "admin";
+export type UserEventPayloadCase446ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase417 {
+export interface UserEventPayloadCase446 {
   disabled?: boolean | undefined;
   actorName?: string | undefined;
-  actorType?: UserEventPayloadCase417ActorType | undefined;
+  actorType?: UserEventPayloadCase446ActorType | undefined;
 }
-export type UserEventPayloadCase418Next = "basic" | "elastic" | "enhanced" | "standard" | "turbo";
-export type UserEventPayloadCase418Previous =
+export type UserEventPayloadCase447Next = "basic" | "elastic" | "enhanced" | "standard" | "turbo";
+export type UserEventPayloadCase447Previous =
   | "basic"
   | "elastic"
   | "enhanced"
   | "standard"
   | "turbo";
-export type UserEventPayloadCase418Reason =
+export type UserEventPayloadCase447Reason =
   | "basic-floor"
   | "build-timeout-failure"
   | "enospc-failure"
@@ -9007,25 +9442,25 @@ export type UserEventPayloadCase418Reason =
   | "short-build-duration"
   | "sustained-high-cpu";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase418 {
+export interface UserEventPayloadCase447 {
   isSystemInitiated?: boolean | undefined;
-  next?: UserEventPayloadCase418Next | undefined;
-  previous?: UserEventPayloadCase418Previous | undefined;
-  reason?: UserEventPayloadCase418Reason | undefined;
+  next?: UserEventPayloadCase447Next | undefined;
+  previous?: UserEventPayloadCase447Previous | undefined;
+  reason?: UserEventPayloadCase447Reason | undefined;
 }
-export type UserEventPayloadCase419ActorType = "admin";
+export type UserEventPayloadCase448ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase419 {
+export interface UserEventPayloadCase448 {
   enrolled?: boolean | undefined;
   actorName?: string | undefined;
-  actorType?: UserEventPayloadCase419ActorType | undefined;
+  actorType?: UserEventPayloadCase448ActorType | undefined;
 }
-export interface UserEventPayloadCase420ReasonsItem {
+export interface UserEventPayloadCase449ReasonsItem {
   description: string;
   slug: string;
 }
-export type UserEventPayloadCase420ReasonsList = Array<UserEventPayloadCase420ReasonsItem>;
-export type UserEventPayloadCase420RemovedUsersValueRole =
+export type UserEventPayloadCase449ReasonsList = Array<UserEventPayloadCase449ReasonsItem>;
+export type UserEventPayloadCase449RemovedUsersValueRole =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9034,106 +9469,106 @@ export type UserEventPayloadCase420RemovedUsersValueRole =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export interface UserEventPayloadCase420RemovedUsersValue {
+export interface UserEventPayloadCase449RemovedUsersValue {
   confirmed: boolean;
   confirmedAt?: number | undefined;
-  role: UserEventPayloadCase420RemovedUsersValueRole;
+  role: UserEventPayloadCase449RemovedUsersValueRole;
 }
-export type UserEventPayloadCase420RemovedUsersMap = {
-  [key: string]: UserEventPayloadCase420RemovedUsersValue | undefined;
+export type UserEventPayloadCase449RemovedUsersMap = {
+  [key: string]: UserEventPayloadCase449RemovedUsersValue | undefined;
 };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase420 {
+export interface UserEventPayloadCase449 {
   by: string;
   byUid?: string | undefined;
-  reasons?: UserEventPayloadCase420ReasonsList | undefined;
+  reasons?: UserEventPayloadCase449ReasonsList | undefined;
   removedMemberCount?: number | undefined;
-  removedUsers?: UserEventPayloadCase420RemovedUsersMap | undefined;
+  removedUsers?: UserEventPayloadCase449RemovedUsersMap | undefined;
   slug: string;
   teamId: string;
   timestamp?: number | undefined;
 }
-export type UserEventPayloadCase421Scope = "organization";
+export type UserEventPayloadCase450Scope = "organization";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase421 {
+export interface UserEventPayloadCase450 {
   enabled: boolean;
-  scope?: UserEventPayloadCase421Scope | undefined;
+  scope?: UserEventPayloadCase450Scope | undefined;
 }
-export type UserEventPayloadCase422NextDeploymentSourcesList = Array<unknown>;
-export type UserEventPayloadCase422NextGitSourcesList = Array<unknown>;
-export interface UserEventPayloadCase422Next {
-  deploymentSources?: UserEventPayloadCase422NextDeploymentSourcesList | null | undefined;
-  gitSources?: UserEventPayloadCase422NextGitSourcesList | null | undefined;
+export type UserEventPayloadCase451NextDeploymentSourcesList = Array<unknown>;
+export type UserEventPayloadCase451NextGitSourcesList = Array<unknown>;
+export interface UserEventPayloadCase451Next {
+  deploymentSources?: UserEventPayloadCase451NextDeploymentSourcesList | null | undefined;
+  gitSources?: UserEventPayloadCase451NextGitSourcesList | null | undefined;
 }
-export type UserEventPayloadCase422PreviousDeploymentSourcesList = Array<unknown>;
-export type UserEventPayloadCase422PreviousGitSourcesList = Array<unknown>;
-export interface UserEventPayloadCase422Previous {
-  deploymentSources?: UserEventPayloadCase422PreviousDeploymentSourcesList | null | undefined;
-  gitSources?: UserEventPayloadCase422PreviousGitSourcesList | null | undefined;
+export type UserEventPayloadCase451PreviousDeploymentSourcesList = Array<unknown>;
+export type UserEventPayloadCase451PreviousGitSourcesList = Array<unknown>;
+export interface UserEventPayloadCase451Previous {
+  deploymentSources?: UserEventPayloadCase451PreviousDeploymentSourcesList | null | undefined;
+  gitSources?: UserEventPayloadCase451PreviousGitSourcesList | null | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase422 {
-  next: UserEventPayloadCase422Next | null;
-  previous: UserEventPayloadCase422Previous | null;
+export interface UserEventPayloadCase451 {
+  next: UserEventPayloadCase451Next | null;
+  previous: UserEventPayloadCase451Previous | null;
 }
-export type UserEventPayloadCase423Action = "reset" | "updated";
+export type UserEventPayloadCase452Action = "reset" | "updated";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase423 {
-  action: UserEventPayloadCase423Action;
+export interface UserEventPayloadCase452 {
+  action: UserEventPayloadCase452Action;
   targetId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase424 {
+export interface UserEventPayloadCase453 {
   domain?: string | undefined;
   enabled: boolean;
 }
-export type UserEventPayloadCase425Environment = "preview" | "production";
+export type UserEventPayloadCase454Environment = "preview" | "production";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase425 {
+export interface UserEventPayloadCase454 {
   enabled: boolean | null;
-  environment: UserEventPayloadCase425Environment;
+  environment: UserEventPayloadCase454Environment;
   projectId: string;
   projectName: string;
 }
-export type UserEventPayloadCase426Enabled =
+export type UserEventPayloadCase455Enabled =
   | "default"
   | "default-force"
   | "off"
   | "off-force"
   | "on"
   | "on-force";
-export type UserEventPayloadCase426Environment = "preview" | "production";
+export type UserEventPayloadCase455Environment = "preview" | "production";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase426 {
-  enabled: UserEventPayloadCase426Enabled;
-  environment: UserEventPayloadCase426Environment;
+export interface UserEventPayloadCase455 {
+  enabled: UserEventPayloadCase455Enabled;
+  environment: UserEventPayloadCase455Environment;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase427 {
+export interface UserEventPayloadCase456 {
   emailDomain?: string | null | undefined;
 }
-export type UserEventPayloadCase428InviteIdsList = Array<string>;
+export type UserEventPayloadCase457InviteIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase428 {
+export interface UserEventPayloadCase457 {
   deletedCount: number;
-  inviteIds: UserEventPayloadCase428InviteIdsList;
+  inviteIds: UserEventPayloadCase457InviteIdsList;
 }
-export type UserEventPayloadCase429EntitlementsList = Array<string>;
-export type UserEventPayloadCase429InvitedUser = UserEventPayloadCase174DeletedUser;
+export type UserEventPayloadCase458EntitlementsList = Array<string>;
+export type UserEventPayloadCase458InvitedUser = UserEventPayloadCase187DeletedUser;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase429 {
+export interface UserEventPayloadCase458 {
   directoryType?: string | undefined;
-  entitlements?: UserEventPayloadCase429EntitlementsList | undefined;
+  entitlements?: UserEventPayloadCase458EntitlementsList | undefined;
   invitationRole?: string | undefined;
   invitedEmail?: string | undefined;
   invitedUid?: string | undefined;
-  invitedUser?: UserEventPayloadCase174DeletedUser | undefined;
+  invitedUser?: UserEventPayloadCase187DeletedUser | undefined;
   origin?: string | undefined;
   ssoType?: string | undefined;
   teamSlug?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase430 {
+export interface UserEventPayloadCase459 {
   bitbucketUsername?: string | null | undefined;
   githubUsername?: string | null | undefined;
   gitlabUsername?: string | null | undefined;
@@ -9144,7 +9579,7 @@ export interface UserEventPayloadCase430 {
   username?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase431 {
+export interface UserEventPayloadCase460 {
   bitbucketUsername?: string | null | undefined;
   githubUsername?: string | null | undefined;
   gitlabUsername?: string | null | undefined;
@@ -9152,10 +9587,10 @@ export interface UserEventPayloadCase431 {
   teamName: string;
   username?: string | undefined;
 }
-export type UserEventPayloadCase432DeletedUser = UserEventPayloadCase174DeletedUser;
-export type UserEventPayloadCase432NewPlan = "enterprise" | "hobby" | "pro";
-export type UserEventPayloadCase432PreviousPlan = "enterprise" | "hobby" | "pro";
-export type UserEventPayloadCase432Role =
+export type UserEventPayloadCase461DeletedUser = UserEventPayloadCase187DeletedUser;
+export type UserEventPayloadCase461NewPlan = "enterprise" | "hobby" | "pro";
+export type UserEventPayloadCase461PreviousPlan = "enterprise" | "hobby" | "pro";
+export type UserEventPayloadCase461Role =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9165,57 +9600,57 @@ export type UserEventPayloadCase432Role =
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase432 {
+export interface UserEventPayloadCase461 {
   /** Whether the removal was system-initiated rather than human-initiated. */
   automated?: boolean | undefined;
   bitbucketUsername?: string | null | undefined;
   deletedUid?: string | undefined;
-  deletedUser?: UserEventPayloadCase174DeletedUser | undefined;
+  deletedUser?: UserEventPayloadCase187DeletedUser | undefined;
   directoryType?: string | undefined;
   githubUsername?: string | null | undefined;
   gitlabUsername?: string | null | undefined;
-  newPlan?: UserEventPayloadCase432NewPlan | undefined;
-  previousPlan?: UserEventPayloadCase432PreviousPlan | undefined;
+  newPlan?: UserEventPayloadCase461NewPlan | undefined;
+  previousPlan?: UserEventPayloadCase461PreviousPlan | undefined;
   /** Why the member was removed. When removed due to a plan downgrade, this is a {@link DowngradeReason} from `@api/pubsub-types` (e.g. `trial_expired`, `user_downgrade`). */
   reason?: string | undefined;
-  role?: UserEventPayloadCase432Role | undefined;
+  role?: UserEventPayloadCase461Role | undefined;
 }
-export type UserEventPayloadCase433User = UserEventPayloadCase197NewOwner;
+export type UserEventPayloadCase462User = UserEventPayloadCase212NewOwner;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase433 {
+export interface UserEventPayloadCase462 {
   entitlement: string;
-  user: UserEventPayloadCase197NewOwner;
+  user: UserEventPayloadCase212NewOwner;
 }
-export type UserEventPayloadCase434User = UserEventPayloadCase197NewOwner;
+export type UserEventPayloadCase463User = UserEventPayloadCase212NewOwner;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase434 {
+export interface UserEventPayloadCase463 {
   entitlement: string;
   previousCanceledAt?: string | undefined;
-  user: UserEventPayloadCase197NewOwner;
+  user: UserEventPayloadCase212NewOwner;
 }
-export type UserEventPayloadCase435EntitlementsList = Array<string>;
-export interface UserEventPayloadCase435InvitedBy {
+export type UserEventPayloadCase464EntitlementsList = Array<string>;
+export interface UserEventPayloadCase464InvitedBy {
   email: string;
   name?: string | undefined;
   userId?: string | undefined;
 }
-export type UserEventPayloadCase435TeamPermissionsList = Array<string>;
-export type UserEventPayloadCase435TeamRolesList = Array<string>;
-export type UserEventPayloadCase435UpdatedUser = UserEventPayloadCase174DeletedUser;
+export type UserEventPayloadCase464TeamPermissionsList = Array<string>;
+export type UserEventPayloadCase464TeamRolesList = Array<string>;
+export type UserEventPayloadCase464UpdatedUser = UserEventPayloadCase187DeletedUser;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase435 {
-  entitlements?: UserEventPayloadCase435EntitlementsList | undefined;
-  invitedBy?: UserEventPayloadCase435InvitedBy | undefined;
+export interface UserEventPayloadCase464 {
+  entitlements?: UserEventPayloadCase464EntitlementsList | undefined;
+  invitedBy?: UserEventPayloadCase464InvitedBy | undefined;
   origin?: string | undefined;
   role?: string | undefined;
-  teamPermissions?: UserEventPayloadCase435TeamPermissionsList | undefined;
-  teamRoles?: UserEventPayloadCase435TeamRolesList | undefined;
+  teamPermissions?: UserEventPayloadCase464TeamPermissionsList | undefined;
+  teamRoles?: UserEventPayloadCase464TeamRolesList | undefined;
   teamSlug?: string | undefined;
   uid?: string | undefined;
   updatedUid?: string | undefined;
-  updatedUser?: UserEventPayloadCase174DeletedUser | undefined;
+  updatedUser?: UserEventPayloadCase187DeletedUser | undefined;
 }
-export type UserEventPayloadCase436Source =
+export type UserEventPayloadCase465Source =
   | "account-update"
   | "bitbucket"
   | "dsync"
@@ -9237,7 +9672,7 @@ export type UserEventPayloadCase436Source =
   | "saml"
   | "teams";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase436 {
+export interface UserEventPayloadCase465 {
   bitbucketUsername?: string | undefined;
   githubUsername?: string | undefined;
   gitlabUsername?: string | undefined;
@@ -9245,9 +9680,9 @@ export interface UserEventPayloadCase436 {
   requestedTeamName: string;
   requestedTeamSlug?: string | undefined;
   requestedUserName?: string | undefined;
-  source?: UserEventPayloadCase436Source | undefined;
+  source?: UserEventPayloadCase465Source | undefined;
 }
-export type UserEventPayloadCase437PreviousTeamPermissionsItem =
+export type UserEventPayloadCase466PreviousTeamPermissionsItem =
   | "AiGatewayBudgetManager"
   | "AiGatewayCredits"
   | "AiGatewaySettings"
@@ -9267,9 +9702,9 @@ export type UserEventPayloadCase437PreviousTeamPermissionsItem =
   | "V0Chatter"
   | "V0Viewer"
   | "WorkflowDecryptor";
-export type UserEventPayloadCase437PreviousTeamPermissionsList =
-  Array<UserEventPayloadCase437PreviousTeamPermissionsItem>;
-export type UserEventPayloadCase437PreviousTeamRolesItem =
+export type UserEventPayloadCase466PreviousTeamPermissionsList =
+  Array<UserEventPayloadCase466PreviousTeamPermissionsItem>;
+export type UserEventPayloadCase466PreviousTeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9278,9 +9713,9 @@ export type UserEventPayloadCase437PreviousTeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase437PreviousTeamRolesList =
-  Array<UserEventPayloadCase437PreviousTeamRolesItem>;
-export type UserEventPayloadCase437TeamPermissionsItem =
+export type UserEventPayloadCase466PreviousTeamRolesList =
+  Array<UserEventPayloadCase466PreviousTeamRolesItem>;
+export type UserEventPayloadCase466TeamPermissionsItem =
   | "AiGatewayBudgetManager"
   | "AiGatewayCredits"
   | "AiGatewaySettings"
@@ -9300,9 +9735,9 @@ export type UserEventPayloadCase437TeamPermissionsItem =
   | "V0Chatter"
   | "V0Viewer"
   | "WorkflowDecryptor";
-export type UserEventPayloadCase437TeamPermissionsList =
-  Array<UserEventPayloadCase437TeamPermissionsItem>;
-export type UserEventPayloadCase437TeamRolesItem =
+export type UserEventPayloadCase466TeamPermissionsList =
+  Array<UserEventPayloadCase466TeamPermissionsItem>;
+export type UserEventPayloadCase466TeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9311,35 +9746,35 @@ export type UserEventPayloadCase437TeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase437TeamRolesList = Array<UserEventPayloadCase437TeamRolesItem>;
-export type UserEventPayloadCase437UpdatedUser = UserEventPayloadCase174DeletedUser;
+export type UserEventPayloadCase466TeamRolesList = Array<UserEventPayloadCase466TeamRolesItem>;
+export type UserEventPayloadCase466UpdatedUser = UserEventPayloadCase187DeletedUser;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase437 {
+export interface UserEventPayloadCase466 {
   directoryType?: string | undefined;
   origin?: string | undefined;
   previousRole: string;
-  previousTeamPermissions?: UserEventPayloadCase437PreviousTeamPermissionsList | undefined;
-  previousTeamRoles?: UserEventPayloadCase437PreviousTeamRolesList | undefined;
+  previousTeamPermissions?: UserEventPayloadCase466PreviousTeamPermissionsList | undefined;
+  previousTeamRoles?: UserEventPayloadCase466PreviousTeamRolesList | undefined;
   role?: string | undefined;
   ssoType?: string | undefined;
-  teamPermissions?: UserEventPayloadCase437TeamPermissionsList | undefined;
-  teamRoles?: UserEventPayloadCase437TeamRolesList | undefined;
+  teamPermissions?: UserEventPayloadCase466TeamPermissionsList | undefined;
+  teamRoles?: UserEventPayloadCase466TeamRolesList | undefined;
   teamSlug?: string | undefined;
   updatedUid?: string | undefined;
-  updatedUser?: UserEventPayloadCase174DeletedUser | undefined;
+  updatedUser?: UserEventPayloadCase187DeletedUser | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase438 {
+export interface UserEventPayloadCase467 {
   authorized: boolean;
   email?: string | undefined;
   reason?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase439 {
+export interface UserEventPayloadCase468 {
   enforced: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase440 {
+export interface UserEventPayloadCase469 {
   expiresAt: string;
   maxUses: number;
   name?: string | undefined;
@@ -9347,91 +9782,91 @@ export interface UserEventPayloadCase440 {
   role: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase441 {
+export interface UserEventPayloadCase470 {
   name?: string | undefined;
   publicId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase442 {
+export interface UserEventPayloadCase471 {
   nextConcurrentBuilds: number;
   previousConcurrentBuilds: number;
 }
-export type UserEventPayloadCase443Plan = "enterprise" | "hobby" | "pro";
-export interface UserEventPayloadCase443Trial {
+export type UserEventPayloadCase472Plan = "enterprise" | "hobby" | "pro";
+export interface UserEventPayloadCase472Trial {
   end: number;
   start: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase443 {
-  plan: UserEventPayloadCase443Plan;
-  trial?: UserEventPayloadCase443Trial | null | undefined;
+export interface UserEventPayloadCase472 {
+  plan: UserEventPayloadCase472Plan;
+  trial?: UserEventPayloadCase472Trial | null | undefined;
 }
-export type UserEventPayloadCase444Plan = "enterprise" | "hobby" | "pro";
+export type UserEventPayloadCase473Plan = "enterprise" | "hobby" | "pro";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase444 {
+export interface UserEventPayloadCase473 {
   convertedFromTrial: boolean;
   invoiceId: string;
-  plan: UserEventPayloadCase444Plan;
+  plan: UserEventPayloadCase473Plan;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase445 {
+export interface UserEventPayloadCase474 {
   inviteCode?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase446 {
+export interface UserEventPayloadCase475 {
   name?: string | undefined;
 }
-export type UserEventPayloadCase447ActorType = "admin";
+export type UserEventPayloadCase476ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase447 {
+export interface UserEventPayloadCase476 {
   name?: string | undefined;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase447ActorType;
+  actorType: UserEventPayloadCase476ActorType;
 }
-export type UserEventPayloadCase448Decision = "keep_on" | "turn_off";
+export type UserEventPayloadCase477Decision = "keep_on" | "turn_off";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase448 {
-  decision: UserEventPayloadCase448Decision;
+export interface UserEventPayloadCase477 {
+  decision: UserEventPayloadCase477Decision;
   version: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase449 {
+export interface UserEventPayloadCase478 {
   acceptanceId: string;
   termsVersion: string;
 }
-export type UserEventPayloadCase450Consent = "granted" | "refused";
+export type UserEventPayloadCase479Consent = "granted" | "refused";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase450 {
-  consent: UserEventPayloadCase450Consent;
+export interface UserEventPayloadCase479 {
+  consent: UserEventPayloadCase479Consent;
 }
 /** Represents configuration for remote caching */
-export type UserEventPayloadCase451RemoteCaching = AuthUserRemoteCaching;
+export type UserEventPayloadCase480RemoteCaching = AuthUserRemoteCaching;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase451 {
+export interface UserEventPayloadCase480 {
   /** Represents configuration for remote caching */
   remoteCaching?: AuthUserRemoteCaching | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase452 {
+export interface UserEventPayloadCase481 {
   deletedCount: number;
 }
-export type UserEventPayloadCase453Enabled = "default" | "off" | "on";
+export type UserEventPayloadCase482Enabled = "default" | "off" | "on";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase453 {
-  enabled: UserEventPayloadCase453Enabled;
+export interface UserEventPayloadCase482 {
+  enabled: UserEventPayloadCase482Enabled;
 }
-export type UserEventPayloadCase454Scope = "dashboard" | "log-drains";
+export type UserEventPayloadCase483Scope = "dashboard" | "log-drains";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase454 {
+export interface UserEventPayloadCase483 {
   enabled: boolean;
-  scope: UserEventPayloadCase454Scope;
+  scope: UserEventPayloadCase483Scope;
 }
-export interface UserEventPayloadCase455NextValueCase0 {
+export interface UserEventPayloadCase484NextValueCase0 {
   accessGroupId: string;
 }
-export type UserEventPayloadCase455NextValueCase1TeamPermissionsItem =
+export type UserEventPayloadCase484NextValueCase1TeamPermissionsItem =
   | "AiGatewayBudgetManager"
   | "AiGatewayCredits"
   | "AiGatewaySettings"
@@ -9451,9 +9886,9 @@ export type UserEventPayloadCase455NextValueCase1TeamPermissionsItem =
   | "V0Chatter"
   | "V0Viewer"
   | "WorkflowDecryptor";
-export type UserEventPayloadCase455NextValueCase1TeamPermissionsList =
-  Array<UserEventPayloadCase455NextValueCase1TeamPermissionsItem>;
-export type UserEventPayloadCase455NextValueCase1TeamRolesItem =
+export type UserEventPayloadCase484NextValueCase1TeamPermissionsList =
+  Array<UserEventPayloadCase484NextValueCase1TeamPermissionsItem>;
+export type UserEventPayloadCase484NextValueCase1TeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9462,13 +9897,13 @@ export type UserEventPayloadCase455NextValueCase1TeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase455NextValueCase1TeamRolesList =
-  Array<UserEventPayloadCase455NextValueCase1TeamRolesItem>;
-export interface UserEventPayloadCase455NextValueCase1 {
-  teamPermissions?: UserEventPayloadCase455NextValueCase1TeamPermissionsList | undefined;
-  teamRoles: UserEventPayloadCase455NextValueCase1TeamRolesList;
+export type UserEventPayloadCase484NextValueCase1TeamRolesList =
+  Array<UserEventPayloadCase484NextValueCase1TeamRolesItem>;
+export interface UserEventPayloadCase484NextValueCase1 {
+  teamPermissions?: UserEventPayloadCase484NextValueCase1TeamPermissionsList | undefined;
+  teamRoles: UserEventPayloadCase484NextValueCase1TeamRolesList;
 }
-export type UserEventPayloadCase455NextValueCase2 =
+export type UserEventPayloadCase484NextValueCase2 =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9477,15 +9912,15 @@ export type UserEventPayloadCase455NextValueCase2 =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase455NextValue =
-  | UserEventPayloadCase455NextValueCase0
-  | UserEventPayloadCase455NextValueCase1
-  | UserEventPayloadCase455NextValueCase2;
-export type UserEventPayloadCase455NextMap = {
-  [key: string]: UserEventPayloadCase455NextValue | undefined;
+export type UserEventPayloadCase484NextValue =
+  | UserEventPayloadCase484NextValueCase0
+  | UserEventPayloadCase484NextValueCase1
+  | UserEventPayloadCase484NextValueCase2;
+export type UserEventPayloadCase484NextMap = {
+  [key: string]: UserEventPayloadCase484NextValue | undefined;
 };
-export type UserEventPayloadCase455PreviousValueCase0 = UserEventPayloadCase455NextValueCase0;
-export type UserEventPayloadCase455PreviousValueCase1TeamPermissionsItem =
+export type UserEventPayloadCase484PreviousValueCase0 = UserEventPayloadCase484NextValueCase0;
+export type UserEventPayloadCase484PreviousValueCase1TeamPermissionsItem =
   | "AiGatewayBudgetManager"
   | "AiGatewayCredits"
   | "AiGatewaySettings"
@@ -9505,9 +9940,9 @@ export type UserEventPayloadCase455PreviousValueCase1TeamPermissionsItem =
   | "V0Chatter"
   | "V0Viewer"
   | "WorkflowDecryptor";
-export type UserEventPayloadCase455PreviousValueCase1TeamPermissionsList =
-  Array<UserEventPayloadCase455PreviousValueCase1TeamPermissionsItem>;
-export type UserEventPayloadCase455PreviousValueCase1TeamRolesItem =
+export type UserEventPayloadCase484PreviousValueCase1TeamPermissionsList =
+  Array<UserEventPayloadCase484PreviousValueCase1TeamPermissionsItem>;
+export type UserEventPayloadCase484PreviousValueCase1TeamRolesItem =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9516,13 +9951,13 @@ export type UserEventPayloadCase455PreviousValueCase1TeamRolesItem =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase455PreviousValueCase1TeamRolesList =
-  Array<UserEventPayloadCase455PreviousValueCase1TeamRolesItem>;
-export interface UserEventPayloadCase455PreviousValueCase1 {
-  teamPermissions?: UserEventPayloadCase455PreviousValueCase1TeamPermissionsList | undefined;
-  teamRoles: UserEventPayloadCase455PreviousValueCase1TeamRolesList;
+export type UserEventPayloadCase484PreviousValueCase1TeamRolesList =
+  Array<UserEventPayloadCase484PreviousValueCase1TeamRolesItem>;
+export interface UserEventPayloadCase484PreviousValueCase1 {
+  teamPermissions?: UserEventPayloadCase484PreviousValueCase1TeamPermissionsList | undefined;
+  teamRoles: UserEventPayloadCase484PreviousValueCase1TeamRolesList;
 }
-export type UserEventPayloadCase455PreviousValueCase2 =
+export type UserEventPayloadCase484PreviousValueCase2 =
   | "BILLING"
   | "CONTRIBUTOR"
   | "DEVELOPER"
@@ -9531,174 +9966,188 @@ export type UserEventPayloadCase455PreviousValueCase2 =
   | "SECURITY"
   | "VIEWER"
   | "VIEWER_FOR_PLUS";
-export type UserEventPayloadCase455PreviousValue =
-  | UserEventPayloadCase455NextValueCase0
-  | UserEventPayloadCase455PreviousValueCase1
-  | UserEventPayloadCase455PreviousValueCase2;
-export type UserEventPayloadCase455PreviousMap = {
-  [key: string]: UserEventPayloadCase455PreviousValue | undefined;
+export type UserEventPayloadCase484PreviousValue =
+  | UserEventPayloadCase484NextValueCase0
+  | UserEventPayloadCase484PreviousValueCase1
+  | UserEventPayloadCase484PreviousValueCase2;
+export type UserEventPayloadCase484PreviousMap = {
+  [key: string]: UserEventPayloadCase484PreviousValue | undefined;
 };
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase455 {
-  next?: UserEventPayloadCase455NextMap | undefined;
-  previous?: UserEventPayloadCase455PreviousMap | undefined;
+export interface UserEventPayloadCase484 {
+  next?: UserEventPayloadCase484NextMap | undefined;
+  previous?: UserEventPayloadCase484PreviousMap | undefined;
 }
-export type UserEventPayloadCase456IpsList = Array<string>;
+export type UserEventPayloadCase485IpsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase456 {
+export interface UserEventPayloadCase485 {
   domain: string;
-  ips: UserEventPayloadCase456IpsList;
+  ips: UserEventPayloadCase485IpsList;
 }
-export type UserEventPayloadCase457TokenTypesList = Array<string>;
+export type UserEventPayloadCase486TokenTypesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase457 {
-  tokenTypes: UserEventPayloadCase457TokenTypesList;
+export interface UserEventPayloadCase486 {
+  tokenTypes: UserEventPayloadCase486TokenTypesList;
+}
+export type UserEventPayloadCase487FiltersProjectIdsList = Array<string>;
+export type UserEventPayloadCase487FiltersTypesList = Array<string>;
+export interface UserEventPayloadCase487Filters {
+  alertGroupId?: string | undefined;
+  projectIds?: UserEventPayloadCase487FiltersProjectIdsList | undefined;
+  types?: UserEventPayloadCase487FiltersTypesList | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase458 {
+export interface UserEventPayloadCase487 {
   exportId: string;
+  filters?: UserEventPayloadCase487Filters | undefined;
   format: string;
   from: number;
   to: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase459 {
+export interface UserEventPayloadCase488 {
   fileId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase460 {
+export interface UserEventPayloadCase489 {
   slug?: string | undefined;
 }
-export type UserEventPayloadCase461ActorType = "admin";
+export type UserEventPayloadCase490ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase461 {
+export interface UserEventPayloadCase490 {
   slug?: string | undefined;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase461ActorType;
+  actorType: UserEventPayloadCase490ActorType;
 }
-export type UserEventPayloadCase462SamplingItemEnv = "preview" | "production";
-export type UserEventPayloadCase462SamplingItemType = "head_sampling";
-export interface UserEventPayloadCase462SamplingItem {
-  env?: UserEventPayloadCase462SamplingItemEnv | undefined;
+export type UserEventPayloadCase491SamplingItemEnv = "preview" | "production";
+export type UserEventPayloadCase491SamplingItemType = "head_sampling";
+export interface UserEventPayloadCase491SamplingItem {
+  env?: UserEventPayloadCase491SamplingItemEnv | undefined;
   rate: number;
   requestPath?: string | undefined;
-  type: UserEventPayloadCase462SamplingItemType;
+  type: UserEventPayloadCase491SamplingItemType;
 }
-export type UserEventPayloadCase462SamplingList = Array<UserEventPayloadCase462SamplingItem>;
+export type UserEventPayloadCase491SamplingList = Array<UserEventPayloadCase491SamplingItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase462 {
+export interface UserEventPayloadCase491 {
   projectId: string;
   projectName: string;
-  sampling?: UserEventPayloadCase462SamplingList | undefined;
+  sampling?: UserEventPayloadCase491SamplingList | undefined;
 }
-export type UserEventPayloadCase463Reason = "limits-exceeded";
+export type UserEventPayloadCase492Reason = "limits-exceeded";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase463 {
-  reason: UserEventPayloadCase463Reason;
+export interface UserEventPayloadCase492 {
+  reason: UserEventPayloadCase492Reason;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase464 {
+export interface UserEventPayloadCase493 {
   organizationId: string;
 }
-export type UserEventPayloadCase465TeamIdsList = Array<string>;
+export type UserEventPayloadCase494TeamIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase465 {
+export interface UserEventPayloadCase494 {
   organizationId: string;
-  teamIds: UserEventPayloadCase465TeamIdsList;
+  teamIds: UserEventPayloadCase494TeamIdsList;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase466 {
+export interface UserEventPayloadCase495 {
   teamName?: string | undefined;
 }
-export type UserEventPayloadCase467ActorType = "admin" | "user";
+export type UserEventPayloadCase496ActorType = "admin" | "user";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase467 {
+export interface UserEventPayloadCase496 {
   actorId?: string | undefined;
   /** Human-readable admin who performed the removal. */
   actorName?: string | undefined;
-  actorType?: UserEventPayloadCase467ActorType | undefined;
+  actorType?: UserEventPayloadCase496ActorType | undefined;
   reason?: string | undefined;
   recoveryCodes: number;
   totp: boolean;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase468 {
+export interface UserEventPayloadCase497 {
   deletedAt?: number | null | undefined;
   username: string;
 }
-export type UserEventPayloadCase469ActorType = "admin";
+export type UserEventPayloadCase498ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase469 {
+export interface UserEventPayloadCase498 {
   deletedAt?: number | null | undefined;
   username: string;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase469ActorType;
+  actorType: UserEventPayloadCase498ActorType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase470 {
+export interface UserEventPayloadCase499 {
   username: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase471 {
+export interface UserEventPayloadCase500 {
   teamName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase472 {
+export interface UserEventPayloadCase501 {
   teamId: string;
   teamName: string;
 }
-export type UserEventPayloadCase473ActorType = "admin";
+export type UserEventPayloadCase502ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase473 {
+export interface UserEventPayloadCase502 {
   actorId: string;
-  actorType: UserEventPayloadCase473ActorType;
+  actorType: UserEventPayloadCase502ActorType;
   reason?: string | undefined;
 }
-export type UserEventPayloadCase474ActorType = "admin";
+export type UserEventPayloadCase503ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase474 {
+export interface UserEventPayloadCase503 {
   actorId: string;
-  actorType: UserEventPayloadCase474ActorType;
+  actorType: UserEventPayloadCase503ActorType;
 }
-export type UserEventPayloadCase475ActorType = "admin";
+export type UserEventPayloadCase504ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase475 {
+export interface UserEventPayloadCase504 {
   actorId: string;
-  actorType: UserEventPayloadCase475ActorType;
+  actorType: UserEventPayloadCase504ActorType;
   enabled: boolean;
 }
-export type UserEventPayloadCase476ActorType = "admin";
+export type UserEventPayloadCase505ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase476 {
+export interface UserEventPayloadCase505 {
   actorId: string;
-  actorType: UserEventPayloadCase476ActorType;
+  actorType: UserEventPayloadCase505ActorType;
   autoBlockPrevented: boolean;
   preventUntil?: number | undefined;
   reason?: string | undefined;
 }
-export type UserEventPayloadCase477Method = "email-otp" | "recovery-code" | "totp" | "webauthn";
+export type UserEventPayloadCase506Scope = "default" | "organization" | "team";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase477 {
+export interface UserEventPayloadCase506 {
+  scope: UserEventPayloadCase506Scope;
+  scopeId?: string | undefined;
+}
+export type UserEventPayloadCase507Method = "email-otp" | "recovery-code" | "totp" | "webauthn";
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase507 {
   flowId?: string | undefined;
   loginSessionId?: string | undefined;
-  method: UserEventPayloadCase477Method;
+  method: UserEventPayloadCase507Method;
   reason: string;
 }
-export type UserEventPayloadCase478AllowedMethodsItem = "recovery-code" | "totp" | "webauthn";
-export type UserEventPayloadCase478AllowedMethodsList =
-  Array<UserEventPayloadCase478AllowedMethodsItem>;
+export type UserEventPayloadCase508AllowedMethodsItem = "recovery-code" | "totp" | "webauthn";
+export type UserEventPayloadCase508AllowedMethodsList =
+  Array<UserEventPayloadCase508AllowedMethodsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase478 {
-  allowedMethods: UserEventPayloadCase478AllowedMethodsList;
+export interface UserEventPayloadCase508 {
+  allowedMethods: UserEventPayloadCase508AllowedMethodsList;
   firstFactor: string;
   flowId: string;
   loginSessionId?: string | undefined;
 }
-export type UserEventPayloadCase479Action =
+export type UserEventPayloadCase509Action =
   | "add-passkey"
   | "add-totp"
   | "admin-remove"
@@ -9707,107 +10156,107 @@ export type UserEventPayloadCase479Action =
   | "regenerate-recovery-codes"
   | "remove-passkey";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase479 {
-  action: UserEventPayloadCase479Action;
+export interface UserEventPayloadCase509 {
+  action: UserEventPayloadCase509Action;
   reason: string;
 }
-export type UserEventPayloadCase480Method =
+export type UserEventPayloadCase510Method =
   | "passkey"
   | "self_serve_recovery"
   | "totp"
   | "user_disabled";
-export interface UserEventPayloadCase480Next {
+export interface UserEventPayloadCase510Next {
   enabled: boolean;
   totpVerified: boolean;
 }
-export type UserEventPayloadCase480Previous = UserEventPayloadCase480Next;
+export type UserEventPayloadCase510Previous = UserEventPayloadCase510Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase480 {
-  method?: UserEventPayloadCase480Method | undefined;
-  next: UserEventPayloadCase480Next;
-  previous: UserEventPayloadCase480Next;
+export interface UserEventPayloadCase510 {
+  method?: UserEventPayloadCase510Method | undefined;
+  next: UserEventPayloadCase510Next;
+  previous: UserEventPayloadCase510Next;
 }
 /** Absent on events predating the field; those were all logins. */
-export type UserEventPayloadCase481Context = "login" | "sudo";
+export type UserEventPayloadCase511Context = "login" | "sudo";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase481 {
+export interface UserEventPayloadCase511 {
   /** Absent on events predating the field; those were all logins. */
-  context?: UserEventPayloadCase481Context | undefined;
+  context?: UserEventPayloadCase511Context | undefined;
   remaining: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase482 {
+export interface UserEventPayloadCase512 {
   mfaEnabled: boolean;
 }
-export type UserEventPayloadCase483Mfa = UserEventPayloadCase480Next;
+export type UserEventPayloadCase513Mfa = UserEventPayloadCase510Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase483 {
-  mfa: UserEventPayloadCase480Next;
+export interface UserEventPayloadCase513 {
+  mfa: UserEventPayloadCase510Next;
 }
 /** The payload of the event, if requested. */
-export type UserEventPayloadCase484 = UserEventPayloadCase480Next;
-export type UserEventPayloadCase485Next = UserEventPayloadCase480Next;
-export type UserEventPayloadCase485Previous = UserEventPayloadCase480Next;
+export type UserEventPayloadCase514 = UserEventPayloadCase510Next;
+export type UserEventPayloadCase515Next = UserEventPayloadCase510Next;
+export type UserEventPayloadCase515Previous = UserEventPayloadCase510Next;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase485 {
-  next: UserEventPayloadCase480Next;
-  previous: UserEventPayloadCase480Next;
+export interface UserEventPayloadCase515 {
+  next: UserEventPayloadCase510Next;
+  previous: UserEventPayloadCase510Next;
 }
-export type UserEventPayloadCase486DecisionBasis = "gmail" | "none" | "workspace-mx";
-export type UserEventPayloadCase486DecisionMxOutcome =
+export type UserEventPayloadCase516DecisionBasis = "gmail" | "none" | "workspace-mx";
+export type UserEventPayloadCase516DecisionMxOutcome =
   | "google"
   | "lookup-error"
   | "non-google"
   | "not-checked";
-export interface UserEventPayloadCase486Decision {
+export interface UserEventPayloadCase516Decision {
   authoritative: boolean;
-  basis: UserEventPayloadCase486DecisionBasis;
+  basis: UserEventPayloadCase516DecisionBasis;
   emailDomain: string;
   emailVerified: boolean;
   hostedDomainMatch: boolean;
-  mxOutcome: UserEventPayloadCase486DecisionMxOutcome;
+  mxOutcome: UserEventPayloadCase516DecisionMxOutcome;
 }
-export type UserEventPayloadCase486Outcome = "account-matched" | "linking-required";
-export type UserEventPayloadCase486Provider = "google";
+export type UserEventPayloadCase516Outcome = "account-matched" | "linking-required";
+export type UserEventPayloadCase516Provider = "google";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase486 {
-  decision: UserEventPayloadCase486Decision;
-  outcome: UserEventPayloadCase486Outcome;
-  provider: UserEventPayloadCase486Provider;
+export interface UserEventPayloadCase516 {
+  decision: UserEventPayloadCase516Decision;
+  outcome: UserEventPayloadCase516Outcome;
+  provider: UserEventPayloadCase516Provider;
   providerSubjectId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase487 {
+export interface UserEventPayloadCase517 {
   email: string;
   prevEmail: string;
 }
-export type UserEventPayloadCase488ActorType = "admin";
+export type UserEventPayloadCase518ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase488 {
+export interface UserEventPayloadCase518 {
   email: string;
   prevEmail: string;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase488ActorType;
+  actorType: UserEventPayloadCase518ActorType;
 }
-export type UserEventPayloadCase489ActorType = "admin";
+export type UserEventPayloadCase519ActorType = "admin";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase489 {
+export interface UserEventPayloadCase519 {
   username: string;
   /** Okta user id. */
   actorId: string;
   actorName?: string | undefined;
-  actorType: UserEventPayloadCase489ActorType;
+  actorType: UserEventPayloadCase519ActorType;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase490 {
+export interface UserEventPayloadCase520 {
   projectId: string;
   projectName: string;
   repositoryName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase491 {
+export interface UserEventPayloadCase521 {
   digest: string;
   projectId: string;
   projectName: string;
@@ -9815,14 +10264,14 @@ export interface UserEventPayloadCase491 {
   repositoryName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase492 {
+export interface UserEventPayloadCase522 {
   projectId: string;
   projectName: string;
   reference: string;
   repositoryName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase493 {
+export interface UserEventPayloadCase523 {
   projectId: string;
   projectName: string;
   repositoryName: string;
@@ -9830,111 +10279,212 @@ export interface UserEventPayloadCase493 {
   sharedWithTeamSlug: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase494 {
+export interface UserEventPayloadCase524 {
   projectId: string;
   projectName: string;
   repositoryName: string;
   sharedWithTeamId: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase495 {
+export interface UserEventPayloadCase525 {
   projectId: string;
   projectName: string;
   public: boolean;
   repositoryName: string;
 }
-export type UserEventPayloadCase496RemovedTeamIdsList = Array<string>;
+export type UserEventPayloadCase526RemovedTeamIdsList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase496 {
+export interface UserEventPayloadCase526 {
   projectId: string;
   projectName: string;
-  removedTeamIds: UserEventPayloadCase496RemovedTeamIdsList;
+  removedTeamIds: UserEventPayloadCase526RemovedTeamIdsList;
   repositoryName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase497 {
+export interface UserEventPayloadCase527 {
   ruleName: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase498 {
+export interface UserEventPayloadCase528 {
   nextProjectCount: number | null;
   previousProjectCount: number | null;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase499 {
+export interface UserEventPayloadCase529 {
   customAlertTitle: string;
 }
+export interface UserEventPayloadCase530DetectionsItem {
+  alertId: string;
+  startedAt: number;
+  title: string;
+}
+export type UserEventPayloadCase530DetectionsList = Array<UserEventPayloadCase530DetectionsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase500 {
+export interface UserEventPayloadCase530 {
+  alertType: string;
+  groupId: string;
+  projectId: string;
+  severity?: string | undefined;
+  detectionCount: number;
+  detections: UserEventPayloadCase530DetectionsList;
+}
+export interface UserEventPayloadCase531DestinationsSlackItem {
+  channelId: string;
+  configurationId?: string | undefined;
+  slackWorkspaceId: string;
+}
+export type UserEventPayloadCase531DestinationsSlackList =
+  Array<UserEventPayloadCase531DestinationsSlackItem>;
+export type UserEventPayloadCase531DestinationsUnavailableItem = "slack" | "webhooks";
+export type UserEventPayloadCase531DestinationsUnavailableList =
+  Array<UserEventPayloadCase531DestinationsUnavailableItem>;
+export interface UserEventPayloadCase531DestinationsWebhooksItem {
+  integration?: string | undefined;
+  webhookId: string;
+}
+export type UserEventPayloadCase531DestinationsWebhooksList =
+  Array<UserEventPayloadCase531DestinationsWebhooksItem>;
+export interface UserEventPayloadCase531Destinations {
+  email?: boolean | undefined;
+  inApp?: boolean | undefined;
+  push?: boolean | undefined;
+  slack?: UserEventPayloadCase531DestinationsSlackList | undefined;
+  unavailable?: UserEventPayloadCase531DestinationsUnavailableList | undefined;
+  webhooks?: UserEventPayloadCase531DestinationsWebhooksList | undefined;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase531 {
+  alertType: string;
+  groupId: string;
+  projectId: string;
+  severity?: string | undefined;
+  destinations: UserEventPayloadCase531Destinations;
+}
+export type UserEventPayloadCase532DestinationsSlackItem =
+  UserEventPayloadCase531DestinationsSlackItem;
+export type UserEventPayloadCase532DestinationsSlackList =
+  Array<UserEventPayloadCase531DestinationsSlackItem>;
+export type UserEventPayloadCase532DestinationsUnavailableItem = "slack" | "webhooks";
+export type UserEventPayloadCase532DestinationsUnavailableList =
+  Array<UserEventPayloadCase532DestinationsUnavailableItem>;
+export type UserEventPayloadCase532DestinationsWebhooksItem =
+  UserEventPayloadCase531DestinationsWebhooksItem;
+export type UserEventPayloadCase532DestinationsWebhooksList =
+  Array<UserEventPayloadCase531DestinationsWebhooksItem>;
+export interface UserEventPayloadCase532Destinations {
+  email?: boolean | undefined;
+  inApp?: boolean | undefined;
+  push?: boolean | undefined;
+  slack?: UserEventPayloadCase532DestinationsSlackList | undefined;
+  unavailable?: UserEventPayloadCase532DestinationsUnavailableList | undefined;
+  webhooks?: UserEventPayloadCase532DestinationsWebhooksList | undefined;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase532 {
+  alertType: string;
+  groupId: string;
+  projectId: string;
+  severity?: string | undefined;
+  destinations: UserEventPayloadCase532Destinations;
+  title?: string | undefined;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase533 {
+  alertType: string;
+  groupId: string;
+  projectId: string;
+  severity?: string | undefined;
+  alertId: string;
+  resolvedAt?: number | undefined;
+  startedAt: number;
+  title: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase534 {
+  enabled: boolean;
+  organizationId?: string | undefined;
+  repository?: string | undefined;
+  repositoryId: string;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase535 {
   ciEnabled: boolean;
   organizationId: string;
   repository: string;
 }
-export type UserEventPayloadCase501VulnerabilitiesList = Array<string>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase501 {
+export interface UserEventPayloadCase536 {
+  commitSha: string;
+  invocationId: string;
+  organizationId: string;
+  pullRequestNumber: number;
+  repository: string;
+}
+export type UserEventPayloadCase537VulnerabilitiesList = Array<string>;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase537 {
   protectedProjectCount: number;
   protectionEnabled: boolean;
-  vulnerabilities: UserEventPayloadCase501VulnerabilitiesList;
+  vulnerabilities: UserEventPayloadCase537VulnerabilitiesList;
 }
-export type UserEventPayloadCase502Configuration = UserEventPayloadCase53Project;
-export interface UserEventPayloadCase502Peering {
+export type UserEventPayloadCase538Configuration = UserEventPayloadCase62Project;
+export interface UserEventPayloadCase538Peering {
   accountId: string;
   id: string;
   region: string;
   vpcId: string;
 }
-export type UserEventPayloadCase502Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase538Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase502 {
-  configuration: UserEventPayloadCase53Project;
-  peering: UserEventPayloadCase502Peering;
-  team: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase538 {
+  configuration: UserEventPayloadCase62Project;
+  peering: UserEventPayloadCase538Peering;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase503Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase503Peering = UserEventPayloadCase53Project;
-export type UserEventPayloadCase503Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase539Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase539Peering = UserEventPayloadCase62Project;
+export type UserEventPayloadCase539Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase503 {
-  configuration: UserEventPayloadCase53Project;
-  peering: UserEventPayloadCase53Project;
-  team: UserEventPayloadCase25AccessPolicy;
+export interface UserEventPayloadCase539 {
+  configuration: UserEventPayloadCase62Project;
+  peering: UserEventPayloadCase62Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase504Configuration = UserEventPayloadCase53Project;
-export type UserEventPayloadCase504Peering = UserEventPayloadCase53Project;
-export type UserEventPayloadCase504Team = UserEventPayloadCase25AccessPolicy;
+export type UserEventPayloadCase540Configuration = UserEventPayloadCase62Project;
+export type UserEventPayloadCase540Peering = UserEventPayloadCase62Project;
+export type UserEventPayloadCase540Team = UserEventPayloadCase29AccessPolicy;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase504 {
-  configuration: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase540 {
+  configuration: UserEventPayloadCase62Project;
   newName?: string | undefined;
-  peering: UserEventPayloadCase53Project;
-  team: UserEventPayloadCase25AccessPolicy;
+  peering: UserEventPayloadCase62Project;
+  team: UserEventPayloadCase29AccessPolicy;
 }
-export type UserEventPayloadCase505Cadence = "monthly" | "weekly";
-export type UserEventPayloadCase505ProjectIdsList = Array<string>;
-export type UserEventPayloadCase505Team = UserEventPayloadCase53Project;
+export type UserEventPayloadCase541Cadence = "monthly" | "weekly";
+export type UserEventPayloadCase541ProjectIdsList = Array<string>;
+export type UserEventPayloadCase541Team = UserEventPayloadCase62Project;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase505 {
-  cadence: UserEventPayloadCase505Cadence;
-  projectIds: UserEventPayloadCase505ProjectIdsList;
-  team: UserEventPayloadCase53Project;
+export interface UserEventPayloadCase541 {
+  cadence: UserEventPayloadCase541Cadence;
+  projectIds: UserEventPayloadCase541ProjectIdsList;
+  team: UserEventPayloadCase62Project;
 }
-export type UserEventPayloadCase506Tier = "plus" | "pro";
+export type UserEventPayloadCase542Tier = "plus" | "pro";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase506 {
-  tier: UserEventPayloadCase506Tier;
+export interface UserEventPayloadCase542 {
+  tier: UserEventPayloadCase542Tier;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase507 {
+export interface UserEventPayloadCase543 {
   id: string;
   url: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase508 {
+export interface UserEventPayloadCase544 {
   chatId: string;
   chatTitle?: string | undefined;
 }
-export interface UserEventPayloadCase509EventsItem {
+export interface UserEventPayloadCase545EventsItem {
   cacheCreationInputTokens: number;
   cacheReadInputTokens: number;
   eventId: string;
@@ -9944,11 +10494,11 @@ export interface UserEventPayloadCase509EventsItem {
   timestamp: string;
   totalTokens: number;
 }
-export type UserEventPayloadCase509EventsList = Array<UserEventPayloadCase509EventsItem>;
+export type UserEventPayloadCase545EventsList = Array<UserEventPayloadCase545EventsItem>;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase509 {
+export interface UserEventPayloadCase545 {
   chatId: string;
-  events: UserEventPayloadCase509EventsList;
+  events: UserEventPayloadCase545EventsList;
   inputTokens: number;
   messageId: string;
   model: string;
@@ -9957,58 +10507,119 @@ export interface UserEventPayloadCase509 {
   useCase: string;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase510 {
+export interface UserEventPayloadCase546 {
   chatId: string;
   chatTitle?: string | undefined;
   messageId: string;
 }
+export type UserEventPayloadCase547NextCase0Access = "default" | "none" | "unlimited";
+export interface UserEventPayloadCase547NextCase0 {
+  access: UserEventPayloadCase547NextCase0Access;
+}
+export type UserEventPayloadCase547NextCase1Access = "limited";
+export interface UserEventPayloadCase547NextCase1 {
+  access: UserEventPayloadCase547NextCase1Access;
+  limit: string;
+}
+export type UserEventPayloadCase547Next =
+  | UserEventPayloadCase547NextCase0
+  | UserEventPayloadCase547NextCase1;
+export type UserEventPayloadCase547PreviousCase0Access = "default" | "none" | "unlimited";
+export interface UserEventPayloadCase547PreviousCase0 {
+  access: UserEventPayloadCase547PreviousCase0Access;
+}
+export type UserEventPayloadCase547PreviousCase1Access = "limited";
+export interface UserEventPayloadCase547PreviousCase1 {
+  access: UserEventPayloadCase547PreviousCase1Access;
+  limit: string;
+}
+export type UserEventPayloadCase547Previous =
+  | UserEventPayloadCase547PreviousCase0
+  | UserEventPayloadCase547PreviousCase1;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase511 {
+export interface UserEventPayloadCase547 {
+  next: UserEventPayloadCase547Next;
+  previous: UserEventPayloadCase547Previous;
+  userId: string;
+  userName?: string | undefined;
+}
+export type UserEventPayloadCase548NextCase0Access = "default" | "none" | "unlimited";
+export interface UserEventPayloadCase548NextCase0 {
+  access: UserEventPayloadCase548NextCase0Access;
+}
+export type UserEventPayloadCase548NextCase1Access = "limited";
+export interface UserEventPayloadCase548NextCase1 {
+  access: UserEventPayloadCase548NextCase1Access;
+  limit: string;
+}
+export type UserEventPayloadCase548Next =
+  | UserEventPayloadCase548NextCase0
+  | UserEventPayloadCase548NextCase1;
+export type UserEventPayloadCase548PreviousCase0Access = "default" | "none" | "unlimited";
+export interface UserEventPayloadCase548PreviousCase0 {
+  access: UserEventPayloadCase548PreviousCase0Access;
+}
+export type UserEventPayloadCase548PreviousCase1Access = "limited";
+export interface UserEventPayloadCase548PreviousCase1 {
+  access: UserEventPayloadCase548PreviousCase1Access;
+  limit: string;
+}
+export type UserEventPayloadCase548Previous =
+  | UserEventPayloadCase548PreviousCase0
+  | UserEventPayloadCase548PreviousCase1;
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase548 {
+  next: UserEventPayloadCase548Next;
+  previous: UserEventPayloadCase548Previous;
+}
+/** The payload of the event, if requested. */
+export interface UserEventPayloadCase549 {
   deploymentId: string;
   projectId: string;
   projectName?: string | undefined;
   runId: string;
 }
-export type UserEventPayloadCase512NextIssuerUrlsList = Array<string>;
-export interface UserEventPayloadCase512Next {
+export type UserEventPayloadCase550NextIssuerUrlsList = Array<string>;
+export interface UserEventPayloadCase550Next {
   enabled: boolean;
-  issuerUrls: UserEventPayloadCase512NextIssuerUrlsList;
+  issuerUrls: UserEventPayloadCase550NextIssuerUrlsList;
 }
-export type UserEventPayloadCase512PreviousIssuerUrlsList = Array<string>;
-export interface UserEventPayloadCase512Previous {
+export type UserEventPayloadCase550PreviousIssuerUrlsList = Array<string>;
+export interface UserEventPayloadCase550Previous {
   enabled: boolean;
-  issuerUrls: UserEventPayloadCase512PreviousIssuerUrlsList;
+  issuerUrls: UserEventPayloadCase550PreviousIssuerUrlsList;
 }
-export type UserEventPayloadCase512Scope = "organization" | "team";
+export type UserEventPayloadCase550Scope = "organization" | "team";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase512 {
-  next: UserEventPayloadCase512Next;
-  previous: UserEventPayloadCase512Previous;
-  scope: UserEventPayloadCase512Scope;
+export interface UserEventPayloadCase550 {
+  next: UserEventPayloadCase550Next;
+  previous: UserEventPayloadCase550Previous;
+  scope: UserEventPayloadCase550Scope;
 }
-export type UserEventPayloadCase513AppClientAuthenticationUsedMethod =
+export type UserEventPayloadCase551AppClientAuthenticationUsedMethod =
   | "client_secret_basic"
   | "client_secret_jwt"
   | "client_secret_post"
   | "none"
   | "oidc_token"
   | "private_key_jwt";
-export interface UserEventPayloadCase513AppClientAuthenticationUsed {
-  method: UserEventPayloadCase513AppClientAuthenticationUsedMethod;
+export interface UserEventPayloadCase551AppClientAuthenticationUsed {
+  method: UserEventPayloadCase551AppClientAuthenticationUsedMethod;
   secretId?: string | undefined;
 }
 /** optional since entries prior to 2025-10-13 do not contain app information */
-export interface UserEventPayloadCase513App {
-  clientAuthenticationUsed: UserEventPayloadCase513AppClientAuthenticationUsed;
+export interface UserEventPayloadCase551App {
+  clientAuthenticationUsed: UserEventPayloadCase551AppClientAuthenticationUsed;
   clientId: string;
   /** the app's name at the time the event was published (it could have changed since then) */
   name: string;
 }
-export type UserEventPayloadCase513AuthMethod =
+export type UserEventPayloadCase551AuthMethod =
   | "app"
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu"
   | "github"
@@ -10022,38 +10633,38 @@ export type UserEventPayloadCase513AuthMethod =
   | "saml"
   | "sms"
   | "token-exchange-oidc";
-export type UserEventPayloadCase513GeolocationCityNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase513GeolocationCity = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase513GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase513GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase513GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase513GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
+export type UserEventPayloadCase551GeolocationCityNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase551GeolocationCity = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase551GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase551GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase551GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase551GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
 /** optional since entries prior to 2026-04-23 do not contain this field */
-export type UserEventPayloadCase513Geolocation = UserEventPayloadCase221Geolocation;
-export type UserEventPayloadCase513GrantType =
+export type UserEventPayloadCase551Geolocation = UserEventPayloadCase236Geolocation;
+export type UserEventPayloadCase551GrantType =
   | "authorization_code"
   | "urn:ietf:params:oauth:grant-type:device_code"
   | "urn:ietf:params:oauth:grant-type:token-exchange";
 /** optional; only present when a refresh token was issued (offline_access). */
-export type UserEventPayloadCase513RefreshTokenPrefix = "vcr_";
+export type UserEventPayloadCase551RefreshTokenPrefix = "vcr_";
 /** optional since entries prior to 2026-04-23 do not contain this field */
-export type UserEventPayloadCase513TokenPrefix = "vca_";
+export type UserEventPayloadCase551TokenPrefix = "vca_";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase513 {
+export interface UserEventPayloadCase551 {
   /** optional since entries prior to 2025-10-13 do not contain app information */
-  app?: UserEventPayloadCase513App | undefined;
+  app?: UserEventPayloadCase551App | undefined;
   /** the app's name at the time the event was published (it could have changed since then) */
   appName: string;
   /** access_token TTL */
   atTTL: number;
-  authMethod: UserEventPayloadCase513AuthMethod;
+  authMethod: UserEventPayloadCase551AuthMethod;
   /** optional since entries prior to 2026-04-23 do not contain this field */
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
-  grantType: UserEventPayloadCase513GrantType;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
+  grantType: UserEventPayloadCase551GrantType;
   /** optional since entries prior to 2025-10-13 do not contain this field */
   includesRefreshToken?: boolean | undefined;
   /** optional since entries prior to 2026-04-23 do not contain this field */
@@ -10067,7 +10678,7 @@ export interface UserEventPayloadCase513 {
   /** optional since entries prior to 2025-10-13 do not contain this field */
   publicId?: string | undefined;
   /** optional; only present when a refresh token was issued (offline_access). */
-  refreshTokenPrefix?: UserEventPayloadCase513RefreshTokenPrefix | undefined;
+  refreshTokenPrefix?: UserEventPayloadCase551RefreshTokenPrefix | undefined;
   /** optional; only present when a refresh token was issued (offline_access). */
   refreshTokenPublicId?: string | undefined;
   /** optional; only present when a refresh token was issued (offline_access). */
@@ -10078,42 +10689,42 @@ export interface UserEventPayloadCase513 {
   /** optional since entries prior to 2025-10-13 do not contain this field */
   sessionId?: string | undefined;
   /** optional since entries prior to 2026-04-23 do not contain this field */
-  tokenPrefix?: UserEventPayloadCase513TokenPrefix | undefined;
+  tokenPrefix?: UserEventPayloadCase551TokenPrefix | undefined;
   /** optional since entries prior to 2026-04-23 do not contain this field */
   tokenSuffix?: string | undefined;
   /** optional since entries prior to 2026-04-23 do not contain this field */
   userAgent?: string | undefined;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase514 {
+export interface UserEventPayloadCase552 {
   domain: string;
   projectId: string;
 }
-export interface UserEventPayloadCase515PolicyClaimsItemValuesItem {
+export interface UserEventPayloadCase553PolicyClaimsItemValuesItem {
   value: string;
   wildcards: boolean;
 }
-export type UserEventPayloadCase515PolicyClaimsItemValuesList =
-  Array<UserEventPayloadCase515PolicyClaimsItemValuesItem>;
+export type UserEventPayloadCase553PolicyClaimsItemValuesList =
+  Array<UserEventPayloadCase553PolicyClaimsItemValuesItem>;
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export interface UserEventPayloadCase515PolicyClaimsItem {
+export interface UserEventPayloadCase553PolicyClaimsItem {
   name: string;
-  values: UserEventPayloadCase515PolicyClaimsItemValuesList;
+  values: UserEventPayloadCase553PolicyClaimsItemValuesList;
 }
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export type UserEventPayloadCase515PolicyClaimsList =
-  Array<UserEventPayloadCase515PolicyClaimsItem>;
+export type UserEventPayloadCase553PolicyClaimsList =
+  Array<UserEventPayloadCase553PolicyClaimsItem>;
 /** Permission boundary (`['*']` = the app's full declared permissions). */
-export type UserEventPayloadCase515PolicyPermissionsList = Array<string>;
-export type UserEventPayloadCase515PolicyResourcesProjectIdsList = Array<string>;
+export type UserEventPayloadCase553PolicyPermissionsList = Array<string>;
+export type UserEventPayloadCase553PolicyResourcesProjectIdsList = Array<string>;
 /** Resource boundary, or `null` when the policy has none. */
-export interface UserEventPayloadCase515PolicyResources {
-  projectIds: UserEventPayloadCase515PolicyResourcesProjectIdsList;
+export interface UserEventPayloadCase553PolicyResources {
+  projectIds: UserEventPayloadCase553PolicyResourcesProjectIdsList;
 }
 /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-export interface UserEventPayloadCase515Policy {
+export interface UserEventPayloadCase553Policy {
   /** Claim matchers an OIDC token must satisfy to use the policy. */
-  claims: UserEventPayloadCase515PolicyClaimsList;
+  claims: UserEventPayloadCase553PolicyClaimsList;
   clientId: string;
   /** Creation time (epoch ms). */
   createdAt: number;
@@ -10121,42 +10732,42 @@ export interface UserEventPayloadCase515Policy {
   /** Human-readable policy name, or `null` when unnamed. */
   name: string | null;
   /** Permission boundary (`['*']` = the app's full declared permissions). */
-  permissions: UserEventPayloadCase515PolicyPermissionsList;
+  permissions: UserEventPayloadCase553PolicyPermissionsList;
   policyId: string;
   /** Resource boundary, or `null` when the policy has none. */
-  resources: UserEventPayloadCase515PolicyResources | null;
+  resources: UserEventPayloadCase553PolicyResources | null;
   teamId: string;
   /** Last-update time (epoch ms). */
   updatedAt: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase515 {
+export interface UserEventPayloadCase553 {
   /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-  policy: UserEventPayloadCase515Policy;
+  policy: UserEventPayloadCase553Policy;
   appName?: string | undefined;
 }
-export type UserEventPayloadCase516AfterClaimsItemValuesItem =
-  UserEventPayloadCase515PolicyClaimsItemValuesItem;
-export type UserEventPayloadCase516AfterClaimsItemValuesList =
-  Array<UserEventPayloadCase515PolicyClaimsItemValuesItem>;
+export type UserEventPayloadCase554AfterClaimsItemValuesItem =
+  UserEventPayloadCase553PolicyClaimsItemValuesItem;
+export type UserEventPayloadCase554AfterClaimsItemValuesList =
+  Array<UserEventPayloadCase553PolicyClaimsItemValuesItem>;
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export interface UserEventPayloadCase516AfterClaimsItem {
+export interface UserEventPayloadCase554AfterClaimsItem {
   name: string;
-  values: UserEventPayloadCase516AfterClaimsItemValuesList;
+  values: UserEventPayloadCase554AfterClaimsItemValuesList;
 }
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export type UserEventPayloadCase516AfterClaimsList = Array<UserEventPayloadCase516AfterClaimsItem>;
+export type UserEventPayloadCase554AfterClaimsList = Array<UserEventPayloadCase554AfterClaimsItem>;
 /** Permission boundary (`['*']` = the app's full declared permissions). */
-export type UserEventPayloadCase516AfterPermissionsList = Array<string>;
-export type UserEventPayloadCase516AfterResourcesProjectIdsList = Array<string>;
+export type UserEventPayloadCase554AfterPermissionsList = Array<string>;
+export type UserEventPayloadCase554AfterResourcesProjectIdsList = Array<string>;
 /** Resource boundary, or `null` when the policy has none. */
-export interface UserEventPayloadCase516AfterResources {
-  projectIds: UserEventPayloadCase516AfterResourcesProjectIdsList;
+export interface UserEventPayloadCase554AfterResources {
+  projectIds: UserEventPayloadCase554AfterResourcesProjectIdsList;
 }
 /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-export interface UserEventPayloadCase516After {
+export interface UserEventPayloadCase554After {
   /** Claim matchers an OIDC token must satisfy to use the policy. */
-  claims: UserEventPayloadCase516AfterClaimsList;
+  claims: UserEventPayloadCase554AfterClaimsList;
   clientId: string;
   /** Creation time (epoch ms). */
   createdAt: number;
@@ -10164,37 +10775,37 @@ export interface UserEventPayloadCase516After {
   /** Human-readable policy name, or `null` when unnamed. */
   name: string | null;
   /** Permission boundary (`['*']` = the app's full declared permissions). */
-  permissions: UserEventPayloadCase516AfterPermissionsList;
+  permissions: UserEventPayloadCase554AfterPermissionsList;
   policyId: string;
   /** Resource boundary, or `null` when the policy has none. */
-  resources: UserEventPayloadCase516AfterResources | null;
+  resources: UserEventPayloadCase554AfterResources | null;
   teamId: string;
   /** Last-update time (epoch ms). */
   updatedAt: number;
 }
-export type UserEventPayloadCase516BeforeClaimsItemValuesItem =
-  UserEventPayloadCase515PolicyClaimsItemValuesItem;
-export type UserEventPayloadCase516BeforeClaimsItemValuesList =
-  Array<UserEventPayloadCase515PolicyClaimsItemValuesItem>;
+export type UserEventPayloadCase554BeforeClaimsItemValuesItem =
+  UserEventPayloadCase553PolicyClaimsItemValuesItem;
+export type UserEventPayloadCase554BeforeClaimsItemValuesList =
+  Array<UserEventPayloadCase553PolicyClaimsItemValuesItem>;
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export interface UserEventPayloadCase516BeforeClaimsItem {
+export interface UserEventPayloadCase554BeforeClaimsItem {
   name: string;
-  values: UserEventPayloadCase516BeforeClaimsItemValuesList;
+  values: UserEventPayloadCase554BeforeClaimsItemValuesList;
 }
 /** Claim matchers an OIDC token must satisfy to use the policy. */
-export type UserEventPayloadCase516BeforeClaimsList =
-  Array<UserEventPayloadCase516BeforeClaimsItem>;
+export type UserEventPayloadCase554BeforeClaimsList =
+  Array<UserEventPayloadCase554BeforeClaimsItem>;
 /** Permission boundary (`['*']` = the app's full declared permissions). */
-export type UserEventPayloadCase516BeforePermissionsList = Array<string>;
-export type UserEventPayloadCase516BeforeResourcesProjectIdsList = Array<string>;
+export type UserEventPayloadCase554BeforePermissionsList = Array<string>;
+export type UserEventPayloadCase554BeforeResourcesProjectIdsList = Array<string>;
 /** Resource boundary, or `null` when the policy has none. */
-export interface UserEventPayloadCase516BeforeResources {
-  projectIds: UserEventPayloadCase516BeforeResourcesProjectIdsList;
+export interface UserEventPayloadCase554BeforeResources {
+  projectIds: UserEventPayloadCase554BeforeResourcesProjectIdsList;
 }
 /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-export interface UserEventPayloadCase516Before {
+export interface UserEventPayloadCase554Before {
   /** Claim matchers an OIDC token must satisfy to use the policy. */
-  claims: UserEventPayloadCase516BeforeClaimsList;
+  claims: UserEventPayloadCase554BeforeClaimsList;
   clientId: string;
   /** Creation time (epoch ms). */
   createdAt: number;
@@ -10202,39 +10813,40 @@ export interface UserEventPayloadCase516Before {
   /** Human-readable policy name, or `null` when unnamed. */
   name: string | null;
   /** Permission boundary (`['*']` = the app's full declared permissions). */
-  permissions: UserEventPayloadCase516BeforePermissionsList;
+  permissions: UserEventPayloadCase554BeforePermissionsList;
   policyId: string;
   /** Resource boundary, or `null` when the policy has none. */
-  resources: UserEventPayloadCase516BeforeResources | null;
+  resources: UserEventPayloadCase554BeforeResources | null;
   teamId: string;
   /** Last-update time (epoch ms). */
   updatedAt: number;
 }
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase516 {
+export interface UserEventPayloadCase554 {
   /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-  after: UserEventPayloadCase516After;
+  after: UserEventPayloadCase554After;
   /** A full point-in-time snapshot of an OIDC exchange policy, captured on every lifecycle event so the audit trail records exactly what the policy looked like. Mirrors the management endpoints' public response shape. */
-  before: UserEventPayloadCase516Before;
+  before: UserEventPayloadCase554Before;
   appName?: string | undefined;
 }
-export type UserEventPayloadCase517GeolocationCityNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase517GeolocationCity = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase517GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase517GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase517GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase517GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase517Geolocation = UserEventPayloadCase221Geolocation;
+export type UserEventPayloadCase555GeolocationCityNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase555GeolocationCity = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase555GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase555GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase555GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase555GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase555Geolocation = UserEventPayloadCase236Geolocation;
 /** How the token was issued. Always `'manual'` for explicit PAT creation. */
-export type UserEventPayloadCase517Origin =
+export type UserEventPayloadCase555Origin =
   | "app"
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu"
   | "github"
@@ -10249,34 +10861,36 @@ export type UserEventPayloadCase517Origin =
   | "sms"
   | "token-exchange-oidc";
 /** Present when `scope` is `'project'`. */
-export type UserEventPayloadCase517ProjectScope = "account" | "project-only";
+export type UserEventPayloadCase555ProjectScope = "account" | "project-only";
 /** Scope of the token: - `'user'`: full-account token (not tied to any team). - `'team'`: scoped to a single team. - `'project'`: scoped to a single project within a team. */
-export type UserEventPayloadCase517Scope = "project" | "team" | "user";
-export type UserEventPayloadCase517Source = "v0";
+export type UserEventPayloadCase555Scope = "project" | "team" | "user";
+export type UserEventPayloadCase555Source = "v0";
 /** The token prefix used when showing a safe checksum-style fingerprint. */
-export type UserEventPayloadCase517TokenPrefix = "vcp_";
+export type UserEventPayloadCase555TokenPrefix = "vcp_";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase517 {
+export interface UserEventPayloadCase555 {
   createdByParentTeamId?: string | undefined;
   /** Unix epoch milliseconds. Absent when the token never expires. */
   expiresAt?: number | undefined;
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
   /** Whether the token was issued with RFC 9396 authorization details. */
   hasAuthorizationDetails?: boolean | undefined;
   ip?: string | null | undefined;
+  /** Present when the token is also scoped to the Organization backing team, granting OrgAdmin access to child teams after the Organization enforces SSO. */
+  organizationScope?: boolean | undefined;
   /** How the token was issued. Always `'manual'` for explicit PAT creation. */
-  origin: UserEventPayloadCase517Origin;
+  origin: UserEventPayloadCase555Origin;
   /** Present when `scope` is `'project'`. */
   projectId?: string | undefined;
   /** Present when `scope` is `'project'`. */
   projectName?: string | undefined;
   /** Present when `scope` is `'project'`. */
-  projectScope?: UserEventPayloadCase517ProjectScope | undefined;
+  projectScope?: UserEventPayloadCase555ProjectScope | undefined;
   reqId?: string | undefined;
   reqUrl?: string | undefined;
   /** Scope of the token: - `'user'`: full-account token (not tied to any team). - `'team'`: scoped to a single team. - `'project'`: scoped to a single project within a team. */
-  scope: UserEventPayloadCase517Scope;
-  source?: UserEventPayloadCase517Source | undefined;
+  scope: UserEventPayloadCase555Scope;
+  source?: UserEventPayloadCase555Source | undefined;
   /** Present when `scope` is `'team'` or `'project'`. */
   teamId?: string | undefined;
   /** Present when `scope` is `'team'` or `'project'`. */
@@ -10286,28 +10900,29 @@ export interface UserEventPayloadCase517 {
   /** User-supplied name of the token. */
   tokenName: string;
   /** The token prefix used when showing a safe checksum-style fingerprint. */
-  tokenPrefix?: UserEventPayloadCase517TokenPrefix | undefined;
+  tokenPrefix?: UserEventPayloadCase555TokenPrefix | undefined;
   /** The token checksum suffix. */
   tokenSuffix?: string | undefined;
   userAgent?: string | undefined;
 }
-export type UserEventPayloadCase518GeolocationCityNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase518GeolocationCity = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase518GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase518GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase518GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase518GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase518Geolocation = UserEventPayloadCase221Geolocation;
-export type UserEventPayloadCase518LogoutSource = "v0" | "vercel";
-export type UserEventPayloadCase518Origin =
+export type UserEventPayloadCase556GeolocationCityNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase556GeolocationCity = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase556GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase556GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase556GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase556GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase556Geolocation = UserEventPayloadCase236Geolocation;
+export type UserEventPayloadCase556LogoutSource = "v0" | "vercel";
+export type UserEventPayloadCase556Origin =
   | "app"
   | "apple"
   | "bitbucket"
   | "chatgpt"
+  | "claude"
   | "email"
   | "emu"
   | "github"
@@ -10321,49 +10936,49 @@ export type UserEventPayloadCase518Origin =
   | "saml"
   | "sms"
   | "token-exchange-oidc";
-export type UserEventPayloadCase518Reason = "logout";
-export type UserEventPayloadCase518Scope = "project" | "team" | "user";
-export type UserEventPayloadCase518Source = "v0";
+export type UserEventPayloadCase556Reason = "logout";
+export type UserEventPayloadCase556Scope = "project" | "team" | "user";
+export type UserEventPayloadCase556Source = "v0";
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase518 {
+export interface UserEventPayloadCase556 {
   /** The token's public ID. */
   actorTokenId: string;
   createdByParentTeamId?: string | undefined;
   expired?: boolean | undefined;
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
   ip?: string | null | undefined;
   leaked?: boolean | undefined;
-  logoutSource?: UserEventPayloadCase518LogoutSource | undefined;
-  origin?: UserEventPayloadCase518Origin | undefined;
-  reason?: UserEventPayloadCase518Reason | undefined;
+  logoutSource?: UserEventPayloadCase556LogoutSource | undefined;
+  origin?: UserEventPayloadCase556Origin | undefined;
+  reason?: UserEventPayloadCase556Reason | undefined;
   reqId?: string | undefined;
   reqUrl?: string | undefined;
   revoked?: boolean | undefined;
-  scope?: UserEventPayloadCase518Scope | undefined;
-  source?: UserEventPayloadCase518Source | undefined;
+  scope?: UserEventPayloadCase556Scope | undefined;
+  source?: UserEventPayloadCase556Source | undefined;
   teamId?: string | undefined;
   tokenId: string;
   tokenName: string;
   tokenType: string;
   userAgent?: string | undefined;
 }
-export type UserEventPayloadCase519GeolocationCityNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase519GeolocationCity = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase519GeolocationCountryNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase519GeolocationCountry = UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase519GeolocationMostSpecificSubdivisionNames =
-  UserEventPayloadCase221GeolocationCityNames;
-export type UserEventPayloadCase519GeolocationMostSpecificSubdivision =
-  UserEventPayloadCase221GeolocationCity;
-export type UserEventPayloadCase519Geolocation = UserEventPayloadCase221Geolocation;
+export type UserEventPayloadCase557GeolocationCityNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase557GeolocationCity = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase557GeolocationCountryNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase557GeolocationCountry = UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase557GeolocationMostSpecificSubdivisionNames =
+  UserEventPayloadCase236GeolocationCityNames;
+export type UserEventPayloadCase557GeolocationMostSpecificSubdivision =
+  UserEventPayloadCase236GeolocationCity;
+export type UserEventPayloadCase557Geolocation = UserEventPayloadCase236Geolocation;
 /** The payload of the event, if requested. */
-export interface UserEventPayloadCase519 {
+export interface UserEventPayloadCase557 {
   /** The token's public ID. */
   actorTokenId: string;
   deletedCount: number;
-  geolocation?: UserEventPayloadCase221Geolocation | null | undefined;
+  geolocation?: UserEventPayloadCase236Geolocation | null | undefined;
   ip?: string | null | undefined;
   reqId?: string | undefined;
   reqUrl?: string | undefined;
@@ -10496,7 +11111,7 @@ export type UserEventPayload =
   | UserEventPayloadCase123
   | UserEventPayloadCase124
   | UserEventPayloadCase125
-  | DeploymentCheckUpdatedPayload
+  | UserEventPayloadCase126
   | UserEventPayloadCase127
   | UserEventPayloadCase128
   | UserEventPayloadCase129
@@ -10507,7 +11122,7 @@ export type UserEventPayload =
   | UserEventPayloadCase134
   | UserEventPayloadCase135
   | UserEventPayloadCase136
-  | UserEventPayloadCase137
+  | DeploymentCheckUpdatedPayload
   | UserEventPayloadCase138
   | UserEventPayloadCase139
   | UserEventPayloadCase140
@@ -10527,7 +11142,7 @@ export type UserEventPayload =
   | UserEventPayloadCase154
   | UserEventPayloadCase155
   | UserEventPayloadCase156
-  | UserEventPayloadCase59NewTeam
+  | UserEventPayloadCase157
   | UserEventPayloadCase158
   | UserEventPayloadCase159
   | UserEventPayloadCase160
@@ -10538,7 +11153,7 @@ export type UserEventPayload =
   | UserEventPayloadCase165
   | UserEventPayloadCase166
   | UserEventPayloadCase167
-  | UserEventPayloadCase168
+  | UserEventPayloadCase68NewTeam
   | UserEventPayloadCase169
   | UserEventPayloadCase170
   | UserEventPayloadCase171
@@ -10596,7 +11211,7 @@ export type UserEventPayload =
   | UserEventPayloadCase223
   | UserEventPayloadCase224
   | UserEventPayloadCase225
-  | AuthUserAccountUpdateContextOrganization
+  | UserEventPayloadCase226
   | UserEventPayloadCase227
   | UserEventPayloadCase228
   | UserEventPayloadCase229
@@ -10611,7 +11226,7 @@ export type UserEventPayload =
   | UserEventPayloadCase238
   | UserEventPayloadCase239
   | UserEventPayloadCase240
-  | UserEventPayloadCase241
+  | AuthUserAccountUpdateContextOrganization
   | UserEventPayloadCase242
   | UserEventPayloadCase243
   | UserEventPayloadCase244
@@ -10666,7 +11281,7 @@ export type UserEventPayload =
   | UserEventPayloadCase293
   | UserEventPayloadCase294
   | UserEventPayloadCase295
-  | UserEventPayloadCase181UpdateDiffNewProjectsItem
+  | UserEventPayloadCase296
   | UserEventPayloadCase297
   | UserEventPayloadCase298
   | UserEventPayloadCase299
@@ -10687,7 +11302,7 @@ export type UserEventPayload =
   | UserEventPayloadCase314
   | UserEventPayloadCase315
   | UserEventPayloadCase316
-  | UserEventPayloadCase317
+  | UserEventPayloadCase194UpdateDiffNewProjectsItem
   | UserEventPayloadCase318
   | UserEventPayloadCase319
   | UserEventPayloadCase320
@@ -10753,7 +11368,7 @@ export type UserEventPayload =
   | UserEventPayloadCase380
   | UserEventPayloadCase381
   | UserEventPayloadCase382
-  | UserEventPayloadCase172PreviousRule
+  | UserEventPayloadCase383
   | UserEventPayloadCase384
   | UserEventPayloadCase385
   | UserEventPayloadCase386
@@ -10777,8 +11392,8 @@ export type UserEventPayload =
   | UserEventPayloadCase404
   | UserEventPayloadCase405
   | UserEventPayloadCase406
-  | UserEventPayloadCase41PrivateModel
-  | UserEventPayloadCase408
+  | UserEventPayloadCase407
+  | UserEventPayloadCase185PreviousRule
   | UserEventPayloadCase409
   | UserEventPayloadCase410
   | UserEventPayloadCase411
@@ -10802,7 +11417,7 @@ export type UserEventPayload =
   | UserEventPayloadCase429
   | UserEventPayloadCase430
   | UserEventPayloadCase431
-  | UserEventPayloadCase432
+  | UserEventPayloadCase45PrivateModel
   | UserEventPayloadCase433
   | UserEventPayloadCase434
   | UserEventPayloadCase435
@@ -10854,7 +11469,7 @@ export type UserEventPayload =
   | UserEventPayloadCase481
   | UserEventPayloadCase482
   | UserEventPayloadCase483
-  | UserEventPayloadCase480Next
+  | UserEventPayloadCase484
   | UserEventPayloadCase485
   | UserEventPayloadCase486
   | UserEventPayloadCase487
@@ -10884,12 +11499,50 @@ export type UserEventPayload =
   | UserEventPayloadCase511
   | UserEventPayloadCase512
   | UserEventPayloadCase513
-  | UserEventPayloadCase514
+  | UserEventPayloadCase510Next
   | UserEventPayloadCase515
   | UserEventPayloadCase516
   | UserEventPayloadCase517
   | UserEventPayloadCase518
-  | UserEventPayloadCase519;
+  | UserEventPayloadCase519
+  | UserEventPayloadCase520
+  | UserEventPayloadCase521
+  | UserEventPayloadCase522
+  | UserEventPayloadCase523
+  | UserEventPayloadCase524
+  | UserEventPayloadCase525
+  | UserEventPayloadCase526
+  | UserEventPayloadCase527
+  | UserEventPayloadCase528
+  | UserEventPayloadCase529
+  | UserEventPayloadCase530
+  | UserEventPayloadCase531
+  | UserEventPayloadCase532
+  | UserEventPayloadCase533
+  | UserEventPayloadCase534
+  | UserEventPayloadCase535
+  | UserEventPayloadCase536
+  | UserEventPayloadCase537
+  | UserEventPayloadCase538
+  | UserEventPayloadCase539
+  | UserEventPayloadCase540
+  | UserEventPayloadCase541
+  | UserEventPayloadCase542
+  | UserEventPayloadCase543
+  | UserEventPayloadCase544
+  | UserEventPayloadCase545
+  | UserEventPayloadCase546
+  | UserEventPayloadCase547
+  | UserEventPayloadCase548
+  | UserEventPayloadCase549
+  | UserEventPayloadCase550
+  | UserEventPayloadCase551
+  | UserEventPayloadCase552
+  | UserEventPayloadCase553
+  | UserEventPayloadCase554
+  | UserEventPayloadCase555
+  | UserEventPayloadCase556
+  | UserEventPayloadCase557;
 export type UserEventPrincipalCase0Type = "user";
 /** Metadata for {@link principalId}. */
 export interface UserEventPrincipalCase0 {
@@ -10970,6 +11623,7 @@ export type UserEventType =
   | "agentic-provisioning-plan-changed"
   | "agentic-provisioning-team-created"
   | "ai-agent-usage-billing"
+  | "ai-agent-usage-billing-consent"
   | "ai-alert-investigation"
   | "ai-code-review"
   | "ai-gateway-access-policy-created"
@@ -10990,7 +11644,17 @@ export type UserEventType =
   | "ai-gateway-guardrails-updated"
   | "ai-gateway-headquarters-updated"
   | "ai-gateway-hipaa-compliance-toggled"
+  | "ai-gateway-inference-hooks-endpoint-updated"
+  | "ai-gateway-inference-hooks-headers-cleared"
+  | "ai-gateway-inference-hooks-headers-updated"
+  | "ai-gateway-inference-hooks-previous-signing-secret-retired"
+  | "ai-gateway-inference-hooks-removed"
+  | "ai-gateway-inference-hooks-settings-updated"
+  | "ai-gateway-inference-hooks-signing-secret-created"
+  | "ai-gateway-inference-hooks-signing-secret-rotated"
+  | "ai-gateway-inference-hooks-toggled"
   | "ai-gateway-inference-regions-updated"
+  | "ai-gateway-member-budget-changes"
   | "ai-gateway-model-allowlist-models-updated"
   | "ai-gateway-model-allowlist-toggled"
   | "ai-gateway-model-catalog-alert-settings-updated"
@@ -11007,6 +11671,7 @@ export type UserEventType =
   | "ai-gateway-rule-deleted"
   | "ai-gateway-rule-updated"
   | "ai-gateway-scope-budget-updated"
+  | "ai-gateway-system-credential-fallback-opt-out-toggled"
   | "ai-gateway-transcripts-default-disabled"
   | "ai-gateway-transcripts-default-enabled"
   | "ai-gateway-transcripts-disabled"
@@ -11020,7 +11685,12 @@ export type UserEventType =
   | "ai-gateway-zero-data-retention-toggled"
   | "ai-omniagent"
   | "ai-security-review"
+  | "ai-verification"
+  | "alert-group-detected"
+  | "alert-group-investigation-completed"
+  | "alert-group-published"
   | "alert-investigation-project-allowlist-updated"
+  | "alert-resolved"
   | "alert-rule-created"
   | "alert-rule-deleted"
   | "alert-rule-updated"
@@ -11044,6 +11714,8 @@ export type UserEventType =
   | "attack-mode-enabled"
   | "audit-log-export-downloaded"
   | "audit-log-export-requested"
+  | "authorization-session-created"
+  | "authorization-session-revoked"
   | "authorize-git-deployment"
   | "auto-expose-system-envs"
   | "avatar"
@@ -11059,11 +11731,13 @@ export type UserEventType =
   | "cert-renew"
   | "cert-replace"
   | "cert-system-create"
+  | "code-owners-assume-owners"
   | "code-owners-config-updated"
   | "compliance-document-downloaded"
   | "compliance-document-previewed"
   | "compliance-documents-bulk-downloaded"
   | "concurrent-builds-update"
+  | "connect-approve-connector-request"
   | "connect-attach-project"
   | "connect-bitbucket"
   | "connect-bitbucket-app"
@@ -11078,6 +11752,7 @@ export type UserEventType =
   | "connect-create-connector"
   | "connect-create-mcp-event-subscription"
   | "connect-delete-connector"
+  | "connect-delete-connector-request"
   | "connect-delete-installation"
   | "connect-detach-project"
   | "connect-github"
@@ -11086,10 +11761,15 @@ export type UserEventType =
   | "connect-gitlab"
   | "connect-gitlab-app"
   | "connect-import-tokens"
+  | "connect-provision-connector-request"
+  | "connect-reject-connector-request"
   | "connect-revoke-all-tokens"
+  | "connect-submit-connector-request"
   | "connect-update-connector"
+  | "connect-update-connector-request"
   | "connect-update-trigger-destinations"
   | "connect-upsert-installation"
+  | "connect-withdraw-connector-request"
   | "custom-alert-created"
   | "custom-alert-deleted"
   | "custom-alert-updated"
@@ -11151,6 +11831,10 @@ export type UserEventType =
   | "drain-disabled"
   | "drain-enabled"
   | "drain-updated"
+  | "drive-created"
+  | "drive-deleted"
+  | "drive-snapshot-created"
+  | "drive-snapshot-deleted"
   | "edge-cache-dangerously-delete-by-src-images"
   | "edge-cache-dangerously-delete-by-tags"
   | "edge-cache-dangerously-delete-immutable-static"
@@ -11212,6 +11896,10 @@ export type UserEventType =
   | "flags-connection-created"
   | "flags-connection-deleted"
   | "flags-explorer-subscription"
+  | "flags-layer-created"
+  | "flags-layer-deleted"
+  | "flags-layer-updated"
+  | "flags-overrides-signed"
   | "flags-sdk-key"
   | "flags-sdk-key-added"
   | "flags-sdk-key-deleted"
@@ -11220,6 +11908,7 @@ export type UserEventType =
   | "flags-settings"
   | "flags-transferred"
   | "flat-rate-cdn-auto-upgrade-consent"
+  | "flat-rate-cdn-migration-opt-out"
   | "git-integration-repo-push"
   | "git_account_integration_link_added"
   | "global-config-backup-restored"
@@ -11278,12 +11967,19 @@ export type UserEventType =
   | "messageboard-channel-created"
   | "messageboard-channel-updated"
   | "messageboard-created"
+  | "messageboard-grant-created"
+  | "messageboard-grant-revoked"
+  | "messageboard-grant-updated"
   | "messageboard-private-channel-created"
   | "messageboard-private-channel-updated"
   | "messageboard-private-created"
+  | "messageboard-private-grant-created"
+  | "messageboard-private-grant-revoked"
+  | "messageboard-private-grant-updated"
   | "messageboard-private-project-granted"
   | "messageboard-private-project-revoked"
   | "messageboard-project-channel-created"
+  | "messageboard-project-created"
   | "messageboard-project-granted"
   | "messageboard-project-private-channel-created"
   | "messageboard-project-revoked"
@@ -11315,9 +12011,14 @@ export type UserEventType =
   | "oidc-policy-deleted"
   | "oidc-policy-updated"
   | "oidc-policy-used-to-obtain-app-token"
+  | "organization-admin-invite-revoked"
+  | "organization-admin-removed"
   | "organization-avatar-update"
   | "organization-create"
   | "organization-delete"
+  | "organization-domain-verification-created"
+  | "organization-domain-verification-deleted"
+  | "organization-domain-verification-verified"
   | "organization-dsync-delete"
   | "organization-dsync-group-delete"
   | "organization-dsync-group-upsert"
@@ -11327,6 +12028,7 @@ export type UserEventType =
   | "organization-emu-updated"
   | "organization-name-update"
   | "organization-slug-update"
+  | "organization-sso-adopted"
   | "organization-sso-deleted"
   | "organization-sso-enforced"
   | "organization-sso-new-teams-update"
@@ -11359,6 +12061,11 @@ export type UserEventType =
   | "payment-method-added"
   | "payment-method-default-updated"
   | "payment-method-removed"
+  | "perimeter-created"
+  | "perimeter-deleted"
+  | "perimeter-renamed"
+  | "perimeter-rolled-back"
+  | "perimeter-updated"
   | "plan"
   | "preview-deployment-suffix-disabled"
   | "preview-deployment-suffix-enabled"
@@ -11463,6 +12170,7 @@ export type UserEventType =
   | "project-prioritize-production-builds-updated"
   | "project-program-enrollment-changed"
   | "project-protected-sourcemaps-updated"
+  | "project-remove-vercel-request-headers-updated"
   | "project-rollback-description-updated"
   | "project-rolling-release-aborted"
   | "project-rolling-release-approved"
@@ -11473,7 +12181,6 @@ export type UserEventType =
   | "project-rolling-release-enabled"
   | "project-rolling-release-paused"
   | "project-rolling-release-started"
-  | "project-rolling-release-suggested-actions-generated"
   | "project-rolling-release-timer"
   | "project-root-directory-updated"
   | "project-routes-version-promoted"
@@ -11502,12 +12209,21 @@ export type UserEventType =
   | "runtime-cache-purge-all"
   | "saml-connection-created"
   | "saml-connection-deleted"
+  | "saml-idp-material-deleted"
+  | "saml-idp-material-set"
+  | "saml-idp-material-system-deleted"
+  | "saml-idp-material-system-set"
+  | "saml-login-provider-changed"
+  | "sandbox-ai-gateway-credentials-configured"
   | "sandbox-alias-assigned"
   | "sandbox-alias-delete"
   | "sandbox-drive-created"
   | "sandbox-drive-deleted"
   | "sandbox-drive-snapshot-created"
   | "sandbox-drive-snapshot-deleted"
+  | "sandbox-expiry-notification-lead-time-updated"
+  | "sandbox-npm-credentials-configured"
+  | "sandbox-processes-updated"
   | "sandbox-signed-commit-identity-configured"
   | "sandbox-snapshot-regions-updated"
   | "scale"
@@ -11647,6 +12363,7 @@ export type UserEventType =
   | "user-emu-recovery-email-sent"
   | "user-emu-recovery-initiated"
   | "user-emu-toggled"
+  | "user-landing-page-updated"
   | "user-mfa-challenge-failed"
   | "user-mfa-challenge-initiated"
   | "user-mfa-challenge-verified"
@@ -11673,6 +12390,8 @@ export type UserEventType =
   | "v0-chat-message-sent"
   | "v0-migration-payment-confirmed"
   | "v0-migration-subscription-completed"
+  | "v0-shared-pool-credit-limit-default-updated"
+  | "v0-shared-pool-credit-limit-updated"
   | "vcr-image-deleted"
   | "vcr-image-pushed"
   | "vcr-repository-created"
@@ -11683,10 +12402,13 @@ export type UserEventType =
   | "vcr-repository-visibility-changed"
   | "vercel-agent-elevated-permissions-approved"
   | "vercel-agent-elevated-permissions-requested"
+  | "vercel-agent-security-finding-closed"
   | "vercel-agent-security-finding-created"
   | "vercel-agent-security-finding-dismissed"
   | "vercel-agent-security-finding-reopened"
   | "vercel-agent-security-finding-resolved"
+  | "vercel-agent-security-review-policy-deleted"
+  | "vercel-agent-security-review-policy-updated"
   | "vercel-agent-session-created"
   | "vercel-agent-team-trial-credits-applied"
   | "vercel-app-installation-request-dismissed"
@@ -11695,7 +12417,9 @@ export type UserEventType =
   | "vercel-app-installed"
   | "vercel-app-tokens-revoked"
   | "vercel-app-uninstalled"
+  | "vercel-ci-repository-github-runners-updated"
   | "vercel-ci-repository-settings-updated"
+  | "vercel-ci-run-approved"
   | "vercel-toolbar"
   | "vpc-peering-connection-accepted"
   | "vpc-peering-connection-deleted"

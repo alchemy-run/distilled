@@ -178,6 +178,7 @@ export type GitAuthResponseOutput = BasicAuthResponseOutput | NoAuth;
 export type GitDagBundleResponseOutputType = "git";
 /** A Git-based DAG bundle as returned by the API. The auth structure (type, username) is included; passwords are masked. */
 export interface GitDagBundleResponseOutput {
+  /** Authentication configuration. Passwords are always masked in responses. */
   auth: GitAuthResponseOutput;
   /** The branch, tag or ref being tracked. */
   branch: string;
@@ -219,6 +220,7 @@ export interface S3DagBundleResponse {
   prefix?: string | undefined;
   /** How often (in seconds) to check for new objects. */
   refreshInterval?: number | undefined;
+  /** Authentication configuration. Secret keys are always masked in responses. */
   s3Auth: S3AuthResponse;
   /** Bundle type identifier. */
   type: S3DagBundleResponseType;
@@ -277,6 +279,7 @@ export interface CreateInstanceRequest {
   regionId: string;
   /** List of DAG bundles to configure. Supports Git and S3 sources. If provided, this takes precedence over dagsRepository. At least one bundle must be specified. Maximum 10 bundles. Only supported for Airflow 3 versions. */
   dagBundles?: CreateInstanceRequestDagBundlesList | undefined;
+  /** DEPRECATED for Airflow 3. The Git DAG repository configuration. If dagBundles is provided, this field is ignored. Creates a default Git bundle named "dags". At least one of dagsRepository or dagBundles must be provided. */
   dagsRepository?: GitRepository | undefined;
   /** A user chosen description to distinguish multiple STACKIT Workflows instances. */
   description?: string | undefined;
@@ -309,7 +312,8 @@ export interface Instance {
   createdAt: string;
   /** All configured DAG bundles. This is the canonical source of truth for DAG sources. Available for Airflow 3 instances. */
   dagBundles?: InstanceDagBundlesList | undefined;
-  dagsRepository?: GitRepository | undefined;
+  /** DEPRECATED. The primary Git DAG repository. Always populated from the first Git bundle in dagBundles for backward compatibility. Use dagBundles instead. May be None for S3-only Airflow 3 instances. */
+  dagsRepository?: GitRepository | null | undefined;
   /** A user chosen description to distinguish multiple STACKIT Workflows instances. */
   description?: string | undefined;
   /** The displayed name of the STACKIT Workflows instance. */
@@ -416,6 +420,7 @@ export interface ListInstancesResponse {
 export type UpdateGitDagBundlePayloadType = "git";
 /** Partial update payload for a Git DAG bundle. All fields except "type" are optional; only the provided fields will be updated. */
 export interface UpdateGitDagBundlePayload {
+  /** Updated authentication credentials. Must be provided when changing the URL. */
   auth?: GitAuth | undefined;
   /** Updated branch/tag/ref to track. */
   branch?: string | undefined;
@@ -440,6 +445,7 @@ export interface UpdateS3DagBundlePayload {
   prefix?: string | undefined;
   /** Updated refresh interval in seconds. */
   refreshInterval?: number | undefined;
+  /** Updated S3 authentication credentials. Must be provided when changing the bucket name or endpoint. */
   s3Auth?: S3Auth | undefined;
   /** Bundle type identifier -- must match the existing bundle's type. */
   type: UpdateS3DagBundlePayloadType;
@@ -1088,7 +1094,7 @@ function __c12(j: number): any {
         S.Struct({
           createdAt: S.String,
           dagBundles: S.optional(__S(96, __c12, 0)),
-          dagsRepository: S.optional(__S(97, __c12, 1)),
+          dagsRepository: S.optional(S.NullOr(__S(97, __c12, 1))),
           description: S.optional(S.String),
           displayName: S.String,
           enableAirflowExampleDags: S.optional(S.Boolean),

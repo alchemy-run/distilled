@@ -914,6 +914,7 @@ export interface DescribeDevicesResponse {
 }
 export interface DescribeDeviceSecurityInfoRequest {
   Mid: string;
+  DomainInstanceId?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -3713,6 +3714,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Mid: S.String,
+          DomainInstanceId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ioa", version: "2022-06-01", action: "DescribeDeviceSecurityInfo" }),

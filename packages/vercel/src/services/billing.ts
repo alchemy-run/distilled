@@ -362,7 +362,7 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5 {
   type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Type;
 }
 /** Additional source subscriptions replaced by this purchase */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsItem {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanAdditionalSubscriptionsItem {
   /** The end of the additional source subscription billing cycle */
   currentCycleEndDate: string;
   /** The additional source Orb subscription ID */
@@ -371,48 +371,48 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Opti
   planId: string;
 }
 /** Additional source subscriptions replaced by this purchase */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsList =
-  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsItem>;
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPriceModel =
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanAdditionalSubscriptionsList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanAdditionalSubscriptionsItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItemPriceModel =
   "unit";
 /** The absolute price that replaces the plan item price, after any rate variant */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPrice {
-  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPriceModel;
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItemPrice {
+  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItemPriceModel;
   /** The non-negative per-unit USD amount, with at most two decimal places */
   unitAmount: string;
 }
 /** The current plan item price overrides */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItem {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItem {
   /** The ID of the plan item to set the price for */
   planItemId: string;
   /** The absolute price that replaces the plan item price, after any rate variant */
-  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItemPrice;
+  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItemPrice;
 }
 /** The current plan item price overrides */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesList =
-  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesItem>;
 /** The resource IDs associated with the current plan item quantity */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItemResourceIdsList =
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesItemResourceIdsList =
   Array<string>;
 /** The current plan item quantities */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItem {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesItem {
   /** The ID of the current plan item to set the quantity for */
   planItemId: string;
   /** The nonnegative integer quantity for the current plan item */
   quantity: number;
   /** The resource IDs associated with the current plan item quantity */
   resourceIds?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItemResourceIdsList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesItemResourceIdsList
     | undefined;
 }
 /** The current plan item quantities */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesList =
-  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesItem>;
 /** The current plan being replaced by this purchase */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlan {
   /** Additional source subscriptions replaced by this purchase */
   additionalSubscriptions?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanAdditionalSubscriptionsList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanAdditionalSubscriptionsList
     | undefined;
   /** The end of the current plan billing cycle */
   currentCycleEndDate: string;
@@ -422,67 +422,110 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Opti
   planId: string;
   /** The current plan item price overrides */
   planItemPrices?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemPricesList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemPricesList
     | undefined;
   /** The current plan item quantities */
   planItemQuantities?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlanPlanItemQuantitiesList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlanPlanItemQuantitiesList
     | undefined;
   /** The rate variant currently assigned */
   rateVariantKey?: string | undefined;
 }
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPriceModel =
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItemPriceModel =
   "unit";
 /** The absolute price that replaces the plan item price, after any rate variant */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPrice {
-  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPriceModel;
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItemPrice {
+  model: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItemPriceModel;
   /** The non-negative per-unit USD amount, with at most two decimal places */
   unitAmount: string;
 }
 /** The plan item prices to set for the subscription, independent of quantities */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItem {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItem {
   /** The ID of the plan item to set the price for */
   planItemId: string;
   /** The absolute price that replaces the plan item price, after any rate variant */
-  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItemPrice;
+  price: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItemPrice;
 }
 /** The plan item prices to set for the subscription, independent of quantities */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesList =
-  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesItem>;
 /** The resource IDs to associate with the plan item quantity */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItemResourceIdsList =
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesItemResourceIdsList =
   Array<string>;
 /** The plan item quantities to set for the subscription */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItem {
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesItem {
   /** The ID of the plan item to set the quantity for */
   planItemId: string;
   /** The nonnegative integer quantity for the plan item */
   quantity: number;
   /** The resource IDs to associate with the plan item quantity */
   resourceIds?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItemResourceIdsList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesItemResourceIdsList
     | undefined;
 }
 /** The plan item quantities to set for the subscription */
-export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList =
-  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesItem>;
-/** Purchase configuration specific options */
-export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options {
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0TransitionType =
+  "restart_cycle";
+/** Replacement billing-cycle policy. Defaults to restart_cycle. */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0Transition {
+  type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0TransitionType;
+}
+/** Restart-cycle purchase options */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0 {
   /** The current plan being replaced by this purchase */
-  fromPlan?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan | undefined;
+  fromPlan?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0FromPlan
+    | undefined;
   /** The ID of the plan to subscribe to */
   planId: string;
   /** The plan item prices to set for the subscription, independent of quantities */
   planItemPrices?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemPricesList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemPricesList
     | undefined;
   /** The plan item quantities to set for the subscription */
   planItemQuantities?:
-    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0PlanItemQuantitiesList
     | undefined;
   /** The rate variant key to apply to the subscription */
   rateVariantKey?: string | undefined;
+  /** Replacement billing-cycle policy. Defaults to restart_cycle. */
+  transition?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0Transition
+    | undefined;
 }
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1FromPlan {
+  /** The owned active source subscription recorded by Copper */
+  orbSubscriptionId: string;
+}
+/** Destination-only licensed quantities; shared quantities come from Copper */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1PlanItemQuantitiesItem {
+  planItemId: string;
+  quantity: number;
+}
+/** Destination-only licensed quantities; shared quantities come from Copper */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1PlanItemQuantitiesList =
+  Array<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1PlanItemQuantitiesItem>;
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1TransitionType =
+  "preserve_source_cycle";
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1Transition {
+  type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1TransitionType;
+}
+/** Restart-cycle purchase options */
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1 {
+  fromPlan: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1FromPlan;
+  /** The destination plan */
+  planId: string;
+  /** Destination-only licensed quantities; shared quantities come from Copper */
+  planItemQuantities?:
+    | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1PlanItemQuantitiesList
+    | undefined;
+  transition: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1Transition;
+}
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options =
+  | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase0
+  | BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsCase1;
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Output {
   /** The committed Plan revision used to calculate the purchase price */
   planChangeId?: string | undefined;
@@ -490,7 +533,6 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Outp
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Type = "subscription";
 /** The configuration for a credit purchase */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6 {
-  /** Purchase configuration specific options */
   options: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options;
   output: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Output;
   type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Type;
@@ -1183,13 +1225,6 @@ export interface ListBillingChargesRequest {
   slug?: string | undefined;
 }
 export interface ListBillingChargesResponse {}
-export interface ListContractCommitmentsRequest {
-  /** The Team identifier to perform the request on behalf of. */
-  teamId?: string | undefined;
-  /** The Team slug to perform the request on behalf of. */
-  slug?: string | undefined;
-}
-export interface ListContractCommitmentsResponse {}
 export type BuyCreditsError =
   | BadRequest
   | PaymentRequired
@@ -1197,7 +1232,7 @@ export type BuyCreditsError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Purchase credits Purchases credits for a Vercel team using the default payment method on file. The purchase is charged immediately via Stripe invoice. Supported credit types are `v0`, `gateway`, and `agent`. The `amount` field specifies the number of credits to purchase and must be a positive integer. An optional `source` query parameter can be provided to identify the caller. Defaults to `api` if not specified. This is only available for Owner, Member, Developer, Security, and Billing roles for the supplied team. */
+/** Purchase credits Purchases credits for a Vercel team using the default payment method on file. The purchase is charged immediately via Stripe invoice. Supported credit types are `v0`, `gateway`, and `agent`. The `amount` field specifies the number of credits to purchase and must be a positive integer. An optional `source` query parameter can be provided to identify the caller. Defaults to `api` if not specified. This is only available for Owner, Member, Developer, Security, and Billing roles for the supplied team. Pro subscription purchases additionally require permission to update the team's plan, and AI Gateway credit purchases require permission to create AI Gateway credits. */
 export const buyCredits: API.OperationMethod<
   BuyCreditsRequest,
   BuyCreditsResponse,
@@ -1223,31 +1258,13 @@ export const listBillingCharges: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<ListBillingChargesRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<ListBillingChargesResponse>,
+  output: __S(5, __c1, 1) as any as S.Schema<ListBillingChargesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingCharges",
-}));
-
-export type ListContractCommitmentsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List FOCUS contract commitments Returns commitment allocations per contract period in FOCUS v1.3 JSONL format for a specified Vercel team. The response is streamed as newline-delimited JSON (JSONL). This endpoint is only applicable to Enterprise Vercel customers. An empty response is returned for non-Enterprise (Pro/Flex) customers. */
-export const listContractCommitments: API.OperationMethod<
-  ListContractCommitmentsRequest,
-  ListContractCommitmentsResponse,
-  ListContractCommitmentsError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListContractCommitmentsRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<ListContractCommitmentsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListContractCommitments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1288,23 +1305,8 @@ function __c1(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/billing/charges", code: 200 })),
       ).annotate({ identifier: "ListBillingChargesRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ListBillingChargesResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/billing/contract-commitments", code: 200 })),
-      ).annotate({ identifier: "ListContractCommitmentsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -248,7 +248,7 @@ export interface AddItemResponseItemsItemCase0 {
 }
 export type AddItemResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type AddItemResponseItemsItemCase1GalleryList = Array<string>;
-export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -270,6 +270,29 @@ export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider
   | "together"
   | "wavespeed"
   | "zai-org";
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -1095,7 +1118,7 @@ export interface AddItemBySlugResponseItemsItemCase0 {
 }
 export type AddItemBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type AddItemBySlugResponseItemsItemCase1GalleryList = Array<string>;
-export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -1117,6 +1140,29 @@ export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "together"
   | "wavespeed"
   | "zai-org";
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -1989,7 +2035,7 @@ export interface CreateCollectionResponseItemsItemCase0 {
 }
 export type CreateCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type CreateCollectionResponseItemsItemCase1GalleryList = Array<string>;
-export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -2011,6 +2057,29 @@ export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersIte
   | "together"
   | "wavespeed"
   | "zai-org";
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -2851,7 +2920,7 @@ export interface GetCollectionResponseItemsItemCase0 {
 }
 export type GetCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type GetCollectionResponseItemsItemCase1GalleryList = Array<string>;
-export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -2873,6 +2942,29 @@ export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemPr
   | "together"
   | "wavespeed"
   | "zai-org";
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -3689,7 +3781,7 @@ export interface GetCollectionBySlugResponseItemsItemCase0 {
 }
 export type GetCollectionBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type GetCollectionBySlugResponseItemsItemCase1GalleryList = Array<string>;
-export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -3711,6 +3803,29 @@ export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProviders
   | "together"
   | "wavespeed"
   | "zai-org";
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -4585,7 +4700,7 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemCase0 {
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1Note =
   AddItemResponseItemsItemCase0Note;
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList = Array<string>;
-export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -4607,6 +4722,29 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceP
   | "together"
   | "wavespeed"
   | "zai-org";
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -5552,7 +5690,7 @@ export interface UpdateCollectionResponseDataItemsItemCase0 {
 }
 export type UpdateCollectionResponseDataItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 export type UpdateCollectionResponseDataItemsItemCase1GalleryList = Array<string>;
-export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -5574,6 +5712,29 @@ export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvider
   | "together"
   | "wavespeed"
   | "zai-org";
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
@@ -6471,7 +6632,7 @@ export interface UpdateCollectionBySlugResponseDataItemsItemCase0 {
 export type UpdateCollectionBySlugResponseDataItemsItemCase1Note =
   AddItemResponseItemsItemCase0Note;
 export type UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList = Array<string>;
-export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -6493,6 +6654,29 @@ export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferencePr
   | "together"
   | "wavespeed"
   | "zai-org";
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
+  | UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderCase1;
 export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"

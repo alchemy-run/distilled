@@ -1066,7 +1066,7 @@ export interface AssignmentDataSourceInput {
   /** The end of the assignment data window, in Unix milliseconds */
   endTime?: number | undefined;
 }
-/** The attributes that this iteration's results can be sliced by */
+/** The attributes that this iteration's results can be sliced by, whose values come from flag evaluation events */
 export type IterationInputAttributesList = Array<string>;
 export interface IterationInput {
   /** The expected outcome of this experiment */
@@ -1091,7 +1091,7 @@ export interface IterationInput {
   reallocationFrequencyMillis?: number | undefined;
   /** The ID of the covariate CSV */
   covariateId?: string | undefined;
-  /** The attributes that this iteration's results can be sliced by */
+  /** The attributes that this iteration's results can be sliced by, whose values come from flag evaluation events */
   attributes?: IterationInputAttributesList | undefined;
 }
 /** Tags for the experiment */
@@ -1323,7 +1323,7 @@ export interface DependentMetricGroupRepWithMetrics {
   /** The metrics in the metric group */
   metrics?: DependentMetricGroupRepWithMetricsMetricsList | undefined;
 }
-/** The available attribute filters for this iteration */
+/** The attributes this iteration slices results by, whose values come from flag evaluation events. */
 export type IterationRepAttributesList = Array<string>;
 export interface ParameterRep {
   variationId?: string | undefined;
@@ -1414,7 +1414,7 @@ export interface IterationRep {
   primaryFunnel?: DependentMetricGroupRepWithMetrics | undefined;
   /** The unit of randomization for this iteration */
   randomizationUnit?: string | undefined;
-  /** The available attribute filters for this iteration */
+  /** The attributes this iteration slices results by, whose values come from flag evaluation events. */
   attributes?: IterationRepAttributesList | undefined;
   /** Details on the variations you are testing in the experiment */
   treatments?: IterationRepTreatmentsList | undefined;
@@ -2580,7 +2580,7 @@ export interface ExpandedLinkedMetrics {
 }
 /** Tags for the AI config */
 export type ExpandedAIConfigTagsList = Array<string>;
-/** AI Config representation for Views API - contains only fields actually used by the Views service */
+/** Agent config representation for Views API - contains only fields actually used by the Views service */
 export interface ExpandedAIConfig {
   /** A unique key used to reference the AI config */
   key?: string | undefined;
@@ -2675,6 +2675,8 @@ export interface CreateWebhookRequest {
   url: string;
   /** If sign is true, and the secret attribute is omitted, LaunchDarkly automatically generates a secret for you. */
   secret?: string | Redacted.Redacted<string> | undefined;
+  /** An optional token. If set, LaunchDarkly sends it in an Authorization: Bearer header with each request. It is write-only and is never returned. */
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Represents a Custom role policy, defining a resource kinds filter the webhook should respond to. */
   statements?: StatementPostList | undefined;
   /** If sign is false, the webhook does not include a signature header, and the secret can be omitted. */
@@ -2701,6 +2703,8 @@ export interface Webhook {
   url: string;
   /** The secret for this webhook */
   secret?: string | Redacted.Redacted<string> | undefined;
+  /** Whether this webhook sends a bearer token. The token itself is never returned. */
+  hasBearerToken?: boolean | undefined;
   /** Represents a Custom role policy, defining a resource kinds filter the webhook responds to. */
   statements?: WebhookStatementsList | undefined;
   /** Whether or not this webhook is enabled */
@@ -2850,16 +2854,16 @@ export interface DeleteAgentSkillResponse {}
 export interface DeleteAIConfigRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
 }
 export interface DeleteAIConfigResponse {}
 export interface DeleteAIConfigVariationRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
-  /** The AI Config variation key */
+  /** The agent config variation key */
   variationKey: string;
 }
 export interface DeleteAIConfigVariationResponse {}
@@ -3244,7 +3248,7 @@ export interface AgentOptimizationAcceptanceStatement {
 /** Statements a response must satisfy to pass */
 export type AgentOptimizationAcceptanceStatementsList = Array<AgentOptimizationAcceptanceStatement>;
 export interface AgentOptimizationJudge {
-  /** The key of the judge AI Config */
+  /** The key of the judge agent config */
   key: string;
   /** The minimum score needed to pass */
   threshold: number;
@@ -3262,7 +3266,7 @@ export interface AgentOptimization {
   id: string;
   /** The agent optimization key */
   key: string;
-  /** The key of the AI Config to optimize */
+  /** The key of the agent config to optimize */
   aiConfigKey: string;
   /** The maximum number of attempts */
   maxAttempts: number;
@@ -3327,6 +3331,15 @@ export interface AiConfigsMaintainerTeam {
 export type AIConfigMaintainer = MaintainerMember | AiConfigsMaintainerTeam;
 /** Tags for the agent skill. Tags can be used in custom role policies. */
 export type AgentSkillTagsList = Array<string>;
+/** A version of an AI tool in the same project that an agent skill version pins. */
+export interface PinnedSkillToolRef {
+  /** The key of the AI tool. */
+  key: string;
+  /** The pinned version of the AI tool. */
+  version: number;
+}
+/** The AI tool versions this version of the agent skill pins, in the order they reach the agent. */
+export type AgentSkillToolsList = Array<PinnedSkillToolRef>;
 export interface AgentSkill {
   /** The agent skill key */
   key: string;
@@ -3341,17 +3354,19 @@ export interface AgentSkill {
   markdown: string;
   /** Tags for the agent skill. Tags can be used in custom role policies. */
   tags: AgentSkillTagsList;
-  /** Version of the agent skill. Starts at 1, and each update that changes the name, description, or markdown creates a new version. Pass this value with `key` in a variation's `skills: [{key, version}]`. */
+  /** Version of the agent skill. Starts at 1, and each update that changes the name, description, markdown, or tools creates a new version. Pass this value with `key` in a variation's `skills: [{key, version}]`. */
   version: number;
+  /** The AI tool versions this version of the agent skill pins, in the order they reach the agent. */
+  tools?: AgentSkillToolsList | undefined;
   createdAt: number;
 }
 export interface GetAIConfigRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
 }
-/** The AI Config mode */
+/** The agent config mode */
 export type AIConfigMode = "agent" | "completion" | "judge";
 /** Tags for this resource */
 export type AIConfigTagsList = Array<string>;
@@ -3412,7 +3427,7 @@ export interface JudgeConfiguration {
   /** List of judges for this variation. When updating, this replaces all existing judge attachments, and if empty, removes all judge attachments. */
   judges?: JudgeConfigurationJudgesList | undefined;
 }
-/** Keys of the judge AI Configs attached to this variation */
+/** Keys of the judge agent configs attached to this variation */
 export type AIConfigVariationJudgingConfigKeysList = Array<string>;
 export interface AIConfigVariation {
   _links?: ParentLink | undefined;
@@ -3454,10 +3469,10 @@ export interface AIConfigVariation {
   /** The agent skills this variation can use */
   skills?: AIConfigVariationSkillsList | undefined;
   judgeConfiguration?: JudgeConfiguration | undefined;
-  /** Keys of the judge AI Configs attached to this variation */
+  /** Keys of the judge agent configs attached to this variation */
   judgingConfigKeys?: AIConfigVariationJudgingConfigKeysList | undefined;
 }
-/** The variations of this AI Config */
+/** The variations of this agent config */
 export type AIConfigVariationsList = Array<AIConfigVariation>;
 /** List of evaluation metric keys for this config */
 export type AIConfigEvaluationMetricKeysList = Array<string>;
@@ -3476,20 +3491,20 @@ export interface AIConfig {
   _access?: AiConfigsAccess | undefined;
   _links?: ParentAndSelfLinks | undefined;
   _site?: CoreLink | undefined;
-  /** A description of the AI Config */
+  /** A description of the agent config */
   description: string;
-  /** The AI Config key */
+  /** The agent config key */
   key: string;
   _maintainer?: AIConfigMaintainer | undefined;
-  /** The AI Config mode */
+  /** The agent config mode */
   mode?: AIConfigMode | undefined;
-  /** The AI Config name */
+  /** The agent config name */
   name: string;
   /** Tags for this resource */
   tags: AIConfigTagsList;
   /** The version number of this resource */
   version: number;
-  /** The variations of this AI Config */
+  /** The variations of this agent config */
   variations: AIConfigVariationsList;
   createdAt: number;
   updatedAt: number;
@@ -3499,13 +3514,15 @@ export interface AIConfig {
   evaluationMetricKeys?: AIConfigEvaluationMetricKeysList | undefined;
   /** The success direction of a judge. Offline evaluations use it to decide whether a score passes. - `true`: A lower score is better. Use this for a judge that scores bad output, such as a toxicity or hallucination judge. - `false`: A higher score is better. Use this for a judge that scores good output, such as an accuracy or relevance judge. The response includes this field only when `mode` is `judge`. For a built-in judge key, the value is always the built-in direction. Built-in judge keys are `ld-ai-judge-accuracy`, `ld-ai-judge-relevance`, and `ld-ai-judge-toxicity`, with or without a `-<timestamp>` suffix such as `ld-ai-judge-accuracy-1760000000000`. A custom judge with no stored direction omits this field. */
   isInverted?: boolean | undefined;
+  /** The judge's threshold: the pass line for its main score, from 0 to 1. It applies wherever the judge is used. The average score passes when it is at or above this value, or at or below it when `isInverted` is `true`. The response includes this field only when `mode` is `judge` and a threshold is set. */
+  defaultThreshold?: number | undefined;
   /** Resources that depend on this config, grouped by type */
   dependencies?: AIConfigDependenciesList | undefined;
 }
 export interface GetAIConfigMetricsRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
   /** The starting time, as milliseconds since epoch (inclusive). */
   from: number;
@@ -3517,6 +3534,8 @@ export interface GetAIConfigMetricsRequest {
   contextKind?: string | undefined;
   /** A context key. Only metrics from events whose context of the `contextKind` kind has this key are included. Requires `contextKind`. */
   contextKey?: string | undefined;
+  /** Whether to include Shadow Test events. When `true`, each metric also counts the matching `$ld:ai-shadow:*` events, under the variation the Shadow Test ran. Defaults to `false`. */
+  includeShadow?: boolean | undefined;
 }
 export interface JudgeScore {
   /** The judge's evaluation metric key */
@@ -3567,7 +3586,7 @@ export interface Metrics {
 export interface GetAIConfigMetricsByVariationRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
   /** The starting time, as milliseconds since epoch (inclusive). */
   from: number;
@@ -3579,6 +3598,8 @@ export interface GetAIConfigMetricsByVariationRequest {
   contextKind?: string | undefined;
   /** A context key. Only metrics from events whose context of the `contextKind` kind has this key are included. Requires `contextKind`. */
   contextKey?: string | undefined;
+  /** Whether to include Shadow Test events. When `true`, each metric also counts the matching `$ld:ai-shadow:*` events, under the variation the Shadow Test ran. Defaults to `false`. */
+  includeShadow?: boolean | undefined;
 }
 export interface MetricByVariation {
   /** The variation key */
@@ -3594,9 +3615,9 @@ export interface GetAIConfigQuickStatsRequest {
   env: string;
 }
 export interface QuickStats {
-  /** Number of active AI Configs */
+  /** Number of active agent configs */
   activeConfigs: number;
-  /** Number of active experiments on AI Configs */
+  /** Number of active experiments on agent configs */
   activeExperiments: number;
   /** Average satisfaction rating over the last 7 days */
   averageSatisfaction7D?: number | null | undefined;
@@ -3635,7 +3656,7 @@ export interface AIConfigs {
 export interface GetAIConfigTargetingRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
 }
 export interface AIConfigTargetingDefaults {
@@ -3699,6 +3720,8 @@ export type AIConfigTargetingEnvironmentRuleClauseValuesList = Array<unknown>;
 export interface AIConfigTargetingEnvironmentRuleClause {
   /** The context attribute to match */
   attribute: string;
+  /** The context kind of the attribute to match. Omitted for clauses on the kind attribute, which match the context kind itself. */
+  contextKind?: string | undefined;
   /** The clause ID */
   id: string;
   /** Whether to negate the match */
@@ -3714,8 +3737,15 @@ export type AIConfigTargetingEnvironmentRuleClausesList =
 export interface AIConfigTargetingEnvironmentRule {
   /** The rule ID. Pass it as ruleId in targeting instructions that change this rule. */
   _id: string;
+  /** Whether the rule is disabled. A disabled rule doesn't match any contexts. */
+  disabled?: boolean | undefined;
+  /** The rule description */
+  description?: string | undefined;
   /** The clauses a context must match */
   clauses: AIConfigTargetingEnvironmentRuleClausesList;
+  /** Index of the variation served by this rule */
+  variation?: number | undefined;
+  rollout?: AIConfigTargetingEnvironmentFallthroughRollout | undefined;
   /** Whether to send detailed events for evaluations that match this rule */
   trackEvents: boolean;
 }
@@ -3835,6 +3865,8 @@ export interface AiConfigsMetricListingRep {
   guardedRolloutCount?: number | undefined;
   /** The number of release policies using this metric */
   releasePolicyCount?: number | undefined;
+  /** The number of environment release plans using this metric */
+  environmentReleasePlanCount?: number | undefined;
   /** The number of active experiments using this metric */
   activeExperimentCount?: number | undefined;
   /** The number of active guarded rollouts using this metric */
@@ -3950,7 +3982,7 @@ export interface AIConfigTargetingVariation {
   name: string;
   value: AIConfigTargetingVariationValue;
 }
-/** The variations of this AI Config */
+/** The variations of this agent config */
 export type AIConfigTargetingVariationsList = Array<AIConfigTargetingVariation>;
 export interface AIConfigTargeting {
   /** Unix timestamp in milliseconds */
@@ -3959,13 +3991,13 @@ export interface AIConfigTargeting {
   /** Targeting for each environment, keyed by environment key */
   environments: AIConfigTargetingEnvironmentsMap;
   experiments: AiConfigsExperimentInfoRep;
-  /** The AI Config key */
+  /** The agent config key */
   key: string;
-  /** The AI Config name */
+  /** The agent config name */
   name: string;
   /** Tags for this resource */
   tags: AIConfigTargetingTagsList;
-  /** The variations of this AI Config */
+  /** The variations of this agent config */
   variations: AIConfigTargetingVariationsList;
   /** The version number of this resource */
   _version: number;
@@ -3973,9 +4005,9 @@ export interface AIConfigTargeting {
 export interface GetAIConfigVariationRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
-  /** The AI Config variation key */
+  /** The agent config variation key */
   variationKey: string;
 }
 /** The items on this page */
@@ -7056,6 +7088,17 @@ export interface ToolReference {
 }
 /** The resources that reference this tool */
 export type ToolReferencesItemsList = Array<ToolReference>;
+/** An agent skill version that pins a version of an AI tool. */
+export interface ToolSkillReference {
+  /** The key of the agent skill. */
+  skillKey: string;
+  /** The version of the agent skill that pins the tool. */
+  skillVersion: number;
+  /** The version of the tool the skill version pins. */
+  toolVersion: number;
+}
+/** One page of the agent skill versions that pin a version of this tool, ordered by skill key then skill version, newest first. It is paged by `limit` and `offset` like `items`. A tool cannot be deleted while any skill version pins it. */
+export type ToolReferencesSkillsList = Array<ToolSkillReference>;
 export interface ToolReferences {
   _links?: PaginatedLinks | undefined;
   /** The key of the AI tool. */
@@ -7066,6 +7109,10 @@ export interface ToolReferences {
   items: ToolReferencesItemsList;
   /** The total number of references. */
   totalCount: number;
+  /** One page of the agent skill versions that pin a version of this tool, ordered by skill key then skill version, newest first. It is paged by `limit` and `offset` like `items`. A tool cannot be deleted while any skill version pins it. */
+  skills?: ToolReferencesSkillsList | undefined;
+  /** The total number of agent skill versions that pin this tool, across all pages. */
+  skillsTotalCount?: number | undefined;
 }
 export interface ListAIToolsRequest {
   /** The project key */
@@ -7314,6 +7361,15 @@ export interface PatchAgentOptimizationResultRequest {
 }
 /** Replaces the tags on the agent skill. Tags can be used in custom role policies. Changing only the tags does not create a new version. */
 export type PatchAgentSkillRequestTagsList = Array<string>;
+/** A reference to a version of an AI tool in the same project, pinned to an agent skill version. */
+export interface SkillToolRef {
+  /** The key of the AI tool. */
+  key: string;
+  /** The version of the AI tool to pin. Leave it out to pin the tool's latest version at the time of the request. */
+  version?: number | undefined;
+}
+/** Replaces the AI tools pinned to the agent skill, in the order they reach the agent. Leave it out to keep the current tools, or send an empty array to remove them all. A change to the tools or their order creates a new version. Each tool key can appear once, and a skill can pin up to 20 tools by default. You need read access to each tool. */
+export type PatchAgentSkillRequestToolsList = Array<SkillToolRef>;
 export interface PatchAgentSkillRequest {
   /** The project key */
   projectKey: string;
@@ -7331,30 +7387,36 @@ export interface PatchAgentSkillRequest {
   maintainerTeamKey?: string | undefined;
   /** Replaces the tags on the agent skill. Tags can be used in custom role policies. Changing only the tags does not create a new version. */
   tags?: PatchAgentSkillRequestTagsList | undefined;
+  /** Replaces the AI tools pinned to the agent skill, in the order they reach the agent. Leave it out to keep the current tools, or send an empty array to remove them all. A change to the tools or their order creates a new version. Each tool key can appear once, and a skill can pin up to 20 tools by default. You need read access to each tool. */
+  tools?: PatchAgentSkillRequestToolsList | undefined;
 }
 /** Tags for this resource */
 export type PatchAIConfigRequestTagsList = Array<string>;
 export interface PatchAIConfigRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
   /** Key of the variation this config serves by default */
   defaultVariationKey?: string | undefined;
-  /** A description of the AI Config */
+  /** A description of the agent config */
   description?: string | undefined;
   /** The ID of the member who maintains this resource */
   maintainerId?: string | undefined;
   /** The key of the team that maintains this resource */
   maintainerTeamKey?: string | undefined;
-  /** A human-readable name for the AI Config */
+  /** A human-readable name for the agent config */
   name?: string | undefined;
   /** Tags for this resource */
   tags?: PatchAIConfigRequestTagsList | undefined;
   /** Evaluation metric key for this config */
   evaluationMetricKey?: string | undefined;
-  /** The success direction of a judge. Offline evaluations use it to decide whether a score passes. - `true`: A lower score is better. Use this for a judge that scores bad output, such as a toxicity or hallucination judge. - `false`: A higher score is better. Use this for a judge that scores good output, such as an accuracy or relevance judge. Send this field only when the AI Config's `mode` is `judge`. If you omit it, the current direction does not change. For a built-in judge key, the API always returns the built-in direction. Built-in judge keys are `ld-ai-judge-accuracy`, `ld-ai-judge-relevance`, and `ld-ai-judge-toxicity`, with or without a `-<timestamp>` suffix such as `ld-ai-judge-accuracy-1760000000000`. The API returns a `400` error in these cases: - `isInverted is only supported for judge mode`: You send this field and the AI Config's `mode` is `agent` or `completion`. Remove the field. - `isInverted is not supported`: Custom judges are not available for your account. Remove the field from the request. */
+  /** The success direction of a judge. Offline evaluations use it to decide whether a score passes. - `true`: A lower score is better. Use this for a judge that scores bad output, such as a toxicity or hallucination judge. - `false`: A higher score is better. Use this for a judge that scores good output, such as an accuracy or relevance judge. Send this field only when the agent config's `mode` is `judge`. If you omit it, the current direction does not change. For a built-in judge key, the API always returns the built-in direction. Built-in judge keys are `ld-ai-judge-accuracy`, `ld-ai-judge-relevance`, and `ld-ai-judge-toxicity`, with or without a `-<timestamp>` suffix such as `ld-ai-judge-accuracy-1760000000000`. The API returns a `400` error in these cases: - `isInverted is only supported for judge mode`: You send this field and the agent config's `mode` is `agent` or `completion`. Remove the field. - `isInverted is not supported`: Custom judges are not available for your account. Remove the field from the request. */
   isInverted?: boolean | undefined;
+  /** The judge's threshold: the pass line for its main score, from 0 to 1. It applies wherever the judge is used. If you omit it, the current threshold does not change. To remove the threshold, send `clearDefaultThreshold` instead. The API returns a `400` error in these cases: - `Threshold is only supported for judges`: You send this field and the agent config's `mode` is `agent` or `completion`. - `Threshold must be from 0 to 1`: The value is below 0 or above 1. - `Thresholds don't support classifier rules yet`: Every active variation of the judge uses classifier rules. Archived variations don't count. - `Threshold can't be set and cleared in the same request`: You send this field and `clearDefaultThreshold: true`. - `Threshold is not supported`: Thresholds are not available for your account. Remove the field from the request. */
+  defaultThreshold?: number | undefined;
+  /** Set to `true` to remove the judge's threshold. Don't send it with `defaultThreshold`. The API returns a `400` error with `Threshold is not supported` when thresholds are not available for your account. */
+  clearDefaultThreshold?: boolean | undefined;
 }
 export type PatchAIConfigTargetingRequestInstructionsItemMap = {
   [key: string]: unknown | undefined;
@@ -7365,7 +7427,7 @@ export type PatchAIConfigTargetingRequestInstructionsList =
 export interface PatchAIConfigTargetingRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
   /** A comment describing the change */
   comment?: string | undefined;
@@ -7380,7 +7442,7 @@ export type PatchAIConfigVariationRequestClassifiersList = Array<Classifier>;
 export type PatchAIConfigVariationRequestMessagesList = Array<Message>;
 /** JSON Schema defining the structured output format for the variation. */
 export type PatchAIConfigVariationRequestOutputFormatMap = { [key: string]: unknown | undefined };
-/** The state to move the variation to. Omit this field to keep the current state. - `archived`: Archive a published variation. You cannot archive a variation that is already archived. You also cannot archive the only variation of an AI Config. An AI Config itself cannot be archived. - `published`: Restore an archived variation. You cannot publish a variation that is already published. */
+/** The state to move the variation to. Omit this field to keep the current state. - `archived`: Archive a published variation. You cannot archive a variation that is already archived. You also cannot archive the only variation of an agent config. An agent config itself cannot be archived. - `published`: Restore an archived variation. You cannot publish a variation that is already published. */
 export type PatchAIConfigVariationRequestState = "archived" | "published";
 export interface VariationToolPost {
   /** The key of the tool to use. */
@@ -7403,9 +7465,9 @@ export type PatchAIConfigVariationRequestSkillsList = Array<VariationSkillPost>;
 export interface PatchAIConfigVariationRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
-  /** The AI Config variation key */
+  /** The agent config variation key */
   variationKey: string;
   /** Replaces classifier rules on a judge variation. An empty array clears them. When this array is non-empty, messages must be empty. */
   classifiers?: PatchAIConfigVariationRequestClassifiersList | undefined;
@@ -7429,7 +7491,7 @@ export interface PatchAIConfigVariationRequest {
   outputFormat?: PatchAIConfigVariationRequestOutputFormatMap | undefined;
   /** Whether to publish this version of the variation */
   published?: boolean | undefined;
-  /** The state to move the variation to. Omit this field to keep the current state. - `archived`: Archive a published variation. You cannot archive a variation that is already archived. You also cannot archive the only variation of an AI Config. An AI Config itself cannot be archived. - `published`: Restore an archived variation. You cannot publish a variation that is already published. */
+  /** The state to move the variation to. Omit this field to keep the current state. - `archived`: Archive a published variation. You cannot archive a variation that is already archived. You also cannot archive the only variation of an agent config. An agent config itself cannot be archived. - `published`: Restore an archived variation. You cannot publish a variation that is already published. */
   state?: PatchAIConfigVariationRequestState | (string & {}) | undefined;
   /** List of tools to use for this variation. The latest version of the tool will be used. */
   tools?: PatchAIConfigVariationRequestToolsList | undefined;
@@ -7838,7 +7900,7 @@ export interface PostAgentOptimizationRequest {
   projectKey: string;
   /** A unique key for the agent optimization */
   key: string;
-  /** The key of the AI Config to optimize */
+  /** The key of the agent config to optimize */
   aiConfigKey: string;
   /** The maximum number of attempts */
   maxAttempts: number;
@@ -7895,6 +7957,8 @@ export interface PostAgentOptimizationResultRequest {
 }
 /** Tags for the agent skill. Tags can be used in custom role policies. */
 export type PostAgentSkillRequestTagsList = Array<string>;
+/** AI tools in the same project to pin to the agent skill, in the order they reach the agent. Each tool key can appear once, and a skill can pin up to 20 tools by default. You need read access to each tool. */
+export type PostAgentSkillRequestToolsList = Array<SkillToolRef>;
 export interface PostAgentSkillRequest {
   /** The project key */
   projectKey: string;
@@ -7912,12 +7976,14 @@ export interface PostAgentSkillRequest {
   maintainerTeamKey?: string | undefined;
   /** Tags for the agent skill. Tags can be used in custom role policies. */
   tags?: PostAgentSkillRequestTagsList | undefined;
+  /** AI tools in the same project to pin to the agent skill, in the order they reach the agent. Each tool key can appear once, and a skill can pin up to 20 tools by default. You need read access to each tool. */
+  tools?: PostAgentSkillRequestToolsList | undefined;
 }
-/** The AI Config mode */
+/** The agent config mode */
 export type PostAIConfigRequestMode = "agent" | "completion" | "judge";
 /** Tags for this resource */
 export type PostAIConfigRequestTagsList = Array<string>;
-/** Keys of the views to add the AI Config to */
+/** Keys of the views to add the agent config to */
 export type PostAIConfigRequestViewKeysList = Array<string>;
 /** Classifier rules for a judge variation. When this array is non-empty, messages must be empty. */
 export type AIConfigVariationPostClassifiersList = Array<Classifier>;
@@ -7965,27 +8031,29 @@ export interface AIConfigVariationPost {
 export interface PostAIConfigRequest {
   /** The project key */
   projectKey: string;
-  /** A description of the AI Config */
+  /** A description of the agent config */
   description?: string | undefined;
-  /** A unique key for the AI Config */
+  /** A unique key for the agent config */
   key: string;
   /** The ID of the member who maintains this resource */
   maintainerId?: string | undefined;
   /** The key of the team that maintains this resource */
   maintainerTeamKey?: string | undefined;
-  /** The AI Config mode */
+  /** The agent config mode */
   mode?: PostAIConfigRequestMode | (string & {}) | undefined;
-  /** A human-readable name for the AI Config */
+  /** A human-readable name for the agent config */
   name: string;
   /** Tags for this resource */
   tags?: PostAIConfigRequestTagsList | undefined;
-  /** Keys of the views to add the AI Config to */
+  /** Keys of the views to add the agent config to */
   viewKeys?: PostAIConfigRequestViewKeysList | undefined;
   defaultVariation?: AIConfigVariationPost | undefined;
   /** Evaluation metric key for this config */
   evaluationMetricKey?: string | undefined;
   /** The success direction of a judge. Offline evaluations use it to decide whether a score passes. - `true`: A lower score is better. Use this for a judge that scores bad output, such as a toxicity or hallucination judge. - `false`: A higher score is better. Use this for a judge that scores good output, such as an accuracy or relevance judge. **Required for a custom judge.** A custom judge has `mode` set to `judge` and a `key` that is not a built-in judge key. Built-in judge keys are `ld-ai-judge-accuracy`, `ld-ai-judge-relevance`, and `ld-ai-judge-toxicity`, with or without a `-<timestamp>` suffix such as `ld-ai-judge-accuracy-1760000000000`. For a built-in judge key, this field is optional, and the API always uses the built-in direction. Do not send this field when `mode` is `agent` or `completion`. This field is not in the schema's `required` list, because only custom judges need it. The API returns a `400` error in these cases: - `isInverted is required for a custom judge: ...`: You create a custom judge without this field. Send `true` or `false`. - `isInverted is only supported for judge mode`: You send this field and `mode` is `agent` or `completion`. Remove the field, or set `mode` to `judge`. - `isInverted is not supported`: Custom judges are not available for your account. Remove the field from the request. */
   isInverted?: boolean | undefined;
+  /** The judge's threshold: the pass line for its main score, from 0 to 1. It applies wherever the judge is used. Omit it to create the judge with no threshold. Send this field only when `mode` is `judge`. The API returns a `400` error in these cases: - `Threshold is only supported for judges`: You send this field and `mode` is `agent` or `completion`. - `Threshold must be from 0 to 1`: The value is below 0 or above 1. - `Thresholds don't support classifier rules yet`: The default variation uses classifier rules. - `Threshold is not supported`: Thresholds are not available for your account. Remove the field from the request. */
+  defaultThreshold?: number | undefined;
 }
 /** Classifier rules for a judge variation. When this array is non-empty, messages must be empty. */
 export type PostAIConfigVariationRequestClassifiersList = Array<Classifier>;
@@ -8002,7 +8070,7 @@ export type PostAIConfigVariationRequestSkillsList = Array<VariationSkillPost>;
 export interface PostAIConfigVariationRequest {
   /** The project key */
   projectKey: string;
-  /** The AI Config key */
+  /** The agent config key */
   configKey: string;
   /** Classifier rules for a judge variation. When this array is non-empty, messages must be empty. */
   classifiers?: PostAIConfigVariationRequestClassifiersList | undefined;
@@ -8123,6 +8191,8 @@ export interface PostAuditLogEntriesRequest {
   member?: string | undefined;
   /** An access token ID that lets you filter audit log listings by the token that made the change. Repeat the parameter to filter by multiple tokens. */
   token?: string | Redacted.Redacted<string> | undefined;
+  /** Set to 1 to return rolled-up audit log entries, which group related changes into one entry. By default, entries aren't rolled up. */
+  rollup?: number | undefined;
   body?: StatementPostList | undefined;
 }
 export interface PostAuditLogEntryCountsRequest {
@@ -9112,8 +9182,8 @@ export const copyFeatureFlag: API.OperationMethod<
   CopyFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8897, __c278, 1) as any as S.Schema<CopyFeatureFlagRequest>,
-  output: __S(8984, __c280, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(8929, __c279, 1) as any as S.Schema<CopyFeatureFlagRequest>,
+  output: __S(9016, __c281, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9135,8 +9205,8 @@ export const createAnnouncementPublic: API.OperationMethod<
   CreateAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<CreateAnnouncementPublicRequest>,
-  output: __S(9825, __c307, 1) as any as S.Schema<AnnouncementResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<CreateAnnouncementPublicRequest>,
+  output: __S(9857, __c308, 1) as any as S.Schema<AnnouncementResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9153,8 +9223,8 @@ export const createApprovalRequest: API.OperationMethod<
   CreateApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<CreateApprovalRequestRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<CreateApprovalRequestRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9175,8 +9245,8 @@ export const createApprovalRequestApply: API.OperationMethod<
   CreateApprovalRequestApplyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<CreateApprovalRequestApplyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(11296, __c353, 0) as any as S.Schema<CreateApprovalRequestApplyRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9197,8 +9267,8 @@ export const createApprovalRequestReview: API.OperationMethod<
   CreateApprovalRequestReviewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<CreateApprovalRequestReviewRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<ApprovalRequestResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<CreateApprovalRequestReviewRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<ApprovalRequestResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9386,8 +9456,8 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateSubscriptionRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<Integration>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreateSubscriptionRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<Integration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9404,8 +9474,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5122, __c160, 2) as any as S.Schema<CreateTeamRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<Team>,
+  input: __S(5154, __c161, 2) as any as S.Schema<CreateTeamRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<Team>,
   errors: [BadRequest],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9422,8 +9492,8 @@ export const createTeamMember: API.OperationMethod<
   CreateTeamMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<CreateTeamMemberRequest>,
-  output: __S(5635, __c176, 3) as any as S.Schema<TeamImportsRep>,
+  input: __S(5664, __c177, 0) as any as S.Schema<CreateTeamMemberRequest>,
+  output: __S(5667, __c177, 3) as any as S.Schema<TeamImportsRep>,
   errors: [BadRequest],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9440,8 +9510,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(6016, __c188, 0) as any as S.Schema<Token>,
+  input: __S(6016, __c188, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<Token>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9458,8 +9528,8 @@ export const createTriggerWorkflow: API.OperationMethod<
   CreateTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<CreateTriggerWorkflowRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<TriggerWorkflowRep>,
+  input: __S(6400, __c200, 0) as any as S.Schema<CreateTriggerWorkflowRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9476,8 +9546,8 @@ export const createView: API.OperationMethod<
   CreateViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(6845, __c213, 29) as any as S.Schema<View>,
+  input: __S(6816, __c213, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(6877, __c214, 29) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9494,8 +9564,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<Webhook>,
+  input: __S(7264, __c227, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9512,8 +9582,8 @@ export const createWorkflowTemplate: API.OperationMethod<
   CreateWorkflowTemplateError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<CreateWorkflowTemplateRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<WorkflowTemplateOutput>,
+  input: __S(7680, __c240, 0) as any as S.Schema<CreateWorkflowTemplateRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<WorkflowTemplateOutput>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -9530,7 +9600,7 @@ export const deleteAdaptiveTrigger: API.OperationMethod<
   DeleteAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<DeleteAdaptiveTriggerRequest>,
+  input: __S(8128, __c254, 0) as any as S.Schema<DeleteAdaptiveTriggerRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9548,7 +9618,7 @@ export const deleteAgentOptimization: API.OperationMethod<
   DeleteAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<DeleteAgentOptimizationRequest>,
+  input: __S(8224, __c257, 0) as any as S.Schema<DeleteAgentOptimizationRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAgentOptimizationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9566,7 +9636,7 @@ export const deleteAgentSkill: API.OperationMethod<
   DeleteAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<DeleteAgentSkillRequest>,
+  input: __S(8256, __c258, 0) as any as S.Schema<DeleteAgentSkillRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAgentSkillResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9577,14 +9647,14 @@ export const deleteAgentSkill: API.OperationMethod<
 }));
 
 export type DeleteAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Delete AI Config Delete an existing AI Config. */
+/** Delete agent config Delete an existing agent config. */
 export const deleteAIConfig: API.OperationMethod<
   DeleteAIConfigRequest,
   DeleteAIConfigResponse,
   DeleteAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<DeleteAIConfigRequest>,
+  input: __S(8288, __c259, 0) as any as S.Schema<DeleteAIConfigRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAIConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9595,14 +9665,14 @@ export const deleteAIConfig: API.OperationMethod<
 }));
 
 export type DeleteAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Delete AI Config variation Delete a specific variation of an AI Config by config key and variation key. */
+/** Delete agent config variation Delete a specific variation of an agent config by config key and variation key. */
 export const deleteAIConfigVariation: API.OperationMethod<
   DeleteAIConfigVariationRequest,
   DeleteAIConfigVariationResponse,
   DeleteAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<DeleteAIConfigVariationRequest>,
+  input: __S(8320, __c260, 0) as any as S.Schema<DeleteAIConfigVariationRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAIConfigVariationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9612,7 +9682,7 @@ export const deleteAIConfigVariation: API.OperationMethod<
   span: "DeleteAIConfigVariation",
 }));
 
-export type DeleteAIToolError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
+export type DeleteAIToolError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
 /** Delete AI tool Delete an existing AI tool. */
 export const deleteAITool: API.OperationMethod<
   DeleteAIToolRequest,
@@ -9620,9 +9690,9 @@ export const deleteAITool: API.OperationMethod<
   DeleteAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<DeleteAIToolRequest>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DeleteAIToolRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAIToolResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
@@ -9638,7 +9708,7 @@ export const deleteAnnouncementPublic: API.OperationMethod<
   DeleteAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<DeleteAnnouncementPublicRequest>,
+  input: __S(8384, __c262, 0) as any as S.Schema<DeleteAnnouncementPublicRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteAnnouncementPublicResponse>,
   errors: [NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9656,7 +9726,7 @@ export const deleteApprovalRequest: API.OperationMethod<
   DeleteApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<DeleteApprovalRequestRequest>,
+  input: __S(8416, __c263, 0) as any as S.Schema<DeleteApprovalRequestRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteApprovalRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9674,7 +9744,7 @@ export const deleteApprovalRequestForFlag: API.OperationMethod<
   DeleteApprovalRequestForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<DeleteApprovalRequestForFlagRequest>,
+  input: __S(8448, __c264, 0) as any as S.Schema<DeleteApprovalRequestForFlagRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteApprovalRequestForFlagResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9692,7 +9762,7 @@ export const deleteBranches: API.OperationMethod<
   DeleteBranchesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DeleteBranchesRequest>,
+  input: __S(8480, __c265, 0) as any as S.Schema<DeleteBranchesRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteBranchesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9710,7 +9780,7 @@ export const deleteCustomRole: API.OperationMethod<
   DeleteCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<DeleteCustomRoleRequest>,
+  input: __S(8512, __c266, 0) as any as S.Schema<DeleteCustomRoleRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteCustomRoleResponse>,
   errors: [NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9728,7 +9798,7 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DeleteDestinationRequest>,
+  input: __S(8544, __c267, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9746,7 +9816,7 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9764,7 +9834,7 @@ export const deleteFeatureFlag: API.OperationMethod<
   DeleteFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
+  input: __S(8608, __c269, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteFeatureFlagResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9786,7 +9856,7 @@ export const deleteFlagConfigScheduledChanges: API.OperationMethod<
   DeleteFlagConfigScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesRequest>,
+  input: __S(8640, __c270, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteFlagConfigScheduledChangesResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9804,7 +9874,7 @@ export const deleteFlagFollower: API.OperationMethod<
   DeleteFlagFollowerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<DeleteFlagFollowerRequest>,
+  input: __S(8672, __c271, 0) as any as S.Schema<DeleteFlagFollowerRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteFlagFollowerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9822,7 +9892,7 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<DeleteMemberRequest>,
+  input: __S(8704, __c272, 0) as any as S.Schema<DeleteMemberRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9840,7 +9910,7 @@ export const deleteMetric: API.OperationMethod<
   DeleteMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<DeleteMetricRequest>,
+  input: __S(8736, __c273, 0) as any as S.Schema<DeleteMetricRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteMetricResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9858,7 +9928,7 @@ export const deleteModelConfig: API.OperationMethod<
   DeleteModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<DeleteModelConfigRequest>,
+  input: __S(8768, __c274, 0) as any as S.Schema<DeleteModelConfigRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteModelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9876,7 +9946,7 @@ export const deleteOAuthClient: API.OperationMethod<
   DeleteOAuthClientError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<DeleteOAuthClientRequest>,
+  input: __S(8800, __c275, 0) as any as S.Schema<DeleteOAuthClientRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteOAuthClientResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9894,7 +9964,7 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<DeleteProjectRequest>,
+  input: __S(8832, __c276, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9912,7 +9982,7 @@ export const deletePromptSnippet: API.OperationMethod<
   DeletePromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<DeletePromptSnippetRequest>,
+  input: __S(8864, __c277, 0) as any as S.Schema<DeletePromptSnippetRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeletePromptSnippetResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9930,7 +10000,7 @@ export const deleteRelayAutoConfig: API.OperationMethod<
   DeleteRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<DeleteRelayAutoConfigRequest>,
+  input: __S(8896, __c278, 0) as any as S.Schema<DeleteRelayAutoConfigRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteRelayAutoConfigResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9948,7 +10018,7 @@ export const deleteRepository: API.OperationMethod<
   DeleteRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<DeleteRepositoryRequest>,
+  input: __S(9504, __c297, 0) as any as S.Schema<DeleteRepositoryRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9966,7 +10036,7 @@ export const deleteRestrictedModels: API.OperationMethod<
   DeleteRestrictedModelsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteRestrictedModelsRequest>,
+  input: __S(9536, __c298, 0) as any as S.Schema<DeleteRestrictedModelsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteRestrictedModelsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -9984,7 +10054,7 @@ export const deleteSegment: API.OperationMethod<
   DeleteSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<DeleteSegmentRequest>,
+  input: __S(9568, __c299, 0) as any as S.Schema<DeleteSegmentRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteSegmentResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10007,7 +10077,7 @@ export const deleteSegmentScheduledChange: API.OperationMethod<
   DeleteSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DeleteSegmentScheduledChangeRequest>,
+  input: __S(9600, __c300, 0) as any as S.Schema<DeleteSegmentScheduledChangeRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteSegmentScheduledChangeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10025,7 +10095,7 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<DeleteSubscriptionRequest>,
+  input: __S(9632, __c301, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteSubscriptionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10043,7 +10113,7 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DeleteTeamRequest>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteTeamResponse>,
   errors: [NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10061,7 +10131,7 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<DeleteTokenRequest>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10079,7 +10149,7 @@ export const deleteTriggerWorkflow: API.OperationMethod<
   DeleteTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
+  input: __S(9728, __c304, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10097,7 +10167,7 @@ export const deleteView: API.OperationMethod<
   DeleteViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DeleteViewRequest>,
+  input: __S(9760, __c305, 0) as any as S.Schema<DeleteViewRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteViewResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10115,7 +10185,7 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DeleteWebhookRequest>,
+  input: __S(9792, __c306, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10133,7 +10203,7 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  input: __S(9888, __c309, 0) as any as S.Schema<DeleteWorkflowRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10151,7 +10221,7 @@ export const deleteWorkflowTemplate: API.OperationMethod<
   DeleteWorkflowTemplateError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DeleteWorkflowTemplateRequest>,
+  input: __S(9920, __c310, 0) as any as S.Schema<DeleteWorkflowTemplateRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<DeleteWorkflowTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10162,15 +10232,15 @@ export const deleteWorkflowTemplate: API.OperationMethod<
 }));
 
 export type EvaluateContextInstanceError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Evaluate flags for context instance Evaluate flags for a context instance, for example, to determine the expected flag variation. **Do not use this API instead of an SDK.** The LaunchDarkly SDKs are specialized for the tasks of evaluating feature flags in your application at scale and generating analytics events based on those evaluations. This API is not designed for that use case. Any evaluations you perform with this API will not be reflected in features such as flag statuses and flag insights. Context instances evaluated by this API will not appear in the Contexts list. To learn more, read [Comparing LaunchDarkly's SDKs and REST API](https://launchdarkly.com/docs/guides/api/comparing-sdk-rest-api). ### Filtering LaunchDarkly supports the `filter` query param for filtering, with the following fields: - `query` filters for a string that matches against the flags' keys and names. It is not case sensitive. For example: `filter=query equals dark-mode`. - `tags` filters the list to flags that have all of the tags in the list. For example: `filter=tags contains ["beta","q1"]`. You can also apply multiple filters at once. For example, setting `filter=query equals dark-mode, tags contains ["beta","q1"]` matches flags which match the key or name `dark-mode` and are tagged `beta` and `q1`. */
+/** Evaluate flags for context instance Evaluate flags for a context instance, for example, to determine the expected flag variation. **Do not use this API instead of an SDK.** The LaunchDarkly SDKs are specialized for the tasks of evaluating feature flags in your application at scale and generating analytics events based on those evaluations. This API is not designed for that use case. Any evaluations you perform with this API will not be reflected in features such as flag statuses and flag insights. Context instances evaluated by this API will not appear in the Contexts list. To learn more, read [Comparing LaunchDarkly SDKs and REST API](https://launchdarkly.com/docs/guides/api/comparing-sdk-rest-api). ### Filtering LaunchDarkly supports the `filter` query param for filtering, with the following fields: - `query` filters for a string that matches against the flags' keys and names. It is not case sensitive. For example: `filter=query equals dark-mode`. - `tags` filters the list to flags that have all of the tags in the list. For example: `filter=tags contains ["beta","q1"]`. You can also apply multiple filters at once. For example, setting `filter=query equals dark-mode, tags contains ["beta","q1"]` matches flags which match the key or name `dark-mode` and are tagged `beta` and `q1`. */
 export const evaluateContextInstance: API.OperationMethod<
   EvaluateContextInstanceRequest,
   ContextInstanceEvaluations,
   EvaluateContextInstanceError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<EvaluateContextInstanceRequest>,
-  output: __S(9924, __c310, 4) as any as S.Schema<ContextInstanceEvaluations>,
+  input: __S(9952, __c311, 0) as any as S.Schema<EvaluateContextInstanceRequest>,
+  output: __S(9956, __c311, 4) as any as S.Schema<ContextInstanceEvaluations>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10187,8 +10257,8 @@ export const getAdaptiveTrigger: API.OperationMethod<
   GetAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<GetAdaptiveTriggerRequest>,
-  output: __S(9988, __c312, 4) as any as S.Schema<AdaptiveTrigger>,
+  input: __S(9984, __c312, 0) as any as S.Schema<GetAdaptiveTriggerRequest>,
+  output: __S(10020, __c313, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10205,8 +10275,8 @@ export const getAgentOptimization: API.OperationMethod<
   GetAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<GetAgentOptimizationRequest>,
-  output: __S(10052, __c314, 4) as any as S.Schema<AgentOptimization>,
+  input: __S(10048, __c314, 0) as any as S.Schema<GetAgentOptimizationRequest>,
+  output: __S(10084, __c315, 4) as any as S.Schema<AgentOptimization>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10223,8 +10293,8 @@ export const getAgentSkill: API.OperationMethod<
   GetAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<GetAgentSkillRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<AgentSkill>,
+  input: __S(10112, __c316, 0) as any as S.Schema<GetAgentSkillRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<AgentSkill>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10234,15 +10304,15 @@ export const getAgentSkill: API.OperationMethod<
 }));
 
 export type GetAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get AI Config Retrieve a specific AI Config by its key. */
+/** Get agent config Retrieve a specific agent config by its key. */
 export const getAIConfig: API.OperationMethod<
   GetAIConfigRequest,
   AIConfig,
   GetAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<GetAIConfigRequest>,
-  output: __S(10178, __c318, 2) as any as S.Schema<AIConfig>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetAIConfigRequest>,
+  output: __S(10242, __c320, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10252,15 +10322,15 @@ export const getAIConfig: API.OperationMethod<
 }));
 
 export type GetAIConfigMetricsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get AI Config metrics Retrieve usage metrics for an AI Config by config key. */
+/** Get agent config metrics Retrieve usage metrics for an agent config by config key. */
 export const getAIConfigMetrics: API.OperationMethod<
   GetAIConfigMetricsRequest,
   Metrics,
   GetAIConfigMetricsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<GetAIConfigMetricsRequest>,
-  output: __S(10306, __c322, 2) as any as S.Schema<Metrics>,
+  input: __S(10336, __c323, 0) as any as S.Schema<GetAIConfigMetricsRequest>,
+  output: __S(10370, __c324, 2) as any as S.Schema<Metrics>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10274,15 +10344,15 @@ export type GetAIConfigMetricsByVariationError =
   | Forbidden
   | NotFound
   | LaunchDarklyOpError;
-/** Get AI Config metrics by variation Retrieve usage metrics for an AI Config by config key, with results split by variation. */
+/** Get agent config metrics by variation Retrieve usage metrics for an agent config by config key, with results split by variation. */
 export const getAIConfigMetricsByVariation: API.OperationMethod<
   GetAIConfigMetricsByVariationRequest,
   GetAIConfigMetricsByVariationResponse,
   GetAIConfigMetricsByVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<GetAIConfigMetricsByVariationRequest>,
-  output: __S(10339, __c323, 3) as any as S.Schema<GetAIConfigMetricsByVariationResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<GetAIConfigMetricsByVariationRequest>,
+  output: __S(10403, __c325, 3) as any as S.Schema<GetAIConfigMetricsByVariationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10292,15 +10362,15 @@ export const getAIConfigMetricsByVariation: API.OperationMethod<
 }));
 
 export type GetAIConfigQuickStatsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get AI Config quick stats Retrieve aggregate quick stats for AI Configs in a project. */
+/** Get agent config quick stats Retrieve aggregate quick stats for agent configs in a project. */
 export const getAIConfigQuickStats: API.OperationMethod<
   GetAIConfigQuickStatsRequest,
   QuickStats,
   GetAIConfigQuickStatsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GetAIConfigQuickStatsRequest>,
-  output: __S(10369, __c324, 1) as any as S.Schema<QuickStats>,
+  input: __S(10432, __c326, 0) as any as S.Schema<GetAIConfigQuickStatsRequest>,
+  output: __S(10433, __c326, 1) as any as S.Schema<QuickStats>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10310,15 +10380,15 @@ export const getAIConfigQuickStats: API.OperationMethod<
 }));
 
 export type GetAIConfigsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** List AI Configs Get a list of all AI Configs in the given project. */
+/** List agent configs Get a list of all agent configs in the given project. */
 export const getAIConfigs: API.OperationMethod<
   GetAIConfigsRequest,
   AIConfigs,
   GetAIConfigsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<GetAIConfigsRequest>,
-  output: __S(10562, __c330, 2) as any as S.Schema<AIConfigs>,
+  input: __S(10656, __c333, 0) as any as S.Schema<GetAIConfigsRequest>,
+  output: __S(10658, __c333, 2) as any as S.Schema<AIConfigs>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10328,15 +10398,15 @@ export const getAIConfigs: API.OperationMethod<
 }));
 
 export type GetAIConfigTargetingError = Forbidden | NotFound | LaunchDarklyOpError;
-/** Show an AI Config's targeting Retrieves a specific AI Config's targeting by its key */
+/** Show an agent config's targeting Retrieves a specific agent config's targeting by its key */
 export const getAIConfigTargeting: API.OperationMethod<
   GetAIConfigTargetingRequest,
   AIConfigTargeting,
   GetAIConfigTargetingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<GetAIConfigTargetingRequest>,
-  output: __S(10675, __c333, 19) as any as S.Schema<AIConfigTargeting>,
+  input: __S(10720, __c335, 0) as any as S.Schema<GetAIConfigTargetingRequest>,
+  output: __S(10771, __c336, 19) as any as S.Schema<AIConfigTargeting>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10346,15 +10416,15 @@ export const getAIConfigTargeting: API.OperationMethod<
 }));
 
 export type GetAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Get AI Config variation Get an AI Config variation by key. The response includes all variation versions for the given variation key. */
+/** Get agent config variation Get an agent config variation by key. The response includes all variation versions for the given variation key. */
 export const getAIConfigVariation: API.OperationMethod<
   GetAIConfigVariationRequest,
   AIConfigVariationsResponse,
   GetAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<GetAIConfigVariationRequest>,
-  output: __S(10689, __c334, 1) as any as S.Schema<AIConfigVariationsResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<GetAIConfigVariationRequest>,
+  output: __S(10785, __c337, 1) as any as S.Schema<AIConfigVariationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10371,8 +10441,8 @@ export const getAITool: API.OperationMethod<
   GetAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<GetAIToolRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<AITool>,
+  input: __S(10816, __c338, 0) as any as S.Schema<GetAIToolRequest>,
+  output: __S(10848, __c339, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10389,8 +10459,8 @@ export const getAllHoldouts: API.OperationMethod<
   GetAllHoldoutsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<GetAllHoldoutsRequest>,
-  output: __S(10787, __c337, 3) as any as S.Schema<HoldoutsCollectionRep>,
+  input: __S(10880, __c340, 0) as any as S.Schema<GetAllHoldoutsRequest>,
+  output: __S(10883, __c340, 3) as any as S.Schema<HoldoutsCollectionRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10407,8 +10477,8 @@ export const getAllWebhooks: API.OperationMethod<
   GetAllWebhooksError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<GetAllWebhooksRequest>,
-  output: __S(10850, __c339, 2) as any as S.Schema<Webhooks>,
+  input: __S(10944, __c342, 0) as any as S.Schema<GetAllWebhooksRequest>,
+  output: __S(10946, __c342, 2) as any as S.Schema<Webhooks>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10425,8 +10495,8 @@ export const getAnnouncementsPublic: API.OperationMethod<
   GetAnnouncementsPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<GetAnnouncementsPublicRequest>,
-  output: __S(10882, __c340, 2) as any as S.Schema<GetAnnouncementsPublic200Response>,
+  input: __S(10976, __c343, 0) as any as S.Schema<GetAnnouncementsPublicRequest>,
+  output: __S(10978, __c343, 2) as any as S.Schema<GetAnnouncementsPublic200Response>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10443,8 +10513,8 @@ export const getApprovalForFlag: API.OperationMethod<
   GetApprovalForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<GetApprovalForFlagRequest>,
-  output: __S(10944, __c342, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<GetApprovalForFlagRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10461,8 +10531,8 @@ export const getApprovalRequest: API.OperationMethod<
   GetApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<GetApprovalRequestRequest>,
-  output: __S(11012, __c344, 4) as any as S.Schema<ExpandableApprovalRequestResponse>,
+  input: __S(11072, __c346, 0) as any as S.Schema<GetApprovalRequestRequest>,
+  output: __S(11108, __c347, 4) as any as S.Schema<ExpandableApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10472,15 +10542,15 @@ export const getApprovalRequest: API.OperationMethod<
 }));
 
 export type GetApprovalRequestsError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** List approval requests Get all approval requests. ### Filtering approvals LaunchDarkly supports the `filter` query param for filtering, with the following fields: - `notifyMemberIds` filters for only approvals that are assigned to a member in the specified list. For example: `filter=notifyMemberIds anyOf ["memberId1", "memberId2"]`. - `requestorId` filters for only approvals that correspond to the ID of the member who requested the approval. For example: `filter=requestorId equals 457034721476302714390214`. - `resourceId` filters for only approvals that correspond to the the specified resource identifier. For example: `filter=resourceId equals proj/my-project:env/my-environment:flag/my-flag`. - `resourceKind` filters for only approvals that correspond to the specified resource kind. For example: `filter=resourceKind equals flag`. Currently, `flag`, `segment`, and `aiConfig` resource kinds are supported. - `reviewStatus` filters for only approvals which correspond to the review status in the specified list. The possible values are `approved`, `declined`, and `pending`. For example: `filter=reviewStatus anyOf ["pending", "approved"]`. - `status` filters for only approvals which correspond to the status in the specified list. The possible values are `pending`, `scheduled`, `failed`, and `completed`. For example: `filter=status anyOf ["pending", "scheduled"]`. You can also apply multiple filters at once. For example, setting `filter=projectKey equals my-project, reviewStatus anyOf ["pending","approved"]` matches approval requests which correspond to the `my-project` project key, and a review status of either `pending` or `approved`. ### Expanding approval response LaunchDarkly supports the `expand` query param to include additional fields in the response, with the following fields: - `flag` includes the flag the approval request belongs to - `project` includes the project the approval request belongs to - `environments` includes the environments the approval request relates to For example, `expand=project,flag` includes the `project` and `flag` fields in the response. */
+/** List approval requests Get all approval requests. ### Filtering approvals LaunchDarkly supports the `filter` query param for filtering, with the following fields: - `notifyMemberIds` filters for only approvals that are assigned to a member in the specified list. For example: `filter=notifyMemberIds anyOf ["memberId1", "memberId2"]`. - `requestorId` filters for only approvals that correspond to the ID of the member who requested the approval. For example: `filter=requestorId equals 457034721476302714390214`. - `resourceId` filters for only approvals that correspond to the the specified resource identifier. For example: `filter=resourceId equals proj/my-project:env/my-environment:flag/my-flag`. - `resourceKind` filters for only approvals that correspond to the specified resource kind. For example: `filter=resourceKind equals flag`. Currently, `flag`, `segment`, and `aiConfig` resource kinds are supported. - `reviewStatus` filters for only approvals which correspond to the review status in the specified list. The possible values are `approved`, `declined`, and `pending`. For example: `filter=reviewStatus anyOf ["pending", "approved"]`. - `status` filters for only approvals which correspond to the status in the specified list. The possible values are `pending`, `scheduled`, `failed`, and `completed`. For example: `filter=status anyOf ["pending", "scheduled"]`. - `creationDate` filters for only approvals created before or after a time. Use the `before` or `after` operator with Unix milliseconds or an RFC 3339 timestamp in quotes. Both are exclusive. For example: `filter=creationDate after 1794000000000` or `filter=creationDate after "2026-11-10T00:00:00Z", creationDate before "2026-11-17T00:00:00Z"`. URL-encode a `+` in a timestamp's offset as `%2B`, or use `Z`. You can also apply multiple filters at once. For example, setting `filter=projectKey equals my-project, reviewStatus anyOf ["pending","approved"]` matches approval requests which correspond to the `my-project` project key, and a review status of either `pending` or `approved`. ### Expanding approval response LaunchDarkly supports the `expand` query param to include additional fields in the response, with the following fields: - `flag` includes the flag the approval request belongs to - `project` includes the project the approval request belongs to - `environments` includes the environments the approval request relates to For example, `expand=project,flag` includes the `project` and `flag` fields in the response. */
 export const getApprovalRequests: API.OperationMethod<
   GetApprovalRequestsRequest,
   ExpandableApprovalRequestsResponse,
   GetApprovalRequestsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<GetApprovalRequestsRequest>,
-  output: __S(11170, __c349, 2) as any as S.Schema<ExpandableApprovalRequestsResponse>,
+  input: __S(11264, __c352, 0) as any as S.Schema<GetApprovalRequestsRequest>,
+  output: __S(11266, __c352, 2) as any as S.Schema<ExpandableApprovalRequestsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10497,8 +10567,8 @@ export const getApprovalsForFlag: API.OperationMethod<
   GetApprovalsForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<GetApprovalsForFlagRequest>,
-  output: __S(11234, __c351, 2) as any as S.Schema<FlagConfigApprovalRequestsResponse>,
+  input: __S(11328, __c354, 0) as any as S.Schema<GetApprovalsForFlagRequest>,
+  output: __S(11330, __c354, 2) as any as S.Schema<FlagConfigApprovalRequestsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10515,8 +10585,8 @@ export const getAuditLogEntries: API.OperationMethod<
   GetAuditLogEntriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<GetAuditLogEntriesRequest>,
-  output: __S(11296, __c353, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
+  input: __S(11360, __c355, 0) as any as S.Schema<GetAuditLogEntriesRequest>,
+  output: __S(11392, __c356, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10533,8 +10603,8 @@ export const getAuditLogEntry: API.OperationMethod<
   GetAuditLogEntryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<GetAuditLogEntryRequest>,
-  output: __S(11361, __c355, 1) as any as S.Schema<AuditLogEntryRep>,
+  input: __S(11456, __c358, 0) as any as S.Schema<GetAuditLogEntryRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<AuditLogEntryRep>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10551,8 +10621,8 @@ export const getBigSegmentExport: API.OperationMethod<
   GetBigSegmentExportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11392, __c356, 0) as any as S.Schema<GetBigSegmentExportRequest>,
-  output: __S(11394, __c356, 2) as any as S.Schema<Export>,
+  input: __S(11488, __c359, 0) as any as S.Schema<GetBigSegmentExportRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<Export>,
   errors: [BadRequest, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10569,8 +10639,8 @@ export const getBigSegmentImport: API.OperationMethod<
   GetBigSegmentImportError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<GetBigSegmentImportRequest>,
-  output: __S(11427, __c357, 3) as any as S.Schema<Import>,
+  input: __S(11520, __c360, 0) as any as S.Schema<GetBigSegmentImportRequest>,
+  output: __S(11523, __c360, 3) as any as S.Schema<Import>,
   errors: [BadRequest, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10587,8 +10657,8 @@ export const getBranch: API.OperationMethod<
   GetBranchError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<GetBranchRequest>,
-  output: __S(11488, __c359, 0) as any as S.Schema<BranchRep>,
+  input: __S(11552, __c361, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(11584, __c362, 0) as any as S.Schema<BranchRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10605,8 +10675,8 @@ export const getBranches: API.OperationMethod<
   GetBranchesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<GetBranchesRequest>,
-  output: __S(11553, __c361, 1) as any as S.Schema<BranchCollectionRep>,
+  input: __S(11648, __c364, 0) as any as S.Schema<GetBranchesRequest>,
+  output: __S(11649, __c364, 1) as any as S.Schema<BranchCollectionRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10623,8 +10693,8 @@ export const getCallerIdentity: API.OperationMethod<
   GetCallerIdentityError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<GetCallerIdentityRequest>,
-  output: __S(11617, __c363, 1) as any as S.Schema<CallerIdentityRep>,
+  input: __S(11712, __c366, 0) as any as S.Schema<GetCallerIdentityRequest>,
+  output: __S(11713, __c366, 1) as any as S.Schema<CallerIdentityRep>,
   errors: [],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10641,8 +10711,8 @@ export const getContextAttributeNames: API.OperationMethod<
   GetContextAttributeNamesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<GetContextAttributeNamesRequest>,
-  output: __S(11653, __c364, 5) as any as S.Schema<ContextAttributeNamesCollection>,
+  input: __S(11744, __c367, 0) as any as S.Schema<GetContextAttributeNamesRequest>,
+  output: __S(11749, __c367, 5) as any as S.Schema<ContextAttributeNamesCollection>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10659,8 +10729,8 @@ export const getContextAttributeValues: API.OperationMethod<
   GetContextAttributeValuesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<GetContextAttributeValuesRequest>,
-  output: __S(11685, __c365, 5) as any as S.Schema<ContextAttributeValuesCollection>,
+  input: __S(11776, __c368, 0) as any as S.Schema<GetContextAttributeValuesRequest>,
+  output: __S(11781, __c368, 5) as any as S.Schema<ContextAttributeValuesCollection>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10680,8 +10750,8 @@ export const getContextInstanceSegmentsMembershipByEnv: API.OperationMethod<
   GetContextInstanceSegmentsMembershipByEnvError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>,
-  output: __S(11747, __c367, 3) as any as S.Schema<ContextInstanceSegmentMemberships>,
+  input: __S(11840, __c370, 0) as any as S.Schema<GetContextInstanceSegmentsMembershipByEnvRequest>,
+  output: __S(11843, __c370, 3) as any as S.Schema<ContextInstanceSegmentMemberships>,
   errors: [BadRequest, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10698,8 +10768,8 @@ export const getContextKindsByProjectKey: API.OperationMethod<
   GetContextKindsByProjectKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<GetContextKindsByProjectKeyRequest>,
-  output: __S(11781, __c368, 5) as any as S.Schema<ContextKindsCollectionRep>,
+  input: __S(11872, __c371, 0) as any as S.Schema<GetContextKindsByProjectKeyRequest>,
+  output: __S(11877, __c371, 5) as any as S.Schema<ContextKindsCollectionRep>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10716,8 +10786,8 @@ export const getContexts: API.OperationMethod<
   GetContextsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11808, __c369, 0) as any as S.Schema<GetContextsRequest>,
-  output: __S(11842, __c370, 2) as any as S.Schema<Contexts>,
+  input: __S(11904, __c372, 0) as any as S.Schema<GetContextsRequest>,
+  output: __S(11938, __c373, 2) as any as S.Schema<Contexts>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10734,8 +10804,8 @@ export const getCustomRole: API.OperationMethod<
   GetCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<GetCustomRoleRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<CustomRole>,
+  input: __S(11968, __c374, 0) as any as S.Schema<GetCustomRoleRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<CustomRole>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10752,8 +10822,8 @@ export const getCustomRoles: API.OperationMethod<
   GetCustomRolesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<GetCustomRolesRequest>,
-  output: __S(11938, __c373, 2) as any as S.Schema<CustomRoles>,
+  input: __S(12032, __c376, 0) as any as S.Schema<GetCustomRolesRequest>,
+  output: __S(12034, __c376, 2) as any as S.Schema<CustomRoles>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10770,8 +10840,8 @@ export const getCustomWorkflow: API.OperationMethod<
   GetCustomWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<GetCustomWorkflowRequest>,
-  output: __S(12007, __c375, 7) as any as S.Schema<CustomWorkflowOutput>,
+  input: __S(12064, __c377, 0) as any as S.Schema<GetCustomWorkflowRequest>,
+  output: __S(12103, __c378, 7) as any as S.Schema<CustomWorkflowOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10788,8 +10858,8 @@ export const getDestination: API.OperationMethod<
   GetDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(12065, __c377, 1) as any as S.Schema<Destination>,
+  input: __S(12128, __c379, 0) as any as S.Schema<GetDestinationRequest>,
+  output: __S(12161, __c380, 1) as any as S.Schema<Destination>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10806,8 +10876,8 @@ export const getDestinations: API.OperationMethod<
   GetDestinationsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<GetDestinationsRequest>,
-  output: __S(12098, __c378, 2) as any as S.Schema<Destinations>,
+  input: __S(12192, __c381, 0) as any as S.Schema<GetDestinationsRequest>,
+  output: __S(12194, __c381, 2) as any as S.Schema<Destinations>,
   errors: [Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -10824,7 +10894,7 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<GetEnvironmentRequest>,
+  input: __S(12224, __c382, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<Environment>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -10842,8 +10912,8 @@ export const getEnvironmentsByProject: API.OperationMethod<
   GetEnvironmentsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<GetEnvironmentsByProjectRequest>,
-  output: __S(11136, __c348, 0) as any as S.Schema<Environments>,
+  input: __S(12256, __c383, 0) as any as S.Schema<GetEnvironmentsByProjectRequest>,
+  output: __S(11232, __c351, 0) as any as S.Schema<Environments>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11027,7 +11097,7 @@ export const getFeatureFlag: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetFeatureFlagRequest>,
-  output: __S(8984, __c280, 24) as any as S.Schema<FeatureFlag>,
+  output: __S(9016, __c281, 24) as any as S.Schema<FeatureFlag>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11440,7 +11510,7 @@ export const getOAuthClients: API.OperationMethod<
 }));
 
 export type GetOpenapiSpecError = LaunchDarklyOpError;
-/** Gets the OpenAPI spec in json Get the latest version of the OpenAPI specification for LaunchDarkly's API in JSON format. In the sandbox, click 'Play' and enter any string in the 'Authorization' field to test this endpoint. */
+/** Gets the OpenAPI spec in json Get the latest version of the OpenAPI specification for the LaunchDarkly API in JSON format. In the sandbox, click 'Play' and enter any string in the 'Authorization' field to test this endpoint. */
 export const getOpenapiSpec: API.OperationMethod<
   GetOpenapiSpecRequest,
   GetOpenapiSpecResponse,
@@ -11466,7 +11536,7 @@ export const getProject: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<Project>,
+  output: __S(11168, __c349, 0) as any as S.Schema<Project>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11628,7 +11698,7 @@ export const getSegment: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(11109, __c347, 5) as any as S.Schema<UserSegment>,
+  output: __S(11205, __c350, 5) as any as S.Schema<UserSegment>,
   errors: [NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11762,7 +11832,7 @@ export const getSubscriptionByID: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetSubscriptionByIDRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<Integration>,
+  output: __S(4643, __c145, 3) as any as S.Schema<Integration>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11816,7 +11886,7 @@ export const getTeam: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GetTeamRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<Team>,
+  output: __S(5281, __c165, 1) as any as S.Schema<Team>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11834,7 +11904,7 @@ export const getTeamMaintainers: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GetTeamMaintainersRequest>,
-  output: __S(5184, __c162, 0) as any as S.Schema<TeamMaintainers>,
+  output: __S(5216, __c163, 0) as any as S.Schema<TeamMaintainers>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11852,7 +11922,7 @@ export const getTeamRoles: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetTeamRolesRequest>,
-  output: __S(5221, __c163, 5) as any as S.Schema<TeamCustomRoles>,
+  output: __S(5253, __c164, 5) as any as S.Schema<TeamCustomRoles>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11888,7 +11958,7 @@ export const getToken: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(6016, __c188, 0) as any as S.Schema<Token>,
+  output: __S(6048, __c189, 0) as any as S.Schema<Token>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11924,7 +11994,7 @@ export const getTriggerWorkflowById: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GetTriggerWorkflowByIdRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<TriggerWorkflowRep>,
+  output: __S(6434, __c201, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -11978,7 +12048,7 @@ export const getView: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<GetViewRequest>,
-  output: __S(6845, __c213, 29) as any as S.Schema<View>,
+  output: __S(6877, __c214, 29) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12014,7 +12084,7 @@ export const getWebhook: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<Webhook>,
+  output: __S(7296, __c228, 0) as any as S.Schema<Webhook>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12154,7 +12224,7 @@ export const listAgentOptimizationRuns: API.OperationMethod<
 }));
 
 export type ListAgentOptimizationsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** List agent optimizations Get a list of all agent optimizations in the given project. */
+/** List agent optimizations Get a list of all agent optimizations in the given project. ### Filtering optimizations The `filter` parameter supports the following fields and operators: - `query` with the `equals` operator: case-insensitive substring match on the optimization key, label, or AgentControl config key. - `aiConfigKey` with the `equals` operator: exact match on the key of the AgentControl config being optimized. Separate multiple fields with a comma, for example `filter=aiConfigKey equals "my-agent",query equals "tone"`. */
 export const listAgentOptimizations: API.OperationMethod<
   ListAgentOptimizationsRequest,
   AgentOptimizations,
@@ -12226,7 +12296,7 @@ export const listAgentSkillVersions: API.OperationMethod<
 }));
 
 export type ListAIToolReferencesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** List AI tool references Get all AgentControl config variations that currently reference this tool. */
+/** List AI tool references Get all AgentControl config variations that currently reference this tool, and every agent skill version that pins it. The same `limit` and `offset` apply to `items` and to `skills`, and each list is paged on its own. The pagination links follow whichever list has more entries, so keep requesting `next` until both lists are complete, or use `totalCount` and `skillsTotalCount`. */
 export const listAIToolReferences: API.OperationMethod<
   ListAIToolReferencesRequest,
   ToolReferences,
@@ -12234,7 +12304,7 @@ export const listAIToolReferences: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListAIToolReferencesRequest>,
-  output: __S(3939, __c123, 3) as any as S.Schema<ToolReferences>,
+  output: __S(3941, __c123, 5) as any as S.Schema<ToolReferences>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12400,7 +12470,7 @@ export const patchAdaptiveTrigger: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<PatchAdaptiveTriggerRequest>,
-  output: __S(9988, __c312, 4) as any as S.Schema<AdaptiveTrigger>,
+  output: __S(10020, __c313, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12423,7 +12493,7 @@ export const patchAgentOptimization: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<PatchAgentOptimizationRequest>,
-  output: __S(10052, __c314, 4) as any as S.Schema<AgentOptimization>,
+  output: __S(10084, __c315, 4) as any as S.Schema<AgentOptimization>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12468,7 +12538,7 @@ export const patchAgentSkill: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<PatchAgentSkillRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<AgentSkill>,
+  output: __S(10144, __c317, 0) as any as S.Schema<AgentSkill>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12478,15 +12548,15 @@ export const patchAgentSkill: API.OperationMethod<
 }));
 
 export type PatchAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update AI Config Edit an existing AI Config. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. Here's an example: ``` { "description": "Example updated description", "tags": ["new-tag"] } ``` */
+/** Update agent config Edit an existing agent config. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. Here's an example: ``` { "description": "Example updated description", "tags": ["new-tag"] } ``` */
 export const patchAIConfig: API.OperationMethod<
   PatchAIConfigRequest,
   AIConfig,
   PatchAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<PatchAIConfigRequest>,
-  output: __S(10178, __c318, 2) as any as S.Schema<AIConfig>,
+  input: __S(4544, __c142, 0) as any as S.Schema<PatchAIConfigRequest>,
+  output: __S(10242, __c320, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12496,15 +12566,15 @@ export const patchAIConfig: API.OperationMethod<
 }));
 
 export type PatchAIConfigTargetingError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update AI Config targeting Perform a partial update to an AI Config's targeting. The request body must be a valid semantic patch. ### Using semantic patches on an AI Config To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating an AI Config's targeting takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating AI Configs. <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong> for AI Configs</summary> #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the AI Config. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addRule Adds a new targeting rule to the AI Config. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a rule. - Either - `variationId`: ID of a variation. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the AI Config to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the AI Config. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the AI Config. ##### Parameters - `ruleIds`: Array of IDs of all rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replaceRules Removes all targeting rules for the AI Config and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ] } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the AI Config. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the AI Config, which the AI Config serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The AI Config serves the default off variation when the AI Config's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updateRuleDescription Updates the description of the targeting rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the AI Config. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether or not LaunchDarkly tracks events for the AI Config associated with this rule. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the AI Config. - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule. - `variationId`: ID of a variation. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether or not LaunchDarkly tracks events for the AI Config, for all rules. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether or not LaunchDarkly tracks events for the AI Config, for the default rule. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` </details> */
+/** Update agent config targeting Perform a partial update to an agent config's targeting. The request body must be a valid semantic patch. ### Using semantic patches on an agent config To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating an agent config's targeting takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating agent configs. <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong> for agent configs</summary> #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the agent config. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addRule Adds a new targeting rule to the agent config. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a rule. - Either - `variationId`: ID of a variation. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the agent config to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the agent config. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the agent config. ##### Parameters - `ruleIds`: Array of IDs of all rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replaceRules Removes all targeting rules for the agent config and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ] } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the agent config. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the agent config, which the agent config serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The agent config serves the default off variation when the agent config's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updateRuleDescription Updates the description of the targeting rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the agent config. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether or not LaunchDarkly tracks events for the agent config associated with this rule. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the agent config. - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule. - `variationId`: ID of a variation. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether or not LaunchDarkly tracks events for the agent config, for all rules. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether or not LaunchDarkly tracks events for the agent config, for the default rule. ##### Parameters - `trackEvents`: Whether or not events are tracked. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` </details> */
 export const patchAIConfigTargeting: API.OperationMethod<
   PatchAIConfigTargetingRequest,
   AIConfigTargeting,
   PatchAIConfigTargetingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<PatchAIConfigTargetingRequest>,
-  output: __S(10675, __c333, 19) as any as S.Schema<AIConfigTargeting>,
+  input: __S(4576, __c143, 0) as any as S.Schema<PatchAIConfigTargetingRequest>,
+  output: __S(10771, __c336, 19) as any as S.Schema<AIConfigTargeting>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12514,15 +12584,15 @@ export const patchAIConfigTargeting: API.OperationMethod<
 }));
 
 export type PatchAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
-/** Update AI Config variation Edit an existing variation of an AI Config. This creates a new version of the variation. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. If the variation is in use in a project environment where approval settings require review for this AI Config, this endpoint returns 403 and the change must be submitted through an approval request. Here's an example: ``` { "messages": [ { "role": "system", "content": "The new message" } ] } ``` */
+/** Update agent config variation Edit an existing variation of an agent config. This creates a new version of the variation. The request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields. If the variation is in use in a project environment where approval settings require review for this agent config, this endpoint returns 403 and the change must be submitted through an approval request. Here's an example: ``` { "messages": [ { "role": "system", "content": "The new message" } ] } ``` */
 export const patchAIConfigVariation: API.OperationMethod<
   PatchAIConfigVariationRequest,
   AIConfigVariation,
   PatchAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<PatchAIConfigVariationRequest>,
-  output: __S(10220, __c319, 12) as any as S.Schema<AIConfigVariation>,
+  input: __S(4704, __c147, 0) as any as S.Schema<PatchAIConfigVariationRequest>,
+  output: __S(10282, __c321, 10) as any as S.Schema<AIConfigVariation>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12539,8 +12609,8 @@ export const patchAITool: API.OperationMethod<
   PatchAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<PatchAIToolRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<AITool>,
+  input: __S(4736, __c148, 0) as any as S.Schema<PatchAIToolRequest>,
+  output: __S(10848, __c339, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12557,8 +12627,8 @@ export const patchCustomRole: API.OperationMethod<
   PatchCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<PatchCustomRoleRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<CustomRole>,
+  input: __S(4768, __c149, 0) as any as S.Schema<PatchCustomRoleRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<CustomRole>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12575,7 +12645,7 @@ export const patchEnvironment: API.OperationMethod<
   PatchEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<PatchEnvironmentRequest>,
+  input: __S(4832, __c151, 0) as any as S.Schema<PatchEnvironmentRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12599,7 +12669,7 @@ export const patchExperiment: API.OperationMethod<
   PatchExperimentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<PatchExperimentRequest>,
+  input: __S(4864, __c152, 0) as any as S.Schema<PatchExperimentRequest>,
   output: __S(1172, __c36, 20) as any as S.Schema<Experiment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12617,8 +12687,8 @@ export const patchExpiringTargets: API.OperationMethod<
   PatchExpiringTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<PatchExpiringTargetsRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<PatchExpiringTargetsRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12640,8 +12710,8 @@ export const patchExpiringTargetsForSegment: API.OperationMethod<
   PatchExpiringTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4962, __c155, 2) as any as S.Schema<PatchExpiringTargetsForSegmentRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
+  input: __S(4994, __c156, 2) as any as S.Schema<PatchExpiringTargetsForSegmentRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<ExpiringTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12658,8 +12728,8 @@ export const patchExpiringUserTargets: API.OperationMethod<
   PatchExpiringUserTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<PatchExpiringUserTargetsRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<PatchExpiringUserTargetsRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12681,8 +12751,8 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
   PatchExpiringUserTargetsForSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5058, __c158, 2) as any as S.Schema<PatchExpiringUserTargetsForSegmentRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
+  input: __S(5090, __c159, 2) as any as S.Schema<PatchExpiringUserTargetsForSegmentRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<ExpiringUserTargetPatchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12692,15 +12762,15 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
 }));
 
 export type PatchFeatureFlagError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
-/** Update feature flag Perform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates). ### Using semantic patches on a feature flag To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating feature flags takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating feature flags. <details> <summary>Click to expand instructions for <strong>turning flags on and off</strong></summary> These instructions require the `environmentKey` parameter. #### turnFlagOff Sets the flag's targeting state to **Off**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOff" } ] } ``` #### turnFlagOn Sets the flag's targeting state to **On**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOn" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary> These instructions require the `environmentKey` parameter. Several of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object. #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addPrerequisite Adds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter. ##### Parameters - `key`: Flag key of the prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addPrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addRule Adds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a flag rule. - Either - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addUserTargets Adds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### addVariation Adds a variation to the flag. ##### Parameters - `value`: The variation value. - `name`: (Optional) The variation name. - `description`: (Optional) A description for the variation. Here's an example: ```json { "instructions": [ { "kind": "addVariation", "value": 20, "name": "New variation" } ] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### clearUserTargets Removes all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearUserTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removePrerequisite Removes the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removePrerequisite", "key": "prereq-flag-key-123abc" } ] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeUserTargets Removes user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### removeVariation Removes a variation from the flag. ##### Parameters - `variationId`: ID of a variation of the flag to remove. Here's an example: ```json { "instructions": [ { "kind": "removeVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag. ##### Parameters - `ruleIds`: Array of IDs of all rules in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replacePrerequisites Removes all existing prerequisites and replaces them with the list you provide. ##### Parameters - `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replacePrerequisites", "prerequisites": [ { "key": "prereq-flag-key-123abc", "variationId": "10a58772-3121-400f-846b-b8a04e8944ed" }, { "key": "another-prereq-flag-key-456def", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43" } ] } ] } ``` #### replaceRules Removes all targeting rules for the flag and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ], "trackEvents": true } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### replaceUserTargets Removes all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction. ##### Parameters - `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceUserTargets", "targets": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc", "user-key-456def"] }, { "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["user-key-789ghi"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the flag. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation of the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updatePrerequisite Changes the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updatePrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateRuleDescription Updates the description of the feature flag rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. - `trackEvents`: Whether or not detailed events are sent for this rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule in the flag. - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether the SDK sends detailed evaluation events for this flag, for all rules. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for this flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether the SDK sends detailed evaluation events for the flag's default rule. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for the default rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` #### updateVariation Updates a variation of the flag. ##### Parameters - `variationId`: The ID of the variation to update. - `name`: (Optional) The updated variation name. - `value`: (Optional) The updated variation value. - `description`: (Optional) The updated variation description. Here's an example: ```json { "instructions": [ { "kind": "updateVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "value": 20 } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating flag settings</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### addCustomProperties Adds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "addCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### addTags Adds tags to the feature flag. ##### Parameters - `values`: A list of tags to add. Here's an example: ```json { "instructions": [ { "kind": "addTags", "values": ["tag1", "tag2"] } ] } ``` #### makeFlagPermanent Marks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers. Here's an example: ```json { "instructions": [ { "kind": "makeFlagPermanent" } ] } ``` #### makeFlagTemporary Marks the feature flag as temporary. Here's an example: ```json { "instructions": [ { "kind": "makeFlagTemporary" } ] } ``` #### removeCustomProperties Removes the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property. ##### Parameters - `key`: The custom property key. - `values`: A list of the associated values to remove from the custom property. ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "values": ["value1", "value2"] }] } ``` #### removeMaintainer Removes the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions. Here's an example: ```json { "instructions": [ { "kind": "removeMaintainer" } ] } ``` #### removeTags Removes tags from the feature flag. ##### Parameters - `values`: A list of tags to remove. Here's an example: ```json { "instructions": [ { "kind": "removeTags", "values": ["tag1", "tag2"] } ] } ``` #### replaceCustomProperties Replaces the existing associated values for a custom property with the new values. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the new associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### turnOffClientSideAvailability Turns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn off availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOffClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### turnOnClientSideAvailability Turns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn on availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOnClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### updateDescription Updates the feature flag description. ##### Parameters - `value`: The new description. Here's an example: ```json { "instructions": [ { "kind": "updateDescription", "value": "Updated flag description" } ] } ``` #### updateMaintainerMember Updates the maintainer of the flag to an existing member and removes the existing maintainer. ##### Parameters - `value`: The ID of the member. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerMember", "value": "61e9b714fd47591727db558a" } ] } ``` #### updateMaintainerTeam Updates the maintainer of the flag to an existing team and removes the existing maintainer. ##### Parameters - `value`: The key of the team. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerTeam", "value": "example-team-key" } ] } ``` #### updateName Updates the feature flag name. ##### Parameters - `value`: The new name. Here's an example: ```json { "instructions": [ { "kind": "updateName", "value": "Updated flag name" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### archiveFlag Archives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags. ```json { "instructions": [ { "kind": "archiveFlag" } ] } ``` #### deleteFlag Deletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts. Here's an example: ```json { "instructions": [ { "kind": "deleteFlag" } ] } ``` #### deprecateFlag Deprecates the feature flag. This hides it from the live flags list without archiving or deleting it. Here's an example: ```json { "instructions": [ { "kind": "deprecateFlag" } ] } ``` #### restoreDeprecatedFlag Restores the feature flag if it was previously deprecated. Here's an example: ```json { "instructions": [ { "kind": "restoreDeprecatedFlag" } ] } ``` #### restoreFlag Restores the feature flag if it was previously archived. Here's an example: ```json { "instructions": [ { "kind": "restoreFlag" } ] } ``` </details> ### Using JSON patches on a feature flag If you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. In the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update. There are a few special cases to keep in mind when determining the value of the `path` element: * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/0/values/-", "value": "TestClient10" } ] ``` * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/-", "value": { "variation": 0, "values": ["TestClient10"] } } ] ``` * To add a flag to a release pipeline, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/releasePipelineKey", "value": "example-release-pipeline-key" } ] ``` ### Required approvals If a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals). ### Conflicts If a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`. ### Migration flags For migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`. When you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`. To learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration). */
+/** Update feature flag Perform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates). ### Using semantic patches on a feature flag To make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch). The body of a semantic patch request for updating feature flags takes the following properties: * `comment` (string): (Optional) A description of the update. * `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment. * `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions. ### Instructions Semantic patch requests support the following `kind` instructions for updating feature flags. <details> <summary>Click to expand instructions for <strong>turning flags on and off</strong></summary> These instructions require the `environmentKey` parameter. #### turnFlagOff Sets the flag's targeting state to **Off**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOff" } ] } ``` #### turnFlagOn Sets the flag's targeting state to **On**. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "turnFlagOn" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary> These instructions require the `environmentKey` parameter. Several of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object. #### addClauses Adds the given clauses to the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauses": [{ "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["USA", "Canada"] }] }] } ``` #### addPrerequisite Adds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter. ##### Parameters - `key`: Flag key of the prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addPrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addRule Adds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate. If you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list. ##### Parameters - `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. - `beforeRuleId`: (Optional) ID of a flag rule. - Either - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }] }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addRule", "clauses": [{ "contextKind": "organization", "attribute": "located_in", "op": "in", "negate": false, "values": ["Sweden", "Norway"] }], "rolloutContextKind": "organization", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### addTargets Adds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addUserTargets Adds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### addValuesToClause Adds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "addValuesToClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### addVariation Adds a variation to the flag. ##### Parameters - `value`: The variation value. - `name`: (Optional) The variation name. - `description`: (Optional) A description for the variation. Here's an example: ```json { "instructions": [ { "kind": "addVariation", "value": 20, "name": "New variation" } ] } ``` #### clearTargets Removes all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### clearUserTargets Removes all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction. ##### Parameters - `variationId`: ID of a variation on the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "clearUserTargets", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### removeClauses Removes the clauses specified by `clauseIds` from the rule indicated by `ruleId`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseIds`: Array of IDs of clauses in the rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeClauses", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseIds": ["10a58772-3121-400f-846b-b8a04e8944ed", "36a461dc-235e-4b08-97b9-73ce9365873e"] }] } ``` #### removePrerequisite Removes the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removePrerequisite", "key": "prereq-flag-key-123abc" } ] } ``` #### removeRule Removes the targeting rule specified by `ruleId`. Does nothing if the rule does not exist. ##### Parameters - `ruleId`: ID of a rule in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "removeRule", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" } ] } ``` #### removeTargets Removes context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys. ##### Parameters - `values`: List of context keys. - `contextKind`: (Optional) Context kind to target, defaults to `user` - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeTargets", "values": ["context-key-123abc", "context-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeUserTargets Removes user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction. ##### Parameters - `values`: List of user keys. - `variationId`: ID of a flag variation. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeUserTargets", "values": ["user-key-123abc", "user-key-456def"], "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### removeValuesFromClause Removes `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `values`: Array of strings, case sensitive. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "removeValuesFromClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10a58772-3121-400f-846b-b8a04e8944ed", "values": ["beta_testers"] }] } ``` #### removeVariation Removes a variation from the flag. ##### Parameters - `variationId`: ID of a variation of the flag to remove. Here's an example: ```json { "instructions": [ { "kind": "removeVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### reorderRules Rearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag. ##### Parameters - `ruleIds`: Array of IDs of all rules in the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "reorderRules", "ruleIds": ["a902ef4a-2faf-4eaf-88e1-ecc356708a29", "63c238d1-835d-435e-8f21-c8d5e40b2a3d"] }] } ``` #### replacePrerequisites Removes all existing prerequisites and replaces them with the list you provide. ##### Parameters - `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replacePrerequisites", "prerequisites": [ { "key": "prereq-flag-key-123abc", "variationId": "10a58772-3121-400f-846b-b8a04e8944ed" }, { "key": "another-prereq-flag-key-456def", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43" } ] } ] } ``` #### replaceRules Removes all targeting rules for the flag and replaces them with the list you provide. ##### Parameters - `rules`: A list of rules. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceRules", "rules": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "description": "My new rule", "clauses": [ { "contextKind": "user", "attribute": "segmentMatch", "op": "segmentMatch", "values": ["test"] } ], "trackEvents": true } ] } ] } ``` #### replaceTargets Removes all existing targeting and replaces it with the list of targets you provide. ##### Parameters - `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceTargets", "targets": [ { "contextKind": "user", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc"] }, { "contextKind": "device", "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["device-key-456def"] } ] } ] } ``` #### replaceUserTargets Removes all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction. ##### Parameters - `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "replaceUserTargets", "targets": [ { "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "values": ["user-key-123abc", "user-key-456def"] }, { "variationId": "e5830889-1ec5-4b0c-9cc9-c48790090c43", "values": ["user-key-789ghi"] } ] } ] } ``` #### updateClause Replaces the clause indicated by `ruleId` and `clauseId` with `clause`. ##### Parameters - `ruleId`: ID of a rule in the flag. - `clauseId`: ID of a clause in that rule. - `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateClause", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "clauseId": "10c7462a-2062-45ba-a8bb-dfb3de0f8af5", "clause": { "contextKind": "user", "attribute": "country", "op": "in", "negate": false, "values": ["Mexico", "Canada"] } }] } ``` #### updateDefaultVariation Updates the default on or off variation of the flag. ##### Parameters - `onVariationValue`: (Optional) The value of the variation of the new on variation. - `offVariationValue`: (Optional) The value of the variation of the new off variation Here's an example: ```json { "instructions": [ { "kind": "updateDefaultVariation", "OnVariationValue": true, "OffVariationValue": false } ] } ``` #### updateFallthroughVariationOrRollout Updates the default or "fallthrough" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example that uses a `variationId`: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` Here's an example that uses a percentage rollout: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateFallthroughVariationOrRollout", "rolloutContextKind": "user", "rolloutWeights": { "2f43f67c-3e4e-4945-a18a-26559378ca00": 15000, // serve 15% this variation "e5830889-1ec5-4b0c-9cc9-c48790090c43": 85000 // serve 85% this variation } }] } ``` #### updateOffVariation Updates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**. ##### Parameters - `variationId`: ID of a variation of the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateOffVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" } ] } ``` #### updatePrerequisite Changes the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist. ##### Parameters - `key`: Flag key of an existing prerequisite flag. - `variationId`: ID of a variation of the prerequisite flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updatePrerequisite", "key": "example-prereq-flag-key", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateRuleDescription Updates the description of the feature flag rule. ##### Parameters - `description`: The new human-readable description for this rule. - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleDescription", "description": "New rule description", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29" }] } ``` #### updateRuleTrackEvents Updates whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag. - `trackEvents`: Whether or not detailed events are sent for this rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleTrackEvents", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "trackEvents": true }] } ``` #### updateRuleVariationOrRollout Updates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate. ##### Parameters - `ruleId`: ID of a rule in the flag. - `variationId`: ID of a variation of the flag. or - `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000). - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`. - `rolloutContextKind`: (Optional) Context kind, defaults to `user` Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [{ "kind": "updateRuleVariationOrRollout", "ruleId": "a902ef4a-2faf-4eaf-88e1-ecc356708a29", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00" }] } ``` #### updateTrackEvents Updates whether the SDK sends detailed evaluation events for this flag, for all rules. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for this flag. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEvents", "trackEvents": true } ] } ``` #### updateTrackEventsFallthrough Updates whether the SDK sends detailed evaluation events for the flag's default rule. Required for Data Export, but doesn't enable Data Export on its own. ##### Parameters - `trackEvents`: Whether or not detailed events are sent for the default rule. Here's an example: ```json { "environmentKey": "environment-key-123abc", "instructions": [ { "kind": "updateTrackEventsFallthrough", "trackEvents": true } ] } ``` #### updateVariation Updates a variation of the flag. ##### Parameters - `variationId`: The ID of the variation to update. - `name`: (Optional) The updated variation name. - `value`: (Optional) The updated variation value. - `description`: (Optional) The updated variation description. Here's an example: ```json { "instructions": [ { "kind": "updateVariation", "variationId": "2f43f67c-3e4e-4945-a18a-26559378ca00", "value": 20 } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating flag settings</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### addCustomProperties Adds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "addCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### addTags Adds tags to the feature flag. ##### Parameters - `values`: A list of tags to add. Here's an example: ```json { "instructions": [ { "kind": "addTags", "values": ["tag1", "tag2"] } ] } ``` #### makeFlagPermanent Marks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers. Here's an example: ```json { "instructions": [ { "kind": "makeFlagPermanent" } ] } ``` #### makeFlagTemporary Marks the feature flag as temporary. Here's an example: ```json { "instructions": [ { "kind": "makeFlagTemporary" } ] } ``` #### removeCustomProperties Removes the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property. ##### Parameters - `key`: The custom property key. - `values`: A list of the associated values to remove from the custom property. ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "values": ["value1", "value2"] }] } ``` #### removeMaintainer Removes the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions. Here's an example: ```json { "instructions": [ { "kind": "removeMaintainer" } ] } ``` #### removeTags Removes tags from the feature flag. ##### Parameters - `values`: A list of tags to remove. Here's an example: ```json { "instructions": [ { "kind": "removeTags", "values": ["tag1", "tag2"] } ] } ``` #### replaceCustomProperties Replaces the existing associated values for a custom property with the new values. ##### Parameters - `key`: The custom property key. - `name`: The custom property name. - `values`: A list of the new associated values for the custom property. Here's an example: ```json { "instructions": [{ "kind": "replaceCustomProperties", "key": "example-custom-property", "name": "Example custom property", "values": ["value1", "value2"] }] } ``` #### turnOffClientSideAvailability Turns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn off availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOffClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### turnOnClientSideAvailability Turns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them. ##### Parameters - `value`: Use "usingMobileKey" to turn on availability for mobile SDKs. Use "usingEnvironmentId" to turn on availability for client-side SDKs. Here's an example: ```json { "instructions": [ { "kind": "turnOnClientSideAvailability", "value": "usingMobileKey" } ] } ``` #### updateDescription Updates the feature flag description. ##### Parameters - `value`: The new description. Here's an example: ```json { "instructions": [ { "kind": "updateDescription", "value": "Updated flag description" } ] } ``` #### updateMaintainerMember Updates the maintainer of the flag to an existing member and removes the existing maintainer. ##### Parameters - `value`: The ID of the member. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerMember", "value": "61e9b714fd47591727db558a" } ] } ``` #### updateMaintainerTeam Updates the maintainer of the flag to an existing team and removes the existing maintainer. ##### Parameters - `value`: The key of the team. Here's an example: ```json { "instructions": [ { "kind": "updateMaintainerTeam", "value": "example-team-key" } ] } ``` #### updateName Updates the feature flag name. ##### Parameters - `value`: The new name. Here's an example: ```json { "instructions": [ { "kind": "updateName", "value": "Updated flag name" } ] } ``` </details><br /> <details> <summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary> These instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments. #### archiveFlag Archives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags. ```json { "instructions": [ { "kind": "archiveFlag" } ] } ``` #### deleteFlag Deletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts. Here's an example: ```json { "instructions": [ { "kind": "deleteFlag" } ] } ``` #### deprecateFlag Deprecates the feature flag. This hides it from the live flags list without archiving or deleting it. You cannot deprecate an archived flag. If the flag is archived, this instruction fails with a `409` status code and makes no changes. To deprecate an archived flag, restore it with `restoreFlag` first. Here's an example: ```json { "instructions": [ { "kind": "deprecateFlag" } ] } ``` #### restoreDeprecatedFlag Restores the feature flag if it was previously deprecated. If the flag is archived, this instruction fails with a `409` status code and makes no changes. To restore an archived flag, use `restoreFlag`. Here's an example: ```json { "instructions": [ { "kind": "restoreDeprecatedFlag" } ] } ``` #### restoreFlag Restores the feature flag if it was previously archived. Here's an example: ```json { "instructions": [ { "kind": "restoreFlag" } ] } ``` </details> ### Using JSON patches on a feature flag If you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. In the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update. There are a few special cases to keep in mind when determining the value of the `path` element: * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/0/values/-", "value": "TestClient10" } ] ``` * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/environments/devint/targets/-", "value": { "variation": 0, "values": ["TestClient10"] } } ] ``` * To add a flag to a release pipeline, the path for the JSON patch operation is: ```json [ { "op": "add", "path": "/releasePipelineKey", "value": "example-release-pipeline-key" } ] ``` ### Required approvals If a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals). ### Conflicts If a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`. ### Migration flags For migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`. When you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`. To learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration). */
 export const patchFeatureFlag: API.OperationMethod<
   PatchFeatureFlagRequest,
   FeatureFlag,
   PatchFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<PatchFeatureFlagRequest>,
-  output: __S(8984, __c280, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(5120, __c160, 0) as any as S.Schema<PatchFeatureFlagRequest>,
+  output: __S(9016, __c281, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12722,7 +12792,7 @@ export const patchFlagConfigScheduledChange: API.OperationMethod<
   PatchFlagConfigScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<PatchFlagConfigScheduledChangeRequest>,
+  input: __S(5312, __c166, 0) as any as S.Schema<PatchFlagConfigScheduledChangeRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<FeatureFlagScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12745,8 +12815,8 @@ export const patchFlagDefaultsByProject: API.OperationMethod<
   PatchFlagDefaultsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<PatchFlagDefaultsByProjectRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<UpsertPayloadRep>,
+  input: __S(5344, __c167, 0) as any as S.Schema<PatchFlagDefaultsByProjectRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<UpsertPayloadRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12763,7 +12833,7 @@ export const patchHoldout: API.OperationMethod<
   PatchHoldoutError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<PatchHoldoutRequest>,
+  input: __S(5408, __c169, 0) as any as S.Schema<PatchHoldoutRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<HoldoutRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12781,7 +12851,7 @@ export const patchMetric: API.OperationMethod<
   PatchMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<PatchMetricRequest>,
+  input: __S(5440, __c170, 0) as any as S.Schema<PatchMetricRequest>,
   output: __S(1605, __c50, 5) as any as S.Schema<MetricRep>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12799,7 +12869,7 @@ export const patchModelConfig: API.OperationMethod<
   PatchModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<PatchModelConfigRequest>,
+  input: __S(5472, __c171, 0) as any as S.Schema<PatchModelConfigRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<ModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12817,7 +12887,7 @@ export const patchOAuthClient: API.OperationMethod<
   PatchOAuthClientError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<PatchOAuthClientRequest>,
+  input: __S(5504, __c172, 0) as any as S.Schema<PatchOAuthClientRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<Client>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12840,7 +12910,7 @@ export const patchPromptSnippet: API.OperationMethod<
   PatchPromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<PatchPromptSnippetRequest>,
+  input: __S(5536, __c173, 0) as any as S.Schema<PatchPromptSnippetRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<PromptSnippet>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12863,7 +12933,7 @@ export const patchRelayAutoConfig: API.OperationMethod<
   PatchRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<PatchRelayAutoConfigRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<PatchRelayAutoConfigRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12881,7 +12951,7 @@ export const patchRepository: API.OperationMethod<
   PatchRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<PatchRepositoryRequest>,
+  input: __S(5600, __c175, 0) as any as S.Schema<PatchRepositoryRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<RepositoryRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12904,8 +12974,8 @@ export const patchTriggerWorkflow: API.OperationMethod<
   PatchTriggerWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<PatchTriggerWorkflowRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<TriggerWorkflowRep>,
+  input: __S(5632, __c176, 0) as any as S.Schema<PatchTriggerWorkflowRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<TriggerWorkflowRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12927,8 +12997,8 @@ export const postAdaptiveTrigger: API.OperationMethod<
   PostAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<PostAdaptiveTriggerRequest>,
-  output: __S(9988, __c312, 4) as any as S.Schema<AdaptiveTrigger>,
+  input: __S(5696, __c178, 0) as any as S.Schema<PostAdaptiveTriggerRequest>,
+  output: __S(10020, __c313, 4) as any as S.Schema<AdaptiveTrigger>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12945,8 +13015,8 @@ export const postAgentOptimization: API.OperationMethod<
   PostAgentOptimizationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<PostAgentOptimizationRequest>,
-  output: __S(10052, __c314, 4) as any as S.Schema<AgentOptimization>,
+  input: __S(5728, __c179, 0) as any as S.Schema<PostAgentOptimizationRequest>,
+  output: __S(10084, __c315, 4) as any as S.Schema<AgentOptimization>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -12967,7 +13037,7 @@ export const postAgentOptimizationResult: API.OperationMethod<
   PostAgentOptimizationResultError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<PostAgentOptimizationResultRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<PostAgentOptimizationResultRequest>,
   output: __S(3456, __c108, 0) as any as S.Schema<AgentOptimizationResult>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -12990,8 +13060,8 @@ export const postAgentSkill: API.OperationMethod<
   PostAgentSkillError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<PostAgentSkillRequest>,
-  output: __S(10112, __c316, 0) as any as S.Schema<AgentSkill>,
+  input: __S(5792, __c181, 0) as any as S.Schema<PostAgentSkillRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<AgentSkill>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13001,15 +13071,15 @@ export const postAgentSkill: API.OperationMethod<
 }));
 
 export type PostAIConfigError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Create new AI Config Create a new AI Config within the given project. */
+/** Create new agent config Create a new agent config within the given project. */
 export const postAIConfig: API.OperationMethod<
   PostAIConfigRequest,
   AIConfig,
   PostAIConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5793, __c181, 1) as any as S.Schema<PostAIConfigRequest>,
-  output: __S(10178, __c318, 2) as any as S.Schema<AIConfig>,
+  input: __S(5825, __c182, 1) as any as S.Schema<PostAIConfigRequest>,
+  output: __S(10242, __c320, 2) as any as S.Schema<AIConfig>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13019,15 +13089,15 @@ export const postAIConfig: API.OperationMethod<
 }));
 
 export type PostAIConfigVariationError = BadRequest | Forbidden | LaunchDarklyOpError;
-/** Create AI Config variation Create a new variation for a given AI Config. The <code>model</code> in the request body requires a <code>modelName</code> and <code>parameters</code>, for example: ``` "model": { "modelName": "claude-3-opus-20240229", "parameters": { "max_tokens": 1024 } } ``` */
+/** Create agent config variation Create a new variation for a given agent config. The <code>model</code> in the request body requires a <code>modelName</code> and <code>parameters</code>, for example: ``` "model": { "modelName": "claude-3-opus-20240229", "parameters": { "max_tokens": 1024 } } ``` */
 export const postAIConfigVariation: API.OperationMethod<
   PostAIConfigVariationRequest,
   AIConfigVariation,
   PostAIConfigVariationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<PostAIConfigVariationRequest>,
-  output: __S(10220, __c319, 12) as any as S.Schema<AIConfigVariation>,
+  input: __S(5856, __c183, 0) as any as S.Schema<PostAIConfigVariationRequest>,
+  output: __S(10282, __c321, 10) as any as S.Schema<AIConfigVariation>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13044,8 +13114,8 @@ export const postAITool: API.OperationMethod<
   PostAIToolError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<PostAIToolRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<AITool>,
+  input: __S(5888, __c184, 0) as any as S.Schema<PostAIToolRequest>,
+  output: __S(10848, __c339, 0) as any as S.Schema<AITool>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13066,8 +13136,8 @@ export const postApprovalRequestApplyForFlag: API.OperationMethod<
   PostApprovalRequestApplyForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<PostApprovalRequestApplyForFlagRequest>,
-  output: __S(10944, __c342, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<PostApprovalRequestApplyForFlagRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13084,8 +13154,8 @@ export const postApprovalRequestForFlag: API.OperationMethod<
   PostApprovalRequestForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<PostApprovalRequestForFlagRequest>,
-  output: __S(10944, __c342, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<PostApprovalRequestForFlagRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13106,8 +13176,8 @@ export const postApprovalRequestReviewForFlag: API.OperationMethod<
   PostApprovalRequestReviewForFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<PostApprovalRequestReviewForFlagRequest>,
-  output: __S(10944, __c342, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<PostApprovalRequestReviewForFlagRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13124,8 +13194,8 @@ export const postAuditLogEntries: API.OperationMethod<
   PostAuditLogEntriesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<PostAuditLogEntriesRequest>,
-  output: __S(11296, __c353, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
+  input: __S(6080, __c190, 0) as any as S.Schema<PostAuditLogEntriesRequest>,
+  output: __S(11392, __c356, 0) as any as S.Schema<AuditLogEntryListingRepCollection>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13142,8 +13212,8 @@ export const postAuditLogEntryCounts: API.OperationMethod<
   PostAuditLogEntryCountsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<PostAuditLogEntryCountsRequest>,
-  output: __S(6083, __c190, 3) as any as S.Schema<CountBucketsResult>,
+  input: __S(6112, __c191, 0) as any as S.Schema<PostAuditLogEntryCountsRequest>,
+  output: __S(6115, __c191, 3) as any as S.Schema<CountBucketsResult>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13164,8 +13234,8 @@ export const postCompleteWarehouseDestinationSetup: API.OperationMethod<
   PostCompleteWarehouseDestinationSetupError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<PostCompleteWarehouseDestinationSetupRequest>,
-  output: __S(12065, __c377, 1) as any as S.Schema<Destination>,
+  input: __S(6144, __c192, 0) as any as S.Schema<PostCompleteWarehouseDestinationSetupRequest>,
+  output: __S(12161, __c380, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13182,8 +13252,8 @@ export const postCustomRole: API.OperationMethod<
   PostCustomRoleError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<PostCustomRoleRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<CustomRole>,
+  input: __S(6176, __c193, 0) as any as S.Schema<PostCustomRoleRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<CustomRole>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13204,7 +13274,7 @@ export const postDisableAdaptiveTrigger: API.OperationMethod<
   PostDisableAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<PostDisableAdaptiveTriggerRequest>,
+  input: __S(6208, __c194, 0) as any as S.Schema<PostDisableAdaptiveTriggerRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PostDisableAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13226,7 +13296,7 @@ export const postEnableAdaptiveTrigger: API.OperationMethod<
   PostEnableAdaptiveTriggerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<PostEnableAdaptiveTriggerRequest>,
+  input: __S(6240, __c195, 0) as any as S.Schema<PostEnableAdaptiveTriggerRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PostEnableAdaptiveTriggerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13249,7 +13319,7 @@ export const postEnvironment: API.OperationMethod<
   PostEnvironmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<PostEnvironmentRequest>,
+  input: __S(6272, __c196, 0) as any as S.Schema<PostEnvironmentRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13267,7 +13337,7 @@ export const postExtinction: API.OperationMethod<
   PostExtinctionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<PostExtinctionRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<PostExtinctionRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PostExtinctionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13285,8 +13355,8 @@ export const postFeatureFlag: API.OperationMethod<
   PostFeatureFlagError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6307, __c197, 3) as any as S.Schema<PostFeatureFlagRequest>,
-  output: __S(8984, __c280, 24) as any as S.Schema<FeatureFlag>,
+  input: __S(6339, __c198, 3) as any as S.Schema<PostFeatureFlagRequest>,
+  output: __S(9016, __c281, 24) as any as S.Schema<FeatureFlag>,
   errors: [BadRequest, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13308,7 +13378,7 @@ export const postFlagConfigScheduledChanges: API.OperationMethod<
   PostFlagConfigScheduledChangesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<PostFlagConfigScheduledChangesRequest>,
+  input: __S(6368, __c199, 0) as any as S.Schema<PostFlagConfigScheduledChangesRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<FeatureFlagScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13330,8 +13400,8 @@ export const postFlagCopyConfigApprovalRequest: API.OperationMethod<
   PostFlagCopyConfigApprovalRequestError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<PostFlagCopyConfigApprovalRequestRequest>,
-  output: __S(10944, __c342, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<PostFlagCopyConfigApprovalRequestRequest>,
+  output: __S(11040, __c345, 0) as any as S.Schema<FlagConfigApprovalRequestResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13353,11 +13423,11 @@ export const postGenerateProjectEnvWarehouseDestinationKeyPair: API.OperationMet
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6464,
-    __c202,
+    6496,
+    __c203,
     0,
   ) as any as S.Schema<PostGenerateProjectEnvWarehouseDestinationKeyPairRequest>,
-  output: __S(6496, __c203, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
+  output: __S(6528, __c204, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13374,8 +13444,8 @@ export const postGenerateTrustPolicy: API.OperationMethod<
   PostGenerateTrustPolicyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<PostGenerateTrustPolicyRequest>,
-  output: __S(6532, __c204, 4) as any as S.Schema<GenerateTrustPolicyPostRep>,
+  input: __S(6560, __c205, 0) as any as S.Schema<PostGenerateTrustPolicyRequest>,
+  output: __S(6564, __c205, 4) as any as S.Schema<GenerateTrustPolicyPostRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13396,8 +13466,8 @@ export const postGenerateWarehouseDestinationKeyPair: API.OperationMethod<
   PostGenerateWarehouseDestinationKeyPairError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<PostGenerateWarehouseDestinationKeyPairRequest>,
-  output: __S(6496, __c203, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
+  input: __S(6592, __c206, 0) as any as S.Schema<PostGenerateWarehouseDestinationKeyPairRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<GenerateWarehouseDestinationKeyPairPostRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13418,11 +13488,11 @@ export const postGenerateWarehouseDestinationSetupScript: API.OperationMethod<
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6592,
-    __c206,
+    6624,
+    __c207,
     0,
   ) as any as S.Schema<PostGenerateWarehouseDestinationSetupScriptRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<WarehouseDestinationSetupScriptRep>,
+  output: __S(6625, __c207, 1) as any as S.Schema<WarehouseDestinationSetupScriptRep>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13439,7 +13509,7 @@ export const postHoldout: API.OperationMethod<
   PostHoldoutError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<PostHoldoutRequest>,
+  input: __S(6656, __c208, 0) as any as S.Schema<PostHoldoutRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<HoldoutRep>,
   errors: [BadRequest],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13457,7 +13527,7 @@ export const postMetric: API.OperationMethod<
   PostMetricError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6660, __c208, 4) as any as S.Schema<PostMetricRequest>,
+  input: __S(6692, __c209, 4) as any as S.Schema<PostMetricRequest>,
   output: __S(1605, __c50, 5) as any as S.Schema<MetricRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13479,8 +13549,8 @@ export const postMigrationSafetyIssues: API.OperationMethod<
   PostMigrationSafetyIssuesError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<PostMigrationSafetyIssuesRequest>,
-  output: __S(6691, __c209, 3) as any as S.Schema<PostMigrationSafetyIssuesResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<PostMigrationSafetyIssuesRequest>,
+  output: __S(6723, __c210, 3) as any as S.Schema<PostMigrationSafetyIssuesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13497,7 +13567,7 @@ export const postModelConfig: API.OperationMethod<
   PostModelConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<PostModelConfigRequest>,
+  input: __S(6752, __c211, 0) as any as S.Schema<PostModelConfigRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<ModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13520,7 +13590,7 @@ export const postPromptSnippet: API.OperationMethod<
   PostPromptSnippetError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<PostPromptSnippetRequest>,
+  input: __S(6784, __c212, 0) as any as S.Schema<PostPromptSnippetRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<PromptSnippet>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13538,7 +13608,7 @@ export const postRelayAutoConfig: API.OperationMethod<
   PostRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<PostRelayAutoConfigRequest>,
+  input: __S(6944, __c217, 0) as any as S.Schema<PostRelayAutoConfigRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [BadRequest],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13556,7 +13626,7 @@ export const postRepository: API.OperationMethod<
   PostRepositoryError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<PostRepositoryRequest>,
+  input: __S(6976, __c218, 0) as any as S.Schema<PostRepositoryRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<RepositoryRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13574,8 +13644,8 @@ export const postRestrictedModels: API.OperationMethod<
   PostRestrictedModelsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<PostRestrictedModelsRequest>,
-  output: __S(6979, __c218, 3) as any as S.Schema<RestrictedModelsResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<PostRestrictedModelsRequest>,
+  output: __S(7011, __c219, 3) as any as S.Schema<RestrictedModelsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13592,8 +13662,8 @@ export const postWorkflow: API.OperationMethod<
   PostWorkflowError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<PostWorkflowRequest>,
-  output: __S(12007, __c375, 7) as any as S.Schema<CustomWorkflowOutput>,
+  input: __S(7040, __c220, 0) as any as S.Schema<PostWorkflowRequest>,
+  output: __S(12103, __c378, 7) as any as S.Schema<CustomWorkflowOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13610,7 +13680,7 @@ export const putBranch: API.OperationMethod<
   PutBranchError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<PutBranchRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<PutBranchRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PutBranchResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13633,7 +13703,7 @@ export const putContextFlagSetting: API.OperationMethod<
   PutContextFlagSettingError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<PutContextFlagSettingRequest>,
+  input: __S(7104, __c222, 0) as any as S.Schema<PutContextFlagSettingRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PutContextFlagSettingResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13651,8 +13721,8 @@ export const putContextKind: API.OperationMethod<
   PutContextKindError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<PutContextKindRequest>,
-  output: __S(7105, __c222, 1) as any as S.Schema<UpsertResponseRep>,
+  input: __S(7136, __c223, 0) as any as S.Schema<PutContextKindRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<UpsertResponseRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13673,7 +13743,7 @@ export const putExperimentationSettings: API.OperationMethod<
   PutExperimentationSettingsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7138, __c223, 2) as any as S.Schema<PutExperimentationSettingsRequest>,
+  input: __S(7170, __c224, 2) as any as S.Schema<PutExperimentationSettingsRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<RandomizationSettingsRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13696,8 +13766,8 @@ export const putFlagDefaultsByProject: API.OperationMethod<
   PutFlagDefaultsByProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<PutFlagDefaultsByProjectRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<UpsertPayloadRep>,
+  input: __S(7200, __c225, 0) as any as S.Schema<PutFlagDefaultsByProjectRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<UpsertPayloadRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13714,7 +13784,7 @@ export const putFlagFollower: API.OperationMethod<
   PutFlagFollowerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<PutFlagFollowerRequest>,
+  input: __S(7232, __c226, 0) as any as S.Schema<PutFlagFollowerRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PutFlagFollowerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13737,7 +13807,7 @@ export const resetEnvironmentMobileKey: API.OperationMethod<
   ResetEnvironmentMobileKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<ResetEnvironmentMobileKeyRequest>,
+  input: __S(7328, __c229, 0) as any as S.Schema<ResetEnvironmentMobileKeyRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13760,7 +13830,7 @@ export const resetEnvironmentSDKKey: API.OperationMethod<
   ResetEnvironmentSDKKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<ResetEnvironmentSDKKeyRequest>,
+  input: __S(7360, __c230, 0) as any as S.Schema<ResetEnvironmentSDKKeyRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13778,7 +13848,7 @@ export const resetRelayAutoConfig: API.OperationMethod<
   ResetRelayAutoConfigError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<ResetRelayAutoConfigRequest>,
+  input: __S(7392, __c231, 0) as any as S.Schema<ResetRelayAutoConfigRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<RelayAutoConfigRep>,
   errors: [Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13796,8 +13866,8 @@ export const searchContexts: API.OperationMethod<
   SearchContextsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<SearchContextsRequest>,
-  output: __S(11842, __c370, 2) as any as S.Schema<Contexts>,
+  input: __S(7424, __c232, 0) as any as S.Schema<SearchContextsRequest>,
+  output: __S(11938, __c373, 2) as any as S.Schema<Contexts>,
   errors: [BadRequest, Forbidden],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13814,8 +13884,8 @@ export const unlinkResource: API.OperationMethod<
   UnlinkResourceError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<UnlinkResourceRequest>,
-  output: __S(7425, __c232, 1) as any as S.Schema<UnlinkResourceSuccessResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<UnlinkResourceRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<UnlinkResourceSuccessResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13837,8 +13907,8 @@ export const updateAnnouncementPublic: API.OperationMethod<
   UpdateAnnouncementPublicError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<UpdateAnnouncementPublicRequest>,
-  output: __S(9825, __c307, 1) as any as S.Schema<AnnouncementResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<UpdateAnnouncementPublicRequest>,
+  output: __S(9857, __c308, 1) as any as S.Schema<AnnouncementResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13855,7 +13925,7 @@ export const updateBigSegmentContextTargets: API.OperationMethod<
   UpdateBigSegmentContextTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<UpdateBigSegmentContextTargetsRequest>,
+  input: __S(7520, __c235, 0) as any as S.Schema<UpdateBigSegmentContextTargetsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateBigSegmentContextTargetsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13873,7 +13943,7 @@ export const updateBigSegmentTargets: API.OperationMethod<
   UpdateBigSegmentTargetsError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<UpdateBigSegmentTargetsRequest>,
+  input: __S(7584, __c237, 0) as any as S.Schema<UpdateBigSegmentTargetsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UpdateBigSegmentTargetsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13884,15 +13954,15 @@ export const updateBigSegmentTargets: API.OperationMethod<
 }));
 
 export type UpdateDestinationError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
-/** Create Data Export destination Create a new Data Export destination. In the `config` request body parameter, the fields required depend on the type of Data Export destination. <details> <summary>Click to expand <code>config</code> parameter details</summary> #### Azure Event Hubs To create a Data Export destination with a `kind` of `azure-event-hubs`, the `config` object requires the following fields: * `namespace`: The Event Hub Namespace name * `name`: The Event Hub name * `policyName`: The shared access signature policy name. You can find your policy name in the settings of your Azure Event Hubs Namespace. * `policyKey`: The shared access signature key. You can find your policy key in the settings of your Azure Event Hubs Namespace. #### Google Cloud Pub/Sub To create a Data Export destination with a `kind` of `google-pubsub`, the `config` object requires the following fields: * `project`: The Google PubSub project ID for the project to publish to * `topic`: The Google PubSub topic ID for the topic to publish to #### Amazon Kinesis To create a Data Export destination with a `kind` of `kinesis`, the `config` object requires the following fields: * `region`: The Kinesis stream's AWS region key * `roleArn`: The Amazon Resource Name (ARN) of the AWS role that will be writing to Kinesis * `streamName`: The name of the Kinesis stream that LaunchDarkly is sending events to. This is not the ARN of the stream. #### mParticle To create a Data Export destination with a `kind` of `mparticle`, the `config` object requires the following fields: * `apiKey`: The mParticle API key * `secret`: The mParticle API secret * `userIdentity`: The type of identifier you use to identify your end users in mParticle * `anonymousUserIdentity`: The type of identifier you use to identify your anonymous end users in mParticle #### Segment To create a Data Export destination with a `kind` of `segment`, the `config` object requires the following fields: * `writeKey`: The Segment write key. This is used to authenticate LaunchDarkly's calls to Segment. #### Snowflake To create a Data Export destination with a `kind` of `snowflake-v2`, the `config` object requires the following fields: * `publicKey`: The `publicKey` is returned as part of the [Generate Snowflake destination key pair](https://launchdarkly.com/docs/api/data-export-destinations/post-generate-warehouse-destination-key-pair) response. It is the `public_key` field. * `snowflakeHostAddress`: Your Snowflake account URL. </details> */
+/** Create Data Export destination Create a new Data Export destination. In the `config` request body parameter, the fields required depend on the type of Data Export destination. <details> <summary>Click to expand <code>config</code> parameter details</summary> #### Azure Event Hubs To create a Data Export destination with a `kind` of `azure-event-hubs`, the `config` object requires the following fields: * `namespace`: The Event Hub Namespace name * `name`: The Event Hub name * `policyName`: The shared access signature policy name. You can find your policy name in the settings of your Azure Event Hubs Namespace. * `policyKey`: The shared access signature key. You can find your policy key in the settings of your Azure Event Hubs Namespace. #### Google Cloud Pub/Sub To create a Data Export destination with a `kind` of `google-pubsub`, the `config` object requires the following fields: * `project`: The Google PubSub project ID for the project to publish to * `topic`: The Google PubSub topic ID for the topic to publish to #### Amazon Kinesis To create a Data Export destination with a `kind` of `kinesis`, the `config` object requires the following fields: * `region`: The Kinesis stream's AWS region key * `roleArn`: The Amazon Resource Name (ARN) of the AWS role that will be writing to Kinesis * `streamName`: The name of the Kinesis stream that LaunchDarkly is sending events to. This is not the ARN of the stream. #### mParticle To create a Data Export destination with a `kind` of `mparticle`, the `config` object requires the following fields: * `apiKey`: The mParticle API key * `secret`: The mParticle API secret * `userIdentity`: The type of identifier you use to identify your end users in mParticle * `anonymousUserIdentity`: The type of identifier you use to identify your anonymous end users in mParticle #### Segment To create a Data Export destination with a `kind` of `segment`, the `config` object requires the following fields: * `writeKey`: The Segment write key. This is used to authenticate calls from LaunchDarkly to Segment. #### Snowflake To create a Data Export destination with a `kind` of `snowflake-v2`, the `config` object requires the following fields: * `publicKey`: The `publicKey` is returned as part of the [Generate Snowflake destination key pair](https://launchdarkly.com/docs/api/data-export-destinations/post-generate-warehouse-destination-key-pair) response. It is the `public_key` field. * `snowflakeHostAddress`: Your Snowflake account URL. </details> */
 export const updateDestination: API.OperationMethod<
   UpdateDestinationRequest,
   Destination,
   UpdateDestinationError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<UpdateDestinationRequest>,
-  output: __S(12065, __c377, 1) as any as S.Schema<Destination>,
+  input: __S(7616, __c238, 0) as any as S.Schema<UpdateDestinationRequest>,
+  output: __S(12161, __c380, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13914,8 +13984,8 @@ export const updateDestinationById: API.OperationMethod<
   UpdateDestinationByIdError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<UpdateDestinationByIdRequest>,
-  output: __S(12065, __c377, 1) as any as S.Schema<Destination>,
+  input: __S(7648, __c239, 0) as any as S.Schema<UpdateDestinationByIdRequest>,
+  output: __S(12161, __c380, 1) as any as S.Schema<Destination>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13932,7 +14002,7 @@ export const updateLayer: API.OperationMethod<
   UpdateLayerError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<UpdateLayerRequest>,
+  input: __S(7808, __c244, 0) as any as S.Schema<UpdateLayerRequest>,
   output: __S(1764, __c55, 4) as any as S.Schema<LayerRep>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13950,7 +14020,7 @@ export const updateMember: API.OperationMethod<
   UpdateMemberError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<UpdateMemberRequest>,
+  input: __S(7840, __c245, 0) as any as S.Schema<UpdateMemberRequest>,
   output: __S(2276, __c71, 4) as any as S.Schema<Member>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -13968,8 +14038,8 @@ export const updateMembers: API.OperationMethod<
   UpdateMembersError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<UpdateMembersRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<BulkEditMembersRep>,
+  input: __S(7872, __c246, 0) as any as S.Schema<UpdateMembersRequest>,
+  output: __S(7875, __c246, 3) as any as S.Schema<BulkEditMembersRep>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -13986,7 +14056,7 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<UpdateProjectRequest>,
+  input: __S(7904, __c247, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<ProjectRep>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -14004,8 +14074,8 @@ export const updateSegment: API.OperationMethod<
   UpdateSegmentError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<UpdateSegmentRequest>,
-  output: __S(11109, __c347, 5) as any as S.Schema<UserSegment>,
+  input: __S(7936, __c248, 0) as any as S.Schema<UpdateSegmentRequest>,
+  output: __S(11205, __c350, 5) as any as S.Schema<UserSegment>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14027,8 +14097,8 @@ export const updateSegmentBySegmentKey: API.OperationMethod<
   UpdateSegmentBySegmentKeyError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<UpdateSegmentBySegmentKeyRequest>,
-  output: __S(11109, __c347, 5) as any as S.Schema<UserSegment>,
+  input: __S(7968, __c249, 0) as any as S.Schema<UpdateSegmentBySegmentKeyRequest>,
+  output: __S(11205, __c350, 5) as any as S.Schema<UserSegment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14050,7 +14120,7 @@ export const updateSegmentScheduledChange: API.OperationMethod<
   UpdateSegmentScheduledChangeError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<UpdateSegmentScheduledChangeRequest>,
+  input: __S(8000, __c250, 0) as any as S.Schema<UpdateSegmentScheduledChangeRequest>,
   output: __S(4192, __c131, 0) as any as S.Schema<SegmentScheduledChange>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
@@ -14073,8 +14143,8 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<Integration>,
+  input: __S(8032, __c251, 0) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<Integration>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14091,8 +14161,8 @@ export const updateTeam: API.OperationMethod<
   UpdateTeamError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<UpdateTeamRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<Team>,
+  input: __S(8064, __c252, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<Team>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14115,8 +14185,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(6016, __c188, 0) as any as S.Schema<Token>,
+  input: __S(8096, __c253, 0) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(6048, __c189, 0) as any as S.Schema<Token>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14133,8 +14203,8 @@ export const updateView: API.OperationMethod<
   UpdateViewError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<UpdateViewRequest>,
-  output: __S(6845, __c213, 29) as any as S.Schema<View>,
+  input: __S(8160, __c255, 0) as any as S.Schema<UpdateViewRequest>,
+  output: __S(6877, __c214, 29) as any as S.Schema<View>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14151,8 +14221,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   LaunchDarklyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<Webhook>,
+  input: __S(8192, __c256, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: LaunchDarklyServiceErrors,
   protocol: LaunchDarklyProtocol,
@@ -14265,7 +14335,7 @@ function __c6(j: number): any {
           _projectKey: S.optional(S.String),
           randomizationUnits: S.optional(__S(193, __c6, 1)),
           _creationDate: S.optional(S.Number),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "RandomizationSettingsRep" });
   }
@@ -14299,7 +14369,7 @@ function __c8(j: number): any {
         S.Struct({
           items: __S(288, __c9, 0),
           total_count: S.optional(S.Number),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "ExperimentCollectionRep" });
   }
@@ -14351,7 +14421,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(418, __c13, 2),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "ExpiringTargetGetResponse" });
   }
@@ -14427,7 +14497,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(546, __c17, 2),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "ExpiringUserTargetGetResponse" });
   }
@@ -14496,7 +14566,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "ExtinctionCollectionRep" });
@@ -14574,12 +14644,12 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/flags/{projectKey}", code: 200 })),
       ).annotate({ identifier: "GetFeatureFlagsRequest" });
     case 1:
-      return S.Array(__S(8984, __c280, 24));
+      return S.Array(__S(9016, __c281, 24));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: __S(737, __c23, 1),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           totalCount: S.optional(S.Number),
           totalCountWithDifferences: S.optional(S.Number),
         }),
@@ -14616,9 +14686,9 @@ function __c25(j: number): any {
           _maintainerServiceTokenId: S.optional(S.String),
           _version: S.Number,
           executionDate: S.Number,
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
           conflicts: S.optional(S.Unknown),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "FeatureFlagScheduledChange" });
   }
@@ -14649,7 +14719,7 @@ function __c27(j: number): any {
           name: S.String,
           lastRequested: S.optional(S.String),
           default: S.optional(S.Unknown),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "FlagStatusRep" });
   }
@@ -14685,7 +14755,7 @@ function __c28(j: number): any {
         S.Struct({
           environments: __S(898, __c28, 2),
           key: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "FeatureFlagStatusAcrossEnvironments" });
   }
@@ -14710,7 +14780,7 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "FeatureFlagStatuses" });
@@ -14738,7 +14808,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(961, __c30, 1),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "FeatureFlagScheduledChanges" });
   }
@@ -14767,11 +14837,11 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           key: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           temporary: S.optional(S.Boolean),
-          defaultClientSideAvailability: S.optional(__S(9088, __c284, 0)),
+          defaultClientSideAvailability: S.optional(__S(9120, __c285, 0)),
           booleanDefaults: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "FlagDefaultsRep" });
@@ -14796,8 +14866,8 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
-          items: __S(5152, __c161, 0),
+          _links: __S(9024, __c282, 0),
+          items: __S(5184, __c162, 0),
         }),
       ).annotate({ identifier: "FlagFollowersGetRep" });
   }
@@ -14821,7 +14891,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flagKey: S.optional(S.String),
-          followers: S.optional(__S(5152, __c161, 0)),
+          followers: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "FollowersPerFlag" });
     case 2:
@@ -14829,7 +14899,7 @@ function __c33(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: S.optional(__S(1058, __c33, 2)),
         }),
       ).annotate({ identifier: "FlagFollowersByProjEnvGetRep" });
@@ -14924,7 +14994,7 @@ function __c35(j: number): any {
           randomizationUnit: S.optional(S.String),
           reallocationFrequencyMillis: S.optional(S.Number),
           covariateId: S.optional(S.String),
-          attributes: S.optional(__S(9216, __c288, 0)),
+          attributes: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "IterationInput" });
     case 8:
@@ -14938,7 +15008,7 @@ function __c35(j: number): any {
           key: S.String,
           iteration: __S(1127, __c35, 7),
           holdoutId: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           methodology: S.optional(S.String),
           analysisConfig: S.optional(__S(1152, __c36, 0)),
           dataSource: S.optional(S.String),
@@ -14971,10 +15041,10 @@ function __c36(j: number): any {
         S.Struct({
           targetingRule: S.optional(S.String),
           targetingRuleDescription: S.optional(S.String),
-          targetingRuleClauses: S.optional(__S(9024, __c282, 0)),
+          targetingRuleClauses: S.optional(__S(9056, __c283, 0)),
           flagConfigVersion: S.optional(S.Number),
           notInExperimentVariationId: S.optional(S.String),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "FlagRep" });
     case 2:
@@ -14991,10 +15061,10 @@ function __c36(j: number): any {
           analysisType: S.optional(S.String),
           eventKey: S.optional(S.String),
           analysisUnit: S.optional(S.String),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           nameInGroup: S.optional(S.String),
-          randomizationUnits: S.optional(__S(9216, __c288, 0)),
-          analysisUnits: S.optional(__S(9216, __c288, 0)),
+          randomizationUnits: S.optional(__S(9248, __c289, 0)),
+          analysisUnits: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "MetricInGroupRep" });
     case 4:
@@ -15008,7 +15078,7 @@ function __c36(j: number): any {
           kind: S.String,
           isNumeric: S.optional(S.Boolean),
           eventKey: S.optional(S.String),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           isGroup: S.Boolean,
           metrics: S.optional(__S(1156, __c36, 4)),
           analysisType: S.optional(S.String),
@@ -15027,7 +15097,7 @@ function __c36(j: number): any {
           analysisType: S.optional(S.String),
           eventKey: S.optional(S.String),
           analysisUnit: S.optional(S.String),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "MetricV2Rep" });
     case 7:
@@ -15036,7 +15106,7 @@ function __c36(j: number): any {
           key: S.String,
           name: S.String,
           kind: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           metrics: S.optional(__S(1156, __c36, 4)),
         }),
       ).annotate({ identifier: "DependentMetricGroupRepWithMetrics" });
@@ -15112,7 +15182,7 @@ function __c36(j: number): any {
           primarySingleMetric: S.optional(__S(1158, __c36, 6)),
           primaryFunnel: S.optional(__S(1159, __c36, 7)),
           randomizationUnit: S.optional(S.String),
-          attributes: S.optional(__S(9216, __c288, 0)),
+          attributes: S.optional(__S(9248, __c289, 0)),
           treatments: S.optional(__S(1163, __c36, 11)),
           secondaryMetrics: S.optional(__S(1164, __c36, 12)),
           metrics: S.optional(__S(1165, __c36, 13)),
@@ -15145,12 +15215,12 @@ function __c36(j: number): any {
           dataSource: S.optional(S.String),
           assignmentSourceType: S.optional(S.String),
           archivedDate: S.optional(S.Number),
-          tags: S.optional(__S(9216, __c288, 0)),
-          _links: __S(8992, __c281, 0),
+          tags: S.optional(__S(9248, __c289, 0)),
+          _links: __S(9024, __c282, 0),
           holdoutId: S.optional(S.String),
           currentIteration: S.optional(__S(1169, __c36, 17)),
           type: S.optional(S.String),
-          _access: S.optional(__S(9187, __c287, 3)),
+          _access: S.optional(__S(9219, __c288, 3)),
           draftIteration: S.optional(__S(1169, __c36, 17)),
           previousIterations: S.optional(__S(1170, __c36, 18)),
           analysisConfig: S.optional(__S(1152, __c36, 0)),
@@ -15162,7 +15232,7 @@ function __c36(j: number): any {
 function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(9216, __c288, 0));
+      return S.Record(S.String, __S(9248, __c289, 0));
   }
 }
 function __c38(j: number): any {
@@ -15210,7 +15280,7 @@ function __c40(j: number): any {
           createdAt: S.Number,
           updatedAt: S.Number,
           baseExperiment: __S(1172, __c36, 20),
-          experiments: S.optional(__S(10817, __c338, 1)),
+          experiments: S.optional(__S(10913, __c341, 1)),
         }),
       ).annotate({ identifier: "HoldoutRep" });
   }
@@ -15224,8 +15294,8 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          addresses: __S(9216, __c288, 0),
-          outboundAddresses: __S(9216, __c288, 0),
+          addresses: __S(9248, __c289, 0),
+          outboundAddresses: __S(9248, __c289, 0),
         }),
       ).annotate({ identifier: "IpList" });
   }
@@ -15246,7 +15316,7 @@ function __c42(j: number): any {
         S.Struct({
           items: __S(1345, __c42, 1),
           totalCount: S.Number,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "LayerCollectionRep" });
   }
@@ -15264,7 +15334,7 @@ function __c43(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(9056, __c283, 0).pipe(T.Query())),
+          expand: S.optional(__S(9088, __c284, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -15280,17 +15350,17 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(__S(6845, __c213, 29)),
-          flag: S.optional(__S(6831, __c213, 15)),
-          segment: S.optional(__S(6834, __c213, 18)),
-          aiConfig: S.optional(__S(6840, __c213, 24)),
-          metric: S.optional(__S(6837, __c213, 21)),
+          view: S.optional(__S(6877, __c214, 29)),
+          flag: S.optional(__S(6863, __c214, 15)),
+          segment: S.optional(__S(6866, __c214, 18)),
+          aiConfig: S.optional(__S(6872, __c214, 24)),
+          metric: S.optional(__S(6869, __c214, 21)),
         }),
       ).annotate({ identifier: "ViewLinkedResourceDetails" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(6880, __c215, 0),
+          _links: __S(6912, __c216, 0),
           resourceKey: S.String,
           environmentId: S.optional(S.String),
           environmentKey: S.optional(S.String),
@@ -15304,7 +15374,7 @@ function __c44(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(1410, __c44, 2),
           totalCount: S.Number,
         }),
@@ -15335,11 +15405,11 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6845, __c213, 29));
+      return S.Array(__S(6877, __c214, 29));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(1472, __c46, 0),
           totalCount: S.Number,
         }),
@@ -15397,7 +15467,7 @@ function __c50(j: number): any {
           environmentKey: S.String,
           creationDate: S.Number,
           archivedDate: S.optional(S.Number),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "DependentExperimentRep" });
     case 1:
@@ -15408,7 +15478,7 @@ function __c50(j: number): any {
           key: S.String,
           name: S.String,
           kind: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "DependentMetricGroupRep" });
     case 3:
@@ -15424,7 +15494,7 @@ function __c50(j: number): any {
           environmentName: S.String,
           status: S.String,
           creationDate: S.Number,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "DependentReleasePhaseRep" });
     case 5:
@@ -15441,33 +15511,33 @@ function __c50(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(8992, __c281, 0),
-          _site: S.optional(__S(9152, __c286, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
-          tags: __S(9216, __c288, 0),
+          _links: __S(9024, __c282, 0),
+          _site: S.optional(__S(9184, __c287, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          tags: __S(9248, __c289, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(9312, __c291, 0)),
+          lastModified: S.optional(__S(9344, __c292, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(9216, __c288, 0)),
-          analysisUnits: S.optional(__S(9216, __c288, 0)),
-          filters: S.optional(__S(9313, __c291, 1)),
+          randomizationUnits: S.optional(__S(9248, __c289, 0)),
+          analysisUnits: S.optional(__S(9248, __c289, 0)),
+          filters: S.optional(__S(9345, __c292, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(9314, __c291, 2)),
-          dataSource: __S(9315, __c291, 3),
+          eventDefault: S.optional(__S(9346, __c292, 2)),
+          dataSource: __S(9347, __c292, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(9280, __c290, 0)),
+          urls: S.optional(__S(9312, __c291, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -15476,13 +15546,13 @@ function __c50(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(9316, __c291, 4)),
+          denominator: S.optional(__S(9348, __c292, 4)),
           experiments: S.optional(__S(1601, __c50, 1)),
           metricGroups: S.optional(__S(1603, __c50, 3)),
           lastUsedInExperiment: S.optional(__S(1600, __c50, 0)),
           lastUsedInGuardedRollout: S.optional(__S(1604, __c50, 4)),
           isActive: S.optional(S.Boolean),
-          _attachedFeatures: S.optional(__S(11041, __c345, 1)),
+          _attachedFeatures: S.optional(__S(11137, __c348, 1)),
         }),
       ).annotate({ identifier: "MetricRep" });
   }
@@ -15501,12 +15571,12 @@ function __c51(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
       ).annotate({ identifier: "GetMetricsRequest" });
     case 1:
-      return S.Array(__S(8928, __c279, 0));
+      return S.Array(__S(8960, __c280, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: S.optional(__S(1633, __c51, 1)),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MetricCollectionRep" });
@@ -15535,7 +15605,7 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(9187, __c287, 3)),
+          _access: S.optional(__S(9219, __c288, 3)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           key: S.String,
@@ -15545,7 +15615,7 @@ function __c53(j: number): any {
           global: S.Boolean,
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           version: S.Number,
           costPerInputToken: S.optional(S.Number),
           costPerOutputToken: S.optional(S.Number),
@@ -15623,7 +15693,7 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: __S(1825, __c57, 1),
         }),
       ).annotate({ identifier: "ClientCollection" });
@@ -15661,11 +15731,11 @@ function __c60(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.Array(__S(11072, __c346, 0));
+      return S.Array(__S(11168, __c349, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: __S(1921, __c60, 1),
           totalCount: S.optional(S.Number),
         }),
@@ -15695,14 +15765,14 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
-          _site: S.optional(__S(6848, __c214, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
+          _site: S.optional(__S(6880, __c215, 0)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           description: S.optional(S.String),
           text: S.String,
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           version: S.Number,
           createdAt: S.Number,
         }),
@@ -15727,10 +15797,10 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          _creator: S.optional(__S(9120, __c285, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
+          _creator: S.optional(__S(9152, __c286, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
           name: S.String,
-          policy: __S(4641, __c145, 1),
+          policy: __S(4673, __c146, 1),
           fullKey: S.optional(S.String),
           displayKey: S.String,
           creationDate: S.Number,
@@ -15773,7 +15843,7 @@ function __c66(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "RepositoryCollectionRep" });
@@ -15792,9 +15862,9 @@ function __c67(j: number): any {
           defaultBranch: S.String,
           enabled: S.Boolean,
           version: S.Number,
-          branches: S.optional(__S(11584, __c362, 0)),
-          _links: __S(9248, __c289, 0),
-          _access: S.optional(__S(9187, __c287, 3)),
+          branches: S.optional(__S(11680, __c365, 0)),
+          _links: __S(9280, __c290, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
         }),
       ).annotate({ identifier: "RepositoryRep" });
   }
@@ -15819,8 +15889,8 @@ function __c69(j: number): any {
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
           role: S.optional(S.String),
-          customRoles: S.optional(__S(9216, __c288, 0)),
-          teamKeys: S.optional(__S(9216, __c288, 0)),
+          customRoles: S.optional(__S(9248, __c289, 0)),
+          teamKeys: S.optional(__S(9248, __c289, 0)),
           roleAttributes: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "NewMemberForm" });
@@ -15842,7 +15912,7 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(2240, __c70, 0),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Members" });
@@ -15862,7 +15932,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionSet: S.optional(S.String),
-          actions: S.optional(__S(9216, __c288, 0)),
+          actions: S.optional(__S(9248, __c289, 0)),
           resource: S.String,
         }),
       ).annotate({ identifier: "MemberPermissionGrantSummaryRep" });
@@ -15871,7 +15941,7 @@ function __c71(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -15880,16 +15950,16 @@ function __c71(j: number): any {
           _pendingInvite: S.Boolean,
           _verified: S.Boolean,
           _pendingEmail: S.optional(S.String),
-          customRoles: __S(9216, __c288, 0),
+          customRoles: __S(9248, __c289, 0),
           mfa: S.String,
-          excludedDashboards: S.optional(__S(9216, __c288, 0)),
+          excludedDashboards: S.optional(__S(9248, __c289, 0)),
           _lastSeen: S.Number,
           _lastSeenMetadata: S.optional(__S(2272, __c71, 0)),
-          _integrationMetadata: S.optional(__S(10465, __c327, 1)),
+          _integrationMetadata: S.optional(__S(10529, __c329, 1)),
           teams: S.optional(__S(2273, __c71, 1)),
           permissionGrants: S.optional(__S(2275, __c71, 3)),
           creationDate: S.Number,
-          oauthProviders: S.optional(__S(9216, __c288, 0)),
+          oauthProviders: S.optional(__S(9248, __c289, 0)),
           hasPassword: S.optional(S.Boolean),
           version: S.optional(S.Number),
           roleAttributes: S.optional(__S(1184, __c37, 0)),
@@ -15904,9 +15974,9 @@ function __c72(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customRoleKeys: __S(9216, __c288, 0),
+          customRoleKeys: __S(9248, __c289, 0),
           key: S.String,
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           name: S.String,
         }),
       ).annotate({ identifier: "MemberTeamSummaryRep" });
@@ -15921,7 +15991,7 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          links: __S(8992, __c281, 0),
+          links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "RootResponse" });
   }
@@ -15935,12 +16005,12 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "GetRootStatisticRequest" });
     case 1:
-      return S.Array(__S(9152, __c286, 0));
+      return S.Array(__S(9184, __c287, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projects: S.optional(__S(2369, __c74, 1)),
-          self: S.optional(__S(9152, __c286, 0)),
+          self: S.optional(__S(9184, __c287, 0)),
         }),
       ).annotate({ identifier: "StatisticsRoot" });
   }
@@ -16033,12 +16103,12 @@ function __c79(j: number): any {
         ),
       ).annotate({ identifier: "GetSegmentsRequest" });
     case 1:
-      return S.Array(__S(11109, __c347, 5));
+      return S.Array(__S(11205, __c350, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: __S(2529, __c79, 1),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UserSegments" });
@@ -16084,7 +16154,7 @@ function __c81(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           items: __S(2593, __c81, 1),
         }),
       ).annotate({ identifier: "SegmentScheduledChanges" });
@@ -16112,7 +16182,7 @@ function __c82(j: number): any {
           version: S.Number,
           hunkCount: S.Number,
           fileCount: S.Number,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           latestCommitTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StatisticRep" });
@@ -16124,7 +16194,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           flags: __S(2627, __c82, 3),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "StatisticCollectionRep" });
   }
@@ -16148,7 +16218,7 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          teamKeys: __S(9216, __c288, 0),
+          teamKeys: __S(9248, __c289, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/members/{id}/teams", code: 200 })),
       ).annotate({ identifier: "CreateMemberTeamRequest" });
   }
@@ -16162,11 +16232,11 @@ function __c85(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/integrations/{integrationKey}", code: 200 })),
       ).annotate({ identifier: "GetSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(4611, __c144, 3));
+      return S.Array(__S(4643, __c145, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           items: S.optional(__S(2721, __c85, 1)),
           key: S.optional(S.String),
         }),
@@ -16178,7 +16248,7 @@ function __c86(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(__S(9216, __c288, 0).pipe(T.Query())),
+          kind: S.optional(__S(9248, __c289, 0).pipe(T.Query())),
           pre: S.optional(S.String.pipe(T.Query())),
           archived: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -16189,8 +16259,8 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(9216, __c288, 0),
-          _links: __S(8992, __c281, 0),
+          items: __S(9248, __c289, 0),
+          _links: __S(9024, __c282, 0),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TagsCollection" });
@@ -16244,12 +16314,12 @@ function __c90(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/teams", code: 200 })),
       ).annotate({ identifier: "GetTeamsRequest" });
     case 1:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5281, __c165, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: __S(2881, __c90, 1),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Teams" });
@@ -16276,12 +16346,12 @@ function __c92(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/tokens", code: 200 })),
       ).annotate({ identifier: "GetTokensRequest" });
     case 1:
-      return S.Array(__S(6016, __c188, 0));
+      return S.Array(__S(6048, __c189, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: S.optional(__S(2945, __c92, 1)),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Tokens" });
@@ -16323,12 +16393,12 @@ function __c94(j: number): any {
         ),
       ).annotate({ identifier: "GetTriggerWorkflowsRequest" });
     case 1:
-      return S.Array(__S(6402, __c200, 2));
+      return S.Array(__S(6434, __c201, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: S.optional(__S(3009, __c94, 1)),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "TriggerWorkflowCollectionRep" });
   }
@@ -16350,7 +16420,7 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           name: S.String,
           description: S.optional(S.String),
           _accountId: S.String,
@@ -16392,7 +16462,7 @@ function __c98(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(9056, __c283, 0).pipe(T.Query())),
+          expand: S.optional(__S(9088, __c284, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16413,7 +16483,7 @@ function __c99(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(__S(9056, __c283, 0).pipe(T.Query())),
+          expand: S.optional(__S(9088, __c284, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
       ).annotate({ identifier: "GetViewsRequest" });
   }
@@ -16449,13 +16519,13 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkflowsRequest" });
     case 1:
-      return S.Array(__S(12007, __c375, 7));
+      return S.Array(__S(12103, __c378, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           items: __S(3233, __c101, 1),
           totalCount: S.Number,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "CustomWorkflowsListingOutput" });
   }
@@ -16470,7 +16540,7 @@ function __c102(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/templates", code: 200 })),
       ).annotate({ identifier: "GetWorkflowTemplatesRequest" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16542,11 +16612,11 @@ function __c105(j: number): any {
         ),
       ).annotate({ identifier: "ListAdaptiveTriggersRequest" });
     case 1:
-      return S.Array(__S(9988, __c312, 4));
+      return S.Array(__S(10020, __c313, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(3361, __c105, 1),
           totalCount: S.Number,
         }),
@@ -16579,7 +16649,7 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(3424, __c107, 0),
           totalCount: S.optional(S.Number),
         }),
@@ -16591,8 +16661,8 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
           id: S.String,
           runId: S.String,
           agentOptimizationId: S.String,
@@ -16601,15 +16671,15 @@ function __c108(j: number): any {
           activity: S.String,
           iteration: S.Number,
           instructions: S.String,
-          parameters: S.optional(__S(9248, __c289, 0)),
+          parameters: S.optional(__S(9280, __c290, 0)),
           userInput: S.String,
           completionResponse: S.optional(S.String),
-          variation: S.optional(__S(9248, __c289, 0)),
-          scores: S.optional(__S(9248, __c289, 0)),
-          generationTokens: S.optional(__S(9248, __c289, 0)),
-          evaluationTokens: S.optional(__S(9248, __c289, 0)),
+          variation: S.optional(__S(9280, __c290, 0)),
+          scores: S.optional(__S(9280, __c290, 0)),
+          generationTokens: S.optional(__S(9280, __c290, 0)),
+          evaluationTokens: S.optional(__S(9280, __c290, 0)),
           generationLatency: S.optional(S.Number),
-          evaluationLatencies: S.optional(__S(9248, __c289, 0)),
+          evaluationLatencies: S.optional(__S(9280, __c290, 0)),
           completedAt: S.optional(S.Number),
           createdVariationKey: S.optional(S.String),
           createdAt: S.Number,
@@ -16649,7 +16719,7 @@ function __c110(j: number): any {
           defaultTrackEvents: S.optional(S.Boolean),
           confirmChanges: S.optional(S.Boolean),
           requireComments: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           source: S.optional(__S(3552, __c111, 0)),
           critical: S.optional(S.Boolean),
         }),
@@ -16670,7 +16740,7 @@ function __c110(j: number): any {
           key: S.String,
           includeInSnippetByDefault: S.optional(S.Boolean),
           defaultClientSideAvailability: S.optional(__S(3584, __c112, 0)),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           environments: S.optional(__S(3521, __c110, 1)),
           namingConvention: S.optional(__S(3522, __c110, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects", code: 200 })),
@@ -16704,14 +16774,14 @@ function __c113(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           key: S.String,
           includeInSnippetByDefault: S.Boolean,
-          defaultClientSideAvailability: S.optional(__S(9088, __c284, 0)),
+          defaultClientSideAvailability: S.optional(__S(9120, __c285, 0)),
           name: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          tags: __S(9216, __c288, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
+          tags: __S(9248, __c289, 0),
           defaultReleasePipelineKey: S.optional(S.String),
           environments: __S(3680, __c115, 0),
         }),
@@ -16721,11 +16791,11 @@ function __c113(j: number): any {
 function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(10496, __c328, 0));
+      return S.Record(S.String, __S(10560, __c330, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           key: S.String,
           name: S.String,
@@ -16734,12 +16804,12 @@ function __c114(j: number): any {
           color: S.String,
           defaultTtl: S.Number,
           secureMode: S.Boolean,
-          _access: S.optional(__S(9187, __c287, 3)),
+          _access: S.optional(__S(9219, __c288, 3)),
           defaultTrackEvents: S.Boolean,
           requireComments: S.Boolean,
           confirmChanges: S.Boolean,
-          tags: __S(9216, __c288, 0),
-          approvalSettings: S.optional(__S(10496, __c328, 0)),
+          tags: __S(9248, __c289, 0),
+          approvalSettings: S.optional(__S(10560, __c330, 0)),
           resourceApprovalSettings: S.optional(__S(3648, __c114, 0)),
           critical: S.Boolean,
         }),
@@ -16787,7 +16857,7 @@ function __c116(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(3714, __c116, 2),
           totalCount: S.optional(S.Number),
         }),
@@ -16812,11 +16882,11 @@ function __c117(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentOptimizationsRequest" });
     case 1:
-      return S.Array(__S(10052, __c314, 4));
+      return S.Array(__S(10084, __c315, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(3745, __c117, 1),
           totalCount: S.Number,
         }),
@@ -16860,7 +16930,7 @@ function __c119(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           resourceKey: S.String,
           resourceType: S.String,
           items: __S(3809, __c119, 1),
@@ -16892,11 +16962,11 @@ function __c120(j: number): any {
 function __c121(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10112, __c316, 0));
+      return S.Array(__S(10144, __c317, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(3872, __c121, 0),
           totalCount: S.Number,
         }),
@@ -16955,11 +17025,23 @@ function __c123(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          skillKey: S.String,
+          skillVersion: S.Number,
+          toolVersion: S.Number,
+        }),
+      ).annotate({ identifier: "ToolSkillReference" });
+    case 4:
+      return S.Array(__S(3939, __c123, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _links: S.optional(__S(10688, __c334, 0)),
           resourceKey: S.String,
           resourceType: S.String,
           items: __S(3938, __c123, 2),
           totalCount: S.Number,
+          skills: S.optional(__S(3940, __c123, 4)),
+          skillsTotalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ToolReferences" });
   }
@@ -16983,11 +17065,11 @@ function __c124(j: number): any {
 function __c125(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10752, __c336, 0));
+      return S.Array(__S(10848, __c339, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(4000, __c125, 0),
           totalCount: S.Number,
         }),
@@ -17072,7 +17154,7 @@ function __c130(j: number): any {
           segmentKey: S.String.pipe(T.Label()),
           executionDate: S.Number,
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17088,7 +17170,7 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           status: S.String,
           _id: S.String,
           _creationDate: S.Number,
@@ -17096,7 +17178,7 @@ function __c131(j: number): any {
           _maintainerServiceTokenId: S.optional(S.String),
           executionDate: S.Number,
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }),
       ).annotate({ identifier: "SegmentScheduledChange" });
   }
@@ -17121,7 +17203,7 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(4128, __c129, 0),
           totalCount: S.Number,
         }),
@@ -17173,7 +17255,7 @@ function __c135(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
+          _links: S.optional(__S(10688, __c334, 0)),
           items: __S(4320, __c135, 0),
           totalCount: S.Number,
         }),
@@ -17208,7 +17290,7 @@ function __c137(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           triggerID: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          task: S.optional(__S(9987, __c312, 3)),
+          task: S.optional(__S(10019, __c313, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17227,13 +17309,13 @@ function __c138(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           optimizationKey: S.String.pipe(T.Label()),
           maxAttempts: S.optional(S.Number),
-          modelChoices: S.optional(__S(9216, __c288, 0)),
+          modelChoices: S.optional(__S(9248, __c289, 0)),
           judgeModel: S.optional(S.String),
-          variableChoices: S.optional(__S(9280, __c290, 0)),
-          acceptanceStatements: S.optional(__S(10049, __c314, 1)),
-          judges: S.optional(__S(10051, __c314, 3)),
-          userInputOptions: S.optional(__S(9216, __c288, 0)),
-          groundTruthResponses: S.optional(__S(9216, __c288, 0)),
+          variableChoices: S.optional(__S(9312, __c291, 0)),
+          acceptanceStatements: S.optional(__S(10081, __c315, 1)),
+          judges: S.optional(__S(10083, __c315, 3)),
+          userInputOptions: S.optional(__S(9248, __c289, 0)),
+          groundTruthResponses: S.optional(__S(9248, __c289, 0)),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -17262,12 +17344,12 @@ function __c139(j: number): any {
           status: S.optional(S.String),
           activity: S.optional(S.String),
           completionResponse: S.optional(S.String),
-          variation: S.optional(__S(9248, __c289, 0)),
-          scores: S.optional(__S(9248, __c289, 0)),
-          generationTokens: S.optional(__S(9248, __c289, 0)),
-          evaluationTokens: S.optional(__S(9248, __c289, 0)),
+          variation: S.optional(__S(9280, __c290, 0)),
+          scores: S.optional(__S(9280, __c290, 0)),
+          generationTokens: S.optional(__S(9280, __c290, 0)),
+          evaluationTokens: S.optional(__S(9280, __c290, 0)),
           generationLatency: S.optional(S.Number),
-          evaluationLatencies: S.optional(__S(9248, __c289, 0)),
+          evaluationLatencies: S.optional(__S(9280, __c290, 0)),
           createdVariationKey: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -17291,7 +17373,8 @@ function __c140(j: number): any {
           markdown: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          tools: S.optional(__S(4512, __c141, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17305,6 +17388,12 @@ function __c140(j: number): any {
 function __c141(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(10592, __c331, 0));
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
@@ -17314,9 +17403,11 @@ function __c141(j: number): any {
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           evaluationMetricKey: S.optional(S.String),
           isInverted: S.optional(S.Boolean),
+          defaultThreshold: S.optional(S.Number),
+          clearDefaultThreshold: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17327,7 +17418,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PatchAIConfigRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17336,7 +17427,7 @@ function __c142(j: number): any {
           configKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           environmentKey: S.String,
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17347,17 +17438,17 @@ function __c142(j: number): any {
       ).annotate({ identifier: "PatchAIConfigTargetingRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationKey: S.String.pipe(T.Label()),
           name: S.String,
-          statements: S.optional(__S(4641, __c145, 1)),
+          statements: S.optional(__S(4673, __c146, 1)),
           on: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
-          config: __S(9248, __c289, 0),
+          tags: S.optional(__S(9248, __c289, 0)),
+          config: __S(9280, __c290, 0),
           url: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -17366,7 +17457,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17377,7 +17468,7 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationStatusRep" });
     case 1:
-      return S.Array(__S(4608, __c144, 0));
+      return S.Array(__S(4640, __c145, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17385,42 +17476,26 @@ function __c144(j: number): any {
           lastSuccess: S.optional(S.Number),
           lastError: S.optional(S.Number),
           errorCount: S.optional(S.Number),
-          errors: S.optional(__S(4609, __c144, 1)),
+          errors: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "IntegrationSubscriptionStatusRep" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           _id: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.optional(S.String),
-          config: S.optional(__S(9248, __c289, 0)),
-          statements: S.optional(__S(4641, __c145, 1)),
+          config: S.optional(__S(9280, __c290, 0)),
+          statements: S.optional(__S(4673, __c146, 1)),
           on: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
-          _status: S.optional(__S(4610, __c144, 2)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _status: S.optional(__S(4642, __c145, 2)),
           url: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Integration" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resources: S.optional(__S(9216, __c288, 0)),
-          notResources: S.optional(__S(9216, __c288, 0)),
-          actions: S.optional(__S(9216, __c288, 0)),
-          notActions: S.optional(__S(9216, __c288, 0)),
-          effect: S.String,
-        }),
-      ).annotate({ identifier: "StatementPost" });
-    case 1:
-      return S.Array(__S(4640, __c145, 0));
   }
 }
 function __c146(j: number): any {
@@ -17428,25 +17503,41 @@ function __c146(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resources: S.optional(__S(9248, __c289, 0)),
+          notResources: S.optional(__S(9248, __c289, 0)),
+          actions: S.optional(__S(9248, __c289, 0)),
+          notActions: S.optional(__S(9248, __c289, 0)),
+          effect: S.String,
+        }),
+      ).annotate({ identifier: "StatementPost" });
+    case 1:
+      return S.Array(__S(4672, __c146, 0));
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           projectKey: S.String.pipe(T.Label()),
           configKey: S.String.pipe(T.Label()),
           variationKey: S.String.pipe(T.Label()),
-          classifiers: S.optional(__S(10210, __c319, 2)),
+          classifiers: S.optional(__S(10274, __c321, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
-          messages: S.optional(__S(10212, __c319, 4)),
+          messages: S.optional(__S(10276, __c321, 4)),
           model: S.optional(S.Unknown),
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
           name: S.optional(S.String),
-          outputFormat: S.optional(__S(9248, __c289, 0)),
+          outputFormat: S.optional(__S(9280, __c290, 0)),
           published: S.optional(S.Boolean),
           state: S.optional(S.String),
-          tools: S.optional(__S(10216, __c319, 8)),
-          toolKeys: S.optional(__S(9216, __c288, 0)),
-          skills: S.optional(__S(10216, __c319, 8)),
-          judgeConfiguration: S.optional(__S(10219, __c319, 11)),
+          tools: S.optional(__S(10177, __c318, 1)),
+          toolKeys: S.optional(__S(9248, __c289, 0)),
+          skills: S.optional(__S(10177, __c318, 1)),
+          judgeConfiguration: S.optional(__S(10281, __c321, 9)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17457,7 +17548,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PatchAIConfigVariationRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17469,7 +17560,7 @@ function __c147(j: number): any {
           description: S.optional(S.String),
           schema: S.optional(S.Unknown),
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17480,19 +17571,19 @@ function __c147(j: number): any {
       ).annotate({ identifier: "PatchAIToolRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           customRoleKey: S.String.pipe(T.Label()),
-          patch: __S(4769, __c149, 1),
+          patch: __S(4801, __c150, 1),
           comment: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/roles/{customRoleKey}", code: 200 })),
       ).annotate({ identifier: "PatchCustomRoleRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17503,17 +17594,17 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "PatchOperation" });
     case 1:
-      return S.Array(__S(4768, __c149, 0));
+      return S.Array(__S(4800, __c150, 0));
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17524,7 +17615,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "PatchEnvironmentRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17533,7 +17624,7 @@ function __c151(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           experimentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17544,7 +17635,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "PatchExperimentRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17553,7 +17644,7 @@ function __c152(j: number): any {
           featureFlagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17564,22 +17655,22 @@ function __c152(j: number): any {
       ).annotate({ identifier: "PatchExpiringTargetsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           items: __S(418, __c13, 2),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalInstructions: S.optional(S.Number),
           successfulInstructions: S.optional(S.Number),
           failedInstructions: S.optional(S.Number),
-          errors: S.optional(__S(4929, __c154, 1)),
+          errors: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "ExpiringTargetPatchResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17589,10 +17680,10 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "ExpiringTargetError" });
     case 1:
-      return S.Array(__S(4928, __c154, 0));
+      return S.Array(__S(4960, __c155, 0));
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17606,7 +17697,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "PatchSegmentExpiringTargetInstruction" });
     case 1:
-      return S.Array(__S(4960, __c155, 0));
+      return S.Array(__S(4992, __c156, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17614,7 +17705,7 @@ function __c155(j: number): any {
           segmentKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(4961, __c155, 1),
+          instructions: __S(4993, __c156, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17625,7 +17716,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "PatchExpiringTargetsForSegmentRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17634,7 +17725,7 @@ function __c156(j: number): any {
           featureFlagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17645,22 +17736,22 @@ function __c156(j: number): any {
       ).annotate({ identifier: "PatchExpiringUserTargetsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           items: __S(546, __c17, 2),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalInstructions: S.optional(S.Number),
           successfulInstructions: S.optional(S.Number),
           failedInstructions: S.optional(S.Number),
-          errors: S.optional(__S(4929, __c154, 1)),
+          errors: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "ExpiringUserTargetPatchResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17673,7 +17764,7 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "PatchSegmentInstruction" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17681,7 +17772,7 @@ function __c158(j: number): any {
           segmentKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(5057, __c158, 1),
+          instructions: __S(5089, __c159, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17692,7 +17783,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "PatchExpiringUserTargetsForSegmentRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17701,7 +17792,7 @@ function __c159(j: number): any {
           featureFlagKey: S.String.pipe(T.Label()),
           ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           dryRun: S.optional(S.Boolean.pipe(T.Query())),
-          patch: __S(4769, __c149, 1),
+          patch: __S(4801, __c150, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -17713,49 +17804,37 @@ function __c159(j: number): any {
       ).annotate({ identifier: "PatchFeatureFlagRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           actionSet: S.optional(S.String),
-          actions: S.optional(__S(9216, __c288, 0)),
-          memberIDs: S.optional(__S(9216, __c288, 0)),
+          actions: S.optional(__S(9248, __c289, 0)),
+          memberIDs: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "PermissionGrantInput" });
     case 1:
-      return S.Array(__S(5120, __c160, 0));
+      return S.Array(__S(5152, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           expand: S.optional(S.String.pipe(T.Query())),
-          customRoleKeys: S.optional(__S(9216, __c288, 0)),
+          customRoleKeys: S.optional(__S(9248, __c289, 0)),
           description: S.optional(S.String),
           key: S.String,
-          memberIDs: S.optional(__S(9216, __c288, 0)),
+          memberIDs: S.optional(__S(9248, __c289, 0)),
           name: S.String,
-          permissionGrants: S.optional(__S(5121, __c160, 1)),
+          permissionGrants: S.optional(__S(5153, __c161, 1)),
           roleAttributes: S.optional(__S(1184, __c37, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/teams", code: 200 })),
       ).annotate({ identifier: "CreateTeamRequest" });
   }
 }
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9120, __c285, 0));
-  }
-}
 function __c162(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          totalCount: S.optional(S.Number),
-          items: S.optional(__S(5152, __c161, 0)),
-          _links: S.optional(__S(8992, __c281, 0)),
-        }),
-      ).annotate({ identifier: "TeamMaintainers" });
+      return S.Array(__S(9152, __c286, 0));
   }
 }
 function __c163(j: number): any {
@@ -17763,19 +17842,31 @@ function __c163(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          totalCount: S.optional(S.Number),
+          items: S.optional(__S(5184, __c162, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
+        }),
+      ).annotate({ identifier: "TeamMaintainers" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           _id: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           key: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "ProjectSummary" });
     case 1:
-      return S.Array(__S(5216, __c163, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.optional(S.Number),
-          items: S.optional(__S(5217, __c163, 1)),
+          items: S.optional(__S(5249, __c164, 1)),
         }),
       ).annotate({ identifier: "TeamProjects" });
     case 3:
@@ -17783,23 +17874,23 @@ function __c163(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           name: S.optional(S.String),
-          projects: S.optional(__S(5218, __c163, 2)),
+          projects: S.optional(__S(5250, __c164, 2)),
           appliedOn: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TeamCustomRole" });
     case 4:
-      return S.Array(__S(5219, __c163, 3));
+      return S.Array(__S(5251, __c164, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           totalCount: S.optional(S.Number),
-          items: S.optional(__S(5220, __c163, 4)),
-          _links: S.optional(__S(8992, __c281, 0)),
+          items: S.optional(__S(5252, __c164, 4)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "TeamCustomRoles" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17813,22 +17904,22 @@ function __c164(j: number): any {
           description: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
-          _access: S.optional(__S(9187, __c287, 3)),
+          _access: S.optional(__S(9219, __c288, 3)),
           _creationDate: S.optional(S.Number),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           _lastModified: S.optional(S.Number),
           _version: S.optional(S.Number),
           _idpSynced: S.optional(S.Boolean),
           roleAttributes: S.optional(__S(1184, __c37, 0)),
-          roles: S.optional(__S(5221, __c163, 5)),
-          members: S.optional(__S(5248, __c164, 0)),
-          projects: S.optional(__S(5218, __c163, 2)),
-          maintainers: S.optional(__S(5184, __c162, 0)),
+          roles: S.optional(__S(5253, __c164, 5)),
+          members: S.optional(__S(5280, __c165, 0)),
+          projects: S.optional(__S(5250, __c164, 2)),
+          maintainers: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17839,7 +17930,7 @@ function __c165(j: number): any {
           id: S.String.pipe(T.Label()),
           ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17850,13 +17941,13 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PatchFlagConfigScheduledChangeRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17867,7 +17958,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "PatchFlagDefaultsByProjectRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17890,16 +17981,16 @@ function __c167(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
-          tags: __S(9216, __c288, 0),
+          _links: S.optional(__S(9024, __c282, 0)),
+          tags: __S(9248, __c289, 0),
           temporary: S.Boolean,
-          booleanDefaults: __S(5344, __c167, 0),
-          defaultClientSideAvailability: __S(5345, __c167, 1),
+          booleanDefaults: __S(5376, __c168, 0),
+          defaultClientSideAvailability: __S(5377, __c168, 1),
         }),
       ).annotate({ identifier: "UpsertPayloadRep" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17908,7 +17999,7 @@ function __c168(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           holdoutKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17919,21 +18010,21 @@ function __c168(j: number): any {
       ).annotate({ identifier: "PatchHoldoutRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           metricKey: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/metrics/{projectKey}/{metricKey}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchMetricRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17948,7 +18039,7 @@ function __c170(j: number): any {
           costPerCachedInputToken: S.optional(S.Number),
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
         }).pipe(
@@ -17961,18 +18052,18 @@ function __c170(j: number): any {
       ).annotate({ identifier: "PatchModelConfigRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientId: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/oauth/clients/{clientId}", code: 200 })),
       ).annotate({ identifier: "PatchOAuthClientRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17984,7 +18075,7 @@ function __c172(j: number): any {
           text: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17995,13 +18086,13 @@ function __c172(j: number): any {
       ).annotate({ identifier: "PatchPromptSnippetRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          patch: __S(4769, __c149, 1),
+          patch: __S(4801, __c150, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/account/relay-auto-configs/{id}", code: 200 }),
@@ -18009,20 +18100,20 @@ function __c173(j: number): any {
       ).annotate({ identifier: "PatchRelayAutoConfigRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/code-refs/repositories/{repo}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchRepositoryRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18032,7 +18123,7 @@ function __c175(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
-          instructions: S.optional(__S(9280, __c290, 0)),
+          instructions: S.optional(__S(9312, __c291, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18043,7 +18134,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PatchTriggerWorkflowRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18068,16 +18159,16 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "MemberImportItem" });
     case 2:
-      return S.Array(__S(5633, __c176, 1));
+      return S.Array(__S(5665, __c177, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(5634, __c176, 2)),
+          items: S.optional(__S(5666, __c177, 2)),
         }),
       ).annotate({ identifier: "TeamImportsRep" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18087,8 +18178,8 @@ function __c177(j: number): any {
           name: S.String,
           resourceKind: S.String,
           resourceKey: S.String,
-          triggerSource: __S(9984, __c312, 0),
-          task: __S(9987, __c312, 3),
+          triggerSource: __S(10016, __c313, 0),
+          task: __S(10019, __c313, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18099,7 +18190,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "PostAdaptiveTriggerRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18108,13 +18199,13 @@ function __c178(j: number): any {
           key: S.String,
           aiConfigKey: S.String,
           maxAttempts: S.Number,
-          modelChoices: S.optional(__S(9216, __c288, 0)),
+          modelChoices: S.optional(__S(9248, __c289, 0)),
           judgeModel: S.String,
-          variableChoices: S.optional(__S(9280, __c290, 0)),
-          acceptanceStatements: S.optional(__S(10049, __c314, 1)),
-          judges: S.optional(__S(10051, __c314, 3)),
-          userInputOptions: S.optional(__S(9216, __c288, 0)),
-          groundTruthResponses: S.optional(__S(9216, __c288, 0)),
+          variableChoices: S.optional(__S(9312, __c291, 0)),
+          acceptanceStatements: S.optional(__S(10081, __c315, 1)),
+          judges: S.optional(__S(10083, __c315, 3)),
+          userInputOptions: S.optional(__S(9248, __c289, 0)),
+          groundTruthResponses: S.optional(__S(9248, __c289, 0)),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -18132,7 +18223,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PostAgentOptimizationRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18144,7 +18235,7 @@ function __c179(j: number): any {
           iteration: S.Number,
           instructions: S.String,
           userInput: S.String,
-          parameters: S.optional(__S(9248, __c289, 0)),
+          parameters: S.optional(__S(9280, __c290, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18155,7 +18246,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "PostAgentOptimizationResultRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18167,7 +18258,8 @@ function __c180(j: number): any {
           markdown: S.String,
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          tools: S.optional(__S(4512, __c141, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18178,26 +18270,26 @@ function __c180(j: number): any {
       ).annotate({ identifier: "PostAgentSkillRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          classifiers: S.optional(__S(10210, __c319, 2)),
+          classifiers: S.optional(__S(10274, __c321, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
-          messages: S.optional(__S(10212, __c319, 4)),
+          messages: S.optional(__S(10276, __c321, 4)),
           model: S.optional(S.Unknown),
           name: S.String,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
-          outputFormat: S.optional(__S(9248, __c289, 0)),
-          tools: S.optional(__S(10216, __c319, 8)),
-          toolKeys: S.optional(__S(9216, __c288, 0)),
-          skills: S.optional(__S(10216, __c319, 8)),
-          judgeConfiguration: S.optional(__S(10219, __c319, 11)),
+          outputFormat: S.optional(__S(9280, __c290, 0)),
+          tools: S.optional(__S(10177, __c318, 1)),
+          toolKeys: S.optional(__S(9248, __c289, 0)),
+          skills: S.optional(__S(10177, __c318, 1)),
+          judgeConfiguration: S.optional(__S(10281, __c321, 9)),
         }),
       ).annotate({ identifier: "AIConfigVariationPost" });
     case 1:
@@ -18210,39 +18302,40 @@ function __c181(j: number): any {
           maintainerTeamKey: S.optional(S.String),
           mode: S.optional(S.String),
           name: S.String,
-          tags: S.optional(__S(9216, __c288, 0)),
-          viewKeys: S.optional(__S(9216, __c288, 0)),
-          defaultVariation: S.optional(__S(5792, __c181, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          viewKeys: S.optional(__S(9248, __c289, 0)),
+          defaultVariation: S.optional(__S(5824, __c182, 0)),
           evaluationMetricKey: S.optional(S.String),
           isInverted: S.optional(S.Boolean),
+          defaultThreshold: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-configs", code: 200 }),
         ),
       ).annotate({ identifier: "PostAIConfigRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           configKey: S.String.pipe(T.Label()),
-          classifiers: S.optional(__S(10210, __c319, 2)),
+          classifiers: S.optional(__S(10274, __c321, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
-          messages: S.optional(__S(10212, __c319, 4)),
+          messages: S.optional(__S(10276, __c321, 4)),
           model: S.optional(S.Unknown),
           name: S.String,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
-          outputFormat: S.optional(__S(9248, __c289, 0)),
-          tools: S.optional(__S(10216, __c319, 8)),
-          toolKeys: S.optional(__S(9216, __c288, 0)),
-          skills: S.optional(__S(10216, __c319, 8)),
-          judgeConfiguration: S.optional(__S(10219, __c319, 11)),
+          outputFormat: S.optional(__S(9280, __c290, 0)),
+          tools: S.optional(__S(10177, __c318, 1)),
+          toolKeys: S.optional(__S(9248, __c289, 0)),
+          skills: S.optional(__S(10177, __c318, 1)),
+          judgeConfiguration: S.optional(__S(10281, __c321, 9)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18253,7 +18346,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "PostAIConfigVariationRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18265,14 +18358,14 @@ function __c183(j: number): any {
           description: S.optional(S.String),
           schema: S.Unknown,
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/ai-tools", code: 200 }),
         ),
       ).annotate({ identifier: "PostAIToolRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18292,7 +18385,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestApplyForFlagRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18302,12 +18395,12 @@ function __c185(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           description: S.String,
-          instructions: __S(9280, __c290, 0),
-          notifyMemberIds: S.optional(__S(9216, __c288, 0)),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
+          instructions: __S(9312, __c291, 0),
+          notifyMemberIds: S.optional(__S(9248, __c289, 0)),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationConfig: S.optional(__S(9248, __c289, 0)),
+          integrationConfig: S.optional(__S(9280, __c290, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18318,7 +18411,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestForFlagRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18339,7 +18432,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "PostApprovalRequestReviewForFlagRequest" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18347,8 +18440,8 @@ function __c187(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           role: S.optional(S.String),
-          customRoleIds: S.optional(__S(9216, __c288, 0)),
-          inlineRole: S.optional(__S(4641, __c145, 1)),
+          customRoleIds: S.optional(__S(9248, __c289, 0)),
+          inlineRole: S.optional(__S(4673, __c146, 1)),
           serviceToken: S.optional(S.Boolean),
           defaultApiVersion: S.optional(S.Number),
           expiry: S.optional(S.Number),
@@ -18356,7 +18449,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "CreateTokenRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18364,17 +18457,17 @@ function __c188(j: number): any {
           _id: S.String,
           ownerId: S.String,
           memberId: S.String,
-          _member: S.optional(__S(9120, __c285, 0)),
+          _member: S.optional(__S(9152, __c286, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           creationDate: S.Number,
           lastModified: S.Number,
-          customRoleIds: S.optional(__S(9216, __c288, 0)),
-          inlineRole: S.optional(__S(4641, __c145, 1)),
+          customRoleIds: S.optional(__S(9248, __c289, 0)),
+          inlineRole: S.optional(__S(4673, __c146, 1)),
           role: S.optional(S.String),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceToken: S.optional(S.Boolean),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           defaultApiVersion: S.optional(S.Number),
           lastUsed: S.optional(S.Number),
           expiry: S.optional(S.Number),
@@ -18382,7 +18475,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "Token" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18393,12 +18486,13 @@ function __c189(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
           token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
-          body: S.optional(__S(4641, __c145, 1).pipe(T.HttpBody())),
+          rollup: S.optional(S.Number.pipe(T.Query())),
+          body: S.optional(__S(4673, __c146, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntriesRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18408,7 +18502,7 @@ function __c190(j: number): any {
           buckets: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
           token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
-          body: __S(4641, __c145, 1).pipe(T.HttpBody()),
+          body: __S(4673, __c146, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog/counts", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntryCountsRequest" });
     case 1:
@@ -18419,18 +18513,18 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "CountBucket" });
     case 2:
-      return S.Array(__S(6081, __c190, 1));
+      return S.Array(__S(6113, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          buckets: __S(6082, __c190, 2),
+          buckets: __S(6114, __c191, 2),
           totalCount: S.Number,
           bucketIntervalMs: S.Number,
         }),
       ).annotate({ identifier: "CountBucketsResult" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18449,7 +18543,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "PostCompleteWarehouseDestinationSetupRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18457,14 +18551,14 @@ function __c192(j: number): any {
           name: S.String,
           key: S.String,
           description: S.optional(S.String),
-          policy: __S(4641, __c145, 1),
+          policy: __S(4673, __c146, 1),
           basePermissions: S.optional(S.String),
           resourceCategory: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/roles", code: 200 })),
       ).annotate({ identifier: "PostCustomRoleRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18482,7 +18576,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "PostDisableAdaptiveTriggerRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18500,7 +18594,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "PostEnableAdaptiveTriggerRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18514,7 +18608,7 @@ function __c195(j: number): any {
           defaultTrackEvents: S.optional(S.Boolean),
           confirmChanges: S.optional(S.Boolean),
           requireComments: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           source: S.optional(__S(3552, __c111, 0)),
           critical: S.optional(S.Boolean),
         }).pipe(
@@ -18523,7 +18617,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "PostEnvironmentRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18541,7 +18635,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "PostExtinctionRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18558,7 +18652,7 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "FlagPrerequisitePost" });
     case 2:
-      return S.Array(__S(6305, __c197, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18569,41 +18663,19 @@ function __c197(j: number): any {
           description: S.optional(S.String),
           includeInSnippet: S.optional(S.Boolean),
           clientSideAvailability: S.optional(__S(3584, __c112, 0)),
-          variations: S.optional(__S(9441, __c295, 1)),
+          variations: S.optional(__S(9473, __c296, 1)),
           temporary: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
-          customProperties: S.optional(__S(9443, __c295, 3)),
-          defaults: S.optional(__S(9376, __c293, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          customProperties: S.optional(__S(9475, __c296, 3)),
+          defaults: S.optional(__S(9408, __c294, 0)),
           purpose: S.optional(S.String),
-          migrationSettings: S.optional(__S(6304, __c197, 0)),
+          migrationSettings: S.optional(__S(6336, __c198, 0)),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          initialPrerequisites: S.optional(__S(6306, __c197, 2)),
+          initialPrerequisites: S.optional(__S(6338, __c198, 2)),
           isFlagOn: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/flags/{projectKey}", code: 200 })),
       ).annotate({ identifier: "PostFeatureFlagRequest" });
-  }
-}
-function __c198(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectKey: S.String.pipe(T.Label()),
-          featureFlagKey: S.String.pipe(T.Label()),
-          environmentKey: S.String.pipe(T.Label()),
-          ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
-          comment: S.optional(S.String),
-          executionDate: S.Number,
-          instructions: __S(9280, __c290, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v2/projects/{projectKey}/flags/{featureFlagKey}/environments/{environmentKey}/scheduled-changes",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostFlagConfigScheduledChangesRequest" });
   }
 }
 function __c199(j: number): any {
@@ -18614,8 +18686,30 @@ function __c199(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           featureFlagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
+          ignoreConflicts: S.optional(S.Boolean.pipe(T.Query())),
           comment: S.optional(S.String),
-          instructions: S.optional(__S(9280, __c290, 0)),
+          executionDate: S.Number,
+          instructions: __S(9312, __c291, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v2/projects/{projectKey}/flags/{featureFlagKey}/environments/{environmentKey}/scheduled-changes",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostFlagConfigScheduledChangesRequest" });
+  }
+}
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectKey: S.String.pipe(T.Label()),
+          featureFlagKey: S.String.pipe(T.Label()),
+          environmentKey: S.String.pipe(T.Label()),
+          comment: S.optional(S.String),
+          instructions: S.optional(__S(9312, __c291, 0)),
           integrationKey: S.String,
         }).pipe(
           T.Http({
@@ -18627,17 +18721,17 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CreateTriggerWorkflowRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           timestamp: S.optional(S.Number),
-          jsonBody: S.optional(__S(9248, __c289, 0)),
+          jsonBody: S.optional(__S(9280, __c290, 0)),
         }),
       ).annotate({ identifier: "RecentTriggerBody" });
     case 1:
-      return S.Array(__S(6400, __c200, 0));
+      return S.Array(__S(6432, __c201, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18645,22 +18739,22 @@ function __c200(j: number): any {
           _version: S.optional(S.Number),
           _creationDate: S.optional(S.Number),
           _maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
           enabled: S.optional(S.Boolean),
           _status: S.optional(S.String),
           _lastFailedAt: S.optional(S.Number),
           _integrationKey: S.optional(S.String),
-          instructions: S.optional(__S(9280, __c290, 0)),
+          instructions: S.optional(__S(9312, __c291, 0)),
           _lastTriggeredAt: S.optional(S.Number),
-          _recentTriggerBodies: S.optional(__S(6401, __c200, 1)),
+          _recentTriggerBodies: S.optional(__S(6433, __c201, 1)),
           _triggerCount: S.optional(S.Number),
           triggerURL: S.optional(S.String),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "TriggerWorkflowRep" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18670,11 +18764,11 @@ function __c201(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           description: S.String,
-          notifyMemberIds: S.optional(__S(9216, __c288, 0)),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
-          source: __S(10532, __c329, 4),
-          includedActions: S.optional(__S(9056, __c283, 0)),
-          excludedActions: S.optional(__S(9056, __c283, 0)),
+          notifyMemberIds: S.optional(__S(9248, __c289, 0)),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
+          source: __S(10592, __c331, 0),
+          includedActions: S.optional(__S(9088, __c284, 0)),
+          excludedActions: S.optional(__S(9088, __c284, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18685,7 +18779,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "PostFlagCopyConfigApprovalRequestRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18702,7 +18796,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "PostGenerateProjectEnvWarehouseDestinationKeyPairRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18713,7 +18807,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GenerateWarehouseDestinationKeyPairPostRep" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18732,29 +18826,29 @@ function __c204(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Effect: S.optional(S.String),
-          Action: S.optional(__S(9216, __c288, 0)),
+          Action: S.optional(__S(9248, __c289, 0)),
           Principal: S.optional(S.Unknown),
           Condition: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TrustPolicyStatement" });
     case 2:
-      return S.Array(__S(6529, __c204, 1));
+      return S.Array(__S(6561, __c205, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.String),
-          Statement: S.optional(__S(6530, __c204, 2)),
+          Statement: S.optional(__S(6562, __c205, 2)),
         }),
       ).annotate({ identifier: "TrustPolicyDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          awsTrustPolicy: S.optional(__S(6531, __c204, 3)),
+          awsTrustPolicy: S.optional(__S(6563, __c205, 3)),
         }),
       ).annotate({ identifier: "GenerateTrustPolicyPostRep" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18768,7 +18862,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "PostGenerateWarehouseDestinationKeyPairRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18816,7 +18910,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "WarehouseDestinationSetupScriptRep" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18827,7 +18921,7 @@ function __c207(j: number): any {
           key: S.optional(S.String),
           description: S.optional(S.String),
           randomizationunit: S.optional(S.String),
-          attributes: S.optional(__S(9216, __c288, 0)),
+          attributes: S.optional(__S(9248, __c289, 0)),
           holdoutamount: S.optional(S.String),
           primarymetrickey: S.optional(S.String),
           metrics: S.optional(__S(1217, __c38, 1)),
@@ -18843,7 +18937,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "PostHoldoutRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18855,14 +18949,14 @@ function __c208(j: number): any {
         }),
       ).annotate({ identifier: "UrlPost" });
     case 1:
-      return S.Array(__S(6656, __c208, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           attribute: S.optional(S.String),
           op: S.String,
-          values: __S(9024, __c282, 0),
+          values: __S(9056, __c283, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
@@ -18872,11 +18966,11 @@ function __c208(j: number): any {
         S.Struct({
           eventName: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
-          dataSource: S.optional(__S(9315, __c291, 3)),
+          dataSource: S.optional(__S(9347, __c292, 3)),
           unitAggregationType: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          filters: S.optional(__S(6658, __c208, 2)),
+          filters: S.optional(__S(6690, __c209, 2)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -18893,21 +18987,21 @@ function __c208(j: number): any {
           description: S.optional(S.String),
           kind: S.String,
           selector: S.optional(S.String),
-          urls: S.optional(__S(6657, __c208, 1)),
+          urls: S.optional(__S(6689, __c209, 1)),
           isNumeric: S.optional(S.Boolean),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
           successCriteria: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
-          randomizationUnits: S.optional(__S(9216, __c288, 0)),
-          analysisUnits: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
+          randomizationUnits: S.optional(__S(9248, __c289, 0)),
+          analysisUnits: S.optional(__S(9248, __c289, 0)),
           maintainerId: S.optional(S.String),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(9314, __c291, 2)),
-          dataSource: S.optional(__S(9315, __c291, 3)),
-          filters: S.optional(__S(6658, __c208, 2)),
+          eventDefault: S.optional(__S(9346, __c292, 2)),
+          dataSource: S.optional(__S(9347, __c292, 3)),
+          filters: S.optional(__S(6690, __c209, 2)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -18917,12 +19011,12 @@ function __c208(j: number): any {
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          denominator: S.optional(__S(6659, __c208, 3)),
+          denominator: S.optional(__S(6691, __c209, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/metrics/{projectKey}", code: 200 })),
       ).annotate({ identifier: "PostMetricRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18930,7 +19024,7 @@ function __c209(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           flagKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -18944,20 +19038,20 @@ function __c209(j: number): any {
       return S.suspend(() =>
         S.Struct({
           causingRuleId: S.optional(S.String),
-          affectedRuleIds: S.optional(__S(9216, __c288, 0)),
+          affectedRuleIds: S.optional(__S(9248, __c289, 0)),
           issue: S.optional(S.String),
           oldSystemAffected: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MigrationSafetyIssueRep" });
     case 2:
-      return S.Array(__S(6689, __c209, 1));
+      return S.Array(__S(6721, __c210, 1));
     case 3:
-      return S.suspend(() => __S(6690, __c209, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6722, __c210, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostMigrationSafetyIssuesResponse",
       });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18972,7 +19066,7 @@ function __c210(j: number): any {
           provider: S.optional(S.String),
           params: S.optional(S.Unknown),
           customParams: S.optional(S.Unknown),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           costPerInputToken: S.optional(S.Number),
           costPerOutputToken: S.optional(S.Number),
           costPerCachedInputToken: S.optional(S.Number),
@@ -18986,7 +19080,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "PostModelConfigRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18998,7 +19092,7 @@ function __c211(j: number): any {
           text: S.String,
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19009,7 +19103,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "PostPromptSnippetRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19020,12 +19114,12 @@ function __c212(j: number): any {
           description: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/projects/{projectKey}/views", code: 200 })),
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19050,14 +19144,14 @@ function __c213(j: number): any {
         S.Struct({
           id: S.String,
           kind: S.String,
-          maintainerMember: S.optional(__S(6816, __c213, 0)),
-          maintainerTeam: S.optional(__S(6817, __c213, 1)),
+          maintainerMember: S.optional(__S(6848, __c214, 0)),
+          maintainerTeam: S.optional(__S(6849, __c214, 1)),
         }),
       ).annotate({ identifier: "Maintainer" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          self: __S(6848, __c214, 0),
+          self: __S(6880, __c215, 0),
         }),
       ).annotate({ identifier: "ViewsSelfLink" });
     case 4:
@@ -19065,15 +19159,15 @@ function __c213(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          links: __S(6819, __c213, 3),
+          links: __S(6851, __c214, 3),
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedFlag" });
     case 5:
-      return S.Array(__S(6820, __c213, 4));
+      return S.Array(__S(6852, __c214, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6821, __c213, 5),
+          items: __S(6853, __c214, 5),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedFlags" });
@@ -19081,7 +19175,7 @@ function __c213(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          linkedFlags: S.optional(__S(6822, __c213, 6)),
+          linkedFlags: S.optional(__S(6854, __c214, 6)),
         }),
       ).annotate({ identifier: "FlagsSummary" });
     case 8:
@@ -19090,15 +19184,15 @@ function __c213(j: number): any {
           key: S.String,
           name: S.String,
           environmentId: S.String,
-          links: __S(6819, __c213, 3),
+          links: __S(6851, __c214, 3),
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedSegment" });
     case 9:
-      return S.Array(__S(6824, __c213, 8));
+      return S.Array(__S(6856, __c214, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6825, __c213, 9),
+          items: __S(6857, __c214, 9),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedDirectlyLinkedSegments" });
@@ -19106,7 +19200,7 @@ function __c213(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          linkedSegments: S.optional(__S(6826, __c213, 10)),
+          linkedSegments: S.optional(__S(6858, __c214, 10)),
         }),
       ).annotate({ identifier: "SegmentsSummary" });
     case 12:
@@ -19128,7 +19222,7 @@ function __c213(j: number): any {
         S.Struct({
           key: S.String,
           kind: S.String,
-          _member: S.optional(__S(9120, __c285, 0)),
+          _member: S.optional(__S(9152, __c286, 0)),
           _team: S.optional(__S(2304, __c72, 0)),
         }),
       ).annotate({ identifier: "ExpandedFlagMaintainer" });
@@ -19141,19 +19235,19 @@ function __c213(j: number): any {
           creationDate: S.optional(S.Number),
           _version: S.optional(S.Number),
           archived: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           temporary: S.optional(S.Boolean),
           includeInSnippet: S.optional(S.Boolean),
-          maintainer: S.optional(__S(6830, __c213, 14)),
-          _links: S.optional(__S(6880, __c215, 0)),
+          maintainer: S.optional(__S(6862, __c214, 14)),
+          _links: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "ExpandedFlag" });
     case 16:
-      return S.Array(__S(6831, __c213, 15));
+      return S.Array(__S(6863, __c214, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6832, __c213, 16),
+          items: __S(6864, __c214, 16),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedFlags" });
@@ -19168,19 +19262,19 @@ function __c213(j: number): any {
           creationDate: S.optional(S.Number),
           lastModifiedDate: S.optional(S.Number),
           deleted: S.optional(S.Boolean),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           unbounded: S.optional(S.Boolean),
           version: S.optional(S.Number),
           generation: S.optional(S.Number),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _links: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "ExpandedSegment" });
     case 19:
-      return S.Array(__S(6834, __c213, 18));
+      return S.Array(__S(6866, __c214, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6835, __c213, 19),
+          items: __S(6867, __c214, 19),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedSegments" });
@@ -19200,15 +19294,15 @@ function __c213(j: number): any {
           description: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           lastSeen: S.optional(S.Number),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _links: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "ExpandedMetric" });
     case 22:
-      return S.Array(__S(6837, __c213, 21));
+      return S.Array(__S(6869, __c214, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6838, __c213, 22),
+          items: __S(6870, __c214, 22),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedMetrics" });
@@ -19217,43 +19311,43 @@ function __c213(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           description: S.optional(S.String),
           version: S.optional(S.Number),
           createdAt: S.optional(S.Number),
           updatedAt: S.optional(S.Number),
           flagKey: S.optional(S.String),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _links: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "ExpandedAIConfig" });
     case 25:
-      return S.Array(__S(6840, __c213, 24));
+      return S.Array(__S(6872, __c214, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6841, __c213, 25),
+          items: __S(6873, __c214, 25),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedAIConfigs" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          flags: __S(6833, __c213, 17),
-          segments: S.optional(__S(6836, __c213, 20)),
+          flags: __S(6865, __c214, 17),
+          segments: S.optional(__S(6868, __c214, 20)),
         }),
       ).annotate({ identifier: "ExpandedLinkedResourcesItems" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6843, __c213, 27),
+          items: __S(6875, __c214, 27),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "ExpandedLinkedResources" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
           id: S.String,
           accountId: S.String,
           projectId: S.String,
@@ -19264,27 +19358,27 @@ function __c213(j: number): any {
           _affectsSdkPayload: S.Boolean,
           generateSdkKeys: S.optional(S.Boolean),
           version: S.Number,
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           createdAt: S.Number,
           updatedAt: S.Number,
           deletedAt: S.optional(S.Number),
           deleted: S.Boolean,
-          maintainer: S.optional(__S(6818, __c213, 2)),
-          flagsSummary: S.optional(__S(6823, __c213, 7)),
-          segmentsSummary: S.optional(__S(6827, __c213, 11)),
-          metricsSummary: S.optional(__S(6828, __c213, 12)),
-          aiConfigsSummary: S.optional(__S(6828, __c213, 12)),
-          resourceSummary: S.optional(__S(6829, __c213, 13)),
-          flagsExpanded: S.optional(__S(6833, __c213, 17)),
-          segmentsExpanded: S.optional(__S(6836, __c213, 20)),
-          metricsExpanded: S.optional(__S(6839, __c213, 23)),
-          aiConfigsExpanded: S.optional(__S(6842, __c213, 26)),
-          resourcesExpanded: S.optional(__S(6844, __c213, 28)),
+          maintainer: S.optional(__S(6850, __c214, 2)),
+          flagsSummary: S.optional(__S(6855, __c214, 7)),
+          segmentsSummary: S.optional(__S(6859, __c214, 11)),
+          metricsSummary: S.optional(__S(6860, __c214, 12)),
+          aiConfigsSummary: S.optional(__S(6860, __c214, 12)),
+          resourceSummary: S.optional(__S(6861, __c214, 13)),
+          flagsExpanded: S.optional(__S(6865, __c214, 17)),
+          segmentsExpanded: S.optional(__S(6868, __c214, 20)),
+          metricsExpanded: S.optional(__S(6871, __c214, 23)),
+          aiConfigsExpanded: S.optional(__S(6874, __c214, 26)),
+          resourcesExpanded: S.optional(__S(6876, __c214, 28)),
         }),
       ).annotate({ identifier: "View" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19295,29 +19389,29 @@ function __c214(j: number): any {
       ).annotate({ identifier: "CoreLink" });
   }
 }
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: __S(6848, __c214, 0),
-          parent: __S(6848, __c214, 0),
-        }),
-      ).annotate({ identifier: "ParentAndSelfLinks" });
-  }
-}
 function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          self: __S(6880, __c215, 0),
+          parent: __S(6880, __c215, 0),
+        }),
+      ).annotate({ identifier: "ParentAndSelfLinks" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
-          policy: __S(4641, __c145, 1),
+          policy: __S(4673, __c146, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/account/relay-auto-configs", code: 200 })),
       ).annotate({ identifier: "PostRelayAutoConfigRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19332,13 +19426,13 @@ function __c217(j: number): any {
       ).annotate({ identifier: "PostRepositoryRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          keys: __S(9216, __c288, 0),
+          keys: __S(9248, __c289, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19356,17 +19450,17 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "RestrictedModelError" });
     case 2:
-      return S.Array(__S(6977, __c218, 1));
+      return S.Array(__S(7009, __c219, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          successes: __S(9216, __c288, 0),
-          errors: __S(6978, __c218, 2),
+          successes: __S(9248, __c289, 0),
+          errors: __S(7010, __c219, 2),
         }),
       ).annotate({ identifier: "RestrictedModelsResponse" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19379,7 +19473,7 @@ function __c219(j: number): any {
           maintainerId: S.optional(S.String),
           name: S.String,
           description: S.optional(S.String),
-          stages: S.optional(__S(7716, __c241, 4)),
+          stages: S.optional(__S(7748, __c242, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19390,7 +19484,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "PostWorkflowRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19401,7 +19495,7 @@ function __c220(j: number): any {
           head: S.String,
           updateSequenceId: S.optional(S.Number),
           syncTime: S.Number,
-          references: S.optional(__S(11523, __c360, 3)),
+          references: S.optional(__S(11619, __c363, 3)),
           commitTime: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -19413,7 +19507,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "PutBranchRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19435,7 +19529,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "PutContextFlagSettingRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19459,12 +19553,12 @@ function __c222(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "UpsertResponseRep" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19475,12 +19569,12 @@ function __c223(j: number): any {
         }),
       ).annotate({ identifier: "RandomizationUnitInput" });
     case 1:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7168, __c224, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          randomizationUnits: __S(7137, __c223, 1),
+          randomizationUnits: __S(7169, __c224, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19491,23 +19585,23 @@ function __c223(j: number): any {
       ).annotate({ identifier: "PutExperimentationSettingsRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           temporary: S.Boolean,
-          booleanDefaults: __S(5344, __c167, 0),
-          defaultClientSideAvailability: __S(5345, __c167, 1),
+          booleanDefaults: __S(5376, __c168, 0),
+          defaultClientSideAvailability: __S(5377, __c168, 1),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v2/projects/{projectKey}/flag-defaults", code: 200 }),
         ),
       ).annotate({ identifier: "PutFlagDefaultsByProjectRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19526,41 +19620,43 @@ function __c225(j: number): any {
       ).annotate({ identifier: "PutFlagFollowerRequest" });
   }
 }
-function __c226(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          url: S.String,
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          statements: S.optional(__S(4641, __c145, 1)),
-          sign: S.Boolean,
-          on: S.Boolean,
-          tags: S.optional(__S(9216, __c288, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v2/webhooks", code: 200 })),
-      ).annotate({ identifier: "CreateWebhookRequest" });
-  }
-}
 function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          name: S.optional(S.String),
+          url: S.String,
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          statements: S.optional(__S(4673, __c146, 1)),
+          sign: S.Boolean,
+          on: S.Boolean,
+          tags: S.optional(__S(9248, __c289, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v2/webhooks", code: 200 })),
+      ).annotate({ identifier: "CreateWebhookRequest" });
+  }
+}
+function __c228(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           name: S.optional(S.String),
           url: S.String,
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          statements: S.optional(__S(4641, __c145, 1)),
+          hasBearerToken: S.optional(S.Boolean),
+          statements: S.optional(__S(4673, __c146, 1)),
           on: S.Boolean,
-          tags: __S(9216, __c288, 0),
-          _access: S.optional(__S(9187, __c287, 3)),
+          tags: __S(9248, __c289, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19577,7 +19673,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "ResetEnvironmentMobileKeyRequest" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19595,7 +19691,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "ResetEnvironmentSDKKeyRequest" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19612,7 +19708,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "ResetRelayAutoConfigRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19634,7 +19730,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "SearchContextsRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19661,20 +19757,20 @@ function __c232(j: number): any {
       ).annotate({ identifier: "UnlinkResourceSuccessResponse" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           announcementId: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/announcements/{announcementId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateAnnouncementPublicRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19682,8 +19778,8 @@ function __c234(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
-          included: S.optional(__S(7520, __c235, 0)),
-          excluded: S.optional(__S(7520, __c235, 0)),
+          included: S.optional(__S(7552, __c236, 0)),
+          excluded: S.optional(__S(7552, __c236, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19694,18 +19790,18 @@ function __c234(j: number): any {
       ).annotate({ identifier: "UpdateBigSegmentContextTargetsRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(9216, __c288, 0)),
-          remove: S.optional(__S(9216, __c288, 0)),
+          add: S.optional(__S(9248, __c289, 0)),
+          remove: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "SegmentUserList" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19713,8 +19809,8 @@ function __c236(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
-          included: S.optional(__S(7520, __c235, 0)),
-          excluded: S.optional(__S(7520, __c235, 0)),
+          included: S.optional(__S(7552, __c236, 0)),
+          excluded: S.optional(__S(7552, __c236, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19725,7 +19821,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "UpdateBigSegmentTargetsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19746,7 +19842,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "UpdateDestinationRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19754,7 +19850,7 @@ function __c238(j: number): any {
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -19765,7 +19861,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "UpdateDestinationByIdRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19774,7 +19870,7 @@ function __c239(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           workflowId: S.optional(S.String),
-          stages: S.optional(__S(7716, __c241, 4)),
+          stages: S.optional(__S(7748, __c242, 4)),
           projectKey: S.optional(S.String),
           environmentKey: S.optional(S.String),
           flagKey: S.optional(S.String),
@@ -19782,7 +19878,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreateWorkflowTemplateRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19793,14 +19889,14 @@ function __c240(j: number): any {
           _creationDate: S.Number,
           _ownerId: S.String,
           _maintainerId: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           description: S.optional(S.String),
-          stages: S.optional(__S(7751, __c242, 7)),
+          stages: S.optional(__S(7783, __c243, 7)),
         }),
       ).annotate({ identifier: "WorkflowTemplateOutput" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19811,14 +19907,14 @@ function __c241(j: number): any {
           waitDurationUnit: S.optional(S.String),
           executeNow: S.optional(S.Boolean),
           description: S.optional(S.String),
-          notifyMemberIds: S.optional(__S(9216, __c288, 0)),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
-          integrationConfig: S.optional(__S(9248, __c289, 0)),
+          notifyMemberIds: S.optional(__S(9248, __c289, 0)),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
+          integrationConfig: S.optional(__S(9280, __c290, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConditionInput" });
     case 1:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(7744, __c242, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19830,15 +19926,15 @@ function __c241(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           executeConditionsInSequence: S.optional(S.Boolean),
-          conditions: S.optional(__S(7713, __c241, 1)),
-          action: S.optional(__S(7714, __c241, 2)),
+          conditions: S.optional(__S(7745, __c242, 1)),
+          action: S.optional(__S(7746, __c242, 2)),
         }),
       ).annotate({ identifier: "StageInput" });
     case 4:
-      return S.Array(__S(7715, __c241, 3));
+      return S.Array(__S(7747, __c242, 3));
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19859,32 +19955,32 @@ function __c242(j: number): any {
         }),
       ).annotate({ identifier: "ReviewOutput" });
     case 2:
-      return S.Array(__S(7745, __c242, 1));
+      return S.Array(__S(7777, __c243, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
           kind: S.optional(S.String),
-          _execution: __S(7744, __c242, 0),
+          _execution: __S(7776, __c243, 0),
           scheduleKind: S.optional(S.String),
           executionDate: S.optional(S.Number),
           waitDuration: S.optional(S.Number),
           waitDurationUnit: S.optional(S.String),
           description: S.String,
-          notifyMemberIds: __S(9216, __c288, 0),
-          allReviews: __S(7746, __c242, 2),
+          notifyMemberIds: __S(9248, __c289, 0),
+          allReviews: __S(7778, __c243, 2),
           reviewStatus: S.String,
           appliedDate: S.optional(S.Number),
-          creationConfig: S.optional(__S(9248, __c289, 0)),
+          creationConfig: S.optional(__S(9280, __c290, 0)),
         }),
       ).annotate({ identifier: "ConditionOutput" });
     case 4:
-      return S.Array(__S(7747, __c242, 3));
+      return S.Array(__S(7779, __c243, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }),
       ).annotate({ identifier: "ActionOutput" });
     case 6:
@@ -19892,16 +19988,16 @@ function __c242(j: number): any {
         S.Struct({
           _id: S.String,
           name: S.optional(S.String),
-          conditions: __S(7748, __c242, 4),
-          action: __S(7749, __c242, 5),
-          _execution: __S(7744, __c242, 0),
+          conditions: __S(7780, __c243, 4),
+          action: __S(7781, __c243, 5),
+          _execution: __S(7776, __c243, 0),
         }),
       ).annotate({ identifier: "StageOutput" });
     case 7:
-      return S.Array(__S(7750, __c242, 6));
+      return S.Array(__S(7782, __c243, 6));
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19910,7 +20006,7 @@ function __c243(j: number): any {
           layerKey: S.String.pipe(T.Label()),
           comment: S.optional(S.String),
           environmentKey: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
+          instructions: __S(9312, __c291, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -19921,37 +20017,15 @@ function __c243(j: number): any {
       ).annotate({ identifier: "UpdateLayerRequest" });
   }
 }
-function __c244(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateMemberRequest" });
-  }
-}
 function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members", code: 200 })),
-      ).annotate({ identifier: "UpdateMembersRequest" });
-    case 1:
-      return S.Record(S.String, S.String);
-    case 2:
-      return S.Array(__S(7841, __c245, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(9216, __c288, 0)),
-          errors: S.optional(__S(7842, __c245, 2)),
-        }),
-      ).annotate({ identifier: "BulkEditMembersRep" });
+          id: S.String.pipe(T.Label()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateMemberRequest" });
   }
 }
 function __c246(j: number): any {
@@ -19959,13 +20033,35 @@ function __c246(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          comment: S.optional(S.String),
+          instructions: __S(9312, __c291, 0),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/members", code: 200 })),
+      ).annotate({ identifier: "UpdateMembersRequest" });
+    case 1:
+      return S.Record(S.String, S.String);
+    case 2:
+      return S.Array(__S(7873, __c246, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(9248, __c289, 0)),
+          errors: S.optional(__S(7874, __c246, 2)),
+        }),
+      ).annotate({ identifier: "BulkEditMembersRep" });
+  }
+}
+function __c247(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/projects/{projectKey}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19975,7 +20071,7 @@ function __c247(j: number): any {
           name: S.String,
           key: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           unbounded: S.optional(S.Boolean),
           unboundedContextKind: S.optional(S.String),
         }).pipe(
@@ -19988,7 +20084,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "UpdateSegmentRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19997,7 +20093,7 @@ function __c248(j: number): any {
           environmentKey: S.String.pipe(T.Label()),
           segmentKey: S.String.pipe(T.Label()),
           dryRun: S.optional(S.Boolean.pipe(T.Query())),
-          patch: __S(4769, __c149, 1),
+          patch: __S(4801, __c150, 1),
           comment: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -20009,7 +20105,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "UpdateSegmentBySegmentKeyRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20030,31 +20126,18 @@ function __c249(j: number): any {
       ).annotate({ identifier: "UpdateSegmentScheduledChangeRequest" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integrationKey: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v2/integrations/{integrationKey}/{id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
-  }
-}
-function __c251(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamKey: S.String.pipe(T.Label()),
-          expand: S.optional(S.String.pipe(T.Query())),
-          comment: S.optional(S.String),
-          instructions: __S(9280, __c290, 0),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams/{teamKey}", code: 200 })),
-      ).annotate({ identifier: "UpdateTeamRequest" });
   }
 }
 function __c252(j: number): any {
@@ -20062,13 +20145,26 @@ function __c252(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          teamKey: S.String.pipe(T.Label()),
+          expand: S.optional(S.String.pipe(T.Query())),
+          comment: S.optional(S.String),
+          instructions: __S(9312, __c291, 0),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/teams/{teamKey}", code: 200 })),
+      ).annotate({ identifier: "UpdateTeamRequest" });
+  }
+}
+function __c253(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/tokens/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateTokenRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20086,7 +20182,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "DeleteAdaptiveTriggerRequest" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20097,7 +20193,7 @@ function __c254(j: number): any {
           description: S.optional(S.String),
           maintainerId: S.optional(S.String),
           maintainerTeamKey: S.optional(S.String),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -20108,18 +20204,18 @@ function __c254(j: number): any {
       ).annotate({ identifier: "UpdateViewRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: __S(4769, __c149, 1).pipe(T.HttpBody()),
+          body: __S(4801, __c150, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v2/webhooks/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20136,7 +20232,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "DeleteAgentOptimizationRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20153,7 +20249,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "DeleteAgentSkillRequest" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20170,7 +20266,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DeleteAIConfigRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20188,7 +20284,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeleteAIConfigVariationRequest" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20205,7 +20301,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteAIToolRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20217,7 +20313,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeleteAnnouncementPublicRequest" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20227,7 +20323,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteApprovalRequestRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20246,13 +20342,13 @@ function __c263(j: number): any {
       ).annotate({ identifier: "DeleteApprovalRequestForFlagRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo: S.String.pipe(T.Label()),
-          body: __S(9216, __c288, 0).pipe(T.HttpBody()),
+          body: __S(9248, __c289, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20263,7 +20359,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteBranchesRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20273,7 +20369,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeleteCustomRoleRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20291,7 +20387,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20308,7 +20404,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20325,7 +20421,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteFeatureFlagRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20344,7 +20440,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "DeleteFlagConfigScheduledChangesRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20363,7 +20459,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "DeleteFlagFollowerRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20373,7 +20469,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeleteMemberRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20386,7 +20482,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "DeleteMetricRequest" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20403,7 +20499,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteModelConfigRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20413,7 +20509,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteOAuthClientRequest" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20423,7 +20519,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20440,7 +20536,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "DeletePromptSnippetRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20452,7 +20548,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteRelayAutoConfigRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20466,11 +20562,11 @@ function __c278(j: number): any {
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           featureFlagKey: S.String.pipe(T.Label()),
-          source: __S(8896, __c278, 0),
-          target: __S(8896, __c278, 0),
+          source: __S(8928, __c279, 0),
+          target: __S(8928, __c279, 0),
           comment: S.optional(S.String),
-          includedActions: S.optional(__S(9056, __c283, 0)),
-          excludedActions: S.optional(__S(9056, __c283, 0)),
+          includedActions: S.optional(__S(9088, __c284, 0)),
+          excludedActions: S.optional(__S(9088, __c284, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20481,7 +20577,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "CopyFeatureFlagRequest" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20497,33 +20593,33 @@ function __c279(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(8992, __c281, 0),
-          _site: S.optional(__S(9152, __c286, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
-          tags: __S(9216, __c288, 0),
+          _links: __S(9024, __c282, 0),
+          _site: S.optional(__S(9184, __c287, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          tags: __S(9248, __c289, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(9312, __c291, 0)),
+          lastModified: S.optional(__S(9344, __c292, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(9216, __c288, 0)),
-          analysisUnits: S.optional(__S(9216, __c288, 0)),
-          filters: S.optional(__S(9313, __c291, 1)),
+          randomizationUnits: S.optional(__S(9248, __c289, 0)),
+          analysisUnits: S.optional(__S(9248, __c289, 0)),
+          filters: S.optional(__S(9345, __c292, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(9314, __c291, 2)),
-          dataSource: __S(9315, __c291, 3),
+          eventDefault: S.optional(__S(9346, __c292, 2)),
+          dataSource: __S(9347, __c292, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(9280, __c290, 0)),
+          urls: S.optional(__S(9312, __c291, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -20532,37 +20628,37 @@ function __c279(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(9316, __c291, 4)),
+          denominator: S.optional(__S(9348, __c292, 4)),
         }),
       ).annotate({ identifier: "MetricListingRep" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           name: S.String,
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "MaintainerTeam" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           metricKey: S.optional(S.String),
-          _metric: S.optional(__S(8928, __c279, 0)),
-          environments: S.optional(__S(9216, __c288, 0)),
-          _environmentSettings: S.optional(__S(9347, __c292, 3)),
+          _metric: S.optional(__S(8960, __c280, 0)),
+          environments: S.optional(__S(9248, __c289, 0)),
+          _environmentSettings: S.optional(__S(9379, __c293, 3)),
         }),
       ).annotate({ identifier: "LegacyExperimentRep" });
     case 2:
-      return S.Array(__S(8961, __c280, 1));
+      return S.Array(__S(8993, __c281, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           baselineIdx: S.Number,
-          items: __S(8962, __c280, 2),
+          items: __S(8994, __c281, 2),
         }),
       ).annotate({ identifier: "ExperimentInfoRep" });
     case 4:
@@ -20583,13 +20679,13 @@ function __c280(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: __S(9216, __c288, 0),
+          values: __S(9248, __c289, 0),
           variation: S.Number,
           contextKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Target" });
     case 7:
-      return S.Array(__S(8966, __c280, 6));
+      return S.Array(__S(8998, __c281, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -20599,7 +20695,7 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "WeightedVariation" });
     case 9:
-      return S.Array(__S(8968, __c280, 8));
+      return S.Array(__S(9000, __c281, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -20610,8 +20706,8 @@ function __c280(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(8969, __c280, 9),
-          experimentAllocation: S.optional(__S(8970, __c280, 10)),
+          variations: __S(9001, __c281, 9),
+          experimentAllocation: S.optional(__S(9002, __c281, 10)),
           seed: S.optional(S.Number),
           bucketBy: S.optional(S.String),
           contextKind: S.optional(S.String),
@@ -20623,20 +20719,20 @@ function __c280(j: number): any {
           _id: S.optional(S.String),
           disabled: S.optional(S.Boolean),
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(8971, __c280, 11)),
-          clauses: __S(9409, __c294, 1),
+          rollout: S.optional(__S(9003, __c281, 11)),
+          clauses: __S(9441, __c295, 1),
           trackEvents: S.Boolean,
           description: S.optional(S.String),
           ref: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rule" });
     case 13:
-      return S.Array(__S(8972, __c280, 12));
+      return S.Array(__S(9004, __c281, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(8971, __c280, 11)),
+          rollout: S.optional(__S(9003, __c281, 11)),
         }),
       ).annotate({ identifier: "VariationOrRolloutRep" });
     case 15:
@@ -20647,7 +20743,7 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "Prerequisite" });
     case 16:
-      return S.Array(__S(8975, __c280, 15));
+      return S.Array(__S(9007, __c281, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -20662,18 +20758,18 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "VariationSummary" });
     case 18:
-      return S.Record(S.String, __S(8977, __c280, 17));
+      return S.Record(S.String, __S(9009, __c281, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          variations: __S(8978, __c280, 18),
+          variations: __S(9010, __c281, 18),
           prerequisites: S.Number,
         }),
       ).annotate({ identifier: "FlagSummary" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          contextKinds: S.optional(__S(9216, __c288, 0)),
+          contextKinds: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "FlagConfigEvaluation" });
     case 21:
@@ -20691,25 +20787,25 @@ function __c280(j: number): any {
           sel: S.String,
           lastModified: S.Number,
           version: S.Number,
-          targets: S.optional(__S(8967, __c280, 7)),
-          contextTargets: S.optional(__S(8967, __c280, 7)),
-          rules: S.optional(__S(8973, __c280, 13)),
-          fallthrough: S.optional(__S(8974, __c280, 14)),
+          targets: S.optional(__S(8999, __c281, 7)),
+          contextTargets: S.optional(__S(8999, __c281, 7)),
+          rules: S.optional(__S(9005, __c281, 13)),
+          fallthrough: S.optional(__S(9006, __c281, 14)),
           offVariation: S.optional(S.Number),
-          prerequisites: S.optional(__S(8976, __c280, 16)),
-          _site: __S(9152, __c286, 0),
-          _access: S.optional(__S(9187, __c287, 3)),
+          prerequisites: S.optional(__S(9008, __c281, 16)),
+          _site: __S(9184, __c287, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
           _environmentName: S.String,
           trackEvents: S.Boolean,
           trackEventsFallthrough: S.Boolean,
           _debugEventsUntilDate: S.optional(S.Number),
-          _summary: S.optional(__S(8979, __c280, 19)),
-          evaluation: S.optional(__S(8980, __c280, 20)),
-          migrationSettings: S.optional(__S(8981, __c280, 21)),
+          _summary: S.optional(__S(9011, __c281, 19)),
+          evaluation: S.optional(__S(9012, __c281, 20)),
+          migrationSettings: S.optional(__S(9013, __c281, 21)),
         }),
       ).annotate({ identifier: "FeatureFlagConfig" });
     case 23:
-      return S.Record(S.String, __S(8982, __c280, 22));
+      return S.Record(S.String, __S(9014, __c281, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -20720,50 +20816,50 @@ function __c280(j: number): any {
           _version: S.Number,
           creationDate: S.Number,
           includeInSnippet: S.optional(S.Boolean),
-          clientSideAvailability: S.optional(__S(9088, __c284, 0)),
-          variations: __S(9441, __c295, 1),
+          clientSideAvailability: S.optional(__S(9120, __c285, 0)),
+          variations: __S(9473, __c296, 1),
           temporary: S.Boolean,
-          tags: __S(9216, __c288, 0),
-          _links: __S(8992, __c281, 0),
+          tags: __S(9248, __c289, 0),
+          _links: __S(9024, __c282, 0),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
           maintainerTeamKey: S.optional(S.String),
-          _maintainerTeam: S.optional(__S(8960, __c280, 0)),
-          goalIds: S.optional(__S(9216, __c288, 0)),
-          experiments: __S(8963, __c280, 3),
-          customProperties: __S(9443, __c295, 3),
+          _maintainerTeam: S.optional(__S(8992, __c281, 0)),
+          goalIds: S.optional(__S(9248, __c289, 0)),
+          experiments: __S(8995, __c281, 3),
+          customProperties: __S(9475, __c296, 3),
           archived: S.Boolean,
           archivedDate: S.optional(S.Number),
           deprecated: S.optional(S.Boolean),
           deprecatedDate: S.optional(S.Number),
-          defaults: S.optional(__S(9376, __c293, 0)),
+          defaults: S.optional(__S(9408, __c294, 0)),
           _purpose: S.optional(S.String),
-          migrationSettings: S.optional(__S(8964, __c280, 4)),
-          stale: S.optional(__S(8965, __c280, 5)),
-          environments: S.optional(__S(8983, __c280, 23)),
+          migrationSettings: S.optional(__S(8996, __c281, 4)),
+          stale: S.optional(__S(8997, __c281, 5)),
+          environments: S.optional(__S(9015, __c281, 23)),
         }),
       ).annotate({ identifier: "FeatureFlag" });
-  }
-}
-function __c281(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(9152, __c286, 0));
   }
 }
 function __c282(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, __S(9184, __c287, 0));
   }
 }
 function __c283(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(S.Unknown);
   }
 }
 function __c284(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20774,12 +20870,12 @@ function __c284(j: number): any {
       ).annotate({ identifier: "ClientSideAvailability" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -20789,7 +20885,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "MemberSummary" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20800,15 +20896,15 @@ function __c286(j: number): any {
       ).annotate({ identifier: "Link" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(9216, __c288, 0)),
-          notResources: S.optional(__S(9216, __c288, 0)),
-          actions: S.optional(__S(9216, __c288, 0)),
-          notActions: S.optional(__S(9216, __c288, 0)),
+          resources: S.optional(__S(9248, __c289, 0)),
+          notResources: S.optional(__S(9248, __c289, 0)),
+          actions: S.optional(__S(9248, __c289, 0)),
+          notActions: S.optional(__S(9248, __c289, 0)),
           effect: S.String,
           role_name: S.optional(S.String),
         }),
@@ -20817,39 +20913,39 @@ function __c287(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          reason: __S(9184, __c287, 0),
+          reason: __S(9216, __c288, 0),
         }),
       ).annotate({ identifier: "AccessDenied" });
     case 2:
-      return S.Array(__S(9185, __c287, 1));
+      return S.Array(__S(9217, __c288, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          denied: __S(9186, __c287, 2),
-          allowed: __S(9186, __c287, 2),
+          denied: __S(9218, __c288, 2),
+          allowed: __S(9218, __c288, 2),
         }),
       ).annotate({ identifier: "Access" });
-  }
-}
-function __c288(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c289(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.String);
   }
 }
 function __c290(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9248, __c289, 0));
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c291(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(9280, __c290, 0));
+  }
+}
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20863,7 +20959,7 @@ function __c291(j: number): any {
           type: S.String,
           attribute: S.optional(S.String),
           op: S.String,
-          values: __S(9024, __c282, 0),
+          values: __S(9056, __c283, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
@@ -20892,8 +20988,8 @@ function __c291(j: number): any {
           unitAggregationType: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
           valueColumn: S.optional(S.String),
-          dataSource: S.optional(__S(9315, __c291, 3)),
-          filters: S.optional(__S(9313, __c291, 1)),
+          dataSource: S.optional(__S(9347, __c292, 3)),
+          filters: S.optional(__S(9345, __c292, 1)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -20903,7 +20999,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "MetricDenominatorRep" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20913,20 +21009,20 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentEnabledPeriodRep" });
     case 1:
-      return S.Array(__S(9344, __c292, 0));
+      return S.Array(__S(9376, __c293, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           startDate: S.optional(S.Number),
           stopDate: S.optional(S.Number),
-          enabledPeriods: S.optional(__S(9345, __c292, 1)),
+          enabledPeriods: S.optional(__S(9377, __c293, 1)),
         }),
       ).annotate({ identifier: "ExperimentEnvironmentSettingRep" });
     case 3:
-      return S.Record(S.String, __S(9346, __c292, 2));
+      return S.Record(S.String, __S(9378, __c293, 2));
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20937,7 +21033,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "Defaults" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20945,16 +21041,16 @@ function __c294(j: number): any {
           _id: S.optional(S.String),
           attribute: S.String,
           op: S.String,
-          values: __S(9024, __c282, 0),
+          values: __S(9056, __c283, 0),
           contextKind: S.optional(S.String),
           negate: S.Boolean,
         }),
       ).annotate({ identifier: "Clause" });
     case 1:
-      return S.Array(__S(9408, __c294, 0));
+      return S.Array(__S(9440, __c295, 0));
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20967,19 +21063,19 @@ function __c295(j: number): any {
         }),
       ).annotate({ identifier: "Variation" });
     case 1:
-      return S.Array(__S(9440, __c295, 0));
+      return S.Array(__S(9472, __c296, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: __S(9216, __c288, 0),
+          value: __S(9248, __c289, 0),
         }),
       ).annotate({ identifier: "CustomProperty" });
     case 3:
-      return S.Record(S.String, __S(9442, __c295, 2));
+      return S.Record(S.String, __S(9474, __c296, 2));
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20991,13 +21087,13 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryRequest" });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
-          keys: __S(9216, __c288, 0),
+          keys: __S(9248, __c289, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -21008,7 +21104,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteRestrictedModelsRequest" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21026,7 +21122,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DeleteSegmentRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21045,7 +21141,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteSegmentScheduledChangeRequest" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21062,7 +21158,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21072,7 +21168,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21082,7 +21178,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21101,7 +21197,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteTriggerWorkflowRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21118,7 +21214,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeleteViewRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21128,7 +21224,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21143,12 +21239,12 @@ function __c306(j: number): any {
       ).annotate({ identifier: "CreateAnnouncementPublicRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: __S(9152, __c286, 0),
+          parent: __S(9184, __c287, 0),
         }),
       ).annotate({ identifier: "AnnouncementResponseLinks" });
     case 1:
@@ -21162,13 +21258,13 @@ function __c307(j: number): any {
           endTime: S.optional(S.Number),
           severity: S.String,
           _status: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: __S(9824, __c307, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: __S(9856, __c308, 0),
         }),
       ).annotate({ identifier: "AnnouncementResponse" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21187,7 +21283,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21197,7 +21293,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowTemplateRequest" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21208,7 +21304,7 @@ function __c310(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          body: __S(9248, __c289, 0).pipe(T.HttpBody()),
+          body: __S(9280, __c290, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21234,23 +21330,23 @@ function __c310(j: number): any {
           name: S.String,
           key: S.String,
           _value: S.Unknown,
-          reason: S.optional(__S(9921, __c310, 1)),
-          _links: __S(8992, __c281, 0),
+          reason: S.optional(__S(9953, __c311, 1)),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ContextInstanceEvaluation" });
     case 3:
-      return S.Array(__S(9922, __c310, 2));
+      return S.Array(__S(9954, __c311, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(9923, __c310, 3),
+          items: __S(9955, __c311, 3),
           totalCount: S.optional(S.Number),
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ContextInstanceEvaluations" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21268,7 +21364,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "GetAdaptiveTriggerRequest" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21286,11 +21382,11 @@ function __c312(j: number): any {
         }),
       ).annotate({ identifier: "AdaptiveTriggerInstruction" });
     case 2:
-      return S.Array(__S(9985, __c312, 1));
+      return S.Array(__S(10017, __c313, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instructions: __S(9986, __c312, 2),
+          instructions: __S(10018, __c313, 2),
         }),
       ).annotate({ identifier: "AdaptiveTriggerTask" });
     case 4:
@@ -21301,15 +21397,15 @@ function __c312(j: number): any {
           resourceKind: S.String,
           resourceKey: S.String,
           enabled: S.Boolean,
-          triggerSource: __S(9984, __c312, 0),
-          task: __S(9987, __c312, 3),
+          triggerSource: __S(10016, __c313, 0),
+          task: __S(10019, __c313, 3),
           createdAt: S.Number,
           updatedAt: S.Number,
         }),
       ).annotate({ identifier: "AdaptiveTrigger" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21326,7 +21422,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "GetAgentOptimizationRequest" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21336,7 +21432,7 @@ function __c314(j: number): any {
         }),
       ).annotate({ identifier: "AgentOptimizationAcceptanceStatement" });
     case 1:
-      return S.Array(__S(10048, __c314, 0));
+      return S.Array(__S(10080, __c315, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21345,23 +21441,23 @@ function __c314(j: number): any {
         }),
       ).annotate({ identifier: "AgentOptimizationJudge" });
     case 3:
-      return S.Array(__S(10050, __c314, 2));
+      return S.Array(__S(10082, __c315, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
           id: S.String,
           key: S.String,
           aiConfigKey: S.String,
           maxAttempts: S.Number,
-          modelChoices: __S(9216, __c288, 0),
+          modelChoices: __S(9248, __c289, 0),
           judgeModel: S.String,
-          variableChoices: __S(9280, __c290, 0),
-          acceptanceStatements: __S(10049, __c314, 1),
-          judges: __S(10051, __c314, 3),
-          userInputOptions: __S(9216, __c288, 0),
-          groundTruthResponses: __S(9216, __c288, 0),
+          variableChoices: __S(9312, __c291, 0),
+          acceptanceStatements: __S(10081, __c315, 1),
+          judges: __S(10083, __c315, 3),
+          userInputOptions: __S(9248, __c289, 0),
+          groundTruthResponses: __S(9248, __c289, 0),
           metricKey: S.optional(S.String),
           tokenLimit: S.optional(S.Number),
           variationKey: S.optional(S.String),
@@ -21375,7 +21471,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "AgentOptimization" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21392,26 +21488,40 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetAgentSkillRequest" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
           _maintainer: S.optional(S.Unknown),
           name: S.String,
           description: S.optional(S.String),
           markdown: S.String,
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           version: S.Number,
+          tools: S.optional(__S(10177, __c318, 1)),
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "AgentSkill" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          version: S.Number,
+        }),
+      ).annotate({ identifier: "PinnedSkillToolRef" });
+    case 1:
+      return S.Array(__S(10176, __c318, 0));
+  }
+}
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21428,7 +21538,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "GetAIConfigRequest" });
   }
 }
-function __c318(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21438,37 +21548,38 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigDependency" });
     case 1:
-      return S.Array(__S(10176, __c318, 0));
+      return S.Array(__S(10240, __c320, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
-          _site: S.optional(__S(6848, __c214, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
+          _site: S.optional(__S(6880, __c215, 0)),
           description: S.String,
           key: S.String,
           _maintainer: S.optional(S.Unknown),
           mode: S.optional(S.String),
           name: S.String,
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           version: S.Number,
-          variations: __S(10240, __c320, 0),
+          variations: __S(10304, __c322, 0),
           createdAt: S.Number,
           updatedAt: S.Number,
           evaluationMetricKey: S.optional(S.String),
-          evaluationMetricKeys: S.optional(__S(9216, __c288, 0)),
+          evaluationMetricKeys: S.optional(__S(9248, __c289, 0)),
           isInverted: S.optional(S.Boolean),
-          dependencies: S.optional(__S(10177, __c318, 1)),
+          defaultThreshold: S.optional(S.Number),
+          dependencies: S.optional(__S(10241, __c320, 1)),
         }),
       ).annotate({ identifier: "AIConfig" });
   }
 }
-function __c319(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: __S(6848, __c214, 0),
+          parent: __S(6880, __c215, 0),
         }),
       ).annotate({ identifier: "ParentLink" });
     case 1:
@@ -21481,7 +21592,7 @@ function __c319(j: number): any {
         }),
       ).annotate({ identifier: "Classifier" });
     case 2:
-      return S.Array(__S(10209, __c319, 1));
+      return S.Array(__S(10273, __c321, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21490,78 +21601,69 @@ function __c319(j: number): any {
         }),
       ).annotate({ identifier: "Message" });
     case 4:
-      return S.Array(__S(10211, __c319, 3));
+      return S.Array(__S(10275, __c321, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           version: S.Number,
-          customParameters: S.optional(__S(9248, __c289, 0)),
+          customParameters: S.optional(__S(9280, __c290, 0)),
         }),
       ).annotate({ identifier: "VariationTool" });
     case 6:
-      return S.Array(__S(10213, __c319, 5));
+      return S.Array(__S(10277, __c321, 5));
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          version: S.Number,
-        }),
-      ).annotate({ identifier: "VariationSkill" });
-    case 8:
-      return S.Array(__S(10215, __c319, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           judgeConfigKey: S.String,
           samplingRate: S.Number,
         }),
       ).annotate({ identifier: "JudgeAttachment" });
-    case 10:
-      return S.Array(__S(10217, __c319, 9));
-    case 11:
+    case 8:
+      return S.Array(__S(10279, __c321, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          judges: S.optional(__S(10218, __c319, 10)),
+          judges: S.optional(__S(10280, __c321, 8)),
         }),
       ).annotate({ identifier: "JudgeConfiguration" });
-    case 12:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10208, __c319, 0)),
+          _links: S.optional(__S(10272, __c321, 0)),
           color: S.optional(S.String),
-          classifiers: S.optional(__S(10210, __c319, 2)),
+          classifiers: S.optional(__S(10274, __c321, 2)),
           comment: S.optional(S.String),
           description: S.optional(S.String),
           instructions: S.optional(S.String),
           key: S.String,
           _id: S.String,
-          messages: S.optional(__S(10212, __c319, 4)),
+          messages: S.optional(__S(10276, __c321, 4)),
           model: S.Unknown,
           modelConfigKey: S.optional(S.String),
           modelConfigVersion: S.optional(S.Number),
           name: S.String,
-          outputFormat: S.optional(__S(9248, __c289, 0)),
+          outputFormat: S.optional(__S(9280, __c290, 0)),
           createdAt: S.Number,
           version: S.Number,
           state: S.optional(S.String),
           _archivedAt: S.optional(S.Number),
           _publishedAt: S.optional(S.Number),
-          tools: S.optional(__S(10214, __c319, 6)),
-          skills: S.optional(__S(10216, __c319, 8)),
-          judgeConfiguration: S.optional(__S(10219, __c319, 11)),
-          judgingConfigKeys: S.optional(__S(9216, __c288, 0)),
+          tools: S.optional(__S(10278, __c321, 6)),
+          skills: S.optional(__S(10177, __c318, 1)),
+          judgeConfiguration: S.optional(__S(10281, __c321, 9)),
+          judgingConfigKeys: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "AIConfigVariation" });
   }
 }
-function __c320(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10220, __c319, 12));
+      return S.Array(__S(10282, __c321, 10));
   }
 }
-function __c321(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21573,6 +21675,7 @@ function __c321(j: number): any {
           env: S.String.pipe(T.Query()),
           contextKind: S.optional(S.String.pipe(T.Query())),
           contextKey: S.optional(S.String.pipe(T.Query())),
+          includeShadow: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -21583,7 +21686,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "GetAIConfigMetricsRequest" });
   }
 }
-function __c322(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21594,7 +21697,7 @@ function __c322(j: number): any {
         }),
       ).annotate({ identifier: "JudgeScore" });
     case 1:
-      return S.Array(__S(10304, __c322, 0));
+      return S.Array(__S(10368, __c324, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21614,12 +21717,12 @@ function __c322(j: number): any {
           judgeAccuracy: S.optional(S.Number),
           judgeRelevance: S.optional(S.Number),
           judgeToxicity: S.optional(S.Number),
-          judgeScores: S.optional(__S(10305, __c322, 1)),
+          judgeScores: S.optional(__S(10369, __c324, 1)),
         }),
       ).annotate({ identifier: "Metrics" });
   }
 }
-function __c323(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21631,6 +21734,7 @@ function __c323(j: number): any {
           env: S.String.pipe(T.Query()),
           contextKind: S.optional(S.String.pipe(T.Query())),
           contextKey: S.optional(S.String.pipe(T.Query())),
+          includeShadow: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -21643,18 +21747,18 @@ function __c323(j: number): any {
       return S.suspend(() =>
         S.Struct({
           variationKey: S.optional(S.String),
-          metrics: S.optional(__S(10306, __c322, 2)),
+          metrics: S.optional(__S(10370, __c324, 2)),
         }),
       ).annotate({ identifier: "MetricByVariation" });
     case 2:
-      return S.Array(__S(10337, __c323, 1));
+      return S.Array(__S(10401, __c325, 1));
     case 3:
-      return S.suspend(() => __S(10338, __c323, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10402, __c325, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAIConfigMetricsByVariationResponse",
       });
   }
 }
-function __c324(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21680,7 +21784,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "QuickStats" });
   }
 }
-function __c325(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21688,15 +21792,15 @@ function __c325(j: number): any {
           resourceId: S.String,
           comment: S.optional(S.String),
           description: S.String,
-          instructions: __S(9280, __c290, 0),
-          notifyMemberIds: S.optional(__S(9216, __c288, 0)),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
-          integrationConfig: S.optional(__S(9248, __c289, 0)),
+          instructions: __S(9312, __c291, 0),
+          notifyMemberIds: S.optional(__S(9248, __c289, 0)),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
+          integrationConfig: S.optional(__S(9280, __c290, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/approval-requests", code: 200 })),
       ).annotate({ identifier: "CreateApprovalRequestRequest" });
   }
 }
-function __c326(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21708,28 +21812,28 @@ function __c326(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(10529, __c329, 1),
-          notifyMemberIds: __S(9216, __c288, 0),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
+          allReviews: __S(10625, __c332, 1),
+          notifyMemberIds: __S(9248, __c289, 0),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(9280, __c290, 0),
-          conflicts: __S(10531, __c329, 3),
-          _links: __S(9248, __c289, 0),
+          instructions: __S(9312, __c291, 0),
+          conflicts: __S(10627, __c332, 3),
+          _links: __S(9280, __c290, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(10465, __c327, 1)),
-          source: S.optional(__S(10532, __c329, 4)),
-          customWorkflowMetadata: S.optional(__S(10534, __c329, 6)),
+          integrationMetadata: S.optional(__S(10529, __c329, 1)),
+          source: S.optional(__S(10592, __c331, 0)),
+          customWorkflowMetadata: S.optional(__S(10629, __c332, 5)),
           resourceId: S.optional(S.String),
-          approvalSettings: S.optional(__S(10496, __c328, 0)),
+          approvalSettings: S.optional(__S(10560, __c330, 0)),
         }),
       ).annotate({ identifier: "ApprovalRequestResponse" });
   }
 }
-function __c327(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21742,14 +21846,14 @@ function __c327(j: number): any {
       return S.suspend(() =>
         S.Struct({
           externalId: S.String,
-          externalStatus: __S(10464, __c327, 0),
+          externalStatus: __S(10528, __c329, 0),
           externalUrl: S.String,
           lastChecked: S.Number,
         }),
       ).annotate({ identifier: "IntegrationMetadata" });
   }
 }
-function __c328(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21761,14 +21865,25 @@ function __c328(j: number): any {
           canApplyDeclinedChanges: S.Boolean,
           autoApplyApprovedChanges: S.optional(S.Boolean),
           serviceKind: S.String,
-          serviceConfig: __S(9248, __c289, 0),
-          requiredApprovalTags: __S(9216, __c288, 0),
+          serviceConfig: __S(9280, __c290, 0),
+          requiredApprovalTags: __S(9248, __c289, 0),
           serviceKindConfigurationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApprovalSettings" });
   }
 }
-function __c329(j: number): any {
+function __c331(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CopiedFromEnv" });
+  }
+}
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21782,40 +21897,33 @@ function __c329(j: number): any {
         }),
       ).annotate({ identifier: "ReviewResponse" });
     case 1:
-      return S.Array(__S(10528, __c329, 0));
+      return S.Array(__S(10624, __c332, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instruction: S.optional(__S(9248, __c289, 0)),
+          instruction: S.optional(__S(9280, __c290, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "Conflict2" });
     case 3:
-      return S.Array(__S(10530, __c329, 2));
+      return S.Array(__S(10626, __c332, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          version: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CopiedFromEnv" });
-    case 5:
       return S.suspend(() =>
         S.Struct({
           index: S.optional(S.Number),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomWorkflowStageMeta" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          stage: S.optional(__S(10533, __c329, 5)),
+          stage: S.optional(__S(10628, __c332, 4)),
         }),
       ).annotate({ identifier: "CustomWorkflowMeta" });
   }
 }
-function __c330(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21830,32 +21938,32 @@ function __c330(j: number): any {
         ),
       ).annotate({ identifier: "GetAIConfigsRequest" });
     case 1:
-      return S.Array(__S(10178, __c318, 2));
+      return S.Array(__S(10242, __c320, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(10592, __c331, 0)),
-          items: __S(10561, __c330, 1),
+          _links: S.optional(__S(10688, __c334, 0)),
+          items: __S(10657, __c333, 1),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AIConfigs" });
   }
 }
-function __c331(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          first: S.optional(__S(9152, __c286, 0)),
-          last: S.optional(__S(9152, __c286, 0)),
-          next: S.optional(__S(9152, __c286, 0)),
-          prev: S.optional(__S(9152, __c286, 0)),
-          self: __S(9152, __c286, 0),
+          first: S.optional(__S(9184, __c287, 0)),
+          last: S.optional(__S(9184, __c287, 0)),
+          next: S.optional(__S(9184, __c287, 0)),
+          prev: S.optional(__S(9184, __c287, 0)),
+          self: __S(9184, __c287, 0),
         }),
       ).annotate({ identifier: "PaginatedLinks" });
   }
 }
-function __c332(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21872,18 +21980,18 @@ function __c332(j: number): any {
       ).annotate({ identifier: "GetAIConfigTargetingRequest" });
   }
 }
-function __c333(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contextKind: S.String,
-          values: __S(9216, __c288, 0),
+          values: __S(9248, __c289, 0),
           variation: S.Number,
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentTarget" });
     case 1:
-      return S.Array(__S(10656, __c333, 0));
+      return S.Array(__S(10752, __c336, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21903,56 +22011,61 @@ function __c333(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthroughRolloutVariation" });
     case 4:
-      return S.Array(__S(10659, __c333, 3));
+      return S.Array(__S(10755, __c336, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           bucketBy: S.optional(S.String),
           contextKind: S.String,
-          experimentAllocation: S.optional(__S(10658, __c333, 2)),
+          experimentAllocation: S.optional(__S(10754, __c336, 2)),
           seed: S.optional(S.Number),
-          variations: __S(10660, __c333, 4),
+          variations: __S(10756, __c336, 4),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthroughRollout" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           variation: S.optional(S.Number),
-          rollout: S.optional(__S(10661, __c333, 5)),
+          rollout: S.optional(__S(10757, __c336, 5)),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentFallthrough" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           attribute: S.String,
+          contextKind: S.optional(S.String),
           id: S.String,
           negate: S.Boolean,
           op: S.String,
-          values: __S(9024, __c282, 0),
+          values: __S(9056, __c283, 0),
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentRuleClause" });
     case 8:
-      return S.Array(__S(10663, __c333, 7));
+      return S.Array(__S(10759, __c336, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          clauses: __S(10664, __c333, 8),
+          disabled: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          clauses: __S(10760, __c336, 8),
+          variation: S.optional(S.Number),
+          rollout: S.optional(__S(10757, __c336, 5)),
           trackEvents: S.Boolean,
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironmentRule" });
     case 10:
-      return S.Array(__S(10665, __c333, 9));
+      return S.Array(__S(10761, __c336, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          contextTargets: __S(10657, __c333, 1),
+          contextTargets: __S(10753, __c336, 1),
           enabled: S.Boolean,
-          fallthrough: __S(10662, __c333, 6),
+          fallthrough: __S(10758, __c336, 6),
           lastModified: S.Number,
           offVariation: S.optional(S.Number),
-          rules: __S(10666, __c333, 10),
-          targets: __S(10657, __c333, 1),
+          rules: __S(10762, __c336, 10),
+          targets: __S(10753, __c336, 1),
           trackEvents: S.Boolean,
           trackEventsFallthrough: S.Boolean,
           _environmentName: S.String,
@@ -21960,7 +22073,7 @@ function __c333(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingEnvironment" });
     case 12:
-      return S.Record(S.String, __S(10667, __c333, 11));
+      return S.Record(S.String, __S(10763, __c336, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -21968,6 +22081,7 @@ function __c333(j: number): any {
           metricGroupCount: S.optional(S.Number),
           guardedRolloutCount: S.optional(S.Number),
           releasePolicyCount: S.optional(S.Number),
+          environmentReleasePlanCount: S.optional(S.Number),
           activeExperimentCount: S.optional(S.Number),
           activeGuardedRolloutCount: S.optional(S.Number),
           _id: S.String,
@@ -21977,33 +22091,33 @@ function __c333(j: number): any {
           name: S.String,
           kind: S.String,
           _attachedFlagCount: S.optional(S.Number),
-          _links: __S(8992, __c281, 0),
-          _site: S.optional(__S(9152, __c286, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
-          tags: __S(9216, __c288, 0),
+          _links: __S(9024, __c282, 0),
+          _site: S.optional(__S(9184, __c287, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          tags: __S(9248, __c289, 0),
           _creationDate: S.Number,
-          lastModified: S.optional(__S(9312, __c291, 0)),
+          lastModified: S.optional(__S(9344, __c292, 0)),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
           description: S.optional(S.String),
           category: S.optional(S.String),
           isNumeric: S.optional(S.Boolean),
           successCriteria: S.optional(S.String),
           unit: S.optional(S.String),
           eventKey: S.optional(S.String),
-          randomizationUnits: S.optional(__S(9216, __c288, 0)),
-          analysisUnits: S.optional(__S(9216, __c288, 0)),
-          filters: S.optional(__S(9313, __c291, 1)),
+          randomizationUnits: S.optional(__S(9248, __c289, 0)),
+          analysisUnits: S.optional(__S(9248, __c289, 0)),
+          filters: S.optional(__S(9345, __c292, 1)),
           unitAggregationType: S.optional(S.String),
           analysisType: S.optional(S.String),
           percentileValue: S.optional(S.Number),
-          eventDefault: S.optional(__S(9314, __c291, 2)),
-          dataSource: __S(9315, __c291, 3),
+          eventDefault: S.optional(__S(9346, __c292, 2)),
+          dataSource: __S(9347, __c292, 3),
           lastSeen: S.optional(S.Number),
           archived: S.optional(S.Boolean),
           archivedAt: S.optional(S.Number),
           selector: S.optional(S.String),
-          urls: S.optional(__S(9280, __c290, 0)),
+          urls: S.optional(__S(9312, __c291, 0)),
           windowStartOffset: S.optional(S.Number),
           windowEndOffset: S.optional(S.Number),
           winsorLowerPercentile: S.optional(S.Number),
@@ -22012,25 +22126,25 @@ function __c333(j: number): any {
           traceQuery: S.optional(S.String),
           traceValueLocation: S.optional(S.String),
           unitAggregationField: S.optional(S.String),
-          denominator: S.optional(__S(9316, __c291, 4)),
+          denominator: S.optional(__S(9348, __c292, 4)),
         }),
       ).annotate({ identifier: "AiConfigsMetricListingRep" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           metricKey: S.optional(S.String),
-          _metric: S.optional(__S(10669, __c333, 13)),
-          environments: S.optional(__S(9216, __c288, 0)),
-          _environmentSettings: S.optional(__S(9347, __c292, 3)),
+          _metric: S.optional(__S(10765, __c336, 13)),
+          environments: S.optional(__S(9248, __c289, 0)),
+          _environmentSettings: S.optional(__S(9379, __c293, 3)),
         }),
       ).annotate({ identifier: "AiConfigsLegacyExperimentRep" });
     case 15:
-      return S.Array(__S(10670, __c333, 14));
+      return S.Array(__S(10766, __c336, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           baselineIdx: S.Number,
-          items: __S(10671, __c333, 15),
+          items: __S(10767, __c336, 15),
         }),
       ).annotate({ identifier: "AiConfigsExperimentInfoRep" });
     case 17:
@@ -22043,24 +22157,24 @@ function __c333(j: number): any {
         }),
       ).annotate({ identifier: "AIConfigTargetingVariation" });
     case 18:
-      return S.Array(__S(10673, __c333, 17));
+      return S.Array(__S(10769, __c336, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
-          defaults: S.optional(__S(9376, __c293, 0)),
-          environments: __S(10668, __c333, 12),
-          experiments: __S(10672, __c333, 16),
+          defaults: S.optional(__S(9408, __c294, 0)),
+          environments: __S(10764, __c336, 12),
+          experiments: __S(10768, __c336, 16),
           key: S.String,
           name: S.String,
-          tags: __S(9216, __c288, 0),
-          variations: __S(10674, __c333, 18),
+          tags: __S(9248, __c289, 0),
+          variations: __S(10770, __c336, 18),
           _version: S.Number,
         }),
       ).annotate({ identifier: "AIConfigTargeting" });
   }
 }
-function __c334(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22079,13 +22193,13 @@ function __c334(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(10240, __c320, 0),
+          items: __S(10304, __c322, 0),
           totalCount: S.Number,
         }),
       ).annotate({ identifier: "AIConfigVariationsResponse" });
   }
 }
-function __c335(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22102,27 +22216,27 @@ function __c335(j: number): any {
       ).annotate({ identifier: "GetAIToolRequest" });
   }
 }
-function __c336(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          _links: S.optional(__S(6880, __c215, 0)),
-          _site: S.optional(__S(6848, __c214, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _links: S.optional(__S(6912, __c216, 0)),
+          _site: S.optional(__S(6880, __c215, 0)),
           _maintainer: S.optional(S.Unknown),
           description: S.optional(S.String),
           schema: S.Unknown,
           customParameters: S.optional(S.Unknown),
-          tags: S.optional(__S(9216, __c288, 0)),
+          tags: S.optional(__S(9248, __c289, 0)),
           version: S.Number,
           createdAt: S.Number,
         }),
       ).annotate({ identifier: "AITool" });
   }
 }
-function __c337(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22148,22 +22262,22 @@ function __c337(j: number): any {
           status: S.optional(S.String),
           createdAt: S.optional(S.Number),
           updatedAt: S.optional(S.Number),
-          experiments: S.optional(__S(10817, __c338, 1)),
+          experiments: S.optional(__S(10913, __c341, 1)),
         }),
       ).annotate({ identifier: "SimpleHoldoutRep" });
     case 2:
-      return S.Array(__S(10785, __c337, 1));
+      return S.Array(__S(10881, __c340, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(10786, __c337, 2)),
-          _links: S.optional(__S(8992, __c281, 0)),
+          items: S.optional(__S(10882, __c340, 2)),
+          _links: S.optional(__S(9024, __c282, 0)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HoldoutsCollectionRep" });
   }
 }
-function __c338(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22174,27 +22288,27 @@ function __c338(j: number): any {
         }),
       ).annotate({ identifier: "RelatedExperimentRep" });
     case 1:
-      return S.Array(__S(10816, __c338, 0));
+      return S.Array(__S(10912, __c341, 0));
   }
 }
-function __c339(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/webhooks", code: 200 })),
       ).annotate({ identifier: "GetAllWebhooksRequest" });
     case 1:
-      return S.Array(__S(7264, __c227, 0));
+      return S.Array(__S(7296, __c228, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
-          items: __S(10849, __c339, 1),
+          _links: __S(9024, __c282, 0),
+          items: __S(10945, __c342, 1),
         }),
       ).annotate({ identifier: "Webhooks" });
   }
 }
-function __c340(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22205,17 +22319,17 @@ function __c340(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/announcements", code: 200 })),
       ).annotate({ identifier: "GetAnnouncementsPublicRequest" });
     case 1:
-      return S.Array(__S(9825, __c307, 1));
+      return S.Array(__S(9857, __c308, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(10881, __c340, 1),
-          _links: __S(10592, __c331, 0),
+          items: __S(10977, __c343, 1),
+          _links: __S(10688, __c334, 0),
         }),
       ).annotate({ identifier: "GetAnnouncementsPublic200Response" });
   }
 }
-function __c341(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22234,7 +22348,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "GetApprovalForFlagRequest" });
   }
 }
-function __c342(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22246,26 +22360,26 @@ function __c342(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(10529, __c329, 1),
-          notifyMemberIds: __S(9216, __c288, 0),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
+          allReviews: __S(10625, __c332, 1),
+          notifyMemberIds: __S(9248, __c289, 0),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(9280, __c290, 0),
-          conflicts: __S(10531, __c329, 3),
-          _links: __S(9248, __c289, 0),
+          instructions: __S(9312, __c291, 0),
+          conflicts: __S(10627, __c332, 3),
+          _links: __S(9280, __c290, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(10465, __c327, 1)),
-          source: S.optional(__S(10532, __c329, 4)),
-          customWorkflowMetadata: S.optional(__S(10534, __c329, 6)),
+          integrationMetadata: S.optional(__S(10529, __c329, 1)),
+          source: S.optional(__S(10592, __c331, 0)),
+          customWorkflowMetadata: S.optional(__S(10629, __c332, 5)),
         }),
       ).annotate({ identifier: "FlagConfigApprovalRequestResponse" });
   }
 }
-function __c343(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22276,7 +22390,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "GetApprovalRequestRequest" });
   }
 }
-function __c344(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22295,17 +22409,17 @@ function __c344(j: number): any {
           _version: S.Number,
           creationDate: S.Number,
           includeInSnippet: S.optional(S.Boolean),
-          clientSideAvailability: S.optional(__S(9088, __c284, 0)),
-          variations: __S(9441, __c295, 1),
+          clientSideAvailability: S.optional(__S(9120, __c285, 0)),
+          variations: __S(9473, __c296, 1),
           temporary: S.Boolean,
-          tags: __S(9216, __c288, 0),
-          _links: __S(8992, __c281, 0),
+          tags: __S(9248, __c289, 0),
+          _links: __S(9024, __c282, 0),
           maintainerId: S.optional(S.String),
-          _maintainer: S.optional(__S(9120, __c285, 0)),
-          customProperties: __S(9443, __c295, 3),
+          _maintainer: S.optional(__S(9152, __c286, 0)),
+          customProperties: __S(9475, __c296, 3),
           archived: S.Boolean,
           archivedDate: S.optional(S.Number),
-          defaults: S.optional(__S(9376, __c293, 0)),
+          defaults: S.optional(__S(9408, __c294, 0)),
         }),
       ).annotate({ identifier: "ExpandedFlagRep" });
     case 2:
@@ -22313,17 +22427,17 @@ function __c344(j: number): any {
         S.Struct({
           key: S.String,
           name: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
+          _access: S.optional(__S(9219, __c288, 3)),
         }),
       ).annotate({ identifier: "ExpandedExperimentRep" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          aiConfig: S.optional(__S(11008, __c344, 0)),
-          experiment: S.optional(__S(11010, __c344, 2)),
-          flag: S.optional(__S(11009, __c344, 1)),
-          segment: S.optional(__S(11109, __c347, 5)),
+          aiConfig: S.optional(__S(11104, __c347, 0)),
+          experiment: S.optional(__S(11106, __c347, 2)),
+          flag: S.optional(__S(11105, __c347, 1)),
+          segment: S.optional(__S(11205, __c350, 5)),
         }),
       ).annotate({ identifier: "ExpandedResourceRep" });
     case 4:
@@ -22336,81 +22450,81 @@ function __c344(j: number): any {
           requestorId: S.optional(S.String),
           description: S.optional(S.String),
           reviewStatus: S.String,
-          allReviews: __S(10529, __c329, 1),
-          notifyMemberIds: __S(9216, __c288, 0),
-          notifyTeamKeys: S.optional(__S(9216, __c288, 0)),
+          allReviews: __S(10625, __c332, 1),
+          notifyMemberIds: __S(9248, __c289, 0),
+          notifyTeamKeys: S.optional(__S(9248, __c289, 0)),
           appliedDate: S.optional(S.Number),
           appliedByMemberId: S.optional(S.String),
           appliedByServiceTokenId: S.optional(S.String),
           status: S.String,
-          instructions: __S(9280, __c290, 0),
-          conflicts: __S(10531, __c329, 3),
-          _links: __S(9248, __c289, 0),
+          instructions: __S(9312, __c291, 0),
+          conflicts: __S(10627, __c332, 3),
+          _links: __S(9280, __c290, 0),
           executionDate: S.optional(S.Number),
           operatingOnId: S.optional(S.String),
-          integrationMetadata: S.optional(__S(10465, __c327, 1)),
-          source: S.optional(__S(10532, __c329, 4)),
-          customWorkflowMetadata: S.optional(__S(10534, __c329, 6)),
+          integrationMetadata: S.optional(__S(10529, __c329, 1)),
+          source: S.optional(__S(10592, __c331, 0)),
+          customWorkflowMetadata: S.optional(__S(10629, __c332, 5)),
           resourceId: S.optional(S.String),
-          approvalSettings: S.optional(__S(10496, __c328, 0)),
-          project: S.optional(__S(11072, __c346, 0)),
+          approvalSettings: S.optional(__S(10560, __c330, 0)),
+          project: S.optional(__S(11168, __c349, 0)),
           environments: S.optional(__S(3680, __c115, 0)),
-          flag: S.optional(__S(11009, __c344, 1)),
-          resource: S.optional(__S(11011, __c344, 3)),
+          flag: S.optional(__S(11105, __c347, 1)),
+          resource: S.optional(__S(11107, __c347, 3)),
         }),
       ).annotate({ identifier: "ExpandableApprovalRequestResponse" });
   }
 }
-function __c345(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           key: S.String,
-          _links: S.optional(__S(8992, __c281, 0)),
-          _site: S.optional(__S(9152, __c286, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
+          _site: S.optional(__S(9184, __c287, 0)),
         }),
       ).annotate({ identifier: "FlagListingRep" });
     case 1:
-      return S.Array(__S(11040, __c345, 0));
+      return S.Array(__S(11136, __c348, 0));
   }
 }
-function __c346(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           key: S.String,
           includeInSnippetByDefault: S.Boolean,
-          defaultClientSideAvailability: S.optional(__S(9088, __c284, 0)),
+          defaultClientSideAvailability: S.optional(__S(9120, __c285, 0)),
           name: S.String,
-          _access: S.optional(__S(9187, __c287, 3)),
-          tags: __S(9216, __c288, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
+          tags: __S(9248, __c289, 0),
           defaultReleasePipelineKey: S.optional(S.String),
-          environments: S.optional(__S(11136, __c348, 0)),
+          environments: S.optional(__S(11232, __c351, 0)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c347(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(9216, __c288, 0)),
+          values: S.optional(__S(9248, __c289, 0)),
           contextKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "SegmentTarget" });
     case 1:
-      return S.Array(__S(11104, __c347, 0));
+      return S.Array(__S(11200, __c350, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           _id: S.optional(S.String),
-          clauses: __S(9409, __c294, 1),
+          clauses: __S(9441, __c295, 1),
           weight: S.optional(S.Number),
           rolloutContextKind: S.optional(S.String),
           bucketBy: S.optional(S.String),
@@ -22418,7 +22532,7 @@ function __c347(j: number): any {
         }),
       ).annotate({ identifier: "UserSegmentRule" });
     case 3:
-      return S.Array(__S(11106, __c347, 2));
+      return S.Array(__S(11202, __c350, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -22436,24 +22550,24 @@ function __c347(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          tags: __S(9216, __c288, 0),
+          tags: __S(9248, __c289, 0),
           creationDate: S.Number,
           lastModifiedDate: S.Number,
           key: S.String,
-          included: S.optional(__S(9216, __c288, 0)),
-          excluded: S.optional(__S(9216, __c288, 0)),
-          includedContexts: S.optional(__S(11105, __c347, 1)),
-          excludedContexts: S.optional(__S(11105, __c347, 1)),
-          _links: __S(8992, __c281, 0),
-          rules: __S(11107, __c347, 3),
+          included: S.optional(__S(9248, __c289, 0)),
+          excluded: S.optional(__S(9248, __c289, 0)),
+          includedContexts: S.optional(__S(11201, __c350, 1)),
+          excludedContexts: S.optional(__S(11201, __c350, 1)),
+          _links: __S(9024, __c282, 0),
+          rules: __S(11203, __c350, 3),
           version: S.Number,
           deleted: S.Boolean,
-          _access: S.optional(__S(9187, __c287, 3)),
-          _flags: S.optional(__S(11041, __c345, 1)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          _flags: S.optional(__S(11137, __c348, 1)),
           unbounded: S.optional(S.Boolean),
           unboundedContextKind: S.optional(S.String),
           generation: S.Number,
-          _unboundedMetadata: S.optional(__S(11108, __c347, 4)),
+          _unboundedMetadata: S.optional(__S(11204, __c350, 4)),
           _external: S.optional(S.String),
           _externalLink: S.optional(S.String),
           _importInProgress: S.optional(S.Boolean),
@@ -22461,19 +22575,19 @@ function __c347(j: number): any {
       ).annotate({ identifier: "UserSegment" });
   }
 }
-function __c348(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalCount: S.optional(S.Number),
           items: __S(3680, __c115, 0),
         }),
       ).annotate({ identifier: "Environments" });
   }
 }
-function __c349(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22485,18 +22599,18 @@ function __c349(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/approval-requests", code: 200 })),
       ).annotate({ identifier: "GetApprovalRequestsRequest" });
     case 1:
-      return S.Array(__S(11012, __c344, 4));
+      return S.Array(__S(11108, __c347, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11169, __c349, 1),
+          items: __S(11265, __c352, 1),
           totalCount: S.Number,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ExpandableApprovalRequestsResponse" });
   }
 }
-function __c350(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22507,7 +22621,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "CreateApprovalRequestApplyRequest" });
   }
 }
-function __c351(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22524,17 +22638,17 @@ function __c351(j: number): any {
         ),
       ).annotate({ identifier: "GetApprovalsForFlagRequest" });
     case 1:
-      return S.Array(__S(10944, __c342, 0));
+      return S.Array(__S(11040, __c345, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11233, __c351, 1),
-          _links: __S(8992, __c281, 0),
+          items: __S(11329, __c354, 1),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "FlagConfigApprovalRequestsResponse" });
   }
 }
-function __c352(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22550,18 +22664,18 @@ function __c352(j: number): any {
       ).annotate({ identifier: "GetAuditLogEntriesRequest" });
   }
 }
-function __c353(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11338, __c354, 10),
-          _links: __S(8992, __c281, 0),
+          items: __S(11434, __c357, 10),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "AuditLogEntryListingRepCollection" });
   }
 }
-function __c354(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22571,7 +22685,7 @@ function __c354(j: number): any {
         }),
       ).annotate({ identifier: "ResourceAccess" });
     case 1:
-      return S.Array(__S(11328, __c354, 0));
+      return S.Array(__S(11424, __c357, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22581,7 +22695,7 @@ function __c354(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           name: S.optional(S.String),
           avatarUrl: S.optional(S.String),
         }),
@@ -22589,7 +22703,7 @@ function __c354(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           _id: S.optional(S.String),
           email: S.optional(S.String),
           firstName: S.optional(S.String),
@@ -22599,7 +22713,7 @@ function __c354(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           _id: S.optional(S.String),
           name: S.optional(S.String),
           ending: S.optional(S.String),
@@ -22609,7 +22723,7 @@ function __c354(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           _id: S.optional(S.String),
           isScim: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -22621,15 +22735,15 @@ function __c354(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           name: S.optional(S.String),
-          resources: S.optional(__S(9216, __c288, 0)),
+          resources: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "TargetResourceRep" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           name: S.optional(S.String),
           resource: S.optional(S.String),
         }),
@@ -22637,34 +22751,34 @@ function __c354(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           _accountId: S.String,
           date: S.Number,
-          accesses: __S(11329, __c354, 1),
+          accesses: __S(11425, __c357, 1),
           kind: S.String,
           name: S.String,
           description: S.String,
           shortDescription: S.String,
           comment: S.optional(S.String),
-          relatedFlag: S.optional(__S(11330, __c354, 2)),
-          relatedExperiment: S.optional(__S(11330, __c354, 2)),
-          relatedAIConfig: S.optional(__S(11330, __c354, 2)),
-          subject: S.optional(__S(11331, __c354, 3)),
-          member: S.optional(__S(11332, __c354, 4)),
-          token: S.optional(__S(11333, __c354, 5)),
-          app: S.optional(__S(11334, __c354, 6)),
+          relatedFlag: S.optional(__S(11426, __c357, 2)),
+          relatedExperiment: S.optional(__S(11426, __c357, 2)),
+          relatedAIConfig: S.optional(__S(11426, __c357, 2)),
+          subject: S.optional(__S(11427, __c357, 3)),
+          member: S.optional(__S(11428, __c357, 4)),
+          token: S.optional(__S(11429, __c357, 5)),
+          app: S.optional(__S(11430, __c357, 6)),
           titleVerb: S.optional(S.String),
           title: S.optional(S.String),
-          target: S.optional(__S(11335, __c354, 7)),
-          parent: S.optional(__S(11336, __c354, 8)),
+          target: S.optional(__S(11431, __c357, 7)),
+          parent: S.optional(__S(11432, __c357, 8)),
         }),
       ).annotate({ identifier: "AuditLogEntryListingRep" });
     case 10:
-      return S.Array(__S(11337, __c354, 9));
+      return S.Array(__S(11433, __c357, 9));
   }
 }
-function __c355(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22675,38 +22789,38 @@ function __c355(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           _id: S.String,
           _accountId: S.String,
           date: S.Number,
-          accesses: __S(11329, __c354, 1),
+          accesses: __S(11425, __c357, 1),
           kind: S.String,
           name: S.String,
           description: S.String,
           shortDescription: S.String,
           comment: S.optional(S.String),
-          relatedFlag: S.optional(__S(11330, __c354, 2)),
-          relatedExperiment: S.optional(__S(11330, __c354, 2)),
-          relatedAIConfig: S.optional(__S(11330, __c354, 2)),
-          subject: S.optional(__S(11331, __c354, 3)),
-          member: S.optional(__S(11332, __c354, 4)),
-          token: S.optional(__S(11333, __c354, 5)),
-          app: S.optional(__S(11334, __c354, 6)),
+          relatedFlag: S.optional(__S(11426, __c357, 2)),
+          relatedExperiment: S.optional(__S(11426, __c357, 2)),
+          relatedAIConfig: S.optional(__S(11426, __c357, 2)),
+          subject: S.optional(__S(11427, __c357, 3)),
+          member: S.optional(__S(11428, __c357, 4)),
+          token: S.optional(__S(11429, __c357, 5)),
+          app: S.optional(__S(11430, __c357, 6)),
           titleVerb: S.optional(S.String),
           title: S.optional(S.String),
-          target: S.optional(__S(11335, __c354, 7)),
-          parent: S.optional(__S(11336, __c354, 8)),
+          target: S.optional(__S(11431, __c357, 7)),
+          parent: S.optional(__S(11432, __c357, 8)),
           delta: S.optional(S.Unknown),
           triggerBody: S.optional(S.Unknown),
           merge: S.optional(S.Unknown),
           previousVersion: S.optional(S.Unknown),
           currentVersion: S.optional(S.Unknown),
-          subentries: S.optional(__S(11338, __c354, 10)),
+          subentries: S.optional(__S(11434, __c357, 10)),
         }),
       ).annotate({ identifier: "AuditLogEntryRep" });
   }
 }
-function __c356(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22739,13 +22853,13 @@ function __c356(j: number): any {
           status: S.String,
           sizeBytes: S.Number,
           size: S.String,
-          initiator: __S(11393, __c356, 1),
-          _links: __S(8992, __c281, 0),
+          initiator: __S(11489, __c359, 1),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "Export" });
   }
 }
-function __c357(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22770,7 +22884,7 @@ function __c357(j: number): any {
         }),
       ).annotate({ identifier: "FileRep" });
     case 2:
-      return S.Array(__S(11425, __c357, 1));
+      return S.Array(__S(11521, __c360, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -22779,13 +22893,13 @@ function __c357(j: number): any {
           creationTime: S.Number,
           mode: S.String,
           status: S.String,
-          files: S.optional(__S(11426, __c357, 2)),
-          _links: __S(8992, __c281, 0),
+          files: S.optional(__S(11522, __c360, 2)),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "Import" });
   }
 }
-function __c358(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22804,7 +22918,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "GetBranchRequest" });
   }
 }
-function __c359(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22813,13 +22927,13 @@ function __c359(j: number): any {
           head: S.String,
           updateSequenceId: S.optional(S.Number),
           syncTime: S.Number,
-          references: S.optional(__S(11523, __c360, 3)),
-          _links: __S(9248, __c289, 0),
+          references: S.optional(__S(11619, __c363, 3)),
+          _links: __S(9280, __c290, 0),
         }),
       ).annotate({ identifier: "BranchRep" });
   }
 }
-function __c360(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22828,24 +22942,24 @@ function __c360(j: number): any {
           lines: S.optional(S.String),
           projKey: S.optional(S.String),
           flagKey: S.optional(S.String),
-          aliases: S.optional(__S(9216, __c288, 0)),
+          aliases: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "HunkRep" });
     case 1:
-      return S.Array(__S(11520, __c360, 0));
+      return S.Array(__S(11616, __c363, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           hint: S.optional(S.String),
-          hunks: __S(11521, __c360, 1),
+          hunks: __S(11617, __c363, 1),
         }),
       ).annotate({ identifier: "ReferenceRep" });
     case 3:
-      return S.Array(__S(11522, __c360, 2));
+      return S.Array(__S(11618, __c363, 2));
   }
 }
-function __c361(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22862,19 +22976,19 @@ function __c361(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: __S(8992, __c281, 0),
-          items: __S(11584, __c362, 0),
+          _links: __S(9024, __c282, 0),
+          items: __S(11680, __c365, 0),
         }),
       ).annotate({ identifier: "BranchCollectionRep" });
   }
 }
-function __c362(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11488, __c359, 0));
+      return S.Array(__S(11584, __c362, 0));
   }
 }
-function __c363(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22892,18 +23006,18 @@ function __c363(j: number): any {
           tokenKind: S.optional(S.String),
           clientId: S.optional(S.String),
           clientName: S.optional(S.String),
-          audience: S.optional(__S(9216, __c288, 0)),
+          audience: S.optional(__S(9248, __c289, 0)),
           expiresAt: S.optional(S.Number),
           tokenName: S.optional(S.String),
           tokenId: S.optional(S.String),
           memberId: S.optional(S.String),
           serviceToken: S.optional(S.Boolean),
-          scopes: S.optional(__S(9216, __c288, 0)),
+          scopes: S.optional(__S(9248, __c289, 0)),
         }),
       ).annotate({ identifier: "CallerIdentityRep" });
   }
 }
-function __c364(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22929,25 +23043,25 @@ function __c364(j: number): any {
         }),
       ).annotate({ identifier: "ContextAttributeName" });
     case 2:
-      return S.Array(__S(11649, __c364, 1));
+      return S.Array(__S(11745, __c367, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          names: __S(11650, __c364, 2),
+          names: __S(11746, __c367, 2),
         }),
       ).annotate({ identifier: "ContextAttributeNames" });
     case 4:
-      return S.Array(__S(11651, __c364, 3));
+      return S.Array(__S(11747, __c367, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11652, __c364, 4),
+          items: __S(11748, __c367, 4),
         }),
       ).annotate({ identifier: "ContextAttributeNamesCollection" });
   }
 }
-function __c365(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22973,25 +23087,25 @@ function __c365(j: number): any {
         }),
       ).annotate({ identifier: "ContextAttributeValue" });
     case 2:
-      return S.Array(__S(11681, __c365, 1));
+      return S.Array(__S(11777, __c368, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          values: __S(11682, __c365, 2),
+          values: __S(11778, __c368, 2),
         }),
       ).annotate({ identifier: "ContextAttributeValues" });
     case 4:
-      return S.Array(__S(11683, __c365, 3));
+      return S.Array(__S(11779, __c368, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11684, __c365, 4),
+          items: __S(11780, __c368, 4),
         }),
       ).annotate({ identifier: "ContextAttributeValuesCollection" });
   }
 }
-function __c366(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23005,14 +23119,14 @@ function __c366(j: number): any {
       ).annotate({ identifier: "CreateApprovalRequestReviewRequest" });
   }
 }
-function __c367(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectKey: S.String.pipe(T.Label()),
           environmentKey: S.String.pipe(T.Label()),
-          body: __S(9248, __c289, 0).pipe(T.HttpBody()),
+          body: __S(9280, __c290, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23032,21 +23146,21 @@ function __c367(j: number): any {
           isMember: S.Boolean,
           isIndividuallyTargeted: S.Boolean,
           isRuleTargeted: S.Boolean,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ContextInstanceSegmentMembership" });
     case 2:
-      return S.Array(__S(11745, __c367, 1));
+      return S.Array(__S(11841, __c370, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11746, __c367, 2),
-          _links: __S(8992, __c281, 0),
+          items: __S(11842, __c370, 2),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ContextInstanceSegmentMemberships" });
   }
 }
-function __c368(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23065,7 +23179,7 @@ function __c368(j: number): any {
         }),
       ).annotate({ identifier: "ContextKindEnvironmentObservation" });
     case 2:
-      return S.Array(__S(11777, __c368, 1));
+      return S.Array(__S(11873, __c371, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23076,25 +23190,25 @@ function __c368(j: number): any {
           creationDate: S.Number,
           lastModified: S.Number,
           lastSeen: S.optional(S.Number),
-          environmentObservations: S.optional(__S(11778, __c368, 2)),
+          environmentObservations: S.optional(__S(11874, __c371, 2)),
           createdFrom: S.String,
           hideInTargeting: S.optional(S.Boolean),
           archived: S.optional(S.Boolean),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "ContextKindRep" });
     case 4:
-      return S.Array(__S(11779, __c368, 3));
+      return S.Array(__S(11875, __c371, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(11780, __c368, 4),
-          _links: __S(8992, __c281, 0),
+          items: __S(11876, __c371, 4),
+          _links: __S(9024, __c282, 0),
         }),
       ).annotate({ identifier: "ContextKindsCollectionRep" });
   }
 }
-function __c369(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23118,7 +23232,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "GetContextsRequest" });
   }
 }
-function __c370(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23126,26 +23240,26 @@ function __c370(j: number): any {
           lastSeen: S.optional(S.String),
           applicationId: S.optional(S.String),
           context: S.Unknown,
-          _links: S.optional(__S(8992, __c281, 0)),
-          _access: S.optional(__S(9187, __c287, 3)),
+          _links: S.optional(__S(9024, __c282, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
           associatedContexts: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ContextRecord" });
     case 1:
-      return S.Array(__S(11840, __c370, 0));
+      return S.Array(__S(11936, __c373, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           totalCount: S.optional(S.Number),
           _environmentId: S.String,
           continuationToken: S.optional(S.String),
-          items: __S(11841, __c370, 1),
+          items: __S(11937, __c373, 1),
         }),
       ).annotate({ identifier: "Contexts" });
   }
 }
-function __c371(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23155,7 +23269,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "GetCustomRoleRequest" });
   }
 }
-function __c372(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23168,22 +23282,22 @@ function __c372(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          _links: __S(8992, __c281, 0),
-          _access: S.optional(__S(9187, __c287, 3)),
+          _links: __S(9024, __c282, 0),
+          _access: S.optional(__S(9219, __c288, 3)),
           description: S.optional(S.String),
           key: S.String,
           name: S.String,
-          policy: __S(4641, __c145, 1),
+          policy: __S(4673, __c146, 1),
           basePermissions: S.optional(S.String),
           resourceCategory: S.optional(S.String),
-          assignedTo: S.optional(__S(11904, __c372, 0)),
+          assignedTo: S.optional(__S(12000, __c375, 0)),
           _presetBundleVersion: S.optional(S.Number),
-          _presetStatements: S.optional(__S(4641, __c145, 1)),
+          _presetStatements: S.optional(__S(4673, __c146, 1)),
         }),
       ).annotate({ identifier: "CustomRole" });
   }
 }
-function __c373(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23193,18 +23307,18 @@ function __c373(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/roles", code: 200 })),
       ).annotate({ identifier: "GetCustomRolesRequest" });
     case 1:
-      return S.Array(__S(11905, __c372, 1));
+      return S.Array(__S(12001, __c375, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
-          items: __S(11937, __c373, 1),
+          _links: S.optional(__S(9024, __c282, 0)),
+          items: __S(12033, __c376, 1),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomRoles" });
   }
 }
-function __c374(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23223,7 +23337,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "GetCustomWorkflowRequest" });
   }
 }
-function __c375(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23233,7 +23347,7 @@ function __c375(j: number): any {
         }),
       ).annotate({ identifier: "ConflictOutput" });
     case 1:
-      return S.Array(__S(12000, __c375, 0));
+      return S.Array(__S(12096, __c378, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23247,7 +23361,7 @@ function __c375(j: number): any {
         S.Struct({
           value: S.optional(S.Unknown),
           booleanVariationValue: S.optional(S.Boolean),
-          ruleClause: S.optional(__S(12002, __c375, 2)),
+          ruleClause: S.optional(__S(12098, __c378, 2)),
         }),
       ).annotate({ identifier: "ParameterDefault" });
     case 4:
@@ -23255,16 +23369,16 @@ function __c375(j: number): any {
         S.Struct({
           _id: S.optional(S.String),
           path: S.optional(S.String),
-          default: S.optional(__S(12003, __c375, 3)),
+          default: S.optional(__S(12099, __c378, 3)),
           valid: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WorkflowTemplateParameter" });
     case 5:
-      return S.Array(__S(12004, __c375, 4));
+      return S.Array(__S(12100, __c378, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(12005, __c375, 5)),
+          parameters: S.optional(__S(12101, __c378, 5)),
         }),
       ).annotate({ identifier: "WorkflowTemplateMetadata" });
     case 7:
@@ -23272,22 +23386,22 @@ function __c375(j: number): any {
         S.Struct({
           _id: S.String,
           _version: S.Number,
-          _conflicts: __S(12001, __c375, 1),
+          _conflicts: __S(12097, __c378, 1),
           _creationDate: S.Number,
           _maintainerId: S.String,
-          _links: __S(8992, __c281, 0),
+          _links: __S(9024, __c282, 0),
           name: S.String,
           description: S.optional(S.String),
           kind: S.optional(S.String),
-          stages: S.optional(__S(7751, __c242, 7)),
-          _execution: __S(7744, __c242, 0),
-          meta: S.optional(__S(12006, __c375, 6)),
+          stages: S.optional(__S(7783, __c243, 7)),
+          _execution: __S(7776, __c243, 0),
+          meta: S.optional(__S(12102, __c378, 6)),
           templateKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomWorkflowOutput" });
   }
 }
-function __c376(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23305,7 +23419,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "GetDestinationRequest" });
   }
 }
-function __c377(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23318,7 +23432,7 @@ function __c377(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.optional(S.String),
-          _links: S.optional(__S(8992, __c281, 0)),
+          _links: S.optional(__S(9024, __c282, 0)),
           name: S.optional(S.String),
           kind: S.optional(S.String),
           version: S.optional(S.Number),
@@ -23326,30 +23440,30 @@ function __c377(j: number): any {
           on: S.optional(S.Boolean),
           createdAt: S.optional(S.Number),
           maintainerId: S.optional(S.String),
-          _access: S.optional(__S(9187, __c287, 3)),
-          completedArtifacts: S.optional(__S(12064, __c377, 0)),
+          _access: S.optional(__S(9219, __c288, 3)),
+          completedArtifacts: S.optional(__S(12160, __c380, 0)),
         }),
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c378(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v2/destinations", code: 200 })),
       ).annotate({ identifier: "GetDestinationsRequest" });
     case 1:
-      return S.Array(__S(12065, __c377, 1));
+      return S.Array(__S(12161, __c380, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(8992, __c281, 0)),
-          items: S.optional(__S(12097, __c378, 1)),
+          _links: S.optional(__S(9024, __c282, 0)),
+          items: S.optional(__S(12193, __c381, 1)),
         }),
       ).annotate({ identifier: "Destinations" });
   }
 }
-function __c379(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23366,7 +23480,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "GetEnvironmentRequest" });
   }
 }
-function __c380(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

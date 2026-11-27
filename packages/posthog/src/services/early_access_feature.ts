@@ -77,6 +77,8 @@ export interface CreateEarlyAccessFeatureRequest {
   stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
   documentation_url?: string | undefined;
+  /** URL of an image that shows the feature, such as a screenshot. Shown to users in the opt-in UI. */
+  image_url?: string | undefined;
   /** Arbitrary JSON metadata associated with this feature. */
   payload?: unknown | undefined;
   /** Optional ID of an existing feature flag to link. If omitted, a new flag is auto-created from the feature name. The flag must not already be linked to another feature, must not belong to another product such as a survey or experiment, must not be group-based, and must not be multivariate. */
@@ -152,6 +154,8 @@ export interface EarlyAccessFeatureSerializerCreateOnlyOutput {
   stage?: EarlyAccessFeatureStageEnum | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
   documentation_url?: string | undefined;
+  /** URL of an image that shows the feature, such as a screenshot. Shown to users in the opt-in UI. */
+  image_url?: string | undefined;
   /** Arbitrary JSON metadata associated with this feature. */
   payload?: unknown | undefined;
   created_at?: string | undefined;
@@ -197,6 +201,8 @@ export interface EarlyAccessFeature2 {
   stage?: EarlyAccessFeatureStageEnum | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
   documentation_url?: string | undefined;
+  /** URL of an image that shows the feature, such as a screenshot. Shown to users in the opt-in UI. */
+  image_url?: string | undefined;
   /** Feature flag payload for this early access feature */
   payload?: EarlyAccessFeaturePayloadMap | undefined;
   created_at?: string | undefined;
@@ -207,13 +213,22 @@ export interface EarlyAccessFeature2 {
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
 }
+export type ListEarlyAccessFeatureRequestOrder = "-created_at" | "created_at";
 export interface ListEarlyAccessFeatureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Comma-separated user IDs. Only features created by one of them are listed. */
+  created_by_id?: string | undefined;
+  /** Comma-separated early access feature IDs, at most 200. */
+  ids?: string | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Sort by creation time: -created_at (default) for newest first, created_at for oldest first. */
+  order?: ListEarlyAccessFeatureRequestOrder | (string & {}) | undefined;
+  /** Case-insensitive match on the feature name. */
+  search?: string | undefined;
 }
 export type PaginatedEarlyAccessFeatureListResultsList = Array<EarlyAccessFeature2>;
 export interface PaginatedEarlyAccessFeatureList {
@@ -235,6 +250,8 @@ export interface UpdateEarlyAccessFeatureRequest {
   stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
   documentation_url?: string | undefined;
+  /** URL of an image that shows the feature, such as a screenshot. Shown to users in the opt-in UI. */
+  image_url?: string | undefined;
 }
 export interface UpdateEarlyAccessFeaturePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -249,6 +266,8 @@ export interface UpdateEarlyAccessFeaturePartialRequest {
   stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
   documentation_url?: string | undefined;
+  /** URL of an image that shows the feature, such as a screenshot. Shown to users in the opt-in UI. */
+  image_url?: string | undefined;
 }
 export type CreateEarlyAccessFeatureError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createEarlyAccessFeature: API.OperationMethod<
@@ -367,6 +386,7 @@ function __c0(j: number): any {
           description: S.optional(S.String),
           stage: S.optional(S.String),
           documentation_url: S.optional(S.String),
+          image_url: S.optional(S.String),
           payload: S.optional(S.Unknown),
           feature_flag_id: S.optional(S.Number),
           _create_in_folder: S.optional(S.String),
@@ -393,6 +413,7 @@ function __c0(j: number): any {
           description: S.optional(S.String),
           stage: S.optional(S.String),
           documentation_url: S.optional(S.String),
+          image_url: S.optional(S.String),
           payload: S.optional(S.Unknown),
           created_at: S.optional(S.String),
           created_by: S.optional(S.NullOr(__S(5, __c1, 1))),
@@ -498,6 +519,7 @@ function __c4(j: number): any {
           description: S.optional(S.String),
           stage: S.optional(S.String),
           documentation_url: S.optional(S.String),
+          image_url: S.optional(S.String),
           payload: S.optional(__S(4, __c1, 0)),
           created_at: S.optional(S.String),
           created_by: S.optional(S.NullOr(__S(5, __c1, 1))),
@@ -513,8 +535,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          created_by_id: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -547,6 +573,7 @@ function __c6(j: number): any {
           description: S.optional(S.String),
           stage: S.optional(S.String),
           documentation_url: S.optional(S.String),
+          image_url: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -568,6 +595,7 @@ function __c7(j: number): any {
           description: S.optional(S.String),
           stage: S.optional(S.String),
           documentation_url: S.optional(S.String),
+          image_url: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

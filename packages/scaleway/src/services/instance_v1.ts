@@ -1206,9 +1206,7 @@ export interface Dashboard {
   images_count?: number | undefined;
   snapshots_count?: number | undefined;
   servers_count?: number | undefined;
-  ips_count?: number | undefined;
   security_groups_count?: number | undefined;
-  ips_unused?: number | undefined;
   volumes_l_ssd_count?: number | undefined;
   /** (in bytes) */
   volumes_l_ssd_total_size?: number | undefined;
@@ -4893,9 +4891,7 @@ function __c33(j: number): any {
           images_count: S.optional(S.Number),
           snapshots_count: S.optional(S.Number),
           servers_count: S.optional(S.Number),
-          ips_count: S.optional(S.Number),
           security_groups_count: S.optional(S.Number),
-          ips_unused: S.optional(S.Number),
           volumes_l_ssd_count: S.optional(S.Number),
           volumes_l_ssd_total_size: S.optional(S.Number),
           private_nics_count: S.optional(S.Number),

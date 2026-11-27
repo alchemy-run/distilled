@@ -451,7 +451,7 @@ export interface Workspace {
   data_residency: DataResidency;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color: string;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id: string | null;
   /** ID of the Workspace. */
   id: string;
@@ -465,7 +465,7 @@ export interface Workspace {
   user_profile_id: string | null;
 }
 export interface AwsExternalKeyConfig {
-  /** Full ARN of the AWS KMS key. On Claude Platform on AWS, alias ARNs are rejected, and your organization's own key must be a single-Region key in your organization's AWS account. */
+  /** Full ARN of the AWS KMS key. On Claude Platform on AWS, alias ARNs are rejected, and your organization's own key must be a single-Region key. */
   kms_arn: string;
   /** AWS region. Derived from `kms_arn` if omitted. */
   region?: string | null | undefined;
@@ -504,7 +504,7 @@ export interface CreateExternalKeyRequest {
   geo?: string | undefined;
   /** KMS provider identity and auth coordinates. */
   provider_config: CreateExternalKeyRequestProviderConfig;
-  /** ID of a user profile to bind the key to. A user profile represents one of your customers: bind a customer's key to that customer's user profile. A key bound to a user profile can only be attached to a Workspace that has the same user profile, and the binding cannot be changed later. Omit this field only for your organization's own key, because a key created without a user profile ID can be attached to any Workspace, including another customer's. */
+  /** ID of a user profile to bind the key to. A user profile represents one of your customers: bind a customer's key to that customer's user profile. A key bound to a user profile can only be attached to a Workspace that has the same user profile, and the binding cannot be changed later. Omit this field only for your organization's own key, never a customer's. A key created without a user profile ID can't be attached to a Workspace that has a user profile, and you can't add one to the key later. */
   user_profile_id?: string | null | undefined;
 }
 export type AttachedAttachment = OrganizationScope;
@@ -532,7 +532,7 @@ export interface ExternalKey {
   provider_config: ExternalKeyProviderConfig;
   type: string;
   updated_at: string;
-  /** ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can be attached to a Workspace whatever its user profile. */
+  /** ID of the user profile the key is bound to, or null if the key is not bound to one. A key bound to a user profile can only be attached to a Workspace that has the same user profile. A key that isn't bound can only be attached to a Workspace that has no user profile. */
   user_profile_id: string | null;
 }
 /** How signing keys are obtained. Defaults to OIDC discovery. */
@@ -698,7 +698,7 @@ export interface CreateWorkspaceRequest {
   data_residency?: DataResidencyCreateParams | null | undefined;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color?: string | null | undefined;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string | null | undefined;
   /** Name of the Workspace. */
   name: string;
@@ -1778,7 +1778,7 @@ export type RateLimitGroup =
   | RateLimitSkillsGroup
   | RateLimitWebSearchGroup;
 export interface RateLimitValue {
-  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute`). */
+  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute_cache_aware`). */
   type: string;
   /** The configured limit value for this limiter type. */
   value: number;
@@ -1818,13 +1818,24 @@ export interface GetRbacRoleRequest {
   /** The version of the Claude API you want to use. Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning). */
   anthropicVersion?: string | undefined;
 }
+export interface RbacRoleSourceBuiltIn {
+  /** Anthropic provisions the RBAC Role, and the organization's administrators cannot change or delete it. */
+  type: string;
+}
+export interface RbacRoleSourceCustom {
+  /** The organization's administrators can change and delete the RBAC Role. */
+  type: string;
+}
+export type RbacRoleSource = RbacRoleSourceBuiltIn | RbacRoleSourceCustom;
 export interface RbacRole {
   /** RFC 3339 datetime string indicating when the RBAC Role was created. */
   created_at: string;
-  /** Name of the RBAC Role. For a role created by Anthropic, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`. */
+  /** Name of the RBAC Role. For a built-in role, this is Anthropic's name for the access that the role grants. Anthropic may change this name, so to keep a lasting reference to a role, store its `id`. */
   display_name: string;
   /** ID of the RBAC Role. */
   id: string;
+  /** Whether the RBAC Role is built-in or custom. More values of `type` may be added, so do not treat every role that is not `built_in` as `custom`. */
+  source: RbacRoleSource;
   /** Object type. For RBAC Roles, this is always `"rbac_role"`. */
   type: string;
   /** RFC 3339 datetime string indicating when the RBAC Role was last updated. */
@@ -1930,7 +1941,7 @@ export interface WorkspaceRateLimitValue {
   org_limit: number | null;
   /** Where `value` comes from. `organization` values are listed only when `include_inherited` is `true`, and then `value` equals `org_limit`. */
   source: WorkspaceRateLimitValueSource;
-  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute`). */
+  /** The limiter type (for example, `requests_per_minute` or `input_tokens_per_minute_cache_aware`). */
   type: string;
   /** The workspace's value for this limiter type: the workspace-level override when `source.type` is `workspace`, otherwise the organization's value. */
   value: number;
@@ -2557,13 +2568,13 @@ export interface UpdateWorkspaceRequest {
   data_residency?: DataResidencyUpdateParams | null | undefined;
   /** Hex color code representing the Workspace in the Anthropic Console. */
   display_color?: string | undefined;
-  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same AWS account and Region as the Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
+  /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string | undefined;
   /** Name of the Workspace. */
   name?: string | undefined;
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
   tags?: UpdateWorkspaceRequestTagsMap | null | undefined;
-  /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. The default Workspace can't have a user profile. */
+  /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. It can't be set on a Workspace whose External Key isn't bound to this user profile. The default Workspace can't have a user profile. */
   user_profile_id?: string | undefined;
 }
 export interface UpdateWorkspaceMemberRequest {
@@ -2576,7 +2587,7 @@ export interface UpdateWorkspaceMemberRequest {
   /** New workspace role for the User. */
   workspace_role: WorkspaceRoleSchema | (string & {});
 }
-/** Rate limiter type. */
+/** Rate limiter type. `input_tokens_per_minute` counts every input token, cache reads included. `input_tokens_per_minute_cache_aware` does not count cache reads, and on current models the organization's input-token limit usually has this type. A workspace limit of either type applies alongside the organization's limit, not in place of it. Because cache reads count toward an `input_tokens_per_minute` limit, it can reject requests that read mostly from the cache while the organization's limit still has room. */
 export type WorkspaceRateLimitUpdateValueType =
   | "fast_itpmca"
   | "fast_otpm"
@@ -2588,7 +2599,7 @@ export type WorkspaceRateLimitUpdateValueType =
   | "tokens_per_minute"
   | "tool_uses_per_second";
 export interface WorkspaceRateLimitUpdateValue {
-  /** Rate limiter type. */
+  /** Rate limiter type. `input_tokens_per_minute` counts every input token, cache reads included. `input_tokens_per_minute_cache_aware` does not count cache reads, and on current models the organization's input-token limit usually has this type. A workspace limit of either type applies alongside the organization's limit, not in place of it. Because cache reads count toward an `input_tokens_per_minute` limit, it can reject requests that read mostly from the cache while the organization's limit still has room. */
   type: WorkspaceRateLimitUpdateValueType | (string & {});
   /** New limit value. Set to null to clear the workspace override and fall back to the organization limit. */
   value: number | null;
@@ -4198,7 +4209,7 @@ export const updateComplianceSettings: API.OperationMethod<
 }));
 
 export type UpdateExternalKeyError = AnthropicOpError;
-/** Update External Key Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable. `geo` and `provider_config` cannot be changed once any workspace references this config, because previously encrypted data requires the original key identity to decrypt. */
+/** Update External Key Partially update an external key config. Omitted fields are left unchanged. `display_name` is always editable. `geo` and `provider_config` cannot be changed once any workspace references this config, and a Google Cloud key's provider and `key_name` cannot be changed at all. */
 export const updateExternalKey: API.OperationMethod<
   UpdateExternalKeyRequest,
   ExternalKey,
@@ -5655,6 +5666,7 @@ function __c48(j: number): any {
           created_at: S.String,
           display_name: S.String,
           id: S.String,
+          source: S.Unknown,
           type: S.String,
           updated_at: S.String,
         }),

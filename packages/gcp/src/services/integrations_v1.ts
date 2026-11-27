@@ -99,31 +99,31 @@ export interface GoogleCloudIntegrationsV1alphaCancelExecutionResponse {
 }
 /** Configuration information for Client's Cloud KMS information */
 export interface GoogleCloudIntegrationsV1alphaCloudKmsConfig {
-  /** Required. A key ring organizes keys in a specific Google Cloud location and allows you to manage access control on groups of keys. A key ring's name does not need to be unique across a Google Cloud project, but must be unique within a given location. */
-  kmsRing?: string | undefined;
   /** Optional. The gcp project id of the project where the kms key stored. If empty, the kms key is stored at the same project as customer's project and ecrypted with CMEK, otherwise, the kms key is stored in the tenant project and encrypted with GMEK */
   kmsProjectId?: string | undefined;
-  /** Optional. Each version of a key contains key material used for encryption or signing. A key's version is represented by an integer, starting at 1. To decrypt data or verify a signature, you must use the same key version that was used to encrypt or sign the data. */
-  keyVersion?: string | undefined;
   /** Required. Location name of the key ring, e.g. "us-west1". */
   kmsLocation?: string | undefined;
+  /** Required. A key ring organizes keys in a specific Google Cloud location and allows you to manage access control on groups of keys. A key ring's name does not need to be unique across a Google Cloud project, but must be unique within a given location. */
+  kmsRing?: string | undefined;
+  /** Optional. Each version of a key contains key material used for encryption or signing. A key's version is represented by an integer, starting at 1. To decrypt data or verify a signature, you must use the same key version that was used to encrypt or sign the data. */
+  keyVersion?: string | undefined;
   /** Required. A Cloud KMS key is a named object containing one or more key versions, along with metadata for the key. A key exists on exactly one key ring tied to a specific location. */
   key?: string | undefined;
 }
 /** Customer configuration information for the given client */
 export interface GoogleCloudIntegrationsV1alphaCustomerConfig {
-  /** Optional. Indicates if the client should be allowed to make HTTP calls. True if http call feature should be turned on for this region. */
-  enableHttpCall?: boolean | undefined;
+  /** Optional. True if every integration in this region should run under the hardened end-user-credential flow. See go/ip-euc-harden. */
+  enableEucHardenedFlow?: boolean | undefined;
   /** Optional. Indicates if the client should be allowed to use managed AI features, i.e. using Cloud Companion APIs of the tenant project. This will allow the customers to use features like Troubleshooting, OpenAPI spec enrichment, etc. for free. */
   enableManagedAiFeatures?: boolean | undefined;
   /** Optional. True if variable masking feature should be turned on for this region. */
   enableVariableMasking?: boolean | undefined;
+  /** Optional. Indicates if the client should be allowed to make HTTP calls. True if http call feature should be turned on for this region. */
+  enableHttpCall?: boolean | undefined;
   /** Optional. Run-as service account to be updated for the provisioned client. */
   runAsServiceAccount?: string | undefined;
   /** Optional. Cloud KMS config for Auth Module to encrypt/decrypt credentials. */
   cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
-  /** Optional. True if every integration in this region should run under the hardened end-user-credential flow. See go/ip-euc-harden. */
-  enableEucHardenedFlow?: boolean | undefined;
 }
 /** Request for the ChangeCustomerConfig rpc */
 export interface GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest {
@@ -157,18 +157,7 @@ export interface GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse {
   /** The created AppsScriptProject ID. */
   projectId?: string | undefined;
 }
-export type GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum =
-  | "AUTH_CONFIG_VISIBILITY_UNSPECIFIED"
-  | "PRIVATE"
-  | "CLIENT_VISIBLE";
-export type GoogleCloudIntegrationsV1alphaAuthConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "VALID"
-  | "INVALID"
-  | "SOFT_DELETED"
-  | "EXPIRED"
-  | "UNAUTHORIZED"
-  | "UNSUPPORTED";
+export type StringList = Array<string>;
 export type GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum =
   | "CREDENTIAL_TYPE_UNSPECIFIED"
   | "USERNAME_AND_PASSWORD"
@@ -184,41 +173,17 @@ export type GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum =
   | "OIDC_TOKEN";
 /** The access token represents the authorization of a specific application to access specific parts of a user's data. */
 export interface GoogleCloudIntegrationsV1alphaAccessToken {
+  /** The approximate time until the refresh token retrieved is valid. */
+  refreshTokenExpireTime?: string | undefined;
+  /** The access token encapsulating the security identity of a process or thread. */
+  accessToken?: string | undefined;
   /** Only support "bearer" token in v1 as bearer token is the predominant type used with OAuth 2.0. */
   tokenType?: string | undefined;
   /** If the access token will expire, use the refresh token to obtain another access token. */
   refreshToken?: string | undefined;
-  /** The approximate time until the refresh token retrieved is valid. */
-  refreshTokenExpireTime?: string | undefined;
   /** Required. The approximate time until the access token retrieved is valid. */
   accessTokenExpireTime?: string | undefined;
-  /** The access token encapsulating the security identity of a process or thread. */
-  accessToken?: string | undefined;
 }
-export type GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentialsRequestTypeEnum =
-  | "REQUEST_TYPE_UNSPECIFIED"
-  | "REQUEST_BODY"
-  | "QUERY_PARAMETERS"
-  | "ENCODED_HEADER";
-export type GoogleCloudIntegrationsV1alphaParameterMapKeyTypeEnum =
-  | "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED"
-  | "STRING_VALUE"
-  | "INT_VALUE"
-  | "DOUBLE_VALUE"
-  | "BOOLEAN_VALUE"
-  | "STRING_ARRAY"
-  | "INT_ARRAY"
-  | "DOUBLE_ARRAY"
-  | "BOOLEAN_ARRAY"
-  | "JSON_VALUE"
-  | "PROTO_VALUE"
-  | "PROTO_ARRAY"
-  | "NON_SERIALIZABLE_OBJECT"
-  | "PROTO_ENUM"
-  | "SERIALIZED_OBJECT_VALUE"
-  | "PROTO_ENUM_ARRAY"
-  | "BYTES"
-  | "BYTES_ARRAY";
 export type GoogleCloudIntegrationsV1alphaParameterMapValueTypeEnum =
   | "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED"
   | "STRING_VALUE"
@@ -238,7 +203,18 @@ export type GoogleCloudIntegrationsV1alphaParameterMapValueTypeEnum =
   | "PROTO_ENUM_ARRAY"
   | "BYTES"
   | "BYTES_ARRAY";
-export type StringList = Array<string>;
+export type DoubleList = Array<number>;
+/** This message only contains a field of double number array. */
+export interface GoogleCloudIntegrationsV1alphaDoubleParameterArray {
+  /** Double number array. */
+  doubleValues?: DoubleList | undefined;
+}
+export type BooleanList = Array<boolean>;
+/** This message only contains a field of boolean array. */
+export interface GoogleCloudIntegrationsV1alphaBooleanParameterArray {
+  /** Boolean array. */
+  booleanValues?: BooleanList | undefined;
+}
 /** This message only contains a field of string array. */
 export interface GoogleCloudIntegrationsV1alphaStringParameterArray {
   /** String array. */
@@ -249,38 +225,26 @@ export interface GoogleCloudIntegrationsV1alphaIntParameterArray {
   /** Integer array. */
   intValues?: StringList | undefined;
 }
-export type BooleanList = Array<boolean>;
-/** This message only contains a field of boolean array. */
-export interface GoogleCloudIntegrationsV1alphaBooleanParameterArray {
-  /** Boolean array. */
-  booleanValues?: BooleanList | undefined;
-}
-export type DoubleList = Array<number>;
-/** This message only contains a field of double number array. */
-export interface GoogleCloudIntegrationsV1alphaDoubleParameterArray {
-  /** Double number array. */
-  doubleValues?: DoubleList | undefined;
-}
 /** The type of the parameter. */
 export interface GoogleCloudIntegrationsV1alphaValueType {
-  /** String. */
-  stringValue?: string | undefined;
   /** Integer. */
   intValue?: string | undefined;
-  /** String Array. */
-  stringArray?: GoogleCloudIntegrationsV1alphaStringParameterArray | undefined;
-  /** Boolean. */
-  booleanValue?: boolean | undefined;
-  /** Integer Array. */
-  intArray?: GoogleCloudIntegrationsV1alphaIntParameterArray | undefined;
-  /** Json. */
-  jsonValue?: string | undefined;
-  /** Boolean Array. */
-  booleanArray?: GoogleCloudIntegrationsV1alphaBooleanParameterArray | undefined;
   /** Double Number. */
   doubleValue?: number | undefined;
+  /** String. */
+  stringValue?: string | undefined;
   /** Double Number Array. */
   doubleArray?: GoogleCloudIntegrationsV1alphaDoubleParameterArray | undefined;
+  /** Boolean Array. */
+  booleanArray?: GoogleCloudIntegrationsV1alphaBooleanParameterArray | undefined;
+  /** Boolean. */
+  booleanValue?: boolean | undefined;
+  /** String Array. */
+  stringArray?: GoogleCloudIntegrationsV1alphaStringParameterArray | undefined;
+  /** Json. */
+  jsonValue?: string | undefined;
+  /** Integer Array. */
+  intArray?: GoogleCloudIntegrationsV1alphaIntParameterArray | undefined;
 }
 /** Field represents either the key or value in an entry. */
 export interface GoogleCloudIntegrationsV1alphaParameterMapField {
@@ -291,310 +255,14 @@ export interface GoogleCloudIntegrationsV1alphaParameterMapField {
 }
 /** Entry is a pair of key and value. */
 export interface GoogleCloudIntegrationsV1alphaParameterMapEntry {
-  /** Key of the map entry. */
-  key?: GoogleCloudIntegrationsV1alphaParameterMapField | undefined;
   /** Value of the map entry. */
   value?: GoogleCloudIntegrationsV1alphaParameterMapField | undefined;
+  /** Key of the map entry. */
+  key?: GoogleCloudIntegrationsV1alphaParameterMapField | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaParameterMapEntryList =
   Array<GoogleCloudIntegrationsV1alphaParameterMapEntry>;
-/** A generic multi-map that holds key value pairs. They keys and values can be of any type, unless specified. */
-export interface GoogleCloudIntegrationsV1alphaParameterMap {
-  /** Option to specify key type for all entries of the map. If provided then field types for all entries must conform to this. */
-  keyType?: GoogleCloudIntegrationsV1alphaParameterMapKeyTypeEnum | (string & {}) | undefined;
-  /** Option to specify value type for all entries of the map. If provided then field types for all entries must conform to this. */
-  valueType?: GoogleCloudIntegrationsV1alphaParameterMapValueTypeEnum | (string & {}) | undefined;
-  /** A list of parameter map entries. */
-  entries?: GoogleCloudIntegrationsV1alphaParameterMapEntryList | undefined;
-}
-/** For resource owner credentials grant, the client will ask the user for their authorization credentials (ususally a username and password) and send a POST request to the authorization server. The authorization server will respond with a JSON object containing the access token. */
-export interface GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials {
-  /** Access token fetched from the authorization server. */
-  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
-  /** A space-delimited list of requested scope permissions. */
-  scope?: string | undefined;
-  /** The user's password. */
-  password?: string | undefined;
-  /** Represent how to pass parameters to fetch access token */
-  requestType?:
-    | GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentialsRequestTypeEnum
-    | (string & {})
-    | undefined;
-  /** Token parameters for the auth request. */
-  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
-  /** The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token. */
-  tokenEndpoint?: string | undefined;
-  /** The client's ID. */
-  clientId?: string | undefined;
-  /** The client's secret. */
-  clientSecret?: string | undefined;
-  /** The user's username. */
-  username?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaOAuth2ClientCredentialsRequestTypeEnum =
-  | "REQUEST_TYPE_UNSPECIFIED"
-  | "REQUEST_BODY"
-  | "QUERY_PARAMETERS"
-  | "ENCODED_HEADER";
-/** For client credentials grant, the client sends a POST request with grant_type as 'client_credentials' to the authorization server. The authorization server will respond with a JSON object containing the access token. */
-export interface GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials {
-  /** Token parameters for the auth request. */
-  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
-  /** The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token. */
-  tokenEndpoint?: string | undefined;
-  /** The client's ID. */
-  clientId?: string | undefined;
-  /** Represent how to pass parameters to fetch access token */
-  requestType?:
-    | GoogleCloudIntegrationsV1alphaOAuth2ClientCredentialsRequestTypeEnum
-    | (string & {})
-    | undefined;
-  /** A space-delimited list of requested scope permissions. */
-  scope?: string | undefined;
-  /** The client's secret. */
-  clientSecret?: string | undefined;
-  /** Access token fetched from the authorization server. */
-  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
-}
-/** Username and password pair. */
-export interface GoogleCloudIntegrationsV1alphaUsernameAndPassword {
-  /** Username to be used */
-  username?: string | undefined;
-  /** Password to be used */
-  password?: string | undefined;
-}
-/** OIDC Token */
-export interface GoogleCloudIntegrationsV1alphaOidcToken {
-  /** The approximate time until the token retrieved is valid. */
-  tokenExpireTime?: string | undefined;
-  /** ID token obtained for the service account */
-  token?: string | undefined;
-  /** The service account email to be used as the identity for the token. */
-  serviceAccountEmail?: string | undefined;
-  /** Audience to be used when generating OIDC token. The audience claim identifies the recipients that the JWT is intended for. */
-  audience?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaCredentialCredentialTypeEnum =
-  | "CREDENTIAL_TYPE_UNSPECIFIED"
-  | "USERNAME_AND_PASSWORD"
-  | "API_KEY"
-  | "OAUTH2_AUTHORIZATION_CODE"
-  | "OAUTH2_IMPLICIT"
-  | "OAUTH2_CLIENT_CREDENTIALS"
-  | "OAUTH2_RESOURCE_OWNER_CREDENTIALS"
-  | "JWT"
-  | "AUTH_TOKEN"
-  | "SERVICE_ACCOUNT"
-  | "CLIENT_CERTIFICATE_ONLY"
-  | "OIDC_TOKEN";
-export type GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCodeRequestTypeEnum =
-  | "REQUEST_TYPE_UNSPECIFIED"
-  | "REQUEST_BODY"
-  | "QUERY_PARAMETERS"
-  | "ENCODED_HEADER";
-/** The OAuth Type where the client sends request with the client id and requested scopes to auth endpoint. User sees a consent screen and auth code is received at specified redirect url afterwards. The auth code is then combined with the client id and secret and sent to the token endpoint in exchange for the access and refresh token. The refresh token can be used to fetch new access tokens. */
-export interface GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode {
-  /** The access token received from the token endpoint. */
-  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
-  /** The token url endpoint to send the token request to. */
-  tokenEndpoint?: string | undefined;
-  /** A space-delimited list of requested scope permissions. */
-  scope?: string | undefined;
-  /** The Auth Code that is used to initially retrieve the access token. */
-  authCode?: string | undefined;
-  /** Represent how to pass parameters to fetch access token */
-  requestType?:
-    | GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCodeRequestTypeEnum
-    | (string & {})
-    | undefined;
-  /** The auth url endpoint to send the auth code request to. */
-  authEndpoint?: string | undefined;
-  /** Indicates if the user has opted in Google Reauth Policy. If opted in, the refresh token will be valid for 20 hours, after which time users must re-authenticate in order to obtain a new one. */
-  applyReauthPolicy?: boolean | undefined;
-  /** The token parameters sent along with the token request. */
-  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
-  /** The client's secret. */
-  clientSecret?: string | undefined;
-  /** The client's id. */
-  clientId?: string | undefined;
-  /** The auth parameters sent along with the auth code request. */
-  authParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
-}
-/** The credentials to authenticate a user agent with a server that is put in HTTP Authorization request header. */
-export interface GoogleCloudIntegrationsV1alphaAuthToken {
-  /** The token for the auth type. */
-  token?: string | undefined;
-  /** Authentication type, e.g. "Basic", "Bearer", etc. */
-  type?: string | undefined;
-}
-/** Represents JSON web token(JWT), which is a compact, URL-safe means of representing claims to be transferred between two parties, enabling the claims to be digitally signed or integrity protected. */
-export interface GoogleCloudIntegrationsV1alphaJwt {
-  /** Identifies which algorithm is used to generate the signature. */
-  jwtHeader?: string | undefined;
-  /** Contains a set of claims. The JWT specification defines seven Registered Claim Names which are the standard fields commonly included in tokens. Custom claims are usually also included, depending on the purpose of the token. */
-  jwtPayload?: string | undefined;
-  /** The token calculated by the header, payload and signature. */
-  jwt?: string | undefined;
-  /** User's pre-shared secret to sign the token. */
-  secret?: string | undefined;
-}
-/** Represents the service account which can be used to generate access token for authenticating the service call. */
-export interface GoogleCloudIntegrationsV1alphaServiceAccountCredentials {
-  /** Name of the service account that has the permission to make the request. */
-  serviceAccount?: string | undefined;
-  /** A space-delimited list of requested scope permissions. */
-  scope?: string | undefined;
-}
-/** Defines parameters for a single, canonical credential. */
-export interface GoogleCloudIntegrationsV1alphaCredential {
-  /** OAuth2 resource owner credentials */
-  oauth2ResourceOwnerCredentials?:
-    | GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials
-    | undefined;
-  /** OAuth2Implicit oauth2_implicit = 5; OAuth2 client credentials */
-  oauth2ClientCredentials?: GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials | undefined;
-  /** Username and password credential */
-  usernameAndPassword?: GoogleCloudIntegrationsV1alphaUsernameAndPassword | undefined;
-  /** Google OIDC ID Token */
-  oidcToken?: GoogleCloudIntegrationsV1alphaOidcToken | undefined;
-  /** Credential type associated with auth config. */
-  credentialType?:
-    | GoogleCloudIntegrationsV1alphaCredentialCredentialTypeEnum
-    | (string & {})
-    | undefined;
-  /** The api_key and oauth2_implicit are not covered in v1 and will be picked up once v1 is implemented. ApiKey api_key = 3; OAuth2 authorization code credential */
-  oauth2AuthorizationCode?: GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode | undefined;
-  /** Auth token credential */
-  authToken?: GoogleCloudIntegrationsV1alphaAuthToken | undefined;
-  /** JWT credential */
-  jwt?: GoogleCloudIntegrationsV1alphaJwt | undefined;
-  /** Service account credential */
-  serviceAccountCredentials?: GoogleCloudIntegrationsV1alphaServiceAccountCredentials | undefined;
-}
-/** The AuthConfig resource use to hold channels and connection config data. */
-export interface GoogleCloudIntegrationsV1alphaAuthConfig {
-  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  name?: string | undefined;
-  /** Certificate id for client certificate */
-  certificateId?: string | undefined;
-  /** Optional. A description of the auth config. */
-  description?: string | undefined;
-  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
-  overrideValidTime?: string | undefined;
-  /** Required. The name of the auth config. */
-  displayName?: string | undefined;
-  /** Output only. The timestamp when the auth config is modified. */
-  updateTime?: string | undefined;
-  /** Optional. The visibility of the auth config. */
-  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | (string & {}) | undefined;
-  /** Output only. The status of the auth config. */
-  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | (string & {}) | undefined;
-  /** Required. Credential type of the encrypted credential. */
-  credentialType?:
-    | GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum
-    | (string & {})
-    | undefined;
-  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
-  validTime?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Raw auth credentials. */
-  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
-  /** Output only. The reason / details of the current status. */
-  reason?: string | undefined;
-  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
-  expiryNotificationDuration?: StringList | undefined;
-  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
-  encryptedCredential?: string | undefined;
-  /** Output only. The timestamp when the auth config is created. */
-  createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsAuthConfigsRequest extends GoogleCloudIntegrationsV1alphaAuthConfig {
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.encryptedPrivateKey"?: string | undefined;
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
-  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
-  "clientCertificate.passphrase"?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.sslCertificate"?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "EXPIRED";
-/** Contains client certificate information */
-export interface GoogleCloudIntegrationsV1alphaClientCertificate {
-  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
-  passphrase?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  encryptedPrivateKey?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  sslCertificate?: string | undefined;
-}
-/** The certificate definition */
-export interface GoogleCloudIntegrationsV1alphaCertificate {
-  /** Output only. The timestamp after which certificate will expire */
-  validEndTime?: string | undefined;
-  /** Status of the certificate */
-  certificateStatus?:
-    | GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum
-    | (string & {})
-    | undefined;
-  /** Input only. Raw client certificate which would be registered with trawler */
-  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
-  /** Immutable. Credential id that will be used to register with trawler */
-  credentialId?: string | undefined;
-  /** Required. Name of the certificate */
-  displayName?: string | undefined;
-  /** Output only. Auto generated primary key */
-  name?: string | undefined;
-  /** Description of the certificate */
-  description?: string | undefined;
-  /** Immutable. Requestor ID to be used to register certificate with trawler */
-  requestorId?: string | undefined;
-  /** Output only. The timestamp after which certificate will be valid */
-  validStartTime?: string | undefined;
-}
-export interface CreateProjectsLocationsCertificatesRequest extends GoogleCloudIntegrationsV1alphaCertificate {
-  /** Required. "projects/{project}/locations/{location}" format. */
-  parent: string;
-}
-export type GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum =
-  | "GCF_API_VERSION_UNSPECIFIED"
-  | "API_VERSION_V1"
-  | "API_VERSION_V2";
-/** Request for Creating Cloud Function rpc call. */
-export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
-  /** The function region of CF to be created */
-  functionRegion?: string | undefined;
-  /** Optional. The api version of CF to be created */
-  gcfApiVersion?:
-    | GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum
-    | (string & {})
-    | undefined;
-  /** Indicates the id of the GCP project that the function will be created in. */
-  projectId?: string | undefined;
-  /** The function name of CF to be created */
-  functionName?: string | undefined;
-}
-export interface CreateProjectsLocationsCloudFunctionsRequest extends GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
-  /** Required. The project that the executed integration belongs to. */
-  parent: string;
-}
-/** Response for Creating Cloud Function rpc call. */
-export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse {
-  /** The trigger url that will be returned */
-  triggerUrl?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaIntegrationParameterInputOutputTypeEnum =
-  | "IN_OUT_TYPE_UNSPECIFIED"
-  | "IN"
-  | "OUT"
-  | "IN_OUT";
-export type GoogleCloudIntegrationsV1alphaIntegrationParameterDataTypeEnum =
+export type GoogleCloudIntegrationsV1alphaParameterMapKeyTypeEnum =
   | "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED"
   | "STRING_VALUE"
   | "INT_VALUE"
@@ -613,393 +281,507 @@ export type GoogleCloudIntegrationsV1alphaIntegrationParameterDataTypeEnum =
   | "PROTO_ENUM_ARRAY"
   | "BYTES"
   | "BYTES_ARRAY";
-/** Integration Parameter is defined in the integration config and are used to provide information about data types of the expected parameters and provide any default values if needed. They can also be used to add custom attributes. These are static in nature and should not be used for dynamic event definition. */
-export interface GoogleCloudIntegrationsV1alphaIntegrationParameter {
-  /** Specifies the input/output type for the parameter. */
-  inputOutputType?:
-    | GoogleCloudIntegrationsV1alphaIntegrationParameterInputOutputTypeEnum
+/** A generic multi-map that holds key value pairs. They keys and values can be of any type, unless specified. */
+export interface GoogleCloudIntegrationsV1alphaParameterMap {
+  /** Option to specify value type for all entries of the map. If provided then field types for all entries must conform to this. */
+  valueType?: GoogleCloudIntegrationsV1alphaParameterMapValueTypeEnum | (string & {}) | undefined;
+  /** A list of parameter map entries. */
+  entries?: GoogleCloudIntegrationsV1alphaParameterMapEntryList | undefined;
+  /** Option to specify key type for all entries of the map. If provided then field types for all entries must conform to this. */
+  keyType?: GoogleCloudIntegrationsV1alphaParameterMapKeyTypeEnum | (string & {}) | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentialsRequestTypeEnum =
+  | "REQUEST_TYPE_UNSPECIFIED"
+  | "REQUEST_BODY"
+  | "QUERY_PARAMETERS"
+  | "ENCODED_HEADER";
+/** For resource owner credentials grant, the client will ask the user for their authorization credentials (ususally a username and password) and send a POST request to the authorization server. The authorization server will respond with a JSON object containing the access token. */
+export interface GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials {
+  /** The user's username. */
+  username?: string | undefined;
+  /** Access token fetched from the authorization server. */
+  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
+  /** A space-delimited list of requested scope permissions. */
+  scope?: string | undefined;
+  /** The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token. */
+  tokenEndpoint?: string | undefined;
+  /** The client's ID. */
+  clientId?: string | undefined;
+  /** The client's secret. */
+  clientSecret?: string | undefined;
+  /** Token parameters for the auth request. */
+  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
+  /** The user's password. */
+  password?: string | undefined;
+  /** Represent how to pass parameters to fetch access token */
+  requestType?:
+    | GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentialsRequestTypeEnum
     | (string & {})
     | undefined;
-  /** The name (without prefix) to be displayed in the UI for this parameter. E.g. if the key is "foo.bar.myName", then the name would be "myName". */
+}
+/** Represents the service account which can be used to generate access token for authenticating the service call. */
+export interface GoogleCloudIntegrationsV1alphaServiceAccountCredentials {
+  /** Name of the service account that has the permission to make the request. */
+  serviceAccount?: string | undefined;
+  /** A space-delimited list of requested scope permissions. */
+  scope?: string | undefined;
+}
+/** Represents JSON web token(JWT), which is a compact, URL-safe means of representing claims to be transferred between two parties, enabling the claims to be digitally signed or integrity protected. */
+export interface GoogleCloudIntegrationsV1alphaJwt {
+  /** User's pre-shared secret to sign the token. */
+  secret?: string | undefined;
+  /** The token calculated by the header, payload and signature. */
+  jwt?: string | undefined;
+  /** Identifies which algorithm is used to generate the signature. */
+  jwtHeader?: string | undefined;
+  /** Contains a set of claims. The JWT specification defines seven Registered Claim Names which are the standard fields commonly included in tokens. Custom claims are usually also included, depending on the purpose of the token. */
+  jwtPayload?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaOAuth2ClientCredentialsRequestTypeEnum =
+  | "REQUEST_TYPE_UNSPECIFIED"
+  | "REQUEST_BODY"
+  | "QUERY_PARAMETERS"
+  | "ENCODED_HEADER";
+/** For client credentials grant, the client sends a POST request with grant_type as 'client_credentials' to the authorization server. The authorization server will respond with a JSON object containing the access token. */
+export interface GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials {
+  /** Represent how to pass parameters to fetch access token */
+  requestType?:
+    | GoogleCloudIntegrationsV1alphaOAuth2ClientCredentialsRequestTypeEnum
+    | (string & {})
+    | undefined;
+  /** The client's ID. */
+  clientId?: string | undefined;
+  /** The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token. */
+  tokenEndpoint?: string | undefined;
+  /** A space-delimited list of requested scope permissions. */
+  scope?: string | undefined;
+  /** Token parameters for the auth request. */
+  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
+  /** The client's secret. */
+  clientSecret?: string | undefined;
+  /** Access token fetched from the authorization server. */
+  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaCredentialCredentialTypeEnum =
+  | "CREDENTIAL_TYPE_UNSPECIFIED"
+  | "USERNAME_AND_PASSWORD"
+  | "API_KEY"
+  | "OAUTH2_AUTHORIZATION_CODE"
+  | "OAUTH2_IMPLICIT"
+  | "OAUTH2_CLIENT_CREDENTIALS"
+  | "OAUTH2_RESOURCE_OWNER_CREDENTIALS"
+  | "JWT"
+  | "AUTH_TOKEN"
+  | "SERVICE_ACCOUNT"
+  | "CLIENT_CERTIFICATE_ONLY"
+  | "OIDC_TOKEN";
+/** OIDC Token */
+export interface GoogleCloudIntegrationsV1alphaOidcToken {
+  /** Audience to be used when generating OIDC token. The audience claim identifies the recipients that the JWT is intended for. */
+  audience?: string | undefined;
+  /** The approximate time until the token retrieved is valid. */
+  tokenExpireTime?: string | undefined;
+  /** The service account email to be used as the identity for the token. */
+  serviceAccountEmail?: string | undefined;
+  /** ID token obtained for the service account */
+  token?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCodeRequestTypeEnum =
+  | "REQUEST_TYPE_UNSPECIFIED"
+  | "REQUEST_BODY"
+  | "QUERY_PARAMETERS"
+  | "ENCODED_HEADER";
+/** The OAuth Type where the client sends request with the client id and requested scopes to auth endpoint. User sees a consent screen and auth code is received at specified redirect url afterwards. The auth code is then combined with the client id and secret and sent to the token endpoint in exchange for the access and refresh token. The refresh token can be used to fetch new access tokens. */
+export interface GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode {
+  /** The client's secret. */
+  clientSecret?: string | undefined;
+  /** Indicates if the user has opted in Google Reauth Policy. If opted in, the refresh token will be valid for 20 hours, after which time users must re-authenticate in order to obtain a new one. */
+  applyReauthPolicy?: boolean | undefined;
+  /** The token parameters sent along with the token request. */
+  tokenParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
+  /** The Auth Code that is used to initially retrieve the access token. */
+  authCode?: string | undefined;
+  /** Represent how to pass parameters to fetch access token */
+  requestType?:
+    | GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCodeRequestTypeEnum
+    | (string & {})
+    | undefined;
+  /** The client's id. */
+  clientId?: string | undefined;
+  /** The auth parameters sent along with the auth code request. */
+  authParams?: GoogleCloudIntegrationsV1alphaParameterMap | undefined;
+  /** The auth url endpoint to send the auth code request to. */
+  authEndpoint?: string | undefined;
+  /** A space-delimited list of requested scope permissions. */
+  scope?: string | undefined;
+  /** The token url endpoint to send the token request to. */
+  tokenEndpoint?: string | undefined;
+  /** The access token received from the token endpoint. */
+  accessToken?: GoogleCloudIntegrationsV1alphaAccessToken | undefined;
+}
+/** The credentials to authenticate a user agent with a server that is put in HTTP Authorization request header. */
+export interface GoogleCloudIntegrationsV1alphaAuthToken {
+  /** Authentication type, e.g. "Basic", "Bearer", etc. */
+  type?: string | undefined;
+  /** The token for the auth type. */
+  token?: string | undefined;
+}
+/** Username and password pair. */
+export interface GoogleCloudIntegrationsV1alphaUsernameAndPassword {
+  /** Username to be used */
+  username?: string | undefined;
+  /** Password to be used */
+  password?: string | undefined;
+}
+/** Defines parameters for a single, canonical credential. */
+export interface GoogleCloudIntegrationsV1alphaCredential {
+  /** OAuth2 resource owner credentials */
+  oauth2ResourceOwnerCredentials?:
+    | GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials
+    | undefined;
+  /** Service account credential */
+  serviceAccountCredentials?: GoogleCloudIntegrationsV1alphaServiceAccountCredentials | undefined;
+  /** JWT credential */
+  jwt?: GoogleCloudIntegrationsV1alphaJwt | undefined;
+  /** OAuth2Implicit oauth2_implicit = 5; OAuth2 client credentials */
+  oauth2ClientCredentials?: GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials | undefined;
+  /** Credential type associated with auth config. */
+  credentialType?:
+    | GoogleCloudIntegrationsV1alphaCredentialCredentialTypeEnum
+    | (string & {})
+    | undefined;
+  /** Google OIDC ID Token */
+  oidcToken?: GoogleCloudIntegrationsV1alphaOidcToken | undefined;
+  /** The api_key and oauth2_implicit are not covered in v1 and will be picked up once v1 is implemented. ApiKey api_key = 3; OAuth2 authorization code credential */
+  oauth2AuthorizationCode?: GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode | undefined;
+  /** Auth token credential */
+  authToken?: GoogleCloudIntegrationsV1alphaAuthToken | undefined;
+  /** Username and password credential */
+  usernameAndPassword?: GoogleCloudIntegrationsV1alphaUsernameAndPassword | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaAuthConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "VALID"
+  | "INVALID"
+  | "SOFT_DELETED"
+  | "EXPIRED"
+  | "UNAUTHORIZED"
+  | "UNSUPPORTED";
+export type GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum =
+  | "AUTH_CONFIG_VISIBILITY_UNSPECIFIED"
+  | "PRIVATE"
+  | "CLIENT_VISIBLE";
+/** The AuthConfig resource use to hold channels and connection config data. */
+export interface GoogleCloudIntegrationsV1alphaAuthConfig {
+  /** Output only. The timestamp when the auth config is created. */
+  createTime?: string | undefined;
+  /** Required. The name of the auth config. */
   displayName?: string | undefined;
-  /** Whether this parameter is a transient parameter. */
-  isTransient?: boolean | undefined;
-  /** Type of the parameter. */
-  dataType?:
-    | GoogleCloudIntegrationsV1alphaIntegrationParameterDataTypeEnum
-    | (string & {})
-    | undefined;
-  /** This schema will be used to validate runtime JSON-typed values of this parameter. */
-  jsonSchema?: string | undefined;
-  /** Optional. Description of the parameter. */
-  description?: string | undefined;
-  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
-  key?: string | undefined;
-  /** Searchable in the execution log or not. */
-  searchable?: boolean | undefined;
-  /** Indicates whether this variable contains large data and need to be uploaded to Cloud Storage. */
-  containsLargeData?: boolean | undefined;
-  /** Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
-  defaultValue?: GoogleCloudIntegrationsV1alphaValueType | undefined;
-  /** The identifier of the node (TaskConfig/TriggerConfig) this parameter was produced by, if it is a transient param or a copy of an input param. */
-  producer?: string | undefined;
-  /** True if this parameter should be masked in the logs */
-  masked?: boolean | undefined;
-}
-/** Integration Config Parameter is defined in the integration config and are used to provide external configuration for integration. It provide information about data types of the expected parameters and provide any default values or value. They can also be used to add custom attributes. */
-export interface GoogleCloudIntegrationsV1alphaIntegrationConfigParameter {
-  /** Optional. Integration Parameter to provide the default value, data type and attributes required for the Integration config variables. */
-  parameter?: GoogleCloudIntegrationsV1alphaIntegrationParameter | undefined;
-  /** Values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
-  value?: GoogleCloudIntegrationsV1alphaValueType | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList =
-  Array<GoogleCloudIntegrationsV1alphaIntegrationConfigParameter>;
-export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryDataTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "STRING_VALUE"
-  | "INT_VALUE"
-  | "DOUBLE_VALUE"
-  | "BOOLEAN_VALUE"
-  | "PROTO_VALUE"
-  | "SERIALIZED_OBJECT_VALUE"
-  | "STRING_ARRAY"
-  | "INT_ARRAY"
-  | "DOUBLE_ARRAY"
-  | "PROTO_ARRAY"
-  | "PROTO_ENUM"
-  | "BOOLEAN_ARRAY"
-  | "PROTO_ENUM_ARRAY"
-  | "BYTES"
-  | "BYTES_ARRAY"
-  | "NON_SERIALIZABLE_OBJECT"
-  | "JSON_VALUE";
-export type DocumentMap = { [key: string]: unknown | undefined };
-export interface EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter {
-  objectValue?: string | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoIntParameterArray {
-  intValues?: StringList | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray {
-  doubleValues?: DoubleList | undefined;
-}
-export type DocumentMapList = Array<DocumentMap>;
-export interface EnterpriseCrmFrontendsEventbusProtoProtoParameterArray {
-  protoValues?: DocumentMapList | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoStringParameterArray {
-  stringValues?: StringList | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray {
-  booleanValues?: BooleanList | undefined;
-}
-/** To support various types of parameter values. Next available id: 14 */
-export interface EnterpriseCrmFrontendsEventbusProtoParameterValueType {
-  protoValue?: DocumentMap | undefined;
-  serializedObjectValue?: EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter | undefined;
-  doubleValue?: number | undefined;
-  intArray?: EnterpriseCrmFrontendsEventbusProtoIntParameterArray | undefined;
-  doubleArray?: EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray | undefined;
-  booleanValue?: boolean | undefined;
-  intValue?: string | undefined;
-  jsonValue?: string | undefined;
-  protoArray?: EnterpriseCrmFrontendsEventbusProtoProtoParameterArray | undefined;
-  stringValue?: string | undefined;
-  stringArray?: EnterpriseCrmFrontendsEventbusProtoStringParameterArray | undefined;
-  booleanArray?: EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray | undefined;
-}
-export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryInOutTypeEnum =
-  | "IN_OUT_TYPE_UNSPECIFIED"
-  | "IN"
-  | "OUT"
-  | "IN_OUT";
-export type EnterpriseCrmEventbusProtoNodeIdentifierElementTypeEnum =
-  | "UNKNOWN_TYPE"
-  | "TASK_CONFIG"
-  | "TRIGGER_CONFIG";
-/** Represents a node identifier (type + id). Next highest id: 3 */
-export interface EnterpriseCrmEventbusProtoNodeIdentifier {
-  /** Destination node where the edge ends. It can only be a task config. */
-  elementType?: EnterpriseCrmEventbusProtoNodeIdentifierElementTypeEnum | (string & {}) | undefined;
-  /** Configuration of the edge. */
-  elementIdentifier?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoAttributesDataTypeEnum =
-  | "DATA_TYPE_UNSPECIFIED"
-  | "EMAIL"
-  | "URL"
-  | "CURRENCY"
-  | "TIMESTAMP"
-  | "DOMAIN_NAME";
-export type EnterpriseCrmEventbusProtoAttributesSearchableEnum = "UNSPECIFIED" | "YES" | "NO";
-export interface EnterpriseCrmEventbusProtoDoubleArray {
-  values?: DoubleList | undefined;
-}
-export interface EnterpriseCrmEventbusProtoStringArray {
-  values?: StringList | undefined;
-}
-export type EnterpriseCrmEventbusProtoIntArray = EnterpriseCrmEventbusProtoStringArray;
-/** Used for define type for values. Currently supported value types include int, string, double, array, and any proto message. */
-export interface EnterpriseCrmEventbusProtoValueType {
-  protoValue?: DocumentMap | undefined;
-  booleanValue?: boolean | undefined;
-  stringValue?: string | undefined;
-  doubleValue?: number | undefined;
-  doubleArray?: EnterpriseCrmEventbusProtoDoubleArray | undefined;
-  intValue?: string | undefined;
-  stringArray?: EnterpriseCrmEventbusProtoStringArray | undefined;
-  intArray?: EnterpriseCrmEventbusProtoStringArray | undefined;
-}
-export type EnterpriseCrmEventbusProtoLogSettingsSeedScopeEnum =
-  | "SEED_SCOPE_UNSPECIFIED"
-  | "EVENT_NAME"
-  | "TIME_PERIOD"
-  | "PARAM_NAME";
-export type EnterpriseCrmEventbusProtoLogSettingsSeedPeriodEnum =
-  | "SEED_PERIOD_UNSPECIFIED"
-  | "DAY"
-  | "WEEK"
-  | "MONTH";
-/** The LogSettings define the logging attributes for an event property. These attributes are used to map the property to the parameter in the log proto. Also used to define scrubbing/truncation behavior and PII information. */
-export interface EnterpriseCrmEventbusProtoLogSettings {
-  seedScope?: EnterpriseCrmEventbusProtoLogSettingsSeedScopeEnum | (string & {}) | undefined;
-  /** The name of corresponding logging field of the event property. If omitted, assumes the same name as the event property key. */
-  logFieldName?: string | undefined;
-  seedPeriod?: EnterpriseCrmEventbusProtoLogSettingsSeedPeriodEnum | (string & {}) | undefined;
-}
-/** Attributes are additional options that can be associated with each event property. For more information, see */
-export interface EnterpriseCrmEventbusProtoAttributes {
-  /** List of tasks that can view this property, if empty then all. */
-  taskVisibility?: StringList | undefined;
-  /** Things like URL, Email, Currency, Timestamp (rather than string, int64...) */
-  dataType?: EnterpriseCrmEventbusProtoAttributesDataTypeEnum | (string & {}) | undefined;
-  /** Used to indicate if the ParameterEntry is a read only field or not. */
-  readOnly?: boolean | undefined;
-  /** Required for event execution. The validation will be done by the event bus when the event is triggered. */
-  isRequired?: boolean | undefined;
-  /** True if this workflow parameter should be masked in the logs */
-  masked?: boolean | undefined;
-  searchable?: EnterpriseCrmEventbusProtoAttributesSearchableEnum | (string & {}) | undefined;
-  /** Used to define defaults. */
-  defaultValue?: EnterpriseCrmEventbusProtoValueType | undefined;
-  /** See */
-  logSettings?: EnterpriseCrmEventbusProtoLogSettings | undefined;
-  /** Used to indicate if a ParameterEntry should be converted to ParamIndexes for ST-Spanner full-text search. DEPRECATED: use searchable. */
-  isSearchable?: boolean | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry {
-  /** The name (without prefix) to be displayed in the UI for this parameter. E.g. if the key is "foo.bar.myName", then the name would be "myName". */
+  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  lastModifierEmail?: string | undefined;
+  /** Output only. The reason / details of the current status. */
+  reason?: string | undefined;
+  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
   name?: string | undefined;
-  /** The name of the protobuf type if the parameter has a protobuf data type. */
-  protoDefName?: string | undefined;
-  /** Whether this parameter is a transient parameter. */
-  isTransient?: boolean | undefined;
-  /** This schema will be used to validate runtime JSON-typed values of this parameter. */
-  jsonSchema?: string | undefined;
-  required?: boolean | undefined;
-  /** The data type of the parameter. */
-  dataType?:
-    | EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryDataTypeEnum
+  /** Auth credential encrypted by Cloud KMS. Can be decrypted as Credential with proper KMS key. */
+  encryptedCredential?: string | undefined;
+  /** Optional. The time until the auth config is valid. Empty or max value is considered the auth config won't expire. */
+  validTime?: string | undefined;
+  /** Optional. User can define the time to receive notification after which the auth config becomes invalid. Support up to 30 days. Support granularity in hours. */
+  expiryNotificationDuration?: StringList | undefined;
+  /** Required. Credential type of the encrypted credential. */
+  credentialType?:
+    | GoogleCloudIntegrationsV1alphaAuthConfigCredentialTypeEnum
     | (string & {})
     | undefined;
-  /** Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
-  defaultValue?: EnterpriseCrmFrontendsEventbusProtoParameterValueType | undefined;
-  /** Optional. The description about the parameter */
+  /** Optional. User provided expiry time to override. For the example of Salesforce, username/password credentials can be valid for 6 months depending on the instance settings. */
+  overrideValidTime?: string | undefined;
+  /** Certificate id for client certificate */
+  certificateId?: string | undefined;
+  /** Raw auth credentials. */
+  decryptedCredential?: GoogleCloudIntegrationsV1alphaCredential | undefined;
+  /** The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  creatorEmail?: string | undefined;
+  /** Output only. The timestamp when the auth config is modified. */
+  updateTime?: string | undefined;
+  /** Output only. The status of the auth config. */
+  state?: GoogleCloudIntegrationsV1alphaAuthConfigStateEnum | (string & {}) | undefined;
+  /** Optional. The visibility of the auth config. */
+  visibility?: GoogleCloudIntegrationsV1alphaAuthConfigVisibilityEnum | (string & {}) | undefined;
+  /** Optional. A description of the auth config. */
   description?: string | undefined;
-  /** Child parameters nested within this parameter. This field only applies to protobuf parameters */
-  children?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList | undefined;
-  producer?: string | undefined;
-  /** Indicates whether this variable contains large data and need to be uploaded to Cloud Storage. */
-  containsLargeData?: boolean | undefined;
-  /** Specifies the input/output type for the parameter. */
-  inOutType?:
-    | EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryInOutTypeEnum
+}
+export interface CreateProjectsLocationsAuthConfigsRequest extends GoogleCloudIntegrationsV1alphaAuthConfig {
+  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
+  "clientCertificate.passphrase"?: string | undefined;
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.sslCertificate"?: string | undefined;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.encryptedPrivateKey"?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "EXPIRED";
+/** Contains client certificate information */
+export interface GoogleCloudIntegrationsV1alphaClientCertificate {
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  encryptedPrivateKey?: string | undefined;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  sslCertificate?: string | undefined;
+  /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
+  passphrase?: string | undefined;
+}
+/** The certificate definition */
+export interface GoogleCloudIntegrationsV1alphaCertificate {
+  /** Status of the certificate */
+  certificateStatus?:
+    | GoogleCloudIntegrationsV1alphaCertificateCertificateStatusEnum
     | (string & {})
     | undefined;
-  /** The identifier of the node (TaskConfig/TriggerConfig) this parameter was produced by, if it is a transient param or a copy of an input param. */
-  producedBy?: EnterpriseCrmEventbusProtoNodeIdentifier | undefined;
-  /** Metadata information about the parameters. */
-  attributes?: EnterpriseCrmEventbusProtoAttributes | undefined;
-  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the workflow definition. */
-  key?: string | undefined;
-  /** If the data type is of type proto or proto array, this field needs to be populated with the fully qualified proto name. This message, for example, would be "enterprise.crm.frontends.eventbus.proto.WorkflowParameterEntry". */
-  protoDefPath?: string | undefined;
+  /** Input only. Raw client certificate which would be registered with trawler */
+  rawCertificate?: GoogleCloudIntegrationsV1alphaClientCertificate | undefined;
+  /** Description of the certificate */
+  description?: string | undefined;
+  /** Immutable. Credential id that will be used to register with trawler */
+  credentialId?: string | undefined;
+  /** Output only. The timestamp after which certificate will expire */
+  validEndTime?: string | undefined;
+  /** Output only. The timestamp after which certificate will be valid */
+  validStartTime?: string | undefined;
+  /** Required. Name of the certificate */
+  displayName?: string | undefined;
+  /** Output only. Auto generated primary key */
+  name?: string | undefined;
+  /** Immutable. Requestor ID to be used to register certificate with trawler */
+  requestorId?: string | undefined;
 }
-export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList =
-  Array<EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry>;
-/** LINT.IfChange This is the frontend version of WorkflowParameters. It's exactly like the backend version except that instead of flattening protobuf parameters and treating every field and subfield of a protobuf parameter as a separate parameter, the fields/subfields of a protobuf parameter will be nested as "children" (see 'children' field below) parameters of the parent parameter. Please refer to enterprise/crm/eventbus/proto/workflow_parameters.proto for more information about WorkflowParameters. */
-export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameters {
-  /** Parameters are a part of Event and can be used to communiticate between different tasks that are part of the same workflow execution. */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList | undefined;
+export interface CreateProjectsLocationsCertificatesRequest extends GoogleCloudIntegrationsV1alphaCertificate {
+  /** Required. "projects/{project}/locations/{location}" format. */
+  parent: string;
 }
+export type GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum =
+  | "GCF_API_VERSION_UNSPECIFIED"
+  | "API_VERSION_V1"
+  | "API_VERSION_V2";
+/** Request for Creating Cloud Function rpc call. */
+export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
+  /** Indicates the id of the GCP project that the function will be created in. */
+  projectId?: string | undefined;
+  /** The function name of CF to be created */
+  functionName?: string | undefined;
+  /** The function region of CF to be created */
+  functionRegion?: string | undefined;
+  /** Optional. The api version of CF to be created */
+  gcfApiVersion?:
+    | GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequestGcfApiVersionEnum
+    | (string & {})
+    | undefined;
+}
+export interface CreateProjectsLocationsCloudFunctionsRequest extends GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
+  /** Required. The project that the executed integration belongs to. */
+  parent: string;
+}
+/** Response for Creating Cloud Function rpc call. */
+export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse {
+  /** The trigger url that will be returned */
+  triggerUrl?: string | undefined;
+}
+export type EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskTypeEnum =
+  | "TASK"
+  | "ASIS_TEMPLATE"
+  | "IO_TEMPLATE";
 export type EnterpriseCrmFrontendsEventbusProtoTaskConfigJsonValidationOptionEnum =
   | "UNSPECIFIED_JSON_VALIDATION_OPTION"
   | "SKIP"
   | "PRE_EXECUTION"
   | "POST_EXECUTION"
   | "PRE_POST_EXECUTION";
-export type EnterpriseCrmEventbusProtoConditionOperatorEnum =
-  | "UNSET"
-  | "EQUALS"
-  | "CONTAINS"
-  | "LESS_THAN"
-  | "GREATER_THAN"
-  | "EXISTS"
-  | "DOES_NOT_EXIST"
-  | "IS_EMPTY"
-  | "IS_NOT_EMPTY";
-/** Condition that uses `operator` to evaluate the key against the value. */
-export interface EnterpriseCrmEventbusProtoCondition {
-  /** Key that's evaluated against the `value`. Please note the data type of the runtime value associated with the key should match the data type of `value`, else an IllegalArgumentException is thrown. */
-  eventPropertyKey?: string | undefined;
-  /** Operator used to evaluate the condition. Please note that an operator with an inappropriate key/value operand will result in IllegalArgumentException, e.g. CONTAINS with boolean key/value pair. */
-  operator?: EnterpriseCrmEventbusProtoConditionOperatorEnum | (string & {}) | undefined;
-  /** Value that's checked for the key. */
-  value?: EnterpriseCrmEventbusProtoValueType | undefined;
+export type EnterpriseCrmEventbusProtoTaskMetadataStatusEnum =
+  | "UNSPECIFIED_STATUS"
+  | "DEFAULT_INACTIVE"
+  | "ACTIVE";
+export type EnterpriseCrmEventbusProtoTaskMetadataDefaultJsonValidationOptionEnum =
+  | "UNSPECIFIED_JSON_VALIDATION_OPTION"
+  | "SKIP"
+  | "PRE_EXECUTION"
+  | "POST_EXECUTION"
+  | "PRE_POST_EXECUTION";
+export type EnterpriseCrmEventbusProtoTaskMetadataSystemEnum =
+  | "UNSPECIFIED_SYSTEM"
+  | "GENERIC"
+  | "BUGANIZER"
+  | "SALESFORCE"
+  | "CLOUD_SQL"
+  | "PLX"
+  | "SHEETS"
+  | "GOOGLE_GROUPS"
+  | "EMAIL"
+  | "SPANNER"
+  | "DATA_BRIDGE";
+/** Admins are owners of a Task, and have all permissions on a particular task identified by the task name. By default, Eventbus periodically scans all task metadata and syncs (adds) any new admins defined here to Zanzibar. */
+export interface EnterpriseCrmEventbusProtoTaskMetadataAdmin {
+  googleGroupEmail?: string | undefined;
+  userEmail?: string | undefined;
 }
-export type EnterpriseCrmEventbusProtoConditionList = Array<EnterpriseCrmEventbusProtoCondition>;
-/** This message recursively combines constituent conditions using logical AND. */
-export interface EnterpriseCrmEventbusProtoCombinedCondition {
-  /** A set of individual constituent conditions. */
-  conditions?: EnterpriseCrmEventbusProtoConditionList | undefined;
-}
-export type EnterpriseCrmEventbusProtoCombinedConditionList =
-  Array<EnterpriseCrmEventbusProtoCombinedCondition>;
-/** The task that is next in line to be executed, if the condition specified evaluated to true. */
-export interface EnterpriseCrmEventbusProtoNextTask {
-  /** Standard filter expression for this task to become an eligible next task. */
-  condition?: string | undefined;
-  /** ID of the next task. */
-  taskConfigId?: string | undefined;
-  /** Task number of the next task. */
-  taskNumber?: string | undefined;
-  /** User-provided label that is attached to this edge in the UI. */
-  label?: string | undefined;
-  /** User-provided description intended to give more business context about the next task edge or condition. */
-  description?: string | undefined;
-  /** Combined condition for this task to become an eligible next task. Each of these combined_conditions are joined with logical OR. DEPRECATED: use `condition` */
-  combinedConditions?: EnterpriseCrmEventbusProtoCombinedConditionList | undefined;
-}
-export type EnterpriseCrmEventbusProtoNextTaskList = Array<EnterpriseCrmEventbusProtoNextTask>;
-export type EnterpriseCrmEventbusProtoFailurePolicyRetryStrategyEnum =
-  | "UNSPECIFIED"
-  | "IGNORE"
-  | "NONE"
-  | "FATAL"
-  | "FIXED_INTERVAL"
-  | "LINEAR_BACKOFF"
-  | "EXPONENTIAL_BACKOFF"
-  | "RESTART_WORKFLOW_WITH_BACKOFF";
-/** Policy that defines the task retry logic and failure type. If no FailurePolicy is defined for a task, all its dependent tasks will not be executed (i.e, a `retry_strategy` of NONE will be applied). */
-export interface EnterpriseCrmEventbusProtoFailurePolicy {
-  /** Defines what happens to the task upon failure. */
-  retryStrategy?:
-    | EnterpriseCrmEventbusProtoFailurePolicyRetryStrategyEnum
+export type EnterpriseCrmEventbusProtoTaskMetadataAdminList =
+  Array<EnterpriseCrmEventbusProtoTaskMetadataAdmin>;
+export type EnterpriseCrmEventbusProtoTaskMetadataExternalCategoryEnum =
+  | "UNSPECIFIED_EXTERNAL_CATEGORY"
+  | "CORE"
+  | "CONNECTORS"
+  | "EXTERNAL_HTTP"
+  | "EXTERNAL_INTEGRATION_SERVICES"
+  | "EXTERNAL_CUSTOMER_ACTIONS"
+  | "EXTERNAL_FLOW_CONTROL"
+  | "EXTERNAL_WORKSPACE"
+  | "EXTERNAL_SECURITY"
+  | "EXTERNAL_DATABASES"
+  | "EXTERNAL_ANALYTICS"
+  | "EXTERNAL_BYOC"
+  | "EXTERNAL_BYOT"
+  | "EXTERNAL_ARTIFICIAL_INTELIGENCE"
+  | "EXTERNAL_DATA_MANIPULATION";
+export type EnterpriseCrmEventbusProtoTaskMetadataCategoryEnum =
+  | "UNSPECIFIED_CATEGORY"
+  | "CUSTOM"
+  | "FLOW_CONTROL"
+  | "DATA_MANIPULATION"
+  | "SCRIPTING"
+  | "CONNECTOR"
+  | "HIDDEN"
+  | "CLOUD_SYSTEMS"
+  | "CUSTOM_TASK_TEMPLATE"
+  | "TASK_RECOMMENDATIONS";
+/** TaskMetadata are attributes that are associated to every common Task we have. */
+export interface EnterpriseCrmEventbusProtoTaskMetadata {
+  /** Doc link for external-facing documentation (separate from g3doc). */
+  externalDocLink?: string | undefined;
+  /** External-facing documention embedded in the RHP for this task. */
+  externalDocHtml?: string | undefined;
+  /** Allows author to indicate if the task is ready to use or not. If not set, then it will default to INACTIVE. */
+  status?: EnterpriseCrmEventbusProtoTaskMetadataStatusEnum | (string & {}) | undefined;
+  /** The Code Search link to the Task Java file. */
+  codeSearchLink?: string | undefined;
+  /** Controls whether JSON workflow parameters are validated against provided schemas before and/or after this task's execution. */
+  defaultJsonValidationOption?:
+    | EnterpriseCrmEventbusProtoTaskMetadataDefaultJsonValidationOptionEnum
     | (string & {})
     | undefined;
-  /** Optional. The retry condition that will be evaluated for this failure policy with the corresponding retry strategy. */
-  retryCondition?: string | undefined;
-  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_WORKFLOW_WITH_BACKOFF. Defines the number of times the task will be retried if failed. */
-  maxNumRetries?: number | undefined;
-  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_WORKFLOW_WITH_BACKOFF. Defines the initial interval for backoff. */
-  intervalInSeconds?: string | undefined;
+  system?: EnterpriseCrmEventbusProtoTaskMetadataSystemEnum | (string & {}) | undefined;
+  /** In a few sentences, describe the purpose and usage of the task. */
+  description?: string | undefined;
+  /** DEPRECATED: Use external_doc_html. */
+  externalDocMarkdown?: string | undefined;
+  /** The deprecation status of the current task. Default value is false; */
+  isDeprecated?: boolean | undefined;
+  /** Sequence with which the task in specific category to be displayed in task discovery panel for external users. */
+  externalCategorySequence?: number | undefined;
+  /** URL to gstatic image icon for this task. This icon shows up on the task list panel along with the task name in the Workflow Editor screen. Use the 24p, 2x, gray color icon image format. */
+  iconLink?: string | undefined;
+  /** Contains the initial configuration of the task with default values set. For now, The string should be compatible to an ASCII-proto format. */
+  defaultSpec?: string | undefined;
+  admins?: EnterpriseCrmEventbusProtoTaskMetadataAdminList | undefined;
+  externalCategory?:
+    | EnterpriseCrmEventbusProtoTaskMetadataExternalCategoryEnum
+    | (string & {})
+    | undefined;
+  /** The string name to show on the task list on the Workflow editor screen. This should be a very short, one to two words name for the task. (e.g. "Send Mail") */
+  descriptiveName?: string | undefined;
+  /** A set of tags that pertain to a particular task. This can be used to improve the searchability of tasks with several names ("REST Caller" vs. "Call REST Endpoint") or to help users find tasks based on related words. */
+  tags?: StringList | undefined;
+  /** Snippet of markdown documentation to embed in the RHP for this task. */
+  docMarkdown?: string | undefined;
+  /** The new task name to replace the current task if it is deprecated. Otherwise, it is the same as the current task name. */
+  activeTaskName?: string | undefined;
+  /** The actual class name or the annotated name of the task. Task Author should initialize this field with value from the getName() method of the Task class. */
+  name?: string | undefined;
+  /** URL to the associated G3 Doc for the task if available */
+  g3DocLink?: string | undefined;
+  category?: EnterpriseCrmEventbusProtoTaskMetadataCategoryEnum | (string & {}) | undefined;
+  /** External-facing documention for standalone IP in pantheon embedded in the RHP for this task. Non null only if different from external_doc_html */
+  standaloneExternalDocHtml?: string | undefined;
 }
-export type EnterpriseCrmEventbusProtoFailurePolicyList =
-  Array<EnterpriseCrmEventbusProtoFailurePolicy>;
-export interface EnterpriseCrmEventbusProtoConditionalFailurePolicies {
-  /** The default failure policy to be applied if no conditional failure policy matches */
-  defaultFailurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
-  /** The list of failure policies that will be applied to the task in order. */
-  failurePolicies?: EnterpriseCrmEventbusProtoFailurePolicyList | undefined;
-}
-export type EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskTypeEnum =
-  | "TASK"
-  | "ASIS_TEMPLATE"
-  | "IO_TEMPLATE";
-export type EnterpriseCrmEventbusProtoTaskAlertConfigThresholdTypeEnum =
-  | "UNSPECIFIED_THRESHOLD_TYPE"
-  | "EXPECTED_MIN"
-  | "EXPECTED_MAX";
-/** The threshold value of the metric, above or below which the alert should be triggered. See EventAlertConfig or TaskAlertConfig for the different alert metric types in each case. For the *RATE metrics, one or both of these fields may be set. Zero is the default value and can be left at that. For *PERCENTILE_DURATION metrics, one or both of these fields may be set, and also, the duration threshold value should be specified in the threshold_duration_ms member below. For *AVERAGE_DURATION metrics, these fields should not be set at all. A different member, threshold_duration_ms, must be set in the EventAlertConfig or the TaskAlertConfig. */
-export interface EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue {
-  percentage?: number | undefined;
-  absolute?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumListFilterTypeEnum =
+export type EnterpriseCrmEventbusStatsDimensionsEnumFilterTypeEnum =
   | "DEFAULT_INCLUSIVE"
   | "EXCLUSIVE";
-/** List of error enums for alerts. */
-export interface EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList {
-  enumStrings?: StringList | undefined;
-  filterType?:
-    | EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumListFilterTypeEnum
-    | (string & {})
-    | undefined;
-}
-export type EnterpriseCrmEventbusProtoTaskAlertConfigMetricTypeEnum =
-  | "METRIC_TYPE_UNSPECIFIED"
-  | "TASK_ERROR_RATE"
-  | "TASK_WARNING_RATE"
-  | "TASK_RATE"
-  | "TASK_AVERAGE_DURATION"
-  | "TASK_PERCENTILE_DURATION";
-/** Message to be used to configure alerting in the {@code TaskConfig} protos for tasks in an event. */
-export interface EnterpriseCrmEventbusProtoTaskAlertConfig {
-  /** Only count final task attempts, not retries. */
-  onlyFinalAttempt?: boolean | undefined;
-  /** Link to a playbook for resolving the issue that triggered this alert. */
-  playbookUrl?: string | undefined;
-  /** A name to identify this alert. This will be displayed in the alert subject. If set, this name should be unique in within the scope of the containing workflow. */
-  alertName?: string | undefined;
-  /** Client associated with this alert configuration. Must be a client enabled in one of the containing workflow's triggers. */
+export type EnterpriseCrmEventbusStatsDimensionsRetryAttemptEnum =
+  | "UNSPECIFIED"
+  | "FINAL"
+  | "RETRYABLE"
+  | "CANCELED";
+export interface EnterpriseCrmEventbusStatsDimensions {
+  /** Stats have been or will be aggregated on set fields for any semantically-meaningful combination. */
+  triggerId?: string | undefined;
+  workflowId?: string | undefined;
+  taskNumber?: string | undefined;
   clientId?: string | undefined;
-  /** The threshold type for which this alert is being configured. If value falls below expected_min or exceeds expected_max, an alert will be fired. */
-  thresholdType?:
-    | EnterpriseCrmEventbusProtoTaskAlertConfigThresholdTypeEnum
+  errorEnumString?: string | undefined;
+  workflowName?: string | undefined;
+  /** Whether to include or exclude the enums matching the regex. */
+  enumFilterType?:
+    | EnterpriseCrmEventbusStatsDimensionsEnumFilterTypeEnum
     | (string & {})
     | undefined;
-  /** Should be specified only for TASK_AVERAGE_DURATION and TASK_PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
-  durationThresholdMs?: string | undefined;
-  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this workflow alert. */
-  alertDisabled?: boolean | undefined;
-  /** The metric value, above or below which the alert should be triggered. */
-  thresholdValue?: EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue | undefined;
-  errorEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
-  /** The period over which the metric value should be aggregated and evaluated. Format is , where integer should be a positive integer and unit should be one of (s,m,h,d,w) meaning (second, minute, hour, day, week). */
-  aggregationPeriod?: string | undefined;
-  warningEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
-  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
-  numAggregationPeriods?: number | undefined;
-  metricType?: EnterpriseCrmEventbusProtoTaskAlertConfigMetricTypeEnum | (string & {}) | undefined;
+  retryAttempt?: EnterpriseCrmEventbusStatsDimensionsRetryAttemptEnum | (string & {}) | undefined;
+  taskName?: string | undefined;
+  warningEnumString?: string | undefined;
 }
-export type EnterpriseCrmEventbusProtoTaskAlertConfigList =
-  Array<EnterpriseCrmEventbusProtoTaskAlertConfig>;
-export type EnterpriseCrmFrontendsEventbusProtoTaskConfigNextTasksExecutionPolicyEnum =
-  | "UNSPECIFIED"
-  | "RUN_ALL_MATCH"
-  | "RUN_FIRST_MATCH";
-export type EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskExecutionStrategyEnum =
-  | "WHEN_ALL_SUCCEED"
-  | "WHEN_ANY_SUCCEED"
-  | "WHEN_ALL_TASKS_AND_CONDITIONS_SUCCEED";
-export type EnterpriseCrmFrontendsEventbusProtoTaskConfigExternalTaskTypeEnum =
-  | "EXTERNAL_TASK_TYPE_UNSPECIFIED"
-  | "NORMAL_TASK"
-  | "ERROR_TASK";
-export type EnterpriseCrmEventbusProtoSuccessPolicyFinalStateEnum =
-  | "UNSPECIFIED"
-  | "SUCCEEDED"
-  | "SUSPENDED";
-/** Policy that dictates the behavior for the task after it completes successfully. */
-export interface EnterpriseCrmEventbusProtoSuccessPolicy {
-  /** State to which the execution snapshot status will be set if the task succeeds. */
-  finalState?: EnterpriseCrmEventbusProtoSuccessPolicyFinalStateEnum | (string & {}) | undefined;
+/** Stats for the requested dimensions: QPS, duration, and error/warning rate */
+export interface EnterpriseCrmEventbusStats {
+  /** Queries per second. */
+  qps?: number | undefined;
+  /** Average warning rate. */
+  warningRate?: number | undefined;
+  /** Average error rate. */
+  errorRate?: number | undefined;
+  /** Dimensions that these stats have been aggregated on. */
+  dimensions?: EnterpriseCrmEventbusStatsDimensions | undefined;
+  /** Average duration in seconds. */
+  durationInSeconds?: number | undefined;
 }
-export type EnterpriseCrmFrontendsEventbusProtoTaskEntityTaskTypeEnum =
-  | "TASK"
-  | "ASIS_TEMPLATE"
-  | "IO_TEMPLATE";
+export type EnterpriseCrmEventbusProtoParamSpecEntryConfigParameterNameOptionEnum =
+  | "DEFAULT_NOT_PARAMETER_NAME"
+  | "IS_PARAMETER_NAME"
+  | "KEY_IS_PARAMETER_NAME"
+  | "VALUE_IS_PARAMETER_NAME";
+export type EnterpriseCrmEventbusProtoParamSpecEntryConfigInputDisplayOptionEnum =
+  | "DEFAULT"
+  | "STRING_MULTI_LINE"
+  | "NUMBER_SLIDER"
+  | "BOOLEAN_TOGGLE";
+export interface EnterpriseCrmEventbusProtoParamSpecEntryConfig {
+  /** A user-friendly label for the parameter. */
+  label?: string | undefined;
+  /** Placeholder text which will appear in the UI input form for this parameter. */
+  uiPlaceholderText?: string | undefined;
+  parameterNameOption?:
+    | EnterpriseCrmEventbusProtoParamSpecEntryConfigParameterNameOptionEnum
+    | (string & {})
+    | undefined;
+  /** A short phrase to describe what this parameter contains. */
+  descriptivePhrase?: string | undefined;
+  /** Whether the default value is hidden in the UI. */
+  hideDefaultValue?: boolean | undefined;
+  /** A user-friendly label for subSection under which the parameter will be displayed. */
+  subSectionLabel?: string | undefined;
+  inputDisplayOption?:
+    | EnterpriseCrmEventbusProtoParamSpecEntryConfigInputDisplayOptionEnum
+    | (string & {})
+    | undefined;
+  /** Whether this field is hidden in the UI. */
+  isHidden?: boolean | undefined;
+  /** Detailed help text for this parameter containing information not provided elsewhere. For example, instructions on how to migrate from a deprecated parameter. */
+  helpText?: string | undefined;
+}
+export interface EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition {
+  /** The fully-qualified proto name. This message, for example, would be "enterprise.crm.eventbus.proto.ParamSpecEntry.ProtoDefinition". */
+  fullName?: string | undefined;
+  /** Path to the proto file that contains the message type's definition. */
+  path?: string | undefined;
+}
 export type EnterpriseCrmFrontendsEventbusProtoParamSpecEntryDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
   | "STRING_VALUE"
@@ -1021,17 +803,17 @@ export type EnterpriseCrmFrontendsEventbusProtoParamSpecEntryDataTypeEnum =
   | "JSON_VALUE";
 /** Rule used to validate strings. */
 export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringRegex {
-  /** Whether the regex matcher is applied exclusively (if true, matching values will be rejected). */
-  exclusive?: boolean | undefined;
   /** The regex applied to the input value(s). */
   regex?: string | undefined;
+  /** Whether the regex matcher is applied exclusively (if true, matching values will be rejected). */
+  exclusive?: boolean | undefined;
 }
 /** Range used to validate doubles and floats. */
 export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange {
-  /** The inclusive minimum of the acceptable range. */
-  min?: number | undefined;
   /** The inclusive maximum of the acceptable range. */
   max?: number | undefined;
+  /** The inclusive minimum of the acceptable range. */
+  min?: number | undefined;
 }
 /** Range used to validate longs and ints. */
 export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange {
@@ -1045,52 +827,56 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRule {
   doubleRange?: EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange | undefined;
   intRange?: EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange | undefined;
 }
-export type EnterpriseCrmEventbusProtoParamSpecEntryConfigParameterNameOptionEnum =
-  | "DEFAULT_NOT_PARAMETER_NAME"
-  | "IS_PARAMETER_NAME"
-  | "KEY_IS_PARAMETER_NAME"
-  | "VALUE_IS_PARAMETER_NAME";
-export type EnterpriseCrmEventbusProtoParamSpecEntryConfigInputDisplayOptionEnum =
-  | "DEFAULT"
-  | "STRING_MULTI_LINE"
-  | "NUMBER_SLIDER"
-  | "BOOLEAN_TOGGLE";
-export interface EnterpriseCrmEventbusProtoParamSpecEntryConfig {
-  parameterNameOption?:
-    | EnterpriseCrmEventbusProtoParamSpecEntryConfigParameterNameOptionEnum
-    | (string & {})
-    | undefined;
-  /** A user-friendly label for subSection under which the parameter will be displayed. */
-  subSectionLabel?: string | undefined;
-  /** A short phrase to describe what this parameter contains. */
-  descriptivePhrase?: string | undefined;
-  /** Whether this field is hidden in the UI. */
-  isHidden?: boolean | undefined;
-  inputDisplayOption?:
-    | EnterpriseCrmEventbusProtoParamSpecEntryConfigInputDisplayOptionEnum
-    | (string & {})
-    | undefined;
-  /** A user-friendly label for the parameter. */
-  label?: string | undefined;
-  /** Whether the default value is hidden in the UI. */
-  hideDefaultValue?: boolean | undefined;
-  /** Placeholder text which will appear in the UI input form for this parameter. */
-  uiPlaceholderText?: string | undefined;
-  /** Detailed help text for this parameter containing information not provided elsewhere. For example, instructions on how to migrate from a deprecated parameter. */
-  helpText?: string | undefined;
+export interface EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray {
+  doubleValues?: DoubleList | undefined;
 }
-export interface EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition {
-  /** Path to the proto file that contains the message type's definition. */
-  path?: string | undefined;
-  /** The fully-qualified proto name. This message, for example, would be "enterprise.crm.eventbus.proto.ParamSpecEntry.ProtoDefinition". */
-  fullName?: string | undefined;
+export interface EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray {
+  booleanValues?: BooleanList | undefined;
+}
+export interface EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter {
+  objectValue?: string | undefined;
+}
+export interface EnterpriseCrmFrontendsEventbusProtoStringParameterArray {
+  stringValues?: StringList | undefined;
+}
+export interface EnterpriseCrmFrontendsEventbusProtoIntParameterArray {
+  intValues?: StringList | undefined;
+}
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+export interface EnterpriseCrmFrontendsEventbusProtoProtoParameterArray {
+  protoValues?: DocumentMapList | undefined;
+}
+/** To support various types of parameter values. Next available id: 14 */
+export interface EnterpriseCrmFrontendsEventbusProtoParameterValueType {
+  jsonValue?: string | undefined;
+  doubleValue?: number | undefined;
+  intValue?: string | undefined;
+  stringValue?: string | undefined;
+  doubleArray?: EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray | undefined;
+  booleanArray?: EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray | undefined;
+  serializedObjectValue?: EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter | undefined;
+  booleanValue?: boolean | undefined;
+  stringArray?: EnterpriseCrmFrontendsEventbusProtoStringParameterArray | undefined;
+  intArray?: EnterpriseCrmFrontendsEventbusProtoIntParameterArray | undefined;
+  protoValue?: DocumentMap | undefined;
+  protoArray?: EnterpriseCrmFrontendsEventbusProtoProtoParameterArray | undefined;
 }
 /** Key-value pair of EventBus task parameters. Next id: 13 */
 export interface EnterpriseCrmFrontendsEventbusProtoParamSpecEntry {
-  /** The FQCN of the Java object this represents. A string, for example, would be "java.lang.String". If this is "java.lang.Object", the parameter can be of any type. */
-  className?: string | undefined;
+  isOutput?: boolean | undefined;
+  /** Optional fields, such as help text and other useful info. */
+  config?: EnterpriseCrmEventbusProtoParamSpecEntryConfig | undefined;
+  /** Populated if this represents a proto or proto array. */
+  protoDef?: EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition | undefined;
+  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given task. These parameters must be predefined in the workflow definition. */
+  key?: string | undefined;
+  /** If set, the user must provide an input value for this parameter. */
+  required?: boolean | undefined;
   /** If it is a collection of objects, this would be the FCQN of every individual element in the collection. If this is "java.lang.Object", the parameter is a collection of any type. */
   collectionElementClassName?: string | undefined;
+  /** If set, this entry is deprecated, so further use of this parameter should be prohibited. */
+  isDeprecated?: boolean | undefined;
   /** If the data_type is JSON_VALUE, then this will define its schema. */
   jsonSchema?: string | undefined;
   /** The data type of the parameter. */
@@ -1098,19 +884,10 @@ export interface EnterpriseCrmFrontendsEventbusProtoParamSpecEntry {
     | EnterpriseCrmFrontendsEventbusProtoParamSpecEntryDataTypeEnum
     | (string & {})
     | undefined;
-  isOutput?: boolean | undefined;
+  /** The FQCN of the Java object this represents. A string, for example, would be "java.lang.String". If this is "java.lang.Object", the parameter can be of any type. */
+  className?: string | undefined;
   /** Rule used to validate inputs (individual values and collection elements) for this parameter. */
   validationRule?: EnterpriseCrmEventbusProtoParamSpecEntryValidationRule | undefined;
-  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given task. These parameters must be predefined in the workflow definition. */
-  key?: string | undefined;
-  /** If set, the user must provide an input value for this parameter. */
-  required?: boolean | undefined;
-  /** Optional fields, such as help text and other useful info. */
-  config?: EnterpriseCrmEventbusProtoParamSpecEntryConfig | undefined;
-  /** Populated if this represents a proto or proto array. */
-  protoDef?: EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition | undefined;
-  /** If set, this entry is deprecated, so further use of this parameter should be prohibited. */
-  isDeprecated?: boolean | undefined;
   /** Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
   defaultValue?: EnterpriseCrmFrontendsEventbusProtoParameterValueType | undefined;
 }
@@ -1118,111 +895,6 @@ export type EnterpriseCrmFrontendsEventbusProtoParamSpecEntryList =
   Array<EnterpriseCrmFrontendsEventbusProtoParamSpecEntry>;
 export interface EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage {
   parameters?: EnterpriseCrmFrontendsEventbusProtoParamSpecEntryList | undefined;
-}
-/** Admins are owners of a Task, and have all permissions on a particular task identified by the task name. By default, Eventbus periodically scans all task metadata and syncs (adds) any new admins defined here to Zanzibar. */
-export interface EnterpriseCrmEventbusProtoTaskMetadataAdmin {
-  googleGroupEmail?: string | undefined;
-  userEmail?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoTaskMetadataAdminList =
-  Array<EnterpriseCrmEventbusProtoTaskMetadataAdmin>;
-export type EnterpriseCrmEventbusProtoTaskMetadataSystemEnum =
-  | "UNSPECIFIED_SYSTEM"
-  | "GENERIC"
-  | "BUGANIZER"
-  | "SALESFORCE"
-  | "CLOUD_SQL"
-  | "PLX"
-  | "SHEETS"
-  | "GOOGLE_GROUPS"
-  | "EMAIL"
-  | "SPANNER"
-  | "DATA_BRIDGE";
-export type EnterpriseCrmEventbusProtoTaskMetadataCategoryEnum =
-  | "UNSPECIFIED_CATEGORY"
-  | "CUSTOM"
-  | "FLOW_CONTROL"
-  | "DATA_MANIPULATION"
-  | "SCRIPTING"
-  | "CONNECTOR"
-  | "HIDDEN"
-  | "CLOUD_SYSTEMS"
-  | "CUSTOM_TASK_TEMPLATE"
-  | "TASK_RECOMMENDATIONS";
-export type EnterpriseCrmEventbusProtoTaskMetadataStatusEnum =
-  | "UNSPECIFIED_STATUS"
-  | "DEFAULT_INACTIVE"
-  | "ACTIVE";
-export type EnterpriseCrmEventbusProtoTaskMetadataDefaultJsonValidationOptionEnum =
-  | "UNSPECIFIED_JSON_VALIDATION_OPTION"
-  | "SKIP"
-  | "PRE_EXECUTION"
-  | "POST_EXECUTION"
-  | "PRE_POST_EXECUTION";
-export type EnterpriseCrmEventbusProtoTaskMetadataExternalCategoryEnum =
-  | "UNSPECIFIED_EXTERNAL_CATEGORY"
-  | "CORE"
-  | "CONNECTORS"
-  | "EXTERNAL_HTTP"
-  | "EXTERNAL_INTEGRATION_SERVICES"
-  | "EXTERNAL_CUSTOMER_ACTIONS"
-  | "EXTERNAL_FLOW_CONTROL"
-  | "EXTERNAL_WORKSPACE"
-  | "EXTERNAL_SECURITY"
-  | "EXTERNAL_DATABASES"
-  | "EXTERNAL_ANALYTICS"
-  | "EXTERNAL_BYOC"
-  | "EXTERNAL_BYOT"
-  | "EXTERNAL_ARTIFICIAL_INTELIGENCE"
-  | "EXTERNAL_DATA_MANIPULATION";
-/** TaskMetadata are attributes that are associated to every common Task we have. */
-export interface EnterpriseCrmEventbusProtoTaskMetadata {
-  admins?: EnterpriseCrmEventbusProtoTaskMetadataAdminList | undefined;
-  /** The new task name to replace the current task if it is deprecated. Otherwise, it is the same as the current task name. */
-  activeTaskName?: string | undefined;
-  system?: EnterpriseCrmEventbusProtoTaskMetadataSystemEnum | (string & {}) | undefined;
-  /** The actual class name or the annotated name of the task. Task Author should initialize this field with value from the getName() method of the Task class. */
-  name?: string | undefined;
-  category?: EnterpriseCrmEventbusProtoTaskMetadataCategoryEnum | (string & {}) | undefined;
-  /** Sequence with which the task in specific category to be displayed in task discovery panel for external users. */
-  externalCategorySequence?: number | undefined;
-  /** External-facing documention embedded in the RHP for this task. */
-  externalDocHtml?: string | undefined;
-  /** The Code Search link to the Task Java file. */
-  codeSearchLink?: string | undefined;
-  /** Allows author to indicate if the task is ready to use or not. If not set, then it will default to INACTIVE. */
-  status?: EnterpriseCrmEventbusProtoTaskMetadataStatusEnum | (string & {}) | undefined;
-  /** A set of tags that pertain to a particular task. This can be used to improve the searchability of tasks with several names ("REST Caller" vs. "Call REST Endpoint") or to help users find tasks based on related words. */
-  tags?: StringList | undefined;
-  /** The deprecation status of the current task. Default value is false; */
-  isDeprecated?: boolean | undefined;
-  /** The string name to show on the task list on the Workflow editor screen. This should be a very short, one to two words name for the task. (e.g. "Send Mail") */
-  descriptiveName?: string | undefined;
-  /** In a few sentences, describe the purpose and usage of the task. */
-  description?: string | undefined;
-  /** Snippet of markdown documentation to embed in the RHP for this task. */
-  docMarkdown?: string | undefined;
-  /** DEPRECATED: Use external_doc_html. */
-  externalDocMarkdown?: string | undefined;
-  /** Contains the initial configuration of the task with default values set. For now, The string should be compatible to an ASCII-proto format. */
-  defaultSpec?: string | undefined;
-  /** URL to the associated G3 Doc for the task if available */
-  g3DocLink?: string | undefined;
-  /** Doc link for external-facing documentation (separate from g3doc). */
-  externalDocLink?: string | undefined;
-  /** External-facing documention for standalone IP in pantheon embedded in the RHP for this task. Non null only if different from external_doc_html */
-  standaloneExternalDocHtml?: string | undefined;
-  /** URL to gstatic image icon for this task. This icon shows up on the task list panel along with the task name in the Workflow Editor screen. Use the 24p, 2x, gray color icon image format. */
-  iconLink?: string | undefined;
-  /** Controls whether JSON workflow parameters are validated against provided schemas before and/or after this task's execution. */
-  defaultJsonValidationOption?:
-    | EnterpriseCrmEventbusProtoTaskMetadataDefaultJsonValidationOptionEnum
-    | (string & {})
-    | undefined;
-  externalCategory?:
-    | EnterpriseCrmEventbusProtoTaskMetadataExternalCategoryEnum
-    | (string & {})
-    | undefined;
 }
 export type EnterpriseCrmEventbusProtoTaskUiModuleConfigModuleIdEnum =
   | "UNSPECIFIED_TASK_MODULE"
@@ -1257,58 +929,24 @@ export interface EnterpriseCrmEventbusProtoTaskUiConfig {
   /** Configurations of included config modules. */
   taskUiModuleConfigs?: EnterpriseCrmEventbusProtoTaskUiModuleConfigList | undefined;
 }
-export type EnterpriseCrmEventbusStatsDimensionsEnumFilterTypeEnum =
-  | "DEFAULT_INCLUSIVE"
-  | "EXCLUSIVE";
-export type EnterpriseCrmEventbusStatsDimensionsRetryAttemptEnum =
-  | "UNSPECIFIED"
-  | "FINAL"
-  | "RETRYABLE"
-  | "CANCELED";
-export interface EnterpriseCrmEventbusStatsDimensions {
-  workflowId?: string | undefined;
-  workflowName?: string | undefined;
-  warningEnumString?: string | undefined;
-  /** Stats have been or will be aggregated on set fields for any semantically-meaningful combination. */
-  triggerId?: string | undefined;
-  clientId?: string | undefined;
-  /** Whether to include or exclude the enums matching the regex. */
-  enumFilterType?:
-    | EnterpriseCrmEventbusStatsDimensionsEnumFilterTypeEnum
-    | (string & {})
-    | undefined;
-  errorEnumString?: string | undefined;
-  taskNumber?: string | undefined;
-  retryAttempt?: EnterpriseCrmEventbusStatsDimensionsRetryAttemptEnum | (string & {}) | undefined;
-  taskName?: string | undefined;
-}
-/** Stats for the requested dimensions: QPS, duration, and error/warning rate */
-export interface EnterpriseCrmEventbusStats {
-  /** Average error rate. */
-  errorRate?: number | undefined;
-  /** Average warning rate. */
-  warningRate?: number | undefined;
-  /** Dimensions that these stats have been aggregated on. */
-  dimensions?: EnterpriseCrmEventbusStatsDimensions | undefined;
-  /** Average duration in seconds. */
-  durationInSeconds?: number | undefined;
-  /** Queries per second. */
-  qps?: number | undefined;
-}
+export type EnterpriseCrmFrontendsEventbusProtoTaskEntityTaskTypeEnum =
+  | "TASK"
+  | "ASIS_TEMPLATE"
+  | "IO_TEMPLATE";
 /** Contains a task's metadata and associated information. Next available id: 7 */
 export interface EnterpriseCrmFrontendsEventbusProtoTaskEntity {
-  /** Defines the type of the task */
-  taskType?: EnterpriseCrmFrontendsEventbusProtoTaskEntityTaskTypeEnum | (string & {}) | undefined;
-  /** Declarations for inputs/outputs for a TypedTask. This is also associated with the METADATA mask. */
-  paramSpecs?: EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage | undefined;
-  /** Metadata inclueds the task name, author and so on. */
-  metadata?: EnterpriseCrmEventbusProtoTaskMetadata | undefined;
-  /** UI configuration for this task Also associated with the METADATA mask. */
-  uiConfig?: EnterpriseCrmEventbusProtoTaskUiConfig | undefined;
   /** True if the task has conflict with vpcsc */
   disabledForVpcSc?: boolean | undefined;
+  /** Metadata inclueds the task name, author and so on. */
+  metadata?: EnterpriseCrmEventbusProtoTaskMetadata | undefined;
   /** Deprecated - statistics from the Monarch query. */
   stats?: EnterpriseCrmEventbusStats | undefined;
+  /** Declarations for inputs/outputs for a TypedTask. This is also associated with the METADATA mask. */
+  paramSpecs?: EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage | undefined;
+  /** UI configuration for this task Also associated with the METADATA mask. */
+  uiConfig?: EnterpriseCrmEventbusProtoTaskUiConfig | undefined;
+  /** Defines the type of the task */
+  taskType?: EnterpriseCrmFrontendsEventbusProtoTaskEntityTaskTypeEnum | (string & {}) | undefined;
 }
 export type EnterpriseCrmFrontendsEventbusProtoParameterEntryDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -1338,14 +976,107 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterEntry {
     | undefined;
   /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the workflow definition. */
   key?: string | undefined;
-  /** True if this parameter should be masked in the logs */
-  masked?: boolean | undefined;
   /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
   value?: EnterpriseCrmFrontendsEventbusProtoParameterValueType | undefined;
+  /** True if this parameter should be masked in the logs */
+  masked?: boolean | undefined;
 }
 export type EnterpriseCrmFrontendsEventbusProtoParameterEntryMap = {
   [key: string]: EnterpriseCrmFrontendsEventbusProtoParameterEntry | undefined;
 };
+export type EnterpriseCrmEventbusProtoFailurePolicyRetryStrategyEnum =
+  | "UNSPECIFIED"
+  | "IGNORE"
+  | "NONE"
+  | "FATAL"
+  | "FIXED_INTERVAL"
+  | "LINEAR_BACKOFF"
+  | "EXPONENTIAL_BACKOFF"
+  | "RESTART_WORKFLOW_WITH_BACKOFF";
+/** Policy that defines the task retry logic and failure type. If no FailurePolicy is defined for a task, all its dependent tasks will not be executed (i.e, a `retry_strategy` of NONE will be applied). */
+export interface EnterpriseCrmEventbusProtoFailurePolicy {
+  /** Optional. The retry condition that will be evaluated for this failure policy with the corresponding retry strategy. */
+  retryCondition?: string | undefined;
+  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_WORKFLOW_WITH_BACKOFF. Defines the number of times the task will be retried if failed. */
+  maxNumRetries?: number | undefined;
+  /** Defines what happens to the task upon failure. */
+  retryStrategy?:
+    | EnterpriseCrmEventbusProtoFailurePolicyRetryStrategyEnum
+    | (string & {})
+    | undefined;
+  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_WORKFLOW_WITH_BACKOFF. Defines the initial interval for backoff. */
+  intervalInSeconds?: string | undefined;
+}
+export interface EnterpriseCrmEventbusProtoStringArray {
+  values?: StringList | undefined;
+}
+export interface EnterpriseCrmEventbusProtoDoubleArray {
+  values?: DoubleList | undefined;
+}
+export type EnterpriseCrmEventbusProtoIntArray = EnterpriseCrmEventbusProtoStringArray;
+/** Used for define type for values. Currently supported value types include int, string, double, array, and any proto message. */
+export interface EnterpriseCrmEventbusProtoValueType {
+  stringValue?: string | undefined;
+  stringArray?: EnterpriseCrmEventbusProtoStringArray | undefined;
+  doubleArray?: EnterpriseCrmEventbusProtoDoubleArray | undefined;
+  protoValue?: DocumentMap | undefined;
+  intValue?: string | undefined;
+  booleanValue?: boolean | undefined;
+  doubleValue?: number | undefined;
+  intArray?: EnterpriseCrmEventbusProtoStringArray | undefined;
+}
+export type EnterpriseCrmEventbusProtoConditionOperatorEnum =
+  | "UNSET"
+  | "EQUALS"
+  | "CONTAINS"
+  | "LESS_THAN"
+  | "GREATER_THAN"
+  | "EXISTS"
+  | "DOES_NOT_EXIST"
+  | "IS_EMPTY"
+  | "IS_NOT_EMPTY";
+/** Condition that uses `operator` to evaluate the key against the value. */
+export interface EnterpriseCrmEventbusProtoCondition {
+  /** Value that's checked for the key. */
+  value?: EnterpriseCrmEventbusProtoValueType | undefined;
+  /** Operator used to evaluate the condition. Please note that an operator with an inappropriate key/value operand will result in IllegalArgumentException, e.g. CONTAINS with boolean key/value pair. */
+  operator?: EnterpriseCrmEventbusProtoConditionOperatorEnum | (string & {}) | undefined;
+  /** Key that's evaluated against the `value`. Please note the data type of the runtime value associated with the key should match the data type of `value`, else an IllegalArgumentException is thrown. */
+  eventPropertyKey?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoConditionList = Array<EnterpriseCrmEventbusProtoCondition>;
+/** This message recursively combines constituent conditions using logical AND. */
+export interface EnterpriseCrmEventbusProtoCombinedCondition {
+  /** A set of individual constituent conditions. */
+  conditions?: EnterpriseCrmEventbusProtoConditionList | undefined;
+}
+export type EnterpriseCrmEventbusProtoCombinedConditionList =
+  Array<EnterpriseCrmEventbusProtoCombinedCondition>;
+/** The task that is next in line to be executed, if the condition specified evaluated to true. */
+export interface EnterpriseCrmEventbusProtoNextTask {
+  /** User-provided label that is attached to this edge in the UI. */
+  label?: string | undefined;
+  /** Task number of the next task. */
+  taskNumber?: string | undefined;
+  /** Combined condition for this task to become an eligible next task. Each of these combined_conditions are joined with logical OR. DEPRECATED: use `condition` */
+  combinedConditions?: EnterpriseCrmEventbusProtoCombinedConditionList | undefined;
+  /** ID of the next task. */
+  taskConfigId?: string | undefined;
+  /** User-provided description intended to give more business context about the next task edge or condition. */
+  description?: string | undefined;
+  /** Standard filter expression for this task to become an eligible next task. */
+  condition?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoNextTaskList = Array<EnterpriseCrmEventbusProtoNextTask>;
+export type EnterpriseCrmEventbusProtoSuccessPolicyFinalStateEnum =
+  | "UNSPECIFIED"
+  | "SUCCEEDED"
+  | "SUSPENDED";
+/** Policy that dictates the behavior for the task after it completes successfully. */
+export interface EnterpriseCrmEventbusProtoSuccessPolicy {
+  /** State to which the execution snapshot status will be set if the task succeeds. */
+  finalState?: EnterpriseCrmEventbusProtoSuccessPolicyFinalStateEnum | (string & {}) | undefined;
+}
 /** Represents two-dimensional positions. */
 export interface EnterpriseCrmEventbusProtoCoordinate {
   x?: number | undefined;
@@ -1360,460 +1091,165 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventParameters {
 }
 /** Next available id: 4 */
 export interface EnterpriseCrmFrontendsEventbusProtoRollbackStrategy {
-  /** Required. These are the tasks numbers of the tasks whose `rollback_strategy.rollback_task_implementation_class_name` needs to be executed upon failure of this task. */
-  taskNumbersToRollback?: StringList | undefined;
-  /** Required. This is the name of the task that needs to be executed upon rollback of this task. */
-  rollbackTaskImplementationClassName?: string | undefined;
   /** Optional. The customized parameters the user can pass to this task. */
   parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Required. This is the name of the task that needs to be executed upon rollback of this task. */
+  rollbackTaskImplementationClassName?: string | undefined;
+  /** Required. These are the tasks numbers of the tasks whose `rollback_strategy.rollback_task_implementation_class_name` needs to be executed upon failure of this task. */
+  taskNumbersToRollback?: StringList | undefined;
 }
+export type EnterpriseCrmFrontendsEventbusProtoTaskConfigNextTasksExecutionPolicyEnum =
+  | "UNSPECIFIED"
+  | "RUN_ALL_MATCH"
+  | "RUN_FIRST_MATCH";
+export type EnterpriseCrmFrontendsEventbusProtoTaskConfigExternalTaskTypeEnum =
+  | "EXTERNAL_TASK_TYPE_UNSPECIFIED"
+  | "NORMAL_TASK"
+  | "ERROR_TASK";
+export type EnterpriseCrmEventbusProtoTaskAlertConfigThresholdTypeEnum =
+  | "UNSPECIFIED_THRESHOLD_TYPE"
+  | "EXPECTED_MIN"
+  | "EXPECTED_MAX";
+export type EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumListFilterTypeEnum =
+  | "DEFAULT_INCLUSIVE"
+  | "EXCLUSIVE";
+/** List of error enums for alerts. */
+export interface EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList {
+  filterType?:
+    | EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumListFilterTypeEnum
+    | (string & {})
+    | undefined;
+  enumStrings?: StringList | undefined;
+}
+export type EnterpriseCrmEventbusProtoTaskAlertConfigMetricTypeEnum =
+  | "METRIC_TYPE_UNSPECIFIED"
+  | "TASK_ERROR_RATE"
+  | "TASK_WARNING_RATE"
+  | "TASK_RATE"
+  | "TASK_AVERAGE_DURATION"
+  | "TASK_PERCENTILE_DURATION";
+/** The threshold value of the metric, above or below which the alert should be triggered. See EventAlertConfig or TaskAlertConfig for the different alert metric types in each case. For the *RATE metrics, one or both of these fields may be set. Zero is the default value and can be left at that. For *PERCENTILE_DURATION metrics, one or both of these fields may be set, and also, the duration threshold value should be specified in the threshold_duration_ms member below. For *AVERAGE_DURATION metrics, these fields should not be set at all. A different member, threshold_duration_ms, must be set in the EventAlertConfig or the TaskAlertConfig. */
+export interface EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue {
+  absolute?: string | undefined;
+  percentage?: number | undefined;
+}
+/** Message to be used to configure alerting in the {@code TaskConfig} protos for tasks in an event. */
+export interface EnterpriseCrmEventbusProtoTaskAlertConfig {
+  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
+  numAggregationPeriods?: number | undefined;
+  /** Client associated with this alert configuration. Must be a client enabled in one of the containing workflow's triggers. */
+  clientId?: string | undefined;
+  /** The threshold type for which this alert is being configured. If value falls below expected_min or exceeds expected_max, an alert will be fired. */
+  thresholdType?:
+    | EnterpriseCrmEventbusProtoTaskAlertConfigThresholdTypeEnum
+    | (string & {})
+    | undefined;
+  warningEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
+  metricType?: EnterpriseCrmEventbusProtoTaskAlertConfigMetricTypeEnum | (string & {}) | undefined;
+  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this workflow alert. */
+  alertDisabled?: boolean | undefined;
+  /** Link to a playbook for resolving the issue that triggered this alert. */
+  playbookUrl?: string | undefined;
+  /** Should be specified only for TASK_AVERAGE_DURATION and TASK_PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
+  durationThresholdMs?: string | undefined;
+  /** A name to identify this alert. This will be displayed in the alert subject. If set, this name should be unique in within the scope of the containing workflow. */
+  alertName?: string | undefined;
+  /** Only count final task attempts, not retries. */
+  onlyFinalAttempt?: boolean | undefined;
+  /** The period over which the metric value should be aggregated and evaluated. Format is , where integer should be a positive integer and unit should be one of (s,m,h,d,w) meaning (second, minute, hour, day, week). */
+  aggregationPeriod?: string | undefined;
+  errorEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
+  /** The metric value, above or below which the alert should be triggered. */
+  thresholdValue?: EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue | undefined;
+}
+export type EnterpriseCrmEventbusProtoTaskAlertConfigList =
+  Array<EnterpriseCrmEventbusProtoTaskAlertConfig>;
+export type EnterpriseCrmEventbusProtoFailurePolicyList =
+  Array<EnterpriseCrmEventbusProtoFailurePolicy>;
+export interface EnterpriseCrmEventbusProtoConditionalFailurePolicies {
+  /** The list of failure policies that will be applied to the task in order. */
+  failurePolicies?: EnterpriseCrmEventbusProtoFailurePolicyList | undefined;
+  /** The default failure policy to be applied if no conditional failure policy matches */
+  defaultFailurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
+}
+export type EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskExecutionStrategyEnum =
+  | "WHEN_ALL_SUCCEED"
+  | "WHEN_ANY_SUCCEED"
+  | "WHEN_ALL_TASKS_AND_CONDITIONS_SUCCEED";
 /** The task configuration details. This is not the implementation of Task. There might be multiple TaskConfigs for the same Task. */
 export interface EnterpriseCrmFrontendsEventbusProtoTaskConfig {
-  /** The creator's email address. Auto-generated from the user's email. */
-  creatorEmail?: string | undefined;
-  /** Optional. Standard filter expression evaluated before execution. Independent of other conditions and tasks. Can be used to enable rollout. e.g. "rollout(5)" will only allow 5% of incoming traffic to task. */
-  precondition?: string | undefined;
+  /** Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
+  errorCatcherId?: string | undefined;
+  /** A string template that allows user to configure task parameters (with either literal default values or tokens which will be resolved at execution time) for the task. It will eventually replace the old "parameters" field. */
+  taskSpec?: string | undefined;
+  /** If this config contains a TypedTask, allow validation to succeed if an input is read from the output of another TypedTask whose output type is declared as a superclass of the requested input type. For instance, if the previous task declares an output of type Message, any task with this flag enabled will pass validation when attempting to read any proto Message type from the resultant Event parameter. */
+  disableStrictTypeValidation?: boolean | undefined;
+  /** Defines the type of the task */
+  taskType?: EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskTypeEnum | (string & {}) | undefined;
   /** If set, overrides the option configured in the Task implementation class. */
   jsonValidationOption?:
     | EnterpriseCrmFrontendsEventbusProtoTaskConfigJsonValidationOptionEnum
     | (string & {})
     | undefined;
-  /** A string template that allows user to configure task parameters (with either literal default values or tokens which will be resolved at execution time) for the task. It will eventually replace the old "parameters" field. */
-  taskSpec?: string | undefined;
-  /** REQUIRED: the identifier of this task within its parent event config, specified by the client. This should be unique among all the tasks belong to the same event config. We use this field as the identifier to find next tasks (via field `next_tasks.task_number`). */
-  taskNumber?: string | undefined;
+  /** The creator's email address. Auto-generated from the user's email. */
+  creatorEmail?: string | undefined;
+  /** Copy of the task entity that this task config is an instance of. */
+  taskEntity?: EnterpriseCrmFrontendsEventbusProtoTaskEntity | undefined;
+  /** The customized parameters the user can pass to this task. */
+  parameters?: EnterpriseCrmFrontendsEventbusProtoParameterEntryMap | undefined;
+  /** The number of edges leading into this TaskConfig. */
+  incomingEdgeCount?: number | undefined;
+  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
+  synchronousCallFailurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
   /** The name for the task. */
   taskName?: string | undefined;
   /** The set of tasks that are next in line to be executed as per the execution graph defined for the parent event, specified by `event_config_id`. Each of these next tasks are executed only if the condition associated with them evaluates to true. */
   nextTasks?: EnterpriseCrmEventbusProtoNextTaskList | undefined;
-  /** Optional. User-provided label that is attached to precondition in the UI. */
-  preconditionLabel?: string | undefined;
-  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
-  conditionalFailurePolicies?: EnterpriseCrmEventbusProtoConditionalFailurePolicies | undefined;
-  /** Defines the type of the task */
-  taskType?: EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskTypeEnum | (string & {}) | undefined;
-  /** Alert configurations on error rate, warning rate, number of runs, durations, etc. */
-  alertConfigs?: EnterpriseCrmEventbusProtoTaskAlertConfigList | undefined;
+  /** Determines what action to take upon successful task completion. */
+  successPolicy?: EnterpriseCrmEventbusProtoSuccessPolicy | undefined;
+  /** Optional. Informs the front-end application where to draw this task config on the UI. */
+  position?: EnterpriseCrmEventbusProtoCoordinate | undefined;
+  /** Optional. Contains information about what needs to be done upon failure (either a permanent error or after it has been retried too many times). */
+  rollbackStrategy?: EnterpriseCrmFrontendsEventbusProtoRollbackStrategy | undefined;
+  /** Auto-generated. */
+  createTime?: string | undefined;
+  /** User-provided description intended to give more business context about the task. */
+  description?: string | undefined;
   /** The policy dictating the execution of the next set of tasks for the current task. */
   nextTasksExecutionPolicy?:
     | EnterpriseCrmFrontendsEventbusProtoTaskConfigNextTasksExecutionPolicyEnum
     | (string & {})
     | undefined;
+  /** Optional. User-provided label that is attached to precondition in the UI. */
+  preconditionLabel?: string | undefined;
+  externalTaskType?:
+    | EnterpriseCrmFrontendsEventbusProtoTaskConfigExternalTaskTypeEnum
+    | (string & {})
+    | undefined;
+  /** REQUIRED: the identifier of this task within its parent event config, specified by the client. This should be unique among all the tasks belong to the same event config. We use this field as the identifier to find next tasks (via field `next_tasks.task_number`). */
+  taskNumber?: string | undefined;
   /** User-provided label that is attached to this TaskConfig in the UI. */
   label?: string | undefined;
+  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for asynchronous calls to Eventbus alone (Post To Queue, Schedule etc.). */
+  failurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
+  /** Alert configurations on error rate, warning rate, number of runs, durations, etc. */
+  alertConfigs?: EnterpriseCrmEventbusProtoTaskAlertConfigList | undefined;
+  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
+  conditionalFailurePolicies?: EnterpriseCrmEventbusProtoConditionalFailurePolicies | undefined;
+  /** Optional. Standard filter expression evaluated before execution. Independent of other conditions and tasks. Can be used to enable rollout. e.g. "rollout(5)" will only allow 5% of incoming traffic to task. */
+  precondition?: string | undefined;
+  /** Used to define task-template name if task is of type task-template */
+  taskTemplateName?: string | undefined;
+  /** Auto-generated. */
+  lastModifiedTime?: string | undefined;
   /** The policy dictating the execution strategy of this task. */
   taskExecutionStrategy?:
     | EnterpriseCrmFrontendsEventbusProtoTaskConfigTaskExecutionStrategyEnum
     | (string & {})
     | undefined;
-  externalTaskType?:
-    | EnterpriseCrmFrontendsEventbusProtoTaskConfigExternalTaskTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for asynchronous calls to Eventbus alone (Post To Queue, Schedule etc.). */
-  failurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
-  /** Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
-  errorCatcherId?: string | undefined;
-  /** Determines what action to take upon successful task completion. */
-  successPolicy?: EnterpriseCrmEventbusProtoSuccessPolicy | undefined;
-  /** Copy of the task entity that this task config is an instance of. */
-  taskEntity?: EnterpriseCrmFrontendsEventbusProtoTaskEntity | undefined;
-  /** Used to define task-template name if task is of type task-template */
-  taskTemplateName?: string | undefined;
-  /** The customized parameters the user can pass to this task. */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoParameterEntryMap | undefined;
-  /** Optional. Informs the front-end application where to draw this task config on the UI. */
-  position?: EnterpriseCrmEventbusProtoCoordinate | undefined;
-  /** If this config contains a TypedTask, allow validation to succeed if an input is read from the output of another TypedTask whose output type is declared as a superclass of the requested input type. For instance, if the previous task declares an output of type Message, any task with this flag enabled will pass validation when attempting to read any proto Message type from the resultant Event parameter. */
-  disableStrictTypeValidation?: boolean | undefined;
-  /** User-provided description intended to give more business context about the task. */
-  description?: string | undefined;
-  /** Optional. Contains information about what needs to be done upon failure (either a permanent error or after it has been retried too many times). */
-  rollbackStrategy?: EnterpriseCrmFrontendsEventbusProtoRollbackStrategy | undefined;
-  /** The number of edges leading into this TaskConfig. */
-  incomingEdgeCount?: number | undefined;
-  /** Auto-generated. */
-  lastModifiedTime?: string | undefined;
-  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
-  synchronousCallFailurePolicy?: EnterpriseCrmEventbusProtoFailurePolicy | undefined;
-  /** Auto-generated. */
-  createTime?: string | undefined;
 }
 export type EnterpriseCrmFrontendsEventbusProtoTaskConfigList =
   Array<EnterpriseCrmFrontendsEventbusProtoTaskConfig>;
-/** The task that is next in line to be executed, if the condition specified evaluated to true. */
-export interface GoogleCloudIntegrationsV1alphaNextTask {
-  /** ID of the next task. */
-  taskConfigId?: string | undefined;
-  /** User-provided description intended to give additional business context about the task. */
-  description?: string | undefined;
-  /** User-provided label that is attached to this edge in the UI. */
-  displayName?: string | undefined;
-  /** Standard filter expression for this task to become an eligible next task. */
-  condition?: string | undefined;
-  /** Task number of the next task. */
-  taskId?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaNextTaskList =
-  Array<GoogleCloudIntegrationsV1alphaNextTask>;
-/** Configuration detail of coordinate, it used for UI */
-export interface GoogleCloudIntegrationsV1alphaCoordinate {
-  /** Required. X axis of the coordinate */
-  x?: number | undefined;
-  /** Required. Y axis of the coordinate */
-  y?: number | undefined;
-}
-/** Configuration detail of a error catch task */
-export interface GoogleCloudIntegrationsV1alphaErrorCatcherConfig {
-  /** Required. The set of start tasks that are to be executed for the error catch flow */
-  startErrorTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
-  /** Optional. The user created label for a particular error catcher. Optional. */
-  label?: string | undefined;
-  /** Optional. User-provided description intended to give more business context about the error catcher config. */
-  description?: string | undefined;
-  /** Required. A number to uniquely identify each error catcher config within the workflow on UI. */
-  errorCatcherNumber?: string | undefined;
-  /** Required. An error catcher id is string representation for the error catcher config. Within a workflow, error_catcher_id uniquely identifies an error catcher config among all error catcher configs for the workflow */
-  errorCatcherId?: string | undefined;
-  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
-  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaErrorCatcherConfigList =
-  Array<GoogleCloudIntegrationsV1alphaErrorCatcherConfig>;
-export type GoogleCloudIntegrationsV1alphaCloudLoggingDetailsCloudLoggingSeverityEnum =
-  | "CLOUD_LOGGING_SEVERITY_UNSPECIFIED"
-  | "INFO"
-  | "ERROR"
-  | "WARNING";
-/** Cloud Logging details for execution info */
-export interface GoogleCloudIntegrationsV1alphaCloudLoggingDetails {
-  /** Optional. Severity selected by the customer for the logs to be sent to Cloud Logging, for the integration version getting executed. */
-  cloudLoggingSeverity?:
-    | GoogleCloudIntegrationsV1alphaCloudLoggingDetailsCloudLoggingSeverityEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Status of whether Cloud Logging is enabled or not for the integration version getting executed. */
-  enableCloudLogging?: boolean | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum =
-  | "EUC_HARDENING_DISPOSITION_UNSPECIFIED"
-  | "LEGACY"
-  | "HARDENED";
-export type GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum =
-  | "INTEGRATION_STATE_UNSPECIFIED"
-  | "DRAFT"
-  | "ACTIVE"
-  | "ARCHIVED"
-  | "SNAPSHOT";
-/** Cloud Scheduler Trigger configuration */
-export interface GoogleCloudIntegrationsV1alphaCloudSchedulerConfig {
-  /** Required. The cron tab of cloud scheduler trigger. */
-  cronTab?: string | undefined;
-  /** Optional. When the job was deleted from Pantheon UI, error_message will be populated when Get/List integrations */
-  errorMessage?: string | undefined;
-  /** Required. Service account used by Cloud Scheduler to trigger the integration at scheduled time */
-  serviceAccountEmail?: string | undefined;
-  /** Required. The location where associated cloud scheduler job will be created */
-  location?: string | undefined;
-}
-/** Variables names mapped to api trigger. */
-export interface GoogleCloudIntegrationsV1alphaTriggerConfigVariables {
-  /** Optional. List of variable names. */
-  names?: StringList | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdTypeEnum =
-  | "THRESHOLD_TYPE_UNSPECIFIED"
-  | "EXPECTED_MIN"
-  | "EXPECTED_MAX";
-export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigMetricTypeEnum =
-  | "METRIC_TYPE_UNSPECIFIED"
-  | "EVENT_ERROR_RATE"
-  | "EVENT_WARNING_RATE"
-  | "TASK_ERROR_RATE"
-  | "TASK_WARNING_RATE"
-  | "TASK_RATE"
-  | "EVENT_RATE"
-  | "EVENT_AVERAGE_DURATION"
-  | "EVENT_PERCENTILE_DURATION"
-  | "TASK_AVERAGE_DURATION"
-  | "TASK_PERCENTILE_DURATION";
-/** The threshold value of the metric, above or below which the alert should be triggered. See EventAlertConfig or TaskAlertConfig for the different alert metric types in each case. For the *RATE metrics, one or both of these fields may be set. Zero is the default value and can be left at that. For *PERCENTILE_DURATION metrics, one or both of these fields may be set, and also, the duration threshold value should be specified in the threshold_duration_ms member below. For *AVERAGE_DURATION metrics, these fields should not be set at all. A different member, threshold_duration_ms, must be set in the EventAlertConfig or the TaskAlertConfig. */
-export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue {
-  /** Absolute value threshold. */
-  absolute?: string | undefined;
-  /** Percentage threshold. */
-  percentage?: number | undefined;
-}
-/** Message to be used to configure custom alerting in the {@code EventConfig} protos for an event. */
-export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfig {
-  /** The period over which the metric value should be aggregated and evaluated. Format is , where integer should be a positive integer and unit should be one of (s,m,h,d,w) meaning (second, minute, hour, day, week). For an EXPECTED_MIN threshold, this aggregation_period must be lesser than 24 hours. */
-  aggregationPeriod?: string | undefined;
-  /** The threshold type, whether lower(expected_min) or upper(expected_max), for which this alert is being configured. If value falls below expected_min or exceeds expected_max, an alert will be fired. */
-  thresholdType?:
-    | GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdTypeEnum
-    | (string & {})
-    | undefined;
-  /** Name of the alert. This will be displayed in the alert subject. If set, this name should be unique within the scope of the integration. */
-  displayName?: string | undefined;
-  /** The type of metric. */
-  metricType?:
-    | GoogleCloudIntegrationsV1alphaIntegrationAlertConfigMetricTypeEnum
-    | (string & {})
-    | undefined;
-  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this integration alert. */
-  disableAlert?: boolean | undefined;
-  /** Should be specified only for *AVERAGE_DURATION and *PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
-  durationThreshold?: string | undefined;
-  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
-  alertThreshold?: number | undefined;
-  /** For either events or tasks, depending on the type of alert, count only final attempts, not retries. */
-  onlyFinalAttempt?: boolean | undefined;
-  /** The metric value, above or below which the alert should be triggered. */
-  thresholdValue?: GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigList =
-  Array<GoogleCloudIntegrationsV1alphaIntegrationAlertConfig>;
-export type GoogleCloudIntegrationsV1alphaTriggerConfigTriggerTypeEnum =
-  | "TRIGGER_TYPE_UNSPECIFIED"
-  | "CRON"
-  | "API"
-  | "SFDC_CHANNEL"
-  | "CLOUD_PUBSUB_EXTERNAL"
-  | "SFDC_CDC_CHANNEL"
-  | "CLOUD_SCHEDULER"
-  | "INTEGRATION_CONNECTOR_TRIGGER"
-  | "PRIVATE_TRIGGER"
-  | "CLOUD_PUBSUB"
-  | "EVENTARC_TRIGGER";
-export type GoogleCloudIntegrationsV1alphaTriggerConfigNextTasksExecutionPolicyEnum =
-  | "NEXT_TASKS_EXECUTION_POLICY_UNSPECIFIED"
-  | "RUN_ALL_MATCH"
-  | "RUN_FIRST_MATCH";
-export type StringMap = { [key: string]: string | undefined };
-/** Configuration detail of a trigger. */
-export interface GoogleCloudIntegrationsV1alphaTriggerConfig {
-  /** Optional. Auto-generated trigger ID. The ID is based on the properties that you define in the trigger config. For example, for an API trigger, the trigger ID follows the format: api_trigger/TRIGGER_NAME Where trigger config has properties with value {"Trigger name": TRIGGER_NAME} */
-  triggerId?: string | undefined;
-  /** Optional. Cloud Scheduler Trigger related metadata */
-  cloudSchedulerConfig?: GoogleCloudIntegrationsV1alphaCloudSchedulerConfig | undefined;
-  /** Optional. Name of the trigger. Example: "API Trigger", "Cloud Pub Sub Trigger" When set will be sent out to monitoring dashabord for tracking purpose. */
-  trigger?: string | undefined;
-  /** Optional. List of output variables for the api trigger. */
-  outputVariables?: GoogleCloudIntegrationsV1alphaTriggerConfigVariables | undefined;
-  /** Optional. An alert threshold configuration for the [trigger + client + integration] tuple. If these values are not specified in the trigger config, default values will be populated by the system. Note that there must be exactly one alert threshold configured per [client + trigger + integration] when published. */
-  alertConfig?: GoogleCloudIntegrationsV1alphaIntegrationAlertConfigList | undefined;
-  /** Required. A number to uniquely identify each trigger config within the integration on UI. */
-  triggerNumber?: string | undefined;
-  /** Optional. Type of trigger */
-  triggerType?:
-    | GoogleCloudIntegrationsV1alphaTriggerConfigTriggerTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The user created label for a particular trigger. */
-  label?: string | undefined;
-  /** Optional. User-provided description intended to give additional business context about the task. */
-  description?: string | undefined;
-  /** Optional. Dictates how next tasks will be executed. */
-  nextTasksExecutionPolicy?:
-    | GoogleCloudIntegrationsV1alphaTriggerConfigNextTasksExecutionPolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Set of tasks numbers from where the integration execution is started by this trigger. If this is empty, then integration is executed with default start tasks. In the list of start tasks, none of two tasks can have direct ancestor-descendant relationships (i.e. in a same integration execution graph). */
-  startTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
-  /** Optional. Configurable properties of the trigger, not to be confused with integration parameters. E.g. "name" is a property for API triggers and "subscription" is a property for Pub/sub triggers. */
-  properties?: StringMap | undefined;
-  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
-  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
-  /** Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
-  errorCatcherId?: string | undefined;
-  /** Optional. List of input variables for the api trigger. */
-  inputVariables?: GoogleCloudIntegrationsV1alphaTriggerConfigVariables | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaTriggerConfigList =
-  Array<GoogleCloudIntegrationsV1alphaTriggerConfig>;
-export type GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum =
-  | "UNKNOWN"
-  | "DRAFT"
-  | "ACTIVE"
-  | "ARCHIVED"
-  | "SNAPSHOT";
-export type GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum =
-  | "DATABASE_PERSISTENCE_POLICY_UNSPECIFIED"
-  | "DATABASE_PERSISTENCE_DISABLED"
-  | "DATABASE_PERSISTENCE_ASYNC";
-export type GoogleCloudIntegrationsV1alphaTaskConfigNextTasksExecutionPolicyEnum =
-  | "NEXT_TASKS_EXECUTION_POLICY_UNSPECIFIED"
-  | "RUN_ALL_MATCH"
-  | "RUN_FIRST_MATCH";
-export type GoogleCloudIntegrationsV1alphaFailurePolicyRetryStrategyEnum =
-  | "RETRY_STRATEGY_UNSPECIFIED"
-  | "IGNORE"
-  | "NONE"
-  | "FATAL"
-  | "FIXED_INTERVAL"
-  | "LINEAR_BACKOFF"
-  | "EXPONENTIAL_BACKOFF"
-  | "RESTART_INTEGRATION_WITH_BACKOFF";
-/** Policy that defines the task retry logic and failure type. If no FailurePolicy is defined for a task, all its dependent tasks will not be executed (i.e, a `retry_strategy` of NONE will be applied). */
-export interface GoogleCloudIntegrationsV1alphaFailurePolicy {
-  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_INTEGRATION_WITH_BACKOFF. Defines the initial interval in seconds for backoff. */
-  intervalTime?: string | undefined;
-  /** Optional. The string condition that will be evaluated to determine if the task should be retried with this failure policy. */
-  condition?: string | undefined;
-  /** Defines what happens to the task upon failure. */
-  retryStrategy?:
-    | GoogleCloudIntegrationsV1alphaFailurePolicyRetryStrategyEnum
-    | (string & {})
-    | undefined;
-  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_INTEGRATION_WITH_BACKOFF. Defines the number of times the task will be retried if failed. */
-  maxRetries?: number | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaFailurePolicyList =
-  Array<GoogleCloudIntegrationsV1alphaFailurePolicy>;
-/** Conditional task failur retry strategies */
-export interface GoogleCloudIntegrationsV1alphaConditionalFailurePolicies {
-  /** The default failure policy to be applied if no conditional failure policy matches. */
-  defaultFailurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
-  /** The list of failure policies that will be applied to the task in order. */
-  failurePolicies?: GoogleCloudIntegrationsV1alphaFailurePolicyList | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaSuccessPolicyFinalStateEnum =
-  | "FINAL_STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "SUSPENDED";
-/** Policy that dictates the behavior for the task after it completes successfully. */
-export interface GoogleCloudIntegrationsV1alphaSuccessPolicy {
-  /** State to which the execution snapshot status will be set if the task succeeds. */
-  finalState?:
-    | GoogleCloudIntegrationsV1alphaSuccessPolicyFinalStateEnum
-    | (string & {})
-    | undefined;
-}
-/** This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus. Next available id: 4 */
-export interface GoogleCloudIntegrationsV1alphaEventParameter {
-  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
-  key?: string | undefined;
-  /** True if this parameter should be masked in the logs */
-  masked?: boolean | undefined;
-  /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
-  value?: GoogleCloudIntegrationsV1alphaValueType | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaEventParameterMap = {
-  [key: string]: GoogleCloudIntegrationsV1alphaEventParameter | undefined;
-};
-export type GoogleCloudIntegrationsV1alphaTaskConfigJsonValidationOptionEnum =
-  | "JSON_VALIDATION_OPTION_UNSPECIFIED"
-  | "SKIP"
-  | "PRE_EXECUTION"
-  | "POST_EXECUTION"
-  | "PRE_POST_EXECUTION";
-export type GoogleCloudIntegrationsV1alphaTaskConfigTaskExecutionStrategyEnum =
-  | "TASK_EXECUTION_STRATEGY_UNSPECIFIED"
-  | "WHEN_ALL_SUCCEED"
-  | "WHEN_ANY_SUCCEED"
-  | "WHEN_ALL_TASKS_AND_CONDITIONS_SUCCEED";
-export type GoogleCloudIntegrationsV1alphaTaskConfigExternalTaskTypeEnum =
-  | "EXTERNAL_TASK_TYPE_UNSPECIFIED"
-  | "NORMAL_TASK"
-  | "ERROR_TASK";
-/** The task configuration details. This is not the implementation of Task. There might be multiple TaskConfigs for the same Task. */
-export interface GoogleCloudIntegrationsV1alphaTaskConfig {
-  /** Optional. The policy dictating the execution of the next set of tasks for the current task. */
-  nextTasksExecutionPolicy?:
-    | GoogleCloudIntegrationsV1alphaTaskConfigNextTasksExecutionPolicyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. User-provided description intended to give additional business context about the task. */
-  description?: string | undefined;
-  /** Optional. User-provided label that is attached to this TaskConfig in the UI. */
-  displayName?: string | undefined;
-  /** Optional. The set of tasks that are next in line to be executed as per the execution graph defined for the parent event, specified by `event_config_id`. Each of these next tasks are executed only if the condition associated with them evaluates to true. */
-  nextTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
-  /** Optional. The list of conditional failure policies that will be applied to the task in order. */
-  conditionalFailurePolicies?: GoogleCloudIntegrationsV1alphaConditionalFailurePolicies | undefined;
-  /** Optional. Determines what action to take upon successful task completion. */
-  successPolicy?: GoogleCloudIntegrationsV1alphaSuccessPolicy | undefined;
-  /** Optional. The customized parameters the user can pass to this task. */
-  parameters?: GoogleCloudIntegrationsV1alphaEventParameterMap | undefined;
-  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
-  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
-  /** Optional. If set, overrides the option configured in the Task implementation class. */
-  jsonValidationOption?:
-    | GoogleCloudIntegrationsV1alphaTaskConfigJsonValidationOptionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for asynchronous calls to Eventbus alone (Post To Queue, Schedule etc.). */
-  failurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
-  /** Optional. The name for the task. */
-  task?: string | undefined;
-  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
-  synchronousCallFailurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
-  /** Optional. The policy dictating the execution strategy of this task. */
-  taskExecutionStrategy?:
-    | GoogleCloudIntegrationsV1alphaTaskConfigTaskExecutionStrategyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Used to define task-template name if task is of type task-template */
-  taskTemplate?: string | undefined;
-  /** Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
-  errorCatcherId?: string | undefined;
-  /** Required. The identifier of this task within its parent event config, specified by the client. This should be unique among all the tasks belong to the same event config. We use this field as the identifier to find next tasks (via field `next_tasks.task_id`). */
-  taskId?: string | undefined;
-  /** Optional. External task type of the task */
-  externalTaskType?:
-    | GoogleCloudIntegrationsV1alphaTaskConfigExternalTaskTypeEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaTaskConfigList =
-  Array<GoogleCloudIntegrationsV1alphaTaskConfig>;
-/** The teardown task that is next in line to be executed. We support only sequential execution of teardown tasks (i.e. no branching). */
-export interface EnterpriseCrmEventbusProtoNextTeardownTask {
-  /** Required. Name of the next teardown task. */
-  name?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoIntParameterArray =
-  EnterpriseCrmFrontendsEventbusProtoIntParameterArray;
-export type EnterpriseCrmEventbusProtoSerializedObjectParameter =
-  EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter;
-export type EnterpriseCrmEventbusProtoBooleanParameterArray =
-  EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray;
-export type EnterpriseCrmEventbusProtoStringParameterArray =
-  EnterpriseCrmFrontendsEventbusProtoStringParameterArray;
-export type EnterpriseCrmEventbusProtoProtoParameterArray =
-  EnterpriseCrmFrontendsEventbusProtoProtoParameterArray;
-export type EnterpriseCrmEventbusProtoDoubleParameterArray =
-  EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray;
-/** LINT.IfChange To support various types of parameter values. Next available id: 14 */
-export interface EnterpriseCrmEventbusProtoParameterValueType {
-  stringValue?: string | undefined;
-  intArray?: EnterpriseCrmFrontendsEventbusProtoIntParameterArray | undefined;
-  protoValue?: DocumentMap | undefined;
-  serializedObjectValue?: EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter | undefined;
-  intValue?: string | undefined;
-  booleanArray?: EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray | undefined;
-  stringArray?: EnterpriseCrmFrontendsEventbusProtoStringParameterArray | undefined;
-  protoArray?: EnterpriseCrmFrontendsEventbusProtoProtoParameterArray | undefined;
-  doubleValue?: number | undefined;
-  booleanValue?: boolean | undefined;
-  doubleArray?: EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray | undefined;
-}
-/** Key-value pair of EventBus parameters. */
-export interface EnterpriseCrmEventbusProtoParameterEntry {
-  /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
-  value?: EnterpriseCrmEventbusProtoParameterValueType | undefined;
-  /** True if this parameter should be masked in the logs */
-  masked?: boolean | undefined;
-  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
-  key?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoParameterEntryList =
-  Array<EnterpriseCrmEventbusProtoParameterEntry>;
-/** LINT.IfChange This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus. Please see */
-export interface EnterpriseCrmEventbusProtoEventParameters {
-  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameters?: EnterpriseCrmEventbusProtoParameterEntryList | undefined;
-}
 /** Key-value pair of EventBus property. */
 export interface EnterpriseCrmEventbusProtoPropertyEntry {
   /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
@@ -1828,17 +1264,64 @@ export interface EnterpriseCrmEventbusProtoEventBusProperties {
   /** An unordered list of property entries. */
   properties?: EnterpriseCrmEventbusProtoPropertyEntryList | undefined;
 }
-export interface EnterpriseCrmEventbusProtoTeardownTaskConfig {
-  /** Required. Unique identifier of the teardown task within this Config. We use this field as the identifier to find next teardown tasks. */
+/** The teardown task that is next in line to be executed. We support only sequential execution of teardown tasks (i.e. no branching). */
+export interface EnterpriseCrmEventbusProtoNextTeardownTask {
+  /** Required. Name of the next teardown task. */
   name?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoDoubleParameterArray =
+  EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray;
+export type EnterpriseCrmEventbusProtoProtoParameterArray =
+  EnterpriseCrmFrontendsEventbusProtoProtoParameterArray;
+export type EnterpriseCrmEventbusProtoIntParameterArray =
+  EnterpriseCrmFrontendsEventbusProtoIntParameterArray;
+export type EnterpriseCrmEventbusProtoBooleanParameterArray =
+  EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray;
+export type EnterpriseCrmEventbusProtoStringParameterArray =
+  EnterpriseCrmFrontendsEventbusProtoStringParameterArray;
+export type EnterpriseCrmEventbusProtoSerializedObjectParameter =
+  EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter;
+/** LINT.IfChange To support various types of parameter values. Next available id: 14 */
+export interface EnterpriseCrmEventbusProtoParameterValueType {
+  booleanValue?: boolean | undefined;
+  intValue?: string | undefined;
+  stringValue?: string | undefined;
+  doubleArray?: EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray | undefined;
+  protoArray?: EnterpriseCrmFrontendsEventbusProtoProtoParameterArray | undefined;
+  doubleValue?: number | undefined;
+  protoValue?: DocumentMap | undefined;
+  intArray?: EnterpriseCrmFrontendsEventbusProtoIntParameterArray | undefined;
+  booleanArray?: EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray | undefined;
+  stringArray?: EnterpriseCrmFrontendsEventbusProtoStringParameterArray | undefined;
+  serializedObjectValue?: EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter | undefined;
+}
+/** Key-value pair of EventBus parameters. */
+export interface EnterpriseCrmEventbusProtoParameterEntry {
+  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
+  key?: string | undefined;
+  /** True if this parameter should be masked in the logs */
+  masked?: boolean | undefined;
+  /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
+  value?: EnterpriseCrmEventbusProtoParameterValueType | undefined;
+}
+export type EnterpriseCrmEventbusProtoParameterEntryList =
+  Array<EnterpriseCrmEventbusProtoParameterEntry>;
+/** LINT.IfChange This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus. Please see */
+export interface EnterpriseCrmEventbusProtoEventParameters {
+  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
+  parameters?: EnterpriseCrmEventbusProtoParameterEntryList | undefined;
+}
+export interface EnterpriseCrmEventbusProtoTeardownTaskConfig {
   /** Required. Implementation class name. */
   teardownTaskImplementationClassName?: string | undefined;
-  nextTeardownTask?: EnterpriseCrmEventbusProtoNextTeardownTask | undefined;
+  properties?: EnterpriseCrmEventbusProtoEventBusProperties | undefined;
+  /** Required. Unique identifier of the teardown task within this Config. We use this field as the identifier to find next teardown tasks. */
+  name?: string | undefined;
   /** The creator's email address. */
   creatorEmail?: string | undefined;
+  nextTeardownTask?: EnterpriseCrmEventbusProtoNextTeardownTask | undefined;
   /** The parameters the user can pass to this task. */
   parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
-  properties?: EnterpriseCrmEventbusProtoEventBusProperties | undefined;
 }
 export type EnterpriseCrmEventbusProtoTeardownTaskConfigList =
   Array<EnterpriseCrmEventbusProtoTeardownTaskConfig>;
@@ -1846,28 +1329,12 @@ export interface EnterpriseCrmEventbusProtoTeardown {
   /** Required. */
   teardownTaskConfigs?: EnterpriseCrmEventbusProtoTeardownTaskConfigList | undefined;
 }
-/** Variables names mapped to api trigger. */
-export type EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables =
-  GoogleCloudIntegrationsV1alphaTriggerConfigVariables;
-export interface EnterpriseCrmEventbusProtoTriggerCriteria {
-  /** Optional. Implementation class name. The class should implement the "TypedTask" interface. */
-  triggerCriteriaTaskImplementationClassName?: string | undefined;
-  /** Required. Standard filter expression, when true the workflow will be executed. If there's no trigger_criteria_task_implementation_class_name specified, the condition will be validated directly. */
-  condition?: string | undefined;
-  /** Optional. To be used in TaskConfig for the implementation class. */
-  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
-}
-/** Cloud Scheduler Trigger configuration */
-export interface EnterpriseCrmEventbusProtoCloudSchedulerConfig {
-  /** Optional. When the job was deleted from Pantheon UI, error_message will be populated when Get/List integrations */
-  errorMessage?: string | undefined;
-  /** Required. The location where associated cloud scheduler job will be created */
-  location?: string | undefined;
-  /** Required. Service account used by Cloud Scheduler to trigger the integration at scheduled time */
-  serviceAccountEmail?: string | undefined;
-  /** Required. The cron tab of cloud scheduler trigger. */
-  cronTab?: string | undefined;
-}
+export type GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum =
+  | "UNKNOWN"
+  | "DRAFT"
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "SNAPSHOT";
 export type EnterpriseCrmFrontendsEventbusProtoTriggerConfigTriggerTypeEnum =
   | "UNKNOWN"
   | "CLOUD_PUBSUB"
@@ -1885,10 +1352,20 @@ export type EnterpriseCrmFrontendsEventbusProtoTriggerConfigTriggerTypeEnum =
   | "INTEGRATION_CONNECTOR_TRIGGER"
   | "PRIVATE_TRIGGER"
   | "EVENTARC_TRIGGER";
-export type EnterpriseCrmEventbusProtoWorkflowAlertConfigThresholdTypeEnum =
-  | "UNSPECIFIED_THRESHOLD_TYPE"
-  | "EXPECTED_MIN"
-  | "EXPECTED_MAX";
+export type StringMap = { [key: string]: string | undefined };
+/** Variables names mapped to api trigger. */
+export interface EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables {
+  /** Optional. List of variable names. */
+  names?: StringList | undefined;
+}
+export interface EnterpriseCrmEventbusProtoTriggerCriteria {
+  /** Required. Standard filter expression, when true the workflow will be executed. If there's no trigger_criteria_task_implementation_class_name specified, the condition will be validated directly. */
+  condition?: string | undefined;
+  /** Optional. To be used in TaskConfig for the implementation class. */
+  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+  /** Optional. Implementation class name. The class should implement the "TypedTask" interface. */
+  triggerCriteriaTaskImplementationClassName?: string | undefined;
+}
 export type EnterpriseCrmEventbusProtoWorkflowAlertConfigMetricTypeEnum =
   | "METRIC_TYPE_UNSPECIFIED"
   | "EVENT_ERROR_RATE"
@@ -1901,81 +1378,96 @@ export type EnterpriseCrmEventbusProtoWorkflowAlertConfigMetricTypeEnum =
   | "EVENT_PERCENTILE_DURATION"
   | "TASK_AVERAGE_DURATION"
   | "TASK_PERCENTILE_DURATION";
+export type EnterpriseCrmEventbusProtoWorkflowAlertConfigThresholdTypeEnum =
+  | "UNSPECIFIED_THRESHOLD_TYPE"
+  | "EXPECTED_MIN"
+  | "EXPECTED_MAX";
 /** Message to be used to configure custom alerting in the {@code EventConfig} protos for an event. */
 export interface EnterpriseCrmEventbusProtoWorkflowAlertConfig {
-  /** For an EXPECTED_MIN threshold, this aggregation_period must be lesser than 24 hours. */
-  aggregationPeriod?: string | undefined;
-  /** Link to a playbook for resolving the issue that triggered this alert. */
-  playbookUrl?: string | undefined;
-  warningEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
+  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
+  numAggregationPeriods?: number | undefined;
   /** For either events or tasks, depending on the type of alert, count only final attempts, not retries. */
   onlyFinalAttempt?: boolean | undefined;
+  errorEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
+  warningEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
+  /** Client associated with this alert configuration. */
+  clientId?: string | undefined;
+  metricType?:
+    | EnterpriseCrmEventbusProtoWorkflowAlertConfigMetricTypeEnum
+    | (string & {})
+    | undefined;
+  /** A name to identify this alert. This will be displayed in the alert subject. If set, this name should be unique within the scope of the workflow. */
+  alertName?: string | undefined;
+  /** Link to a playbook for resolving the issue that triggered this alert. */
+  playbookUrl?: string | undefined;
+  /** Should be specified only for *AVERAGE_DURATION and *PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
+  durationThresholdMs?: string | undefined;
+  /** The metric value, above or below which the alert should be triggered. */
+  thresholdValue?: EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue | undefined;
+  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this workflow alert. */
+  alertDisabled?: boolean | undefined;
+  /** For an EXPECTED_MIN threshold, this aggregation_period must be lesser than 24 hours. */
+  aggregationPeriod?: string | undefined;
   /** The threshold type, whether lower(expected_min) or upper(expected_max), for which this alert is being configured. If value falls below expected_min or exceeds expected_max, an alert will be fired. */
   thresholdType?:
     | EnterpriseCrmEventbusProtoWorkflowAlertConfigThresholdTypeEnum
     | (string & {})
     | undefined;
-  /** Should be specified only for *AVERAGE_DURATION and *PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
-  durationThresholdMs?: string | undefined;
-  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this workflow alert. */
-  alertDisabled?: boolean | undefined;
-  /** The metric value, above or below which the alert should be triggered. */
-  thresholdValue?: EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue | undefined;
-  errorEnumList?: EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList | undefined;
-  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
-  numAggregationPeriods?: number | undefined;
-  /** Client associated with this alert configuration. */
-  clientId?: string | undefined;
-  /** A name to identify this alert. This will be displayed in the alert subject. If set, this name should be unique within the scope of the workflow. */
-  alertName?: string | undefined;
-  metricType?:
-    | EnterpriseCrmEventbusProtoWorkflowAlertConfigMetricTypeEnum
-    | (string & {})
-    | undefined;
 }
 export type EnterpriseCrmEventbusProtoWorkflowAlertConfigList =
   Array<EnterpriseCrmEventbusProtoWorkflowAlertConfig>;
+/** Cloud Scheduler Trigger configuration */
+export interface EnterpriseCrmEventbusProtoCloudSchedulerConfig {
+  /** Required. The location where associated cloud scheduler job will be created */
+  location?: string | undefined;
+  /** Required. The cron tab of cloud scheduler trigger. */
+  cronTab?: string | undefined;
+  /** Required. Service account used by Cloud Scheduler to trigger the integration at scheduled time */
+  serviceAccountEmail?: string | undefined;
+  /** Optional. When the job was deleted from Pantheon UI, error_message will be populated when Get/List integrations */
+  errorMessage?: string | undefined;
+}
 export type EnterpriseCrmFrontendsEventbusProtoTriggerConfigNextTasksExecutionPolicyEnum =
   | "UNSPECIFIED"
   | "RUN_ALL_MATCH"
   | "RUN_FIRST_MATCH";
 /** Configuration detail of a trigger. Next available id: 22 */
 export interface EnterpriseCrmFrontendsEventbusProtoTriggerConfig {
-  /** Optional. Name of the trigger This is added to identify the type of trigger. This is avoid the logic on triggerId to identify the trigger_type and push the same to monitoring. */
-  triggerName?: string | undefined;
-  /** Optional. Informs the front-end application where to draw this trigger config on the UI. */
-  position?: EnterpriseCrmEventbusProtoCoordinate | undefined;
-  /** Required. A number to uniquely identify each trigger config within the workflow on UI. */
-  triggerNumber?: string | undefined;
-  /** User-provided description intended to give more business context about the task. */
-  description?: string | undefined;
-  /** Optional. List of output variables for the api trigger. */
-  outputVariables?: GoogleCloudIntegrationsV1alphaTriggerConfigVariables | undefined;
-  /** Optional. When set, Eventbus will run the task specified in the trigger_criteria and validate the result using the trigger_criteria.condition, and only execute the workflow when result is true. */
-  triggerCriteria?: EnterpriseCrmEventbusProtoTriggerCriteria | undefined;
-  cloudSchedulerConfig?: EnterpriseCrmEventbusProtoCloudSchedulerConfig | undefined;
   /** Set of tasks numbers from where the workflow execution is started by this trigger. If this is empty, then workflow is executed with default start tasks. In the list of start tasks, none of two tasks can have direct ancestor-descendant relationships (i.e. in a same workflow execution graph). */
   startTasks?: EnterpriseCrmEventbusProtoNextTaskList | undefined;
-  /** Configurable properties of the trigger, not to be confused with workflow parameters. E.g. "name" is a property for API triggers and "subscription" is a property for Cloud Pubsub triggers. */
-  properties?: StringMap | undefined;
-  /** Optional. List of input variables for the api trigger. */
-  inputVariables?: GoogleCloudIntegrationsV1alphaTriggerConfigVariables | undefined;
-  /** Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
-  errorCatcherId?: string | undefined;
-  /** Required. The list of client ids which are enabled to execute the workflow using this trigger. In other words, these clients have the workflow execution privledges for this trigger. For API trigger, the client id in the incoming request is validated against the list of enabled clients. For non-API triggers, one workflow execution is triggered on behalf of each enabled client. */
-  enabledClients?: StringList | undefined;
   /** The user created label for a particular trigger. */
   label?: string | undefined;
   triggerType?:
     | EnterpriseCrmFrontendsEventbusProtoTriggerConfigTriggerTypeEnum
     | (string & {})
     | undefined;
+  /** Configurable properties of the trigger, not to be confused with workflow parameters. E.g. "name" is a property for API triggers and "subscription" is a property for Cloud Pubsub triggers. */
+  properties?: StringMap | undefined;
+  /** User-provided description intended to give more business context about the task. */
+  description?: string | undefined;
+  /** Optional. List of input variables for the api trigger. */
+  inputVariables?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables | undefined;
+  /** Optional. When set, Eventbus will run the task specified in the trigger_criteria and validate the result using the trigger_criteria.condition, and only execute the workflow when result is true. */
+  triggerCriteria?: EnterpriseCrmEventbusProtoTriggerCriteria | undefined;
+  /** An alert threshold configuration for the [trigger + client + workflow] tuple. If these values are not specified in the trigger config, default values will be populated by the system. Note that there must be exactly one alert threshold configured per [client + trigger + workflow] when published. */
+  alertConfig?: EnterpriseCrmEventbusProtoWorkflowAlertConfigList | undefined;
+  cloudSchedulerConfig?: EnterpriseCrmEventbusProtoCloudSchedulerConfig | undefined;
+  /** Optional. Informs the front-end application where to draw this trigger config on the UI. */
+  position?: EnterpriseCrmEventbusProtoCoordinate | undefined;
+  /** Optional. List of output variables for the api trigger. */
+  outputVariables?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables | undefined;
+  /** Optional. Name of the trigger This is added to identify the type of trigger. This is avoid the logic on triggerId to identify the trigger_type and push the same to monitoring. */
+  triggerName?: string | undefined;
   /** Optional. If set to true, any upcoming requests for this trigger config will be paused and the executions will be resumed later when the flag is reset. The workflow to which this trigger config belongs has to be in ACTIVE status for the executions to be paused or resumed. */
   pauseWorkflowExecutions?: boolean | undefined;
   /** The backend trigger ID. */
   triggerId?: string | undefined;
-  /** An alert threshold configuration for the [trigger + client + workflow] tuple. If these values are not specified in the trigger config, default values will be populated by the system. Note that there must be exactly one alert threshold configured per [client + trigger + workflow] when published. */
-  alertConfig?: EnterpriseCrmEventbusProtoWorkflowAlertConfigList | undefined;
+  /** Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
+  errorCatcherId?: string | undefined;
+  /** Required. A number to uniquely identify each trigger config within the workflow on UI. */
+  triggerNumber?: string | undefined;
+  /** Required. The list of client ids which are enabled to execute the workflow using this trigger. In other words, these clients have the workflow execution privledges for this trigger. For API trigger, the client id in the incoming request is validated against the list of enabled clients. For non-API triggers, one workflow execution is triggered on behalf of each enabled client. */
+  enabledClients?: StringList | undefined;
   /** Dictates how next tasks will be executed. */
   nextTasksExecutionPolicy?:
     | EnterpriseCrmFrontendsEventbusProtoTriggerConfigNextTasksExecutionPolicyEnum
@@ -1984,6 +1476,387 @@ export interface EnterpriseCrmFrontendsEventbusProtoTriggerConfig {
 }
 export type EnterpriseCrmFrontendsEventbusProtoTriggerConfigList =
   Array<EnterpriseCrmFrontendsEventbusProtoTriggerConfig>;
+export type GoogleCloudIntegrationsV1alphaIntegrationParameterDataTypeEnum =
+  | "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED"
+  | "STRING_VALUE"
+  | "INT_VALUE"
+  | "DOUBLE_VALUE"
+  | "BOOLEAN_VALUE"
+  | "STRING_ARRAY"
+  | "INT_ARRAY"
+  | "DOUBLE_ARRAY"
+  | "BOOLEAN_ARRAY"
+  | "JSON_VALUE"
+  | "PROTO_VALUE"
+  | "PROTO_ARRAY"
+  | "NON_SERIALIZABLE_OBJECT"
+  | "PROTO_ENUM"
+  | "SERIALIZED_OBJECT_VALUE"
+  | "PROTO_ENUM_ARRAY"
+  | "BYTES"
+  | "BYTES_ARRAY";
+export type GoogleCloudIntegrationsV1alphaIntegrationParameterInputOutputTypeEnum =
+  | "IN_OUT_TYPE_UNSPECIFIED"
+  | "IN"
+  | "OUT"
+  | "IN_OUT";
+/** Integration Parameter is defined in the integration config and are used to provide information about data types of the expected parameters and provide any default values if needed. They can also be used to add custom attributes. These are static in nature and should not be used for dynamic event definition. */
+export interface GoogleCloudIntegrationsV1alphaIntegrationParameter {
+  /** True if this parameter should be masked in the logs */
+  masked?: boolean | undefined;
+  /** Type of the parameter. */
+  dataType?:
+    | GoogleCloudIntegrationsV1alphaIntegrationParameterDataTypeEnum
+    | (string & {})
+    | undefined;
+  /** Searchable in the execution log or not. */
+  searchable?: boolean | undefined;
+  /** Whether this parameter is a transient parameter. */
+  isTransient?: boolean | undefined;
+  /** The identifier of the node (TaskConfig/TriggerConfig) this parameter was produced by, if it is a transient param or a copy of an input param. */
+  producer?: string | undefined;
+  /** This schema will be used to validate runtime JSON-typed values of this parameter. */
+  jsonSchema?: string | undefined;
+  /** Indicates whether this variable contains large data and need to be uploaded to Cloud Storage. */
+  containsLargeData?: boolean | undefined;
+  /** Optional. Description of the parameter. */
+  description?: string | undefined;
+  /** Specifies the input/output type for the parameter. */
+  inputOutputType?:
+    | GoogleCloudIntegrationsV1alphaIntegrationParameterInputOutputTypeEnum
+    | (string & {})
+    | undefined;
+  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
+  key?: string | undefined;
+  /** Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
+  defaultValue?: GoogleCloudIntegrationsV1alphaValueType | undefined;
+  /** The name (without prefix) to be displayed in the UI for this parameter. E.g. if the key is "foo.bar.myName", then the name would be "myName". */
+  displayName?: string | undefined;
+}
+/** Integration Config Parameter is defined in the integration config and are used to provide external configuration for integration. It provide information about data types of the expected parameters and provide any default values or value. They can also be used to add custom attributes. */
+export interface GoogleCloudIntegrationsV1alphaIntegrationConfigParameter {
+  /** Optional. Integration Parameter to provide the default value, data type and attributes required for the Integration config variables. */
+  parameter?: GoogleCloudIntegrationsV1alphaIntegrationParameter | undefined;
+  /** Values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
+  value?: GoogleCloudIntegrationsV1alphaValueType | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList =
+  Array<GoogleCloudIntegrationsV1alphaIntegrationConfigParameter>;
+export type GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum =
+  | "DATABASE_PERSISTENCE_POLICY_UNSPECIFIED"
+  | "DATABASE_PERSISTENCE_DISABLED"
+  | "DATABASE_PERSISTENCE_ASYNC";
+export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryInOutTypeEnum =
+  | "IN_OUT_TYPE_UNSPECIFIED"
+  | "IN"
+  | "OUT"
+  | "IN_OUT";
+export type EnterpriseCrmEventbusProtoNodeIdentifierElementTypeEnum =
+  | "UNKNOWN_TYPE"
+  | "TASK_CONFIG"
+  | "TRIGGER_CONFIG";
+/** Represents a node identifier (type + id). Next highest id: 3 */
+export interface EnterpriseCrmEventbusProtoNodeIdentifier {
+  /** Configuration of the edge. */
+  elementIdentifier?: string | undefined;
+  /** Destination node where the edge ends. It can only be a task config. */
+  elementType?: EnterpriseCrmEventbusProtoNodeIdentifierElementTypeEnum | (string & {}) | undefined;
+}
+export type EnterpriseCrmEventbusProtoLogSettingsSeedScopeEnum =
+  | "SEED_SCOPE_UNSPECIFIED"
+  | "EVENT_NAME"
+  | "TIME_PERIOD"
+  | "PARAM_NAME";
+export type EnterpriseCrmEventbusProtoLogSettingsSeedPeriodEnum =
+  | "SEED_PERIOD_UNSPECIFIED"
+  | "DAY"
+  | "WEEK"
+  | "MONTH";
+/** The LogSettings define the logging attributes for an event property. These attributes are used to map the property to the parameter in the log proto. Also used to define scrubbing/truncation behavior and PII information. */
+export interface EnterpriseCrmEventbusProtoLogSettings {
+  seedScope?: EnterpriseCrmEventbusProtoLogSettingsSeedScopeEnum | (string & {}) | undefined;
+  seedPeriod?: EnterpriseCrmEventbusProtoLogSettingsSeedPeriodEnum | (string & {}) | undefined;
+  /** The name of corresponding logging field of the event property. If omitted, assumes the same name as the event property key. */
+  logFieldName?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoAttributesSearchableEnum = "UNSPECIFIED" | "YES" | "NO";
+export type EnterpriseCrmEventbusProtoAttributesDataTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "EMAIL"
+  | "URL"
+  | "CURRENCY"
+  | "TIMESTAMP"
+  | "DOMAIN_NAME";
+/** Attributes are additional options that can be associated with each event property. For more information, see */
+export interface EnterpriseCrmEventbusProtoAttributes {
+  /** See */
+  logSettings?: EnterpriseCrmEventbusProtoLogSettings | undefined;
+  /** List of tasks that can view this property, if empty then all. */
+  taskVisibility?: StringList | undefined;
+  /** Used to define defaults. */
+  defaultValue?: EnterpriseCrmEventbusProtoValueType | undefined;
+  /** Required for event execution. The validation will be done by the event bus when the event is triggered. */
+  isRequired?: boolean | undefined;
+  /** Used to indicate if the ParameterEntry is a read only field or not. */
+  readOnly?: boolean | undefined;
+  searchable?: EnterpriseCrmEventbusProtoAttributesSearchableEnum | (string & {}) | undefined;
+  /** True if this workflow parameter should be masked in the logs */
+  masked?: boolean | undefined;
+  /** Used to indicate if a ParameterEntry should be converted to ParamIndexes for ST-Spanner full-text search. DEPRECATED: use searchable. */
+  isSearchable?: boolean | undefined;
+  /** Things like URL, Email, Currency, Timestamp (rather than string, int64...) */
+  dataType?: EnterpriseCrmEventbusProtoAttributesDataTypeEnum | (string & {}) | undefined;
+}
+export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryDataTypeEnum =
+  | "DATA_TYPE_UNSPECIFIED"
+  | "STRING_VALUE"
+  | "INT_VALUE"
+  | "DOUBLE_VALUE"
+  | "BOOLEAN_VALUE"
+  | "PROTO_VALUE"
+  | "SERIALIZED_OBJECT_VALUE"
+  | "STRING_ARRAY"
+  | "INT_ARRAY"
+  | "DOUBLE_ARRAY"
+  | "PROTO_ARRAY"
+  | "PROTO_ENUM"
+  | "BOOLEAN_ARRAY"
+  | "PROTO_ENUM_ARRAY"
+  | "BYTES"
+  | "BYTES_ARRAY"
+  | "NON_SERIALIZABLE_OBJECT"
+  | "JSON_VALUE";
+export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry {
+  /** Whether this parameter is a transient parameter. */
+  isTransient?: boolean | undefined;
+  /** The name of the protobuf type if the parameter has a protobuf data type. */
+  protoDefName?: string | undefined;
+  /** Specifies the input/output type for the parameter. */
+  inOutType?:
+    | EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryInOutTypeEnum
+    | (string & {})
+    | undefined;
+  /** Indicates whether this variable contains large data and need to be uploaded to Cloud Storage. */
+  containsLargeData?: boolean | undefined;
+  /** The identifier of the node (TaskConfig/TriggerConfig) this parameter was produced by, if it is a transient param or a copy of an input param. */
+  producedBy?: EnterpriseCrmEventbusProtoNodeIdentifier | undefined;
+  /** Metadata information about the parameters. */
+  attributes?: EnterpriseCrmEventbusProtoAttributes | undefined;
+  producer?: string | undefined;
+  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the workflow definition. */
+  key?: string | undefined;
+  required?: boolean | undefined;
+  /** If the data type is of type proto or proto array, this field needs to be populated with the fully qualified proto name. This message, for example, would be "enterprise.crm.frontends.eventbus.proto.WorkflowParameterEntry". */
+  protoDefPath?: string | undefined;
+  /** Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object. */
+  defaultValue?: EnterpriseCrmFrontendsEventbusProtoParameterValueType | undefined;
+  /** The data type of the parameter. */
+  dataType?:
+    | EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryDataTypeEnum
+    | (string & {})
+    | undefined;
+  /** The name (without prefix) to be displayed in the UI for this parameter. E.g. if the key is "foo.bar.myName", then the name would be "myName". */
+  name?: string | undefined;
+  /** Child parameters nested within this parameter. This field only applies to protobuf parameters */
+  children?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList | undefined;
+  /** This schema will be used to validate runtime JSON-typed values of this parameter. */
+  jsonSchema?: string | undefined;
+  /** Optional. The description about the parameter */
+  description?: string | undefined;
+}
+export type EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList =
+  Array<EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry>;
+/** LINT.IfChange This is the frontend version of WorkflowParameters. It's exactly like the backend version except that instead of flattening protobuf parameters and treating every field and subfield of a protobuf parameter as a separate parameter, the fields/subfields of a protobuf parameter will be nested as "children" (see 'children' field below) parameters of the parent parameter. Please refer to enterprise/crm/eventbus/proto/workflow_parameters.proto for more information about WorkflowParameters. */
+export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameters {
+  /** Parameters are a part of Event and can be used to communiticate between different tasks that are part of the same workflow execution. */
+  parameters?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntryList | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaCloudLoggingDetailsCloudLoggingSeverityEnum =
+  | "CLOUD_LOGGING_SEVERITY_UNSPECIFIED"
+  | "INFO"
+  | "ERROR"
+  | "WARNING";
+/** Cloud Logging details for execution info */
+export interface GoogleCloudIntegrationsV1alphaCloudLoggingDetails {
+  /** Optional. Status of whether Cloud Logging is enabled or not for the integration version getting executed. */
+  enableCloudLogging?: boolean | undefined;
+  /** Optional. Severity selected by the customer for the logs to be sent to Cloud Logging, for the integration version getting executed. */
+  cloudLoggingSeverity?:
+    | GoogleCloudIntegrationsV1alphaCloudLoggingDetailsCloudLoggingSeverityEnum
+    | (string & {})
+    | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaFailurePolicyRetryStrategyEnum =
+  | "RETRY_STRATEGY_UNSPECIFIED"
+  | "IGNORE"
+  | "NONE"
+  | "FATAL"
+  | "FIXED_INTERVAL"
+  | "LINEAR_BACKOFF"
+  | "EXPONENTIAL_BACKOFF"
+  | "RESTART_INTEGRATION_WITH_BACKOFF";
+/** Policy that defines the task retry logic and failure type. If no FailurePolicy is defined for a task, all its dependent tasks will not be executed (i.e, a `retry_strategy` of NONE will be applied). */
+export interface GoogleCloudIntegrationsV1alphaFailurePolicy {
+  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_INTEGRATION_WITH_BACKOFF. Defines the initial interval in seconds for backoff. */
+  intervalTime?: string | undefined;
+  /** Defines what happens to the task upon failure. */
+  retryStrategy?:
+    | GoogleCloudIntegrationsV1alphaFailurePolicyRetryStrategyEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The string condition that will be evaluated to determine if the task should be retried with this failure policy. */
+  condition?: string | undefined;
+  /** Required if retry_strategy is FIXED_INTERVAL or LINEAR/EXPONENTIAL_BACKOFF/RESTART_INTEGRATION_WITH_BACKOFF. Defines the number of times the task will be retried if failed. */
+  maxRetries?: number | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaFailurePolicyList =
+  Array<GoogleCloudIntegrationsV1alphaFailurePolicy>;
+/** Conditional task failur retry strategies */
+export interface GoogleCloudIntegrationsV1alphaConditionalFailurePolicies {
+  /** The list of failure policies that will be applied to the task in order. */
+  failurePolicies?: GoogleCloudIntegrationsV1alphaFailurePolicyList | undefined;
+  /** The default failure policy to be applied if no conditional failure policy matches. */
+  defaultFailurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaSuccessPolicyFinalStateEnum =
+  | "FINAL_STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "SUSPENDED";
+/** Policy that dictates the behavior for the task after it completes successfully. */
+export interface GoogleCloudIntegrationsV1alphaSuccessPolicy {
+  /** State to which the execution snapshot status will be set if the task succeeds. */
+  finalState?:
+    | GoogleCloudIntegrationsV1alphaSuccessPolicyFinalStateEnum
+    | (string & {})
+    | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaTaskConfigJsonValidationOptionEnum =
+  | "JSON_VALIDATION_OPTION_UNSPECIFIED"
+  | "SKIP"
+  | "PRE_EXECUTION"
+  | "POST_EXECUTION"
+  | "PRE_POST_EXECUTION";
+export type GoogleCloudIntegrationsV1alphaTaskConfigNextTasksExecutionPolicyEnum =
+  | "NEXT_TASKS_EXECUTION_POLICY_UNSPECIFIED"
+  | "RUN_ALL_MATCH"
+  | "RUN_FIRST_MATCH";
+/** Configuration detail of coordinate, it used for UI */
+export interface GoogleCloudIntegrationsV1alphaCoordinate {
+  /** Required. X axis of the coordinate */
+  x?: number | undefined;
+  /** Required. Y axis of the coordinate */
+  y?: number | undefined;
+}
+/** The task that is next in line to be executed, if the condition specified evaluated to true. */
+export interface GoogleCloudIntegrationsV1alphaNextTask {
+  /** Task number of the next task. */
+  taskId?: string | undefined;
+  /** User-provided label that is attached to this edge in the UI. */
+  displayName?: string | undefined;
+  /** ID of the next task. */
+  taskConfigId?: string | undefined;
+  /** User-provided description intended to give additional business context about the task. */
+  description?: string | undefined;
+  /** Standard filter expression for this task to become an eligible next task. */
+  condition?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaNextTaskList =
+  Array<GoogleCloudIntegrationsV1alphaNextTask>;
+/** This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus. Next available id: 4 */
+export interface GoogleCloudIntegrationsV1alphaEventParameter {
+  /** Values for the defined keys. Each value can either be string, int, double or any proto message. */
+  value?: GoogleCloudIntegrationsV1alphaValueType | undefined;
+  /** True if this parameter should be masked in the logs */
+  masked?: boolean | undefined;
+  /** Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition. */
+  key?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaEventParameterMap = {
+  [key: string]: GoogleCloudIntegrationsV1alphaEventParameter | undefined;
+};
+export type GoogleCloudIntegrationsV1alphaTaskConfigTaskExecutionStrategyEnum =
+  | "TASK_EXECUTION_STRATEGY_UNSPECIFIED"
+  | "WHEN_ALL_SUCCEED"
+  | "WHEN_ANY_SUCCEED"
+  | "WHEN_ALL_TASKS_AND_CONDITIONS_SUCCEED";
+export type GoogleCloudIntegrationsV1alphaTaskConfigExternalTaskTypeEnum =
+  | "EXTERNAL_TASK_TYPE_UNSPECIFIED"
+  | "NORMAL_TASK"
+  | "ERROR_TASK";
+/** The task configuration details. This is not the implementation of Task. There might be multiple TaskConfigs for the same Task. */
+export interface GoogleCloudIntegrationsV1alphaTaskConfig {
+  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for synchronous calls to Eventbus alone (Post). */
+  synchronousCallFailurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
+  /** Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
+  errorCatcherId?: string | undefined;
+  /** Optional. The list of conditional failure policies that will be applied to the task in order. */
+  conditionalFailurePolicies?: GoogleCloudIntegrationsV1alphaConditionalFailurePolicies | undefined;
+  /** Optional. Determines what action to take upon successful task completion. */
+  successPolicy?: GoogleCloudIntegrationsV1alphaSuccessPolicy | undefined;
+  /** Optional. If set, overrides the option configured in the Task implementation class. */
+  jsonValidationOption?:
+    | GoogleCloudIntegrationsV1alphaTaskConfigJsonValidationOptionEnum
+    | (string & {})
+    | undefined;
+  /** Required. The identifier of this task within its parent event config, specified by the client. This should be unique among all the tasks belong to the same event config. We use this field as the identifier to find next tasks (via field `next_tasks.task_id`). */
+  taskId?: string | undefined;
+  /** Optional. User-provided label that is attached to this TaskConfig in the UI. */
+  displayName?: string | undefined;
+  /** Optional. Used to define task-template name if task is of type task-template */
+  taskTemplate?: string | undefined;
+  /** Optional. The policy dictating the execution of the next set of tasks for the current task. */
+  nextTasksExecutionPolicy?:
+    | GoogleCloudIntegrationsV1alphaTaskConfigNextTasksExecutionPolicyEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
+  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
+  /** Optional. Determines the number of times the task will be retried on failure and with what retry strategy. This is applicable for asynchronous calls to Eventbus alone (Post To Queue, Schedule etc.). */
+  failurePolicy?: GoogleCloudIntegrationsV1alphaFailurePolicy | undefined;
+  /** Optional. The set of tasks that are next in line to be executed as per the execution graph defined for the parent event, specified by `event_config_id`. Each of these next tasks are executed only if the condition associated with them evaluates to true. */
+  nextTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
+  /** Optional. The customized parameters the user can pass to this task. */
+  parameters?: GoogleCloudIntegrationsV1alphaEventParameterMap | undefined;
+  /** Optional. The policy dictating the execution strategy of this task. */
+  taskExecutionStrategy?:
+    | GoogleCloudIntegrationsV1alphaTaskConfigTaskExecutionStrategyEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The name for the task. */
+  task?: string | undefined;
+  /** Optional. External task type of the task */
+  externalTaskType?:
+    | GoogleCloudIntegrationsV1alphaTaskConfigExternalTaskTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. User-provided description intended to give additional business context about the task. */
+  description?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaTaskConfigList =
+  Array<GoogleCloudIntegrationsV1alphaTaskConfig>;
+/** Configuration detail of a error catch task */
+export interface GoogleCloudIntegrationsV1alphaErrorCatcherConfig {
+  /** Required. The set of start tasks that are to be executed for the error catch flow */
+  startErrorTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
+  /** Required. A number to uniquely identify each error catcher config within the workflow on UI. */
+  errorCatcherNumber?: string | undefined;
+  /** Optional. The user created label for a particular error catcher. Optional. */
+  label?: string | undefined;
+  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
+  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
+  /** Optional. User-provided description intended to give more business context about the error catcher config. */
+  description?: string | undefined;
+  /** Required. An error catcher id is string representation for the error catcher config. Within a workflow, error_catcher_id uniquely identifies an error catcher config among all error catcher configs for the workflow */
+  errorCatcherId?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaErrorCatcherConfigList =
+  Array<GoogleCloudIntegrationsV1alphaErrorCatcherConfig>;
+export type GoogleCloudIntegrationsV1alphaIntegrationParameterList =
+  Array<GoogleCloudIntegrationsV1alphaIntegrationParameter>;
+export type GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum =
+  | "EUC_HARDENING_DISPOSITION_UNSPECIFIED"
+  | "LEGACY"
+  | "HARDENED";
 export type GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum =
   | "UNSPECIFIED"
   | "UI"
@@ -1991,74 +1864,201 @@ export type GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum =
   | "PIPER_V3"
   | "APPLICATION_IP_PROVISIONING"
   | "TEST_CASE";
-export type GoogleCloudIntegrationsV1alphaIntegrationParameterList =
-  Array<GoogleCloudIntegrationsV1alphaIntegrationParameter>;
+export type GoogleCloudIntegrationsV1alphaTriggerConfigNextTasksExecutionPolicyEnum =
+  | "NEXT_TASKS_EXECUTION_POLICY_UNSPECIFIED"
+  | "RUN_ALL_MATCH"
+  | "RUN_FIRST_MATCH";
+/** Variables names mapped to api trigger. */
+export type GoogleCloudIntegrationsV1alphaTriggerConfigVariables =
+  EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables;
+export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdTypeEnum =
+  | "THRESHOLD_TYPE_UNSPECIFIED"
+  | "EXPECTED_MIN"
+  | "EXPECTED_MAX";
+/** The threshold value of the metric, above or below which the alert should be triggered. See EventAlertConfig or TaskAlertConfig for the different alert metric types in each case. For the *RATE metrics, one or both of these fields may be set. Zero is the default value and can be left at that. For *PERCENTILE_DURATION metrics, one or both of these fields may be set, and also, the duration threshold value should be specified in the threshold_duration_ms member below. For *AVERAGE_DURATION metrics, these fields should not be set at all. A different member, threshold_duration_ms, must be set in the EventAlertConfig or the TaskAlertConfig. */
+export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue {
+  /** Absolute value threshold. */
+  absolute?: string | undefined;
+  /** Percentage threshold. */
+  percentage?: number | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigMetricTypeEnum =
+  | "METRIC_TYPE_UNSPECIFIED"
+  | "EVENT_ERROR_RATE"
+  | "EVENT_WARNING_RATE"
+  | "TASK_ERROR_RATE"
+  | "TASK_WARNING_RATE"
+  | "TASK_RATE"
+  | "EVENT_RATE"
+  | "EVENT_AVERAGE_DURATION"
+  | "EVENT_PERCENTILE_DURATION"
+  | "TASK_AVERAGE_DURATION"
+  | "TASK_PERCENTILE_DURATION";
+/** Message to be used to configure custom alerting in the {@code EventConfig} protos for an event. */
+export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfig {
+  /** The threshold type, whether lower(expected_min) or upper(expected_max), for which this alert is being configured. If value falls below expected_min or exceeds expected_max, an alert will be fired. */
+  thresholdType?:
+    | GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdTypeEnum
+    | (string & {})
+    | undefined;
+  /** Name of the alert. This will be displayed in the alert subject. If set, this name should be unique within the scope of the integration. */
+  displayName?: string | undefined;
+  /** The metric value, above or below which the alert should be triggered. */
+  thresholdValue?: GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue | undefined;
+  /** Set to false by default. When set to true, the metrics are not aggregated or pushed to Monarch for this integration alert. */
+  disableAlert?: boolean | undefined;
+  /** The period over which the metric value should be aggregated and evaluated. Format is , where integer should be a positive integer and unit should be one of (s,m,h,d,w) meaning (second, minute, hour, day, week). For an EXPECTED_MIN threshold, this aggregation_period must be lesser than 24 hours. */
+  aggregationPeriod?: string | undefined;
+  /** For either events or tasks, depending on the type of alert, count only final attempts, not retries. */
+  onlyFinalAttempt?: boolean | undefined;
+  /** Should be specified only for *AVERAGE_DURATION and *PERCENTILE_DURATION metrics. This member should be used to specify what duration value the metrics should exceed for the alert to trigger. */
+  durationThreshold?: string | undefined;
+  /** The type of metric. */
+  metricType?:
+    | GoogleCloudIntegrationsV1alphaIntegrationAlertConfigMetricTypeEnum
+    | (string & {})
+    | undefined;
+  /** For how many contiguous aggregation periods should the expected min or max be violated for the alert to be fired. */
+  alertThreshold?: number | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaIntegrationAlertConfigList =
+  Array<GoogleCloudIntegrationsV1alphaIntegrationAlertConfig>;
+/** Cloud Scheduler Trigger configuration */
+export interface GoogleCloudIntegrationsV1alphaCloudSchedulerConfig {
+  /** Optional. When the job was deleted from Pantheon UI, error_message will be populated when Get/List integrations */
+  errorMessage?: string | undefined;
+  /** Required. Service account used by Cloud Scheduler to trigger the integration at scheduled time */
+  serviceAccountEmail?: string | undefined;
+  /** Required. The cron tab of cloud scheduler trigger. */
+  cronTab?: string | undefined;
+  /** Required. The location where associated cloud scheduler job will be created */
+  location?: string | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaTriggerConfigTriggerTypeEnum =
+  | "TRIGGER_TYPE_UNSPECIFIED"
+  | "CRON"
+  | "API"
+  | "SFDC_CHANNEL"
+  | "CLOUD_PUBSUB_EXTERNAL"
+  | "SFDC_CDC_CHANNEL"
+  | "CLOUD_SCHEDULER"
+  | "INTEGRATION_CONNECTOR_TRIGGER"
+  | "PRIVATE_TRIGGER"
+  | "CLOUD_PUBSUB"
+  | "EVENTARC_TRIGGER";
+/** Configuration detail of a trigger. */
+export interface GoogleCloudIntegrationsV1alphaTriggerConfig {
+  /** Optional. Configurable properties of the trigger, not to be confused with integration parameters. E.g. "name" is a property for API triggers and "subscription" is a property for Pub/sub triggers. */
+  properties?: StringMap | undefined;
+  /** Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task */
+  errorCatcherId?: string | undefined;
+  /** Optional. Set of tasks numbers from where the integration execution is started by this trigger. If this is empty, then integration is executed with default start tasks. In the list of start tasks, none of two tasks can have direct ancestor-descendant relationships (i.e. in a same integration execution graph). */
+  startTasks?: GoogleCloudIntegrationsV1alphaNextTaskList | undefined;
+  /** Optional. Name of the trigger. Example: "API Trigger", "Cloud Pub Sub Trigger" When set will be sent out to monitoring dashabord for tracking purpose. */
+  trigger?: string | undefined;
+  /** Optional. Dictates how next tasks will be executed. */
+  nextTasksExecutionPolicy?:
+    | GoogleCloudIntegrationsV1alphaTriggerConfigNextTasksExecutionPolicyEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Auto-generated trigger ID. The ID is based on the properties that you define in the trigger config. For example, for an API trigger, the trigger ID follows the format: api_trigger/TRIGGER_NAME Where trigger config has properties with value {"Trigger name": TRIGGER_NAME} */
+  triggerId?: string | undefined;
+  /** Optional. User-provided description intended to give additional business context about the task. */
+  description?: string | undefined;
+  /** Optional. List of input variables for the api trigger. */
+  inputVariables?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables | undefined;
+  /** Optional. An alert threshold configuration for the [trigger + client + integration] tuple. If these values are not specified in the trigger config, default values will be populated by the system. Note that there must be exactly one alert threshold configured per [client + trigger + integration] when published. */
+  alertConfig?: GoogleCloudIntegrationsV1alphaIntegrationAlertConfigList | undefined;
+  /** Optional. The user created label for a particular trigger. */
+  label?: string | undefined;
+  /** Optional. Cloud Scheduler Trigger related metadata */
+  cloudSchedulerConfig?: GoogleCloudIntegrationsV1alphaCloudSchedulerConfig | undefined;
+  /** Required. A number to uniquely identify each trigger config within the integration on UI. */
+  triggerNumber?: string | undefined;
+  /** Optional. List of output variables for the api trigger. */
+  outputVariables?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables | undefined;
+  /** Optional. Informs the front-end application where to draw this error catcher config on the UI. */
+  position?: GoogleCloudIntegrationsV1alphaCoordinate | undefined;
+  /** Optional. Type of trigger */
+  triggerType?:
+    | GoogleCloudIntegrationsV1alphaTriggerConfigTriggerTypeEnum
+    | (string & {})
+    | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaTriggerConfigList =
+  Array<GoogleCloudIntegrationsV1alphaTriggerConfig>;
+export type GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum =
+  | "INTEGRATION_STATE_UNSPECIFIED"
+  | "DRAFT"
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "SNAPSHOT";
 /** The integration version definition. */
 export interface GoogleCloudIntegrationsV1alphaIntegrationVersion {
   /** Output only. Auto-generated primary key. */
   name?: string | undefined;
+  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
+  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
+  /** Optional. The integration description. */
+  description?: string | undefined;
+  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
+  runAsServiceAccount?: string | undefined;
+  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
+  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
+  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  lastModifierEmail?: string | undefined;
+  /** Optional. Optional. The resource name of the template from which the integration is created. */
+  createdFromTemplate?: string | undefined;
+  /** Output only. Generated by eventbus. User should not set it as an input. */
+  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
+  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
+  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
   /** Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter. */
   integrationConfigParameters?:
     | GoogleCloudIntegrationsV1alphaIntegrationConfigParameterList
     | undefined;
-  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
-  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
-  /** Optional. Deprecated: Use `task_configs` instead. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTaskConfigList | undefined;
-  /** Optional. Error Catch Task configuration for the integration. It's optional. */
-  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
-  /** Optional. Cloud Logging details for the integration version */
-  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
-  eucHardeningDisposition?:
-    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. True if variable masking feature should be turned on for this version */
-  enableVariableMasking?: boolean | undefined;
-  /** Output only. User should not set it as an input. */
-  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
-  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
-  userLabel?: string | undefined;
-  /** Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Optional. Trigger configurations. */
-  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
-  snapshotNumber?: string | undefined;
-  /** Optional. Optional. The resource name of the template from which the integration is created. */
-  createdFromTemplate?: string | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
-  /** Output only. Generated by eventbus. User should not set it as an input. */
-  status?: GoogleCloudIntegrationsV1alphaIntegrationVersionStatusEnum | (string & {}) | undefined;
-  /** Optional. The integration description. */
-  description?: string | undefined;
-  /** Output only. Auto-generated. */
-  updateTime?: string | undefined;
-  /** Optional. The run-as service account email, if set and auth config is not configured, that will be used to generate auth token to be used in Connector task, Rest caller task and Cloud function task. */
-  runAsServiceAccount?: string | undefined;
   /** Optional. Flag to disable database persistence for execution data, including event execution info, execution export info, execution metadata index and execution param index. */
   databasePersistencePolicy?:
     | GoogleCloudIntegrationsV1alphaIntegrationVersionDatabasePersistencePolicyEnum
     | (string & {})
     | undefined;
-  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
-  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
-  /** Optional. Contains a graph of tasks that will be executed before putting the event in a terminal state (SUCCEEDED/FAILED/FATAL), regardless of success or failure, similar to "finally" in code. */
-  teardown?: EnterpriseCrmEventbusProtoTeardown | undefined;
-  /** Optional. Deprecated: Use `trigger_configs` instead. Trigger configurations. */
-  triggerConfigsInternal?: EnterpriseCrmFrontendsEventbusProtoTriggerConfigList | undefined;
-  /** Optional. The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Optional. The id of the template which was used to create this integration_version. */
-  parentTemplateId?: string | undefined;
+  /** Optional. Deprecated: Use `integration_parameters` instead. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
+  integrationParametersInternal?: EnterpriseCrmFrontendsEventbusProtoWorkflowParameters | undefined;
   /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
   lockHolder?: string | undefined;
-  /** Optional. The origin that indicates where this integration is coming from. */
-  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
+  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
+  cloudKmsKey?: string | undefined;
+  /** Optional. Cloud Logging details for the integration version */
+  cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
+  /** Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs. */
+  taskConfigs?: GoogleCloudIntegrationsV1alphaTaskConfigList | undefined;
+  /** Optional. Error Catch Task configuration for the integration. It's optional. */
+  errorCatcherConfigs?: GoogleCloudIntegrationsV1alphaErrorCatcherConfigList | undefined;
+  /** Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created. */
+  userLabel?: string | undefined;
+  /** Output only. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use "HEAD" tag to identify the head. */
+  snapshotNumber?: string | undefined;
+  /** Optional. True if variable masking feature should be turned on for this version */
+  enableVariableMasking?: boolean | undefined;
+  /** Output only. Auto-generated. */
+  updateTime?: string | undefined;
   /** Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter. */
   integrationParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
+  /** Output only. The EUC hardening disposition of this version. Set by the service when the integration is first created and inherited unchanged by every later version, so all versions of an integration report the same value. */
+  eucHardeningDisposition?:
+    | GoogleCloudIntegrationsV1alphaIntegrationVersionEucHardeningDispositionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The origin that indicates where this integration is coming from. */
+  origin?: GoogleCloudIntegrationsV1alphaIntegrationVersionOriginEnum | (string & {}) | undefined;
+  /** Optional. Trigger configurations. */
+  triggerConfigs?: GoogleCloudIntegrationsV1alphaTriggerConfigList | undefined;
+  /** Output only. Auto-generated. */
+  createTime?: string | undefined;
+  /** Optional. The id of the template which was used to create this integration_version. */
+  parentTemplateId?: string | undefined;
+  /** Output only. User should not set it as an input. */
+  state?: GoogleCloudIntegrationsV1alphaIntegrationVersionStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaIntegrationVersion {
   /** Set this flag to true, if draft version is to be created for a brand new integration. False, if the request is for an existing integration. For backward compatibility reasons, even if this flag is set to `false` and no existing integration is found, a new draft integration will still be created. */
@@ -2067,6 +2067,30 @@ export interface CreateProjectsLocationsIntegrationsVersionsRequest extends Goog
   createSampleIntegrations?: boolean | undefined;
   /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
+}
+export type GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum =
+  | "DATABASE_PERSISTENCE_POLICY_UNSPECIFIED"
+  | "DATABASE_PERSISTENCE_DISABLED"
+  | "DATABASE_PERSISTENCE_ASYNC";
+export type GoogleCloudIntegrationsV1alphaEventParameterList =
+  Array<GoogleCloudIntegrationsV1alphaEventParameter>;
+export type GoogleCloudIntegrationsV1alphaMockConfigMockStrategyEnum =
+  | "MOCK_STRATEGY_UNSPECIFIED"
+  | "NO_MOCK_STRATEGY"
+  | "SPECIFIC_MOCK_STRATEGY"
+  | "FAILURE_MOCK_STRATEGY"
+  | "SKIP_MOCK_STRATEGY";
+/** The configuration for mocking of a task during test execution Next available id: 4 */
+export interface GoogleCloudIntegrationsV1alphaMockConfig {
+  /** Optional. List of key-value pairs for specific mock strategy */
+  parameters?: GoogleCloudIntegrationsV1alphaEventParameterList | undefined;
+  /** Optional. Number of times the given task should fail for failure mock strategy */
+  failedExecutions?: string | undefined;
+  /** Mockstrategy defines how the particular task should be mocked during test execution */
+  mockStrategy?:
+    | GoogleCloudIntegrationsV1alphaMockConfigMockStrategyEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaAssertionAssertionStrategyEnum =
   | "ASSERTION_STRATEGY_UNSPECIFIED"
@@ -2079,104 +2103,80 @@ export type GoogleCloudIntegrationsV1alphaAssertionAssertionStrategyEnum =
   | "ASSERT_CONDITION";
 /** An assertion which will check for a condition over task execution status or an expression for task output variables */
 export interface GoogleCloudIntegrationsV1alphaAssertion {
-  /** Optional. Key-value pair for ASSERT_EQUALS, ASSERT_NOT_EQUALS, ASSERT_CONTAINS to succeed */
-  parameter?: GoogleCloudIntegrationsV1alphaEventParameter | undefined;
-  /** Number of times given task should be retried in case of ASSERT_FAILED_EXECUTION */
-  retryCount?: number | undefined;
   /** Optional. Standard filter expression for ASSERT_CONDITION to succeed */
   condition?: string | undefined;
+  /** Number of times given task should be retried in case of ASSERT_FAILED_EXECUTION */
+  retryCount?: number | undefined;
   /** Optional. The type of assertion to perform. */
   assertionStrategy?:
     | GoogleCloudIntegrationsV1alphaAssertionAssertionStrategyEnum
     | (string & {})
     | undefined;
+  /** Optional. Key-value pair for ASSERT_EQUALS, ASSERT_NOT_EQUALS, ASSERT_CONTAINS to succeed */
+  parameter?: GoogleCloudIntegrationsV1alphaEventParameter | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaAssertionList =
   Array<GoogleCloudIntegrationsV1alphaAssertion>;
-export type GoogleCloudIntegrationsV1alphaMockConfigMockStrategyEnum =
-  | "MOCK_STRATEGY_UNSPECIFIED"
-  | "NO_MOCK_STRATEGY"
-  | "SPECIFIC_MOCK_STRATEGY"
-  | "FAILURE_MOCK_STRATEGY"
-  | "SKIP_MOCK_STRATEGY";
-export type GoogleCloudIntegrationsV1alphaEventParameterList =
-  Array<GoogleCloudIntegrationsV1alphaEventParameter>;
-/** The configuration for mocking of a task during test execution Next available id: 4 */
-export interface GoogleCloudIntegrationsV1alphaMockConfig {
-  /** Optional. Number of times the given task should fail for failure mock strategy */
-  failedExecutions?: string | undefined;
-  /** Mockstrategy defines how the particular task should be mocked during test execution */
-  mockStrategy?:
-    | GoogleCloudIntegrationsV1alphaMockConfigMockStrategyEnum
-    | (string & {})
-    | undefined;
-  /** Optional. List of key-value pairs for specific mock strategy */
-  parameters?: GoogleCloudIntegrationsV1alphaEventParameterList | undefined;
-}
 /** The task mock configuration details and assertions for functional tests. Next available id: 6 */
 export interface GoogleCloudIntegrationsV1alphaTestTaskConfig {
-  /** Optional. List of conditions or expressions which should be evaluated to true unless there is a bug/problem in the integration. These are evaluated one the task execution is completed as per the mock strategy in test case */
-  assertions?: GoogleCloudIntegrationsV1alphaAssertionList | undefined;
-  /** Optional. Auto-generated. */
-  taskConfig?: GoogleCloudIntegrationsV1alphaTaskConfig | undefined;
   /** Required. This defines in the test case, the task in integration which will be mocked by this test task config */
   taskNumber?: string | undefined;
-  /** Required. This defines in the test case, the task name in integration which will be mocked by this test task config */
-  task?: string | undefined;
   /** Optional. Defines how to mock the given task during test execution */
   mockConfig?: GoogleCloudIntegrationsV1alphaMockConfig | undefined;
+  /** Required. This defines in the test case, the task name in integration which will be mocked by this test task config */
+  task?: string | undefined;
+  /** Optional. Auto-generated. */
+  taskConfig?: GoogleCloudIntegrationsV1alphaTaskConfig | undefined;
+  /** Optional. List of conditions or expressions which should be evaluated to true unless there is a bug/problem in the integration. These are evaluated one the task execution is completed as per the mock strategy in test case */
+  assertions?: GoogleCloudIntegrationsV1alphaAssertionList | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaTestTaskConfigList =
   Array<GoogleCloudIntegrationsV1alphaTestTaskConfig>;
-export type GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum =
-  | "DATABASE_PERSISTENCE_POLICY_UNSPECIFIED"
-  | "DATABASE_PERSISTENCE_DISABLED"
-  | "DATABASE_PERSISTENCE_ASYNC";
 /** Defines the functional test case for Application Integration. Next available id: 15 */
 export interface GoogleCloudIntegrationsV1alphaTestCase {
-  /** Optional. Auto-generated. */
-  triggerConfig?: GoogleCloudIntegrationsV1alphaTriggerConfig | undefined;
-  /** Required. The display name of test case. */
-  displayName?: string | undefined;
-  /** Required. This defines the trigger ID in workflow which is considered to be executed as starting point of the test case */
-  triggerId?: string | undefined;
-  /** Optional. Description of the test case. */
-  description?: string | undefined;
-  /** Optional. However, the test case doesn't mock or assert anything without test_task_configs. */
-  testTaskConfigs?: GoogleCloudIntegrationsV1alphaTestTaskConfigList | undefined;
-  /** Auto-generated. */
-  createTime?: string | undefined;
-  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lastModifierEmail?: string | undefined;
-  /** Optional. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  creatorEmail?: string | undefined;
-  /** Optional. Parameters that are expected to be passed to the test case when the test case is triggered. This gives the user the ability to provide default values. This should include all the output variables of the trigger as input variables. */
-  testInputParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
-  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
-  lockHolderEmail?: string | undefined;
   /** Optional. Various policies for how to persist the test execution info including execution info, execution export info, execution metadata index and execution param index.. */
   databasePersistencePolicy?:
     | GoogleCloudIntegrationsV1alphaTestCaseDatabasePersistencePolicyEnum
     | (string & {})
     | undefined;
+  /** Required. This defines the trigger ID in workflow which is considered to be executed as starting point of the test case */
+  triggerId?: string | undefined;
+  /** Required. The display name of test case. */
+  displayName?: string | undefined;
+  /** Optional. Auto-generated. */
+  triggerConfig?: GoogleCloudIntegrationsV1alphaTriggerConfig | undefined;
+  /** Auto-generated. */
+  createTime?: string | undefined;
+  /** Optional. The edit lock holder's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  lockHolderEmail?: string | undefined;
   /** Output only. Auto-generated primary key. */
   name?: string | undefined;
+  /** Optional. Description of the test case. */
+  description?: string | undefined;
+  /** Optional. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  creatorEmail?: string | undefined;
+  /** Optional. However, the test case doesn't mock or assert anything without test_task_configs. */
+  testTaskConfigs?: GoogleCloudIntegrationsV1alphaTestTaskConfigList | undefined;
+  /** Optional. Parameters that are expected to be passed to the test case when the test case is triggered. This gives the user the ability to provide default values. This should include all the output variables of the trigger as input variables. */
+  testInputParameters?: GoogleCloudIntegrationsV1alphaIntegrationParameterList | undefined;
+  /** The last modifier's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
+  lastModifierEmail?: string | undefined;
   /** Auto-generated. */
   updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsIntegrationsVersionsTestCasesRequest extends GoogleCloudIntegrationsV1alphaTestCase {
-  /** Required. Required */
-  testCaseId?: string | undefined;
   /** Required. The parent resource where this test case will be created. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
   parent: string;
+  /** Required. Required */
+  testCaseId?: string | undefined;
 }
 export interface CreateProjectsLocationsProductsAuthConfigsRequest extends GoogleCloudIntegrationsV1alphaAuthConfig {
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.sslCertificate"?: string | undefined;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
 }
@@ -2198,24 +2198,24 @@ export interface CreateProjectsLocationsProductsIntegrationsVersionsRequest exte
 }
 /** The SfdcInstance resource use to hold channels and connection config data. */
 export interface GoogleCloudIntegrationsV1alphaSfdcInstance {
-  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
-  serviceAuthority?: string | undefined;
-  /** Output only. Time when the instance was last updated */
-  updateTime?: string | undefined;
-  /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
-  name?: string | undefined;
-  /** Output only. Time when the instance is created */
-  createTime?: string | undefined;
-  /** Output only. Time when the instance was deleted. Empty if not deleted. */
-  deleteTime?: string | undefined;
-  /** Optional. A description of the sfdc instance. */
-  description?: string | undefined;
   /** A list of AuthConfigs that can be tried to open the channel to SFDC */
   authConfigId?: StringList | undefined;
-  /** Optional. User selected unique name/alias to easily reference an instance. */
-  displayName?: string | undefined;
+  /** Output only. Time when the instance is created */
+  createTime?: string | undefined;
+  /** Output only. Time when the instance was last updated */
+  updateTime?: string | undefined;
+  /** Output only. Time when the instance was deleted. Empty if not deleted. */
+  deleteTime?: string | undefined;
   /** The SFDC Org Id. This is defined in salesforce. */
   sfdcOrgId?: string | undefined;
+  /** Optional. User selected unique name/alias to easily reference an instance. */
+  displayName?: string | undefined;
+  /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
+  name?: string | undefined;
+  /** Optional. A description of the sfdc instance. */
+  description?: string | undefined;
+  /** Optional. URL used for API calls after authentication (the login authority is configured within the referenced AuthConfig). */
+  serviceAuthority?: string | undefined;
 }
 export interface CreateProjectsLocationsProductsSfdcInstancesRequest extends GoogleCloudIntegrationsV1alphaSfdcInstance {
   /** Required. "projects/{project}/locations/{location}" format. */
@@ -2223,24 +2223,24 @@ export interface CreateProjectsLocationsProductsSfdcInstancesRequest extends Goo
 }
 /** The SfdcChannel that points to a CDC or Platform Event Channel. */
 export interface GoogleCloudIntegrationsV1alphaSfdcChannel {
+  /** Optional. Client level unique name/alias to easily reference a channel. */
+  displayName?: string | undefined;
+  /** Output only. Time when the channel is created */
+  createTime?: string | undefined;
+  /** Output only. Time when the channel was last updated */
+  updateTime?: string | undefined;
+  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
+  isActive?: boolean | undefined;
   /** Optional. The description for this channel */
   description?: string | undefined;
   /** Output only. Time when the channel was deleted. Empty if not deleted. */
   deleteTime?: string | undefined;
-  /** Optional. Client level unique name/alias to easily reference a channel. */
-  displayName?: string | undefined;
   /** Output only. Last sfdc messsage replay id for channel */
   lastReplayId?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name?: string | undefined;
-  /** Output only. Indicated if a channel has any active integrations referencing it. Set to false when the channel is created, and set to true if there is any integration published with the channel configured in it. */
-  isActive?: boolean | undefined;
   /** Required. The Channel topic defined by salesforce once an channel is opened */
   channelTopic?: string | undefined;
-  /** Output only. Time when the channel was last updated */
-  updateTime?: string | undefined;
-  /** Output only. Time when the channel is created */
-  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest extends GoogleCloudIntegrationsV1alphaSfdcChannel {
   /** Required. "projects/{project}/locations/{location}" format. */
@@ -2254,6 +2254,25 @@ export interface CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest extends
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
 }
+export type GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum =
+  | "VISIBILITY_UNSPECIFIED"
+  | "PRIVATE"
+  | "SHARED"
+  | "PUBLIC";
+export type GoogleCloudIntegrationsV1alphaTemplateComponentTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "TRIGGER"
+  | "TASK"
+  | "CONNECTOR";
+/** Define the components that are present in a template. */
+export interface GoogleCloudIntegrationsV1alphaTemplateComponent {
+  /** Optional. Name of the component. */
+  name?: string | undefined;
+  /** Optional. Type of the component. */
+  type?: GoogleCloudIntegrationsV1alphaTemplateComponentTypeEnum | (string & {}) | undefined;
+}
+export type GoogleCloudIntegrationsV1alphaTemplateComponentList =
+  Array<GoogleCloudIntegrationsV1alphaTemplateComponent>;
 /** Define the template of IntegrationVersion. */
 export interface GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate {
   /** Required. Unique Key of the IntegrationVersion. */
@@ -2293,59 +2312,40 @@ export type GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnum =
 export type GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList = Array<
   GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnum | (string & {})
 >;
-export type GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum =
-  | "VISIBILITY_UNSPECIFIED"
-  | "PRIVATE"
-  | "SHARED"
-  | "PUBLIC";
-export type GoogleCloudIntegrationsV1alphaTemplateComponentTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "TRIGGER"
-  | "TASK"
-  | "CONNECTOR";
-/** Define the components that are present in a template. */
-export interface GoogleCloudIntegrationsV1alphaTemplateComponent {
-  /** Optional. Type of the component. */
-  type?: GoogleCloudIntegrationsV1alphaTemplateComponentTypeEnum | (string & {}) | undefined;
-  /** Optional. Name of the component. */
-  name?: string | undefined;
-}
-export type GoogleCloudIntegrationsV1alphaTemplateComponentList =
-  Array<GoogleCloudIntegrationsV1alphaTemplateComponent>;
 /** Defines the template for Application Integration */
 export interface GoogleCloudIntegrationsV1alphaTemplate {
-  /** Optional. Time the template was last used. */
-  lastUsedTime?: string | undefined;
-  /** Identifier. Resource name of the template. */
-  name?: string | undefined;
-  /** Required. Bundle which is part of the templates. The template entities in the bundle would be converted to an actual entity. */
-  templateBundle?: GoogleCloudIntegrationsV1alphaTemplateBundle | undefined;
   /** Required. Tags which are used to identify templates. These tags could be for business use case, connectors etc. */
   tags?: StringList | undefined;
+  /** Required. Visibility of the template. */
+  visibility?: GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum | (string & {}) | undefined;
+  /** Optional. Number of template usages. */
+  usageCount?: string | undefined;
+  /** Required. Resource names with which the template is shared for example ProjectNumber/Ord id */
+  sharedWith?: StringList | undefined;
+  /** Required. The name of the template */
+  displayName?: string | undefined;
+  /** Optional. Time the template was last used. */
+  lastUsedTime?: string | undefined;
+  /** Optional. Components being used in the template. This could be used to categorize and filter. */
+  components?: GoogleCloudIntegrationsV1alphaTemplateComponentList | undefined;
   /** Optional. Creator of the template. */
   author?: string | undefined;
   /** Output only. Auto-generated */
   updateTime?: string | undefined;
-  /** Required. Categories associated with the Template. The categories listed below will be utilized for the Template listing. */
-  categories?: GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList | undefined;
-  /** Required. Visibility of the template. */
-  visibility?: GoogleCloudIntegrationsV1alphaTemplateVisibilityEnum | (string & {}) | undefined;
-  /** Optional. Information on how to use the template. This should contain detailed information about usage of the template. */
-  usageInfo?: string | undefined;
-  /** Required. The name of the template */
-  displayName?: string | undefined;
+  /** Identifier. Resource name of the template. */
+  name?: string | undefined;
   /** Optional. Description of the template. The length should not be more than 255 characters */
   description?: string | undefined;
-  /** Required. Resource names with which the template is shared for example ProjectNumber/Ord id */
-  sharedWith?: StringList | undefined;
-  /** Optional. Link to template documentation. */
-  docLink?: string | undefined;
-  /** Optional. Number of template usages. */
-  usageCount?: string | undefined;
-  /** Optional. Components being used in the template. This could be used to categorize and filter. */
-  components?: GoogleCloudIntegrationsV1alphaTemplateComponentList | undefined;
+  /** Required. Bundle which is part of the templates. The template entities in the bundle would be converted to an actual entity. */
+  templateBundle?: GoogleCloudIntegrationsV1alphaTemplateBundle | undefined;
+  /** Required. Categories associated with the Template. The categories listed below will be utilized for the Template listing. */
+  categories?: GoogleCloudIntegrationsV1alphaTemplateCategoriesItemEnumList | undefined;
   /** Output only. Auto-generated. */
   createTime?: string | undefined;
+  /** Optional. Information on how to use the template. This should contain detailed information about usage of the template. */
+  usageInfo?: string | undefined;
+  /** Optional. Link to template documentation. */
+  docLink?: string | undefined;
 }
 export interface CreateProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaTemplate {
   /** Required. "projects/{project}/locations/{location}" format. */
@@ -2421,10 +2421,10 @@ export type DownloadJsonPackageProjectsLocationsIntegrationsVersionsFilesEnumLis
   DownloadJsonPackageProjectsLocationsIntegrationsVersionsFilesEnum | (string & {})
 >;
 export interface DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest {
-  /** Optional. Integration related file to download like Integration Version, Config variable, testcase etc. */
-  files?: DownloadJsonPackageProjectsLocationsIntegrationsVersionsFilesEnumList | undefined;
   /** Required. Integration version name Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
+  /** Optional. Integration related file to download like Integration Version, Config variable, testcase etc. */
+  files?: DownloadJsonPackageProjectsLocationsIntegrationsVersionsFilesEnumList | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaFileTypeEnum =
   | "INTEGRATION_FILE_UNSPECIFIED"
@@ -2454,6 +2454,11 @@ export interface GoogleCloudIntegrationsV1alphaDownloadExecutionResponse {
   /** The content of downloaded execution. */
   content?: string | undefined;
 }
+export type DownloadProjectsLocationsIntegrationsVersionsFileFormatEnum =
+  | "FILE_FORMAT_UNSPECIFIED"
+  | "JSON"
+  | "YAML"
+  | "WORKFLOW_TEXTPROTO";
 export type DownloadProjectsLocationsIntegrationsVersionsFilesEnum =
   | "INTEGRATION_FILE_UNSPECIFIED"
   | "INTEGRATION"
@@ -2461,14 +2466,7 @@ export type DownloadProjectsLocationsIntegrationsVersionsFilesEnum =
 export type DownloadProjectsLocationsIntegrationsVersionsFilesEnumList = Array<
   DownloadProjectsLocationsIntegrationsVersionsFilesEnum | (string & {})
 >;
-export type DownloadProjectsLocationsIntegrationsVersionsFileFormatEnum =
-  | "FILE_FORMAT_UNSPECIFIED"
-  | "JSON"
-  | "YAML"
-  | "WORKFLOW_TEXTPROTO";
 export interface DownloadProjectsLocationsIntegrationsVersionsRequest {
-  /** Optional. Integration related file to download like Integration Json, Config variable, testcase etc. */
-  files?: DownloadProjectsLocationsIntegrationsVersionsFilesEnumList | undefined;
   /** File format for download request. */
   fileFormat?:
     | DownloadProjectsLocationsIntegrationsVersionsFileFormatEnum
@@ -2476,6 +2474,8 @@ export interface DownloadProjectsLocationsIntegrationsVersionsRequest {
     | undefined;
   /** Required. The version to download. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
+  /** Optional. Integration related file to download like Integration Json, Config variable, testcase etc. */
+  files?: DownloadProjectsLocationsIntegrationsVersionsFilesEnumList | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaSerializedFileFileEnum =
   | "INTEGRATION_FILE_UNSPECIFIED"
@@ -2483,19 +2483,19 @@ export type GoogleCloudIntegrationsV1alphaSerializedFileFileEnum =
   | "INTEGRATION_CONFIG_VARIABLES";
 /** To store string representation of Integration file. */
 export interface GoogleCloudIntegrationsV1alphaSerializedFile {
-  /** String representation of the file content. */
-  content?: string | undefined;
   /** File information like Integration version, Integration Config variables etc. */
   file?: GoogleCloudIntegrationsV1alphaSerializedFileFileEnum | undefined;
+  /** String representation of the file content. */
+  content?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaSerializedFileList =
   Array<GoogleCloudIntegrationsV1alphaSerializedFile>;
 /** Response for DownloadIntegrationVersion. */
 export interface GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse {
-  /** String representation of the requested file. */
-  content?: string | undefined;
   /** List containing String representation for multiple file with type. */
   files?: GoogleCloudIntegrationsV1alphaSerializedFileList | undefined;
+  /** String representation of the requested file. */
+  content?: string | undefined;
 }
 export type DownloadProjectsLocationsIntegrationsVersionsTestCasesFileFormatEnum =
   | "FILE_FORMAT_UNSPECIFIED"
@@ -2520,11 +2520,6 @@ export interface DownloadProjectsLocationsProductsIntegrationsExecutionsRequest 
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
 }
-export type DownloadProjectsLocationsProductsIntegrationsVersionsFileFormatEnum =
-  | "FILE_FORMAT_UNSPECIFIED"
-  | "JSON"
-  | "YAML"
-  | "WORKFLOW_TEXTPROTO";
 export type DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnum =
   | "INTEGRATION_FILE_UNSPECIFIED"
   | "INTEGRATION"
@@ -2532,16 +2527,21 @@ export type DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnum =
 export type DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnumList = Array<
   DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnum | (string & {})
 >;
+export type DownloadProjectsLocationsProductsIntegrationsVersionsFileFormatEnum =
+  | "FILE_FORMAT_UNSPECIFIED"
+  | "JSON"
+  | "YAML"
+  | "WORKFLOW_TEXTPROTO";
 export interface DownloadProjectsLocationsProductsIntegrationsVersionsRequest {
+  /** Optional. Integration related file to download like Integration Json, Config variable, testcase etc. */
+  files?: DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnumList | undefined;
+  /** Required. The version to download. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
+  name: string;
   /** File format for download request. */
   fileFormat?:
     | DownloadProjectsLocationsProductsIntegrationsVersionsFileFormatEnum
     | (string & {})
     | undefined;
-  /** Required. The version to download. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
-  name: string;
-  /** Optional. Integration related file to download like Integration Json, Config variable, testcase etc. */
-  files?: DownloadProjectsLocationsProductsIntegrationsVersionsFilesEnumList | undefined;
 }
 export type DownloadProjectsLocationsTemplatesFileFormatEnum =
   | "FILE_FORMAT_UNSPECIFIED"
@@ -2549,10 +2549,10 @@ export type DownloadProjectsLocationsTemplatesFileFormatEnum =
   | "YAML"
   | "WORKFLOW_TEXTPROTO";
 export interface DownloadProjectsLocationsTemplatesRequest {
-  /** Required. The template to download. Format: projects/{project}/locations/{location}/template/{template_id} */
-  name: string;
   /** Required. File format for download request. */
   fileFormat?: DownloadProjectsLocationsTemplatesFileFormatEnum | (string & {}) | undefined;
+  /** Required. The template to download. Format: projects/{project}/locations/{location}/template/{template_id} */
+  name: string;
 }
 /** Response for DownloadTemplate. */
 export interface GoogleCloudIntegrationsV1alphaDownloadTemplateResponse {
@@ -2566,10 +2566,10 @@ export interface GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegions
   regions?: StringList | undefined;
 }
 export interface ExecuteEventProjectsLocationsIntegrationsRequest {
-  /** Required. Id of the integration trigger config. The trigger_id is in the format: `integration_connector_trigger/projects/{gcp_project_id}/location/{location}/connections/{connection_name}/subscriptions/{subscription_name}`. */
-  triggerId?: string | undefined;
   /** Required. The integration resource name. Format: projects/{gcp_project_id}/locations/{location}/integrations/{integration_id} */
   name: string;
+  /** Required. Id of the integration trigger config. The trigger_id is in the format: `integration_connector_trigger/projects/{gcp_project_id}/location/{location}/connections/{connection_name}/subscriptions/{subscription_name}`. */
+  triggerId?: string | undefined;
 }
 /** The response for executing an integration. */
 export interface GoogleCloudIntegrationsV1alphaExecuteEventResponse {
@@ -2581,20 +2581,20 @@ export type GoogleCloudIntegrationsV1alphaValueTypeMap = {
 };
 /** The request for executing an integration. */
 export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
-  /** Optional. Input parameters used by integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** Optional. Passed in as parameters to each integration execution. Redacted */
+  parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Optional. Flag to determine how to should propagate errors. If this flag is set to be true, it will not throw an exception. Instead, it will return a {@link ExecuteIntegrationsResponse} with an execution id and error messages as PostWithTriggerIdExecutionException in {@link EventParameters}. The flag is set to be false by default. */
+  doNotPropagateError?: boolean | undefined;
   /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
   parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
   /** Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. */
   requestId?: string | undefined;
-  /** Optional. Flag to determine how to should propagate errors. If this flag is set to be true, it will not throw an exception. Instead, it will return a {@link ExecuteIntegrationsResponse} with an execution id and error messages as PostWithTriggerIdExecutionException in {@link EventParameters}. The flag is set to be false by default. */
-  doNotPropagateError?: boolean | undefined;
   /** Required. Matched against all {@link TriggerConfig}s across all integrations. i.e. TriggerConfig.trigger_id.equals(trigger_id). The trigger_id is in the format of `api_trigger/TRIGGER_NAME`. */
   triggerId?: string | undefined;
+  /** Optional. Input parameters used by integration execution. */
+  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Optional. The id of the ON_HOLD execution to be resumed. */
   executionId?: string | undefined;
-  /** Optional. Passed in as parameters to each integration execution. Redacted */
-  parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
 }
 export interface ExecuteProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
   /** Required. The integration resource name. */
@@ -2602,18 +2602,18 @@ export interface ExecuteProjectsLocationsIntegrationsRequest extends GoogleCloud
 }
 /** The response for executing an integration. */
 export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse {
-  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
-  /** Optional. OUTPUT parameters from integration execution. */
-  parameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Is true if any execution in the integration failed. False otherwise. */
   executionFailed?: boolean | undefined;
-  /** Details for the integration that were executed. */
-  eventParameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
   /** OUTPUT parameters in format of Map. Where Key is the name of the parameter. Note: Name of the system generated parameters are wrapped by backtick(`) to distinguish them from the user defined parameters. */
   outputParameters?: DocumentMap | undefined;
   /** The id of the execution corresponding to this run of integration. */
   executionId?: string | undefined;
+  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
+  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
+  /** Details for the integration that were executed. */
+  eventParameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Optional. OUTPUT parameters from integration execution. */
+  parameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
 }
 /** Request for ExecuteTestCases. */
 export type GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest =
@@ -2624,41 +2624,41 @@ export interface ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Request body */
   body?: GoogleCloudIntegrationsV1alphaDeprovisionClientRequest | undefined;
 }
+export type GoogleCloudIntegrationsV1alphaExecuteTestCaseResponseTestExecutionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PASSED"
+  | "FAILED";
 export type GoogleCloudIntegrationsV1alphaAssertionResultStatusEnum =
   | "ASSERTION_STATUS_UNSPECIFIED"
   | "SUCCEEDED"
   | "FAILED";
 /** The result of an assertion. */
 export interface GoogleCloudIntegrationsV1alphaAssertionResult {
-  /** Task number of task where the assertion was run. */
-  taskNumber?: string | undefined;
-  /** Task name of task where the assertion was run. */
-  taskName?: string | undefined;
-  /** Assertion that was run. */
-  assertion?: GoogleCloudIntegrationsV1alphaAssertion | undefined;
   /** Status of assertion to signify if the assertion succeeded or failed */
   status?: GoogleCloudIntegrationsV1alphaAssertionResultStatusEnum | undefined;
+  /** Task number of task where the assertion was run. */
+  taskNumber?: string | undefined;
   /** Details of the assertion failure */
   failureMessage?: string | undefined;
+  /** Assertion that was run. */
+  assertion?: GoogleCloudIntegrationsV1alphaAssertion | undefined;
+  /** Task name of task where the assertion was run. */
+  taskName?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaAssertionResultList =
   Array<GoogleCloudIntegrationsV1alphaAssertionResult>;
-export type GoogleCloudIntegrationsV1alphaExecuteTestCaseResponseTestExecutionStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PASSED"
-  | "FAILED";
 /** The response for executing a functional test. */
 export interface GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse {
-  /** OUTPUT parameters in format of Map. Where Key is the name of the parameter. Note: Name of the system generated parameters are wrapped by backtick(`) to distinguish them from the user defined parameters. */
-  outputParameters?: DocumentMap | undefined;
-  /** Results of each assertions ran during execution of test case. */
-  assertionResults?: GoogleCloudIntegrationsV1alphaAssertionResultList | undefined;
+  /** The id of the execution corresponding to this run of integration. */
+  executionId?: string | undefined;
   /** State of the test case execution */
   testExecutionState?:
     | GoogleCloudIntegrationsV1alphaExecuteTestCaseResponseTestExecutionStateEnum
     | undefined;
-  /** The id of the execution corresponding to this run of integration. */
-  executionId?: string | undefined;
+  /** OUTPUT parameters in format of Map. Where Key is the name of the parameter. Note: Name of the system generated parameters are wrapped by backtick(`) to distinguish them from the user defined parameters. */
+  outputParameters?: DocumentMap | undefined;
+  /** Results of each assertions ran during execution of test case. */
+  assertionResults?: GoogleCloudIntegrationsV1alphaAssertionResultList | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaExecuteTestCaseResponseList =
   Array<GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse>;
@@ -2715,16 +2715,16 @@ export interface GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse {
 }
 export type GenerateTokenCallbackProductEnum = "UNSPECIFIED_PRODUCT" | "IP" | "APIGEE" | "SECURITY";
 export interface GenerateTokenCallbackRequest {
-  /** The auth config id for the given request */
-  state?: string | undefined;
-  /** The gcp project id of the request */
-  gcpProjectId?: string | undefined;
-  /** The auth code for the given request */
-  code?: string | undefined;
-  /** Redirect uri of the auth code request */
-  redirectUri?: string | undefined;
   /** Which product sends the request */
   product?: GenerateTokenCallbackProductEnum | (string & {}) | undefined;
+  /** The gcp project id of the request */
+  gcpProjectId?: string | undefined;
+  /** The auth config id for the given request */
+  state?: string | undefined;
+  /** Redirect uri of the auth code request */
+  redirectUri?: string | undefined;
+  /** The auth code for the given request */
+  code?: string | undefined;
 }
 /** Returns success or error message */
 export interface GoogleCloudIntegrationsV1alphaGenerateTokenResponse {
@@ -2767,47 +2767,47 @@ export interface GetClientsProjectsLocationsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
 }
+export type GoogleCloudIntegrationsV1alphaClientConfigClientStateEnum =
+  | "CLIENT_STATE_UNSPECIFIED"
+  | "CLIENT_STATE_ACTIVE"
+  | "CLIENT_STATE_DISABLED";
 export type GoogleCloudIntegrationsV1alphaClientConfigBillingTypeEnum =
   | "BILLING_TYPE_UNSPECIFIED"
   | "BILLING_TYPE_APIGEE_TRIALS"
   | "BILLING_TYPE_APIGEE_SUBSCRIPTION"
   | "BILLING_TYPE_PAYG";
-export type GoogleCloudIntegrationsV1alphaClientConfigClientStateEnum =
-  | "CLIENT_STATE_UNSPECIFIED"
-  | "CLIENT_STATE_ACTIVE"
-  | "CLIENT_STATE_DISABLED";
 /** The configuration information for the Client */
 export interface GoogleCloudIntegrationsV1alphaClientConfig {
-  /** Optional. */
-  enableHttpCall?: boolean | undefined;
-  runAsServiceAccount?: string | undefined;
-  /** Description of what the client is used for */
-  description?: string | undefined;
   /** The region the client is linked to. */
   region?: string | undefined;
-  /** The timestamp when the client was first created. */
-  createTime?: string | undefined;
-  /** Optional. */
-  enableManagedAiFeatures?: boolean | undefined;
-  /** Indicates the billing type of the client */
-  billingType?: GoogleCloudIntegrationsV1alphaClientConfigBillingTypeEnum | undefined;
-  /** The service agent associated with this client */
-  p4ServiceAccount?: string | undefined;
+  /** The GCP project id of the client associated with */
+  projectId?: string | undefined;
   /** Indicates the activity state the client */
   clientState?: GoogleCloudIntegrationsV1alphaClientConfigClientStateEnum | undefined;
-  /** Optional. Indicates the client is provisioned with CMEK or GMEK. */
-  isGmek?: boolean | undefined;
-  cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
+  /** Globally unique ID (project_id + region) */
+  id?: string | undefined;
   /** Optional. Indicates the client enables internal IP feature, this is applicable for internal clients only. */
   enableInternalIp?: boolean | undefined;
   /** Optional. */
-  enableVariableMasking?: boolean | undefined;
-  /** The GCP project id of the client associated with */
-  projectId?: string | undefined;
+  enableHttpCall?: boolean | undefined;
   /** Optional. Customer configuration information for the given client. */
   customerConfig?: GoogleCloudIntegrationsV1alphaCustomerConfig | undefined;
-  /** Globally unique ID (project_id + region) */
-  id?: string | undefined;
+  runAsServiceAccount?: string | undefined;
+  cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
+  /** Optional. */
+  enableManagedAiFeatures?: boolean | undefined;
+  /** Optional. Indicates the client is provisioned with CMEK or GMEK. */
+  isGmek?: boolean | undefined;
+  /** The timestamp when the client was first created. */
+  createTime?: string | undefined;
+  /** The service agent associated with this client */
+  p4ServiceAccount?: string | undefined;
+  /** Indicates the billing type of the client */
+  billingType?: GoogleCloudIntegrationsV1alphaClientConfigBillingTypeEnum | undefined;
+  /** Optional. */
+  enableVariableMasking?: boolean | undefined;
+  /** Description of what the client is used for */
+  description?: string | undefined;
 }
 /** Response for the GetClient rpc */
 export interface GoogleCloudIntegrationsV1alphaGetClientResponse {
@@ -2837,8 +2837,6 @@ export interface GetProjectsLocationsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
 }
-export type GoogleCloudIntegrationsV1alphaExecutionList =
-  Array<GoogleCloudIntegrationsV1alphaExecution>;
 export type GoogleCloudIntegrationsV1alphaExecutionExecutionMethodEnum =
   | "EXECUTION_METHOD_UNSPECIFIED"
   | "POST"
@@ -2850,157 +2848,22 @@ export type GoogleCloudIntegrationsV1alphaExecutionIntegrationVersionStateEnum =
   | "ACTIVE"
   | "ARCHIVED"
   | "SNAPSHOT";
+export type GoogleCloudIntegrationsV1alphaExecutionList =
+  Array<GoogleCloudIntegrationsV1alphaExecution>;
 export type GoogleCloudIntegrationsV1alphaExecutionReplayInfoReplayModeEnum =
   | "REPLAY_MODE_UNSPECIFIED"
   | "REPLAY_MODE_FROM_BEGINNING"
   | "REPLAY_MODE_POINT_OF_FAILURE";
 /** Contains the details of the execution info: this includes the replay reason and replay tree connecting executions in a parent-child relationship */
 export interface GoogleCloudIntegrationsV1alphaExecutionReplayInfo {
+  /** If this execution is a replay of another execution, then this field contains the original execution id. */
+  originalExecutionInfoId?: string | undefined;
   /** Replay mode for the execution */
   replayMode?: GoogleCloudIntegrationsV1alphaExecutionReplayInfoReplayModeEnum | undefined;
   /** If this execution has been replayed, then this field contains the execution ids of the replayed executions. */
   replayedExecutionInfoIds?: StringList | undefined;
-  /** If this execution is a replay of another execution, then this field contains the original execution id. */
-  originalExecutionInfoId?: string | undefined;
   /** reason for replay */
   replayReason?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskExecutionStateEnum =
-  | "UNSPECIFIED"
-  | "PENDING_EXECUTION"
-  | "IN_PROCESS"
-  | "SUCCEED"
-  | "FAILED"
-  | "FATAL"
-  | "RETRY_ON_HOLD"
-  | "SKIPPED"
-  | "CANCELED"
-  | "PENDING_ROLLBACK"
-  | "ROLLBACK_IN_PROCESS"
-  | "ROLLEDBACK"
-  | "SUSPENDED";
-export interface EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats {
-  /** The start time of the task execution for current attempt. This could be in the future if it's been scheduled. */
-  startTime?: string | undefined;
-  /** The end time of the task execution for current attempt. */
-  endTime?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStatsList =
-  Array<EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats>;
-/** Contains the details of the execution of this task. Next available id: 11 */
-export interface EnterpriseCrmEventbusProtoTaskExecutionDetails {
-  taskExecutionState?:
-    | EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskExecutionStateEnum
-    | undefined;
-  /** Indicates whether the task was skipped on failure. Only relevant if the task is in SKIPPED state. */
-  skippedOnFailure?: boolean | undefined;
-  /** Pointer to the task config it used for execution. */
-  taskNumber?: string | undefined;
-  taskAttemptStats?: EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStatsList | undefined;
-}
-export type EnterpriseCrmEventbusProtoTaskExecutionDetailsList =
-  Array<EnterpriseCrmEventbusProtoTaskExecutionDetails>;
-/** Contains the combined condition calculation results. */
-export interface EnterpriseCrmEventbusProtoConditionResult {
-  /** the result comes out after evaluate the combined condition. True if there's no combined condition specified. */
-  result?: boolean | undefined;
-  /** the current task number. */
-  currentTaskNumber?: string | undefined;
-  /** the next task number. */
-  nextTaskNumber?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoConditionResultList =
-  Array<EnterpriseCrmEventbusProtoConditionResult>;
-export interface EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata {
-  /** Ancestor iteration number for the task(it will only be non-empty if the task is under 'private workflow') */
-  ancestorIterationNumbers?: StringList | undefined;
-  /** the task name associated with this snapshot. Could be empty. */
-  taskName?: string | undefined;
-  /** Ancestor task number for the task(it will only be non-empty if the task is under 'private workflow') */
-  ancestorTaskNumbers?: StringList | undefined;
-  /** The direct integration which the event execution snapshots belongs to */
-  integrationName?: string | undefined;
-  /** The task number associated with this snapshot. Could be empty. */
-  taskNumber?: string | undefined;
-  /** the task label associated with this snapshot. Could be empty. */
-  taskLabel?: string | undefined;
-  /** the task attempt number this snapshot belongs to. Could be empty. */
-  taskAttemptNum?: number | undefined;
-  /** the event attempt number this snapshot belongs to. */
-  eventAttemptNum?: number | undefined;
-}
-/** Contains the snapshot of the event execution for a given checkpoint. Next available id: 15 */
-export interface EnterpriseCrmEventbusProtoEventExecutionSnapshot {
-  /** indicate whether snapshot exceeded maximum size before clean up */
-  exceedMaxSize?: boolean | undefined;
-  /** Name of the workflow this event execution snapshot belongs to. */
-  workflowName?: string | undefined;
-  /** All of the task execution details at the given point of time. */
-  taskExecutionDetails?: EnterpriseCrmEventbusProtoTaskExecutionDetailsList | undefined;
-  /** Points to the event execution info this snapshot belongs to. */
-  eventExecutionInfoId?: string | undefined;
-  /** Auto-generated. Used as primary key for EventExecutionSnapshots table. */
-  eventExecutionSnapshotId?: string | undefined;
-  /** All of the computed conditions that been calculated. */
-  conditionResults?: EnterpriseCrmEventbusProtoConditionResultList | undefined;
-  /** Client that the execution snapshot is associated to. */
-  clientId?: string | undefined;
-  /** Indicates "right after which checkpoint task's execution" this snapshot is taken. */
-  checkpointTaskNumber?: string | undefined;
-  /** The parameters in Event object that differs from last snapshot. */
-  diffParams?: EnterpriseCrmEventbusProtoEventParameters | undefined;
-  /** Indicates when this snapshot is taken. */
-  snapshotTime?: string | undefined;
-  /** The task name associated with this snapshot. Could be empty. */
-  taskName?: string | undefined;
-  eventExecutionSnapshotMetadata?:
-    | EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata
-    | undefined;
-  /** The parameters in Event object. */
-  eventParams?: EnterpriseCrmEventbusProtoEventParameters | undefined;
-}
-export type EnterpriseCrmEventbusProtoEventExecutionSnapshotList =
-  Array<EnterpriseCrmEventbusProtoEventExecutionSnapshot>;
-export interface EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats {
-  /** The end time of the event execution for current attempt. */
-  endTime?: string | undefined;
-  /** The start time of the event execution for current attempt. This could be in the future if it's been scheduled. */
-  startTime?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList =
-  Array<EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats>;
-export type EnterpriseCrmEventbusProtoEventExecutionDetailsEventExecutionStateEnum =
-  | "UNSPECIFIED"
-  | "ON_HOLD"
-  | "IN_PROCESS"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "CANCELED"
-  | "RETRY_ON_HOLD"
-  | "SUSPENDED";
-/** Contains the details of the execution info of this event: this includes the tasks execution details plus the event execution statistics. Next available id: 12 */
-export interface EnterpriseCrmEventbusProtoEventExecutionDetails {
-  /** If the execution is manually canceled, this field will contain the reason for cancellation. */
-  cancelReason?: string | undefined;
-  eventExecutionSnapshot?: EnterpriseCrmEventbusProtoEventExecutionSnapshotList | undefined;
-  /** The log file path (aka. cns address) for this event. */
-  logFilePath?: string | undefined;
-  /** Total size of all event_execution_snapshots for an execution */
-  eventExecutionSnapshotsSize?: string | undefined;
-  /** Used internally and shouldn't be exposed to users. A counter for the cron job to record how many times this event is in in_process state but don't have a lock consecutively/ */
-  ryeLockUnheldCount?: number | undefined;
-  eventAttemptStats?:
-    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList
-    | undefined;
-  eventExecutionState?:
-    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventExecutionStateEnum
-    | undefined;
-  /** Indicates the number of times the execution has restarted from the beginning. */
-  eventRetriesFromBeginningCount?: number | undefined;
-  /** Next scheduled execution time in case the execution status was RETRY_ON_HOLD. */
-  nextExecutionTime?: string | undefined;
-  /** The network address (aka. bns address) that indicates where the event executor is running. */
-  networkAddress?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaExecutionDetailsStateEnum =
   | "STATE_UNSPECIFIED"
@@ -3013,13 +2876,32 @@ export type GoogleCloudIntegrationsV1alphaExecutionDetailsStateEnum =
   | "SUSPENDED";
 /** Status for the execution attempt. */
 export interface GoogleCloudIntegrationsV1alphaAttemptStats {
-  /** The end time of the integration execution for current attempt. */
-  endTime?: string | undefined;
   /** The start time of the integration execution for current attempt. This could be in the future if it's been scheduled. */
   startTime?: string | undefined;
+  /** The end time of the integration execution for current attempt. */
+  endTime?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaAttemptStatsList =
   Array<GoogleCloudIntegrationsV1alphaAttemptStats>;
+/** Metadata of the execution snapshot. */
+export interface GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata {
+  /** the execution attempt number this snapshot belongs to. */
+  executionAttempt?: number | undefined;
+  /** the task attempt number this snapshot belongs to. */
+  taskAttempt?: number | undefined;
+  /** the task name associated with this snapshot. */
+  task?: string | undefined;
+  /** The task number associated with this snapshot. */
+  taskNumber?: string | undefined;
+  /** Ancestor task number for the task(it will only be non-empty if the task is under 'private workflow') */
+  ancestorTaskNumbers?: StringList | undefined;
+  /** the task label associated with this snapshot. Could be empty. */
+  taskLabel?: string | undefined;
+  /** Ancestor iteration number for the task(it will only be non-empty if the task is under 'private workflow') */
+  ancestorIterationNumbers?: StringList | undefined;
+  /** The direct integration which the event execution snapshots belongs to */
+  integrationName?: string | undefined;
+}
 export type GoogleCloudIntegrationsV1alphaTaskExecutionDetailsTaskExecutionStateEnum =
   | "TASK_EXECUTION_STATE_UNSPECIFIED"
   | "PENDING_EXECUTION"
@@ -3038,46 +2920,27 @@ export type GoogleCloudIntegrationsV1alphaTaskExecutionDetailsTaskExecutionState
 export interface GoogleCloudIntegrationsV1alphaTaskExecutionDetails {
   /** Status for the current task execution attempt. */
   taskAttemptStats?: GoogleCloudIntegrationsV1alphaAttemptStatsList | undefined;
+  /** Pointer to the task config it used for execution. */
+  taskNumber?: string | undefined;
   /** The execution state of this task. */
   taskExecutionState?:
     | GoogleCloudIntegrationsV1alphaTaskExecutionDetailsTaskExecutionStateEnum
     | undefined;
-  /** Pointer to the task config it used for execution. */
-  taskNumber?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaTaskExecutionDetailsList =
   Array<GoogleCloudIntegrationsV1alphaTaskExecutionDetails>;
-/** Metadata of the execution snapshot. */
-export interface GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata {
-  /** the task attempt number this snapshot belongs to. */
-  taskAttempt?: number | undefined;
-  /** The task number associated with this snapshot. */
-  taskNumber?: string | undefined;
-  /** the execution attempt number this snapshot belongs to. */
-  executionAttempt?: number | undefined;
-  /** Ancestor task number for the task(it will only be non-empty if the task is under 'private workflow') */
-  ancestorTaskNumbers?: StringList | undefined;
-  /** the task label associated with this snapshot. Could be empty. */
-  taskLabel?: string | undefined;
-  /** the task name associated with this snapshot. */
-  task?: string | undefined;
-  /** Ancestor iteration number for the task(it will only be non-empty if the task is under 'private workflow') */
-  ancestorIterationNumbers?: StringList | undefined;
-  /** The direct integration which the event execution snapshots belongs to */
-  integrationName?: string | undefined;
-}
 /** Contains the snapshot of the execution for a given checkpoint. */
 export interface GoogleCloudIntegrationsV1alphaExecutionSnapshot {
-  /** Indicates "after which checkpoint task's execution" this snapshot is taken. */
-  checkpointTaskNumber?: string | undefined;
-  /** All of the task execution details at the given point of time. */
-  taskExecutionDetails?: GoogleCloudIntegrationsV1alphaTaskExecutionDetailsList | undefined;
   /** Metadata of the execution snapshot. */
   executionSnapshotMetadata?:
     | GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata
     | undefined;
+  /** Indicates "after which checkpoint task's execution" this snapshot is taken. */
+  checkpointTaskNumber?: string | undefined;
   /** Parameters used during the execution. */
   params?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** All of the task execution details at the given point of time. */
+  taskExecutionDetails?: GoogleCloudIntegrationsV1alphaTaskExecutionDetailsList | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaExecutionSnapshotList =
   Array<GoogleCloudIntegrationsV1alphaExecutionSnapshot>;
@@ -3085,50 +2948,187 @@ export type GoogleCloudIntegrationsV1alphaExecutionSnapshotList =
 export interface GoogleCloudIntegrationsV1alphaExecutionDetails {
   /** Status of the execution. */
   state?: GoogleCloudIntegrationsV1alphaExecutionDetailsStateEnum | undefined;
+  /** List of Start and end time of the execution attempts. */
+  attemptStats?: GoogleCloudIntegrationsV1alphaAttemptStatsList | undefined;
   /** List of snapshots taken during the execution. */
   executionSnapshots?: GoogleCloudIntegrationsV1alphaExecutionSnapshotList | undefined;
   /** Total size of all event_execution_snapshots for an execution */
   eventExecutionSnapshotsSize?: string | undefined;
-  /** List of Start and end time of the execution attempts. */
-  attemptStats?: GoogleCloudIntegrationsV1alphaAttemptStatsList | undefined;
+}
+export type EnterpriseCrmEventbusProtoEventExecutionDetailsEventExecutionStateEnum =
+  | "UNSPECIFIED"
+  | "ON_HOLD"
+  | "IN_PROCESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELED"
+  | "RETRY_ON_HOLD"
+  | "SUSPENDED";
+/** Contains the combined condition calculation results. */
+export interface EnterpriseCrmEventbusProtoConditionResult {
+  /** the current task number. */
+  currentTaskNumber?: string | undefined;
+  /** the next task number. */
+  nextTaskNumber?: string | undefined;
+  /** the result comes out after evaluate the combined condition. True if there's no combined condition specified. */
+  result?: boolean | undefined;
+}
+export type EnterpriseCrmEventbusProtoConditionResultList =
+  Array<EnterpriseCrmEventbusProtoConditionResult>;
+export interface EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata {
+  /** the task name associated with this snapshot. Could be empty. */
+  taskName?: string | undefined;
+  /** Ancestor iteration number for the task(it will only be non-empty if the task is under 'private workflow') */
+  ancestorIterationNumbers?: StringList | undefined;
+  /** The direct integration which the event execution snapshots belongs to */
+  integrationName?: string | undefined;
+  /** the task attempt number this snapshot belongs to. Could be empty. */
+  taskAttemptNum?: number | undefined;
+  /** the event attempt number this snapshot belongs to. */
+  eventAttemptNum?: number | undefined;
+  /** The task number associated with this snapshot. Could be empty. */
+  taskNumber?: string | undefined;
+  /** Ancestor task number for the task(it will only be non-empty if the task is under 'private workflow') */
+  ancestorTaskNumbers?: StringList | undefined;
+  /** the task label associated with this snapshot. Could be empty. */
+  taskLabel?: string | undefined;
+}
+export interface EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats {
+  /** The end time of the task execution for current attempt. */
+  endTime?: string | undefined;
+  /** The start time of the task execution for current attempt. This could be in the future if it's been scheduled. */
+  startTime?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStatsList =
+  Array<EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats>;
+export type EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskExecutionStateEnum =
+  | "UNSPECIFIED"
+  | "PENDING_EXECUTION"
+  | "IN_PROCESS"
+  | "SUCCEED"
+  | "FAILED"
+  | "FATAL"
+  | "RETRY_ON_HOLD"
+  | "SKIPPED"
+  | "CANCELED"
+  | "PENDING_ROLLBACK"
+  | "ROLLBACK_IN_PROCESS"
+  | "ROLLEDBACK"
+  | "SUSPENDED";
+/** Contains the details of the execution of this task. Next available id: 11 */
+export interface EnterpriseCrmEventbusProtoTaskExecutionDetails {
+  taskAttemptStats?: EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStatsList | undefined;
+  /** Indicates whether the task was skipped on failure. Only relevant if the task is in SKIPPED state. */
+  skippedOnFailure?: boolean | undefined;
+  /** Pointer to the task config it used for execution. */
+  taskNumber?: string | undefined;
+  taskExecutionState?:
+    | EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskExecutionStateEnum
+    | undefined;
+}
+export type EnterpriseCrmEventbusProtoTaskExecutionDetailsList =
+  Array<EnterpriseCrmEventbusProtoTaskExecutionDetails>;
+/** Contains the snapshot of the event execution for a given checkpoint. Next available id: 15 */
+export interface EnterpriseCrmEventbusProtoEventExecutionSnapshot {
+  /** All of the computed conditions that been calculated. */
+  conditionResults?: EnterpriseCrmEventbusProtoConditionResultList | undefined;
+  /** The parameters in Event object. */
+  eventParams?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+  eventExecutionSnapshotMetadata?:
+    | EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata
+    | undefined;
+  /** Name of the workflow this event execution snapshot belongs to. */
+  workflowName?: string | undefined;
+  /** indicate whether snapshot exceeded maximum size before clean up */
+  exceedMaxSize?: boolean | undefined;
+  /** Client that the execution snapshot is associated to. */
+  clientId?: string | undefined;
+  /** Auto-generated. Used as primary key for EventExecutionSnapshots table. */
+  eventExecutionSnapshotId?: string | undefined;
+  /** The task name associated with this snapshot. Could be empty. */
+  taskName?: string | undefined;
+  /** Points to the event execution info this snapshot belongs to. */
+  eventExecutionInfoId?: string | undefined;
+  /** All of the task execution details at the given point of time. */
+  taskExecutionDetails?: EnterpriseCrmEventbusProtoTaskExecutionDetailsList | undefined;
+  /** Indicates "right after which checkpoint task's execution" this snapshot is taken. */
+  checkpointTaskNumber?: string | undefined;
+  /** Indicates when this snapshot is taken. */
+  snapshotTime?: string | undefined;
+  /** The parameters in Event object that differs from last snapshot. */
+  diffParams?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+}
+export type EnterpriseCrmEventbusProtoEventExecutionSnapshotList =
+  Array<EnterpriseCrmEventbusProtoEventExecutionSnapshot>;
+export interface EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats {
+  /** The start time of the event execution for current attempt. This could be in the future if it's been scheduled. */
+  startTime?: string | undefined;
+  /** The end time of the event execution for current attempt. */
+  endTime?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList =
+  Array<EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats>;
+/** Contains the details of the execution info of this event: this includes the tasks execution details plus the event execution statistics. Next available id: 12 */
+export interface EnterpriseCrmEventbusProtoEventExecutionDetails {
+  eventExecutionState?:
+    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventExecutionStateEnum
+    | undefined;
+  eventExecutionSnapshot?: EnterpriseCrmEventbusProtoEventExecutionSnapshotList | undefined;
+  /** If the execution is manually canceled, this field will contain the reason for cancellation. */
+  cancelReason?: string | undefined;
+  /** Used internally and shouldn't be exposed to users. A counter for the cron job to record how many times this event is in in_process state but don't have a lock consecutively/ */
+  ryeLockUnheldCount?: number | undefined;
+  /** Indicates the number of times the execution has restarted from the beginning. */
+  eventRetriesFromBeginningCount?: number | undefined;
+  eventAttemptStats?:
+    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList
+    | undefined;
+  /** Next scheduled execution time in case the execution status was RETRY_ON_HOLD. */
+  nextExecutionTime?: string | undefined;
+  /** Total size of all event_execution_snapshots for an execution */
+  eventExecutionSnapshotsSize?: string | undefined;
+  /** The log file path (aka. cns address) for this event. */
+  logFilePath?: string | undefined;
+  /** The network address (aka. bns address) that indicates where the event executor is running. */
+  networkAddress?: string | undefined;
 }
 /** The Execution resource contains detailed information of an individual integration execution. */
 export interface GoogleCloudIntegrationsV1alphaExecution {
-  responseParams?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
-  /** Auto-generated primary key. */
-  name?: string | undefined;
-  /** Event parameters returned as part of the response. In the case of error, the `ErrorInfo` field is returned in the following format: { "ErrorInfo": { "message": String, "code": Number } } */
-  responseParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Output only. Last modified time of the execution. */
-  updateTime?: string | undefined;
-  /** Direct sub executions of the following Execution. */
-  directSubExecutions?: GoogleCloudIntegrationsV1alphaExecutionList | undefined;
   /** The ways user posts this event. */
   executionMethod?: GoogleCloudIntegrationsV1alphaExecutionExecutionMethodEnum | undefined;
   /** Cloud Logging details for the integration version */
   cloudLoggingDetails?: GoogleCloudIntegrationsV1alphaCloudLoggingDetails | undefined;
-  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
-  cloudKmsKey?: string | undefined;
-  /** Output only. An increasing sequence that is set when a new snapshot is created */
-  snapshotNumber?: string | undefined;
+  /** Auto-generated primary key. */
+  name?: string | undefined;
+  /** The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
+  triggerId?: string | undefined;
+  responseParams?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
   /** Output only. State of the integration version */
   integrationVersionState?:
     | GoogleCloudIntegrationsV1alphaExecutionIntegrationVersionStateEnum
     | undefined;
-  /** Output only. Replay info for the execution */
-  replayInfo?: GoogleCloudIntegrationsV1alphaExecutionReplayInfo | undefined;
-  /** The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
-  triggerId?: string | undefined;
+  /** Event parameters come in as part of the request. */
+  requestParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** Direct sub executions of the following Execution. */
+  directSubExecutions?: GoogleCloudIntegrationsV1alphaExecutionList | undefined;
+  /** Event parameters returned as part of the response. In the case of error, the `ErrorInfo` field is returned in the following format: { "ErrorInfo": { "message": String, "code": Number } } */
+  responseParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Output only. Created time of the execution. */
   createTime?: string | undefined;
   /** Event parameters come in as part of the request. */
   requestParams?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
-  /** The execution info about this event. */
-  eventExecutionDetails?: EnterpriseCrmEventbusProtoEventExecutionDetails | undefined;
-  /** Event parameters come in as part of the request. */
-  requestParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** Output only. An increasing sequence that is set when a new snapshot is created */
+  snapshotNumber?: string | undefined;
+  /** Output only. Replay info for the execution */
+  replayInfo?: GoogleCloudIntegrationsV1alphaExecutionReplayInfo | undefined;
   /** Detailed info of this execution. */
   executionDetails?: GoogleCloudIntegrationsV1alphaExecutionDetails | undefined;
+  /** Output only. Last modified time of the execution. */
+  updateTime?: string | undefined;
+  /** The execution info about this event. */
+  eventExecutionDetails?: EnterpriseCrmEventbusProtoEventExecutionDetails | undefined;
+  /** Optional. Cloud KMS resource name for the CMEK encryption key. */
+  cloudKmsKey?: string | undefined;
 }
 export interface GetProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to retrieve. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
@@ -3176,22 +3176,22 @@ export interface GetProjectsLocationsTemplatesRequest {
 }
 /** Sub Integration which would be created via templates. */
 export interface GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails {
-  /** Optional. Description of the sub integration which would be created via templates. */
-  integrationDescription?: string | undefined;
   /** Required. Name of the sub integration which would be created via templates. */
   integration?: string | undefined;
+  /** Optional. Description of the sub integration which would be created via templates. */
+  integrationDescription?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap = {
   [key: string]: GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails | undefined;
 };
 /** Request to Import template */
 export interface GoogleCloudIntegrationsV1alphaImportTemplateRequest {
+  /** Required. Resource Name of the integration where template needs to be imported/inserted. */
+  integration?: string | undefined;
   /** Optional. Sub Integration which would be created via templates. */
   subIntegrations?:
     | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap
     | undefined;
-  /** Required. Resource Name of the integration where template needs to be imported/inserted. */
-  integration?: string | undefined;
 }
 export interface ImportProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaImportTemplateRequest {
   /** Required. The name that is associated with the Template. */
@@ -3201,10 +3201,10 @@ export type GoogleCloudIntegrationsV1alphaIntegrationVersionList =
   Array<GoogleCloudIntegrationsV1alphaIntegrationVersion>;
 /** Response for import template */
 export interface GoogleCloudIntegrationsV1alphaImportTemplateResponse {
-  /** IntegrationVersion after the import. */
-  integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
   /** Sub integration versions which are imported. */
   subIntegrationVersions?: GoogleCloudIntegrationsV1alphaIntegrationVersionList | undefined;
+  /** IntegrationVersion after the import. */
+  integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
 }
 /** Request for lift Suspension */
 export interface GoogleCloudIntegrationsV1alphaLiftSuspensionRequest {
@@ -3241,14 +3241,14 @@ export interface GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse {
 export interface ListProjectsLocationsAuthConfigsRequest {
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
   /** Required. The client, which owns this collection of AuthConfigs. */
   parent: string;
   /** The mask which specifies fields that need to be returned in the AuthConfig's response. */
   readMask?: string | undefined;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaAuthConfigList =
   Array<GoogleCloudIntegrationsV1alphaAuthConfig>;
@@ -3260,16 +3260,16 @@ export interface GoogleCloudIntegrationsV1alphaListAuthConfigsResponse {
   authConfigs?: GoogleCloudIntegrationsV1alphaAuthConfigList | undefined;
 }
 export interface ListProjectsLocationsCertificatesRequest {
-  /** The size of entries in the response. If unspecified, defaults to 100. */
-  pageSize?: number | undefined;
+  /** Required. The client, which owns this collection of Certificates. */
+  parent: string;
   /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
   filter?: string | undefined;
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
   /** The mask which specifies fields that need to be returned in the Certificate's response. */
   readMask?: string | undefined;
-  /** Required. The client, which owns this collection of Certificates. */
-  parent: string;
+  /** The size of entries in the response. If unspecified, defaults to 100. */
+  pageSize?: number | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaCertificateList =
   Array<GoogleCloudIntegrationsV1alphaCertificate>;
@@ -3281,49 +3281,133 @@ export interface GoogleCloudIntegrationsV1alphaListCertificatesResponse {
   certificates?: GoogleCloudIntegrationsV1alphaCertificateList | undefined;
 }
 export interface ListProjectsLocationsConnectionsRequest {
-  /** Page token. */
-  pageToken?: string | undefined;
-  /** Page size. */
-  pageSize?: number | undefined;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
   parent: string;
-  /** Order by parameters. */
-  orderBy?: string | undefined;
+  /** Page token. */
+  pageToken?: string | undefined;
   /** Filter. */
   filter?: string | undefined;
+  /** Page size. */
+  pageSize?: number | undefined;
+  /** Order by parameters. */
+  orderBy?: string | undefined;
+}
+export type GoogleCloudConnectorsV1ConnectionSubscriptionTypeEnum =
+  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
+  | "PAY_G"
+  | "PAID";
+export type GoogleCloudConnectorsV1ConnectionConnectorVersionLaunchStageEnum =
+  | "LAUNCH_STAGE_UNSPECIFIED"
+  | "PREVIEW"
+  | "GA"
+  | "DEPRECATED"
+  | "TEST"
+  | "PRIVATE_PREVIEW";
+export type GoogleCloudConnectorsV1EncryptionKeyTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "GOOGLE_MANAGED"
+  | "CUSTOMER_MANAGED";
+/** Encryption Key value. */
+export interface GoogleCloudConnectorsV1EncryptionKey {
+  /** Optional. Specifies the type of the encryption key. */
+  type?: GoogleCloudConnectorsV1EncryptionKeyTypeEnum | undefined;
+  /** Optional. The [KMS key name] with which the content of the Operation is encrypted. The expected format: `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. Will be empty string if google managed. */
+  kmsKeyName?: string | undefined;
 }
 /** Secret provides a reference to entries in Secret Manager. */
 export interface GoogleCloudConnectorsV1Secret {
   /** Optional. The resource name of the secret version in the format, format as: `projects/*\/secrets/*\/versions/*`. */
   secretVersion?: string | undefined;
 }
-/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
-export interface GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow {
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string | undefined;
-  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string | undefined;
-  /** Optional. Client ID for user-provided OAuth app. */
-  clientId?: string | undefined;
-  /** Optional. Client secret for user-provided OAuth app. */
-  clientSecret?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. Auth URL for Authorization Code Flow */
-  authUri?: string | undefined;
-  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
-  enablePkce?: boolean | undefined;
-  /** Optional. PKCE verifier to be used during the auth code exchange. */
-  pkceVerifier?: string | undefined;
-  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList | undefined;
+/** ConfigVariable represents a configuration variable present in a Connection. or AuthConfig. */
+export interface GoogleCloudConnectorsV1ConfigVariable {
+  /** Optional. Value is a bool. */
+  boolValue?: boolean | undefined;
+  /** Optional. Value is a Encryption Key. */
+  encryptionKeyValue?: GoogleCloudConnectorsV1EncryptionKey | undefined;
+  /** Optional. Value is a string. */
+  stringValue?: string | undefined;
+  /** Optional. Key of the config variable. */
+  key?: string | undefined;
+  /** Optional. Value is an integer */
+  intValue?: string | undefined;
+  /** Optional. Value is a secret. */
+  secretValue?: GoogleCloudConnectorsV1Secret | undefined;
+}
+export type GoogleCloudConnectorsV1ConfigVariableList =
+  Array<GoogleCloudConnectorsV1ConfigVariable>;
+export type GoogleCloudConnectorsV1ConnectionEventingEnablementTypeEnum =
+  | "EVENTING_ENABLEMENT_TYPE_UNSPECIFIED"
+  | "EVENTING_AND_CONNECTION"
+  | "ONLY_EVENTING";
+/** Parameters to support Ssh public key Authentication. */
+export interface GoogleCloudConnectorsV1AuthConfigSshPublicKey {
+  /** Optional. Password (passphrase) for ssh client certificate if it has one. */
+  sshClientCertPass?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. Format of SSH Client cert. */
+  certType?: string | undefined;
+  /** Optional. SSH Client Cert. It should contain both public and private key. */
+  sshClientCert?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. The user account used to authenticate. */
+  username?: string | undefined;
 }
 /** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
 export interface GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged {
-  /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string | undefined;
   /** Required. Scopes the connection will request when the user performs the auth code flow. */
   scopes?: StringList | undefined;
   /** Optional. Authorization code to be exchanged for access and refresh tokens. */
   authCode?: string | undefined;
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string | undefined;
+}
+/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
+export interface GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials {
+  /** Optional. The client identifier. */
+  clientId?: string | undefined;
+  /** Optional. Secret version reference containing the client secret. */
+  clientSecret?: GoogleCloudConnectorsV1Secret | undefined;
+}
+/** JWT claims used for the jwt-bearer authorization grant. */
+export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims {
+  /** Optional. Value for the "aud" claim. */
+  audience?: string | undefined;
+  /** Optional. Value for the "sub" claim. */
+  subject?: string | undefined;
+  /** Optional. Value for the "iss" claim. */
+  issuer?: string | undefined;
+}
+/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
+export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer {
+  /** Optional. Secret version reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/secrets/*\/versions/*`. */
+  clientKey?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. JwtClaims providers fields to generate the token. */
+  jwtClaims?: GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims | undefined;
+}
+/** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
+export interface GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow {
+  /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
+  enablePkce?: boolean | undefined;
+  /** Optional. Client secret for user-provided OAuth app. */
+  clientSecret?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. Auth URL for Authorization Code Flow */
+  authUri?: string | undefined;
+  /** Optional. Redirect URI to be provided during the auth code exchange. */
+  redirectUri?: string | undefined;
+  /** Optional. Scopes the connection will request when the user performs the auth code flow. */
+  scopes?: StringList | undefined;
+  /** Optional. PKCE verifier to be used during the auth code exchange. */
+  pkceVerifier?: string | undefined;
+  /** Optional. Authorization code to be exchanged for access and refresh tokens. */
+  authCode?: string | undefined;
+  /** Optional. Client ID for user-provided OAuth app. */
+  clientId?: string | undefined;
+}
+/** Parameters to support Username and Password Authentication. */
+export interface GoogleCloudConnectorsV1AuthConfigUserPassword {
+  /** Optional. Username. */
+  username?: string | undefined;
+  /** Optional. Secret version reference containing the password. */
+  password?: GoogleCloudConnectorsV1Secret | undefined;
 }
 export type GoogleCloudConnectorsV1AuthConfigAuthTypeEnum =
   | "AUTH_TYPE_UNSPECIFIED"
@@ -3334,138 +3418,123 @@ export type GoogleCloudConnectorsV1AuthConfigAuthTypeEnum =
   | "OAUTH2_AUTH_CODE_FLOW"
   | "GOOGLE_AUTHENTICATION"
   | "OAUTH2_AUTH_CODE_FLOW_GOOGLE_MANAGED";
-export type GoogleCloudConnectorsV1EncryptionKeyTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "GOOGLE_MANAGED"
-  | "CUSTOMER_MANAGED";
-/** Encryption Key value. */
-export interface GoogleCloudConnectorsV1EncryptionKey {
-  /** Optional. The [KMS key name] with which the content of the Operation is encrypted. The expected format: `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. Will be empty string if google managed. */
-  kmsKeyName?: string | undefined;
-  /** Optional. Specifies the type of the encryption key. */
-  type?: GoogleCloudConnectorsV1EncryptionKeyTypeEnum | undefined;
-}
-/** ConfigVariable represents a configuration variable present in a Connection. or AuthConfig. */
-export interface GoogleCloudConnectorsV1ConfigVariable {
-  /** Optional. Key of the config variable. */
-  key?: string | undefined;
-  /** Optional. Value is a string. */
-  stringValue?: string | undefined;
-  /** Optional. Value is a Encryption Key. */
-  encryptionKeyValue?: GoogleCloudConnectorsV1EncryptionKey | undefined;
-  /** Optional. Value is a secret. */
-  secretValue?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. Value is a bool. */
-  boolValue?: boolean | undefined;
-  /** Optional. Value is an integer */
-  intValue?: string | undefined;
-}
-export type GoogleCloudConnectorsV1ConfigVariableList =
-  Array<GoogleCloudConnectorsV1ConfigVariable>;
-/** JWT claims used for the jwt-bearer authorization grant. */
-export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims {
-  /** Optional. Value for the "iss" claim. */
-  issuer?: string | undefined;
-  /** Optional. Value for the "aud" claim. */
-  audience?: string | undefined;
-  /** Optional. Value for the "sub" claim. */
-  subject?: string | undefined;
-}
-/** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
-export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer {
-  /** Optional. JwtClaims providers fields to generate the token. */
-  jwtClaims?: GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims | undefined;
-  /** Optional. Secret version reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/secrets/*\/versions/*`. */
-  clientKey?: GoogleCloudConnectorsV1Secret | undefined;
-}
-/** Parameters to support Ssh public key Authentication. */
-export interface GoogleCloudConnectorsV1AuthConfigSshPublicKey {
-  /** Optional. Password (passphrase) for ssh client certificate if it has one. */
-  sshClientCertPass?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. SSH Client Cert. It should contain both public and private key. */
-  sshClientCert?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. The user account used to authenticate. */
-  username?: string | undefined;
-  /** Optional. Format of SSH Client cert. */
-  certType?: string | undefined;
-}
-/** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
-export interface GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials {
-  /** Optional. The client identifier. */
-  clientId?: string | undefined;
-  /** Optional. Secret version reference containing the client secret. */
-  clientSecret?: GoogleCloudConnectorsV1Secret | undefined;
-}
-/** Parameters to support Username and Password Authentication. */
-export interface GoogleCloudConnectorsV1AuthConfigUserPassword {
-  /** Optional. Username. */
-  username?: string | undefined;
-  /** Optional. Secret version reference containing the password. */
-  password?: GoogleCloudConnectorsV1Secret | undefined;
-}
 /** AuthConfig defines details of a authentication type. */
 export interface GoogleCloudConnectorsV1AuthConfig {
-  /** Oauth2AuthCodeFlow. */
-  oauth2AuthCodeFlow?: GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow | undefined;
+  /** Optional. Identifier key for auth config */
+  authKey?: string | undefined;
+  /** SSH Public Key. */
+  sshPublicKey?: GoogleCloudConnectorsV1AuthConfigSshPublicKey | undefined;
   /** Oauth2AuthCodeFlowGoogleManaged. */
   oauth2AuthCodeFlowGoogleManaged?:
     | GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged
     | undefined;
-  /** Optional. The type of authentication configured. */
-  authType?: GoogleCloudConnectorsV1AuthConfigAuthTypeEnum | undefined;
-  /** Optional. List containing additional auth configs. */
-  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
-  /** Optional. Identifier key for auth config */
-  authKey?: string | undefined;
-  /** Oauth2JwtBearer. */
-  oauth2JwtBearer?: GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer | undefined;
-  /** SSH Public Key. */
-  sshPublicKey?: GoogleCloudConnectorsV1AuthConfigSshPublicKey | undefined;
   /** Oauth2ClientCredentials. */
   oauth2ClientCredentials?: GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials | undefined;
+  /** Oauth2JwtBearer. */
+  oauth2JwtBearer?: GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer | undefined;
+  /** Oauth2AuthCodeFlow. */
+  oauth2AuthCodeFlow?: GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow | undefined;
+  /** Optional. List containing additional auth configs. */
+  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
   /** UserPassword. */
   userPassword?: GoogleCloudConnectorsV1AuthConfigUserPassword | undefined;
+  /** Optional. The type of authentication configured. */
+  authType?: GoogleCloudConnectorsV1AuthConfigAuthTypeEnum | undefined;
 }
-export type GoogleCloudConnectorsV1LogConfigLevelEnum =
-  | "LOG_LEVEL_UNSPECIFIED"
-  | "ERROR"
-  | "INFO"
-  | "DEBUG";
-/** Log configuration for the connection. */
-export interface GoogleCloudConnectorsV1LogConfig {
-  /** Optional. Enabled represents whether logging is enabled or not for a connection. */
-  enabled?: boolean | undefined;
-  /** Optional. Log configuration level. */
-  level?: GoogleCloudConnectorsV1LogConfigLevelEnum | undefined;
+export type GoogleCloudConnectorsV1BillingConfigBillingCategoryEnum =
+  | "BILLING_CATEGORY_UNSPECIFIED"
+  | "GCP_AND_TECHNICAL_CONNECTOR"
+  | "NON_GCP_CONNECTOR";
+/** Billing config for the connection. */
+export interface GoogleCloudConnectorsV1BillingConfig {
+  /** Output only. Billing category for the connector. */
+  billingCategory?: GoogleCloudConnectorsV1BillingConfigBillingCategoryEnum | undefined;
+}
+export type GoogleCloudConnectorsV1SslConfigServerCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
+export type GoogleCloudConnectorsV1SslConfigTrustModelEnum = "PUBLIC" | "PRIVATE" | "INSECURE";
+export type GoogleCloudConnectorsV1SslConfigClientCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
+export type GoogleCloudConnectorsV1SslConfigTypeEnum = "SSL_TYPE_UNSPECIFIED" | "TLS" | "MTLS";
+/** SSL Configuration of a connection */
+export interface GoogleCloudConnectorsV1SslConfig {
+  /** Optional. Secret containing the passphrase protecting the Client Private Key */
+  clientPrivateKeyPass?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. Type of Server Cert (PEM/JKS/.. etc.) */
+  serverCertType?: GoogleCloudConnectorsV1SslConfigServerCertTypeEnum | undefined;
+  /** Optional. Additional SSL related field values */
+  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
+  /** Optional. Bool for enabling SSL */
+  useSsl?: boolean | undefined;
+  /** Optional. Trust Model of the SSL connection */
+  trustModel?: GoogleCloudConnectorsV1SslConfigTrustModelEnum | undefined;
+  /** Optional. Private Server Certificate. Needs to be specified if trust model is `PRIVATE`. */
+  privateServerCertificate?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. Type of Client Cert (PEM/JKS/.. etc.) */
+  clientCertType?: GoogleCloudConnectorsV1SslConfigClientCertTypeEnum | undefined;
+  /** Optional. Client Certificate */
+  clientCertificate?: GoogleCloudConnectorsV1Secret | undefined;
+  /** Optional. Controls the ssl type for the given connector version. */
+  type?: GoogleCloudConnectorsV1SslConfigTypeEnum | undefined;
+  /** Optional. Client Private Key */
+  clientPrivateKey?: GoogleCloudConnectorsV1Secret | undefined;
+}
+/** Dead Letter configuration details provided by the user. */
+export interface GoogleCloudConnectorsV1EventingConfigDeadLetterConfig {
+  /** Optional. Topic to push events which couldn't be processed. */
+  topic?: string | undefined;
+  /** Optional. Project which has the topic given. */
+  projectId?: string | undefined;
+}
+/** Data enrichment configuration. */
+export interface GoogleCloudConnectorsV1EnrichmentConfig {
+  /** Optional. Append ACL to the event. */
+  appendAcl?: boolean | undefined;
 }
 export interface GoogleCloudConnectorsV1Destination {
-  /** PSC service attachments. Format: projects/*\/regions/*\/serviceAttachments/* */
-  serviceAttachment?: string | undefined;
   /** For publicly routable host. */
   host?: string | undefined;
   /** Optional. The port is the target port number that is accepted by the destination. */
   port?: number | undefined;
+  /** PSC service attachments. Format: projects/*\/regions/*\/serviceAttachments/* */
+  serviceAttachment?: string | undefined;
 }
 export type GoogleCloudConnectorsV1DestinationList = Array<GoogleCloudConnectorsV1Destination>;
 /** Define the Connectors target endpoint. */
 export interface GoogleCloudConnectorsV1DestinationConfig {
-  /** Optional. The key is the destination identifier that is supported by the Connector. */
-  key?: string | undefined;
   /** Optional. The destinations for the key. */
   destinations?: GoogleCloudConnectorsV1DestinationList | undefined;
+  /** Optional. The key is the destination identifier that is supported by the Connector. */
+  key?: string | undefined;
 }
-export type GoogleCloudConnectorsV1DestinationConfigList =
-  Array<GoogleCloudConnectorsV1DestinationConfig>;
-export type GoogleCloudConnectorsV1ConnectionSubscriptionTypeEnum =
-  | "SUBSCRIPTION_TYPE_UNSPECIFIED"
-  | "PAY_G"
-  | "PAID";
-/** Resource limits defined for connection pods of a given connector type. */
-export interface GoogleCloudConnectorsV1ResourceLimits {
-  /** Output only. CPU limit. */
-  cpu?: string | undefined;
-  /** Output only. Memory limit. */
-  memory?: string | undefined;
+/** Eventing Configuration of a connection next: 21 */
+export interface GoogleCloudConnectorsV1EventingConfig {
+  /** Optional. Additional eventing related field values */
+  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
+  /** Optional. Enrichment Enabled. */
+  enrichmentEnabled?: boolean | undefined;
+  /** Optional. Ssl config of a connection */
+  sslConfig?: GoogleCloudConnectorsV1SslConfig | undefined;
+  /** Optional. Dead letter configuration for eventing of a connection. */
+  deadLetterConfig?: GoogleCloudConnectorsV1EventingConfigDeadLetterConfig | undefined;
+  /** Optional. Filter to be applied on the events to be received by the connection. */
+  globalEventFilter?: string | undefined;
+  /** Optional. Auth details for the webhook adapter. */
+  authConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
+  /** Optional. List of projects to be allowlisted for the service attachment created in the tenant project for eventing ingress. */
+  privateConnectivityAllowlistedProjects?: StringList | undefined;
+  /** Optional. List of allowed event types for the connection. */
+  allowedEventTypes?: StringList | undefined;
+  /** Output only. Ingress endpoint of the event listener. This is used only when private connectivity is enabled. */
+  eventsListenerIngressEndpoint?: string | undefined;
+  /** Optional. Private Connectivity Enabled. */
+  privateConnectivityEnabled?: boolean | undefined;
+  /** Optional. Data enrichment configuration. */
+  enrichmentConfig?: GoogleCloudConnectorsV1EnrichmentConfig | undefined;
+  /** Optional. Proxy for Eventing auto-registration. */
+  proxyDestinationConfig?: GoogleCloudConnectorsV1DestinationConfig | undefined;
+  /** Optional. Registration endpoint for auto registration. */
+  registrationDestinationConfig?: GoogleCloudConnectorsV1DestinationConfig | undefined;
+  /** Optional. Auth details for the event listener. */
+  listenerAuthConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
 }
 export type GoogleCloudConnectorsV1ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
   | "DEPLOYMENT_MODEL_MIGRATION_STATE_UNSPECIFIED"
@@ -3480,14 +3549,6 @@ export interface GoogleCloudConnectorsV1ResourceRequests {
   /** Output only. CPU request. */
   cpu?: string | undefined;
 }
-export type GoogleCloudConnectorsV1ConnectorVersionInfraConfigDeploymentModelEnum =
-  | "DEPLOYMENT_MODEL_UNSPECIFIED"
-  | "GKE_MST"
-  | "CLOUD_RUN_MST";
-export type GoogleCloudConnectorsV1ConnectorVersionInfraConfigTlsMigrationStateEnum =
-  | "TLS_MIGRATION_STATE_UNSPECIFIED"
-  | "TLS_MIGRATION_NOT_STARTED"
-  | "TLS_MIGRATION_COMPLETED";
 /** Autoscaling config for connector deployment system metrics. */
 export interface GoogleCloudConnectorsV1HPAConfig {
   /** Output only. Percent Memory utilization where HPA triggers autoscaling. */
@@ -3495,69 +3556,66 @@ export interface GoogleCloudConnectorsV1HPAConfig {
   /** Output only. Percent CPU utilization where HPA triggers autoscaling. */
   cpuUtilizationThreshold?: string | undefined;
 }
+export type GoogleCloudConnectorsV1ConnectorVersionInfraConfigDeploymentModelEnum =
+  | "DEPLOYMENT_MODEL_UNSPECIFIED"
+  | "GKE_MST"
+  | "CLOUD_RUN_MST";
+/** Resource limits defined for connection pods of a given connector type. */
+export interface GoogleCloudConnectorsV1ResourceLimits {
+  /** Output only. CPU limit. */
+  cpu?: string | undefined;
+  /** Output only. Memory limit. */
+  memory?: string | undefined;
+}
+export type GoogleCloudConnectorsV1ConnectorVersionInfraConfigTlsMigrationStateEnum =
+  | "TLS_MIGRATION_STATE_UNSPECIFIED"
+  | "TLS_MIGRATION_NOT_STARTED"
+  | "TLS_MIGRATION_COMPLETED";
 /** This configuration provides infra configs like rate limit threshold which need to be configurable for every connector version */
 export interface GoogleCloudConnectorsV1ConnectorVersionInfraConfig {
-  /** Output only. The name of shared connector deployment. */
-  sharedDeployment?: string | undefined;
-  /** Output only. System resource limits. */
-  resourceLimits?: GoogleCloudConnectorsV1ResourceLimits | undefined;
   /** Output only. Status of the deployment model migration. */
   deploymentModelMigrationState?:
     | GoogleCloudConnectorsV1ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum
     | undefined;
+  /** Output only. The window used for ratelimiting runtime requests to connections. */
+  connectionRatelimitWindowSeconds?: string | undefined;
   /** Output only. System resource requests. */
   resourceRequests?: GoogleCloudConnectorsV1ResourceRequests | undefined;
+  /** Output only. Max QPS supported for internal requests originating from Connd. */
+  internalclientRatelimitThreshold?: string | undefined;
+  /** Output only. HPA autoscaling config. */
+  hpaConfig?: GoogleCloudConnectorsV1HPAConfig | undefined;
   /** Output only. Indicates whether connector is deployed on GKE/CloudRun */
   deploymentModel?:
     | GoogleCloudConnectorsV1ConnectorVersionInfraConfigDeploymentModelEnum
     | undefined;
+  /** Output only. System resource limits. */
+  resourceLimits?: GoogleCloudConnectorsV1ResourceLimits | undefined;
+  /** Output only. Max QPS supported by the connector version before throttling of requests. */
+  ratelimitThreshold?: string | undefined;
+  /** Output only. Max instance request concurrency. */
+  maxInstanceRequestConcurrency?: number | undefined;
   /** Output only. Status of the TLS migration. */
   tlsMigrationState?:
     | GoogleCloudConnectorsV1ConnectorVersionInfraConfigTlsMigrationStateEnum
     | undefined;
-  /** Output only. HPA autoscaling config. */
-  hpaConfig?: GoogleCloudConnectorsV1HPAConfig | undefined;
-  /** Output only. Max QPS supported by the connector version before throttling of requests. */
-  ratelimitThreshold?: string | undefined;
-  /** Output only. Max QPS supported for internal requests originating from Connd. */
-  internalclientRatelimitThreshold?: string | undefined;
-  /** Output only. Max instance request concurrency. */
-  maxInstanceRequestConcurrency?: number | undefined;
-  /** Output only. The window used for ratelimiting runtime requests to connections. */
-  connectionRatelimitWindowSeconds?: string | undefined;
+  /** Output only. The name of shared connector deployment. */
+  sharedDeployment?: string | undefined;
 }
-export type GoogleCloudConnectorsV1AdminFiltersFilterTypeEnum =
-  | "FILTER_TYPE_UNSPECIFIED"
-  | "INCLUSION"
-  | "EXCLUSION";
-/** StringListValues is a message to store a list of string values. */
-export interface GoogleCloudConnectorsV1AdminFiltersStringListValues {
-  /** Required. The list of string values. */
-  listValues?: StringList | undefined;
+export type GoogleCloudConnectorsV1LogConfigLevelEnum =
+  | "LOG_LEVEL_UNSPECIFIED"
+  | "ERROR"
+  | "INFO"
+  | "DEBUG";
+/** Log configuration for the connection. */
+export interface GoogleCloudConnectorsV1LogConfig {
+  /** Optional. Enabled represents whether logging is enabled or not for a connection. */
+  enabled?: boolean | undefined;
+  /** Optional. Log configuration level. */
+  level?: GoogleCloudConnectorsV1LogConfigLevelEnum | undefined;
 }
-/** * AdminFilters defines a set of filters that can be applied to a connection. These are currently used by Gemini Enterprise connections. */
-export interface GoogleCloudConnectorsV1AdminFilters {
-  /** Required. Type of the filter. */
-  filterType?: GoogleCloudConnectorsV1AdminFiltersFilterTypeEnum | undefined;
-  /** Optional. List of string values. */
-  stringListValues?: GoogleCloudConnectorsV1AdminFiltersStringListValues | undefined;
-  /** Required. Unique name for the filter, e.g., "SharePointSiteURL", "DocumentType", "ChatSpaceName". */
-  filterKey?: string | undefined;
-  /** Optional. A single string value. */
-  stringValue?: string | undefined;
-  /** Optional. A single integer value. */
-  intValue?: string | undefined;
-}
-export type GoogleCloudConnectorsV1AdminFiltersList = Array<GoogleCloudConnectorsV1AdminFilters>;
-export type GoogleCloudConnectorsV1BillingConfigBillingCategoryEnum =
-  | "BILLING_CATEGORY_UNSPECIFIED"
-  | "GCP_AND_TECHNICAL_CONNECTOR"
-  | "NON_GCP_CONNECTOR";
-/** Billing config for the connection. */
-export interface GoogleCloudConnectorsV1BillingConfig {
-  /** Output only. Billing category for the connector. */
-  billingCategory?: GoogleCloudConnectorsV1BillingConfigBillingCategoryEnum | undefined;
-}
+export type GoogleCloudConnectorsV1DestinationConfigList =
+  Array<GoogleCloudConnectorsV1DestinationConfig>;
 /** Determines whether or no a connection is locked. If locked, a reason must be specified. */
 export interface GoogleCloudConnectorsV1LockConfig {
   /** Optional. Indicates whether or not the connection is locked. */
@@ -3583,44 +3641,6 @@ export interface GoogleCloudConnectorsV1ConnectionStatus {
   /** State. */
   state?: GoogleCloudConnectorsV1ConnectionStatusStateEnum | undefined;
 }
-export type GoogleCloudConnectorsV1ConnectionEventingEnablementTypeEnum =
-  | "EVENTING_ENABLEMENT_TYPE_UNSPECIFIED"
-  | "EVENTING_AND_CONNECTION"
-  | "ONLY_EVENTING";
-export type GoogleCloudConnectorsV1ConnectionConnectorVersionLaunchStageEnum =
-  | "LAUNCH_STAGE_UNSPECIFIED"
-  | "PREVIEW"
-  | "GA"
-  | "DEPRECATED"
-  | "TEST"
-  | "PRIVATE_PREVIEW";
-export type GoogleCloudConnectorsV1SslConfigTypeEnum = "SSL_TYPE_UNSPECIFIED" | "TLS" | "MTLS";
-export type GoogleCloudConnectorsV1SslConfigServerCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
-export type GoogleCloudConnectorsV1SslConfigClientCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
-export type GoogleCloudConnectorsV1SslConfigTrustModelEnum = "PUBLIC" | "PRIVATE" | "INSECURE";
-/** SSL Configuration of a connection */
-export interface GoogleCloudConnectorsV1SslConfig {
-  /** Optional. Additional SSL related field values */
-  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
-  /** Optional. Client Certificate */
-  clientCertificate?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. Secret containing the passphrase protecting the Client Private Key */
-  clientPrivateKeyPass?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. Controls the ssl type for the given connector version. */
-  type?: GoogleCloudConnectorsV1SslConfigTypeEnum | undefined;
-  /** Optional. Type of Server Cert (PEM/JKS/.. etc.) */
-  serverCertType?: GoogleCloudConnectorsV1SslConfigServerCertTypeEnum | undefined;
-  /** Optional. Type of Client Cert (PEM/JKS/.. etc.) */
-  clientCertType?: GoogleCloudConnectorsV1SslConfigClientCertTypeEnum | undefined;
-  /** Optional. Trust Model of the SSL connection */
-  trustModel?: GoogleCloudConnectorsV1SslConfigTrustModelEnum | undefined;
-  /** Optional. Private Server Certificate. Needs to be specified if trust model is `PRIVATE`. */
-  privateServerCertificate?: GoogleCloudConnectorsV1Secret | undefined;
-  /** Optional. Bool for enabling SSL */
-  useSsl?: boolean | undefined;
-  /** Optional. Client Private Key */
-  clientPrivateKey?: GoogleCloudConnectorsV1Secret | undefined;
-}
 /** Node configuration for the connection. */
 export interface GoogleCloudConnectorsV1NodeConfig {
   /** Optional. Minimum number of nodes in the runtime nodes. */
@@ -3628,24 +3648,59 @@ export interface GoogleCloudConnectorsV1NodeConfig {
   /** Optional. Maximum number of nodes in the runtime nodes. */
   maxNodeCount?: number | undefined;
 }
+/** StringListValues is a message to store a list of string values. */
+export interface GoogleCloudConnectorsV1AdminFiltersStringListValues {
+  /** Required. The list of string values. */
+  listValues?: StringList | undefined;
+}
+export type GoogleCloudConnectorsV1AdminFiltersFilterTypeEnum =
+  | "FILTER_TYPE_UNSPECIFIED"
+  | "INCLUSION"
+  | "EXCLUSION";
+/** * AdminFilters defines a set of filters that can be applied to a connection. These are currently used by Gemini Enterprise connections. */
+export interface GoogleCloudConnectorsV1AdminFilters {
+  /** Required. Unique name for the filter, e.g., "SharePointSiteURL", "DocumentType", "ChatSpaceName". */
+  filterKey?: string | undefined;
+  /** Optional. A single string value. */
+  stringValue?: string | undefined;
+  /** Optional. A single integer value. */
+  intValue?: string | undefined;
+  /** Optional. List of string values. */
+  stringListValues?: GoogleCloudConnectorsV1AdminFiltersStringListValues | undefined;
+  /** Required. Type of the filter. */
+  filterType?: GoogleCloudConnectorsV1AdminFiltersFilterTypeEnum | undefined;
+}
+export type GoogleCloudConnectorsV1AdminFiltersList = Array<GoogleCloudConnectorsV1AdminFilters>;
+export type GoogleCloudConnectorsV1EventingStatusStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "ERROR"
+  | "INGRESS_ENDPOINT_REQUIRED";
+/** EventingStatus indicates the state of eventing. */
+export interface GoogleCloudConnectorsV1EventingStatus {
+  /** Output only. Description of error if State is set to "ERROR". */
+  description?: string | undefined;
+  /** Output only. State. */
+  state?: GoogleCloudConnectorsV1EventingStatusStateEnum | undefined;
+}
 /** WebhookData has details of webhook configuration. */
 export interface GoogleCloudConnectorsV1EventingRuntimeDataWebhookData {
-  /** Output only. Timestamp when the webhook was created. */
-  createTime?: string | undefined;
-  /** Output only. Name of the Webhook */
-  name?: string | undefined;
-  /** Output only. List of event types for the webhook. This is the event types subscribed by the current webhook. */
-  eventTypes?: StringList | undefined;
-  /** Output only. Timestamp when the webhook was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Next webhook refresh time. Will be null if refresh is not supported. */
-  nextRefreshTime?: string | undefined;
-  /** Output only. List of event subscriptions which are using the webhook. */
-  eventSubscriptions?: StringList | undefined;
-  /** Output only. ID to uniquely identify webhook. */
-  id?: string | undefined;
   /** Output only. Additional webhook related field values. */
   additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
+  /** Output only. Timestamp when the webhook was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. List of event types for the webhook. This is the event types subscribed by the current webhook. */
+  eventTypes?: StringList | undefined;
+  /** Output only. List of event subscriptions which are using the webhook. */
+  eventSubscriptions?: StringList | undefined;
+  /** Output only. Timestamp when the webhook was created. */
+  createTime?: string | undefined;
+  /** Output only. Next webhook refresh time. Will be null if refresh is not supported. */
+  nextRefreshTime?: string | undefined;
+  /** Output only. ID to uniquely identify webhook. */
+  id?: string | undefined;
+  /** Output only. Name of the Webhook */
+  name?: string | undefined;
 }
 export type GoogleCloudConnectorsV1EventingRuntimeDataWebhookDataList =
   Array<GoogleCloudConnectorsV1EventingRuntimeDataWebhookData>;
@@ -3654,186 +3709,131 @@ export interface GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions 
   /** Output only. Webhook data. */
   webhookData?: GoogleCloudConnectorsV1EventingRuntimeDataWebhookDataList | undefined;
 }
-export type GoogleCloudConnectorsV1EventingStatusStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "ERROR"
-  | "INGRESS_ENDPOINT_REQUIRED";
-/** EventingStatus indicates the state of eventing. */
-export interface GoogleCloudConnectorsV1EventingStatus {
-  /** Output only. State. */
-  state?: GoogleCloudConnectorsV1EventingStatusStateEnum | undefined;
-  /** Output only. Description of error if State is set to "ERROR". */
-  description?: string | undefined;
-}
 /** Eventing runtime data has the details related to eventing managed by the system. */
 export interface GoogleCloudConnectorsV1EventingRuntimeData {
-  /** Output only. Webhook subscriptions. */
-  webhookSubscriptions?: GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions | undefined;
-  /** Output only. Events listener PSC Service attachment. The value will be populated after provisioning the events listener with private connectivity enabled. */
-  eventsListenerPscSa?: string | undefined;
   /** Output only. Current status of eventing. */
   status?: GoogleCloudConnectorsV1EventingStatus | undefined;
+  /** Output only. Webhook subscriptions. */
+  webhookSubscriptions?: GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions | undefined;
   /** Output only. Events listener endpoint. The value will populated after provisioning the events listener. */
   eventsListenerEndpoint?: string | undefined;
   /** Output only. Webhook data. */
   webhookData?: GoogleCloudConnectorsV1EventingRuntimeDataWebhookData | undefined;
+  /** Output only. Events listener PSC Service attachment. The value will be populated after provisioning the events listener with private connectivity enabled. */
+  eventsListenerPscSa?: string | undefined;
 }
 /** * TrafficShapingConfig defines the configuration for shaping API traffic by specifying a quota limit and the duration over which this limit is enforced. This configuration helps to control and manage the rate at which API calls are made on the client side, preventing service overload on the backend. For example: - if the quota limit is 100 calls per 10 seconds, then the message would be: { quota_limit: 100 duration: { seconds: 10 } } - if the quota limit is 100 calls per 5 minutes, then the message would be: { quota_limit: 100 duration: { seconds: 300 } } - if the quota limit is 10000 calls per day, then the message would be: { quota_limit: 10000 duration: { seconds: 86400 } and so on. */
 export interface GoogleCloudConnectorsV1TrafficShapingConfig {
-  /** Required. Specifies the duration over which the API call quota limits are calculated. This duration is used to define the time window for evaluating if the number of API calls made by a user is within the allowed quota limits. For example: - To define a quota sampled over 16 seconds, set `seconds` to 16 - To define a quota sampled over 5 minutes, set `seconds` to 300 (5 * 60) - To define a quota sampled over 1 day, set `seconds` to 86400 (24 * 60 * 60) and so on. It is important to note that this duration is not the time the quota is valid for, but rather the time window over which the quota is evaluated. For example, if the quota is 100 calls per 10 seconds, then this duration field would be set to 10 seconds. */
-  duration?: string | undefined;
   /** Required. Maximum number of api calls allowed. */
   quotaLimit?: string | undefined;
+  /** Required. Specifies the duration over which the API call quota limits are calculated. This duration is used to define the time window for evaluating if the number of API calls made by a user is within the allowed quota limits. For example: - To define a quota sampled over 16 seconds, set `seconds` to 16 - To define a quota sampled over 5 minutes, set `seconds` to 300 (5 * 60) - To define a quota sampled over 1 day, set `seconds` to 86400 (24 * 60 * 60) and so on. It is important to note that this duration is not the time the quota is valid for, but rather the time window over which the quota is evaluated. For example, if the quota is 100 calls per 10 seconds, then this duration field would be set to 10 seconds. */
+  duration?: string | undefined;
 }
 export type GoogleCloudConnectorsV1TrafficShapingConfigList =
   Array<GoogleCloudConnectorsV1TrafficShapingConfig>;
-/** Data enrichment configuration. */
-export interface GoogleCloudConnectorsV1EnrichmentConfig {
-  /** Optional. Append ACL to the event. */
-  appendAcl?: boolean | undefined;
-}
-/** Dead Letter configuration details provided by the user. */
-export interface GoogleCloudConnectorsV1EventingConfigDeadLetterConfig {
-  /** Optional. Topic to push events which couldn't be processed. */
-  topic?: string | undefined;
-  /** Optional. Project which has the topic given. */
-  projectId?: string | undefined;
-}
-/** Eventing Configuration of a connection next: 21 */
-export interface GoogleCloudConnectorsV1EventingConfig {
-  /** Optional. Data enrichment configuration. */
-  enrichmentConfig?: GoogleCloudConnectorsV1EnrichmentConfig | undefined;
-  /** Optional. Registration endpoint for auto registration. */
-  registrationDestinationConfig?: GoogleCloudConnectorsV1DestinationConfig | undefined;
-  /** Optional. Auth details for the webhook adapter. */
-  authConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: GoogleCloudConnectorsV1SslConfig | undefined;
-  /** Optional. Dead letter configuration for eventing of a connection. */
-  deadLetterConfig?: GoogleCloudConnectorsV1EventingConfigDeadLetterConfig | undefined;
-  /** Optional. List of projects to be allowlisted for the service attachment created in the tenant project for eventing ingress. */
-  privateConnectivityAllowlistedProjects?: StringList | undefined;
-  /** Optional. List of allowed event types for the connection. */
-  allowedEventTypes?: StringList | undefined;
-  /** Optional. Private Connectivity Enabled. */
-  privateConnectivityEnabled?: boolean | undefined;
-  /** Optional. Proxy for Eventing auto-registration. */
-  proxyDestinationConfig?: GoogleCloudConnectorsV1DestinationConfig | undefined;
-  /** Optional. Enrichment Enabled. */
-  enrichmentEnabled?: boolean | undefined;
-  /** Optional. Filter to be applied on the events to be received by the connection. */
-  globalEventFilter?: string | undefined;
-  /** Output only. Ingress endpoint of the event listener. This is used only when private connectivity is enabled. */
-  eventsListenerIngressEndpoint?: string | undefined;
-  /** Optional. Additional eventing related field values */
-  additionalVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
-  /** Optional. Auth details for the event listener. */
-  listenerAuthConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
-}
 /** Connection represents an instance of connector. */
 export interface GoogleCloudConnectorsV1Connection {
-  /** Output only. The name of the Service Directory service with TLS. */
-  tlsServiceDirectory?: string | undefined;
-  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  imageLocation?: string | undefined;
-  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
-  connectorVersion?: string | undefined;
-  /** Optional. Configuration for establishing the connection's authentication with an external system. */
-  authConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
   /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
   envoyImageLocation?: string | undefined;
-  /** Optional. Log configuration for the connection. */
-  logConfig?: GoogleCloudConnectorsV1LogConfig | undefined;
-  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
-  destinationConfigs?: GoogleCloudConnectorsV1DestinationConfigList | undefined;
-  /** Output only. This subscription type enum states the subscription type of the project. */
-  subscriptionType?: GoogleCloudConnectorsV1ConnectionSubscriptionTypeEnum | undefined;
-  /** Output only. The name of the Hostname of the Service Directory service with TLS. */
-  host?: string | undefined;
-  /** Output only. Created time. */
-  createTime?: string | undefined;
-  /** Output only. Infra configs supported by Connector Version. */
-  connectorVersionInfraConfig?: GoogleCloudConnectorsV1ConnectorVersionInfraConfig | undefined;
-  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name?: string | undefined;
-  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
-  adminFilters?: GoogleCloudConnectorsV1AdminFiltersList | undefined;
-  /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
-  asyncOperationsEnabled?: boolean | undefined;
   /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
   fallbackOnAdminCredentials?: boolean | undefined;
-  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
-  connectionRevision?: string | undefined;
-  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap | undefined;
-  /** Optional. Suspended indicates if a user has suspended a connection or not. */
-  suspended?: boolean | undefined;
-  /** Output only. Billing config for the connection. */
-  billingConfig?: GoogleCloudConnectorsV1BillingConfig | undefined;
-  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
-  lockConfig?: GoogleCloudConnectorsV1LockConfig | undefined;
-  /** Output only. Updated time. */
-  updateTime?: string | undefined;
-  /** Output only. Current status of the connection. */
-  status?: GoogleCloudConnectorsV1ConnectionStatus | undefined;
-  /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
-  eventingEnablementType?: GoogleCloudConnectorsV1ConnectionEventingEnablementTypeEnum | undefined;
+  /** Output only. This subscription type enum states the subscription type of the project. */
+  subscriptionType?: GoogleCloudConnectorsV1ConnectionSubscriptionTypeEnum | undefined;
   /** Output only. Flag to mark the version indicating the launch stage. */
   connectorVersionLaunchStage?:
     | GoogleCloudConnectorsV1ConnectionConnectorVersionLaunchStageEnum
     | undefined;
-  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
-  authOverrideEnabled?: boolean | undefined;
-  /** Optional. Description of the resource. */
-  description?: string | undefined;
-  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
-  euaOauthAuthConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
-  /** Optional. Ssl config of a connection */
-  sslConfig?: GoogleCloudConnectorsV1SslConfig | undefined;
-  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
-  serviceAccount?: string | undefined;
-  /** Optional. Node configuration for the connection. */
-  nodeConfig?: GoogleCloudConnectorsV1NodeConfig | undefined;
-  /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
-  serviceDirectory?: string | undefined;
-  /** Output only. Eventing Runtime Data. */
-  eventingRuntimeData?: GoogleCloudConnectorsV1EventingRuntimeData | undefined;
   /** Optional. Configuration for configuring the connection with an external system. */
   configVariables?: GoogleCloudConnectorsV1ConfigVariableList | undefined;
-  /** Output only. Is trusted tester program enabled for the project. */
-  isTrustedTester?: boolean | undefined;
-  /** Optional. Traffic shaping configuration for the connection. */
-  trafficShapingConfigs?: GoogleCloudConnectorsV1TrafficShapingConfigList | undefined;
+  /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
+  eventingEnablementType?: GoogleCloudConnectorsV1ConnectionEventingEnablementTypeEnum | undefined;
+  /** Output only. Created time. */
+  createTime?: string | undefined;
+  /** Output only. The name of the Service Directory service with TLS. */
+  tlsServiceDirectory?: string | undefined;
+  /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
+  authOverrideEnabled?: boolean | undefined;
+  /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
+  euaOauthAuthConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
+  /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
+  connectorVersion?: string | undefined;
+  /** Output only. The name of the Hostname of the Service Directory service with TLS. */
+  host?: string | undefined;
+  /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
+  name?: string | undefined;
+  /** Output only. Billing config for the connection. */
+  billingConfig?: GoogleCloudConnectorsV1BillingConfig | undefined;
+  /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
+  imageLocation?: string | undefined;
+  /** Output only. Updated time. */
+  updateTime?: string | undefined;
+  /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
+  serviceDirectory?: string | undefined;
   /** Optional. Eventing config of a connection */
   eventingConfig?: GoogleCloudConnectorsV1EventingConfig | undefined;
+  /** Output only. Infra configs supported by Connector Version. */
+  connectorVersionInfraConfig?: GoogleCloudConnectorsV1ConnectorVersionInfraConfig | undefined;
+  /** Optional. Log configuration for the connection. */
+  logConfig?: GoogleCloudConnectorsV1LogConfig | undefined;
+  /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
+  destinationConfigs?: GoogleCloudConnectorsV1DestinationConfigList | undefined;
+  /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
+  serviceAccount?: string | undefined;
+  /** Optional. Suspended indicates if a user has suspended a connection or not. */
+  suspended?: boolean | undefined;
+  /** Optional. Configuration that indicates whether or not the Connection can be edited. */
+  lockConfig?: GoogleCloudConnectorsV1LockConfig | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
+  labels?: StringMap | undefined;
+  /** Output only. Current status of the connection. */
+  status?: GoogleCloudConnectorsV1ConnectionStatus | undefined;
+  /** Optional. Node configuration for the connection. */
+  nodeConfig?: GoogleCloudConnectorsV1NodeConfig | undefined;
+  /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
+  adminFilters?: GoogleCloudConnectorsV1AdminFiltersList | undefined;
+  /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
+  connectionRevision?: string | undefined;
+  /** Optional. Description of the resource. */
+  description?: string | undefined;
+  /** Output only. Is trusted tester program enabled for the project. */
+  isTrustedTester?: boolean | undefined;
+  /** Output only. Eventing Runtime Data. */
+  eventingRuntimeData?: GoogleCloudConnectorsV1EventingRuntimeData | undefined;
+  /** Optional. Configuration for establishing the connection's authentication with an external system. */
+  authConfig?: GoogleCloudConnectorsV1AuthConfig | undefined;
+  /** Optional. Ssl config of a connection */
+  sslConfig?: GoogleCloudConnectorsV1SslConfig | undefined;
+  /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
+  asyncOperationsEnabled?: boolean | undefined;
+  /** Optional. Traffic shaping configuration for the connection. */
+  trafficShapingConfigs?: GoogleCloudConnectorsV1TrafficShapingConfigList | undefined;
 }
 export type GoogleCloudConnectorsV1ConnectionList = Array<GoogleCloudConnectorsV1Connection>;
 /** Response containing Connections listed by region. */
 export interface GoogleCloudIntegrationsV1alphaListConnectionsResponse {
-  /** Next page token. */
-  nextPageToken?: string | undefined;
   /** Connections. */
   connections?: GoogleCloudConnectorsV1ConnectionList | undefined;
+  /** Next page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsRuntimeActionSchemasRequest {
-  /** Page size. */
-  pageSize?: number | undefined;
-  /** Filter. Only the action field with literal equality operator is supported. */
-  filter?: string | undefined;
-  /** Page token. */
-  pageToken?: string | undefined;
   /** Required. Parent resource of RuntimeActionSchema. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
+  /** Page size. */
+  pageSize?: number | undefined;
+  /** Page token. */
+  pageToken?: string | undefined;
+  /** Filter. Only the action field with literal equality operator is supported. */
+  filter?: string | undefined;
 }
 /** Metadata of an action, including schemas for its inputs and outputs. */
 export interface GoogleCloudIntegrationsV1alphaRuntimeActionSchema {
-  /** Output parameter schema for the action. */
-  outputSchema?: string | undefined;
-  /** Name of the action. */
-  action?: string | undefined;
   /** Input parameter schema for the action. */
   inputSchema?: string | undefined;
+  /** Name of the action. */
+  action?: string | undefined;
+  /** Output parameter schema for the action. */
+  outputSchema?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaRuntimeActionSchemaList =
   Array<GoogleCloudIntegrationsV1alphaRuntimeActionSchema>;
@@ -3858,19 +3858,19 @@ export interface ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest {
 export interface GoogleCloudIntegrationsV1alphaRuntimeEntitySchema {
   /** Name of the entity. */
   entity?: string | undefined;
-  /** List of fields in the entity. */
-  fieldSchema?: string | undefined;
   /** The above schema, but for an array of the associated entity. */
   arrayFieldSchema?: string | undefined;
+  /** List of fields in the entity. */
+  fieldSchema?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaRuntimeEntitySchemaList =
   Array<GoogleCloudIntegrationsV1alphaRuntimeEntitySchema>;
 /** Response for listing RuntimeEntitySchemas for a specific Connection. */
 export interface GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse {
-  /** Next page token. */
-  nextPageToken?: string | undefined;
   /** Runtime entity schemas. */
   runtimeEntitySchemas?: GoogleCloudIntegrationsV1alphaRuntimeEntitySchemaList | undefined;
+  /** Next page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIntegrationsRequest {
   /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
@@ -3879,105 +3879,167 @@ export interface ListProjectsLocationsIntegrationsRequest {
   orderBy?: string | undefined;
   /** Required. Project and location from which the integrations should be listed. Format: projects/{project} */
   parent: string;
-  /** The page size for the resquest. */
-  pageSize?: number | undefined;
   /** The page token for the resquest. */
   pageToken?: string | undefined;
+  /** The page size for the resquest. */
+  pageSize?: number | undefined;
 }
 /** The integration definition. */
 export interface GoogleCloudIntegrationsV1alphaIntegration {
+  /** Required. The resource name of the integration. */
+  name?: string | undefined;
   /** Output only. Auto-generated. */
   updateTime?: string | undefined;
+  /** Required. The last modifier of this integration */
+  lastModifierEmail?: string | undefined;
   /** Required. If any integration version is published. */
   active?: boolean | undefined;
   /** Output only. The creator's email address. Generated based on the End User Credentials/LOAS role of the user making the call. */
   creatorEmail?: string | undefined;
-  /** Required. Output only. Auto-generated. */
-  createTime?: string | undefined;
-  /** Required. The last modifier of this integration */
-  lastModifierEmail?: string | undefined;
-  /** Required. The resource name of the integration. */
-  name?: string | undefined;
   /** Optional. */
   description?: string | undefined;
+  /** Required. Output only. Auto-generated. */
+  createTime?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaIntegrationList =
   Array<GoogleCloudIntegrationsV1alphaIntegration>;
 /** Response for ListIntegrations. */
 export interface GoogleCloudIntegrationsV1alphaListIntegrationsResponse {
-  /** The next page token for the response. */
-  nextPageToken?: string | undefined;
   /** The integrations which match the request. */
   integrations?: GoogleCloudIntegrationsV1alphaIntegrationList | undefined;
+  /** The next page token for the response. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIntegrationsExecutionsRequest {
-  /** Optional. Standard filter field, we support filtering on following fields: workflow_name: the name of the integration. CreateTimestamp: the execution created time. event_execution_state: the state of the executions. execution_id: the id of the execution. trigger_id: the id of the trigger. parameter_type: the type of the parameters involved in the execution. All fields support for EQUALS, in additional: CreateTimestamp support for LESS_THAN, GREATER_THAN ParameterType support for HAS For example: "parameter_type" HAS \"string\" Also supports operators like AND, OR, NOT For example, trigger_id=\"id1\" AND workflow_name=\"testWorkflow\" */
-  filter?: string | undefined;
-  /** Optional user-provided custom filter. */
-  "filterParams.customFilter"?: string | undefined;
-  /** Optional. The size of entries in the response. */
-  pageSize?: number | undefined;
   /** List of possible event statuses. */
   "filterParams.eventStatuses"?: StringList | undefined;
   /** Param value in the key value pair filter. */
   "filterParams.parameterPairValue"?: string | undefined;
-  /** Optional. If true, the service will truncate the params to only keep the first 1000 characters of string params and empty the executions in order to make response smaller. Only works for UI and when the params fields are not filtered out. */
-  truncateParams?: boolean | undefined;
-  /** Optional. If true, the service will use the most recent acl information to list event execution infos and renew the acl cache. Note that fetching the most recent acl is synchronous, so it will increase RPC call latency. */
-  refreshAcl?: boolean | undefined;
-  /** Param key in the key value pair filter. */
-  "filterParams.parameterPairKey"?: string | undefined;
-  /** Start timestamp. */
-  "filterParams.startTime"?: string | undefined;
-  /** Param value. DEPRECATED. Use parameter_pair_value instead. */
-  "filterParams.parameterValue"?: string | undefined;
-  /** Param key. DEPRECATED. Use parameter_pair_key instead. */
-  "filterParams.parameterKey"?: string | undefined;
-  /** Optional. The results would be returned in order you specified here. Currently supporting "create_time". */
-  orderBy?: string | undefined;
   /** List of possible task statuses. */
   "filterParams.taskStatuses"?: StringList | undefined;
-  /** Optional. If true, the service will provide execution info with snapshot metadata only i.e. without event parameters. */
-  snapshotMetadataWithoutParams?: boolean | undefined;
-  /** Optional. The token returned in the previous response. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource name of the integration execution. */
-  parent: string;
-  /** Execution id. */
-  "filterParams.executionId"?: string | undefined;
-  /** Optional. View mask for the response data. If set, only the field specified will be returned as part of the result. If not set, all fields in Execution will be filled and returned. Supported fields: trigger_id execution_method create_time update_time execution_details execution_details.state execution_details.execution_snapshots execution_details.attempt_stats execution_details.event_execution_snapshots_size request_parameters cloud_logging_details snapshot_number replay_info */
-  readMask?: string | undefined;
+  /** Optional. If true, the service will use the most recent acl information to list event execution infos and renew the acl cache. Note that fetching the most recent acl is synchronous, so it will increase RPC call latency. */
+  refreshAcl?: boolean | undefined;
+  /** Optional. If true, the service will truncate the params to only keep the first 1000 characters of string params and empty the executions in order to make response smaller. Only works for UI and when the params fields are not filtered out. */
+  truncateParams?: boolean | undefined;
+  /** Optional. Standard filter field, we support filtering on following fields: workflow_name: the name of the integration. CreateTimestamp: the execution created time. event_execution_state: the state of the executions. execution_id: the id of the execution. trigger_id: the id of the trigger. parameter_type: the type of the parameters involved in the execution. All fields support for EQUALS, in additional: CreateTimestamp support for LESS_THAN, GREATER_THAN ParameterType support for HAS For example: "parameter_type" HAS \"string\" Also supports operators like AND, OR, NOT For example, trigger_id=\"id1\" AND workflow_name=\"testWorkflow\" */
+  filter?: string | undefined;
   /** End timestamp. */
   "filterParams.endTime"?: string | undefined;
   /** Workflow name. */
   "filterParams.workflowName"?: string | undefined;
+  /** Optional. The size of entries in the response. */
+  pageSize?: number | undefined;
+  /** Execution id. */
+  "filterParams.executionId"?: string | undefined;
   /** Param type. */
   "filterParams.parameterType"?: string | undefined;
+  /** Param value. DEPRECATED. Use parameter_pair_value instead. */
+  "filterParams.parameterValue"?: string | undefined;
+  /** Optional. The results would be returned in order you specified here. Currently supporting "create_time". */
+  orderBy?: string | undefined;
+  /** Param key. DEPRECATED. Use parameter_pair_key instead. */
+  "filterParams.parameterKey"?: string | undefined;
+  /** Optional. The token returned in the previous response. */
+  pageToken?: string | undefined;
+  /** Required. The parent resource name of the integration execution. */
+  parent: string;
+  /** Optional. View mask for the response data. If set, only the field specified will be returned as part of the result. If not set, all fields in Execution will be filled and returned. Supported fields: trigger_id execution_method create_time update_time execution_details execution_details.state execution_details.execution_snapshots execution_details.attempt_stats execution_details.event_execution_snapshots_size request_parameters cloud_logging_details snapshot_number replay_info */
+  readMask?: string | undefined;
+  /** Start timestamp. */
+  "filterParams.startTime"?: string | undefined;
+  /** Optional user-provided custom filter. */
+  "filterParams.customFilter"?: string | undefined;
+  /** Param key in the key value pair filter. */
+  "filterParams.parameterPairKey"?: string | undefined;
+  /** Optional. If true, the service will provide execution info with snapshot metadata only i.e. without event parameters. */
+  snapshotMetadataWithoutParams?: boolean | undefined;
 }
-export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoProductEnum =
-  | "UNSPECIFIED_PRODUCT"
-  | "IP"
-  | "APIGEE"
-  | "SECURITY";
-export type EnterpriseCrmEventbusProtoCloudLoggingDetailsCloudLoggingSeverityEnum =
-  | "CLOUD_LOGGING_SEVERITY_UNSPECIFIED"
-  | "INFO"
-  | "ERROR"
-  | "WARNING";
-/** Cloud Logging details, selected by the user for the integration version (workflow). This message field will be also used in ExecutionInfo, to indicate the CloudLoggingDetails config at the time of workflow (integration version) execution, since this field value can be changed for an unpublished workflow. */
-export interface EnterpriseCrmEventbusProtoCloudLoggingDetails {
-  /** Severity selected by the customer for the logs to be sent to Cloud Logging, for the integration version getting executed. */
-  cloudLoggingSeverity?:
-    | EnterpriseCrmEventbusProtoCloudLoggingDetailsCloudLoggingSeverityEnum
+export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfoReplayModeEnum =
+  | "REPLAY_MODE_UNSPECIFIED"
+  | "REPLAY_MODE_FROM_BEGINNING"
+  | "REPLAY_MODE_POINT_OF_FAILURE";
+/** Contains the details of the execution info: this includes the replay reason and replay tree connecting executions in a parent-child relationship */
+export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo {
+  /** reason for replay */
+  replayReason?: string | undefined;
+  /** If this execution has been replayed, then this field contains the execution ids of the replayed executions. */
+  replayedExecutionInfoIds?: StringList | undefined;
+  /** If this execution is a replay of another execution, then this field contains the original execution id. */
+  originalExecutionInfoId?: string | undefined;
+  /** Replay mode for the execution */
+  replayMode?:
+    | EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfoReplayModeEnum
     | undefined;
-  /** Status of whether Cloud Logging is enabled or not for the integration version getting executed. */
-  enableCloudLogging?: boolean | undefined;
 }
-export type EnterpriseCrmEventbusProtoErrorDetailSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "ERROR"
-  | "WARN"
-  | "INFO";
+export type EnterpriseCrmFrontendsEventbusProtoEventExecutionDetailsEventExecutionStateEnum =
+  | "UNSPECIFIED"
+  | "ON_HOLD"
+  | "IN_PROCESS"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "CANCELED"
+  | "RETRY_ON_HOLD"
+  | "SUSPENDED";
+export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot {
+  /** Auto-generated. Used as primary key for EventExecutionSnapshots table. */
+  eventExecutionSnapshotId?: string | undefined;
+  /** All of the computed conditions that been calculated. */
+  conditionResults?: EnterpriseCrmEventbusProtoConditionResultList | undefined;
+  /** Points to the event execution info this snapshot belongs to. */
+  eventExecutionInfoId?: string | undefined;
+  /** All of the task execution details at the given point of time. */
+  taskExecutionDetails?: EnterpriseCrmEventbusProtoTaskExecutionDetailsList | undefined;
+  /** Indicates "right after which checkpoint task's execution" this snapshot is taken. */
+  checkpointTaskNumber?: string | undefined;
+  /** The task name associated with this snapshot. Could be empty. */
+  taskName?: string | undefined;
+  /** Indicates when this snapshot is taken. */
+  snapshotTime?: string | undefined;
+  /** The parameters in Event object that differs from last snapshot. */
+  diffParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** The parameters in Event object. */
+  eventParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  eventExecutionSnapshotMetadata?:
+    | EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata
+    | undefined;
+}
+export type EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshotList =
+  Array<EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot>;
+/** Contains the details of the execution info of this event: this includes the tasks execution details plus the event execution statistics. Next available id: 12 */
+export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails {
+  eventAttemptStats?:
+    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList
+    | undefined;
+  /** If the execution is manually canceled, this field will contain the reason for cancellation. */
+  cancelReason?: string | undefined;
+  /** Next scheduled execution time in case the execution status was RETRY_ON_HOLD. */
+  nextExecutionTime?: string | undefined;
+  /** The execution state of this event. */
+  eventExecutionState?:
+    | EnterpriseCrmFrontendsEventbusProtoEventExecutionDetailsEventExecutionStateEnum
+    | undefined;
+  /** Total size of all event_execution_snapshots for an execution */
+  eventExecutionSnapshotsSize?: string | undefined;
+  /** The log file path (aka. cns address) for this event. */
+  logFilePath?: string | undefined;
+  /** Indicates the number of times the execution has restarted from the beginning. */
+  eventRetriesFromBeginningCount?: number | undefined;
+  /** After snapshot migration, this field will no longer be populated, but old execution snapshots will still be accessible. */
+  eventExecutionSnapshot?:
+    | EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshotList
+    | undefined;
+  /** Used internally and shouldn't be exposed to users. A counter for the cron job to record how many times this event is in in_process state but don't have a lock consecutively/ */
+  ryeLockUnheldCount?: number | undefined;
+  /** The network address (aka. bns address) that indicates where the event executor is running. */
+  networkAddress?: string | undefined;
+}
+/** Message that helps aggregate all sub-executions triggered by one execution and keeps track of child-parent relationships. */
+export interface EnterpriseCrmEventbusProtoExecutionTraceInfo {
+  /** Used to aggregate ExecutionTraceInfo. */
+  traceId?: string | undefined;
+  /** Parent event execution info id that triggers the current execution through SubWorkflowExecutorTask. */
+  parentEventExecutionInfoId?: string | undefined;
+}
 export type CrmlogErrorCodeCommonErrorCodeEnum =
   | "COMMON_ERROR_CODE_UNSPECIFIED"
   | "INVALID_CREDENTIALS"
@@ -4046,25 +4108,42 @@ export type CrmlogErrorCodeCommonErrorCodeEnum =
 export interface CrmlogErrorCode {
   commonErrorCode?: CrmlogErrorCodeCommonErrorCodeEnum | undefined;
 }
+export type EnterpriseCrmEventbusProtoErrorDetailSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "ERROR"
+  | "WARN"
+  | "INFO";
 /** An error, warning, or information message associated with a workflow. */
 export interface EnterpriseCrmEventbusProtoErrorDetail {
   /** The full text of the error message, including any parameters that were thrown along with the exception. */
   errorMessage?: string | undefined;
+  /** The associated error-code, which can be a common or internal code. */
+  errorCode?: CrmlogErrorCode | undefined;
   /** The task try-number, in which, the error occurred. If zero, the error happened at the event level. */
   taskNumber?: number | undefined;
   /** The severity of the error: ERROR|WARN|INFO. */
   severity?: EnterpriseCrmEventbusProtoErrorDetailSeverityEnum | undefined;
-  /** The associated error-code, which can be a common or internal code. */
-  errorCode?: CrmlogErrorCode | undefined;
 }
 export type EnterpriseCrmEventbusProtoErrorDetailList =
   Array<EnterpriseCrmEventbusProtoErrorDetail>;
-/** Message that helps aggregate all sub-executions triggered by one execution and keeps track of child-parent relationships. */
-export interface EnterpriseCrmEventbusProtoExecutionTraceInfo {
-  /** Used to aggregate ExecutionTraceInfo. */
-  traceId?: string | undefined;
-  /** Parent event execution info id that triggers the current execution through SubWorkflowExecutorTask. */
-  parentEventExecutionInfoId?: string | undefined;
+export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoProductEnum =
+  | "UNSPECIFIED_PRODUCT"
+  | "IP"
+  | "APIGEE"
+  | "SECURITY";
+export type EnterpriseCrmEventbusProtoCloudLoggingDetailsCloudLoggingSeverityEnum =
+  | "CLOUD_LOGGING_SEVERITY_UNSPECIFIED"
+  | "INFO"
+  | "ERROR"
+  | "WARNING";
+/** Cloud Logging details, selected by the user for the integration version (workflow). This message field will be also used in ExecutionInfo, to indicate the CloudLoggingDetails config at the time of workflow (integration version) execution, since this field value can be changed for an unpublished workflow. */
+export interface EnterpriseCrmEventbusProtoCloudLoggingDetails {
+  /** Severity selected by the customer for the logs to be sent to Cloud Logging, for the integration version getting executed. */
+  cloudLoggingSeverity?:
+    | EnterpriseCrmEventbusProtoCloudLoggingDetailsCloudLoggingSeverityEnum
+    | undefined;
+  /** Status of whether Cloud Logging is enabled or not for the integration version getting executed. */
+  enableCloudLogging?: boolean | undefined;
 }
 export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoPostMethodEnum =
   | "UNSPECIFIED"
@@ -4073,131 +4152,52 @@ export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoPostMethodEnum 
   | "SCHEDULE"
   | "POST_BY_EVENT_CONFIG_ID"
   | "POST_WITH_EVENT_DETAILS";
-export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfoReplayModeEnum =
-  | "REPLAY_MODE_UNSPECIFIED"
-  | "REPLAY_MODE_FROM_BEGINNING"
-  | "REPLAY_MODE_POINT_OF_FAILURE";
-/** Contains the details of the execution info: this includes the replay reason and replay tree connecting executions in a parent-child relationship */
-export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo {
-  /** If this execution is a replay of another execution, then this field contains the original execution id. */
-  originalExecutionInfoId?: string | undefined;
-  /** If this execution has been replayed, then this field contains the execution ids of the replayed executions. */
-  replayedExecutionInfoIds?: StringList | undefined;
-  /** reason for replay */
-  replayReason?: string | undefined;
-  /** Replay mode for the execution */
-  replayMode?:
-    | EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfoReplayModeEnum
-    | undefined;
-}
-export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot {
-  eventExecutionSnapshotMetadata?:
-    | EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata
-    | undefined;
-  /** The task name associated with this snapshot. Could be empty. */
-  taskName?: string | undefined;
-  /** All of the task execution details at the given point of time. */
-  taskExecutionDetails?: EnterpriseCrmEventbusProtoTaskExecutionDetailsList | undefined;
-  /** Indicates when this snapshot is taken. */
-  snapshotTime?: string | undefined;
-  /** All of the computed conditions that been calculated. */
-  conditionResults?: EnterpriseCrmEventbusProtoConditionResultList | undefined;
-  /** Indicates "right after which checkpoint task's execution" this snapshot is taken. */
-  checkpointTaskNumber?: string | undefined;
-  /** The parameters in Event object that differs from last snapshot. */
-  diffParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** The parameters in Event object. */
-  eventParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Auto-generated. Used as primary key for EventExecutionSnapshots table. */
-  eventExecutionSnapshotId?: string | undefined;
-  /** Points to the event execution info this snapshot belongs to. */
-  eventExecutionInfoId?: string | undefined;
-}
-export type EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshotList =
-  Array<EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot>;
-export type EnterpriseCrmFrontendsEventbusProtoEventExecutionDetailsEventExecutionStateEnum =
-  | "UNSPECIFIED"
-  | "ON_HOLD"
-  | "IN_PROCESS"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "CANCELED"
-  | "RETRY_ON_HOLD"
-  | "SUSPENDED";
-/** Contains the details of the execution info of this event: this includes the tasks execution details plus the event execution statistics. Next available id: 12 */
-export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails {
-  /** The network address (aka. bns address) that indicates where the event executor is running. */
-  networkAddress?: string | undefined;
-  eventAttemptStats?:
-    | EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStatsList
-    | undefined;
-  /** The log file path (aka. cns address) for this event. */
-  logFilePath?: string | undefined;
-  /** Used internally and shouldn't be exposed to users. A counter for the cron job to record how many times this event is in in_process state but don't have a lock consecutively/ */
-  ryeLockUnheldCount?: number | undefined;
-  /** Indicates the number of times the execution has restarted from the beginning. */
-  eventRetriesFromBeginningCount?: number | undefined;
-  /** Next scheduled execution time in case the execution status was RETRY_ON_HOLD. */
-  nextExecutionTime?: string | undefined;
-  /** Total size of all event_execution_snapshots for an execution */
-  eventExecutionSnapshotsSize?: string | undefined;
-  /** If the execution is manually canceled, this field will contain the reason for cancellation. */
-  cancelReason?: string | undefined;
-  /** After snapshot migration, this field will no longer be populated, but old execution snapshots will still be accessible. */
-  eventExecutionSnapshot?:
-    | EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshotList
-    | undefined;
-  /** The execution state of this event. */
-  eventExecutionState?:
-    | EnterpriseCrmFrontendsEventbusProtoEventExecutionDetailsEventExecutionStateEnum
-    | undefined;
-}
 /** Contains all the execution details for a workflow instance. Next available id: 27 */
 export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo {
-  /** Which Google product the execution_info belongs to. If not set, the execution_info belongs to Integration Platform by default. */
-  product?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoProductEnum | undefined;
-  /** The event data user sends as request. */
-  clientId?: string | undefined;
-  /** Tenant this event is created. Used to reschedule the event to correct tenant. */
-  tenant?: string | undefined;
-  /** Cloud Logging details for execution info */
-  cloudLoggingDetails?: EnterpriseCrmEventbusProtoCloudLoggingDetails | undefined;
-  /** Auto-generated. */
-  createTime?: string | undefined;
-  /** The trigger id of the workflow trigger config. If both trigger_id and client_id is present, the workflow is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
-  triggerId?: string | undefined;
-  /** Errors, warnings, and informationals associated with the workflow/task. The order in which the errors were added by the workflow/task is maintained. */
-  errors?: EnterpriseCrmEventbusProtoErrorDetailList | undefined;
-  /** Execution trace info to aggregate parent-child executions. */
-  executionTraceInfo?: EnterpriseCrmEventbusProtoExecutionTraceInfo | undefined;
-  /** User-defined label that annotates the executed integration version. */
-  integrationVersionUserLabel?: string | undefined;
-  /** Event parameters come out as part of the response. */
-  responseParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Optional. This is used to de-dup incoming request. */
-  requestId?: string | undefined;
-  /** Time interval in seconds to schedule retry of workflow in manifold when workflow is already running */
-  workflowRetryBackoffIntervalSeconds?: string | undefined;
-  /** Auto-generated primary key. */
-  eventExecutionInfoId?: string | undefined;
   /** Required. Pointer to the workflow it is executing. */
   workflowId?: string | undefined;
-  /** The ways user posts this event. */
-  postMethod?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoPostMethodEnum | undefined;
+  /** Optional. This is used to de-dup incoming request. */
+  requestId?: string | undefined;
   /** Replay info for the execution */
   replayInfo?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo | undefined;
+  /** Event parameters come in as part of the request. */
+  requestParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Auto-generated primary key. */
+  eventExecutionInfoId?: string | undefined;
+  /** The event data user sends as request. */
+  clientId?: string | undefined;
+  /** The execution info about this event. */
+  eventExecutionDetails?: EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails | undefined;
+  /** The trigger id of the workflow trigger config. If both trigger_id and client_id is present, the workflow is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
+  triggerId?: string | undefined;
+  /** Workflow snapshot number. */
+  snapshotNumber?: string | undefined;
+  /** Execution trace info to aggregate parent-child executions. */
+  executionTraceInfo?: EnterpriseCrmEventbusProtoExecutionTraceInfo | undefined;
+  /** Time interval in seconds to schedule retry of workflow in manifold when workflow is already running */
+  workflowRetryBackoffIntervalSeconds?: string | undefined;
+  /** Errors, warnings, and informationals associated with the workflow/task. The order in which the errors were added by the workflow/task is maintained. */
+  errors?: EnterpriseCrmEventbusProtoErrorDetailList | undefined;
+  /** Tenant this event is created. Used to reschedule the event to correct tenant. */
+  tenant?: string | undefined;
+  /** Which Google product the execution_info belongs to. If not set, the execution_info belongs to Integration Platform by default. */
+  product?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoProductEnum | undefined;
+  /** User-defined label that annotates the executed integration version. */
+  integrationVersionUserLabel?: string | undefined;
+  /** Cloud Logging details for execution info */
+  cloudLoggingDetails?: EnterpriseCrmEventbusProtoCloudLoggingDetails | undefined;
+  /** The ways user posts this event. */
+  postMethod?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoPostMethodEnum | undefined;
   /** Auto-generated. */
   lastModifiedTime?: string | undefined;
   /** Name of the workflow. */
   workflowName?: string | undefined;
-  /** Event parameters come in as part of the request. */
-  requestParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Workflow snapshot number. */
-  snapshotNumber?: string | undefined;
-  /** The execution info about this event. */
-  eventExecutionDetails?: EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails | undefined;
   /** Final error-code if event failed. */
   errorCode?: CrmlogErrorCode | undefined;
+  /** Event parameters come out as part of the response. */
+  responseParams?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Auto-generated. */
+  createTime?: string | undefined;
 }
 export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoList =
   Array<EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo>;
@@ -4205,49 +4205,60 @@ export type EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoList =
 export interface GoogleCloudIntegrationsV1alphaListExecutionsResponse {
   /** Required. The detailed information of requested executions. */
   executionInfos?: EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoList | undefined;
-  /** The detailed information of requested executions */
-  executions?: GoogleCloudIntegrationsV1alphaExecutionList | undefined;
   /** The token used to retrieve the next page results. */
   nextPageToken?: string | undefined;
+  /** The detailed information of requested executions */
+  executions?: GoogleCloudIntegrationsV1alphaExecutionList | undefined;
 }
 export interface ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
-  /** Maximum number of entries in the response. */
-  pageSize?: number | undefined;
   /** Field name to order by. */
   orderBy?: string | undefined;
+  /** Maximum number of entries in the response. */
+  pageSize?: number | undefined;
+  /** Standard filter field. */
+  filter?: string | undefined;
   /** Token to retrieve a specific page. */
   pageToken?: string | undefined;
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name} */
   parent: string;
-  /** Standard filter field. */
-  filter?: string | undefined;
 }
 /** Contains when and by whom the suspension was resolved. */
 export interface GoogleCloudIntegrationsV1alphaSuspensionAudit {
-  /** Time at which this suspension was resolved. */
-  resolveTime?: string | undefined;
   /** Email address of the person who resolved this suspension. */
   resolver?: string | undefined;
+  /** Time at which this suspension was resolved. */
+  resolveTime?: string | undefined;
 }
-export type GoogleCloudIntegrationsV1alphaSuspensionStateEnum =
-  | "RESOLUTION_STATE_UNSPECIFIED"
-  | "PENDING"
-  | "REJECTED"
-  | "LIFTED";
-export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity {
-  emailAddress?: string | undefined;
-  gaiaId?: string | undefined;
+/** Expiration configs for the approval request. */
+export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration {
+  /** Time after the previous suspension action reminder, if any, is sent using the selected notification option, for a suspension which is still PENDING_UNSPECIFIED. */
+  remindTime?: string | undefined;
+  /** Whether the suspension will be REJECTED or LIFTED upon expiration. REJECTED is the default behavior. */
+  liftWhenExpired?: boolean | undefined;
+  /** Output only. Time after which the suspension expires, if no action taken. */
+  expireTime?: string | undefined;
 }
-/** LINT.IfChange */
-export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissions {
-  /** Represents a Gaia identity for a person or service account. */
-  gaiaIdentity?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity | undefined;
-  loasRole?: string | undefined;
-  googleGroup?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity | undefined;
-  mdbGroup?: string | undefined;
+/** Configurations for approving the Suspension. */
+export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig {
+  /** Information to provide for recipients. */
+  customMessage?: string | undefined;
+  /** Email addresses to send approval request to. */
+  emailAddresses?: StringList | undefined;
+  /** Indicates the next steps when no external actions happen on the suspension. */
+  expiration?: GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration | undefined;
 }
-export type EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList =
-  Array<EnterpriseCrmEventbusProtoSuspensionAuthPermissions>;
+export interface EnterpriseCrmEventbusProtoToken {
+  value?: string | undefined;
+  name?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoTokenList = Array<EnterpriseCrmEventbusProtoToken>;
+/** Email address along with optional name and tokens. These tokens will be substituted for the variables in the form of [{var_name}], where var_name could be any string of no more than 32 bytes. */
+export interface EnterpriseCrmEventbusProtoAddress {
+  name?: string | undefined;
+  /** Required. */
+  email?: string | undefined;
+  tokens?: EnterpriseCrmEventbusProtoTokenList | undefined;
+}
 export type GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequestPriorityEnum =
   | "UNSPCIFIED"
   | "SHEDDABLE"
@@ -4256,35 +4267,35 @@ export type GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequestPrior
   | "CRITICAL_PLUS";
 /** LINT.IfChange Use this request to post all workflows associated with a given trigger id. Next available id: 14 */
 export interface GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest {
-  /** Matched against all {@link TriggerConfig}s across all workflows. i.e. TriggerConfig.trigger_id.equals(trigger_id) Required. */
-  triggerId?: string | undefined;
-  /** Optional. Sets test mode in {@link enterprise/crm/eventbus/event_message.proto}. */
-  testMode?: boolean | undefined;
-  /** Optional. If provided, the workflow_name is used to filter all the matched workflows having same trigger_id+client_id. A combination of trigger_id, client_id and workflow_name identifies a unique workflow. */
-  workflowName?: string | undefined;
   /** Optional. Pins the enqueue to this exact version. Requires client_id, and only an ACTIVE version is accepted: the drain re-resolves by trigger id, so nothing else could run. Unset by every caller today; draft support is b/570602030. See integrationplatform/api/executionsservice/README.md. */
   workflowId?: string | undefined;
-  /** This field is only required when using Admin Access. The resource name of target, or the parent resource name. For example: "projects/*\/locations/*\/integrations/*" */
-  resourceName?: string | undefined;
-  /** Passed in as parameters to each workflow execution. Optional. */
-  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+  /** Matched against all {@link TriggerConfig}s across all workflows. i.e. TriggerConfig.trigger_id.equals(trigger_id) Required. */
+  triggerId?: string | undefined;
+  /** Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
+  requestId?: string | undefined;
   /** The request priority this request should be processed at. For internal users: */
   priority?:
     | GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequestPriorityEnum
     | (string & {})
     | undefined;
-  /** Optional. If the client id is provided, then the combination of trigger id and client id is matched across all the workflows. If the client id is not provided, then workflows with matching trigger id are executed for each client id in the {@link TriggerConfig}. For Api Trigger, the client id is required and will be validated against the allowed clients. */
-  clientId?: string | undefined;
-  /** Optional. This is a field to see the quota retry count for integration execution */
-  quotaRetryCount?: number | undefined;
-  /** This is a unique id provided by the method caller. If provided this will be used as the execution_id when a new execution info is created. This is a string representation of a UUID. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
-  userGeneratedExecutionId?: string | undefined;
   /** Optional. Time in milliseconds since epoch when the given event would be scheduled. */
   scheduledTime?: string | undefined;
-  /** Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
-  requestId?: string | undefined;
+  /** This field is only required when using Admin Access. The resource name of target, or the parent resource name. For example: "projects/*\/locations/*\/integrations/*" */
+  resourceName?: string | undefined;
+  /** Optional. If the client id is provided, then the combination of trigger id and client id is matched across all the workflows. If the client id is not provided, then workflows with matching trigger id are executed for each client id in the {@link TriggerConfig}. For Api Trigger, the client id is required and will be validated against the allowed clients. */
+  clientId?: string | undefined;
+  /** This is a unique id provided by the method caller. If provided this will be used as the execution_id when a new execution info is created. This is a string representation of a UUID. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
+  userGeneratedExecutionId?: string | undefined;
+  /** Optional. This is a field to see the quota retry count for integration execution */
+  quotaRetryCount?: number | undefined;
+  /** Optional. If provided, the workflow_name is used to filter all the matched workflows having same trigger_id+client_id. A combination of trigger_id, client_id and workflow_name identifies a unique workflow. */
+  workflowName?: string | undefined;
   /** Optional. Flag to determine whether clients would suppress a warning when no ACTIVE workflows are not found. If this flag is set to be true, an error will not be thrown if the requested trigger_id or client_id is not found in any ACTIVE workflow. Otherwise, the error is always thrown. The flag is set to be false by default. */
   ignoreErrorIfNoActiveWorkflow?: boolean | undefined;
+  /** Passed in as parameters to each workflow execution. Optional. */
+  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+  /** Optional. Sets test mode in {@link enterprise/crm/eventbus/event_message.proto}. */
+  testMode?: boolean | undefined;
 }
 export interface EnterpriseCrmEventbusProtoCustomSuspensionRequest {
   /** In the fired event, set the SuspensionInfo message as the value for this key. */
@@ -4297,265 +4308,254 @@ export interface EnterpriseCrmEventbusProtoCustomSuspensionRequest {
 export interface EnterpriseCrmEventbusProtoBuganizerNotification {
   /** ID of the buganizer component within which to create a new issue. Required. */
   componentId?: string | undefined;
+  /** Title of the issue to be created. Required. */
+  title?: string | undefined;
   /** ID of the buganizer template to use. Optional. */
   templateId?: string | undefined;
   /** Whom to assign the new bug. Optional. */
   assigneeEmailAddress?: string | undefined;
-  /** Title of the issue to be created. Required. */
-  title?: string | undefined;
-}
-export interface EnterpriseCrmEventbusProtoToken {
-  name?: string | undefined;
-  value?: string | undefined;
-}
-export type EnterpriseCrmEventbusProtoTokenList = Array<EnterpriseCrmEventbusProtoToken>;
-/** Email address along with optional name and tokens. These tokens will be substituted for the variables in the form of [{var_name}], where var_name could be any string of no more than 32 bytes. */
-export interface EnterpriseCrmEventbusProtoAddress {
-  name?: string | undefined;
-  tokens?: EnterpriseCrmEventbusProtoTokenList | undefined;
-  /** Required. */
-  email?: string | undefined;
 }
 export interface EnterpriseCrmEventbusProtoNotification {
+  pubsubTopic?: string | undefined;
+  escalatorQueue?: string | undefined;
+  emailAddress?: EnterpriseCrmEventbusProtoAddress | undefined;
   /** If the out-of-the-box email/pubsub notifications are not suitable and custom logic is required, fire a workflow containing all info needed to notify users to resume execution. */
   request?: EnterpriseCrmEventbusProtoCustomSuspensionRequest | undefined;
   buganizerNotification?: EnterpriseCrmEventbusProtoBuganizerNotification | undefined;
-  emailAddress?: EnterpriseCrmEventbusProtoAddress | undefined;
-  pubsubTopic?: string | undefined;
-  escalatorQueue?: string | undefined;
 }
 export type EnterpriseCrmEventbusProtoNotificationList =
   Array<EnterpriseCrmEventbusProtoNotification>;
 export interface EnterpriseCrmEventbusProtoSuspensionExpiration {
-  /** Whether the suspension will be REJECTED or LIFTED upon expiration. REJECTED is the default behavior. */
-  liftWhenExpired?: boolean | undefined;
-  /** Milliseconds after which the previous suspension action reminder, if any, is sent using the selected notification option, for a suspension which is still PENDING_UNSPECIFIED. */
-  remindAfterMs?: number | undefined;
   /** Milliseconds after which the suspension expires, if no action taken. */
   expireAfterMs?: number | undefined;
+  /** Milliseconds after which the previous suspension action reminder, if any, is sent using the selected notification option, for a suspension which is still PENDING_UNSPECIFIED. */
+  remindAfterMs?: number | undefined;
+  /** Whether the suspension will be REJECTED or LIFTED upon expiration. REJECTED is the default behavior. */
+  liftWhenExpired?: boolean | undefined;
 }
+export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity {
+  emailAddress?: string | undefined;
+  gaiaId?: string | undefined;
+}
+/** LINT.IfChange */
+export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissions {
+  loasRole?: string | undefined;
+  /** Represents a Gaia identity for a person or service account. */
+  gaiaIdentity?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity | undefined;
+  googleGroup?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity | undefined;
+  mdbGroup?: string | undefined;
+}
+export type EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList =
+  Array<EnterpriseCrmEventbusProtoSuspensionAuthPermissions>;
 export interface EnterpriseCrmEventbusProtoSuspensionConfig {
-  /** Identities able to resolve this suspension. */
-  whoMayResolve?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList | undefined;
   notifications?: EnterpriseCrmEventbusProtoNotificationList | undefined;
   /** Indicates the next steps when no external actions happen on the suspension. */
   suspensionExpiration?: EnterpriseCrmEventbusProtoSuspensionExpiration | undefined;
+  /** Identities able to resolve this suspension. */
+  whoMayResolve?: EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList | undefined;
   /** Optional information to provide recipients of the suspension in addition to the resolution URL, typically containing relevant parameter values from the originating workflow. */
   customMessage?: string | undefined;
 }
-/** Expiration configs for the approval request. */
-export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration {
-  /** Time after the previous suspension action reminder, if any, is sent using the selected notification option, for a suspension which is still PENDING_UNSPECIFIED. */
-  remindTime?: string | undefined;
-  /** Output only. Time after which the suspension expires, if no action taken. */
-  expireTime?: string | undefined;
-  /** Whether the suspension will be REJECTED or LIFTED upon expiration. REJECTED is the default behavior. */
-  liftWhenExpired?: boolean | undefined;
-}
-/** Configurations for approving the Suspension. */
-export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig {
-  /** Indicates the next steps when no external actions happen on the suspension. */
-  expiration?: GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration | undefined;
-  /** Information to provide for recipients. */
-  customMessage?: string | undefined;
-  /** Email addresses to send approval request to. */
-  emailAddresses?: StringList | undefined;
-}
+export type GoogleCloudIntegrationsV1alphaSuspensionStateEnum =
+  | "RESOLUTION_STATE_UNSPECIFIED"
+  | "PENDING"
+  | "REJECTED"
+  | "LIFTED";
 /** A record representing a suspension. */
 export interface GoogleCloudIntegrationsV1alphaSuspension {
-  /** Metadata pertaining to the resolution of this suspension. */
-  audit?: GoogleCloudIntegrationsV1alphaSuspensionAudit | undefined;
+  /** Required. Task id of the associated SuspensionTask. */
+  taskId?: string | undefined;
+  /** Output only. Auto-generated. */
+  lastModifyTime?: string | undefined;
   /** Output only. Auto-generated. */
   createTime?: string | undefined;
-  /** Required. State of this suspension, indicating what action a resolver has taken. */
-  state?: GoogleCloudIntegrationsV1alphaSuspensionStateEnum | (string & {}) | undefined;
-  /** Controls the notifications and resolver permissions for this suspension. */
-  suspensionConfig?: EnterpriseCrmEventbusProtoSuspensionConfig | undefined;
+  /** Metadata pertaining to the resolution of this suspension. */
+  audit?: GoogleCloudIntegrationsV1alphaSuspensionAudit | undefined;
   /** Controls the notifications and approval permissions for this suspension. */
   approvalConfig?: GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig | undefined;
   /** Required. ID of the associated execution. */
   eventExecutionInfoId?: string | undefined;
+  /** Controls the notifications and resolver permissions for this suspension. */
+  suspensionConfig?: EnterpriseCrmEventbusProtoSuspensionConfig | undefined;
+  /** Required. State of this suspension, indicating what action a resolver has taken. */
+  state?: GoogleCloudIntegrationsV1alphaSuspensionStateEnum | (string & {}) | undefined;
   /** Resource name for suspensions suspension/{suspension_id} */
   name?: string | undefined;
   /** Required. The name of the originating integration. */
   integration?: string | undefined;
-  /** Output only. Auto-generated. */
-  lastModifyTime?: string | undefined;
-  /** Required. Task id of the associated SuspensionTask. */
-  taskId?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaSuspensionList =
   Array<GoogleCloudIntegrationsV1alphaSuspension>;
 /** Response for Suspensions.ListSuspensions. */
 export interface GoogleCloudIntegrationsV1alphaListSuspensionsResponse {
-  /** Token to retrieve the next page of results. */
-  nextPageToken?: string | undefined;
   /** The suspensions for the relevant execution which the caller has permissions to view and resolve. */
   suspensions?: GoogleCloudIntegrationsV1alphaSuspensionList | undefined;
+  /** Token to retrieve the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIntegrationsVersionsRequest {
-  /** The maximum number of versions to return. The service may return fewer than this value. If unspecified, at most 50 versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
-  /** A page token, received from a previous `ListIntegrationVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIntegrationVersions` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
-  filter?: string | undefined;
   /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} Specifically, when parent equals: 1. projects//locations//integrations/, Meaning: "List versions (with filter) for a particular integration". 2. projects//locations//integrations/- Meaning: "List versions (with filter) for a client within a particular region". */
   parent: string;
-  /** The results would be returned in order you specified here. Currently supported sort keys are: Descending sort order for "last\_modified\_time", "created\_time", and "snapshot\_number". Ascending sort order for `name`. */
-  orderBy?: string | undefined;
+  /** A page token, received from a previous `ListIntegrationVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIntegrationVersions` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** The field mask which specifies the particular data to be returned. */
   fieldMask?: string | undefined;
+  /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
+  filter?: string | undefined;
+  /** The maximum number of versions to return. The service may return fewer than this value. If unspecified, at most 50 versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** The results would be returned in order you specified here. Currently supported sort keys are: Descending sort order for "last\_modified\_time", "created\_time", and "snapshot\_number". Ascending sort order for `name`. */
+  orderBy?: string | undefined;
 }
 /** Response for ListIntegrationVersions. */
 export interface GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse {
-  /** Whether the user has no permission on the version or not. */
-  noPermission?: boolean | undefined;
   /** The integrations which match the request. */
   integrationVersions?: GoogleCloudIntegrationsV1alphaIntegrationVersionList | undefined;
+  /** Whether the user has no permission on the version or not. */
+  noPermission?: boolean | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIntegrationsVersionsTestCasesRequest {
-  /** Required. The parent resource where this TestCase was created. */
-  parent: string;
-  /** Optional. The results would be returned in order specified here. Currently supported sort keys are: Descending sort order for "last_modified_time", "created_time". Ascending sort order for "name". */
-  orderBy?: string | undefined;
   /** Optional. The mask which specifies fields that need to be returned in the TestCases's response. */
   readMask?: string | undefined;
-  /** Optional. Standard filter field. Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
+  /** Optional. The results would be returned in order specified here. Currently supported sort keys are: Descending sort order for "last_modified_time", "created_time". Ascending sort order for "name". */
+  orderBy?: string | undefined;
   /** Optional. The maximum number of test cases to return. The service may return fewer than this value. If unspecified, at most 100 test cases will be returned. */
   pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListTestCases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTestCases` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The parent resource where this TestCase was created. */
+  parent: string;
+  /** Optional. Standard filter field. Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaTestCaseList =
   Array<GoogleCloudIntegrationsV1alphaTestCase>;
 /** Response for ListTestCases */
 export interface GoogleCloudIntegrationsV1alphaListTestCasesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The test cases corresponding to the specified filter */
   testCases?: GoogleCloudIntegrationsV1alphaTestCaseList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProductsAuthConfigsRequest {
-  /** The mask which specifies fields that need to be returned in the AuthConfig's response. */
-  readMask?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
   /** Required. The client, which owns this collection of AuthConfigs. */
   parent: string;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
+  /** The mask which specifies fields that need to be returned in the AuthConfig's response. */
+  readMask?: string | undefined;
 }
 export interface ListProjectsLocationsProductsCertificatesRequest {
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
-  /** The token returned in the previous response. */
-  pageToken?: string | undefined;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
-  /** Required. The client, which owns this collection of Certificates. */
-  parent: string;
   /** The mask which specifies fields that need to be returned in the Certificate's response. */
   readMask?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
+  /** The token returned in the previous response. */
+  pageToken?: string | undefined;
+  /** Required. The client, which owns this collection of Certificates. */
+  parent: string;
 }
 export interface ListProjectsLocationsProductsIntegrationsRequest {
   /** The results would be returned in order you specified here. Supported sort keys are: Descending sort order by "last_modified_time", "created_time", "snapshot_number". Ascending sort order by the integration name. */
   orderBy?: string | undefined;
-  /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
-  filter?: string | undefined;
   /** The page size for the resquest. */
   pageSize?: number | undefined;
   /** Required. Project and location from which the integrations should be listed. Format: projects/{project} */
   parent: string;
   /** The page token for the resquest. */
   pageToken?: string | undefined;
+  /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsProductsIntegrationsExecutionsRequest {
-  /** Workflow name. */
-  "filterParams.workflowName"?: string | undefined;
   /** Param value in the key value pair filter. */
   "filterParams.parameterPairValue"?: string | undefined;
+  /** Workflow name. */
+  "filterParams.workflowName"?: string | undefined;
+  /** Param key in the key value pair filter. */
+  "filterParams.parameterPairKey"?: string | undefined;
+  /** Optional. If true, the service will provide execution info with snapshot metadata only i.e. without event parameters. */
+  snapshotMetadataWithoutParams?: boolean | undefined;
   /** Optional. The token returned in the previous response. */
   pageToken?: string | undefined;
-  /** List of possible task statuses. */
-  "filterParams.taskStatuses"?: StringList | undefined;
+  /** Optional. If true, the service will truncate the params to only keep the first 1000 characters of string params and empty the executions in order to make response smaller. Only works for UI and when the params fields are not filtered out. */
+  truncateParams?: boolean | undefined;
+  /** Param type. */
+  "filterParams.parameterType"?: string | undefined;
   /** Optional. The results would be returned in order you specified here. Currently supporting "create_time". */
   orderBy?: string | undefined;
   /** Required. The parent resource name of the integration execution. */
   parent: string;
-  /** List of possible event statuses. */
-  "filterParams.eventStatuses"?: StringList | undefined;
-  /** Optional. If true, the service will use the most recent acl information to list event execution infos and renew the acl cache. Note that fetching the most recent acl is synchronous, so it will increase RPC call latency. */
-  refreshAcl?: boolean | undefined;
-  /** Param key in the key value pair filter. */
-  "filterParams.parameterPairKey"?: string | undefined;
-  /** Optional. The size of entries in the response. */
-  pageSize?: number | undefined;
-  /** Execution id. */
-  "filterParams.executionId"?: string | undefined;
-  /** Optional. If true, the service will provide execution info with snapshot metadata only i.e. without event parameters. */
-  snapshotMetadataWithoutParams?: boolean | undefined;
+  /** List of possible task statuses. */
+  "filterParams.taskStatuses"?: StringList | undefined;
+  /** Param value. DEPRECATED. Use parameter_pair_value instead. */
+  "filterParams.parameterValue"?: string | undefined;
+  /** Optional user-provided custom filter. */
+  "filterParams.customFilter"?: string | undefined;
   /** Start timestamp. */
   "filterParams.startTime"?: string | undefined;
   /** End timestamp. */
   "filterParams.endTime"?: string | undefined;
-  /** Param key. DEPRECATED. Use parameter_pair_key instead. */
-  "filterParams.parameterKey"?: string | undefined;
-  /** Param type. */
-  "filterParams.parameterType"?: string | undefined;
-  /** Optional user-provided custom filter. */
-  "filterParams.customFilter"?: string | undefined;
-  /** Param value. DEPRECATED. Use parameter_pair_value instead. */
-  "filterParams.parameterValue"?: string | undefined;
-  /** Optional. View mask for the response data. If set, only the field specified will be returned as part of the result. If not set, all fields in Execution will be filled and returned. Supported fields: trigger_id execution_method create_time update_time execution_details execution_details.state execution_details.execution_snapshots execution_details.attempt_stats execution_details.event_execution_snapshots_size request_parameters cloud_logging_details snapshot_number replay_info */
-  readMask?: string | undefined;
+  /** Optional. The size of entries in the response. */
+  pageSize?: number | undefined;
   /** Optional. Standard filter field, we support filtering on following fields: workflow_name: the name of the integration. CreateTimestamp: the execution created time. event_execution_state: the state of the executions. execution_id: the id of the execution. trigger_id: the id of the trigger. parameter_type: the type of the parameters involved in the execution. All fields support for EQUALS, in additional: CreateTimestamp support for LESS_THAN, GREATER_THAN ParameterType support for HAS For example: "parameter_type" HAS \"string\" Also supports operators like AND, OR, NOT For example, trigger_id=\"id1\" AND workflow_name=\"testWorkflow\" */
   filter?: string | undefined;
-  /** Optional. If true, the service will truncate the params to only keep the first 1000 characters of string params and empty the executions in order to make response smaller. Only works for UI and when the params fields are not filtered out. */
-  truncateParams?: boolean | undefined;
+  /** Execution id. */
+  "filterParams.executionId"?: string | undefined;
+  /** List of possible event statuses. */
+  "filterParams.eventStatuses"?: StringList | undefined;
+  /** Param key. DEPRECATED. Use parameter_pair_key instead. */
+  "filterParams.parameterKey"?: string | undefined;
+  /** Optional. If true, the service will use the most recent acl information to list event execution infos and renew the acl cache. Note that fetching the most recent acl is synchronous, so it will increase RPC call latency. */
+  refreshAcl?: boolean | undefined;
+  /** Optional. View mask for the response data. If set, only the field specified will be returned as part of the result. If not set, all fields in Execution will be filled and returned. Supported fields: trigger_id execution_method create_time update_time execution_details execution_details.state execution_details.execution_snapshots execution_details.attempt_stats execution_details.event_execution_snapshots_size request_parameters cloud_logging_details snapshot_number replay_info */
+  readMask?: string | undefined;
 }
 export interface ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
-  /** Standard filter field. */
-  filter?: string | undefined;
-  /** Token to retrieve a specific page. */
-  pageToken?: string | undefined;
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name} */
   parent: string;
+  /** Token to retrieve a specific page. */
+  pageToken?: string | undefined;
+  /** Standard filter field. */
+  filter?: string | undefined;
   /** Field name to order by. */
   orderBy?: string | undefined;
   /** Maximum number of entries in the response. */
   pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsProductsIntegrationsVersionsRequest {
-  /** The maximum number of versions to return. The service may return fewer than this value. If unspecified, at most 50 versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
-  /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} Specifically, when parent equals: 1. projects//locations//integrations/, Meaning: "List versions (with filter) for a particular integration". 2. projects//locations//integrations/- Meaning: "List versions (with filter) for a client within a particular region". */
-  parent: string;
   /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
   filter?: string | undefined;
-  /** A page token, received from a previous `ListIntegrationVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIntegrationVersions` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** The results would be returned in order you specified here. Currently supported sort keys are: Descending sort order for "last\_modified\_time", "created\_time", and "snapshot\_number". Ascending sort order for `name`. */
   orderBy?: string | undefined;
+  /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} Specifically, when parent equals: 1. projects//locations//integrations/, Meaning: "List versions (with filter) for a particular integration". 2. projects//locations//integrations/- Meaning: "List versions (with filter) for a client within a particular region". */
+  parent: string;
+  /** The maximum number of versions to return. The service may return fewer than this value. If unspecified, at most 50 versions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** A page token, received from a previous `ListIntegrationVersions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIntegrationVersions` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** The field mask which specifies the particular data to be returned. */
   fieldMask?: string | undefined;
 }
 export interface ListProjectsLocationsProductsSfdcInstancesRequest {
-  /** Required. The client, which owns this collection of SfdcInstances. */
-  parent: string;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
   /** The mask which specifies fields that need to be returned in the SfdcInstance's response. */
   readMask?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
+  /** Required. The client, which owns this collection of SfdcInstances. */
+  parent: string;
 }
 export type GoogleCloudIntegrationsV1alphaSfdcInstanceList =
   Array<GoogleCloudIntegrationsV1alphaSfdcInstance>;
@@ -4567,87 +4567,87 @@ export interface GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
-  /** Required. The client, which owns this collection of SfdcChannels. */
-  parent: string;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
-  /** The mask which specifies fields that need to be returned in the SfdcChannel's response. */
-  readMask?: string | undefined;
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
+  /** The mask which specifies fields that need to be returned in the SfdcChannel's response. */
+  readMask?: string | undefined;
+  /** Required. The client, which owns this collection of SfdcChannels. */
+  parent: string;
 }
 export type GoogleCloudIntegrationsV1alphaSfdcChannelList =
   Array<GoogleCloudIntegrationsV1alphaSfdcChannel>;
 /** Response to list SfdcChannels. */
 export interface GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse {
-  /** The list of SfdcChannels retrieved. */
-  sfdcChannels?: GoogleCloudIntegrationsV1alphaSfdcChannelList | undefined;
   /** The token used to retrieve the next page of results. */
   nextPageToken?: string | undefined;
+  /** The list of SfdcChannels retrieved. */
+  sfdcChannels?: GoogleCloudIntegrationsV1alphaSfdcChannelList | undefined;
 }
 export interface ListProjectsLocationsSfdcInstancesRequest {
+  /** The token returned in the previous response. */
+  pageToken?: string | undefined;
+  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
+  filter?: string | undefined;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
   /** Required. The client, which owns this collection of SfdcInstances. */
   parent: string;
-  /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
-  filter?: string | undefined;
   /** The mask which specifies fields that need to be returned in the SfdcInstance's response. */
   readMask?: string | undefined;
-  /** The token returned in the previous response. */
-  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSfdcInstancesSfdcChannelsRequest {
+  /** Required. The client, which owns this collection of SfdcChannels. */
+  parent: string;
   /** Filtering as supported in https://developers.google.com/authorized-buyers/apis/guides/list-filters. */
   filter?: string | undefined;
   /** The mask which specifies fields that need to be returned in the SfdcChannel's response. */
   readMask?: string | undefined;
   /** The token returned in the previous response. */
   pageToken?: string | undefined;
-  /** Required. The client, which owns this collection of SfdcChannels. */
-  parent: string;
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsTemplatesRequest {
-  /** Optional. The results would be returned in the order you specified here. */
-  orderBy?: string | undefined;
-  /** Optional. The mask which specifies fields that need to be returned in the template's response. */
-  readMask?: string | undefined;
-  /** Optional. The token returned in the previous response. */
-  pageToken?: string | undefined;
-  /** Required. The client, which owns this collection of Templates. */
-  parent: string;
   /** Optional. Standard filter field to filter templates. client_id filter won't be supported and will restrict to templates belonging to the current client only. Return all templates of the current client if the filter is empty. Also supports operators like AND, OR, NOT For example, "status=\"ACTIVE\" */
   filter?: string | undefined;
+  /** Required. The client, which owns this collection of Templates. */
+  parent: string;
   /** Optional. The size of the response entries. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
+  /** Optional. The results would be returned in the order you specified here. */
+  orderBy?: string | undefined;
+  /** Optional. The token returned in the previous response. */
+  pageToken?: string | undefined;
+  /** Optional. The mask which specifies fields that need to be returned in the template's response. */
+  readMask?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaTemplateList =
   Array<GoogleCloudIntegrationsV1alphaTemplate>;
 /** Response for a request to list templates */
 export interface GoogleCloudIntegrationsV1alphaListTemplatesResponse {
-  /** The token used to retrieve the next page results. */
-  nextPageToken?: string | undefined;
   /** List of templates retrieved. */
   templates?: GoogleCloudIntegrationsV1alphaTemplateList | undefined;
+  /** The token used to retrieve the next page results. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthConfigsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaAuthConfig,
   "name"
 > {
-  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  name: string;
   /** Field mask specifying the fields in the above AuthConfig that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.sslCertificate"?: string | undefined;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
+  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
+  name: string;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.encryptedPrivateKey"?: string | undefined;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.sslCertificate"?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaCertificate,
@@ -4662,10 +4662,10 @@ export interface PatchProjectsLocationsIntegrationsVersionsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaIntegrationVersion,
   "name"
 > {
-  /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
-  updateMask?: string | undefined;
   /** Output only. Auto-generated primary key. */
   name: string;
+  /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaTestCase,
@@ -4682,23 +4682,23 @@ export interface PatchProjectsLocationsProductsAuthConfigsRequest extends Omit<
 > {
   /** Field mask specifying the fields in the above AuthConfig that have been modified and need to be updated. */
   updateMask?: string | undefined;
-  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
-  name: string;
-  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
-  "clientCertificate.sslCertificate"?: string | undefined;
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.encryptedPrivateKey"?: string | undefined;
   /** 'passphrase' should be left unset if private key is not encrypted. Note that 'passphrase' is not the password for web server, but an extra layer of security to protected private key. */
   "clientCertificate.passphrase"?: string | undefined;
+  /** Resource name of the auth config. For more information, see Manage authentication profiles. projects/{project}/locations/{location}/authConfigs/{authConfig}. */
+  name: string;
+  /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
+  "clientCertificate.sslCertificate"?: string | undefined;
 }
 export interface PatchProjectsLocationsProductsCertificatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaCertificate,
   "name"
 > {
-  /** Output only. Auto generated primary key */
-  name: string;
   /** Field mask specifying the fields in the above Certificate that have been modified and need to be updated. */
   updateMask?: string | undefined;
+  /** Output only. Auto generated primary key */
+  name: string;
 }
 export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4722,28 +4722,28 @@ export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest 
   GoogleCloudIntegrationsV1alphaSfdcChannel,
   "name"
 > {
-  /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
-  updateMask?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
+  /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSfdcInstancesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcInstance,
   "name"
 > {
-  /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
-  updateMask?: string | undefined;
   /** Resource name of the SFDC instance projects/{project}/locations/{location}/sfdcInstances/{sfdcInstance}. */
   name: string;
+  /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest extends Omit<
   GoogleCloudIntegrationsV1alphaSfdcChannel,
   "name"
 > {
-  /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
-  updateMask?: string | undefined;
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
+  /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesRequest extends Omit<
   GoogleCloudIntegrationsV1alphaTemplate,
@@ -4778,20 +4778,20 @@ export interface ProvisionClientPostProcessorProjectsLocationsClientsRequest ext
 export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse {}
 /** Request for the Provision rpc */
 export interface GoogleCloudIntegrationsV1alphaProvisionClientRequest {
+  /** Optional. Indicates if sample workflow should be created along with provisioning */
+  createSampleWorkflows?: boolean | undefined;
+  /** Optional. Indicates if the client should be allowed to use managed AI features, i.e. using Cloud Companion APIs of the tenant project. This will allow the customers to use features like Troubleshooting, OpenAPI spec enrichment, etc. for free. */
+  enableManagedAiFeatures?: boolean | undefined;
+  /** Optional. Indicates if skip CP provision or not */
+  skipCpProvision?: boolean | undefined;
+  /** Optional. Indicates if the client should be allowed to make HTTP calls. */
+  enableHttpCall?: boolean | undefined;
   /** Optional. Deprecated. Indicates provision with GMEK or CMEK. This field is deprecated and the provision would always be GMEK if cloud_kms_config is not present in the request. */
   provisionGmek?: boolean | undefined;
   /** Optional. User input run-as service account, if empty, will bring up a new default service account */
   runAsServiceAccount?: string | undefined;
-  /** Optional. Indicates if skip CP provision or not */
-  skipCpProvision?: boolean | undefined;
-  /** Optional. Indicates if the client should be allowed to use managed AI features, i.e. using Cloud Companion APIs of the tenant project. This will allow the customers to use features like Troubleshooting, OpenAPI spec enrichment, etc. for free. */
-  enableManagedAiFeatures?: boolean | undefined;
   /** Optional. OPTIONAL: Cloud KMS config for AuthModule to encrypt/decrypt credentials. */
   cloudKmsConfig?: GoogleCloudIntegrationsV1alphaCloudKmsConfig | undefined;
-  /** Optional. Indicates if the client should be allowed to make HTTP calls. */
-  enableHttpCall?: boolean | undefined;
-  /** Optional. Indicates if sample workflow should be created along with provisioning */
-  createSampleWorkflows?: boolean | undefined;
 }
 export interface ProvisionProjectsLocationsClientsRequest extends GoogleCloudIntegrationsV1alphaProvisionClientRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
@@ -4829,17 +4829,17 @@ export type GoogleCloudIntegrationsV1alphaReplayExecutionRequestReplayModeEnum =
   | "REPLAY_MODE_POINT_OF_FAILURE";
 /** Request for replaying an execution. */
 export interface GoogleCloudIntegrationsV1alphaReplayExecutionRequest {
-  /** Required. The user provided reason for replaying the execution. */
-  replayReason?: string | undefined;
   /** Optional. The list of parameters to be updated. - If the `update_mask` is not specified, all the parameters from original execution will be ignored and only the `modified_parameters` will be used. - It is an error to include a parameter in `update_mask` but not in `modified_parameters`. - Updating nested fields in a JSON parameter is not supported, please provide the complete JSON in the `modified_parameters`. */
   updateMask?: string | undefined;
+  /** Optional. The modified input parameters for replay. - Provide values for all the fields in the 'update_mask'. Any field not present in the 'update_mask' will be ignored and its value will be taken from the original execution. - If the 'update_mask' is not specified, all the parameters from original execution will be ignored and only the `modified_parameters` will be used. */
+  modifiedParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
   /** Optional. The mode of the replay. */
   replayMode?:
     | GoogleCloudIntegrationsV1alphaReplayExecutionRequestReplayModeEnum
     | (string & {})
     | undefined;
-  /** Optional. The modified input parameters for replay. - Provide values for all the fields in the 'update_mask'. Any field not present in the 'update_mask' will be ignored and its value will be taken from the original execution. - If the 'update_mask' is not specified, all the parameters from original execution will be ignored and only the `modified_parameters` will be used. */
-  modifiedParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** Required. The user provided reason for replaying the execution. */
+  replayReason?: string | undefined;
 }
 export interface ReplayProjectsLocationsIntegrationsExecutionsRequest extends GoogleCloudIntegrationsV1alphaReplayExecutionRequest {
   /** Required. Next ID: 6 The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/integrations/{integration}/executions/{execution_id} */
@@ -4847,10 +4847,10 @@ export interface ReplayProjectsLocationsIntegrationsExecutionsRequest extends Go
 }
 /** Response for replaying an execution. */
 export interface GoogleCloudIntegrationsV1alphaReplayExecutionResponse {
-  /** Next ID: 4 The id of the execution corresponding to this run of the integration. */
-  executionId?: string | undefined;
   /** OUTPUT parameters in format of Map. Where Key is the name of the parameter. The parameters would only be present in case of synchrounous execution. Note: Name of the system generated parameters are wrapped by backtick(`) to distinguish them from the user defined parameters. */
   outputParameters?: DocumentMap | undefined;
+  /** Next ID: 4 The id of the execution corresponding to this run of the integration. */
+  executionId?: string | undefined;
   /** The execution id which is replayed. */
   replayedExecutionId?: string | undefined;
 }
@@ -4871,20 +4871,20 @@ export interface ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensio
 }
 /** The request for scheduling an integration. */
 export interface GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
-  /** The time that the integration should be executed. If the time is less or equal to the current time, the integration is executed immediately. */
-  scheduleTime?: string | undefined;
   /** This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. */
   requestId?: string | undefined;
-  /** Optional. Input parameters used by integration execution. */
-  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
+  /** Passed in as parameters to each integration execution. */
+  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
   /** Optional. This is a unique id provided by the method caller. If provided this will be used as the execution_id when a new execution info is created. This is a string representation of a UUID. Must have no more than 36 characters and contain only alphanumeric characters and hyphens. */
   userGeneratedExecutionId?: string | undefined;
   /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
   parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
+  /** The time that the integration should be executed. If the time is less or equal to the current time, the integration is executed immediately. */
+  scheduleTime?: string | undefined;
   /** Required. Matched against all {@link TriggerConfig}s across all integrations. i.e. TriggerConfig.trigger_id.equals(trigger_id) */
   triggerId?: string | undefined;
-  /** Passed in as parameters to each integration execution. */
-  parameters?: EnterpriseCrmEventbusProtoEventParameters | undefined;
+  /** Optional. Input parameters used by integration execution. */
+  inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
 }
 export interface ScheduleProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
   /** The integration resource name. */
@@ -4900,18 +4900,18 @@ export interface ScheduleProjectsLocationsProductsIntegrationsRequest extends Go
   name: string;
 }
 export interface SearchProjectsLocationsIntegrationsRequest {
-  /** Optional. The pre-filter to be applied to the search. This should follow the expressions defined in https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata. For example, "status:ANY("ACTIVE")" will return all the resources whose status contains the "ACTIVE". */
-  filter?: string | undefined;
   /** Optional. A page token, received from a previous `SearchIntegrations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchIntegrations` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Required. Project and location from which the integrations should be listed. Format: projects/*\/locations/*\/resources/integrations */
-  parent: string;
+  /** Optional. The pre-filter to be applied to the search. This should follow the expressions defined in https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata. For example, "status:ANY("ACTIVE")" will return all the resources whose status contains the "ACTIVE". */
+  filter?: string | undefined;
   /** Required. The user query */
   query?: string | undefined;
   /** Optional. Whether to enable natural language query understanding. */
   enableNaturalLanguageQueryUnderstanding?: boolean | undefined;
   /** Optional. The maximum number of results to return. The service may return fewer than this value. If unspecified, at most 10 results will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number | undefined;
+  /** Required. Project and location from which the integrations should be listed. Format: projects/*\/locations/*\/resources/integrations */
+  parent: string;
 }
 export type GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResultStatusEnum =
   | "INTEGRATION_STATE_UNSPECIFIED"
@@ -4921,60 +4921,60 @@ export type GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationS
   | "SNAPSHOT";
 /** The integration search result with integration level information. */
 export interface GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResult {
-  /** The integration document metadata. */
-  name?: string | undefined;
-  /** The region of the integration version. */
-  region?: string | undefined;
+  /** Output only. The create time of the integration version. */
+  createTime?: string | undefined;
+  /** The integration id. */
+  id?: string | undefined;
   /** The description of the integration version. */
   description?: string | undefined;
+  /** The integration document metadata. */
+  name?: string | undefined;
   /** Output only. The status of the integration version. */
   status?:
     | GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResultStatusEnum
     | undefined;
-  /** Output only. The create time of the integration version. */
-  createTime?: string | undefined;
-  /** The version of the integration version. */
-  version?: string | undefined;
-  /** The integration id. */
-  id?: string | undefined;
+  /** The region of the integration version. */
+  region?: string | undefined;
   /** The creator of the integration version. */
   creator?: string | undefined;
+  /** The version of the integration version. */
+  version?: string | undefined;
 }
 export type GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResultList =
   Array<GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResult>;
 /** Response for SearchIntegrations. */
 export interface GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The list of integrations that match the search criteria. */
   integrations?:
     | GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResultList
     | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsTemplatesRequest {
   /** Optional. The mask which specifies fields that need to be returned in the template's response. */
   readMask?: string | undefined;
-  /** Optional. The token returned in the previous response. */
-  pageToken?: string | undefined;
-  /** Optional. The size of the response entries. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Optional. Standard filter field to filter templates. client_id filter won't be supported and will restrict to templates belonging to the current client only. Return all templates of the current client if the filter is empty. Also supports operators like AND, OR, NOT For example, "status=\"ACTIVE\" */
+  filter?: string | undefined;
   /** Optional. The results would be returned in the order you specified here. */
   orderBy?: string | undefined;
+  /** Optional. The size of the response entries. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Whether to enable natural language query understanding. */
+  enableNaturalLanguageQueryUnderstanding?: boolean | undefined;
   /** Required. The client, which owns this collection of Templates. */
   parent: string;
   /** Optional. The search query that will be passed to Vertex search service. */
   query?: string | undefined;
-  /** Optional. Standard filter field to filter templates. client_id filter won't be supported and will restrict to templates belonging to the current client only. Return all templates of the current client if the filter is empty. Also supports operators like AND, OR, NOT For example, "status=\"ACTIVE\" */
-  filter?: string | undefined;
-  /** Optional. Whether to enable natural language query understanding. */
-  enableNaturalLanguageQueryUnderstanding?: boolean | undefined;
+  /** Optional. The token returned in the previous response. */
+  pageToken?: string | undefined;
 }
 /** Response for a request to search templates */
 export interface GoogleCloudIntegrationsV1alphaSearchTemplatesResponse {
-  /** The token used to retrieve the next page results. */
-  nextPageToken?: string | undefined;
   /** List of templates retrieved. */
   templates?: GoogleCloudIntegrationsV1alphaTemplateList | undefined;
+  /** The token used to retrieve the next page results. */
+  nextPageToken?: string | undefined;
 }
 /** Request to Share template */
 export interface GoogleCloudIntegrationsV1alphaShareTemplateRequest {
@@ -5032,41 +5032,34 @@ export type GoogleCloudIntegrationsV1alphaTestIntegrationsRequestCredentialModeE
   | "CREDENTIAL_MODE_HARDENED";
 /** The request for testing an integration. */
 export interface GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
-  /** Optional. custom deadline of the rpc */
-  deadlineSecondsTime?: string | undefined;
   /** Optional. The credential flow to run the test under. Applies to synchronous tests only. When unset, the default depends on when the test runs: before the EUC hardening cutover it is `CREDENTIAL_MODE_CURRENT`; from the cutover on it is `CREDENTIAL_MODE_HARDENED`, whatever the integration's stored disposition. Where the hardened flow cannot be evaluated, an unset mode runs `CREDENTIAL_MODE_CURRENT` instead of failing. The response's `credential_mode` reports the mode that ran. */
   credentialMode?:
     | GoogleCloudIntegrationsV1alphaTestIntegrationsRequestCredentialModeEnum
     | (string & {})
     | undefined;
-  /** Optional. Can be specified in the event request, otherwise false (default). If true, enables tasks with condition "test_mode = true". If false, disables tasks with condition "test_mode = true" if global test mode (set by platform) is also false {@link EventBusConfig}. */
-  testMode?: boolean | undefined;
+  /** Optional. custom deadline of the rpc */
+  deadlineSecondsTime?: string | undefined;
   /** Optional. Input parameters used during integration execution. */
   inputParameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Required. This is used to identify the client on whose behalf the event will be executed. */
-  clientId?: string | undefined;
   /** Optional. Passed in as parameters to each integration execution. */
   parameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** Required. The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
+  triggerId?: string | undefined;
+  /** Optional. Config parameters used during integration execution. */
+  configParameters?: DocumentMap | undefined;
   /** Optional. Runs the test asynchronously, by enqueueing it through the real execution queue under `trigger_id` instead of running the task graph inline. Default `false`, which preserves the existing synchronous behavior. The enqueued request carries no caller identity, so it is drained under the integration's run-as service account, exactly as a real Cloud Scheduler, cron, Pub/Sub, Salesforce or connector fire would be. That is the only way to verify the credential path an asynchronous trigger actually takes; a synchronous test always carries the caller's own credential and so exercises the opposite branch. When `true`: * The version named by `integration_version.name` runs. A name ending in `/versions/{version}` runs that exact version, published or draft; a name without one runs the published (`ACTIVE`) version on the trigger. Either way the integration is resolved from storage, so `integration_version` must carry only `name`; supplying any other field is rejected, rather than silently running something other than what was passed. * A draft is validated before it is enqueued, including the check that the caller may act as the integration's run-as service account. Testing a draft therefore fails fast on a configuration a publish would reject. * The response carries `execution_id` only. `execution_failed`, `event_parameters`, `parameters` and `parameter_entries` describe a finished run and are left unset, because nothing has run yet. In particular, do not read `execution_failed` as a pass signal. * The run is real, with real side effects, quota and concurrency. No actual Pub/Sub push or Cloud Scheduler tick occurs; only the enqueue is simulated, which does not change the credential path. */
   asyncExecution?: boolean | undefined;
   /** Required. integration config to execute the workflow */
   integrationVersion?: GoogleCloudIntegrationsV1alphaIntegrationVersion | undefined;
-  /** Optional. Config parameters used during integration execution. */
-  configParameters?: DocumentMap | undefined;
-  /** Required. The trigger id of the integration trigger config. If both trigger_id and client_id is present, the integration is executed from the start tasks provided by the matching trigger config otherwise it is executed from the default start tasks. */
-  triggerId?: string | undefined;
+  /** Required. This is used to identify the client on whose behalf the event will be executed. */
+  clientId?: string | undefined;
+  /** Optional. Can be specified in the event request, otherwise false (default). If true, enables tasks with condition "test_mode = true". If false, disables tasks with condition "test_mode = true" if global test mode (set by platform) is also false {@link EventBusConfig}. */
+  testMode?: boolean | undefined;
 }
 export interface TestProjectsLocationsIntegrationsRequest extends GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
 }
-export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnum =
-  | "HARDENED_PATH_UNSPECIFIED"
-  | "SCRIPT_EVAL"
-  | "STUBBY_CALLER"
-  | "SUB_INTEGRATION";
-export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnumList =
-  Array<GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnum>;
 export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseEucHardeningDispositionEnum =
   | "EUC_HARDENING_DISPOSITION_UNSPECIFIED"
   | "LEGACY"
@@ -5075,22 +5068,15 @@ export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseCredentialMode
   | "CREDENTIAL_MODE_UNSPECIFIED"
   | "CREDENTIAL_MODE_CURRENT"
   | "CREDENTIAL_MODE_HARDENED";
+export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnum =
+  | "HARDENED_PATH_UNSPECIFIED"
+  | "SCRIPT_EVAL"
+  | "STUBBY_CALLER"
+  | "SUB_INTEGRATION";
+export type GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnumList =
+  Array<GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnum>;
 /** The response for testing an integration. */
 export interface GoogleCloudIntegrationsV1alphaTestIntegrationsResponse {
-  /** The credential paths the hardened flow covers for this test: each one that a task in the tested integration reaches and that the server running the test hardens, whatever the credential mode. A `CREDENTIAL_MODE_CURRENT` test of an integration not stored as hardened usually lists none, and a `CREDENTIAL_MODE_HARDENED` response with no paths means nothing in this integration was hardened. Empty where the hardened flow is switched off. Unset for asynchronous tests. Derived from the integration's task types before the run: it reports presence in the graph, not execution, so a task on a branch that did not run is still counted, as is a Call Integration task that runs as a configured service account. A sub-integration's own tasks are not included; each runs under its own stored disposition. Integration Connectors tasks and Cloud Scheduler triggers are never reported: the services they call do not yet accept the hardened credential. */
-  hardenedPaths?:
-    | GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnumList
-    | undefined;
-  /** The id of the execution corresponding to this run of integration. */
-  executionId?: string | undefined;
-  /** Details for the integration that were executed. */
-  eventParameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
-  /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
-  /** Is true if any execution in the integration failed. False otherwise. */
-  executionFailed?: boolean | undefined;
-  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
-  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
   /** The EUC hardening disposition stored for the tested integration, read before the run. Unset for asynchronous tests. */
   eucHardeningDisposition?:
     | GoogleCloudIntegrationsV1alphaTestIntegrationsResponseEucHardeningDispositionEnum
@@ -5099,6 +5085,20 @@ export interface GoogleCloudIntegrationsV1alphaTestIntegrationsResponse {
   credentialMode?:
     | GoogleCloudIntegrationsV1alphaTestIntegrationsResponseCredentialModeEnum
     | undefined;
+  /** Details for the integration that were executed. */
+  eventParameters?: EnterpriseCrmFrontendsEventbusProtoEventParameters | undefined;
+  /** The credential paths the hardened flow covers for this test: each one that a task in the tested integration reaches and that the server running the test hardens, whatever the credential mode. A `CREDENTIAL_MODE_CURRENT` test of an integration not stored as hardened usually lists none, and a `CREDENTIAL_MODE_HARDENED` response with no paths means nothing in this integration was hardened. Empty where the hardened flow is switched off. Unset for asynchronous tests. Derived from the integration's task types before the run: it reports presence in the graph, not execution, so a task on a branch that did not run is still counted, as is a Call Integration task that runs as a configured service account. A sub-integration's own tasks are not included; each runs under its own stored disposition. Integration Connectors tasks and Cloud Scheduler triggers are never reported: the services they call do not yet accept the hardened credential. */
+  hardenedPaths?:
+    | GoogleCloudIntegrationsV1alphaTestIntegrationsResponseHardenedPathsItemEnumList
+    | undefined;
+  /** The id of the execution corresponding to this run of integration. */
+  executionId?: string | undefined;
+  /** Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
+  parameterEntries?: EnterpriseCrmFrontendsEventbusProtoParameterEntryList | undefined;
+  /** Is true if any execution in the integration failed. False otherwise. */
+  executionFailed?: boolean | undefined;
+  /** Optional. Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution. */
+  parameters?: GoogleCloudIntegrationsV1alphaValueTypeMap | undefined;
 }
 export interface TestProjectsLocationsIntegrationsVersionsRequest extends GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
@@ -5200,13 +5200,13 @@ export type GoogleCloudIntegrationsV1alphaUploadTemplateRequestFileFormatEnum =
   | "WORKFLOW_TEXTPROTO";
 /** Request for UploadTemplate. */
 export interface GoogleCloudIntegrationsV1alphaUploadTemplateRequest {
-  /** Required. The textproto of the template. */
-  content?: string | undefined;
   /** Required. File format for upload request. */
   fileFormat?:
     | GoogleCloudIntegrationsV1alphaUploadTemplateRequestFileFormatEnum
     | (string & {})
     | undefined;
+  /** Required. The textproto of the template. */
+  content?: string | undefined;
 }
 export interface UploadProjectsLocationsTemplatesRequest extends GoogleCloudIntegrationsV1alphaUploadTemplateRequest {
   /** Required. The template to upload. Format: projects/{project}/locations/{location} */
@@ -5219,13 +5219,13 @@ export interface GoogleCloudIntegrationsV1alphaUploadTemplateResponse {
 }
 /** Request to Use template */
 export interface GoogleCloudIntegrationsV1alphaUseTemplateRequest {
-  /** Optional. Sub Integration which would be created via templates. */
-  subIntegrations?:
-    | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap
-    | undefined;
   /** Required. Integration details which would be created via templates. */
   integrationDetails?:
     | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails
+    | undefined;
+  /** Optional. Sub Integration which would be created via templates. */
+  subIntegrations?:
+    | GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetailsMap
     | undefined;
   /** Required. The region of the Integration to be created. */
   integrationRegion?: string | undefined;
@@ -5255,13 +5255,13 @@ export const cancelProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2881,
-    __c90,
+    2913,
+    __c91,
     1,
   ) as any as S.Schema<CancelProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    2882,
-    __c90,
+    2914,
+    __c91,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCancelExecutionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -5285,10 +5285,10 @@ export const changeConfigProjectsLocationsClients: API.OperationMethod<
   ChangeConfigProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3329, __c104, 1) as any as S.Schema<ChangeConfigProjectsLocationsClientsRequest>,
+  input: __S(3361, __c105, 1) as any as S.Schema<ChangeConfigProjectsLocationsClientsRequest>,
   output: __S(
-    3330,
-    __c104,
+    3362,
+    __c105,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -5312,10 +5312,10 @@ export const createProjectsLocationsAppsScriptProjects: API.OperationMethod<
   CreateProjectsLocationsAppsScriptProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3777, __c118, 1) as any as S.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>,
+  input: __S(3809, __c119, 1) as any as S.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>,
   output: __S(
-    3778,
-    __c118,
+    3810,
+    __c119,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -5339,8 +5339,8 @@ export const createProjectsLocationsAuthConfigs: API.OperationMethod<
   CreateProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<CreateProjectsLocationsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(4256, __c133, 0) as any as S.Schema<CreateProjectsLocationsAuthConfigsRequest>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5362,8 +5362,8 @@ export const createProjectsLocationsCertificates: API.OperationMethod<
   CreateProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<CreateProjectsLocationsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(4992, __c156, 0) as any as S.Schema<CreateProjectsLocationsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5385,10 +5385,10 @@ export const createProjectsLocationsCloudFunctions: API.OperationMethod<
   CreateProjectsLocationsCloudFunctionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<CreateProjectsLocationsCloudFunctionsRequest>,
+  input: __S(5440, __c170, 0) as any as S.Schema<CreateProjectsLocationsCloudFunctionsRequest>,
   output: __S(
-    5441,
-    __c170,
+    5473,
+    __c171,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -5413,7 +5413,7 @@ export const createProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5463,7 +5463,7 @@ export const createProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5485,8 +5485,8 @@ export const createProjectsLocationsProductsCertificates: API.OperationMethod<
   CreateProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(1728, __c54, 0) as any as S.Schema<CreateProjectsLocationsProductsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5509,13 +5509,13 @@ export const createProjectsLocationsProductsCloudFunctions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsCloudFunctionsRequest>,
   output: __S(
-    5441,
-    __c170,
+    5473,
+    __c171,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -5540,11 +5540,11 @@ export const createProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1856,
-    __c58,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5567,11 +5567,11 @@ export const createProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1888,
-    __c59,
+    1920,
+    __c60,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5594,11 +5594,11 @@ export const createProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c61,
+    1984,
+    __c62,
     0,
   ) as any as S.Schema<CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5620,8 +5620,8 @@ export const createProjectsLocationsSfdcInstances: API.OperationMethod<
   CreateProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(2048, __c64, 0) as any as S.Schema<CreateProjectsLocationsSfdcInstancesRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5644,11 +5644,11 @@ export const createProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2048,
-    __c64,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5670,8 +5670,8 @@ export const createProjectsLocationsTemplates: API.OperationMethod<
   CreateProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>,
-  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>,
+  output: __S(2181, __c68, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5693,8 +5693,8 @@ export const deleteProjectsLocationsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsAuthConfigsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteProjectsLocationsAuthConfigsRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5716,8 +5716,8 @@ export const deleteProjectsLocationsCertificates: API.OperationMethod<
   DeleteProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsCertificatesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsCertificatesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5739,8 +5739,8 @@ export const deleteProjectsLocationsIntegrations: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5762,8 +5762,8 @@ export const deleteProjectsLocationsIntegrationsVersions: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5786,11 +5786,11 @@ export const deleteProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2336,
-    __c73,
+    2368,
+    __c74,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5812,8 +5812,8 @@ export const deleteProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5835,8 +5835,8 @@ export const deleteProjectsLocationsProductsCertificates: API.OperationMethod<
   DeleteProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsProductsCertificatesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeleteProjectsLocationsProductsCertificatesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5859,11 +5859,11 @@ export const deleteProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5886,11 +5886,11 @@ export const deleteProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5913,11 +5913,11 @@ export const deleteProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5939,8 +5939,8 @@ export const deleteProjectsLocationsSfdcInstances: API.OperationMethod<
   DeleteProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5963,11 +5963,11 @@ export const deleteProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2592,
+    __c81,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5989,8 +5989,8 @@ export const deleteProjectsLocationsTemplates: API.OperationMethod<
   DeleteProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteProjectsLocationsTemplatesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteProjectsLocationsTemplatesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6012,8 +6012,8 @@ export const deprovisionProjectsLocationsClients: API.OperationMethod<
   DeprovisionProjectsLocationsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DeprovisionProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(2656, __c83, 0) as any as S.Schema<DeprovisionProjectsLocationsClientsRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6034,13 +6034,13 @@ export const downloadJsonPackageProjectsLocationsIntegrationsVersions: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2659,
-    __c83,
+    2691,
+    __c84,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse>,
   errors: [NotFound, Forbidden],
@@ -6063,13 +6063,13 @@ export const downloadProjectsLocationsIntegrationsExecutions: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    2720,
-    __c85,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadExecutionResponse>,
   errors: [NotFound, Forbidden],
@@ -6089,13 +6089,13 @@ export const downloadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2786,
-    __c87,
+    2818,
+    __c88,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden],
@@ -6118,13 +6118,13 @@ export const downloadProjectsLocationsIntegrationsVersionsTestCases: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    2720,
-    __c85,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse>,
   errors: [NotFound, Forbidden],
@@ -6147,13 +6147,13 @@ export const downloadProjectsLocationsProductsIntegrationsExecutions: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2848,
-    __c89,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsProductsIntegrationsExecutionsRequest>,
   output: __S(
-    2720,
-    __c85,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadExecutionResponse>,
   errors: [NotFound, Forbidden],
@@ -6176,13 +6176,13 @@ export const downloadProjectsLocationsProductsIntegrationsVersions: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<DownloadProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    2786,
-    __c87,
+    2818,
+    __c88,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse>,
   errors: [NotFound, Forbidden],
@@ -6201,10 +6201,10 @@ export const downloadProjectsLocationsTemplates: API.OperationMethod<
   DownloadProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<DownloadProjectsLocationsTemplatesRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DownloadProjectsLocationsTemplatesRequest>,
   output: __S(
-    2720,
-    __c85,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaDownloadTemplateResponse>,
   errors: [NotFound, Forbidden],
@@ -6223,10 +6223,10 @@ export const enumerateConnectorPlatformRegions: API.OperationMethod<
   EnumerateConnectorPlatformRegionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<EnumerateConnectorPlatformRegionsRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<EnumerateConnectorPlatformRegionsRequest>,
   output: __S(
-    2977,
-    __c93,
+    3009,
+    __c94,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse>,
   errors: [NotFound, Forbidden],
@@ -6250,10 +6250,10 @@ export const executeEventProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteEventProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>,
   output: __S(
-    3009,
-    __c94,
+    3041,
+    __c95,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteEventResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6277,10 +6277,10 @@ export const executeProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ExecuteProjectsLocationsIntegrationsRequest>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ExecuteProjectsLocationsIntegrationsRequest>,
   output: __S(
-    3073,
-    __c96,
+    3105,
+    __c97,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6305,13 +6305,13 @@ export const executeProjectsLocationsIntegrationsVersionsTestCases: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    3138,
-    __c98,
+    3170,
+    __c99,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6336,13 +6336,13 @@ export const executeProjectsLocationsProductsIntegrations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<ExecuteProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    3073,
-    __c96,
+    3105,
+    __c97,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6367,13 +6367,13 @@ export const executeTestProjectsLocationsIntegrationsVersionsTestCases: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3233,
-    __c101,
+    3265,
+    __c102,
     1,
   ) as any as S.Schema<ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    3170,
-    __c99,
+    3202,
+    __c100,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6397,10 +6397,10 @@ export const generateOpenApiSpecProjectsLocations: API.OperationMethod<
   GenerateOpenApiSpecProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3267, __c102, 3) as any as S.Schema<GenerateOpenApiSpecProjectsLocationsRequest>,
+  input: __S(3299, __c103, 3) as any as S.Schema<GenerateOpenApiSpecProjectsLocationsRequest>,
   output: __S(
-    3268,
-    __c102,
+    3300,
+    __c103,
     4,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6419,10 +6419,10 @@ export const generateTokenCallback: API.OperationMethod<
   GenerateTokenCallbackError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GenerateTokenCallbackRequest>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GenerateTokenCallbackRequest>,
   output: __S(
-    3297,
-    __c103,
+    3329,
+    __c104,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGenerateTokenResponse>,
   errors: [NotFound, Forbidden],
@@ -6441,10 +6441,10 @@ export const getClientmetadataProjects: API.OperationMethod<
   GetClientmetadataProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetClientmetadataProjectsRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetClientmetadataProjectsRequest>,
   output: __S(
-    3426,
-    __c107,
+    3458,
+    __c108,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientMetadataResponse>,
   errors: [NotFound, Forbidden],
@@ -6463,8 +6463,8 @@ export const getClientsProjectsLocations: API.OperationMethod<
   GetClientsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetClientsProjectsLocationsRequest>,
-  output: __S(3458, __c108, 2) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetClientsProjectsLocationsRequest>,
+  output: __S(3490, __c109, 2) as any as S.Schema<GoogleCloudIntegrationsV1alphaGetClientResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6485,13 +6485,13 @@ export const getConnectionSchemaMetadataProjectsLocationsConnections: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3488,
-    __c109,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest>,
   output: __S(
-    3489,
-    __c109,
+    3521,
+    __c110,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata>,
   errors: [NotFound, Forbidden],
@@ -6510,8 +6510,8 @@ export const getProjectsLocationsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetProjectsLocationsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetProjectsLocationsAuthConfigsRequest>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6528,8 +6528,8 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   GetProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetProjectsLocationsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6546,8 +6546,8 @@ export const getProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GetProjectsLocationsIntegrationsExecutionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>,
-  output: __S(3636, __c113, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>,
+  output: __S(3668, __c114, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6564,8 +6564,8 @@ export const getProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GetProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsRequest>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6586,8 +6586,8 @@ export const getProjectsLocationsIntegrationsVersionsTestCases: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3680,
-    __c115,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<GetProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
@@ -6607,8 +6607,8 @@ export const getProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6625,8 +6625,8 @@ export const getProjectsLocationsProductsCertificates: API.OperationMethod<
   GetProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetProjectsLocationsProductsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6647,11 +6647,11 @@ export const getProjectsLocationsProductsIntegrationsExecutions: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3840,
+    __c120,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsIntegrationsExecutionsRequest>,
-  output: __S(3636, __c113, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
+  output: __S(3668, __c114, 20) as any as S.Schema<GoogleCloudIntegrationsV1alphaExecution>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6672,11 +6672,11 @@ export const getProjectsLocationsProductsIntegrationsVersions: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c120,
+    3872,
+    __c121,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6693,8 +6693,8 @@ export const getProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsProductsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6715,11 +6715,11 @@ export const getProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3904,
-    __c122,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6736,8 +6736,8 @@ export const getProjectsLocationsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsSfdcInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetProjectsLocationsSfdcInstancesRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6755,11 +6755,11 @@ export const getProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<GetProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6776,8 +6776,8 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   GetProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
-  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
+  output: __S(2181, __c68, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6799,7 +6799,7 @@ export const importProjectsLocationsTemplates: API.OperationMethod<
   ImportProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4033, __c126, 1) as any as S.Schema<ImportProjectsLocationsTemplatesRequest>,
+  input: __S(4065, __c127, 1) as any as S.Schema<ImportProjectsLocationsTemplatesRequest>,
   output: __S(
     4066,
     __c127,
@@ -6827,13 +6827,13 @@ export const liftProjectsLocationsIntegrationsExecutionsSuspensions: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4128,
-    __c129,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4161,
-    __c130,
+    4193,
+    __c131,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6858,13 +6858,13 @@ export const liftProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4192,
-    __c131,
+    4224,
+    __c132,
     0,
   ) as any as S.Schema<LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4161,
-    __c130,
+    4193,
+    __c131,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6888,10 +6888,10 @@ export const linkProjectsLocationsAppsScriptProjects: API.OperationMethod<
   LinkProjectsLocationsAppsScriptProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4385, __c137, 1) as any as S.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>,
+  input: __S(4417, __c138, 1) as any as S.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>,
   output: __S(
-    4384,
-    __c137,
+    4416,
+    __c138,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -6911,10 +6911,10 @@ export const listProjectsLocationsAuthConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsAuthConfigsRequest>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListProjectsLocationsAuthConfigsRequest>,
   output: __S(
-    4449,
-    __c139,
+    4481,
+    __c140,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListAuthConfigsResponse>,
   errors: [NotFound, Forbidden],
@@ -6935,10 +6935,10 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListCertificatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListProjectsLocationsCertificatesRequest>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsCertificatesRequest>,
   output: __S(
-    4513,
-    __c141,
+    4545,
+    __c142,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListCertificatesResponse>,
   errors: [NotFound, Forbidden],
@@ -6959,10 +6959,10 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsConnectionsRequest>,
   output: __S(
-    4586,
-    __c143,
+    4618,
+    __c144,
     10,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListConnectionsResponse>,
   errors: [NotFound, Forbidden],
@@ -6987,13 +6987,13 @@ export const listProjectsLocationsConnectionsRuntimeActionSchemas: API.Paginated
   GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4608,
-    __c144,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeActionSchemasRequest>,
   output: __S(
-    4611,
-    __c144,
+    4643,
+    __c145,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse>,
   errors: [NotFound, Forbidden],
@@ -7018,13 +7018,13 @@ export const listProjectsLocationsConnectionsRuntimeEntitySchemas: API.Paginated
   GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4640,
-    __c145,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest>,
   output: __S(
-    4643,
-    __c145,
+    4675,
+    __c146,
     3,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse>,
   errors: [NotFound, Forbidden],
@@ -7045,10 +7045,10 @@ export const listProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListProjectsLocationsIntegrationsRequest>,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListProjectsLocationsIntegrationsRequest>,
   output: __S(
-    4706,
-    __c147,
+    4738,
+    __c148,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationsResponse>,
   errors: [NotFound, Forbidden],
@@ -7070,14 +7070,14 @@ export const listProjectsLocationsIntegrationsExecutions: API.PaginatedOperation
   GoogleCloudIntegrationsV1alphaListExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4736,
-    __c148,
+    4768,
+    __c149,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsExecutionsRequest>,
   output: __S(
-    4778,
-    __c149,
-    10,
+    4811,
+    __c150,
+    11,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListExecutionsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -7101,13 +7101,13 @@ export const listProjectsLocationsIntegrationsExecutionsSuspensions: API.Paginat
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4800,
-    __c150,
+    4832,
+    __c151,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4833,
-    __c151,
+    4865,
+    __c152,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSuspensionsResponse>,
   errors: [NotFound, Forbidden],
@@ -7128,10 +7128,10 @@ export const listProjectsLocationsIntegrationsVersions: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsRequest>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse>,
   errors: [NotFound, Forbidden],
@@ -7156,13 +7156,13 @@ export const listProjectsLocationsIntegrationsVersionsTestCases: API.PaginatedOp
   GoogleCloudIntegrationsV1alphaListTestCasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5024,
-    __c157,
+    5056,
+    __c158,
     0,
   ) as any as S.Schema<ListProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(
-    5026,
-    __c157,
+    5058,
+    __c158,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListTestCasesResponse>,
   errors: [NotFound, Forbidden],
@@ -7183,10 +7183,10 @@ export const listProjectsLocationsProductsAuthConfigs: API.PaginatedOperationMet
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListProjectsLocationsProductsAuthConfigsRequest>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ListProjectsLocationsProductsAuthConfigsRequest>,
   output: __S(
-    4449,
-    __c139,
+    4481,
+    __c140,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListAuthConfigsResponse>,
   errors: [NotFound, Forbidden],
@@ -7207,10 +7207,10 @@ export const listProjectsLocationsProductsCertificates: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListCertificatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListProjectsLocationsProductsCertificatesRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ListProjectsLocationsProductsCertificatesRequest>,
   output: __S(
-    4513,
-    __c141,
+    4545,
+    __c142,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListCertificatesResponse>,
   errors: [NotFound, Forbidden],
@@ -7231,10 +7231,10 @@ export const listProjectsLocationsProductsIntegrations: API.PaginatedOperationMe
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListProjectsLocationsProductsIntegrationsRequest>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListProjectsLocationsProductsIntegrationsRequest>,
   output: __S(
-    4706,
-    __c147,
+    4738,
+    __c148,
     2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationsResponse>,
   errors: [NotFound, Forbidden],
@@ -7259,14 +7259,14 @@ export const listProjectsLocationsProductsIntegrationsExecutions: API.PaginatedO
   GoogleCloudIntegrationsV1alphaListExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5152,
-    __c161,
+    5184,
+    __c162,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsExecutionsRequest>,
   output: __S(
-    4778,
-    __c149,
-    10,
+    4811,
+    __c150,
+    11,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListExecutionsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
@@ -7290,13 +7290,13 @@ export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5184,
-    __c162,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    4833,
-    __c151,
+    4865,
+    __c152,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSuspensionsResponse>,
   errors: [NotFound, Forbidden],
@@ -7321,13 +7321,13 @@ export const listProjectsLocationsProductsIntegrationsVersions: API.PaginatedOpe
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5216,
-    __c163,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse>,
   errors: [NotFound, Forbidden],
@@ -7348,10 +7348,10 @@ export const listProjectsLocationsProductsSfdcInstances: API.PaginatedOperationM
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>,
   output: __S(
-    5281,
-    __c165,
+    5313,
+    __c166,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse>,
   errors: [NotFound, Forbidden],
@@ -7376,13 +7376,13 @@ export const listProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Paginat
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5312,
-    __c166,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
   output: __S(
-    5345,
-    __c167,
+    5377,
+    __c168,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse>,
   errors: [NotFound, Forbidden],
@@ -7403,10 +7403,10 @@ export const listProjectsLocationsSfdcInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListProjectsLocationsSfdcInstancesRequest>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListProjectsLocationsSfdcInstancesRequest>,
   output: __S(
-    5281,
-    __c165,
+    5313,
+    __c166,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse>,
   errors: [NotFound, Forbidden],
@@ -7428,13 +7428,13 @@ export const listProjectsLocationsSfdcInstancesSfdcChannels: API.PaginatedOperat
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    5472,
-    __c171,
+    5504,
+    __c172,
     0,
   ) as any as S.Schema<ListProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
   output: __S(
-    5345,
-    __c167,
+    5377,
+    __c168,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse>,
   errors: [NotFound, Forbidden],
@@ -7455,10 +7455,10 @@ export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudIntegrationsV1alphaListTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<ListProjectsLocationsTemplatesRequest>,
+  input: __S(5536, __c173, 0) as any as S.Schema<ListProjectsLocationsTemplatesRequest>,
   output: __S(
-    5537,
-    __c173,
+    5569,
+    __c174,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaListTemplatesResponse>,
   errors: [NotFound, Forbidden],
@@ -7483,8 +7483,8 @@ export const patchProjectsLocationsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<PatchProjectsLocationsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(5600, __c175, 0) as any as S.Schema<PatchProjectsLocationsAuthConfigsRequest>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7506,8 +7506,8 @@ export const patchProjectsLocationsCertificates: API.OperationMethod<
   PatchProjectsLocationsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<PatchProjectsLocationsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(5632, __c176, 0) as any as S.Schema<PatchProjectsLocationsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7529,8 +7529,8 @@ export const patchProjectsLocationsIntegrationsVersions: API.OperationMethod<
   PatchProjectsLocationsIntegrationsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  input: __S(5664, __c177, 0) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7553,8 +7553,8 @@ export const patchProjectsLocationsIntegrationsVersionsTestCases: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c177,
+    5696,
+    __c178,
     0,
   ) as any as S.Schema<PatchProjectsLocationsIntegrationsVersionsTestCasesRequest>,
   output: __S(805, __c25, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTestCase>,
@@ -7579,8 +7579,8 @@ export const patchProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsProductsAuthConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>,
-  output: __S(4366, __c136, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
+  input: __S(5728, __c179, 0) as any as S.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>,
+  output: __S(4398, __c137, 14) as any as S.Schema<GoogleCloudIntegrationsV1alphaAuthConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7602,8 +7602,8 @@ export const patchProjectsLocationsProductsCertificates: API.OperationMethod<
   PatchProjectsLocationsProductsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<PatchProjectsLocationsProductsCertificatesRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
+  input: __S(5760, __c180, 0) as any as S.Schema<PatchProjectsLocationsProductsCertificatesRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GoogleCloudIntegrationsV1alphaCertificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7626,11 +7626,11 @@ export const patchProjectsLocationsProductsIntegrationsVersions: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5760,
-    __c180,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(383, __c11, 31) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
+  output: __S(382, __c11, 30) as any as S.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7653,11 +7653,11 @@ export const patchProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c181,
+    5824,
+    __c182,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7684,7 +7684,7 @@ export const patchProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operat
     __c12,
     0,
   ) as any as S.Schema<PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7707,7 +7707,7 @@ export const patchProjectsLocationsSfdcInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<PatchProjectsLocationsSfdcInstancesRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
+  output: __S(1952, __c61, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7734,7 +7734,7 @@ export const patchProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMetho
     __c14,
     0,
   ) as any as S.Schema<PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7757,7 +7757,7 @@ export const patchProjectsLocationsTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<PatchProjectsLocationsTemplatesRequest>,
-  output: __S(2149, __c67, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
+  output: __S(2181, __c68, 5) as any as S.Schema<GoogleCloudIntegrationsV1alphaTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7785,8 +7785,8 @@ export const provisionClientPostProcessorProjectsLocationsClients: API.Operation
     1,
   ) as any as S.Schema<ProvisionClientPostProcessorProjectsLocationsClientsRequest>,
   output: __S(
-    2208,
-    __c69,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -7811,7 +7811,7 @@ export const provisionProjectsLocationsClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(545, __c17, 1) as any as S.Schema<ProvisionProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7835,8 +7835,8 @@ export const publishProjectsLocationsIntegrationsVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<PublishProjectsLocationsIntegrationsVersionsRequest>,
   output: __S(
-    2208,
-    __c69,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -7866,8 +7866,8 @@ export const publishProjectsLocationsProductsIntegrationsVersions: API.Operation
     0,
   ) as any as S.Schema<PublishProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
-    2208,
-    __c69,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -7892,7 +7892,7 @@ export const replaceProjectsLocationsClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c21, 1) as any as S.Schema<ReplaceProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7951,8 +7951,8 @@ export const resolveProjectsLocationsIntegrationsExecutionsSuspensions: API.Oper
     0,
   ) as any as S.Schema<ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    2208,
-    __c69,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -7982,8 +7982,8 @@ export const resolveProjectsLocationsProductsIntegrationsExecutionsSuspensions: 
     0,
   ) as any as S.Schema<ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest>,
   output: __S(
-    2208,
-    __c69,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -8087,8 +8087,8 @@ export const searchProjectsLocationsTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<SearchProjectsLocationsTemplatesRequest>,
   output: __S(
-    5537,
-    __c173,
+    5569,
+    __c174,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaSearchTemplatesResponse>,
   errors: [NotFound, Forbidden],
@@ -8114,7 +8114,7 @@ export const shareProjectsLocationsTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ShareProjectsLocationsTemplatesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8137,7 +8137,7 @@ export const switchProjectsLocationsClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c36, 1) as any as S.Schema<SwitchProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8164,7 +8164,7 @@ export const switchVariableMaskingProjectsLocationsClients: API.OperationMethod<
     __c37,
     1,
   ) as any as S.Schema<SwitchVariableMaskingProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8326,7 +8326,7 @@ export const toggleHttpProjectsLocationsClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1473, __c46, 1) as any as S.Schema<ToggleHttpProjectsLocationsClientsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8353,7 +8353,7 @@ export const unpublishProjectsLocationsIntegrationsVersions: API.OperationMethod
     __c47,
     0,
   ) as any as S.Schema<UnpublishProjectsLocationsIntegrationsVersionsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8380,7 +8380,7 @@ export const unpublishProjectsLocationsProductsIntegrationsVersions: API.Operati
     __c48,
     0,
   ) as any as S.Schema<UnpublishProjectsLocationsProductsIntegrationsVersionsRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8403,7 +8403,7 @@ export const unshareProjectsLocationsTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<UnshareProjectsLocationsTemplatesRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(2240, __c70, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8453,14 +8453,14 @@ export const uploadProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
+    1664,
+    __c52,
+    0,
+  ) as any as S.Schema<UploadProjectsLocationsIntegrationsVersionsTestCasesRequest>,
+  output: __S(
     1665,
     __c52,
     1,
-  ) as any as S.Schema<UploadProjectsLocationsIntegrationsVersionsTestCasesRequest>,
-  output: __S(
-    1666,
-    __c52,
-    2,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadTestCaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -8484,8 +8484,8 @@ export const uploadProjectsLocationsProductsIntegrationsVersions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<UploadProjectsLocationsProductsIntegrationsVersionsRequest>,
   output: __S(
@@ -8514,10 +8514,10 @@ export const uploadProjectsLocationsTemplates: API.OperationMethod<
   UploadProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UploadProjectsLocationsTemplatesRequest>,
+  input: __S(1792, __c56, 0) as any as S.Schema<UploadProjectsLocationsTemplatesRequest>,
   output: __S(
-    1761,
-    __c55,
+    1793,
+    __c56,
     1,
   ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUploadTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
@@ -8541,12 +8541,8 @@ export const useProjectsLocationsTemplates: API.OperationMethod<
   UseProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1793, __c56, 1) as any as S.Schema<UseProjectsLocationsTemplatesRequest>,
-  output: __S(
-    4066,
-    __c127,
-    2,
-  ) as any as S.Schema<GoogleCloudIntegrationsV1alphaUseTemplateResponse>,
+  input: __S(1825, __c57, 1) as any as S.Schema<UseProjectsLocationsTemplatesRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<GoogleCloudIntegrationsV1alphaUseTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8561,7 +8557,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(383, __c11, 31),
+          __S(382, __c11, 30),
           S.Struct({
             newIntegration: S.optional(S.Boolean.pipe(T.Query())),
             createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
@@ -8582,9 +8578,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
+          value: S.optional(__S(4352, __c136, 0)),
           masked: S.optional(S.Boolean),
-          value: S.optional(__S(4320, __c135, 0)),
+          key: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaEventParameter" });
   }
@@ -8600,149 +8596,147 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputOutputType: S.optional(S.String),
-          displayName: S.optional(S.String),
-          isTransient: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          jsonSchema: S.optional(S.String),
-          description: S.optional(S.String),
-          key: S.optional(S.String),
-          searchable: S.optional(S.Boolean),
-          containsLargeData: S.optional(S.Boolean),
-          defaultValue: S.optional(__S(4320, __c135, 0)),
-          producer: S.optional(S.String),
-          masked: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationParameter" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           finalState: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuccessPolicy" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           x: S.optional(S.Number),
           y: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoCoordinate" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          taskConfigId: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          condition: S.optional(S.String),
-          taskId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaNextTask" });
-    case 4:
-      return S.Array(__S(99, __c3, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          cronTab: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCloudSchedulerConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          names: S.optional(__S(4256, __c133, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTriggerConfigVariables" });
-    case 7:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           absolute: S.optional(S.String),
           percentage: S.optional(S.Number),
         }),
-      ).annotate({
-        identifier: "GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue",
-      });
-    case 8:
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregationPeriod: S.optional(S.String),
-          thresholdType: S.optional(S.String),
-          displayName: S.optional(S.String),
-          metricType: S.optional(S.String),
-          disableAlert: S.optional(S.Boolean),
-          durationThreshold: S.optional(S.String),
-          alertThreshold: S.optional(S.Number),
-          onlyFinalAttempt: S.optional(S.Boolean),
-          thresholdValue: S.optional(__S(103, __c3, 7)),
+          names: S.optional(__S(4288, __c134, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationAlertConfig" });
-    case 9:
-      return S.Array(__S(104, __c3, 8));
-    case 10:
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          triggerId: S.optional(S.String),
-          cloudSchedulerConfig: S.optional(__S(101, __c3, 5)),
-          trigger: S.optional(S.String),
-          outputVariables: S.optional(__S(102, __c3, 6)),
-          alertConfig: S.optional(__S(105, __c3, 9)),
-          triggerNumber: S.optional(S.String),
-          triggerType: S.optional(S.String),
-          label: S.optional(S.String),
+          masked: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          searchable: S.optional(S.Boolean),
+          isTransient: S.optional(S.Boolean),
+          producer: S.optional(S.String),
+          jsonSchema: S.optional(S.String),
+          containsLargeData: S.optional(S.Boolean),
           description: S.optional(S.String),
-          nextTasksExecutionPolicy: S.optional(S.String),
-          startTasks: S.optional(__S(100, __c3, 4)),
-          properties: S.optional(__S(64, __c2, 0)),
-          position: S.optional(__S(98, __c3, 2)),
-          errorCatcherId: S.optional(S.String),
-          inputVariables: S.optional(__S(102, __c3, 6)),
+          inputOutputType: S.optional(S.String),
+          key: S.optional(S.String),
+          defaultValue: S.optional(__S(4352, __c136, 0)),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTriggerConfig" });
-    case 11:
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationParameter" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           intervalTime: S.optional(S.String),
-          condition: S.optional(S.String),
           retryStrategy: S.optional(S.String),
+          condition: S.optional(S.String),
           maxRetries: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaFailurePolicy" });
+    case 6:
+      return S.Array(__S(101, __c3, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          failurePolicies: S.optional(__S(102, __c3, 6)),
+          defaultFailurePolicy: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaConditionalFailurePolicies" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          taskConfigId: S.optional(S.String),
+          description: S.optional(S.String),
+          condition: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaNextTask" });
+    case 9:
+      return S.Array(__S(104, __c3, 8));
+    case 10:
+      return S.Record(S.String, __S(32, __c1, 0));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          synchronousCallFailurePolicy: S.optional(__S(101, __c3, 5)),
+          errorCatcherId: S.optional(S.String),
+          conditionalFailurePolicies: S.optional(__S(103, __c3, 7)),
+          successPolicy: S.optional(__S(96, __c3, 0)),
+          jsonValidationOption: S.optional(S.String),
+          taskId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          taskTemplate: S.optional(S.String),
+          nextTasksExecutionPolicy: S.optional(S.String),
+          position: S.optional(__S(97, __c3, 1)),
+          failurePolicy: S.optional(__S(101, __c3, 5)),
+          nextTasks: S.optional(__S(105, __c3, 9)),
+          parameters: S.optional(__S(106, __c3, 10)),
+          taskExecutionStrategy: S.optional(S.String),
+          task: S.optional(S.String),
+          externalTaskType: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskConfig" });
     case 12:
-      return S.Array(__S(107, __c3, 11));
+      return S.Array(__S(100, __c3, 4));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          defaultFailurePolicy: S.optional(__S(107, __c3, 11)),
-          failurePolicies: S.optional(__S(108, __c3, 12)),
+          thresholdType: S.optional(S.String),
+          displayName: S.optional(S.String),
+          thresholdValue: S.optional(__S(98, __c3, 2)),
+          disableAlert: S.optional(S.Boolean),
+          aggregationPeriod: S.optional(S.String),
+          onlyFinalAttempt: S.optional(S.Boolean),
+          durationThreshold: S.optional(S.String),
+          metricType: S.optional(S.String),
+          alertThreshold: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaConditionalFailurePolicies" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationAlertConfig" });
     case 14:
-      return S.Record(S.String, __S(32, __c1, 0));
+      return S.Array(__S(109, __c3, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          nextTasksExecutionPolicy: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          nextTasks: S.optional(__S(100, __c3, 4)),
-          conditionalFailurePolicies: S.optional(__S(109, __c3, 13)),
-          successPolicy: S.optional(__S(97, __c3, 1)),
-          parameters: S.optional(__S(110, __c3, 14)),
-          position: S.optional(__S(98, __c3, 2)),
-          jsonValidationOption: S.optional(S.String),
-          failurePolicy: S.optional(__S(107, __c3, 11)),
-          task: S.optional(S.String),
-          synchronousCallFailurePolicy: S.optional(__S(107, __c3, 11)),
-          taskExecutionStrategy: S.optional(S.String),
-          taskTemplate: S.optional(S.String),
-          errorCatcherId: S.optional(S.String),
-          taskId: S.optional(S.String),
-          externalTaskType: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
+          cronTab: S.optional(S.String),
+          location: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskConfig" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCloudSchedulerConfig" });
     case 16:
-      return S.Array(__S(96, __c3, 0));
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(64, __c2, 0)),
+          errorCatcherId: S.optional(S.String),
+          startTasks: S.optional(__S(105, __c3, 9)),
+          trigger: S.optional(S.String),
+          nextTasksExecutionPolicy: S.optional(S.String),
+          triggerId: S.optional(S.String),
+          description: S.optional(S.String),
+          inputVariables: S.optional(__S(99, __c3, 3)),
+          alertConfig: S.optional(__S(110, __c3, 14)),
+          label: S.optional(S.String),
+          cloudSchedulerConfig: S.optional(__S(111, __c3, 15)),
+          triggerNumber: S.optional(S.String),
+          outputVariables: S.optional(__S(99, __c3, 3)),
+          position: S.optional(__S(97, __c3, 1)),
+          triggerType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTriggerConfig" });
   }
 }
 function __c4(j: number): any {
@@ -8774,18 +8768,18 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          protoValue: S.optional(__S(128, __c4, 0)),
-          serializedObjectValue: S.optional(__S(160, __c5, 0)),
-          doubleValue: S.optional(S.Number),
-          intArray: S.optional(__S(4289, __c134, 1)),
-          doubleArray: S.optional(__S(4293, __c134, 5)),
-          booleanValue: S.optional(S.Boolean),
-          intValue: S.optional(S.String),
           jsonValue: S.optional(S.String),
-          protoArray: S.optional(__S(162, __c5, 2)),
+          doubleValue: S.optional(S.Number),
+          intValue: S.optional(S.String),
           stringValue: S.optional(S.String),
-          stringArray: S.optional(__S(4288, __c134, 0)),
-          booleanArray: S.optional(__S(4291, __c134, 3)),
+          doubleArray: S.optional(__S(4321, __c135, 1)),
+          booleanArray: S.optional(__S(4323, __c135, 3)),
+          serializedObjectValue: S.optional(__S(160, __c5, 0)),
+          booleanValue: S.optional(S.Boolean),
+          stringArray: S.optional(__S(4324, __c135, 4)),
+          intArray: S.optional(__S(4325, __c135, 5)),
+          protoValue: S.optional(__S(128, __c4, 0)),
+          protoArray: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoParameterValueType" });
     case 1:
@@ -8793,8 +8787,8 @@ function __c6(j: number): any {
         S.Struct({
           dataType: S.optional(S.String),
           key: S.optional(S.String),
-          masked: S.optional(S.Boolean),
           value: S.optional(__S(192, __c6, 0)),
+          masked: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoParameterEntry" });
     case 2:
@@ -8816,25 +8810,25 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stringValue: S.optional(S.String),
-          intArray: S.optional(__S(4289, __c134, 1)),
-          protoValue: S.optional(__S(128, __c4, 0)),
-          serializedObjectValue: S.optional(__S(160, __c5, 0)),
+          booleanValue: S.optional(S.Boolean),
           intValue: S.optional(S.String),
-          booleanArray: S.optional(__S(4291, __c134, 3)),
-          stringArray: S.optional(__S(4288, __c134, 0)),
+          stringValue: S.optional(S.String),
+          doubleArray: S.optional(__S(4321, __c135, 1)),
           protoArray: S.optional(__S(162, __c5, 2)),
           doubleValue: S.optional(S.Number),
-          booleanValue: S.optional(S.Boolean),
-          doubleArray: S.optional(__S(4293, __c134, 5)),
+          protoValue: S.optional(__S(128, __c4, 0)),
+          intArray: S.optional(__S(4325, __c135, 5)),
+          booleanArray: S.optional(__S(4323, __c135, 3)),
+          stringArray: S.optional(__S(4324, __c135, 4)),
+          serializedObjectValue: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoParameterValueType" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(256, __c8, 0)),
-          masked: S.optional(S.Boolean),
           key: S.optional(S.String),
+          masked: S.optional(S.Boolean),
+          value: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoParameterEntry" });
     case 2:
@@ -8852,8 +8846,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudLoggingSeverity: S.optional(S.String),
           enableCloudLogging: S.optional(S.Boolean),
+          cloudLoggingSeverity: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCloudLoggingDetails" });
   }
@@ -8863,543 +8857,536 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameter: S.optional(__S(96, __c3, 0)),
-          value: S.optional(__S(4320, __c135, 0)),
+          googleGroupEmail: S.optional(S.String),
+          userEmail: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationConfigParameter" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskMetadataAdmin" });
     case 1:
       return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          elementType: S.optional(S.String),
-          elementIdentifier: S.optional(S.String),
+          externalDocLink: S.optional(S.String),
+          externalDocHtml: S.optional(S.String),
+          status: S.optional(S.String),
+          codeSearchLink: S.optional(S.String),
+          defaultJsonValidationOption: S.optional(S.String),
+          system: S.optional(S.String),
+          description: S.optional(S.String),
+          externalDocMarkdown: S.optional(S.String),
+          isDeprecated: S.optional(S.Boolean),
+          externalCategorySequence: S.optional(S.Number),
+          iconLink: S.optional(S.String),
+          defaultSpec: S.optional(S.String),
+          admins: S.optional(__S(321, __c10, 1)),
+          externalCategory: S.optional(S.String),
+          descriptiveName: S.optional(S.String),
+          tags: S.optional(__S(4288, __c134, 0)),
+          docMarkdown: S.optional(S.String),
+          activeTaskName: S.optional(S.String),
+          name: S.optional(S.String),
+          g3DocLink: S.optional(S.String),
+          category: S.optional(S.String),
+          standaloneExternalDocHtml: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNodeIdentifier" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskMetadata" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(4292, __c134, 4)),
+          triggerId: S.optional(S.String),
+          workflowId: S.optional(S.String),
+          taskNumber: S.optional(S.String),
+          clientId: S.optional(S.String),
+          errorEnumString: S.optional(S.String),
+          workflowName: S.optional(S.String),
+          enumFilterType: S.optional(S.String),
+          retryAttempt: S.optional(S.String),
+          taskName: S.optional(S.String),
+          warningEnumString: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoDoubleArray" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusStatsDimensions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(4256, __c133, 0)),
+          qps: S.optional(S.Number),
+          warningRate: S.optional(S.Number),
+          errorRate: S.optional(S.Number),
+          dimensions: S.optional(__S(323, __c10, 3)),
+          durationInSeconds: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoStringArray" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusStats" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          protoValue: S.optional(__S(128, __c4, 0)),
-          booleanValue: S.optional(S.Boolean),
-          stringValue: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          doubleArray: S.optional(__S(323, __c10, 3)),
-          intValue: S.optional(S.String),
-          stringArray: S.optional(__S(324, __c10, 4)),
-          intArray: S.optional(__S(324, __c10, 4)),
+          label: S.optional(S.String),
+          uiPlaceholderText: S.optional(S.String),
+          parameterNameOption: S.optional(S.String),
+          descriptivePhrase: S.optional(S.String),
+          hideDefaultValue: S.optional(S.Boolean),
+          subSectionLabel: S.optional(S.String),
+          inputDisplayOption: S.optional(S.String),
+          isHidden: S.optional(S.Boolean),
+          helpText: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoValueType" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          seedScope: S.optional(S.String),
-          logFieldName: S.optional(S.String),
-          seedPeriod: S.optional(S.String),
+          fullName: S.optional(S.String),
+          path: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoLogSettings" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          taskVisibility: S.optional(__S(4256, __c133, 0)),
-          dataType: S.optional(S.String),
-          readOnly: S.optional(S.Boolean),
-          isRequired: S.optional(S.Boolean),
-          masked: S.optional(S.Boolean),
-          searchable: S.optional(S.String),
-          defaultValue: S.optional(__S(325, __c10, 5)),
-          logSettings: S.optional(__S(326, __c10, 6)),
-          isSearchable: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoAttributes" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          protoDefName: S.optional(S.String),
-          isTransient: S.optional(S.Boolean),
-          jsonSchema: S.optional(S.String),
-          required: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          defaultValue: S.optional(__S(192, __c6, 0)),
-          description: S.optional(S.String),
-          children: S.optional(S.suspend(() => __S(329, __c10, 9))),
-          producer: S.optional(S.String),
-          containsLargeData: S.optional(S.Boolean),
-          inOutType: S.optional(S.String),
-          producedBy: S.optional(__S(322, __c10, 2)),
-          attributes: S.optional(__S(327, __c10, 7)),
-          key: S.optional(S.String),
-          protoDefPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry" });
-    case 9:
-      return S.Array(__S(328, __c10, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(329, __c10, 9)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoWorkflowParameters" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          eventPropertyKey: S.optional(S.String),
-          operator: S.optional(S.String),
-          value: S.optional(__S(325, __c10, 5)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCondition" });
-    case 12:
-      return S.Array(__S(331, __c10, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(332, __c10, 12)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCombinedCondition" });
-    case 14:
-      return S.Array(__S(333, __c10, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(S.String),
-          taskConfigId: S.optional(S.String),
-          taskNumber: S.optional(S.String),
-          label: S.optional(S.String),
-          description: S.optional(S.String),
-          combinedConditions: S.optional(__S(334, __c10, 14)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNextTask" });
-    case 16:
-      return S.Array(__S(335, __c10, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          retryStrategy: S.optional(S.String),
-          retryCondition: S.optional(S.String),
-          maxNumRetries: S.optional(S.Number),
-          intervalInSeconds: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoFailurePolicy" });
-    case 18:
-      return S.Array(__S(337, __c10, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          defaultFailurePolicy: S.optional(__S(337, __c10, 17)),
-          failurePolicies: S.optional(__S(338, __c10, 18)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionalFailurePolicies" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          percentage: S.optional(S.Number),
-          absolute: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          enumStrings: S.optional(__S(4256, __c133, 0)),
-          filterType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          onlyFinalAttempt: S.optional(S.Boolean),
-          playbookUrl: S.optional(S.String),
-          alertName: S.optional(S.String),
-          clientId: S.optional(S.String),
-          thresholdType: S.optional(S.String),
-          durationThresholdMs: S.optional(S.String),
-          alertDisabled: S.optional(S.Boolean),
-          thresholdValue: S.optional(__S(340, __c10, 20)),
-          errorEnumList: S.optional(__S(341, __c10, 21)),
-          aggregationPeriod: S.optional(S.String),
-          warningEnumList: S.optional(__S(341, __c10, 21)),
-          numAggregationPeriods: S.optional(S.Number),
-          metricType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskAlertConfig" });
-    case 23:
-      return S.Array(__S(342, __c10, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          exclusive: S.optional(S.Boolean),
           regex: S.optional(S.String),
+          exclusive: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringRegex",
       });
-    case 25:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          min: S.optional(S.Number),
           max: S.optional(S.Number),
+          min: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange",
       });
-    case 26:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           max: S.optional(S.String),
           min: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange" });
-    case 27:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          stringRegex: S.optional(__S(344, __c10, 24)),
-          doubleRange: S.optional(__S(345, __c10, 25)),
-          intRange: S.optional(__S(346, __c10, 26)),
+          stringRegex: S.optional(__S(327, __c10, 7)),
+          doubleRange: S.optional(__S(328, __c10, 8)),
+          intRange: S.optional(__S(329, __c10, 9)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryValidationRule" });
-    case 28:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          parameterNameOption: S.optional(S.String),
-          subSectionLabel: S.optional(S.String),
-          descriptivePhrase: S.optional(S.String),
-          isHidden: S.optional(S.Boolean),
-          inputDisplayOption: S.optional(S.String),
-          label: S.optional(S.String),
-          hideDefaultValue: S.optional(S.Boolean),
-          uiPlaceholderText: S.optional(S.String),
-          helpText: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryConfig" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          fullName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          className: S.optional(S.String),
-          collectionElementClassName: S.optional(S.String),
-          jsonSchema: S.optional(S.String),
-          dataType: S.optional(S.String),
           isOutput: S.optional(S.Boolean),
-          validationRule: S.optional(__S(347, __c10, 27)),
+          config: S.optional(__S(325, __c10, 5)),
+          protoDef: S.optional(__S(326, __c10, 6)),
           key: S.optional(S.String),
           required: S.optional(S.Boolean),
-          config: S.optional(__S(348, __c10, 28)),
-          protoDef: S.optional(__S(349, __c10, 29)),
+          collectionElementClassName: S.optional(S.String),
           isDeprecated: S.optional(S.Boolean),
+          jsonSchema: S.optional(S.String),
+          dataType: S.optional(S.String),
+          className: S.optional(S.String),
+          validationRule: S.optional(__S(330, __c10, 10)),
           defaultValue: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoParamSpecEntry" });
-    case 31:
-      return S.Array(__S(350, __c10, 30));
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
+    case 12:
+      return S.Array(__S(331, __c10, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(351, __c10, 31)),
+          parameters: S.optional(__S(332, __c10, 12)),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          googleGroupEmail: S.optional(S.String),
-          userEmail: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskMetadataAdmin" });
-    case 2:
-      return S.Array(__S(353, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          admins: S.optional(__S(354, __c11, 2)),
-          activeTaskName: S.optional(S.String),
-          system: S.optional(S.String),
-          name: S.optional(S.String),
-          category: S.optional(S.String),
-          externalCategorySequence: S.optional(S.Number),
-          externalDocHtml: S.optional(S.String),
-          codeSearchLink: S.optional(S.String),
-          status: S.optional(S.String),
-          tags: S.optional(__S(4256, __c133, 0)),
-          isDeprecated: S.optional(S.Boolean),
-          descriptiveName: S.optional(S.String),
-          description: S.optional(S.String),
-          docMarkdown: S.optional(S.String),
-          externalDocMarkdown: S.optional(S.String),
-          defaultSpec: S.optional(S.String),
-          g3DocLink: S.optional(S.String),
-          externalDocLink: S.optional(S.String),
-          standaloneExternalDocHtml: S.optional(S.String),
-          iconLink: S.optional(S.String),
-          defaultJsonValidationOption: S.optional(S.String),
-          externalCategory: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskMetadata" });
-    case 4:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           moduleId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskUiModuleConfig" });
-    case 5:
-      return S.Array(__S(356, __c11, 4));
-    case 6:
+    case 15:
+      return S.Array(__S(334, __c10, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          taskUiModuleConfigs: S.optional(__S(357, __c11, 5)),
+          taskUiModuleConfigs: S.optional(__S(335, __c10, 15)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskUiConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          disabledForVpcSc: S.optional(S.Boolean),
+          metadata: S.optional(__S(322, __c10, 2)),
+          stats: S.optional(__S(324, __c10, 4)),
+          paramSpecs: S.optional(__S(333, __c10, 13)),
+          uiConfig: S.optional(__S(336, __c10, 16)),
+          taskType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTaskEntity" });
+    case 18:
+      return S.Record(S.String, __S(193, __c6, 1));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          retryCondition: S.optional(S.String),
+          maxNumRetries: S.optional(S.Number),
+          retryStrategy: S.optional(S.String),
+          intervalInSeconds: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoFailurePolicy" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(4288, __c134, 0)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoStringArray" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(4320, __c135, 0)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoDoubleArray" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          stringValue: S.optional(S.String),
+          stringArray: S.optional(__S(340, __c10, 20)),
+          doubleArray: S.optional(__S(341, __c10, 21)),
+          protoValue: S.optional(__S(128, __c4, 0)),
+          intValue: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
+          doubleValue: S.optional(S.Number),
+          intArray: S.optional(__S(340, __c10, 20)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoValueType" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(342, __c10, 22)),
+          operator: S.optional(S.String),
+          eventPropertyKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCondition" });
+    case 24:
+      return S.Array(__S(343, __c10, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(344, __c10, 24)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCombinedCondition" });
+    case 26:
+      return S.Array(__S(345, __c10, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          taskNumber: S.optional(S.String),
+          combinedConditions: S.optional(__S(346, __c10, 26)),
+          taskConfigId: S.optional(S.String),
+          description: S.optional(S.String),
+          condition: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNextTask" });
+    case 28:
+      return S.Array(__S(347, __c10, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(224, __c7, 0)),
+          rollbackTaskImplementationClassName: S.optional(S.String),
+          taskNumbersToRollback: S.optional(__S(4288, __c134, 0)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoRollbackStrategy" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          filterType: S.optional(S.String),
+          enumStrings: S.optional(__S(4288, __c134, 0)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          numAggregationPeriods: S.optional(S.Number),
+          clientId: S.optional(S.String),
+          thresholdType: S.optional(S.String),
+          warningEnumList: S.optional(__S(350, __c10, 30)),
+          metricType: S.optional(S.String),
+          alertDisabled: S.optional(S.Boolean),
+          playbookUrl: S.optional(S.String),
+          durationThresholdMs: S.optional(S.String),
+          alertName: S.optional(S.String),
+          onlyFinalAttempt: S.optional(S.Boolean),
+          aggregationPeriod: S.optional(S.String),
+          errorEnumList: S.optional(__S(350, __c10, 30)),
+          thresholdValue: S.optional(__S(98, __c3, 2)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskAlertConfig" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(351, __c10, 31));
+    case 1:
+      return S.Array(__S(339, __c10, 19));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          failurePolicies: S.optional(__S(353, __c11, 1)),
+          defaultFailurePolicy: S.optional(__S(339, __c10, 19)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionalFailurePolicies" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          errorCatcherId: S.optional(S.String),
+          taskSpec: S.optional(S.String),
+          disableStrictTypeValidation: S.optional(S.Boolean),
+          taskType: S.optional(S.String),
+          jsonValidationOption: S.optional(S.String),
+          creatorEmail: S.optional(S.String),
+          taskEntity: S.optional(__S(337, __c10, 17)),
+          parameters: S.optional(__S(338, __c10, 18)),
+          incomingEdgeCount: S.optional(S.Number),
+          synchronousCallFailurePolicy: S.optional(__S(339, __c10, 19)),
+          taskName: S.optional(S.String),
+          nextTasks: S.optional(__S(348, __c10, 28)),
+          successPolicy: S.optional(__S(96, __c3, 0)),
+          position: S.optional(__S(97, __c3, 1)),
+          rollbackStrategy: S.optional(__S(349, __c10, 29)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          nextTasksExecutionPolicy: S.optional(S.String),
+          preconditionLabel: S.optional(S.String),
+          externalTaskType: S.optional(S.String),
+          taskNumber: S.optional(S.String),
+          label: S.optional(S.String),
+          failurePolicy: S.optional(__S(339, __c10, 19)),
+          alertConfigs: S.optional(__S(352, __c11, 0)),
+          conditionalFailurePolicies: S.optional(__S(354, __c11, 2)),
+          precondition: S.optional(S.String),
+          taskTemplateName: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          taskExecutionStrategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTaskConfig" });
+    case 4:
+      return S.Array(__S(355, __c11, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(342, __c10, 22)),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoPropertyEntry" });
+    case 6:
+      return S.Array(__S(357, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          workflowId: S.optional(S.String),
-          workflowName: S.optional(S.String),
-          warningEnumString: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          clientId: S.optional(S.String),
-          enumFilterType: S.optional(S.String),
-          errorEnumString: S.optional(S.String),
-          taskNumber: S.optional(S.String),
-          retryAttempt: S.optional(S.String),
-          taskName: S.optional(S.String),
+          properties: S.optional(__S(358, __c11, 6)),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusStatsDimensions" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventBusProperties" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          errorRate: S.optional(S.Number),
-          warningRate: S.optional(S.Number),
-          dimensions: S.optional(__S(359, __c11, 7)),
-          durationInSeconds: S.optional(S.Number),
-          qps: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusStats" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          taskType: S.optional(S.String),
-          paramSpecs: S.optional(__S(352, __c11, 0)),
-          metadata: S.optional(__S(355, __c11, 3)),
-          uiConfig: S.optional(__S(358, __c11, 6)),
-          disabledForVpcSc: S.optional(S.Boolean),
-          stats: S.optional(__S(360, __c11, 8)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTaskEntity" });
-    case 10:
-      return S.Record(S.String, __S(193, __c6, 1));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          taskNumbersToRollback: S.optional(__S(4256, __c133, 0)),
-          rollbackTaskImplementationClassName: S.optional(S.String),
-          parameters: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoRollbackStrategy" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          creatorEmail: S.optional(S.String),
-          precondition: S.optional(S.String),
-          jsonValidationOption: S.optional(S.String),
-          taskSpec: S.optional(S.String),
-          taskNumber: S.optional(S.String),
-          taskName: S.optional(S.String),
-          nextTasks: S.optional(__S(336, __c10, 16)),
-          preconditionLabel: S.optional(S.String),
-          conditionalFailurePolicies: S.optional(__S(339, __c10, 19)),
-          taskType: S.optional(S.String),
-          alertConfigs: S.optional(__S(343, __c10, 23)),
-          nextTasksExecutionPolicy: S.optional(S.String),
-          label: S.optional(S.String),
-          taskExecutionStrategy: S.optional(S.String),
-          externalTaskType: S.optional(S.String),
-          failurePolicy: S.optional(__S(337, __c10, 17)),
-          errorCatcherId: S.optional(S.String),
-          successPolicy: S.optional(__S(97, __c3, 1)),
-          taskEntity: S.optional(__S(361, __c11, 9)),
-          taskTemplateName: S.optional(S.String),
-          parameters: S.optional(__S(362, __c11, 10)),
-          position: S.optional(__S(98, __c3, 2)),
-          disableStrictTypeValidation: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          rollbackStrategy: S.optional(__S(363, __c11, 11)),
-          incomingEdgeCount: S.optional(S.Number),
-          lastModifiedTime: S.optional(S.String),
-          synchronousCallFailurePolicy: S.optional(__S(337, __c10, 17)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTaskConfig" });
-    case 13:
-      return S.Array(__S(364, __c11, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          startErrorTasks: S.optional(__S(100, __c3, 4)),
-          label: S.optional(S.String),
-          description: S.optional(S.String),
-          errorCatcherNumber: S.optional(S.String),
-          errorCatcherId: S.optional(S.String),
-          position: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaErrorCatcherConfig" });
-    case 15:
-      return S.Array(__S(366, __c11, 14));
-    case 16:
-      return S.Array(__S(106, __c3, 10));
-    case 17:
-      return S.Array(__S(111, __c3, 15));
-    case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoNextTeardownTask" });
-    case 19:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(325, __c10, 5)),
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoPropertyEntry" });
-    case 20:
-      return S.Array(__S(371, __c11, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(372, __c11, 20)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventBusProperties" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
           teardownTaskImplementationClassName: S.optional(S.String),
-          nextTeardownTask: S.optional(__S(370, __c11, 18)),
+          properties: S.optional(__S(359, __c11, 7)),
+          name: S.optional(S.String),
           creatorEmail: S.optional(S.String),
+          nextTeardownTask: S.optional(__S(360, __c11, 8)),
           parameters: S.optional(__S(259, __c8, 3)),
-          properties: S.optional(__S(373, __c11, 21)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTeardownTaskConfig" });
-    case 23:
-      return S.Array(__S(374, __c11, 22));
-    case 24:
+    case 10:
+      return S.Array(__S(361, __c11, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          teardownTaskConfigs: S.optional(__S(375, __c11, 23)),
+          teardownTaskConfigs: S.optional(__S(362, __c11, 10)),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTeardown" });
-    case 25:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          triggerCriteriaTaskImplementationClassName: S.optional(S.String),
           condition: S.optional(S.String),
           parameters: S.optional(__S(259, __c8, 3)),
+          triggerCriteriaTaskImplementationClassName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoTriggerCriteria" });
-    case 26:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          location: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          cronTab: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCloudSchedulerConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          aggregationPeriod: S.optional(S.String),
-          playbookUrl: S.optional(S.String),
-          warningEnumList: S.optional(__S(341, __c10, 21)),
-          onlyFinalAttempt: S.optional(S.Boolean),
-          thresholdType: S.optional(S.String),
-          durationThresholdMs: S.optional(S.String),
-          alertDisabled: S.optional(S.Boolean),
-          thresholdValue: S.optional(__S(340, __c10, 20)),
-          errorEnumList: S.optional(__S(341, __c10, 21)),
           numAggregationPeriods: S.optional(S.Number),
+          onlyFinalAttempt: S.optional(S.Boolean),
+          errorEnumList: S.optional(__S(350, __c10, 30)),
+          warningEnumList: S.optional(__S(350, __c10, 30)),
           clientId: S.optional(S.String),
-          alertName: S.optional(S.String),
           metricType: S.optional(S.String),
+          alertName: S.optional(S.String),
+          playbookUrl: S.optional(S.String),
+          durationThresholdMs: S.optional(S.String),
+          thresholdValue: S.optional(__S(98, __c3, 2)),
+          alertDisabled: S.optional(S.Boolean),
+          aggregationPeriod: S.optional(S.String),
+          thresholdType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoWorkflowAlertConfig" });
-    case 28:
-      return S.Array(__S(379, __c11, 27));
-    case 29:
+    case 14:
+      return S.Array(__S(365, __c11, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          triggerName: S.optional(S.String),
-          position: S.optional(__S(98, __c3, 2)),
-          triggerNumber: S.optional(S.String),
-          description: S.optional(S.String),
-          outputVariables: S.optional(__S(102, __c3, 6)),
-          triggerCriteria: S.optional(__S(377, __c11, 25)),
-          cloudSchedulerConfig: S.optional(__S(378, __c11, 26)),
-          startTasks: S.optional(__S(336, __c10, 16)),
-          properties: S.optional(__S(64, __c2, 0)),
-          inputVariables: S.optional(__S(102, __c3, 6)),
-          errorCatcherId: S.optional(S.String),
-          enabledClients: S.optional(__S(4256, __c133, 0)),
+          location: S.optional(S.String),
+          cronTab: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCloudSchedulerConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          startTasks: S.optional(__S(348, __c10, 28)),
           label: S.optional(S.String),
           triggerType: S.optional(S.String),
+          properties: S.optional(__S(64, __c2, 0)),
+          description: S.optional(S.String),
+          inputVariables: S.optional(__S(99, __c3, 3)),
+          triggerCriteria: S.optional(__S(364, __c11, 12)),
+          alertConfig: S.optional(__S(366, __c11, 14)),
+          cloudSchedulerConfig: S.optional(__S(367, __c11, 15)),
+          position: S.optional(__S(97, __c3, 1)),
+          outputVariables: S.optional(__S(99, __c3, 3)),
+          triggerName: S.optional(S.String),
           pauseWorkflowExecutions: S.optional(S.Boolean),
           triggerId: S.optional(S.String),
-          alertConfig: S.optional(__S(380, __c11, 28)),
+          errorCatcherId: S.optional(S.String),
+          triggerNumber: S.optional(S.String),
+          enabledClients: S.optional(__S(4288, __c134, 0)),
           nextTasksExecutionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoTriggerConfig" });
+    case 17:
+      return S.Array(__S(368, __c11, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          parameter: S.optional(__S(100, __c3, 4)),
+          value: S.optional(__S(4352, __c136, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationConfigParameter" });
+    case 19:
+      return S.Array(__S(370, __c11, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          elementIdentifier: S.optional(S.String),
+          elementType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNodeIdentifier" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          seedScope: S.optional(S.String),
+          seedPeriod: S.optional(S.String),
+          logFieldName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoLogSettings" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          logSettings: S.optional(__S(373, __c11, 21)),
+          taskVisibility: S.optional(__S(4288, __c134, 0)),
+          defaultValue: S.optional(__S(342, __c10, 22)),
+          isRequired: S.optional(S.Boolean),
+          readOnly: S.optional(S.Boolean),
+          searchable: S.optional(S.String),
+          masked: S.optional(S.Boolean),
+          isSearchable: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoAttributes" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          isTransient: S.optional(S.Boolean),
+          protoDefName: S.optional(S.String),
+          inOutType: S.optional(S.String),
+          containsLargeData: S.optional(S.Boolean),
+          producedBy: S.optional(__S(372, __c11, 20)),
+          attributes: S.optional(__S(374, __c11, 22)),
+          producer: S.optional(S.String),
+          key: S.optional(S.String),
+          required: S.optional(S.Boolean),
+          protoDefPath: S.optional(S.String),
+          defaultValue: S.optional(__S(192, __c6, 0)),
+          dataType: S.optional(S.String),
+          name: S.optional(S.String),
+          children: S.optional(S.suspend(() => __S(376, __c11, 24))),
+          jsonSchema: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry" });
+    case 24:
+      return S.Array(__S(375, __c11, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          parameters: S.optional(__S(376, __c11, 24)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoWorkflowParameters" });
+    case 26:
+      return S.Array(__S(107, __c3, 11));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          startErrorTasks: S.optional(__S(105, __c3, 9)),
+          errorCatcherNumber: S.optional(S.String),
+          label: S.optional(S.String),
+          position: S.optional(__S(97, __c3, 1)),
+          description: S.optional(S.String),
+          errorCatcherId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaErrorCatcherConfig" });
+    case 28:
+      return S.Array(__S(379, __c11, 27));
+    case 29:
+      return S.Array(__S(112, __c3, 16));
     case 30:
-      return S.Array(__S(381, __c11, 29));
-    case 31:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          integrationConfigParameters: S.optional(__S(321, __c10, 1)),
-          integrationParametersInternal: S.optional(__S(330, __c10, 10)),
-          taskConfigsInternal: S.optional(__S(365, __c11, 13)),
-          errorCatcherConfigs: S.optional(__S(367, __c11, 15)),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          eucHardeningDisposition: S.optional(S.String),
-          enableVariableMasking: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          userLabel: S.optional(S.String),
-          createTime: S.optional(S.String),
-          triggerConfigs: S.optional(__S(368, __c11, 16)),
-          snapshotNumber: S.optional(S.String),
-          createdFromTemplate: S.optional(S.String),
-          cloudKmsKey: S.optional(S.String),
-          status: S.optional(S.String),
+          taskConfigsInternal: S.optional(__S(356, __c11, 4)),
           description: S.optional(S.String),
-          updateTime: S.optional(S.String),
           runAsServiceAccount: S.optional(S.String),
-          databasePersistencePolicy: S.optional(S.String),
-          taskConfigs: S.optional(__S(369, __c11, 17)),
-          teardown: S.optional(__S(376, __c11, 24)),
-          triggerConfigsInternal: S.optional(__S(382, __c11, 30)),
+          teardown: S.optional(__S(363, __c11, 11)),
           lastModifierEmail: S.optional(S.String),
-          parentTemplateId: S.optional(S.String),
+          createdFromTemplate: S.optional(S.String),
+          status: S.optional(S.String),
+          triggerConfigsInternal: S.optional(__S(369, __c11, 17)),
+          integrationConfigParameters: S.optional(__S(371, __c11, 19)),
+          databasePersistencePolicy: S.optional(S.String),
+          integrationParametersInternal: S.optional(__S(377, __c11, 25)),
           lockHolder: S.optional(S.String),
+          cloudKmsKey: S.optional(S.String),
+          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
+          taskConfigs: S.optional(__S(378, __c11, 26)),
+          errorCatcherConfigs: S.optional(__S(380, __c11, 28)),
+          userLabel: S.optional(S.String),
+          snapshotNumber: S.optional(S.String),
+          enableVariableMasking: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          integrationParameters: S.optional(__S(108, __c3, 12)),
+          eucHardeningDisposition: S.optional(S.String),
           origin: S.optional(S.String),
-          integrationParameters: S.optional(__S(112, __c3, 16)),
+          triggerConfigs: S.optional(__S(381, __c11, 29)),
+          createTime: S.optional(S.String),
+          parentTemplateId: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationVersion" });
   }
@@ -9409,10 +9396,10 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1984, __c62, 0),
+          __S(2016, __c63, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9429,10 +9416,10 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1920, __c60, 0),
+          __S(1952, __c61, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9449,10 +9436,10 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1984, __c62, 0),
+          __S(2016, __c63, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9469,7 +9456,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2149, __c67, 5),
+          __S(2181, __c68, 5),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -9489,7 +9476,7 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workflows: S.optional(__S(2112, __c66, 0)),
+          workflows: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest",
@@ -9516,13 +9503,13 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createSampleWorkflows: S.optional(S.Boolean),
+          enableManagedAiFeatures: S.optional(S.Boolean),
+          skipCpProvision: S.optional(S.Boolean),
+          enableHttpCall: S.optional(S.Boolean),
           provisionGmek: S.optional(S.Boolean),
           runAsServiceAccount: S.optional(S.String),
-          skipCpProvision: S.optional(S.Boolean),
-          enableManagedAiFeatures: S.optional(S.Boolean),
-          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
-          enableHttpCall: S.optional(S.Boolean),
-          createSampleWorkflows: S.optional(S.Boolean),
+          cloudKmsConfig: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaProvisionClientRequest" });
     case 1:
@@ -9621,10 +9608,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          replayReason: S.optional(S.String),
           updateMask: S.optional(S.String),
+          modifiedParameters: S.optional(__S(3136, __c98, 0)),
           replayMode: S.optional(S.String),
-          modifiedParameters: S.optional(__S(3104, __c97, 0)),
+          replayReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaReplayExecutionRequest" });
     case 1:
@@ -9645,8 +9632,8 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          executionId: S.optional(S.String),
           outputParameters: S.optional(__S(128, __c4, 0)),
+          executionId: S.optional(S.String),
           replayedExecutionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaReplayExecutionResponse" });
@@ -9659,8 +9646,8 @@ function __c23(j: number): any {
         S.Extend(
           __S(805, __c25, 5),
           S.Struct({
-            testCaseId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            testCaseId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9677,10 +9664,10 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameter: S.optional(__S(32, __c1, 0)),
-          retryCount: S.optional(S.Number),
           condition: S.optional(S.String),
+          retryCount: S.optional(S.Number),
           assertionStrategy: S.optional(S.String),
+          parameter: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAssertion" });
   }
@@ -9688,25 +9675,25 @@ function __c24(j: number): any {
 function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c24, 0));
-    case 1:
       return S.Array(__S(32, __c1, 0));
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
+          parameters: S.optional(__S(800, __c25, 0)),
           failedExecutions: S.optional(S.String),
           mockStrategy: S.optional(S.String),
-          parameters: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaMockConfig" });
+    case 2:
+      return S.Array(__S(768, __c24, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assertions: S.optional(__S(800, __c25, 0)),
-          taskConfig: S.optional(__S(111, __c3, 15)),
           taskNumber: S.optional(S.String),
+          mockConfig: S.optional(__S(801, __c25, 1)),
           task: S.optional(S.String),
-          mockConfig: S.optional(__S(802, __c25, 2)),
+          taskConfig: S.optional(__S(107, __c3, 11)),
+          assertions: S.optional(__S(802, __c25, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestTaskConfig" });
     case 4:
@@ -9714,18 +9701,18 @@ function __c25(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          triggerConfig: S.optional(__S(106, __c3, 10)),
-          displayName: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          description: S.optional(S.String),
-          testTaskConfigs: S.optional(__S(804, __c25, 4)),
-          createTime: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          testInputParameters: S.optional(__S(112, __c3, 16)),
-          lockHolderEmail: S.optional(S.String),
           databasePersistencePolicy: S.optional(S.String),
+          triggerId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          triggerConfig: S.optional(__S(112, __c3, 16)),
+          createTime: S.optional(S.String),
+          lockHolderEmail: S.optional(S.String),
           name: S.optional(S.String),
+          description: S.optional(S.String),
+          creatorEmail: S.optional(S.String),
+          testTaskConfigs: S.optional(__S(804, __c25, 4)),
+          testInputParameters: S.optional(__S(108, __c3, 12)),
+          lastModifierEmail: S.optional(S.String),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestCase" });
@@ -9757,7 +9744,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          suspension: S.optional(__S(4880, __c152, 16)),
+          suspension: S.optional(__S(4912, __c153, 16)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaResolveSuspensionRequest" });
   }
@@ -9807,19 +9794,19 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleTime: S.optional(S.String),
           requestId: S.optional(S.String),
-          inputParameters: S.optional(__S(3104, __c97, 0)),
+          parameters: S.optional(__S(259, __c8, 3)),
           userGeneratedExecutionId: S.optional(S.String),
           parameterEntries: S.optional(__S(194, __c6, 2)),
+          scheduleTime: S.optional(S.String),
           triggerId: S.optional(S.String),
-          parameters: S.optional(__S(259, __c8, 3)),
+          inputParameters: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          executionInfoIds: S.optional(__S(4256, __c133, 0)),
+          executionInfoIds: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse" });
   }
@@ -9848,12 +9835,12 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           enableNaturalLanguageQueryUnderstanding: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9865,14 +9852,14 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          region: S.optional(S.String),
-          description: S.optional(S.String),
-          status: S.optional(S.String),
           createTime: S.optional(S.String),
-          version: S.optional(S.String),
           id: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          region: S.optional(S.String),
           creator: S.optional(S.String),
+          version: S.optional(S.String),
         }),
       ).annotate({
         identifier:
@@ -9883,8 +9870,8 @@ function __c32(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           integrations: S.optional(__S(1026, __c32, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse" });
   }
@@ -9895,13 +9882,13 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           readMask: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          enableNaturalLanguageQueryUnderstanding: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           query: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          enableNaturalLanguageQueryUnderstanding: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9936,7 +9923,7 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceNames: S.optional(__S(4256, __c133, 0)),
+          resourceNames: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaShareTemplateRequest" });
   }
@@ -9946,7 +9933,7 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
+          cloudKmsConfig: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest" });
     case 1:
@@ -9997,7 +9984,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10015,11 +10002,11 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4366, __c136, 14),
+          __S(4398, __c137, 14),
           S.Struct({
-            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -10038,7 +10025,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationVersion: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10056,7 +10043,7 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          integrationVersion: S.optional(__S(383, __c11, 31)),
+          integrationVersion: S.optional(__S(382, __c11, 30)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse" });
   }
@@ -10085,29 +10072,29 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deadlineSecondsTime: S.optional(S.String),
           credentialMode: S.optional(S.String),
-          testMode: S.optional(S.Boolean),
-          inputParameters: S.optional(__S(3104, __c97, 0)),
-          clientId: S.optional(S.String),
+          deadlineSecondsTime: S.optional(S.String),
+          inputParameters: S.optional(__S(3136, __c98, 0)),
           parameters: S.optional(__S(224, __c7, 0)),
-          asyncExecution: S.optional(S.Boolean),
-          integrationVersion: S.optional(__S(383, __c11, 31)),
-          configParameters: S.optional(__S(128, __c4, 0)),
           triggerId: S.optional(S.String),
+          configParameters: S.optional(__S(128, __c4, 0)),
+          asyncExecution: S.optional(S.Boolean),
+          integrationVersion: S.optional(__S(382, __c11, 30)),
+          clientId: S.optional(S.String),
+          testMode: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestIntegrationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hardenedPaths: S.optional(__S(2112, __c66, 0)),
-          executionId: S.optional(S.String),
-          eventParameters: S.optional(__S(224, __c7, 0)),
-          parameters: S.optional(__S(3104, __c97, 0)),
-          executionFailed: S.optional(S.Boolean),
-          parameterEntries: S.optional(__S(194, __c6, 2)),
           eucHardeningDisposition: S.optional(S.String),
           credentialMode: S.optional(S.String),
+          eventParameters: S.optional(__S(224, __c7, 0)),
+          hardenedPaths: S.optional(__S(2144, __c67, 0)),
+          executionId: S.optional(S.String),
+          parameterEntries: S.optional(__S(194, __c6, 2)),
+          executionFailed: S.optional(S.Boolean),
+          parameters: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTestIntegrationsResponse" });
   }
@@ -10181,7 +10168,7 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10198,7 +10185,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10262,15 +10249,8 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          fileFormat: S.optional(S.String),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadTestCaseRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(1664, __c52, 0),
+          __S(1696, __c53, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10282,7 +10262,7 @@ function __c52(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UploadProjectsLocationsIntegrationsVersionsTestCasesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           testCase: S.optional(__S(805, __c25, 5)),
@@ -10294,8 +10274,19 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          fileFormat: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadTestCaseRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(4993, __c156, 1),
+          __S(5025, __c157, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10309,7 +10300,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10328,12 +10319,12 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UploadProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1632, __c51, 0),
+          __S(1696, __c53, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10348,25 +10339,25 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(2149, __c67, 5)),
+          template: S.optional(__S(2181, __c68, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUploadTemplateResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subIntegrations: S.optional(__S(4065, __c127, 1)),
-          integrationDetails: S.optional(__S(4064, __c127, 0)),
+          integrationDetails: S.optional(__S(4096, __c128, 0)),
+          subIntegrations: S.optional(__S(4097, __c128, 1)),
           integrationRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUseTemplateRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(1792, __c56, 0),
+          __S(1824, __c57, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -10378,14 +10369,21 @@ function __c56(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UseProjectsLocationsTemplatesRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          integrationVersion: S.optional(__S(382, __c11, 30)),
+          subIntegrationVersions: S.optional(__S(4128, __c129, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUseTemplateResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5440, __c170, 0),
+          __S(5472, __c171, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10399,12 +10397,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsCloudFunctionsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(383, __c11, 31),
+          __S(382, __c11, 30),
           S.Struct({
             createSampleIntegrations: S.optional(S.Boolean.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
@@ -10420,12 +10418,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1920, __c60, 0),
+          __S(1952, __c61, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10439,30 +10437,30 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAuthority: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          description: S.optional(S.String),
-          authConfigId: S.optional(__S(4256, __c133, 0)),
-          displayName: S.optional(S.String),
-          sfdcOrgId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcInstance" });
-  }
-}
 function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          authConfigId: S.optional(__S(4288, __c134, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          sfdcOrgId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          serviceAuthority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcInstance" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(1984, __c62, 0),
+          __S(2016, __c63, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10476,30 +10474,30 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          lastReplayId: S.optional(S.String),
-          name: S.optional(S.String),
-          isActive: S.optional(S.Boolean),
-          channelTopic: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcChannel" });
-  }
-}
 function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          isActive: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          lastReplayId: S.optional(S.String),
+          name: S.optional(S.String),
+          channelTopic: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSfdcChannel" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(1920, __c60, 0),
+          __S(1952, __c61, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10513,12 +10511,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSfdcInstancesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1984, __c62, 0),
+          __S(2016, __c63, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10532,12 +10530,12 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(2149, __c67, 5),
+          __S(2181, __c68, 5),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -10551,63 +10549,63 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTemplatesRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
-          integrationVersion: S.optional(__S(383, __c11, 31)),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateComponent" });
     case 1:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integrationVersionTemplate: S.optional(__S(2144, __c67, 0)),
-          subIntegrationVersionTemplates: S.optional(__S(2145, __c67, 1)),
+          key: S.optional(S.String),
+          integrationVersion: S.optional(__S(382, __c11, 30)),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateBundle" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate" });
     case 3:
+      return S.Array(__S(2178, __c68, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          name: S.optional(S.String),
+          integrationVersionTemplate: S.optional(__S(2178, __c68, 2)),
+          subIntegrationVersionTemplates: S.optional(__S(2179, __c68, 3)),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateComponent" });
-    case 4:
-      return S.Array(__S(2147, __c67, 3));
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplateBundle" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          tags: S.optional(__S(4288, __c134, 0)),
+          visibility: S.optional(S.String),
+          usageCount: S.optional(S.String),
+          sharedWith: S.optional(__S(4288, __c134, 0)),
+          displayName: S.optional(S.String),
           lastUsedTime: S.optional(S.String),
-          name: S.optional(S.String),
-          templateBundle: S.optional(__S(2146, __c67, 2)),
-          tags: S.optional(__S(4256, __c133, 0)),
+          components: S.optional(__S(2177, __c68, 1)),
           author: S.optional(S.String),
           updateTime: S.optional(S.String),
-          categories: S.optional(__S(2112, __c66, 0)),
-          visibility: S.optional(S.String),
-          usageInfo: S.optional(S.String),
-          displayName: S.optional(S.String),
+          name: S.optional(S.String),
           description: S.optional(S.String),
-          sharedWith: S.optional(__S(4256, __c133, 0)),
-          docLink: S.optional(S.String),
-          usageCount: S.optional(S.String),
-          components: S.optional(__S(2148, __c67, 4)),
+          templateBundle: S.optional(__S(2180, __c68, 4)),
+          categories: S.optional(__S(2144, __c67, 0)),
           createTime: S.optional(S.String),
+          usageInfo: S.optional(S.String),
+          docLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTemplate" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10623,26 +10621,10 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
-  }
-}
 function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsCertificatesRequest" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
   }
 }
 function __c71(j: number): any {
@@ -10658,7 +10640,7 @@ function __c71(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsCertificatesRequest" });
   }
 }
 function __c72(j: number): any {
@@ -10674,7 +10656,7 @@ function __c72(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsRequest" });
   }
 }
 function __c73(j: number): any {
@@ -10690,7 +10672,7 @@ function __c73(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
 function __c74(j: number): any {
@@ -10706,7 +10688,7 @@ function __c74(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsAuthConfigsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
 function __c75(j: number): any {
@@ -10722,7 +10704,7 @@ function __c75(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsCertificatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
 function __c76(j: number): any {
@@ -10738,7 +10720,7 @@ function __c76(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsCertificatesRequest" });
   }
 }
 function __c77(j: number): any {
@@ -10754,7 +10736,7 @@ function __c77(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
 function __c78(j: number): any {
@@ -10770,7 +10752,7 @@ function __c78(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
 function __c79(j: number): any {
@@ -10786,7 +10768,7 @@ function __c79(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
 function __c80(j: number): any {
@@ -10802,7 +10784,7 @@ function __c80(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesRequest" });
   }
 }
 function __c81(j: number): any {
@@ -10818,7 +10800,7 @@ function __c81(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
 function __c82(j: number): any {
@@ -10826,8 +10808,24 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsTemplatesRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10838,13 +10836,13 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DeprovisionProjectsLocationsClientsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          files: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10858,20 +10856,20 @@ function __c83(j: number): any {
         S.Struct({
           integrationConfig: S.optional(__S(128, __c4, 0)),
           type: S.optional(S.String),
-          integrationVersion: S.optional(__S(383, __c11, 31)),
+          integrationVersion: S.optional(__S(382, __c11, 30)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaFile" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(2658, __c83, 2)),
+          files: S.optional(__S(2690, __c84, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10887,7 +10885,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsExecutionsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10897,14 +10895,14 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDownloadExecutionResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
           fileFormat: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          files: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -10915,29 +10913,29 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.String),
           file: S.optional(S.String),
+          content: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSerializedFile" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          files: S.optional(__S(2817, __c88, 1)),
           content: S.optional(S.String),
-          files: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10954,7 +10952,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10970,7 +10968,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10981,7 +10979,7 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(2880, __c90, 0),
+          __S(2912, __c91, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11001,14 +10999,14 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCancelExecutionResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fileFormat: S.optional(S.String.pipe(T.Query())),
+          files: S.optional(__S(2144, __c67, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          files: S.optional(__S(2112, __c66, 0).pipe(T.Query())),
+          fileFormat: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11019,13 +11017,13 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           fileFormat: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11036,7 +11034,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DownloadProjectsLocationsTemplatesRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11051,20 +11049,20 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(4256, __c133, 0)),
+          regions: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse",
       });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          triggerId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          triggerId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11081,12 +11079,12 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteEventResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(3072, __c96, 0),
+          __S(3104, __c97, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11100,46 +11098,46 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ExecuteProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputParameters: S.optional(__S(3104, __c97, 0)),
+          parameters: S.optional(__S(224, __c7, 0)),
+          doNotPropagateError: S.optional(S.Boolean),
           parameterEntries: S.optional(__S(194, __c6, 2)),
           requestId: S.optional(S.String),
-          doNotPropagateError: S.optional(S.Boolean),
           triggerId: S.optional(S.String),
+          inputParameters: S.optional(__S(3136, __c98, 0)),
           executionId: S.optional(S.String),
-          parameters: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          parameterEntries: S.optional(__S(194, __c6, 2)),
-          parameters: S.optional(__S(3104, __c97, 0)),
           executionFailed: S.optional(S.Boolean),
-          eventParameters: S.optional(__S(224, __c7, 0)),
           outputParameters: S.optional(__S(128, __c4, 0)),
           executionId: S.optional(S.String),
+          parameterEntries: S.optional(__S(194, __c6, 2)),
+          eventParameters: S.optional(__S(224, __c7, 0)),
+          parameters: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(4320, __c135, 0));
   }
 }
 function __c98(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, __S(4352, __c136, 0));
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2240, __c70, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11149,46 +11147,46 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest" });
     case 1:
-      return S.Array(__S(3170, __c99, 2));
+      return S.Array(__S(3202, __c100, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          executeTestCaseResponses: S.optional(__S(3137, __c98, 1)),
+          executeTestCaseResponses: S.optional(__S(3169, __c99, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          taskNumber: S.optional(S.String),
-          taskName: S.optional(S.String),
-          assertion: S.optional(__S(768, __c24, 0)),
-          status: S.optional(S.String),
-          failureMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAssertionResult" });
-    case 1:
-      return S.Array(__S(3168, __c99, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          outputParameters: S.optional(__S(128, __c4, 0)),
-          assertionResults: S.optional(__S(3169, __c99, 1)),
-          testExecutionState: S.optional(S.String),
-          executionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse" });
   }
 }
 function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          taskNumber: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          assertion: S.optional(__S(768, __c24, 0)),
+          taskName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAssertionResult" });
+    case 1:
+      return S.Array(__S(3200, __c100, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          executionId: S.optional(S.String),
+          testExecutionState: S.optional(S.String),
+          outputParameters: S.optional(__S(128, __c4, 0)),
+          assertionResults: S.optional(__S(3201, __c100, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(3072, __c96, 0),
+          __S(3104, __c97, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11202,18 +11200,18 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ExecuteProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputParameters: S.optional(__S(3104, __c97, 0)),
+          inputParameters: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(3232, __c101, 0),
+          __S(3264, __c102, 0),
           S.Struct({
             testCaseName: S.String.pipe(T.Label()),
           }),
@@ -11229,28 +11227,28 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          triggerId: S.optional(__S(4256, __c133, 0)),
+          triggerId: S.optional(__S(4288, __c134, 0)),
           integrationResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaApiTriggerResource" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiTriggerResources: S.optional(__S(3265, __c102, 1)),
+          apiTriggerResources: S.optional(__S(3297, __c103, 1)),
           fileFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(3266, __c102, 2),
+          __S(3298, __c103, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11270,16 +11268,16 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String.pipe(T.Query())),
-          gcpProjectId: S.optional(S.String.pipe(T.Query())),
-          code: S.optional(S.String.pipe(T.Query())),
-          redirectUri: S.optional(S.String.pipe(T.Query())),
           product: S.optional(S.String.pipe(T.Query())),
+          gcpProjectId: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          redirectUri: S.optional(S.String.pipe(T.Query())),
+          code: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11296,19 +11294,19 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGenerateTokenResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String),
-          customerConfig: S.optional(__S(3360, __c105, 0)),
+          customerConfig: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(3328, __c104, 0),
+          __S(3360, __c105, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -11323,24 +11321,9 @@ function __c104(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customerConfig: S.optional(__S(3360, __c105, 0)),
+          customerConfig: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enableHttpCall: S.optional(S.Boolean),
-          enableManagedAiFeatures: S.optional(S.Boolean),
-          enableVariableMasking: S.optional(S.Boolean),
-          runAsServiceAccount: S.optional(S.String),
-          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
-          enableEucHardenedFlow: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCustomerConfig" });
   }
 }
 function __c106(j: number): any {
@@ -11348,16 +11331,31 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kmsRing: S.optional(S.String),
+          enableEucHardenedFlow: S.optional(S.Boolean),
+          enableManagedAiFeatures: S.optional(S.Boolean),
+          enableVariableMasking: S.optional(S.Boolean),
+          enableHttpCall: S.optional(S.Boolean),
+          runAsServiceAccount: S.optional(S.String),
+          cloudKmsConfig: S.optional(__S(3424, __c107, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCustomerConfig" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           kmsProjectId: S.optional(S.String),
-          keyVersion: S.optional(S.String),
           kmsLocation: S.optional(S.String),
+          kmsRing: S.optional(S.String),
+          keyVersion: S.optional(S.String),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCloudKmsConfig" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11374,7 +11372,7 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          provisionedRegions: S.optional(__S(4256, __c133, 0)),
+          provisionedRegions: S.optional(__S(4288, __c134, 0)),
           ipEnablementState: S.optional(S.String),
           billingType: S.optional(S.String),
         }),
@@ -11382,12 +11380,12 @@ function __c107(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(3425, __c107, 1)),
+          properties: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGetClientMetadataResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11404,33 +11402,33 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enableHttpCall: S.optional(S.Boolean),
-          runAsServiceAccount: S.optional(S.String),
-          description: S.optional(S.String),
           region: S.optional(S.String),
-          createTime: S.optional(S.String),
-          enableManagedAiFeatures: S.optional(S.Boolean),
-          billingType: S.optional(S.String),
-          p4ServiceAccount: S.optional(S.String),
-          clientState: S.optional(S.String),
-          isGmek: S.optional(S.Boolean),
-          cloudKmsConfig: S.optional(__S(3392, __c106, 0)),
-          enableInternalIp: S.optional(S.Boolean),
-          enableVariableMasking: S.optional(S.Boolean),
           projectId: S.optional(S.String),
-          customerConfig: S.optional(__S(3360, __c105, 0)),
+          clientState: S.optional(S.String),
           id: S.optional(S.String),
+          enableInternalIp: S.optional(S.Boolean),
+          enableHttpCall: S.optional(S.Boolean),
+          customerConfig: S.optional(__S(3392, __c106, 0)),
+          runAsServiceAccount: S.optional(S.String),
+          cloudKmsConfig: S.optional(__S(3424, __c107, 0)),
+          enableManagedAiFeatures: S.optional(S.Boolean),
+          isGmek: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          p4ServiceAccount: S.optional(S.String),
+          billingType: S.optional(S.String),
+          enableVariableMasking: S.optional(S.Boolean),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaClientConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          client: S.optional(__S(3457, __c108, 1)),
+          client: S.optional(__S(3489, __c109, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaGetClientResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11447,26 +11445,10 @@ function __c109(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(4256, __c133, 0)),
-          entities: S.optional(__S(4256, __c133, 0)),
+          actions: S.optional(__S(4288, __c134, 0)),
+          entities: S.optional(__S(4288, __c134, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://integrations.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsAuthConfigsRequest" });
   }
 }
 function __c111(j: number): any {
@@ -11482,7 +11464,7 @@ function __c111(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsCertificatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsAuthConfigsRequest" });
   }
 }
 function __c112(j: number): any {
@@ -11498,184 +11480,10 @@ function __c112(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsExecutionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsCertificatesRequest" });
   }
 }
 function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3636, __c113, 20)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          replayMode: S.optional(S.String),
-          replayedExecutionInfoIds: S.optional(__S(4256, __c133, 0)),
-          originalExecutionInfoId: S.optional(S.String),
-          replayReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionReplayInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats" });
-    case 3:
-      return S.Array(__S(3618, __c113, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          taskExecutionState: S.optional(S.String),
-          skippedOnFailure: S.optional(S.Boolean),
-          taskNumber: S.optional(S.String),
-          taskAttemptStats: S.optional(__S(3619, __c113, 3)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetails" });
-    case 5:
-      return S.Array(__S(3620, __c113, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(S.Boolean),
-          currentTaskNumber: S.optional(S.String),
-          nextTaskNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionResult" });
-    case 7:
-      return S.Array(__S(3622, __c113, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          ancestorIterationNumbers: S.optional(__S(4256, __c133, 0)),
-          taskName: S.optional(S.String),
-          ancestorTaskNumbers: S.optional(__S(4256, __c133, 0)),
-          integrationName: S.optional(S.String),
-          taskNumber: S.optional(S.String),
-          taskLabel: S.optional(S.String),
-          taskAttemptNum: S.optional(S.Number),
-          eventAttemptNum: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier:
-          "EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata",
-      });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          exceedMaxSize: S.optional(S.Boolean),
-          workflowName: S.optional(S.String),
-          taskExecutionDetails: S.optional(__S(3621, __c113, 5)),
-          eventExecutionInfoId: S.optional(S.String),
-          eventExecutionSnapshotId: S.optional(S.String),
-          conditionResults: S.optional(__S(3623, __c113, 7)),
-          clientId: S.optional(S.String),
-          checkpointTaskNumber: S.optional(S.String),
-          diffParams: S.optional(__S(259, __c8, 3)),
-          snapshotTime: S.optional(S.String),
-          taskName: S.optional(S.String),
-          eventExecutionSnapshotMetadata: S.optional(__S(3624, __c113, 8)),
-          eventParams: S.optional(__S(259, __c8, 3)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionSnapshot" });
-    case 10:
-      return S.Array(__S(3625, __c113, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats",
-      });
-    case 12:
-      return S.Array(__S(3627, __c113, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          cancelReason: S.optional(S.String),
-          eventExecutionSnapshot: S.optional(__S(3626, __c113, 10)),
-          logFilePath: S.optional(S.String),
-          eventExecutionSnapshotsSize: S.optional(S.String),
-          ryeLockUnheldCount: S.optional(S.Number),
-          eventAttemptStats: S.optional(__S(3628, __c113, 12)),
-          eventExecutionState: S.optional(S.String),
-          eventRetriesFromBeginningCount: S.optional(S.Number),
-          nextExecutionTime: S.optional(S.String),
-          networkAddress: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionDetails" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          taskAttemptStats: S.optional(__S(3628, __c113, 12)),
-          taskExecutionState: S.optional(S.String),
-          taskNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskExecutionDetails" });
-    case 15:
-      return S.Array(__S(3630, __c113, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          taskAttempt: S.optional(S.Number),
-          taskNumber: S.optional(S.String),
-          executionAttempt: S.optional(S.Number),
-          ancestorTaskNumbers: S.optional(__S(4256, __c133, 0)),
-          taskLabel: S.optional(S.String),
-          task: S.optional(S.String),
-          ancestorIterationNumbers: S.optional(__S(4256, __c133, 0)),
-          integrationName: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata",
-      });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          checkpointTaskNumber: S.optional(S.String),
-          taskExecutionDetails: S.optional(__S(3631, __c113, 15)),
-          executionSnapshotMetadata: S.optional(__S(3632, __c113, 16)),
-          params: S.optional(__S(3104, __c97, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshot" });
-    case 18:
-      return S.Array(__S(3633, __c113, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          executionSnapshots: S.optional(__S(3634, __c113, 18)),
-          eventExecutionSnapshotsSize: S.optional(S.String),
-          attemptStats: S.optional(__S(3628, __c113, 12)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionDetails" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          responseParams: S.optional(__S(194, __c6, 2)),
-          name: S.optional(S.String),
-          responseParameters: S.optional(__S(3104, __c97, 0)),
-          updateTime: S.optional(S.String),
-          directSubExecutions: S.optional(__S(3616, __c113, 0)),
-          executionMethod: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          cloudKmsKey: S.optional(S.String),
-          snapshotNumber: S.optional(S.String),
-          integrationVersionState: S.optional(S.String),
-          replayInfo: S.optional(__S(3617, __c113, 1)),
-          triggerId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          requestParams: S.optional(__S(194, __c6, 2)),
-          eventExecutionDetails: S.optional(__S(3629, __c113, 13)),
-          requestParameters: S.optional(__S(3104, __c97, 0)),
-          executionDetails: S.optional(__S(3635, __c113, 19)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecution" });
-  }
-}
-function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11688,7 +11496,179 @@ function __c114(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsExecutionsRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3668, __c114, 20)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          originalExecutionInfoId: S.optional(S.String),
+          replayMode: S.optional(S.String),
+          replayedExecutionInfoIds: S.optional(__S(4288, __c134, 0)),
+          replayReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionReplayInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAttemptStats" });
+    case 3:
+      return S.Array(__S(3650, __c114, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          executionAttempt: S.optional(S.Number),
+          taskAttempt: S.optional(S.Number),
+          task: S.optional(S.String),
+          taskNumber: S.optional(S.String),
+          ancestorTaskNumbers: S.optional(__S(4288, __c134, 0)),
+          taskLabel: S.optional(S.String),
+          ancestorIterationNumbers: S.optional(__S(4288, __c134, 0)),
+          integrationName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          taskAttemptStats: S.optional(__S(3651, __c114, 3)),
+          taskNumber: S.optional(S.String),
+          taskExecutionState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaTaskExecutionDetails" });
+    case 6:
+      return S.Array(__S(3653, __c114, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          executionSnapshotMetadata: S.optional(__S(3652, __c114, 4)),
+          checkpointTaskNumber: S.optional(S.String),
+          params: S.optional(__S(3136, __c98, 0)),
+          taskExecutionDetails: S.optional(__S(3654, __c114, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionSnapshot" });
+    case 8:
+      return S.Array(__S(3655, __c114, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          attemptStats: S.optional(__S(3651, __c114, 3)),
+          executionSnapshots: S.optional(__S(3656, __c114, 8)),
+          eventExecutionSnapshotsSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecutionDetails" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          currentTaskNumber: S.optional(S.String),
+          nextTaskNumber: S.optional(S.String),
+          result: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoConditionResult" });
+    case 11:
+      return S.Array(__S(3658, __c114, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          taskName: S.optional(S.String),
+          ancestorIterationNumbers: S.optional(__S(4288, __c134, 0)),
+          integrationName: S.optional(S.String),
+          taskAttemptNum: S.optional(S.Number),
+          eventAttemptNum: S.optional(S.Number),
+          taskNumber: S.optional(S.String),
+          ancestorTaskNumbers: S.optional(__S(4288, __c134, 0)),
+          taskLabel: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier:
+          "EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata",
+      });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats" });
+    case 14:
+      return S.Array(__S(3661, __c114, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          taskAttemptStats: S.optional(__S(3662, __c114, 14)),
+          skippedOnFailure: S.optional(S.Boolean),
+          taskNumber: S.optional(S.String),
+          taskExecutionState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoTaskExecutionDetails" });
+    case 16:
+      return S.Array(__S(3663, __c114, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          conditionResults: S.optional(__S(3659, __c114, 11)),
+          eventParams: S.optional(__S(259, __c8, 3)),
+          eventExecutionSnapshotMetadata: S.optional(__S(3660, __c114, 12)),
+          workflowName: S.optional(S.String),
+          exceedMaxSize: S.optional(S.Boolean),
+          clientId: S.optional(S.String),
+          eventExecutionSnapshotId: S.optional(S.String),
+          taskName: S.optional(S.String),
+          eventExecutionInfoId: S.optional(S.String),
+          taskExecutionDetails: S.optional(__S(3664, __c114, 16)),
+          checkpointTaskNumber: S.optional(S.String),
+          snapshotTime: S.optional(S.String),
+          diffParams: S.optional(__S(259, __c8, 3)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionSnapshot" });
+    case 18:
+      return S.Array(__S(3665, __c114, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          eventExecutionState: S.optional(S.String),
+          eventExecutionSnapshot: S.optional(__S(3666, __c114, 18)),
+          cancelReason: S.optional(S.String),
+          ryeLockUnheldCount: S.optional(S.Number),
+          eventRetriesFromBeginningCount: S.optional(S.Number),
+          eventAttemptStats: S.optional(__S(3651, __c114, 3)),
+          nextExecutionTime: S.optional(S.String),
+          eventExecutionSnapshotsSize: S.optional(S.String),
+          logFilePath: S.optional(S.String),
+          networkAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoEventExecutionDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          executionMethod: S.optional(S.String),
+          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
+          name: S.optional(S.String),
+          triggerId: S.optional(S.String),
+          responseParams: S.optional(__S(194, __c6, 2)),
+          integrationVersionState: S.optional(S.String),
+          requestParameters: S.optional(__S(3136, __c98, 0)),
+          directSubExecutions: S.optional(__S(3648, __c114, 0)),
+          responseParameters: S.optional(__S(3136, __c98, 0)),
+          createTime: S.optional(S.String),
+          requestParams: S.optional(__S(194, __c6, 2)),
+          snapshotNumber: S.optional(S.String),
+          replayInfo: S.optional(__S(3649, __c114, 1)),
+          executionDetails: S.optional(__S(3657, __c114, 9)),
+          updateTime: S.optional(S.String),
+          eventExecutionDetails: S.optional(__S(3667, __c114, 19)),
+          cloudKmsKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaExecution" });
   }
 }
 function __c115(j: number): any {
@@ -11704,7 +11684,7 @@ function __c115(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsTestCasesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
 function __c116(j: number): any {
@@ -11720,7 +11700,7 @@ function __c116(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsAuthConfigsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
 function __c117(j: number): any {
@@ -11736,10 +11716,26 @@ function __c117(j: number): any {
             baseUrl: "https://integrations.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProductsCertificatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
 function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://integrations.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsProductsCertificatesRequest" });
+  }
+}
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11751,7 +11747,7 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(3776, __c118, 0),
+          __S(3808, __c119, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -11771,7 +11767,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11787,7 +11783,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11803,7 +11799,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11819,7 +11815,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11835,7 +11831,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11851,7 +11847,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11867,7 +11863,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11883,19 +11879,19 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTemplatesRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subIntegrations: S.optional(__S(4065, __c127, 1)),
           integration: S.optional(S.String),
+          subIntegrations: S.optional(__S(4097, __c128, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaImportTemplateRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(4032, __c126, 0),
+          __S(4064, __c127, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11907,26 +11903,11 @@ function __c126(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ImportProjectsLocationsTemplatesRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationDescription: S.optional(S.String),
-          integration: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails",
-      });
-    case 1:
-      return S.Record(S.String, __S(4064, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integrationVersion: S.optional(__S(383, __c11, 31)),
-          subIntegrationVersions: S.optional(__S(4096, __c128, 0)),
+          subIntegrationVersions: S.optional(__S(4128, __c129, 0)),
+          integrationVersion: S.optional(__S(382, __c11, 30)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaImportTemplateResponse" });
   }
@@ -11934,15 +11915,30 @@ function __c127(j: number): any {
 function __c128(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(383, __c11, 31));
+      return S.suspend(() =>
+        S.Struct({
+          integration: S.optional(S.String),
+          integrationDescription: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails",
+      });
+    case 1:
+      return S.Record(S.String, __S(4096, __c128, 0));
   }
 }
 function __c129(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(382, __c11, 30));
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4160, __c130, 0),
+          __S(4192, __c131, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11956,7 +11952,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11972,12 +11968,12 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaLiftSuspensionResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4160, __c130, 0),
+          __S(4192, __c131, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -11993,17 +11989,17 @@ function __c131(j: number): any {
       });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4366, __c136, 14),
+          __S(4398, __c137, 14),
           S.Struct({
-            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -12015,60 +12011,42 @@ function __c132(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stringValues: S.optional(__S(4256, __c133, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaStringParameterArray" });
+      return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          intValues: S.optional(__S(4256, __c133, 0)),
+          doubleValues: S.optional(__S(4320, __c135, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntParameterArray" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDoubleParameterArray" });
     case 2:
       return S.Array(S.Boolean);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          booleanValues: S.optional(__S(4290, __c134, 2)),
+          booleanValues: S.optional(__S(4322, __c135, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaBooleanParameterArray" });
     case 4:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          stringValues: S.optional(__S(4288, __c134, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaStringParameterArray" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          doubleValues: S.optional(__S(4292, __c134, 4)),
+          intValues: S.optional(__S(4288, __c134, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaDoubleParameterArray" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stringValue: S.optional(S.String),
-          intValue: S.optional(S.String),
-          stringArray: S.optional(__S(4288, __c134, 0)),
-          booleanValue: S.optional(S.Boolean),
-          intArray: S.optional(__S(4289, __c134, 1)),
-          jsonValue: S.optional(S.String),
-          booleanArray: S.optional(__S(4291, __c134, 3)),
-          doubleValue: S.optional(S.Number),
-          doubleArray: S.optional(__S(4293, __c134, 5)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaValueType" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntParameterArray" });
   }
 }
 function __c136(j: number): any {
@@ -12076,157 +12054,175 @@ function __c136(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          intValue: S.optional(S.String),
+          doubleValue: S.optional(S.Number),
+          stringValue: S.optional(S.String),
+          doubleArray: S.optional(__S(4321, __c135, 1)),
+          booleanArray: S.optional(__S(4323, __c135, 3)),
+          booleanValue: S.optional(S.Boolean),
+          stringArray: S.optional(__S(4324, __c135, 4)),
+          jsonValue: S.optional(S.String),
+          intArray: S.optional(__S(4325, __c135, 5)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaValueType" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          refreshTokenExpireTime: S.optional(S.String),
+          accessToken: S.optional(S.String),
           tokenType: S.optional(S.String),
           refreshToken: S.optional(S.String),
-          refreshTokenExpireTime: S.optional(S.String),
           accessTokenExpireTime: S.optional(S.String),
-          accessToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAccessToken" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           referenceKey: S.optional(S.String),
-          literalValue: S.optional(__S(4320, __c135, 0)),
+          literalValue: S.optional(__S(4352, __c136, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMapField" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(4353, __c136, 1)),
-          value: S.optional(__S(4353, __c136, 1)),
+          value: S.optional(__S(4385, __c137, 1)),
+          key: S.optional(__S(4385, __c137, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMapEntry" });
     case 3:
-      return S.Array(__S(4354, __c136, 2));
+      return S.Array(__S(4386, __c137, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keyType: S.optional(S.String),
           valueType: S.optional(S.String),
-          entries: S.optional(__S(4355, __c136, 3)),
+          entries: S.optional(__S(4387, __c137, 3)),
+          keyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaParameterMap" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          accessToken: S.optional(__S(4352, __c136, 0)),
+          username: S.optional(S.String),
+          accessToken: S.optional(__S(4384, __c137, 0)),
           scope: S.optional(S.String),
-          password: S.optional(S.String),
-          requestType: S.optional(S.String),
-          tokenParams: S.optional(__S(4356, __c136, 4)),
           tokenEndpoint: S.optional(S.String),
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String),
-          username: S.optional(S.String),
+          tokenParams: S.optional(__S(4388, __c137, 4)),
+          password: S.optional(S.String),
+          requestType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          tokenParams: S.optional(__S(4356, __c136, 4)),
-          tokenEndpoint: S.optional(S.String),
-          clientId: S.optional(S.String),
-          requestType: S.optional(S.String),
-          scope: S.optional(S.String),
-          clientSecret: S.optional(S.String),
-          accessToken: S.optional(__S(4352, __c136, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUsernameAndPassword" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tokenExpireTime: S.optional(S.String),
-          token: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
-          audience: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOidcToken" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          accessToken: S.optional(__S(4352, __c136, 0)),
-          tokenEndpoint: S.optional(S.String),
-          scope: S.optional(S.String),
-          authCode: S.optional(S.String),
-          requestType: S.optional(S.String),
-          authEndpoint: S.optional(S.String),
-          applyReauthPolicy: S.optional(S.Boolean),
-          tokenParams: S.optional(__S(4356, __c136, 4)),
-          clientSecret: S.optional(S.String),
-          clientId: S.optional(S.String),
-          authParams: S.optional(__S(4356, __c136, 4)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAuthToken" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          jwtHeader: S.optional(S.String),
-          jwtPayload: S.optional(S.String),
-          jwt: S.optional(S.String),
-          secret: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaJwt" });
-    case 12:
       return S.suspend(() =>
         S.Struct({
           serviceAccount: S.optional(S.String),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaServiceAccountCredentials" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          secret: S.optional(S.String),
+          jwt: S.optional(S.String),
+          jwtHeader: S.optional(S.String),
+          jwtPayload: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaJwt" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          requestType: S.optional(S.String),
+          clientId: S.optional(S.String),
+          tokenEndpoint: S.optional(S.String),
+          scope: S.optional(S.String),
+          tokenParams: S.optional(__S(4388, __c137, 4)),
+          clientSecret: S.optional(S.String),
+          accessToken: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          audience: S.optional(S.String),
+          tokenExpireTime: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
+          token: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOidcToken" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          clientSecret: S.optional(S.String),
+          applyReauthPolicy: S.optional(S.Boolean),
+          tokenParams: S.optional(__S(4388, __c137, 4)),
+          authCode: S.optional(S.String),
+          requestType: S.optional(S.String),
+          clientId: S.optional(S.String),
+          authParams: S.optional(__S(4388, __c137, 4)),
+          authEndpoint: S.optional(S.String),
+          scope: S.optional(S.String),
+          tokenEndpoint: S.optional(S.String),
+          accessToken: S.optional(__S(4384, __c137, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          token: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAuthToken" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          password: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaUsernameAndPassword" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          oauth2ResourceOwnerCredentials: S.optional(__S(4357, __c136, 5)),
-          oauth2ClientCredentials: S.optional(__S(4358, __c136, 6)),
-          usernameAndPassword: S.optional(__S(4359, __c136, 7)),
-          oidcToken: S.optional(__S(4360, __c136, 8)),
+          oauth2ResourceOwnerCredentials: S.optional(__S(4389, __c137, 5)),
+          serviceAccountCredentials: S.optional(__S(4390, __c137, 6)),
+          jwt: S.optional(__S(4391, __c137, 7)),
+          oauth2ClientCredentials: S.optional(__S(4392, __c137, 8)),
           credentialType: S.optional(S.String),
-          oauth2AuthorizationCode: S.optional(__S(4361, __c136, 9)),
-          authToken: S.optional(__S(4362, __c136, 10)),
-          jwt: S.optional(__S(4363, __c136, 11)),
-          serviceAccountCredentials: S.optional(__S(4364, __c136, 12)),
+          oidcToken: S.optional(__S(4393, __c137, 9)),
+          oauth2AuthorizationCode: S.optional(__S(4394, __c137, 10)),
+          authToken: S.optional(__S(4395, __c137, 11)),
+          usernameAndPassword: S.optional(__S(4396, __c137, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCredential" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          certificateId: S.optional(S.String),
-          description: S.optional(S.String),
-          overrideValidTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          visibility: S.optional(S.String),
-          state: S.optional(S.String),
-          credentialType: S.optional(S.String),
-          creatorEmail: S.optional(S.String),
-          validTime: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          decryptedCredential: S.optional(__S(4365, __c136, 13)),
-          reason: S.optional(S.String),
-          expiryNotificationDuration: S.optional(__S(4256, __c133, 0)),
-          encryptedCredential: S.optional(S.String),
           createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          lastModifierEmail: S.optional(S.String),
+          reason: S.optional(S.String),
+          name: S.optional(S.String),
+          encryptedCredential: S.optional(S.String),
+          validTime: S.optional(S.String),
+          expiryNotificationDuration: S.optional(__S(4288, __c134, 0)),
+          credentialType: S.optional(S.String),
+          overrideValidTime: S.optional(S.String),
+          certificateId: S.optional(S.String),
+          decryptedCredential: S.optional(__S(4397, __c137, 13)),
+          creatorEmail: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          visibility: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaAuthConfig" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12237,7 +12233,7 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(4384, __c137, 0),
+          __S(4416, __c138, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -12251,16 +12247,16 @@ function __c137(j: number): any {
       ).annotate({ identifier: "LinkProjectsLocationsAppsScriptProjectsRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           readMask: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12271,29 +12267,29 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4366, __c136, 14));
+      return S.Array(__S(4398, __c137, 14));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          authConfigs: S.optional(__S(4448, __c139, 0)),
+          authConfigs: S.optional(__S(4480, __c140, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListAuthConfigsResponse" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12304,29 +12300,29 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCertificatesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(5025, __c157, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          certificates: S.optional(__S(4512, __c141, 0)),
+          certificates: S.optional(__S(4544, __c142, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListCertificatesResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12338,199 +12334,228 @@ function __c142(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secretVersion: S.optional(S.String),
+          type: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1Secret" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EncryptionKey" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          redirectUri: S.optional(S.String),
-          authCode: S.optional(S.String),
-          clientId: S.optional(S.String),
-          clientSecret: S.optional(__S(4545, __c142, 1)),
-          authUri: S.optional(S.String),
-          enablePkce: S.optional(S.Boolean),
-          pkceVerifier: S.optional(S.String),
-          scopes: S.optional(__S(4256, __c133, 0)),
+          secretVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1Secret" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          redirectUri: S.optional(S.String),
-          scopes: S.optional(__S(4256, __c133, 0)),
+          boolValue: S.optional(S.Boolean),
+          encryptionKeyValue: S.optional(__S(4577, __c143, 1)),
+          stringValue: S.optional(S.String),
+          key: S.optional(S.String),
+          intValue: S.optional(S.String),
+          secretValue: S.optional(__S(4578, __c143, 2)),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1ConfigVariable" });
+    case 4:
+      return S.Array(__S(4579, __c143, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          sshClientCertPass: S.optional(__S(4578, __c143, 2)),
+          certType: S.optional(S.String),
+          sshClientCert: S.optional(__S(4578, __c143, 2)),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigSshPublicKey" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          scopes: S.optional(__S(4288, __c134, 0)),
           authCode: S.optional(S.String),
+          redirectUri: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged",
       });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeyName: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EncryptionKey" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          stringValue: S.optional(S.String),
-          encryptionKeyValue: S.optional(__S(4548, __c142, 4)),
-          secretValue: S.optional(__S(4545, __c142, 1)),
-          boolValue: S.optional(S.Boolean),
-          intValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1ConfigVariable" });
-    case 6:
-      return S.Array(__S(4549, __c142, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          issuer: S.optional(S.String),
-          audience: S.optional(S.String),
-          subject: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(__S(4578, __c143, 2)),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          jwtClaims: S.optional(__S(4551, __c142, 7)),
-          clientKey: S.optional(__S(4545, __c142, 1)),
+          audience: S.optional(S.String),
+          subject: S.optional(S.String),
+          issuer: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          sshClientCertPass: S.optional(__S(4545, __c142, 1)),
-          sshClientCert: S.optional(__S(4545, __c142, 1)),
-          username: S.optional(S.String),
-          certType: S.optional(S.String),
+          clientKey: S.optional(__S(4578, __c143, 2)),
+          jwtClaims: S.optional(__S(4584, __c143, 8)),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigSshPublicKey" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer" });
     case 10:
       return S.suspend(() =>
         S.Struct({
+          enablePkce: S.optional(S.Boolean),
+          clientSecret: S.optional(__S(4578, __c143, 2)),
+          authUri: S.optional(S.String),
+          redirectUri: S.optional(S.String),
+          scopes: S.optional(__S(4288, __c134, 0)),
+          pkceVerifier: S.optional(S.String),
+          authCode: S.optional(S.String),
           clientId: S.optional(S.String),
-          clientSecret: S.optional(__S(4545, __c142, 1)),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          password: S.optional(__S(4545, __c142, 1)),
+          password: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfigUserPassword" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          oauth2AuthCodeFlow: S.optional(__S(4546, __c142, 2)),
-          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(4547, __c142, 3)),
-          authType: S.optional(S.String),
-          additionalVariables: S.optional(__S(4550, __c142, 6)),
           authKey: S.optional(S.String),
-          oauth2JwtBearer: S.optional(__S(4552, __c142, 8)),
-          sshPublicKey: S.optional(__S(4553, __c142, 9)),
-          oauth2ClientCredentials: S.optional(__S(4554, __c142, 10)),
-          userPassword: S.optional(__S(4555, __c142, 11)),
+          sshPublicKey: S.optional(__S(4581, __c143, 5)),
+          oauth2AuthCodeFlowGoogleManaged: S.optional(__S(4582, __c143, 6)),
+          oauth2ClientCredentials: S.optional(__S(4583, __c143, 7)),
+          oauth2JwtBearer: S.optional(__S(4585, __c143, 9)),
+          oauth2AuthCodeFlow: S.optional(__S(4586, __c143, 10)),
+          additionalVariables: S.optional(__S(4580, __c143, 4)),
+          userPassword: S.optional(__S(4587, __c143, 11)),
+          authType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1AuthConfig" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          level: S.optional(S.String),
+          billingCategory: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1LogConfig" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1BillingConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          serviceAttachment: S.optional(S.String),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          clientPrivateKeyPass: S.optional(__S(4578, __c143, 2)),
+          serverCertType: S.optional(S.String),
+          additionalVariables: S.optional(__S(4580, __c143, 4)),
+          useSsl: S.optional(S.Boolean),
+          trustModel: S.optional(S.String),
+          privateServerCertificate: S.optional(__S(4578, __c143, 2)),
+          clientCertType: S.optional(S.String),
+          clientCertificate: S.optional(__S(4578, __c143, 2)),
+          type: S.optional(S.String),
+          clientPrivateKey: S.optional(__S(4578, __c143, 2)),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1Destination" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1SslConfig" });
     case 15:
-      return S.Array(__S(4558, __c142, 14));
+      return S.suspend(() =>
+        S.Struct({
+          topic: S.optional(S.String),
+          projectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingConfigDeadLetterConfig" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
-          destinations: S.optional(__S(4559, __c142, 15)),
+          appendAcl: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1DestinationConfig" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EnrichmentConfig" });
     case 17:
-      return S.Array(__S(4560, __c142, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          cpu: S.optional(S.String),
-          memory: S.optional(S.String),
+          host: S.optional(S.String),
+          port: S.optional(S.Number),
+          serviceAttachment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1ResourceLimits" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1Destination" });
+    case 18:
+      return S.Array(__S(4593, __c143, 17));
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          destinations: S.optional(__S(4594, __c143, 18)),
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1DestinationConfig" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          additionalVariables: S.optional(__S(4580, __c143, 4)),
+          enrichmentEnabled: S.optional(S.Boolean),
+          sslConfig: S.optional(__S(4590, __c143, 14)),
+          deadLetterConfig: S.optional(__S(4591, __c143, 15)),
+          globalEventFilter: S.optional(S.String),
+          authConfig: S.optional(__S(4588, __c143, 12)),
+          privateConnectivityAllowlistedProjects: S.optional(__S(4288, __c134, 0)),
+          allowedEventTypes: S.optional(__S(4288, __c134, 0)),
+          eventsListenerIngressEndpoint: S.optional(S.String),
+          privateConnectivityEnabled: S.optional(S.Boolean),
+          enrichmentConfig: S.optional(__S(4592, __c143, 16)),
+          proxyDestinationConfig: S.optional(__S(4595, __c143, 19)),
+          registrationDestinationConfig: S.optional(__S(4595, __c143, 19)),
+          listenerAuthConfig: S.optional(__S(4588, __c143, 12)),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingConfig" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           memory: S.optional(S.String),
           cpu: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1ResourceRequests" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           memoryUtilizationThreshold: S.optional(S.String),
           cpuUtilizationThreshold: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1HPAConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          sharedDeployment: S.optional(S.String),
-          resourceLimits: S.optional(__S(4562, __c142, 18)),
-          deploymentModelMigrationState: S.optional(S.String),
-          resourceRequests: S.optional(__S(4563, __c142, 19)),
-          deploymentModel: S.optional(S.String),
-          tlsMigrationState: S.optional(S.String),
-          hpaConfig: S.optional(__S(4564, __c142, 20)),
-          ratelimitThreshold: S.optional(S.String),
-          internalclientRatelimitThreshold: S.optional(S.String),
-          maxInstanceRequestConcurrency: S.optional(S.Number),
-          connectionRatelimitWindowSeconds: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1ConnectorVersionInfraConfig" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          listValues: S.optional(__S(4256, __c133, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFiltersStringListValues" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          filterType: S.optional(S.String),
-          stringListValues: S.optional(__S(4566, __c142, 22)),
-          filterKey: S.optional(S.String),
-          stringValue: S.optional(S.String),
-          intValue: S.optional(S.String),
+          cpu: S.optional(S.String),
+          memory: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFilters" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1ResourceLimits" });
     case 24:
-      return S.Array(__S(4567, __c142, 23));
+      return S.suspend(() =>
+        S.Struct({
+          deploymentModelMigrationState: S.optional(S.String),
+          connectionRatelimitWindowSeconds: S.optional(S.String),
+          resourceRequests: S.optional(__S(4597, __c143, 21)),
+          internalclientRatelimitThreshold: S.optional(S.String),
+          hpaConfig: S.optional(__S(4598, __c143, 22)),
+          deploymentModel: S.optional(S.String),
+          resourceLimits: S.optional(__S(4599, __c143, 23)),
+          ratelimitThreshold: S.optional(S.String),
+          maxInstanceRequestConcurrency: S.optional(S.Number),
+          tlsMigrationState: S.optional(S.String),
+          sharedDeployment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1ConnectorVersionInfraConfig" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          billingCategory: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          level: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1BillingConfig" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1LogConfig" });
     case 26:
+      return S.Array(__S(4595, __c143, 19));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           locked: S.optional(S.Boolean),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1LockConfig" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
@@ -12538,21 +12563,6 @@ function __c142(j: number): any {
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudConnectorsV1ConnectionStatus" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          additionalVariables: S.optional(__S(4550, __c142, 6)),
-          clientCertificate: S.optional(__S(4545, __c142, 1)),
-          clientPrivateKeyPass: S.optional(__S(4545, __c142, 1)),
-          type: S.optional(S.String),
-          serverCertType: S.optional(S.String),
-          clientCertType: S.optional(S.String),
-          trustModel: S.optional(S.String),
-          privateServerCertificate: S.optional(__S(4545, __c142, 1)),
-          useSsl: S.optional(S.Boolean),
-          clientPrivateKey: S.optional(__S(4545, __c142, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1SslConfig" });
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -12563,147 +12573,133 @@ function __c142(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          eventTypes: S.optional(__S(4256, __c133, 0)),
-          updateTime: S.optional(S.String),
-          nextRefreshTime: S.optional(S.String),
-          eventSubscriptions: S.optional(__S(4256, __c133, 0)),
-          id: S.optional(S.String),
-          additionalVariables: S.optional(__S(4550, __c142, 6)),
+          listValues: S.optional(__S(4288, __c134, 0)),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookData" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFiltersStringListValues" });
     case 31:
-      return S.Array(__S(4574, __c142, 30));
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
-          webhookData: S.optional(__S(4575, __c142, 31)),
+          filterKey: S.optional(S.String),
+          stringValue: S.optional(S.String),
+          intValue: S.optional(S.String),
+          stringListValues: S.optional(__S(4606, __c143, 30)),
+          filterType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingStatus" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          webhookSubscriptions: S.optional(__S(4576, __c143, 0)),
-          eventsListenerPscSa: S.optional(S.String),
-          status: S.optional(__S(4577, __c143, 1)),
-          eventsListenerEndpoint: S.optional(S.String),
-          webhookData: S.optional(__S(4574, __c142, 30)),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          duration: S.optional(S.String),
-          quotaLimit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1TrafficShapingConfig" });
-    case 4:
-      return S.Array(__S(4579, __c143, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          appendAcl: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EnrichmentConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          topic: S.optional(S.String),
-          projectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingConfigDeadLetterConfig" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          enrichmentConfig: S.optional(__S(4581, __c143, 5)),
-          registrationDestinationConfig: S.optional(__S(4560, __c142, 16)),
-          authConfig: S.optional(__S(4556, __c142, 12)),
-          sslConfig: S.optional(__S(4572, __c142, 28)),
-          deadLetterConfig: S.optional(__S(4582, __c143, 6)),
-          privateConnectivityAllowlistedProjects: S.optional(__S(4256, __c133, 0)),
-          allowedEventTypes: S.optional(__S(4256, __c133, 0)),
-          privateConnectivityEnabled: S.optional(S.Boolean),
-          proxyDestinationConfig: S.optional(__S(4560, __c142, 16)),
-          enrichmentEnabled: S.optional(S.Boolean),
-          globalEventFilter: S.optional(S.String),
-          eventsListenerIngressEndpoint: S.optional(S.String),
-          additionalVariables: S.optional(__S(4550, __c142, 6)),
-          listenerAuthConfig: S.optional(__S(4556, __c142, 12)),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tlsServiceDirectory: S.optional(S.String),
-          imageLocation: S.optional(S.String),
-          connectorVersion: S.optional(S.String),
-          authConfig: S.optional(__S(4556, __c142, 12)),
-          envoyImageLocation: S.optional(S.String),
-          logConfig: S.optional(__S(4557, __c142, 13)),
-          destinationConfigs: S.optional(__S(4561, __c142, 17)),
-          subscriptionType: S.optional(S.String),
-          host: S.optional(S.String),
-          createTime: S.optional(S.String),
-          connectorVersionInfraConfig: S.optional(__S(4565, __c142, 21)),
-          name: S.optional(S.String),
-          adminFilters: S.optional(__S(4568, __c142, 24)),
-          asyncOperationsEnabled: S.optional(S.Boolean),
-          fallbackOnAdminCredentials: S.optional(S.Boolean),
-          connectionRevision: S.optional(S.String),
-          labels: S.optional(__S(64, __c2, 0)),
-          suspended: S.optional(S.Boolean),
-          billingConfig: S.optional(__S(4569, __c142, 25)),
-          lockConfig: S.optional(__S(4570, __c142, 26)),
-          updateTime: S.optional(S.String),
-          status: S.optional(__S(4571, __c142, 27)),
-          eventingEnablementType: S.optional(S.String),
-          connectorVersionLaunchStage: S.optional(S.String),
-          authOverrideEnabled: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          euaOauthAuthConfig: S.optional(__S(4556, __c142, 12)),
-          sslConfig: S.optional(__S(4572, __c142, 28)),
-          serviceAccount: S.optional(S.String),
-          nodeConfig: S.optional(__S(4573, __c142, 29)),
-          serviceDirectory: S.optional(S.String),
-          eventingRuntimeData: S.optional(__S(4578, __c143, 2)),
-          configVariables: S.optional(__S(4550, __c142, 6)),
-          isTrustedTester: S.optional(S.Boolean),
-          trafficShapingConfigs: S.optional(__S(4580, __c143, 4)),
-          eventingConfig: S.optional(__S(4583, __c143, 7)),
-        }),
-      ).annotate({ identifier: "GoogleCloudConnectorsV1Connection" });
-    case 9:
-      return S.Array(__S(4584, __c143, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          connections: S.optional(__S(4585, __c143, 9)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListConnectionsResponse" });
+      ).annotate({ identifier: "GoogleCloudConnectorsV1AdminFilters" });
   }
 }
 function __c144(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(4607, __c143, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingStatus" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          additionalVariables: S.optional(__S(4580, __c143, 4)),
+          updateTime: S.optional(S.String),
+          eventTypes: S.optional(__S(4288, __c134, 0)),
+          eventSubscriptions: S.optional(__S(4288, __c134, 0)),
+          createTime: S.optional(S.String),
+          nextRefreshTime: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookData" });
+    case 3:
+      return S.Array(__S(4610, __c144, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          webhookData: S.optional(__S(4611, __c144, 3)),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(__S(4609, __c144, 1)),
+          webhookSubscriptions: S.optional(__S(4612, __c144, 4)),
+          eventsListenerEndpoint: S.optional(S.String),
+          webhookData: S.optional(__S(4610, __c144, 2)),
+          eventsListenerPscSa: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1EventingRuntimeData" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          quotaLimit: S.optional(S.String),
+          duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1TrafficShapingConfig" });
+    case 7:
+      return S.Array(__S(4614, __c144, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          envoyImageLocation: S.optional(S.String),
+          fallbackOnAdminCredentials: S.optional(S.Boolean),
+          subscriptionType: S.optional(S.String),
+          connectorVersionLaunchStage: S.optional(S.String),
+          configVariables: S.optional(__S(4580, __c143, 4)),
+          eventingEnablementType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          tlsServiceDirectory: S.optional(S.String),
+          authOverrideEnabled: S.optional(S.Boolean),
+          euaOauthAuthConfig: S.optional(__S(4588, __c143, 12)),
+          connectorVersion: S.optional(S.String),
+          host: S.optional(S.String),
+          name: S.optional(S.String),
+          billingConfig: S.optional(__S(4589, __c143, 13)),
+          imageLocation: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          serviceDirectory: S.optional(S.String),
+          eventingConfig: S.optional(__S(4596, __c143, 20)),
+          connectorVersionInfraConfig: S.optional(__S(4600, __c143, 24)),
+          logConfig: S.optional(__S(4601, __c143, 25)),
+          destinationConfigs: S.optional(__S(4602, __c143, 26)),
+          serviceAccount: S.optional(S.String),
+          suspended: S.optional(S.Boolean),
+          lockConfig: S.optional(__S(4603, __c143, 27)),
+          labels: S.optional(__S(64, __c2, 0)),
+          status: S.optional(__S(4604, __c143, 28)),
+          nodeConfig: S.optional(__S(4605, __c143, 29)),
+          adminFilters: S.optional(__S(4608, __c144, 0)),
+          connectionRevision: S.optional(S.String),
+          description: S.optional(S.String),
+          isTrustedTester: S.optional(S.Boolean),
+          eventingRuntimeData: S.optional(__S(4613, __c144, 5)),
+          authConfig: S.optional(__S(4588, __c143, 12)),
+          sslConfig: S.optional(__S(4590, __c143, 14)),
+          asyncOperationsEnabled: S.optional(S.Boolean),
+          trafficShapingConfigs: S.optional(__S(4615, __c144, 7)),
+        }),
+      ).annotate({ identifier: "GoogleCloudConnectorsV1Connection" });
+    case 9:
+      return S.Array(__S(4616, __c144, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          connections: S.optional(__S(4617, __c144, 9)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListConnectionsResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12715,23 +12711,23 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          outputSchema: S.optional(S.String),
-          action: S.optional(S.String),
           inputSchema: S.optional(S.String),
+          action: S.optional(S.String),
+          outputSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaRuntimeActionSchema" });
     case 2:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runtimeActionSchemas: S.optional(__S(4610, __c144, 2)),
+          runtimeActionSchemas: S.optional(__S(4642, __c145, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12752,22 +12748,22 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entity: S.optional(S.String),
-          fieldSchema: S.optional(S.String),
           arrayFieldSchema: S.optional(S.String),
+          fieldSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaRuntimeEntitySchema" });
     case 2:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          runtimeEntitySchemas: S.optional(__S(4674, __c146, 2)),
           nextPageToken: S.optional(S.String),
-          runtimeEntitySchemas: S.optional(__S(4642, __c145, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12775,8 +12771,8 @@ function __c146(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12787,57 +12783,57 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsRequest" });
   }
 }
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          creatorEmail: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lastModifierEmail: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegration" });
-    case 1:
-      return S.Array(__S(4704, __c147, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          integrations: S.optional(__S(4705, __c147, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListIntegrationsResponse" });
-  }
-}
 function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          "filterParams.customFilter": S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          "filterParams.eventStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          lastModifierEmail: S.optional(S.String),
+          active: S.optional(S.Boolean),
+          creatorEmail: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaIntegration" });
+    case 1:
+      return S.Array(__S(4736, __c148, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          integrations: S.optional(__S(4737, __c148, 1)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListIntegrationsResponse" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          "filterParams.eventStatuses": S.optional(__S(4288, __c134, 0).pipe(T.Query())),
           "filterParams.parameterPairValue": S.optional(S.String.pipe(T.Query())),
-          truncateParams: S.optional(S.Boolean.pipe(T.Query())),
+          "filterParams.taskStatuses": S.optional(__S(4288, __c134, 0).pipe(T.Query())),
           refreshAcl: S.optional(S.Boolean.pipe(T.Query())),
-          "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
-          "filterParams.startTime": S.optional(S.String.pipe(T.Query())),
-          "filterParams.parameterValue": S.optional(S.String.pipe(T.Query())),
-          "filterParams.parameterKey": S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          "filterParams.taskStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
-          snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
-          readMask: S.optional(S.String.pipe(T.Query())),
+          truncateParams: S.optional(S.Boolean.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           "filterParams.endTime": S.optional(S.String.pipe(T.Query())),
           "filterParams.workflowName": S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
           "filterParams.parameterType": S.optional(S.String.pipe(T.Query())),
+          "filterParams.parameterValue": S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          "filterParams.parameterKey": S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          readMask: S.optional(S.String.pipe(T.Query())),
+          "filterParams.startTime": S.optional(S.String.pipe(T.Query())),
+          "filterParams.customFilter": S.optional(S.String.pipe(T.Query())),
+          "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
+          snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12848,122 +12844,129 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsExecutionsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commonErrorCode: S.optional(S.String),
+          replayReason: S.optional(S.String),
+          replayedExecutionInfoIds: S.optional(__S(4288, __c134, 0)),
+          originalExecutionInfoId: S.optional(S.String),
+          replayMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CrmlogErrorCode" });
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          taskNumber: S.optional(S.Number),
-          severity: S.optional(S.String),
-          errorCode: S.optional(__S(4768, __c149, 0)),
+          eventExecutionSnapshotId: S.optional(S.String),
+          conditionResults: S.optional(__S(3659, __c114, 11)),
+          eventExecutionInfoId: S.optional(S.String),
+          taskExecutionDetails: S.optional(__S(3664, __c114, 16)),
+          checkpointTaskNumber: S.optional(S.String),
+          taskName: S.optional(S.String),
+          snapshotTime: S.optional(S.String),
+          diffParams: S.optional(__S(224, __c7, 0)),
+          eventParams: S.optional(__S(224, __c7, 0)),
+          eventExecutionSnapshotMetadata: S.optional(__S(3660, __c114, 12)),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoErrorDetail" });
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot" });
     case 2:
-      return S.Array(__S(4769, __c149, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          eventAttemptStats: S.optional(__S(3651, __c114, 3)),
+          cancelReason: S.optional(S.String),
+          nextExecutionTime: S.optional(S.String),
+          eventExecutionState: S.optional(S.String),
+          eventExecutionSnapshotsSize: S.optional(S.String),
+          logFilePath: S.optional(S.String),
+          eventRetriesFromBeginningCount: S.optional(S.Number),
+          eventExecutionSnapshot: S.optional(__S(4802, __c150, 2)),
+          ryeLockUnheldCount: S.optional(S.Number),
+          networkAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           traceId: S.optional(S.String),
           parentEventExecutionInfoId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseCrmEventbusProtoExecutionTraceInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          originalExecutionInfoId: S.optional(S.String),
-          replayedExecutionInfoIds: S.optional(__S(4256, __c133, 0)),
-          replayReason: S.optional(S.String),
-          replayMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          eventExecutionSnapshotMetadata: S.optional(__S(3624, __c113, 8)),
-          taskName: S.optional(S.String),
-          taskExecutionDetails: S.optional(__S(3621, __c113, 5)),
-          snapshotTime: S.optional(S.String),
-          conditionResults: S.optional(__S(3623, __c113, 7)),
-          checkpointTaskNumber: S.optional(S.String),
-          diffParams: S.optional(__S(224, __c7, 0)),
-          eventParams: S.optional(__S(224, __c7, 0)),
-          eventExecutionSnapshotId: S.optional(S.String),
-          eventExecutionInfoId: S.optional(S.String),
+          commonErrorCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot" });
+      ).annotate({ identifier: "CrmlogErrorCode" });
     case 6:
-      return S.Array(__S(4773, __c149, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          networkAddress: S.optional(S.String),
-          eventAttemptStats: S.optional(__S(3628, __c113, 12)),
-          logFilePath: S.optional(S.String),
-          ryeLockUnheldCount: S.optional(S.Number),
-          eventRetriesFromBeginningCount: S.optional(S.Number),
-          nextExecutionTime: S.optional(S.String),
-          eventExecutionSnapshotsSize: S.optional(S.String),
-          cancelReason: S.optional(S.String),
-          eventExecutionSnapshot: S.optional(__S(4774, __c149, 6)),
-          eventExecutionState: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(__S(4805, __c150, 5)),
+          taskNumber: S.optional(S.Number),
+          severity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoErrorDetail" });
+    case 7:
+      return S.Array(__S(4806, __c150, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          product: S.optional(S.String),
-          clientId: S.optional(S.String),
-          tenant: S.optional(S.String),
-          cloudLoggingDetails: S.optional(__S(288, __c9, 0)),
-          createTime: S.optional(S.String),
-          triggerId: S.optional(S.String),
-          errors: S.optional(__S(4770, __c149, 2)),
-          executionTraceInfo: S.optional(__S(4771, __c149, 3)),
-          integrationVersionUserLabel: S.optional(S.String),
-          responseParams: S.optional(__S(224, __c7, 0)),
-          requestId: S.optional(S.String),
-          workflowRetryBackoffIntervalSeconds: S.optional(S.String),
-          eventExecutionInfoId: S.optional(S.String),
-          workflowId: S.optional(S.String),
-          postMethod: S.optional(S.String),
-          replayInfo: S.optional(__S(4772, __c149, 4)),
-          lastModifiedTime: S.optional(S.String),
-          workflowName: S.optional(S.String),
-          requestParams: S.optional(__S(224, __c7, 0)),
-          snapshotNumber: S.optional(S.String),
-          eventExecutionDetails: S.optional(__S(4775, __c149, 7)),
-          errorCode: S.optional(__S(4768, __c149, 0)),
+          cloudLoggingSeverity: S.optional(S.String),
+          enableCloudLogging: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo" });
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCloudLoggingDetails" });
     case 9:
-      return S.Array(__S(4776, __c149, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          executionInfos: S.optional(__S(4777, __c149, 9)),
-          executions: S.optional(__S(3616, __c113, 0)),
+          workflowId: S.optional(S.String),
+          requestId: S.optional(S.String),
+          replayInfo: S.optional(__S(4800, __c150, 0)),
+          requestParams: S.optional(__S(224, __c7, 0)),
+          eventExecutionInfoId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          eventExecutionDetails: S.optional(__S(4803, __c150, 3)),
+          triggerId: S.optional(S.String),
+          snapshotNumber: S.optional(S.String),
+          executionTraceInfo: S.optional(__S(4804, __c150, 4)),
+          workflowRetryBackoffIntervalSeconds: S.optional(S.String),
+          errors: S.optional(__S(4807, __c150, 7)),
+          tenant: S.optional(S.String),
+          product: S.optional(S.String),
+          integrationVersionUserLabel: S.optional(S.String),
+          cloudLoggingDetails: S.optional(__S(4808, __c150, 8)),
+          postMethod: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          workflowName: S.optional(S.String),
+          errorCode: S.optional(__S(4805, __c150, 5)),
+          responseParams: S.optional(__S(224, __c7, 0)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo" });
+    case 10:
+      return S.Array(__S(4809, __c150, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          executionInfos: S.optional(__S(4810, __c150, 10)),
           nextPageToken: S.optional(S.String),
+          executions: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListExecutionsResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12974,157 +12977,17 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest" });
   }
 }
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4880, __c152, 16));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          suspensions: S.optional(__S(4832, __c151, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSuspensionsResponse" });
-  }
-}
 function __c152(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resolveTime: S.optional(S.String),
-          resolver: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionAudit" });
+      return S.Array(__S(4912, __c153, 16));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          emailAddress: S.optional(S.String),
-          gaiaId: S.optional(S.String),
+          suspensions: S.optional(__S(4864, __c152, 0)),
+          nextPageToken: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          gaiaIdentity: S.optional(__S(4865, __c152, 1)),
-          loasRole: S.optional(S.String),
-          googleGroup: S.optional(__S(4865, __c152, 1)),
-          mdbGroup: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionAuthPermissions" });
-    case 3:
-      return S.Array(__S(4866, __c152, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          triggerId: S.optional(S.String),
-          testMode: S.optional(S.Boolean),
-          workflowName: S.optional(S.String),
-          workflowId: S.optional(S.String),
-          resourceName: S.optional(S.String),
-          parameters: S.optional(__S(259, __c8, 3)),
-          priority: S.optional(S.String),
-          clientId: S.optional(S.String),
-          quotaRetryCount: S.optional(S.Number),
-          userGeneratedExecutionId: S.optional(S.String),
-          scheduledTime: S.optional(S.String),
-          requestId: S.optional(S.String),
-          ignoreErrorIfNoActiveWorkflow: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          suspensionInfoEventParameterKey: S.optional(S.String),
-          postToQueueWithTriggerIdRequest: S.optional(__S(4868, __c152, 4)),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCustomSuspensionRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          componentId: S.optional(S.String),
-          templateId: S.optional(S.String),
-          assigneeEmailAddress: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBuganizerNotification" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoToken" });
-    case 8:
-      return S.Array(__S(4871, __c152, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          tokens: S.optional(__S(4872, __c152, 8)),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoAddress" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          request: S.optional(__S(4869, __c152, 5)),
-          buganizerNotification: S.optional(__S(4870, __c152, 6)),
-          emailAddress: S.optional(__S(4873, __c152, 9)),
-          pubsubTopic: S.optional(S.String),
-          escalatorQueue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNotification" });
-    case 11:
-      return S.Array(__S(4874, __c152, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          liftWhenExpired: S.optional(S.Boolean),
-          remindAfterMs: S.optional(S.Number),
-          expireAfterMs: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionExpiration" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          whoMayResolve: S.optional(__S(4867, __c152, 3)),
-          notifications: S.optional(__S(4875, __c152, 11)),
-          suspensionExpiration: S.optional(__S(4876, __c152, 12)),
-          customMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionConfig" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          remindTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          liftWhenExpired: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          expiration: S.optional(__S(4878, __c152, 14)),
-          customMessage: S.optional(S.String),
-          emailAddresses: S.optional(__S(4256, __c133, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          audit: S.optional(__S(4864, __c152, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          suspensionConfig: S.optional(__S(4877, __c152, 13)),
-          approvalConfig: S.optional(__S(4879, __c152, 15)),
-          eventExecutionInfoId: S.optional(S.String),
-          name: S.optional(S.String),
-          integration: S.optional(S.String),
-          lastModifyTime: S.optional(S.String),
-          taskId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspension" });
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSuspensionsResponse" });
   }
 }
 function __c153(j: number): any {
@@ -13132,12 +12995,152 @@ function __c153(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          resolver: S.optional(S.String),
+          resolveTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionAudit" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          remindTime: S.optional(S.String),
+          liftWhenExpired: S.optional(S.Boolean),
+          expireTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customMessage: S.optional(S.String),
+          emailAddresses: S.optional(__S(4288, __c134, 0)),
+          expiration: S.optional(__S(4897, __c153, 1)),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoToken" });
+    case 4:
+      return S.Array(__S(4899, __c153, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          email: S.optional(S.String),
+          tokens: S.optional(__S(4900, __c153, 4)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoAddress" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          workflowId: S.optional(S.String),
+          triggerId: S.optional(S.String),
+          requestId: S.optional(S.String),
+          priority: S.optional(S.String),
+          scheduledTime: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          clientId: S.optional(S.String),
+          userGeneratedExecutionId: S.optional(S.String),
+          quotaRetryCount: S.optional(S.Number),
+          workflowName: S.optional(S.String),
+          ignoreErrorIfNoActiveWorkflow: S.optional(S.Boolean),
+          parameters: S.optional(__S(259, __c8, 3)),
+          testMode: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          suspensionInfoEventParameterKey: S.optional(S.String),
+          postToQueueWithTriggerIdRequest: S.optional(__S(4902, __c153, 6)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoCustomSuspensionRequest" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          componentId: S.optional(S.String),
+          title: S.optional(S.String),
+          templateId: S.optional(S.String),
+          assigneeEmailAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoBuganizerNotification" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          pubsubTopic: S.optional(S.String),
+          escalatorQueue: S.optional(S.String),
+          emailAddress: S.optional(__S(4901, __c153, 5)),
+          request: S.optional(__S(4903, __c153, 7)),
+          buganizerNotification: S.optional(__S(4904, __c153, 8)),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoNotification" });
+    case 10:
+      return S.Array(__S(4905, __c153, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          expireAfterMs: S.optional(S.Number),
+          remindAfterMs: S.optional(S.Number),
+          liftWhenExpired: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionExpiration" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          emailAddress: S.optional(S.String),
+          gaiaId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          loasRole: S.optional(S.String),
+          gaiaIdentity: S.optional(__S(4908, __c153, 12)),
+          googleGroup: S.optional(__S(4908, __c153, 12)),
+          mdbGroup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionAuthPermissions" });
+    case 14:
+      return S.Array(__S(4909, __c153, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          notifications: S.optional(__S(4906, __c153, 10)),
+          suspensionExpiration: S.optional(__S(4907, __c153, 11)),
+          whoMayResolve: S.optional(__S(4910, __c153, 14)),
+          customMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseCrmEventbusProtoSuspensionConfig" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          lastModifyTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          audit: S.optional(__S(4896, __c153, 0)),
+          approvalConfig: S.optional(__S(4898, __c153, 2)),
+          eventExecutionInfoId: S.optional(S.String),
+          suspensionConfig: S.optional(__S(4911, __c153, 15)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          integration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaSuspension" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           fieldMask: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13148,24 +13151,24 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          integrationVersions: S.optional(__S(4128, __c129, 0)),
           noPermission: S.optional(S.Boolean),
-          integrationVersions: S.optional(__S(4096, __c128, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4993, __c156, 1),
+          __S(5025, __c157, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -13179,43 +13182,43 @@ function __c155(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCertificatesRequest" });
   }
 }
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          passphrase: S.optional(S.String),
-          encryptedPrivateKey: S.optional(S.String),
-          sslCertificate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaClientCertificate" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          validEndTime: S.optional(S.String),
-          certificateStatus: S.optional(S.String),
-          rawCertificate: S.optional(__S(4992, __c156, 0)),
-          credentialId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          requestorId: S.optional(S.String),
-          validStartTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCertificate" });
-  }
-}
 function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          encryptedPrivateKey: S.optional(S.String),
+          sslCertificate: S.optional(S.String),
+          passphrase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaClientCertificate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          certificateStatus: S.optional(S.String),
+          rawCertificate: S.optional(__S(5024, __c157, 0)),
+          description: S.optional(S.String),
+          credentialId: S.optional(S.String),
+          validEndTime: S.optional(S.String),
+          validStartTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          requestorId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCertificate" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           readMask: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13229,22 +13232,22 @@ function __c157(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          testCases: S.optional(__S(5057, __c158, 1)),
           nextPageToken: S.optional(S.String),
-          testCases: S.optional(__S(5025, __c157, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListTestCasesResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          readMask: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13255,16 +13258,16 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           readMask: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13275,16 +13278,16 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13295,32 +13298,32 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "filterParams.workflowName": S.optional(S.String.pipe(T.Query())),
           "filterParams.parameterPairValue": S.optional(S.String.pipe(T.Query())),
+          "filterParams.workflowName": S.optional(S.String.pipe(T.Query())),
+          "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
+          snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          "filterParams.taskStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
+          truncateParams: S.optional(S.Boolean.pipe(T.Query())),
+          "filterParams.parameterType": S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          "filterParams.eventStatuses": S.optional(__S(4256, __c133, 0).pipe(T.Query())),
-          refreshAcl: S.optional(S.Boolean.pipe(T.Query())),
-          "filterParams.parameterPairKey": S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
-          snapshotMetadataWithoutParams: S.optional(S.Boolean.pipe(T.Query())),
+          "filterParams.taskStatuses": S.optional(__S(4288, __c134, 0).pipe(T.Query())),
+          "filterParams.parameterValue": S.optional(S.String.pipe(T.Query())),
+          "filterParams.customFilter": S.optional(S.String.pipe(T.Query())),
           "filterParams.startTime": S.optional(S.String.pipe(T.Query())),
           "filterParams.endTime": S.optional(S.String.pipe(T.Query())),
-          "filterParams.parameterKey": S.optional(S.String.pipe(T.Query())),
-          "filterParams.parameterType": S.optional(S.String.pipe(T.Query())),
-          "filterParams.customFilter": S.optional(S.String.pipe(T.Query())),
-          "filterParams.parameterValue": S.optional(S.String.pipe(T.Query())),
-          readMask: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          truncateParams: S.optional(S.Boolean.pipe(T.Query())),
+          "filterParams.executionId": S.optional(S.String.pipe(T.Query())),
+          "filterParams.eventStatuses": S.optional(__S(4288, __c134, 0).pipe(T.Query())),
+          "filterParams.parameterKey": S.optional(S.String.pipe(T.Query())),
+          refreshAcl: S.optional(S.Boolean.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13331,14 +13334,14 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsExecutionsRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -13353,16 +13356,16 @@ function __c162(j: number): any {
       });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           fieldMask: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -13374,16 +13377,16 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13394,29 +13397,29 @@ function __c164(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsSfdcInstancesRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1952, __c61, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sfdcInstances: S.optional(__S(5280, __c165, 0)),
+          sfdcInstances: S.optional(__S(5312, __c166, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          readMask: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13427,29 +13430,29 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sfdcChannels: S.optional(__S(5344, __c167, 0)),
           nextPageToken: S.optional(S.String),
+          sfdcChannels: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13460,12 +13463,12 @@ function __c168(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSfdcInstancesRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(5440, __c170, 0),
+          __S(5472, __c171, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -13479,15 +13482,15 @@ function __c169(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCloudFunctionsRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          functionRegion: S.optional(S.String),
-          gcfApiVersion: S.optional(S.String),
           projectId: S.optional(S.String),
           functionName: S.optional(S.String),
+          functionRegion: S.optional(S.String),
+          gcfApiVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest" });
     case 1:
@@ -13498,15 +13501,15 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           readMask: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -13518,17 +13521,17 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSfdcInstancesSfdcChannelsRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          readMask: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          readMask: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13539,31 +13542,31 @@ function __c172(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsTemplatesRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2149, __c67, 5));
+      return S.Array(__S(2181, __c68, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
+          templates: S.optional(__S(5568, __c174, 0)),
           nextPageToken: S.optional(S.String),
-          templates: S.optional(__S(5536, __c173, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV1alphaListTemplatesResponse" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4366, __c136, 14),
+          __S(4398, __c137, 14),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
-            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -13575,12 +13578,12 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAuthConfigsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4993, __c156, 1),
+          __S(5025, __c157, 1),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -13595,15 +13598,15 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCertificatesRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(383, __c11, 31),
+          __S(382, __c11, 30),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -13615,7 +13618,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsIntegrationsVersionsRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13635,18 +13638,18 @@ function __c177(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsIntegrationsVersionsTestCasesRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4366, __c136, 14),
+          __S(4398, __c137, 14),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
-            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.encryptedPrivateKey": S.optional(S.String.pipe(T.Query())),
             "clientCertificate.passphrase": S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            "clientCertificate.sslCertificate": S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -13658,15 +13661,15 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsAuthConfigsRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4993, __c156, 1),
+          __S(5025, __c157, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -13678,12 +13681,12 @@ function __c179(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsCertificatesRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(383, __c11, 31),
+          __S(382, __c11, 30),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -13698,12 +13701,12 @@ function __c180(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProductsIntegrationsVersionsRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1920, __c60, 0),
+          __S(1952, __c61, 0),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),

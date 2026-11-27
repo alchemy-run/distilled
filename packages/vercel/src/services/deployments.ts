@@ -498,6 +498,7 @@ export interface CancelDeploymentResponseFunctionsValue {
   maxConcurrency?: number | undefined;
   maxDuration?: CancelDeploymentResponseFunctionsValueMaxDuration | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: CancelDeploymentResponseFunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -1578,6 +1579,8 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon {
   resources?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResources | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -1675,6 +1678,7 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigFunctions
     | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -1719,24 +1723,9 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSe
   sourceFilesOutsideRootDirectory?: boolean | undefined;
   vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
 }
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList =
-  Array<CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunction {
-  entrypoints: CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export interface CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule {
+  module: string;
 }
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfig {
   buildCommand?: string | undefined;
@@ -1771,9 +1760,11 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfig {
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -1935,6 +1926,8 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon {
   resources?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResources | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -2032,6 +2025,7 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigFunctions
     | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -2061,25 +2055,9 @@ export type CancelDeploymentResponseServicesItemCase1BuilderConfigProjectSetting
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList =
-  Array<CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunction {
-  entrypoints: CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
-}
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export type CancelDeploymentResponseServicesItemCase1BuilderConfigSchedulesModule =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule;
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfig {
   buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
@@ -2113,9 +2091,11 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfig {
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -2211,6 +2191,7 @@ export interface CancelDeploymentResponseServicesItemCase1FunctionsValue {
   maxConcurrency?: number | undefined;
   maxDuration?: CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: CancelDeploymentResponseServicesItemCase1FunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -3940,6 +3921,7 @@ export interface CreateDeploymentResponseBodyCase1FunctionsValue {
   maxConcurrency?: number | undefined;
   maxDuration?: CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: CreateDeploymentResponseBodyCase1FunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -5047,6 +5029,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
     | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -5144,6 +5128,7 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
     | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -5176,25 +5161,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProje
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList =
-  Array<CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction {
-  entrypoints: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
-}
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigSchedulesModule =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
   buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
@@ -5234,9 +5203,11 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -5420,6 +5391,8 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
     | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -5517,6 +5490,7 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
     | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -5549,25 +5523,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProje
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList =
-  Array<CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction {
-  entrypoints: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
-}
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigSchedulesModule =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
   buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
@@ -5607,9 +5565,11 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -5711,6 +5671,7 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValu
     | CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -7227,6 +7188,7 @@ export interface GetDeploymentResponseBodyCase1FunctionsValue {
   maxConcurrency?: number | undefined;
   maxDuration?: GetDeploymentResponseBodyCase1FunctionsValueMaxDuration | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: GetDeploymentResponseBodyCase1FunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -8310,6 +8272,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDae
     | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -8407,6 +8371,7 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFun
     | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -8439,25 +8404,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectS
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList =
-  Array<GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction {
-  entrypoints: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
-}
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigSchedulesModule =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
   buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
@@ -8495,9 +8444,11 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -8675,6 +8626,8 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDae
     | undefined;
   root: string;
   terminationGracePeriodSeconds?: number | undefined;
+  /** Dockerfile stage from an `entrypoint` like `Dockerfile#worker`. */
+  buildTarget?: string | undefined;
   name: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -8772,6 +8725,7 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFun
     | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?:
     | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList
     | undefined;
@@ -8804,25 +8758,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectS
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigProjectSettings =
   CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-/** Names of the schedules that dispatch to this entrypoint, in config order. */
-export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
-  Array<string>;
-export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem {
-  /** Runtime-specific entrypoint locator from `vercel.json`. */
-  entrypoint: string;
-  /** Names of the schedules that dispatch to this entrypoint, in config order. */
-  scheduleNames: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList;
-  /** Project-relative source file that contains the entrypoint. */
-  sourceFile: string;
-}
-export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList =
-  Array<GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsItem>;
-/** Set when this build produces a function for schedule entrypoints. */
-export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction {
-  entrypoints: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunctionEntrypointsList;
-  /** Function output path every schedule in this build targets. */
-  outputPath: string;
-}
+/** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigSchedulesModule =
+  CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
   buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
@@ -8860,9 +8798,11 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
     | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
     | undefined;
   rust?: string | undefined;
-  /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?:
-    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction
+  /** Set when this build serves a JavaScript or TypeScript schedule: the entrypoint's default export runs each firing, and its `export const config` sets the schedule. */
+  schedulesEntrypoint?: boolean | undefined;
+  /** Set when this build serves a Python schedule's module: the `@schedule` handlers that importing `module` registers. */
+  schedulesModule?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigSchedulesModule
     | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
   serviceName?: string | undefined;
@@ -8963,6 +8903,7 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValue {
     | GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration
     | undefined;
   memory?: number | undefined;
+  perimeter?: string | undefined;
   regions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList | undefined;
   runtime?: string | undefined;
   supportsCancellation?: boolean | undefined;
@@ -10821,8 +10762,8 @@ export type GetDeploymentEventsResponseBodyItem =
   | GetDeploymentEventsResponseBodyItemCase0
   | GetDeploymentEventsResponseBodyItemCase1
   | GetDeploymentEventsResponseBodyItemCase2;
-export type GetDeploymentEventsResponseBodyList = Array<GetDeploymentEventsResponseBodyItem | null>;
-export type GetDeploymentEventsResponse = GetDeploymentEventsResponseBodyList | null;
+export type GetDeploymentEventsResponseBodyList = Array<GetDeploymentEventsResponseBodyItem>;
+export type GetDeploymentEventsResponse = GetDeploymentEventsResponseBodyList;
 export interface GetDeploymentFileContentsRequest {
   /** The unique deployment identifier */
   id: string;
@@ -11621,9 +11562,9 @@ function __c0(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/deployments/{idOrUrl}/events", code: 200 })),
       ).annotate({ identifier: "GetDeploymentEventsRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
+      return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => S.NullOr(__S(1, __c0, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDeploymentEventsResponse",
       });
   }
@@ -12029,6 +11970,7 @@ function __c7(j: number): any {
           maxConcurrency: S.optional(S.Number),
           maxDuration: S.optional(S.Unknown),
           memory: S.optional(S.Number),
+          perimeter: S.optional(S.String),
           regions: S.optional(__S(288, __c9, 0)),
           runtime: S.optional(S.String),
           supportsCancellation: S.optional(S.Boolean),

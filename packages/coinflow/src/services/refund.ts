@@ -250,11 +250,13 @@ export type Blockchain =
   | "monad"
   | "tempo";
 export type AvailabilityStatus = "Functional" | "Blocked" | "Override";
+export type AvailabilitySource = "duplicate_identity";
 export interface IAvailability {
   status: AvailabilityStatus;
   reason: string;
   editor: string;
   updatedAt: string;
+  source?: AvailabilitySource | undefined;
 }
 export type VerificationStatus =
   | "pending"
@@ -434,6 +436,7 @@ export interface PartialRecordWithdrawSpeedWithdrawFeeConfig {
   wire?: WithdrawFeeConfig | undefined;
   interac?: WithdrawFeeConfig | undefined;
   swift?: WithdrawFeeConfig | undefined;
+  npp?: WithdrawFeeConfig | undefined;
   crypto?: WithdrawFeeConfig | undefined;
 }
 export interface IMerchantStringWithdrawFees {
@@ -475,6 +478,7 @@ export interface CustomWithdrawFeesConfig {
   wire?: CustomWithdrawFeeValue | undefined;
   interac?: CustomWithdrawFeeValue | undefined;
   swift?: CustomWithdrawFeeValue | undefined;
+  npp?: CustomWithdrawFeeValue | undefined;
   crypto?: CustomWithdrawFeeValue | undefined;
   global: CustomWithdrawFeeValue;
   lineItemLabel: string;
@@ -518,7 +522,9 @@ export type MerchantScope =
   | "viewer"
   | "seller"
   | "pos_device"
-  | "destructive";
+  | "destructive"
+  | "cardholder"
+  | "accounts_payable";
 export type IMerchantStringApiKeysItemsIpsList = Array<string>;
 export interface IMerchantStringApiKeysItems {
   createdAt?: string | undefined;
@@ -533,7 +539,7 @@ export type IMerchantStringApiKeysList = Array<IMerchantStringApiKeysItems>;
 export type KycType = "person" | "business" | "both";
 export type StableCoin = "USDC" | "SBC" | "EUROe" | "FXUSD" | "HSUSD" | "CFUSD" | "YPUSD";
 export type DirectVendorSettlement = "brale";
-export type MpcWalletProvider = "metakeep" | "brale";
+export type MpcWalletProvider = "metakeep" | "brale" | "turnkey";
 export interface IMerchantStringSettlementAddressesRecipientAddressesItems {
   info?: unknown | undefined;
   createdAt: string;
@@ -556,16 +562,31 @@ export interface IMerchantStringSettlementAddresses {
   recipientAddresses?: IMerchantStringSettlementAddressesRecipientAddressesList | undefined;
   verification?: Verification | undefined;
 }
+export type IMerchantUserPasskeyTransportsList = Array<string>;
+export interface IMerchantUserPasskey {
+  credentialId: string;
+  publicKey: string;
+  counter: number;
+  transports?: IMerchantUserPasskeyTransportsList | undefined;
+  aaguid: string;
+  name: string;
+  rpId: string;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+}
+export type IMerchantUserPasskeysList = Array<IMerchantUserPasskey>;
 export type SsoProvider = "google";
 export interface IMerchantUser {
   email: string;
   password?: string | Redacted.Redacted<string> | undefined;
   scope: MerchantScope;
   secret?: string | Redacted.Redacted<string> | undefined;
+  passkeys?: IMerchantUserPasskeysList | undefined;
   resetNonce?: string | undefined;
   resetNonceUsed?: boolean | undefined;
   ssoProvider?: SsoProvider | undefined;
   ssoId?: string | undefined;
+  mpcSignerId?: string | undefined;
 }
 export type IMerchantStringUsersList = Array<IMerchantUser>;
 export type IMerchantStringUbosList = Array<UboEntry>;
@@ -595,6 +616,11 @@ export interface MerchantGoLiveChecklist {
   applicationSubmitted?: boolean | undefined;
   applicationSubmittedAt?: string | undefined;
   lockIndustry?: boolean | undefined;
+}
+export interface MerchantKybVendorAccount {
+  vendor?: VerificationVendor | undefined;
+  accountId?: string | undefined;
+  referenceId?: string | undefined;
 }
 export type WebhookSettingsWebhookUrlsList = Array<string>;
 export type WebhookSettingsDisabledWebhookUrlsList = Array<string>;
@@ -646,6 +672,7 @@ export type WebhookEventType =
   | "Withdraw On Hold"
   | "Payout Account Linked"
   | "Bank Account Name Match Failed"
+  | "Bank Account Status Updated"
   | "Interac PIN"
   | "Seller Blocked"
   | "Refund"
@@ -1350,6 +1377,8 @@ export interface CashAppSettings {
   merchantEmailNotifications: boolean;
 }
 export type RainCardApplicationStatus =
+  | "notStarted"
+  | "tosNotAccepted"
   | "approved"
   | "pending"
   | "needsInformation"
@@ -1358,6 +1387,71 @@ export type RainCardApplicationStatus =
   | "denied"
   | "locked"
   | "canceled";
+export type CardIssuanceApplicationStatement =
+  | "I accept the E-Sign Consent."
+  | "I accept the Coinflow Card Terms and the Coinflow Spend Cashback Program Terms."
+  | "I accept the Issuer Privacy Policy."
+  | "I certify that the information I have provided is accurate and that I will abide by all the rules and requirements related to my Coinflow Spend Card."
+  | "I acknowledge that applying for the Coinflow Spend Card does not constitute unauthorized solicitation.";
+export type RainCompanyCardsSettingsTermsAcceptedStatementsList =
+  Array<CardIssuanceApplicationStatement>;
+export type USState =
+  | "AL"
+  | "AK"
+  | "AS"
+  | "AZ"
+  | "AR"
+  | "CA"
+  | "CO"
+  | "CT"
+  | "DE"
+  | "DC"
+  | "FL"
+  | "GA"
+  | "GU"
+  | "HI"
+  | "ID"
+  | "IL"
+  | "IN"
+  | "IA"
+  | "KS"
+  | "KY"
+  | "LA"
+  | "ME"
+  | "MD"
+  | "MA"
+  | "MI"
+  | "MN"
+  | "MS"
+  | "MO"
+  | "MT"
+  | "NE"
+  | "NV"
+  | "NH"
+  | "NJ"
+  | "NM"
+  | "NY"
+  | "NC"
+  | "ND"
+  | "MP"
+  | "OH"
+  | "OK"
+  | "OR"
+  | "PA"
+  | "PR"
+  | "RI"
+  | "SC"
+  | "SD"
+  | "TN"
+  | "TX"
+  | "UT"
+  | "VT"
+  | "VA"
+  | "VI"
+  | "WA"
+  | "WV"
+  | "WI"
+  | "WY";
 export type RainContractInfoAdminAddressesList = Array<string>;
 export interface RainAccountDetails {
   beneficiaryName: string;
@@ -1394,6 +1488,10 @@ export interface RainAutoTopUpSettings {
   updatedAt?: string | undefined;
   updatedBy?: string | undefined;
 }
+export interface RainLowBalanceAlert {
+  thresholdUsd: number;
+  armed: boolean;
+}
 export interface RainPendingTopUp {
   amount: number;
   queuedAt: string;
@@ -1421,11 +1519,18 @@ export interface RainCompanyCardsSettings {
   applicationReason?: string | undefined;
   completionLink?: string | undefined;
   submittedAt?: string | undefined;
+  enabledBy?: string | undefined;
+  termsAcceptedAt?: string | undefined;
   termsAcceptedIpAddress?: string | undefined;
   termsAcceptedBy?: string | undefined;
+  termsAcceptedStatements?: RainCompanyCardsSettingsTermsAcceptedStatementsList | undefined;
+  incorporationCountry?: Country | undefined;
+  incorporationState?: USState | undefined;
   lastSyncedAt?: string | undefined;
   contract?: RainContractInfo | undefined;
   autoTopUp?: RainAutoTopUpSettings | undefined;
+  lowBalanceAlert?: RainLowBalanceAlert | undefined;
+  lastAlertedTopUpFailureAt?: string | undefined;
   pendingTopUps?: RainCompanyCardsSettingsPendingTopUpsList | undefined;
   processedSpendTxnIds?: RainCompanyCardsSettingsProcessedSpendTxnIdsList | undefined;
   livenessInquiries?: RainCompanyCardsSettingsLivenessInquiriesList | undefined;
@@ -1508,66 +1613,11 @@ export interface ChargebackFightSettings {
   /** Master enrollment switch. When false, shouldFight is always false. */
   enabled: boolean;
 }
+/** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+export type IMerchantStringBlockConfigBlockedBinsList = Array<string>;
 export type BlockingRuleScope = "WITHDRAWAL" | "CHECKOUT" | "GLOBAL";
 export type BlockingRuleMethod = "KYC_ADDRESS" | "IP" | "BILLING_ADDRESS" | "GEOLOCATION" | "BIN";
 export type BlockingRuleListMode = "DENY" | "ALLOW";
-export type USState =
-  | "AL"
-  | "AK"
-  | "AS"
-  | "AZ"
-  | "AR"
-  | "CA"
-  | "CO"
-  | "CT"
-  | "DE"
-  | "DC"
-  | "FL"
-  | "GA"
-  | "GU"
-  | "HI"
-  | "ID"
-  | "IL"
-  | "IN"
-  | "IA"
-  | "KS"
-  | "KY"
-  | "LA"
-  | "ME"
-  | "MD"
-  | "MA"
-  | "MI"
-  | "MN"
-  | "MS"
-  | "MO"
-  | "MT"
-  | "NE"
-  | "NV"
-  | "NH"
-  | "NJ"
-  | "NM"
-  | "NY"
-  | "NC"
-  | "ND"
-  | "MP"
-  | "OH"
-  | "OK"
-  | "OR"
-  | "PA"
-  | "PR"
-  | "RI"
-  | "SC"
-  | "SD"
-  | "TN"
-  | "TX"
-  | "UT"
-  | "VT"
-  | "VA"
-  | "VI"
-  | "WA"
-  | "WV"
-  | "WI"
-  | "WY";
 export type IBlockingRuleStatesList = Array<USState>;
 export type IBlockingRuleCountriesList = Array<Country>;
 /** A single geo-blocking rule on a merchant. Multiple rules of the same scope are OR-combined: any matching rule blocks the request. When both DENY and ALLOW rules are configured, DENY rules are evaluated first -- a matching DENY blocks the request even if the user is on a separate ALLOW list. `listMode` controls interpretation (defaults to `DENY`): - `DENY`: the listed countries/states are blocked. - `ALLOW`: ONLY the listed countries/states are permitted; everything else is blocked. A rule may specify `countries` (ISO 3166-1 alpha-2 codes), `states` (US state codes), or both. - `scope: GLOBAL` applies to BOTH withdrawal and checkout flows; only valid with `method: IP` (the only method that makes sense for both flows). - `method: KYC_ADDRESS` is only valid with `scope: WITHDRAWAL`. - `method: BILLING_ADDRESS` is only valid with `scope: CHECKOUT`. - `method: IP` is **strictly** fail-closed in both DENY and ALLOW modes: missing IP, failed lookup, or an unresolvable US state resolved from the IP rejects the withdrawal. Both the resolved country and the resolved state (US-only) are evaluated on every request against the rule's `countries` and `states` lists. Skipped on merchant-initiated payouts where no end-user IP exists (`merchantInitiated: true`). - `method: GEOLOCATION` is a **best-effort, optional** signal and only valid with `scope: WITHDRAWAL`. When the caller supplies a fresh, resolvable `userLocation`, the rule enforces strictly against the block list. When the signal is absent (browser permission denied, merchant did not send coords, stale capture, or reverse-geocode failure), enforcement is skipped -- pair with an `IP` rule for hard real-time enforcement. */
@@ -1593,6 +1643,8 @@ export interface IMerchantStringBlockConfig {
   enableNmiSettlement?: boolean | undefined;
   /** When true, disables wallet balance payments for invoices. Merchants must use checkout. */
   disableInvoiceWalletPayment?: boolean | undefined;
+  /** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+  blockedBins?: IMerchantStringBlockConfigBlockedBinsList | undefined;
   /** Independent geo-blocking rules for withdrawals vs card checkout, with explicit per-rule enforcement methods (KYC address / IP / billing address). Read via `getBlockingRules` so callers transparently see the legacy `bannedWithdrawalStates` for un-migrated merchants. */
   blockingRules?: IMerchantStringBlockConfigBlockingRulesList | undefined;
   bannedWithdrawalStates?: IMerchantStringBlockConfigBannedWithdrawalStatesList | undefined;
@@ -1645,83 +1697,13 @@ export type PixPayoutProvider = "avenia" | "brla" | "mock";
 export type IMerchantStringPixPayoutProvidersList = Array<PixPayoutProvider>;
 export type EftPayoutProvider = "checkbook" | "aptpay" | "mock";
 export type IMerchantStringEftPayoutProvidersList = Array<EftPayoutProvider>;
-export type CardPayoutProvider = "aptpay" | "checkbook" | "shift4" | "citcon" | "crb" | "MOCK";
-export type IMerchantStringP2cPayoutProvidersList = Array<CardPayoutProvider>;
-export type ApplePayPayoutProvider = "aptpay" | "MOCK";
-export type VenmoPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
-export type IMerchantStringVenmoPayoutProvidersList = Array<VenmoPayoutProvider>;
-export type PayPalPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
-export type IMerchantStringPaypalPayoutProvidersList = Array<PayPalPayoutProvider>;
-export type WirePayoutProvider = "MOCK" | "BRAID";
-export type IMerchantStringWirePayoutProviderList = Array<WirePayoutProvider>;
-export type CryptoPayoutProvider = "glide" | "relay" | "direct" | "mock";
-export type IMerchantStringCryptoPayoutProvidersList = Array<CryptoPayoutProvider>;
-export type InteracPayoutProvider = "checkbook" | "mock" | "aptpay";
-export type IMerchantStringInteracPayoutProvidersList = Array<InteracPayoutProvider>;
-export type InteracProcessor = "mock" | "aptpay";
-export interface InteracSettings {
-  rebateBps?: number | undefined;
-  rebateFixed?: Cents | undefined;
-  processor?: InteracProcessor | undefined;
-  feeMode?: FeePayerMode | undefined;
-  fxFeeMode?: FeePayerMode | undefined;
-  fixedFee?: Cents | undefined;
-  feeBps?: number | undefined;
-  minFee?: Cents | undefined;
-  customerEmailNotifications: boolean;
-  merchantEmailNotifications: boolean;
-}
-export type WithdrawSort = "DEFAULT" | "CHEAPEST" | "ORDERED" | "LIMIT_CONSUMPTION";
+export type LocalBankPayoutProvider = "citcon";
+export type PartialRecordLocalRailSpeedLocalBankPayoutProviderArrayNppList =
+  Array<LocalBankPayoutProvider>;
 /** Make all properties in T optional */
-export interface PartialRecordWithdrawSpeedWithdrawSort {
-  asap?: WithdrawSort | undefined;
-  same_day?: WithdrawSort | undefined;
-  standard?: WithdrawSort | undefined;
-  card?: WithdrawSort | undefined;
-  iban?: WithdrawSort | undefined;
-  pix?: WithdrawSort | undefined;
-  eft?: WithdrawSort | undefined;
-  venmo?: WithdrawSort | undefined;
-  paypal?: WithdrawSort | undefined;
-  wire?: WithdrawSort | undefined;
-  interac?: WithdrawSort | undefined;
-  swift?: WithdrawSort | undefined;
-  crypto?: WithdrawSort | undefined;
+export interface PartialRecordLocalRailSpeedLocalBankPayoutProviderArray {
+  npp?: PartialRecordLocalRailSpeedLocalBankPayoutProviderArrayNppList | undefined;
 }
-export type IMerchantStringWithdrawRulesList = Array<string>;
-export type IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList =
-  Array<WirePayoutProvider>;
-export type IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList =
-  Array<PayoutProviderOption>;
-export interface IMerchantStringFirstPartyPayoutOverrides {
-  interacPayoutProvider?: InteracPayoutProvider | undefined;
-  wirePayoutProvider?: IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList | undefined;
-  paypalPayoutProvider?: PayPalPayoutProvider | undefined;
-  venmoPayoutProvider?: VenmoPayoutProvider | undefined;
-  appleP2cPayoutProvider?: ApplePayPayoutProvider | undefined;
-  globalP2cPayoutProvider?: CardPayoutProvider | undefined;
-  p2cPayoutProvider?: CardPayoutProvider | undefined;
-  eftPayoutProvider?: EftPayoutProvider | undefined;
-  pixPayoutProvider?: PixPayoutProvider | undefined;
-  rtpPayoutProvider?: RtpPayoutProvider | undefined;
-  ibanPayoutProvider?: IbanPayoutProvider | undefined;
-  bankPayoutProvider?: IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList | undefined;
-}
-export type OnboardingVersion = "legacy" | "sdd" | "global";
-export type OnboardingStepState = "blocked" | "action_required" | "in_review" | "complete";
-/** Make all properties in T optional */
-export interface PartialRecordOnboardingStepKeyOnboardingStepState {
-  profile?: OnboardingStepState | undefined;
-  corporate_structure?: OnboardingStepState | undefined;
-  verification?: OnboardingStepState | undefined;
-  questions?: OnboardingStepState | undefined;
-  terms?: OnboardingStepState | undefined;
-  application?: OnboardingStepState | undefined;
-  wallet?: OnboardingStepState | undefined;
-  bank_account?: OnboardingStepState | undefined;
-}
-export type SettlementLocations = "circle" | "brale" | "paper" | "brale_youpay" | "bastion";
-export type IMerchantStringWhitelistedAncestorUrlsList = Array<string>;
 /** Make all properties in T optional */
 export interface PartialRecordCurrencyNumber {
   USD?: number | undefined;
@@ -1881,6 +1863,85 @@ export interface PartialRecordCurrencyNumber {
   SSP?: number | undefined;
   VES?: number | undefined;
 }
+export type CardPayoutProvider = "aptpay" | "checkbook" | "shift4" | "citcon" | "crb" | "MOCK";
+export type IMerchantStringP2cPayoutProvidersList = Array<CardPayoutProvider>;
+export type ApplePayPayoutProvider = "aptpay" | "MOCK";
+export type VenmoPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
+export type IMerchantStringVenmoPayoutProvidersList = Array<VenmoPayoutProvider>;
+export type PayPalPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
+export type IMerchantStringPaypalPayoutProvidersList = Array<PayPalPayoutProvider>;
+export type WirePayoutProvider = "MOCK" | "BRAID";
+export type IMerchantStringWirePayoutProviderList = Array<WirePayoutProvider>;
+export type CryptoPayoutProvider = "glide" | "relay" | "direct" | "mock";
+export type IMerchantStringCryptoPayoutProvidersList = Array<CryptoPayoutProvider>;
+export type InteracPayoutProvider = "checkbook" | "mock" | "aptpay";
+export type IMerchantStringInteracPayoutProvidersList = Array<InteracPayoutProvider>;
+export type InteracProcessor = "mock" | "aptpay";
+export interface InteracSettings {
+  rebateBps?: number | undefined;
+  rebateFixed?: Cents | undefined;
+  processor?: InteracProcessor | undefined;
+  feeMode?: FeePayerMode | undefined;
+  fxFeeMode?: FeePayerMode | undefined;
+  fixedFee?: Cents | undefined;
+  feeBps?: number | undefined;
+  minFee?: Cents | undefined;
+  customerEmailNotifications: boolean;
+  merchantEmailNotifications: boolean;
+}
+export type WithdrawSort = "DEFAULT" | "CHEAPEST" | "ORDERED" | "LIMIT_CONSUMPTION";
+/** Make all properties in T optional */
+export interface PartialRecordWithdrawSpeedWithdrawSort {
+  asap?: WithdrawSort | undefined;
+  same_day?: WithdrawSort | undefined;
+  standard?: WithdrawSort | undefined;
+  card?: WithdrawSort | undefined;
+  iban?: WithdrawSort | undefined;
+  pix?: WithdrawSort | undefined;
+  eft?: WithdrawSort | undefined;
+  venmo?: WithdrawSort | undefined;
+  paypal?: WithdrawSort | undefined;
+  wire?: WithdrawSort | undefined;
+  interac?: WithdrawSort | undefined;
+  swift?: WithdrawSort | undefined;
+  npp?: WithdrawSort | undefined;
+  crypto?: WithdrawSort | undefined;
+}
+export type IMerchantStringWithdrawRulesList = Array<string>;
+export type IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList =
+  Array<WirePayoutProvider>;
+export type IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList =
+  Array<PayoutProviderOption>;
+export interface IMerchantStringFirstPartyPayoutOverrides {
+  interacPayoutProvider?: InteracPayoutProvider | undefined;
+  wirePayoutProvider?: IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList | undefined;
+  paypalPayoutProvider?: PayPalPayoutProvider | undefined;
+  venmoPayoutProvider?: VenmoPayoutProvider | undefined;
+  appleP2cPayoutProvider?: ApplePayPayoutProvider | undefined;
+  globalP2cPayoutProvider?: CardPayoutProvider | undefined;
+  p2cPayoutProvider?: CardPayoutProvider | undefined;
+  eftPayoutProvider?: EftPayoutProvider | undefined;
+  pixPayoutProvider?: PixPayoutProvider | undefined;
+  rtpPayoutProvider?: RtpPayoutProvider | undefined;
+  ibanPayoutProvider?: IbanPayoutProvider | undefined;
+  bankPayoutProvider?: IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList | undefined;
+}
+export type OnboardingVersion = "legacy" | "sdd" | "global";
+export type OnboardingStepState = "blocked" | "action_required" | "in_review" | "complete";
+/** Make all properties in T optional */
+export interface PartialRecordOnboardingStepKeyOnboardingStepState {
+  profile?: OnboardingStepState | undefined;
+  corporate_structure?: OnboardingStepState | undefined;
+  verification?: OnboardingStepState | undefined;
+  questions?: OnboardingStepState | undefined;
+  terms?: OnboardingStepState | undefined;
+  application?: OnboardingStepState | undefined;
+  wallet?: OnboardingStepState | undefined;
+  bank_account?: OnboardingStepState | undefined;
+}
+export type SettlementLocations = "circle" | "brale" | "paper" | "brale_youpay" | "bastion";
+export type IMerchantStringWhitelistedAncestorUrlsList = Array<string>;
+export type DuplicateWithdrawerPolicy = "allow_all" | "block_blocked" | "block_all";
 export type BlockedLevel = "Unverified" | "Suspended";
 export interface BlockedStatus {
   level: BlockedLevel;
@@ -1947,6 +2008,10 @@ export interface VendorSettingsKoard {
   apiKey?: string | Redacted.Redacted<string> | undefined;
   accountId: string;
 }
+export interface VendorSettingsTurnkey {
+  signerTagId?: string | undefined;
+  organizationId: string;
+}
 export interface VendorSettingsPaze {
   name: string;
   profileId?: string | undefined;
@@ -1972,9 +2037,29 @@ export interface VendorSettings {
   conduit?: ConduitSettings | undefined;
   paypal?: PayPalVendorSettings | undefined;
   koard?: VendorSettingsKoard | undefined;
+  turnkey?: VendorSettingsTurnkey | undefined;
   paze?: VendorSettingsPaze | undefined;
   justtSettings?: JusttSettings | undefined;
   verisoul?: VerisoulVendorSettings | undefined;
+}
+export type MpcMigrationStatus = "initial" | "setup" | "transfer" | "complete" | "failed";
+export interface MpcMigrationTransfer {
+  stableCoin: StableCoin;
+  amount?: Cents | undefined;
+  transferredAt?: string | undefined;
+  failedAt?: string | undefined;
+  reason?: string | undefined;
+}
+export type MpcMigrationTransfersList = Array<MpcMigrationTransfer>;
+export interface MpcMigration {
+  status: MpcMigrationStatus;
+  priorAddress: string;
+  priorProvider: MpcWalletProvider;
+  newAddress?: string | undefined;
+  newProvider: MpcWalletProvider;
+  transfers?: MpcMigrationTransfersList | undefined;
+  completedAt?: string | undefined;
+  reason?: string | undefined;
 }
 export interface MerchantBankSettlementOptions {
   token: string | Redacted.Redacted<string>;
@@ -2120,6 +2205,7 @@ export interface IMerchantString {
   ubos: IMerchantStringUbosList;
   goLiveChecklist: MerchantGoLiveChecklist;
   documentRegistrySyncedAt?: string | undefined;
+  kybVendorAccount?: MerchantKybVendorAccount | undefined;
   webhookSettings?: WebhookSettings | undefined;
   cardSettings: CardSettings;
   achSettings: ACHSettings;
@@ -2165,6 +2251,8 @@ export interface IMerchantString {
   pixPayoutProviders?: IMerchantStringPixPayoutProvidersList | undefined;
   pixPayoutProvider?: PixPayoutProvider | undefined;
   eftPayoutProviders?: IMerchantStringEftPayoutProvidersList | undefined;
+  localRailPayoutProviders?: PartialRecordLocalRailSpeedLocalBankPayoutProviderArray | undefined;
+  payoutFxMarkupBps?: PartialRecordCurrencyNumber | undefined;
   eftPayoutProvider?: EftPayoutProvider | undefined;
   p2cPayoutProviders?: IMerchantStringP2cPayoutProvidersList | undefined;
   p2cPayoutProvider?: CardPayoutProvider | undefined;
@@ -2189,8 +2277,11 @@ export interface IMerchantString {
   parent?: string | undefined;
   /** Set on a parent: lets its submerchants' customers inherit each other's fraud-control overrides. */
   inheritCustomerSettingsAcrossSubmerchants?: boolean | undefined;
+  isIsv?: boolean | undefined;
   onboardingVersion?: OnboardingVersion | undefined;
   childDefaultOnboardingVersion?: OnboardingVersion | null | undefined;
+  /** Blueprint chosen at creation; seeds the onboarding profile in place of ISV defaults. */
+  profileBlueprintId?: string | undefined;
   onboardingRequirementsRevision?: number | undefined;
   onboardingStepStates?: PartialRecordOnboardingStepKeyOnboardingStepState | undefined;
   creditSeed: string;
@@ -2200,6 +2291,7 @@ export interface IMerchantString {
   externalVerificationLinks?: boolean | undefined;
   whitelistedAncestorUrls?: IMerchantStringWhitelistedAncestorUrlsList | undefined;
   banDuplicateAccounts?: boolean | undefined;
+  duplicateWithdrawerPolicy?: DuplicateWithdrawerPolicy | undefined;
   fxFees?: PartialRecordCurrencyNumber | undefined;
   blocked?: BlockedStatus | undefined;
   dealOwnerAdminId?: string | undefined;
@@ -2208,6 +2300,7 @@ export interface IMerchantString {
   attioDealRecordId?: string | undefined;
   crmSyncedAt?: string | undefined;
   vendorSettings?: VendorSettings | undefined;
+  mpcMigration?: MpcMigration | undefined;
   generatedDescription?: string | undefined;
   bankSettlementOptions?: MerchantBankSettlementOptions | undefined;
   allowAttestedKyc?: boolean | undefined;
@@ -2250,7 +2343,6 @@ export interface IMerchantString {
   disableForgotPassword?: boolean | undefined;
   mcc?: string | undefined;
   processing?: IMerchantStringProcessing | undefined;
-  experimentalTempoV2Credits?: boolean | undefined;
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
 }
@@ -2861,7 +2953,9 @@ export type L2L3SkipReason =
   | "unsupportedCardBrand"
   | "unsupportedCurrency"
   | "noProcessorSupport"
-  | "processorUnsupported";
+  | "processorUnsupported"
+  | "missingData"
+  | "processorRejected";
 export type L2L3Sent = "none" | "level2" | "level3";
 export interface L2L3Level2 {
   invoiceReference?: string | undefined;
@@ -3529,6 +3623,12 @@ export type CoinflowEntity = "US" | "Poland" | "Canada" | "EU";
 export interface EntityTag {
   coinflowEntity: CoinflowEntity;
 }
+export type CustomerRiskActionSource = "rule" | "manual";
+export type IPaymentSightlineBlockRuleIdsList = Array<string>;
+export interface IPaymentSightlineBlock {
+  source: CustomerRiskActionSource;
+  ruleIds: IPaymentSightlineBlockRuleIdsList;
+}
 export interface IPaymentStringVendorTransferExternalItems {
   signature?: string | undefined;
   id: string;
@@ -3591,11 +3691,14 @@ export interface IPaymentString {
   alertStatus?: KytAlertStatus | undefined;
   /** Set when a KYT-blocked payment's funds are sent back to the originating wallet; alertStatus is unset at the same time */
   fundsReturnedAt?: string | undefined;
+  /** Set by the capture write, which only matches while this is absent */
+  capturedAt?: string | undefined;
   refundInfo?: IPaymentStringRefundInfo | undefined;
   movementSeq?: number | undefined;
   /** Browser-captured geolocation at the time of the request, when the caller supplied one. Stored independently of payment method so the merchant dashboard can render a map for any purchase type. `resolved*` fields are populated when the GEOLOCATION enforcement step happened to reverse- geocode the coordinates -- they're a free piggyback on the lock cache, not a guarantee. */
   userLocation?: IPaymentStringUserLocation | undefined;
   entityTag?: EntityTag | undefined;
+  sightlineBlock?: IPaymentSightlineBlock | undefined;
   vendorTransfer?: IPaymentStringVendorTransfer | undefined;
   feesInvoicedPeriod?: string | undefined;
   /** Set at settlement when the payment carries FeePayerMode.Invoice fees (totals.invoiced*Fees): the Accruing invoice the fees were attached to. Mirrors the refund/chargeback invoicing pattern -- presence of invoiceId marks the fees as billed. */
@@ -3615,6 +3718,7 @@ export interface MerchantEditor {
   /** A Coinflow admin acting through merchant impersonation. */
   impersonated?: boolean | undefined;
   ipAddress: string;
+  userAgent?: string | undefined;
 }
 export type RefundDenominationType = "usd" | "token";
 export interface CryptoRefundInfo {
@@ -3699,6 +3803,8 @@ export interface IMerchantMongooseTypesObjectIdSettlementAddresses {
 }
 export type IMerchantMongooseTypesObjectIdUsersList = Array<IMerchantUser>;
 export type IMerchantMongooseTypesObjectIdUbosList = Array<UboEntry>;
+/** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+export type IMerchantMongooseTypesObjectIdBlockConfigBlockedBinsList = Array<string>;
 /** Independent geo-blocking rules for withdrawals vs card checkout, with explicit per-rule enforcement methods (KYC address / IP / billing address). Read via `getBlockingRules` so callers transparently see the legacy `bannedWithdrawalStates` for un-migrated merchants. */
 export type IMerchantMongooseTypesObjectIdBlockConfigBlockingRulesList = Array<IBlockingRule>;
 export type IMerchantMongooseTypesObjectIdBlockConfigBannedWithdrawalStatesList = Array<USState>;
@@ -3714,6 +3820,8 @@ export interface IMerchantMongooseTypesObjectIdBlockConfig {
   enableNmiSettlement?: boolean | undefined;
   /** When true, disables wallet balance payments for invoices. Merchants must use checkout. */
   disableInvoiceWalletPayment?: boolean | undefined;
+  /** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+  blockedBins?: IMerchantMongooseTypesObjectIdBlockConfigBlockedBinsList | undefined;
   /** Independent geo-blocking rules for withdrawals vs card checkout, with explicit per-rule enforcement methods (KYC address / IP / billing address). Read via `getBlockingRules` so callers transparently see the legacy `bannedWithdrawalStates` for un-migrated merchants. */
   blockingRules?: IMerchantMongooseTypesObjectIdBlockConfigBlockingRulesList | undefined;
   bannedWithdrawalStates?:
@@ -3799,6 +3907,7 @@ export interface IMerchantMongooseTypesObjectId {
   ubos: IMerchantMongooseTypesObjectIdUbosList;
   goLiveChecklist: MerchantGoLiveChecklist;
   documentRegistrySyncedAt?: string | undefined;
+  kybVendorAccount?: MerchantKybVendorAccount | undefined;
   webhookSettings?: WebhookSettings | undefined;
   cardSettings: CardSettings;
   achSettings: ACHSettings;
@@ -3844,6 +3953,8 @@ export interface IMerchantMongooseTypesObjectId {
   pixPayoutProviders?: IMerchantMongooseTypesObjectIdPixPayoutProvidersList | undefined;
   pixPayoutProvider?: PixPayoutProvider | undefined;
   eftPayoutProviders?: IMerchantMongooseTypesObjectIdEftPayoutProvidersList | undefined;
+  localRailPayoutProviders?: PartialRecordLocalRailSpeedLocalBankPayoutProviderArray | undefined;
+  payoutFxMarkupBps?: PartialRecordCurrencyNumber | undefined;
   eftPayoutProvider?: EftPayoutProvider | undefined;
   p2cPayoutProviders?: IMerchantMongooseTypesObjectIdP2cPayoutProvidersList | undefined;
   p2cPayoutProvider?: CardPayoutProvider | undefined;
@@ -3868,8 +3979,11 @@ export interface IMerchantMongooseTypesObjectId {
   parent?: string | undefined;
   /** Set on a parent: lets its submerchants' customers inherit each other's fraud-control overrides. */
   inheritCustomerSettingsAcrossSubmerchants?: boolean | undefined;
+  isIsv?: boolean | undefined;
   onboardingVersion?: OnboardingVersion | undefined;
   childDefaultOnboardingVersion?: OnboardingVersion | null | undefined;
+  /** Blueprint chosen at creation; seeds the onboarding profile in place of ISV defaults. */
+  profileBlueprintId?: string | undefined;
   onboardingRequirementsRevision?: number | undefined;
   onboardingStepStates?: PartialRecordOnboardingStepKeyOnboardingStepState | undefined;
   creditSeed: string;
@@ -3879,6 +3993,7 @@ export interface IMerchantMongooseTypesObjectId {
   externalVerificationLinks?: boolean | undefined;
   whitelistedAncestorUrls?: IMerchantMongooseTypesObjectIdWhitelistedAncestorUrlsList | undefined;
   banDuplicateAccounts?: boolean | undefined;
+  duplicateWithdrawerPolicy?: DuplicateWithdrawerPolicy | undefined;
   fxFees?: PartialRecordCurrencyNumber | undefined;
   blocked?: BlockedStatus | undefined;
   dealOwnerAdminId?: string | undefined;
@@ -3887,6 +4002,7 @@ export interface IMerchantMongooseTypesObjectId {
   attioDealRecordId?: string | undefined;
   crmSyncedAt?: string | undefined;
   vendorSettings?: VendorSettings | undefined;
+  mpcMigration?: MpcMigration | undefined;
   generatedDescription?: string | undefined;
   bankSettlementOptions?: MerchantBankSettlementOptions | undefined;
   allowAttestedKyc?: boolean | undefined;
@@ -3931,7 +4047,6 @@ export interface IMerchantMongooseTypesObjectId {
   disableForgotPassword?: boolean | undefined;
   mcc?: string | undefined;
   processing?: IMerchantStringProcessing | undefined;
-  experimentalTempoV2Credits?: boolean | undefined;
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
 }
@@ -4130,11 +4245,14 @@ export interface IPaymentMongooseTypesObjectId {
   alertStatus?: KytAlertStatus | undefined;
   /** Set when a KYT-blocked payment's funds are sent back to the originating wallet; alertStatus is unset at the same time */
   fundsReturnedAt?: string | undefined;
+  /** Set by the capture write, which only matches while this is absent */
+  capturedAt?: string | undefined;
   refundInfo?: IPaymentStringRefundInfo | undefined;
   movementSeq?: number | undefined;
   /** Browser-captured geolocation at the time of the request, when the caller supplied one. Stored independently of payment method so the merchant dashboard can render a map for any purchase type. `resolved*` fields are populated when the GEOLOCATION enforcement step happened to reverse- geocode the coordinates -- they're a free piggyback on the lock cache, not a guarantee. */
   userLocation?: IPaymentStringUserLocation | undefined;
   entityTag?: EntityTag | undefined;
+  sightlineBlock?: IPaymentSightlineBlock | undefined;
   vendorTransfer?: IPaymentMongooseTypesObjectIdVendorTransfer | undefined;
   feesInvoicedPeriod?: string | undefined;
   invoiceId?: string | undefined;
@@ -4376,6 +4494,7 @@ function __c3(j: number): any {
           apiKeyId: S.optional(S.String),
           impersonated: S.optional(S.Boolean),
           ipAddress: S.String,
+          userAgent: S.optional(S.String),
         }),
       ).annotate({ identifier: "MerchantEditor" });
     case 1:

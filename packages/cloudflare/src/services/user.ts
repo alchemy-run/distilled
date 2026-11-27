@@ -485,7 +485,7 @@ export type GetSpectrumAnalyticsZonesReportResultList =
 export type GetSpectrumAnalyticsZonesReportResponse = GetSpectrumAnalyticsZonesReportResultList;
 export interface GetSubscriptionRequest {}
 export type SubscriptionsGetResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsGetResultItemRatePlanId =
+export type SubscriptionsGetResultItemRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -496,6 +496,9 @@ export type SubscriptionsGetResultItemRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsGetResultItemRatePlanId =
+  | string
+  | SubscriptionsGetResultItemRatePlanIdCase0;
 export type SubscriptionsGetResultItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetResultItemRatePlan {
   /** The ID of the rate plan. */
@@ -1227,7 +1230,7 @@ export interface PatchUserResponse {
   zipcode?: string | null | undefined;
 }
 export type SubscriptionsUpdateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
-export type SubscriptionsUpdateRequestRatePlanId =
+export type SubscriptionsUpdateRequestRatePlanIdCase0 =
   | "free"
   | "lite"
   | "pro"
@@ -1238,10 +1241,14 @@ export type SubscriptionsUpdateRequestRatePlanId =
   | "partners_pro"
   | "partners_business"
   | "partners_enterprise";
+export type SubscriptionsUpdateRequestRatePlanId =
+  | string
+  | SubscriptionsUpdateRequestRatePlanIdCase0
+  | (string & {});
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateRequestRatePlanId | (string & {}) | undefined;
+  id?: SubscriptionsUpdateRequestRatePlanId | undefined;
   /** The currency applied to the rate plan subscription. */
   currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
@@ -1566,7 +1573,7 @@ export const getSubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(224, __c7, 0) as any as S.Schema<GetSubscriptionRequest>,
-    output: __S(228, __c7, 4) as any as S.Schema<GetSubscriptionResponse>,
+    output: __S(229, __c7, 5) as any as S.Schema<GetSubscriptionResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -1843,7 +1850,7 @@ export const putSubscription: API.OperationMethod<
   PutSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c21, 1) as any as S.Schema<PutSubscriptionRequest>,
+  input: __S(674, __c21, 2) as any as S.Schema<PutSubscriptionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PutSubscriptionResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -2092,9 +2099,11 @@ function __c7(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSubscriptionRequest" });
     case 1:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
+          id: S.optional(S.NullOr(__S(225, __c7, 1))),
           currency: S.optional(S.NullOr(S.String)),
           externallyManaged: S.optional(S.NullOr(S.Boolean).pipe(T.Body("externally_managed"))),
           isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
@@ -2103,7 +2112,7 @@ function __c7(j: number): any {
           sets: S.optional(S.NullOr(__S(832, __c26, 0))),
         }),
       ).annotate({ identifier: "SubscriptionsGetResultItemRatePlan" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
@@ -2112,16 +2121,16 @@ function __c7(j: number): any {
           currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.NullOr(S.String)),
           price: S.optional(S.NullOr(S.Number)),
-          ratePlan: S.optional(S.NullOr(__S(225, __c7, 1)).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(S.NullOr(__S(226, __c7, 2)).pipe(T.Body("rate_plan"))),
           state: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SubscriptionsGetResultItem" });
-    case 3:
-      return S.Array(__S(226, __c7, 2));
     case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(227, __c7, 3).pipe(T.EnvelopePayload()),
+          result: __S(228, __c7, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSubscriptionResponse" });
@@ -2724,9 +2733,11 @@ function __c20(j: number): any {
 function __c21(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.optional(__S(672, __c21, 0)),
           currency: S.optional(S.String),
           externallyManaged: S.optional(S.Boolean.pipe(T.Body("externally_managed"))),
           isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
@@ -2735,12 +2746,12 @@ function __c21(j: number): any {
           sets: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "SubscriptionsUpdateRequestRatePlan" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.Label()),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(672, __c21, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(673, __c21, 1).pipe(T.Body("rate_plan"))),
         })
           .pipe(T.Http({ method: "PUT", uri: "/user/subscriptions/{identifier}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),

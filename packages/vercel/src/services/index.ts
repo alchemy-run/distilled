@@ -15,6 +15,7 @@ export * as dns from "./dns.ts";
 export * as domainsRegistrar from "./domains_registrar.ts";
 export * as domains from "./domains.ts";
 export * as drains from "./drains.ts";
+export * as drives from "./drives.ts";
 export * as edgeCache from "./edge_cache.ts";
 export * as environment from "./environment.ts";
 export * as featureFlags from "./feature_flags.ts";

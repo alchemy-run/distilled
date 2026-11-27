@@ -2350,6 +2350,12 @@ export interface UpdateNamespaceResponse {
   location?: string | undefined;
   /** Resource tags. */
   tags?: UpdateNamespaceResponseTagsMap | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export type ApplicationGroupCreateOrUpdateApplicationGroupError = AzureOpError;
 /** Creates or updates an ApplicationGroup for a Namespace. */
@@ -2868,7 +2874,7 @@ export const GetNamespace: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetNamespaceRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<GetNamespaceResponse>,
+  output: __S(544, __c34, 0) as any as S.Schema<GetNamespaceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -3478,7 +3484,7 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<NamespacesCreateOrUpdateRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
+  output: __S(1320, __c82, 8) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -3684,7 +3690,7 @@ export const UpdateNamespace: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<UpdateNamespaceRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<UpdateNamespaceResponse>,
+  output: __S(1320, __c82, 8) as any as S.Schema<UpdateNamespaceResponse>,
   errors: [],
   serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
@@ -4435,10 +4441,28 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(530, __c33, 2));
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(583, __c36, 7)),
+          sku: S.optional(__S(584, __c36, 8)),
+          identity: S.optional(__S(587, __c36, 11)),
+          location: S.optional(S.String),
+          tags: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
 function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(530, __c33, 2));
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4452,15 +4476,15 @@ function __c35(j: number): any {
           keyName: S.optional(S.String),
           keyVaultUri: S.optional(S.String),
           keyVersion: S.optional(S.String),
-          identity: S.optional(__S(560, __c35, 0)),
+          identity: S.optional(__S(576, __c36, 0)),
         }),
       ).annotate({ identifier: "KeyVaultProperties" });
     case 2:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keyVaultProperties: S.optional(__S(562, __c35, 2)),
+          keyVaultProperties: S.optional(__S(578, __c36, 2)),
           keySource: S.optional(S.String),
           requireInfrastructureEncryption: S.optional(S.Boolean),
         }),
@@ -4475,12 +4499,12 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "NamespaceReplicaLocation" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(580, __c36, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           maxReplicationLagDurationInSeconds: S.optional(S.Number),
-          locations: S.optional(__S(565, __c35, 5)),
+          locations: S.optional(__S(581, __c36, 5)),
         }),
       ).annotate({ identifier: "GeoDataReplicationProperties" });
     case 7:
@@ -4499,12 +4523,12 @@ function __c35(j: number): any {
           maximumThroughputUnits: S.optional(S.Number),
           kafkaEnabled: S.optional(S.Boolean),
           zoneRedundant: S.optional(S.Boolean),
-          encryption: S.optional(__S(563, __c35, 3)),
-          privateEndpointConnections: S.optional(__S(544, __c34, 0)),
+          encryption: S.optional(__S(579, __c36, 3)),
+          privateEndpointConnections: S.optional(__S(560, __c35, 0)),
           disableLocalAuth: S.optional(S.Boolean),
           alternateName: S.optional(S.String),
           platformCapabilities: S.optional(__S(641, __c40, 1)),
-          geoDataReplication: S.optional(__S(566, __c35, 6)),
+          geoDataReplication: S.optional(__S(582, __c36, 6)),
           ipAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EHNamespaceProperties" });
@@ -4524,34 +4548,16 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "UserAssignedIdentity" });
     case 10:
-      return S.Record(S.String, __S(569, __c35, 9));
+      return S.Record(S.String, __S(585, __c36, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(570, __c35, 10)),
+          userAssignedIdentities: S.optional(__S(586, __c36, 10)),
         }),
       ).annotate({ identifier: "Identity" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(567, __c35, 7)),
-          sku: S.optional(__S(568, __c35, 8)),
-          identity: S.optional(__S(571, __c35, 11)),
-          location: S.optional(S.String),
-          tags: S.optional(__S(624, __c39, 0)),
-        }),
-      ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
 function __c37(j: number): any {
@@ -5409,7 +5415,7 @@ function __c70(j: number): any {
 function __c71(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(544, __c34, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -5609,7 +5615,7 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(544, __c34, 0),
+          value: __S(560, __c35, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -5656,7 +5662,7 @@ function __c81(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           properties: S.optional(__S(1317, __c82, 5)),
-          sku: S.optional(__S(568, __c35, 8)),
+          sku: S.optional(__S(584, __c36, 8)),
           identity: S.optional(__S(1319, __c82, 7)),
           location: S.optional(S.String),
           tags: S.optional(__S(624, __c39, 0)),
@@ -5669,23 +5675,6 @@ function __c81(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NamespacesCreateOrUpdateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(567, __c35, 7)),
-          sku: S.optional(__S(568, __c35, 8)),
-          identity: S.optional(__S(571, __c35, 11)),
-          location: S.optional(S.String),
-          tags: S.optional(__S(624, __c39, 0)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "NamespacesCreateOrUpdateResponse" });
   }
 }
 function __c82(j: number): any {
@@ -5725,7 +5714,7 @@ function __c82(j: number): any {
           maximumThroughputUnits: S.optional(S.Number),
           kafkaEnabled: S.optional(S.Boolean),
           zoneRedundant: S.optional(S.Boolean),
-          encryption: S.optional(__S(563, __c35, 3)),
+          encryption: S.optional(__S(579, __c36, 3)),
           privateEndpointConnections: S.optional(__S(1313, __c82, 1)),
           disableLocalAuth: S.optional(S.Boolean),
           alternateName: S.optional(S.String),
@@ -5743,6 +5732,23 @@ function __c82(j: number): any {
           userAssignedIdentities: S.optional(__S(1318, __c82, 6)),
         }),
       ).annotate({ identifier: "IdentityInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(583, __c36, 7)),
+          sku: S.optional(__S(584, __c36, 8)),
+          identity: S.optional(__S(587, __c36, 11)),
+          location: S.optional(S.String),
+          tags: S.optional(__S(624, __c39, 0)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "NamespacesCreateOrUpdateResponse" });
   }
 }
 function __c83(j: number): any {
@@ -6014,7 +6020,7 @@ function __c94(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           properties: S.optional(__S(1317, __c82, 5)),
-          sku: S.optional(__S(568, __c35, 8)),
+          sku: S.optional(__S(584, __c36, 8)),
           identity: S.optional(__S(1319, __c82, 7)),
           location: S.optional(S.String),
           tags: S.optional(__S(624, __c39, 0)),

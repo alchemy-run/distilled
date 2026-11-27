@@ -87,6 +87,15 @@ export interface CreateBigQueryCatalogRequest {
   /** The Google Cloud Project ID to bill for the export. Mutually required with projectId */
   parentProjectId?: string | undefined;
 }
+/** Tags assigned directly to this catalog (read only) */
+export interface TagName {
+  /** Tag ID (read only) */
+  tagId: string;
+  /** Tag name (read only) */
+  name: string;
+}
+/** Tags assigned directly to this catalog (read only) */
+export type BigQueryCatalogTagsList = Array<TagName>;
 /** A catalog connecting to BigQuery */
 export interface BigQueryCatalog {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -107,9 +116,10 @@ export interface BigQueryCatalog {
   projectId?: string | undefined;
   /** The Google Cloud Project ID to bill for the export. Mutually required with projectId */
   parentProjectId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: BigQueryCatalogTagsList | undefined;
 }
-/** Cassandra cloud kind. Defaults to AWS. */
-export type CreateCassandraCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
+export type CloudKind = "AWS" | "AZURE" | "GCP";
 export type CreateCassandraCatalogRequestApacheCassandraConnectionDeploymentType =
   "apacheCassandra";
 /** Connect to Cassandra instance */
@@ -123,7 +133,7 @@ export interface CreateCassandraCatalogRequestApacheCassandraConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CreateCassandraCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   deploymentType: CreateCassandraCatalogRequestApacheCassandraConnectionDeploymentType;
   /** Cassandra hosts */
   contactPoints: string;
@@ -150,7 +160,7 @@ export interface CreateCassandraCatalogRequestAstraDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CreateCassandraCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   deploymentType: CreateCassandraCatalogRequestAstraDBConnectionDeploymentType;
   /** AstraDB database ID */
   databaseId: string;
@@ -166,9 +176,9 @@ export type CreateCassandraCatalogRequest =
 export interface CreateCassandraCatalogRequest2 {
   body: CreateCassandraCatalogRequest;
 }
-/** Cassandra cloud kind. Defaults to AWS. */
-export type CassandraCatalogCloudKind = "AWS" | "AZURE" | "GCP";
 export type CassandraCatalogApacheCassandraConnectionDeploymentType = "apacheCassandra";
+/** Tags assigned directly to this catalog (read only) */
+export type CassandraCatalogApacheCassandraConnectionTagsList = Array<TagName>;
 /** Connect to Cassandra instance */
 export interface CassandraCatalogApacheCassandraConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -184,8 +194,10 @@ export interface CassandraCatalogApacheCassandraConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CassandraCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   deploymentType: CassandraCatalogApacheCassandraConnectionDeploymentType;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: CassandraCatalogApacheCassandraConnectionTagsList | undefined;
   /** Cassandra hosts */
   contactPoints: string;
   /** Local datacenter */
@@ -200,6 +212,8 @@ export interface CassandraCatalogApacheCassandraConnection {
   sshTunnelId?: string | undefined;
 }
 export type CassandraCatalogAstraDBConnectionDeploymentType = "astraDB";
+/** Tags assigned directly to this catalog (read only) */
+export type CassandraCatalogAstraDBConnectionTagsList = Array<TagName>;
 /** Connect to AstraDB instance */
 export interface CassandraCatalogAstraDBConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -215,8 +229,10 @@ export interface CassandraCatalogAstraDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CassandraCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   deploymentType: CassandraCatalogAstraDBConnectionDeploymentType;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: CassandraCatalogAstraDBConnectionTagsList | undefined;
   /** AstraDB database ID */
   databaseId: string;
   /** AstraDB region */
@@ -293,6 +309,8 @@ export interface CreateGcsCatalogRequest2 {
   body: CreateGcsCatalogRequest;
 }
 export type GcsCatalogGcsGalaxyMetastoreMetastoreType = "galaxy";
+/** Tags assigned directly to this catalog (read only) */
+export type GcsCatalogGcsGalaxyMetastoreTagsList = Array<TagName>;
 /** Store metadata in the Galaxy metastore */
 export interface GcsCatalogGcsGalaxyMetastore {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -318,12 +336,16 @@ export interface GcsCatalogGcsGalaxyMetastore {
   externalTableWritesEnabled?: boolean | undefined;
   /** Maximum metadata staleness in seconds (30, 60, 90, or 120) */
   metadataMaxStalenessSeconds?: number | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: GcsCatalogGcsGalaxyMetastoreTagsList | undefined;
   /** GCS bucket to use when storing data for new schemas */
   defaultBucket: string;
   /** Default location to store data for new schemas */
   defaultDataLocation: string;
 }
 export type GcsCatalogGcsHiveMetastoreMetastoreType = "hive";
+/** Tags assigned directly to this catalog (read only) */
+export type GcsCatalogGcsHiveMetastoreTagsList = Array<TagName>;
 /** Store metadata in a Hive metastore */
 export interface GcsCatalogGcsHiveMetastore {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -349,6 +371,8 @@ export interface GcsCatalogGcsHiveMetastore {
   externalTableWritesEnabled?: boolean | undefined;
   /** Maximum metadata staleness in seconds (30, 60, 90, or 120) */
   metadataMaxStalenessSeconds?: number | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: GcsCatalogGcsHiveMetastoreTagsList | undefined;
   /** Hive metastore host url */
   hiveMetastoreHost: string;
   /** Hive metastore host port. Defaults to 9083. */
@@ -359,8 +383,6 @@ export interface GcsCatalogGcsHiveMetastore {
 /** A catalog connecting to GCS */
 export type GcsCatalog = GcsCatalogGcsGalaxyMetastore | GcsCatalogGcsHiveMetastore;
 export type CreateGcsCatalogResponse = GcsCatalog;
-/** MongoDB cloud kind. Defaults to AWS. */
-export type CreateMongoDBCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export type CreateMongoDBCatalogRequestDirectMongoDBConnectionConnectionType = "direct";
 /** MongoDB regions */
 export type CreateMongoDBCatalogRequestDirectMongoDBConnectionRegionsList = Array<string>;
@@ -375,7 +397,7 @@ export interface CreateMongoDBCatalogRequestDirectMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMongoDBCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMongoDBCatalogRequestDirectMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: CreateMongoDBCatalogRequestDirectMongoDBConnectionRegionsList;
@@ -406,7 +428,7 @@ export interface CreateMongoDBCatalogRequestSshTunnelMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMongoDBCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMongoDBCatalogRequestSshTunnelMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: CreateMongoDBCatalogRequestSshTunnelMongoDBConnectionRegionsList;
@@ -439,7 +461,7 @@ export interface CreateMongoDBCatalogRequestPrivateLinkMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMongoDBCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMongoDBCatalogRequestPrivateLinkMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: CreateMongoDBCatalogRequestPrivateLinkMongoDBConnectionRegionsList;
@@ -464,11 +486,11 @@ export type CreateMongoDBCatalogRequest =
 export interface CreateMongoDBCatalogRequest2 {
   body: CreateMongoDBCatalogRequest;
 }
-/** MongoDB cloud kind. Defaults to AWS. */
-export type MongoDBCatalogCloudKind = "AWS" | "AZURE" | "GCP";
 export type MongoDBCatalogDirectMongoDBConnectionConnectionType = "direct";
 /** MongoDB regions */
 export type MongoDBCatalogDirectMongoDBConnectionRegionsList = Array<string>;
+/** Tags assigned directly to this catalog (read only) */
+export type MongoDBCatalogDirectMongoDBConnectionTagsList = Array<TagName>;
 /** Connect directly to MongoDB instance */
 export interface MongoDBCatalogDirectMongoDBConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -484,7 +506,7 @@ export interface MongoDBCatalogDirectMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MongoDBCatalogDirectMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: MongoDBCatalogDirectMongoDBConnectionRegionsList;
@@ -498,12 +520,16 @@ export interface MongoDBCatalogDirectMongoDBConnection {
   tlsEnabled?: boolean | undefined;
   /** Is federated database. Defaults to false. */
   federatedDatabaseEnabled?: boolean | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MongoDBCatalogDirectMongoDBConnectionTagsList | undefined;
   /** MongoDB hosts */
   hosts: string;
 }
 export type MongoDBCatalogSshTunnelMongoDBConnectionConnectionType = "sshTunnel";
 /** MongoDB regions */
 export type MongoDBCatalogSshTunnelMongoDBConnectionRegionsList = Array<string>;
+/** Tags assigned directly to this catalog (read only) */
+export type MongoDBCatalogSshTunnelMongoDBConnectionTagsList = Array<TagName>;
 /** Connect to MongoDB via SSH Tunnel */
 export interface MongoDBCatalogSshTunnelMongoDBConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -519,7 +545,7 @@ export interface MongoDBCatalogSshTunnelMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MongoDBCatalogSshTunnelMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: MongoDBCatalogSshTunnelMongoDBConnectionRegionsList;
@@ -533,6 +559,8 @@ export interface MongoDBCatalogSshTunnelMongoDBConnection {
   tlsEnabled?: boolean | undefined;
   /** Is federated database. Defaults to false. */
   federatedDatabaseEnabled?: boolean | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MongoDBCatalogSshTunnelMongoDBConnectionTagsList | undefined;
   /** SSH tunnel identifier */
   sshTunnelId: string;
   /** MongoDB hosts */
@@ -541,6 +569,8 @@ export interface MongoDBCatalogSshTunnelMongoDBConnection {
 export type MongoDBCatalogPrivateLinkMongoDBConnectionConnectionType = "privateLink";
 /** MongoDB regions */
 export type MongoDBCatalogPrivateLinkMongoDBConnectionRegionsList = Array<string>;
+/** Tags assigned directly to this catalog (read only) */
+export type MongoDBCatalogPrivateLinkMongoDBConnectionTagsList = Array<TagName>;
 /** Connect to MongoDB via PrivateLink */
 export interface MongoDBCatalogPrivateLinkMongoDBConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -556,7 +586,7 @@ export interface MongoDBCatalogPrivateLinkMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MongoDBCatalogPrivateLinkMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions: MongoDBCatalogPrivateLinkMongoDBConnectionRegionsList;
@@ -570,6 +600,8 @@ export interface MongoDBCatalogPrivateLinkMongoDBConnection {
   tlsEnabled?: boolean | undefined;
   /** Is federated database. Defaults to false. */
   federatedDatabaseEnabled?: boolean | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MongoDBCatalogPrivateLinkMongoDBConnectionTagsList | undefined;
   /** PrivateLink Identifier */
   privateLinkId: string;
 }
@@ -579,8 +611,6 @@ export type MongoDBCatalog =
   | MongoDBCatalogSshTunnelMongoDBConnection
   | MongoDBCatalogPrivateLinkMongoDBConnection;
 export type CreateMongoDBCatalogResponse = MongoDBCatalog;
-/** MySQL cloud kind. Defaults to AWS. */
-export type CreateMySQLCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export type CreateMySQLCatalogRequestDirectMySQLConnectionConnectionType = "direct";
 /** Connect directly to MySQL instance */
 export interface CreateMySQLCatalogRequestDirectMySQLConnection {
@@ -593,7 +623,7 @@ export interface CreateMySQLCatalogRequestDirectMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMySQLCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMySQLCatalogRequestDirectMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -616,7 +646,7 @@ export interface CreateMySQLCatalogRequestSshTunnelMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMySQLCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMySQLCatalogRequestSshTunnelMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -641,7 +671,7 @@ export interface CreateMySQLCatalogRequestPrivateLinkMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: CreateMySQLCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: CreateMySQLCatalogRequestPrivateLinkMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -660,9 +690,9 @@ export type CreateMySQLCatalogRequest =
 export interface CreateMySQLCatalogRequest2 {
   body: CreateMySQLCatalogRequest;
 }
-/** MySQL cloud kind. Defaults to AWS. */
-export type MySQLCatalogCloudKind = "AWS" | "AZURE" | "GCP";
 export type MySQLCatalogDirectMySQLConnectionConnectionType = "direct";
+/** Tags assigned directly to this catalog (read only) */
+export type MySQLCatalogDirectMySQLConnectionTagsList = Array<TagName>;
 /** Connect directly to MySQL instance */
 export interface MySQLCatalogDirectMySQLConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -678,7 +708,7 @@ export interface MySQLCatalogDirectMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MySQLCatalogDirectMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -686,10 +716,14 @@ export interface MySQLCatalogDirectMySQLConnection {
   username: string;
   /** MySQL database password */
   password: string | Redacted.Redacted<string>;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MySQLCatalogDirectMySQLConnectionTagsList | undefined;
   /** MySQL host */
   host: string;
 }
 export type MySQLCatalogSshTunnelMySQLConnectionConnectionType = "sshTunnel";
+/** Tags assigned directly to this catalog (read only) */
+export type MySQLCatalogSshTunnelMySQLConnectionTagsList = Array<TagName>;
 /** Connect to MySQL via SSH Tunnel */
 export interface MySQLCatalogSshTunnelMySQLConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -705,7 +739,7 @@ export interface MySQLCatalogSshTunnelMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MySQLCatalogSshTunnelMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -713,12 +747,16 @@ export interface MySQLCatalogSshTunnelMySQLConnection {
   username: string;
   /** MySQL database password */
   password: string | Redacted.Redacted<string>;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MySQLCatalogSshTunnelMySQLConnectionTagsList | undefined;
   /** SSH tunnel identifier */
   sshTunnelId: string;
   /** MySQL host */
   host: string;
 }
 export type MySQLCatalogPrivateLinkMySQLConnectionConnectionType = "privateLink";
+/** Tags assigned directly to this catalog (read only) */
+export type MySQLCatalogPrivateLinkMySQLConnectionTagsList = Array<TagName>;
 /** Connect to MySQL via PrivateLink */
 export interface MySQLCatalogPrivateLinkMySQLConnection {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -734,7 +772,7 @@ export interface MySQLCatalogPrivateLinkMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   connectionType: MySQLCatalogPrivateLinkMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -742,6 +780,8 @@ export interface MySQLCatalogPrivateLinkMySQLConnection {
   username: string;
   /** MySQL database password */
   password: string | Redacted.Redacted<string>;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: MySQLCatalogPrivateLinkMySQLConnectionTagsList | undefined;
   /** PrivateLink Identifier */
   privateLinkId: string;
 }
@@ -831,6 +871,8 @@ export interface CreateOpenSearchCatalogRequest2 {
   body: CreateOpenSearchCatalogRequest;
 }
 export type OpenSearchCatalogOpenSearchBasicAuthAuthType = "basic";
+/** Tags assigned directly to this catalog (read only) */
+export type OpenSearchCatalogOpenSearchBasicAuthTagsList = Array<TagName>;
 /** Authenticate with a username and password */
 export interface OpenSearchCatalogOpenSearchBasicAuth {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -852,12 +894,16 @@ export interface OpenSearchCatalogOpenSearchBasicAuth {
   port?: number | undefined;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: OpenSearchCatalogOpenSearchBasicAuthTagsList | undefined;
   /** Username */
   username: string;
   /** Password */
   password: string | Redacted.Redacted<string>;
 }
 export type OpenSearchCatalogOpenSearchAccessKeyAuthAuthType = "accessKey";
+/** Tags assigned directly to this catalog (read only) */
+export type OpenSearchCatalogOpenSearchAccessKeyAuthTagsList = Array<TagName>;
 /** Authenticate with an AWS access key and secret key pair */
 export interface OpenSearchCatalogOpenSearchAccessKeyAuth {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -879,6 +925,8 @@ export interface OpenSearchCatalogOpenSearchAccessKeyAuth {
   port?: number | undefined;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: OpenSearchCatalogOpenSearchAccessKeyAuthTagsList | undefined;
   /** AWS access key */
   accessKey: string;
   /** AWS secret key */
@@ -887,6 +935,8 @@ export interface OpenSearchCatalogOpenSearchAccessKeyAuth {
   region: string;
 }
 export type OpenSearchCatalogOpenSearchCrossAccountRoleAuthAuthType = "role";
+/** Tags assigned directly to this catalog (read only) */
+export type OpenSearchCatalogOpenSearchCrossAccountRoleAuthTagsList = Array<TagName>;
 /** Authenticate with an AWS cross account role */
 export interface OpenSearchCatalogOpenSearchCrossAccountRoleAuth {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -908,6 +958,8 @@ export interface OpenSearchCatalogOpenSearchCrossAccountRoleAuth {
   port?: number | undefined;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: OpenSearchCatalogOpenSearchCrossAccountRoleAuthTagsList | undefined;
   /** AWS cross account role ARN */
   roleArn: string;
   /** AWS region */
@@ -919,8 +971,6 @@ export type OpenSearchCatalog =
   | OpenSearchCatalogOpenSearchAccessKeyAuth
   | OpenSearchCatalogOpenSearchCrossAccountRoleAuth;
 export type CreateOpenSearchCatalogResponse = OpenSearchCatalog;
-/** PostgreSQL cloud kind. Defaults to AWS. */
-export type CreatePostgresqlCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface CreatePostgresqlCatalogRequest {
   /** Catalog name */
   name: string;
@@ -931,7 +981,7 @@ export interface CreatePostgresqlCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** PostgreSQL cloud kind. Defaults to AWS. */
-  cloudKind?: CreatePostgresqlCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** PostgreSQL database endpoint */
   endpoint?: string | undefined;
   /** PostgreSQL database port. Defaults to 5432. */
@@ -949,8 +999,8 @@ export interface CreatePostgresqlCatalogRequest {
   /** PrivateLink identifier */
   privateLinkId?: string | undefined;
 }
-/** PostgreSQL cloud kind. Defaults to AWS. */
-export type PostgresqlCatalogCloudKind = "AWS" | "AZURE" | "GCP";
+/** Tags assigned directly to this catalog (read only) */
+export type PostgresqlCatalogTagsList = Array<TagName>;
 /** A catalog connecting to PostgreSQL */
 export interface PostgresqlCatalog {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -966,7 +1016,7 @@ export interface PostgresqlCatalog {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** PostgreSQL cloud kind. Defaults to AWS. */
-  cloudKind?: PostgresqlCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   /** PostgreSQL database endpoint */
   endpoint?: string | undefined;
   /** PostgreSQL database port. Defaults to 5432. */
@@ -983,6 +1033,8 @@ export interface PostgresqlCatalog {
   sshTunnelId?: string | undefined;
   /** PrivateLink identifier */
   privateLinkId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: PostgresqlCatalogTagsList | undefined;
 }
 export type CreateRedshiftCatalogRequestBasicAuthType = "basic";
 /** Authenticate with a username and password */
@@ -1062,6 +1114,8 @@ export interface CreateRedshiftCatalogRequest2 {
   body: CreateRedshiftCatalogRequest;
 }
 export type RedshiftCatalogBasicAuthType = "basic";
+/** Tags assigned directly to this catalog (read only) */
+export type RedshiftCatalogBasicTagsList = Array<TagName>;
 /** Authenticate with a username and password */
 export interface RedshiftCatalogBasic {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1081,12 +1135,16 @@ export interface RedshiftCatalogBasic {
   authType: RedshiftCatalogBasicAuthType;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: RedshiftCatalogBasicTagsList | undefined;
   /** Username */
   username: string;
   /** Password */
   password: string | Redacted.Redacted<string>;
 }
 export type RedshiftCatalogAccessKeyAuthType = "accessKey";
+/** Tags assigned directly to this catalog (read only) */
+export type RedshiftCatalogAccessKeyTagsList = Array<TagName>;
 /** Authenticate with an AWS access key and secret key pair */
 export interface RedshiftCatalogAccessKey {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1106,6 +1164,8 @@ export interface RedshiftCatalogAccessKey {
   authType: RedshiftCatalogAccessKeyAuthType;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: RedshiftCatalogAccessKeyTagsList | undefined;
   /** Username */
   username: string;
   /** AWS access key */
@@ -1116,6 +1176,8 @@ export interface RedshiftCatalogAccessKey {
   region: string;
 }
 export type RedshiftCatalogRedshiftCrossAccountRoleAuthAuthType = "role";
+/** Tags assigned directly to this catalog (read only) */
+export type RedshiftCatalogRedshiftCrossAccountRoleAuthTagsList = Array<TagName>;
 /** Authenticate with an AWS cross account role */
 export interface RedshiftCatalogRedshiftCrossAccountRoleAuth {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1135,6 +1197,8 @@ export interface RedshiftCatalogRedshiftCrossAccountRoleAuth {
   authType: RedshiftCatalogRedshiftCrossAccountRoleAuthAuthType;
   /** SSH tunnel identifier */
   sshTunnelId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: RedshiftCatalogRedshiftCrossAccountRoleAuthTagsList | undefined;
   /** Username */
   username: string;
   /** AWS cross account role ARN */
@@ -1260,6 +1324,8 @@ export interface CreateS3CatalogRequest2 {
   body: CreateS3CatalogRequest;
 }
 export type S3CatalogGalaxyMetastoreMetastoreType = "galaxy";
+/** Tags assigned directly to this catalog (read only) */
+export type S3CatalogGalaxyMetastoreTagsList = Array<TagName>;
 /** Store metadata in the Galaxy metastore */
 export interface S3CatalogGalaxyMetastore {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1289,12 +1355,16 @@ export interface S3CatalogGalaxyMetastore {
   externalTableWritesEnabled?: boolean | undefined;
   /** Maximum metadata staleness in seconds (30, 60, 90, or 120) */
   metadataMaxStalenessSeconds?: number | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: S3CatalogGalaxyMetastoreTagsList | undefined;
   /** S3 bucket to use when storing data for new schemas */
   defaultBucket: string;
   /** Default location to store data for new schemas */
   defaultDataLocation: string;
 }
 export type S3CatalogGlueMetastoreMetastoreType = "glue";
+/** Tags assigned directly to this catalog (read only) */
+export type S3CatalogGlueMetastoreTagsList = Array<TagName>;
 /** Store metadata in AWS Glue */
 export interface S3CatalogGlueMetastore {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1324,6 +1394,8 @@ export interface S3CatalogGlueMetastore {
   externalTableWritesEnabled?: boolean | undefined;
   /** Maximum metadata staleness in seconds (30, 60, 90, or 120) */
   metadataMaxStalenessSeconds?: number | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: S3CatalogGlueMetastoreTagsList | undefined;
   /** AWS region */
   region: string;
   /** S3 bucket to use when storing data for new schemas */
@@ -1338,6 +1410,8 @@ export interface S3CatalogGlueMetastore {
   glueRoleArn?: string | undefined;
 }
 export type S3CatalogHiveMetastoreMetastoreType = "hive";
+/** Tags assigned directly to this catalog (read only) */
+export type S3CatalogHiveMetastoreTagsList = Array<TagName>;
 /** Store metadata in a Hive metastore */
 export interface S3CatalogHiveMetastore {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1367,6 +1441,8 @@ export interface S3CatalogHiveMetastore {
   externalTableWritesEnabled?: boolean | undefined;
   /** Maximum metadata staleness in seconds (30, 60, 90, or 120) */
   metadataMaxStalenessSeconds?: number | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: S3CatalogHiveMetastoreTagsList | undefined;
   /** Hive metastore host url */
   hiveMetastoreHost: string;
   /** Hive metastore host port. Defaults to 9083. */
@@ -1377,8 +1453,6 @@ export interface S3CatalogHiveMetastore {
 /** A catalog connecting to S3 */
 export type S3Catalog = S3CatalogGalaxyMetastore | S3CatalogGlueMetastore | S3CatalogHiveMetastore;
 export type CreateS3CatalogResponse = S3Catalog;
-/** Snowflake cloud kind. Defaults to AWS. */
-export type CreateSnowflakeCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface CreateSnowflakeCatalogRequest {
   /** Catalog name */
   name: string;
@@ -1389,7 +1463,7 @@ export interface CreateSnowflakeCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Snowflake cloud kind. Defaults to AWS. */
-  cloudKind?: CreateSnowflakeCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** Snowflake account identifier */
   accountIdentifier: string;
   /** Snowflake database name */
@@ -1409,8 +1483,8 @@ export interface CreateSnowflakeCatalogRequest {
   /** Snowflake role */
   role?: string | undefined;
 }
-/** Snowflake cloud kind. Defaults to AWS. */
-export type SnowflakeCatalogCloudKind = "AWS" | "AZURE" | "GCP";
+/** Tags assigned directly to this catalog (read only) */
+export type SnowflakeCatalogTagsList = Array<TagName>;
 /** A catalog connecting to Snowflake */
 export interface SnowflakeCatalog {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1426,7 +1500,7 @@ export interface SnowflakeCatalog {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Snowflake cloud kind. Defaults to AWS. */
-  cloudKind?: SnowflakeCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   /** Snowflake account identifier */
   accountIdentifier: string;
   /** Snowflake database name */
@@ -1445,9 +1519,9 @@ export interface SnowflakeCatalog {
   warehouse?: string | undefined;
   /** Snowflake role */
   role?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: SnowflakeCatalogTagsList | undefined;
 }
-/** SQL Server cloud kind. Defaults to AWS. */
-export type CreateSqlServerCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface CreateSqlServerCatalogRequest {
   /** Catalog name */
   name: string;
@@ -1458,7 +1532,7 @@ export interface CreateSqlServerCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** SQL Server cloud kind. Defaults to AWS. */
-  cloudKind?: CreateSqlServerCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** SQL Server database endpoint */
   endpoint?: string | undefined;
   /** SQL Server database port. Defaults to 1433. */
@@ -1474,8 +1548,8 @@ export interface CreateSqlServerCatalogRequest {
   /** PrivateLink identifier */
   privateLinkId?: string | undefined;
 }
-/** SQL Server cloud kind. Defaults to AWS. */
-export type SqlServerCatalogCloudKind = "AWS" | "AZURE" | "GCP";
+/** Tags assigned directly to this catalog (read only) */
+export type SqlServerCatalogTagsList = Array<TagName>;
 /** A catalog connecting to SQL Server */
 export interface SqlServerCatalog {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -1491,7 +1565,7 @@ export interface SqlServerCatalog {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** SQL Server cloud kind. Defaults to AWS. */
-  cloudKind?: SqlServerCatalogCloudKind | undefined;
+  cloudKind?: CloudKind | undefined;
   /** SQL Server database endpoint */
   endpoint?: string | undefined;
   /** SQL Server database port. Defaults to 1433. */
@@ -1506,6 +1580,8 @@ export interface SqlServerCatalog {
   sshTunnelId?: string | undefined;
   /** PrivateLink identifier */
   privateLinkId?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: SqlServerCatalogTagsList | undefined;
 }
 export interface DeleteBigQueryCatalogRequest {
   /** A catalog connecting to BigQuery */
@@ -1647,12 +1723,18 @@ export interface ListCatalogsRequest {
   /** Page size or 0 for default (current maximum is 100) */
   pageSize?: number | undefined;
 }
+/** Tags assigned directly to this catalog (read only) */
+export type CatalogTagsList = Array<TagName>;
 /** A catalog (read only) */
 export interface Catalog {
   /** Catalog ID (read only) */
   catalogId: string;
   /** Catalog name (read only) */
   catalogName: string;
+  /** Type segment of the type-specific catalog endpoint that serves this catalog. Absent if no such endpoint exists (read only) */
+  catalogType?: string | undefined;
+  /** Tags assigned directly to this catalog (read only) */
+  tags?: CatalogTagsList | undefined;
 }
 /** A page of results. */
 export type PaginatedCatalogResultList = Array<Catalog>;
@@ -1806,8 +1888,6 @@ export interface UpdateBigQueryCatalogRequest {
   /** The Google Cloud Project ID to bill for the export. Mutually required with projectId */
   parentProjectId?: string | undefined;
 }
-/** Cassandra cloud kind. Defaults to AWS. */
-export type CassandraCatalogPatchCloudKind = "AWS" | "AZURE" | "GCP";
 export type CassandraCatalogPatchApacheCassandraConnectionDeploymentType = "apacheCassandra";
 /** Connect to Cassandra instance */
 export interface CassandraCatalogPatchApacheCassandraConnection {
@@ -1820,7 +1900,7 @@ export interface CassandraCatalogPatchApacheCassandraConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CassandraCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   deploymentType: CassandraCatalogPatchApacheCassandraConnectionDeploymentType;
   /** Cassandra hosts */
   contactPoints?: string | undefined;
@@ -1847,7 +1927,7 @@ export interface CassandraCatalogPatchAstraDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Cassandra cloud kind. Defaults to AWS. */
-  cloudKind?: CassandraCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   deploymentType: CassandraCatalogPatchAstraDBConnectionDeploymentType;
   /** AstraDB database ID */
   databaseId?: string | undefined;
@@ -1930,8 +2010,6 @@ export interface UpdateGcsCatalogRequest {
   body: GcsCatalogPatch;
 }
 export type UpdateGcsCatalogResponse = GcsCatalog;
-/** MongoDB cloud kind. Defaults to AWS. */
-export type MongoDBCatalogPatchCloudKind = "AWS" | "AZURE" | "GCP";
 export type MongoDBCatalogPatchDirectMongoDBConnectionConnectionType = "direct";
 /** MongoDB regions */
 export type MongoDBCatalogPatchDirectMongoDBConnectionRegionsList = Array<string>;
@@ -1946,7 +2024,7 @@ export interface MongoDBCatalogPatchDirectMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MongoDBCatalogPatchDirectMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions?: MongoDBCatalogPatchDirectMongoDBConnectionRegionsList | undefined;
@@ -1977,7 +2055,7 @@ export interface MongoDBCatalogPatchSshTunnelMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MongoDBCatalogPatchSshTunnelMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions?: MongoDBCatalogPatchSshTunnelMongoDBConnectionRegionsList | undefined;
@@ -2010,7 +2088,7 @@ export interface MongoDBCatalogPatchPrivateLinkMongoDBConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MongoDB cloud kind. Defaults to AWS. */
-  cloudKind?: MongoDBCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MongoDBCatalogPatchPrivateLinkMongoDBConnectionConnectionType;
   /** MongoDB regions */
   regions?: MongoDBCatalogPatchPrivateLinkMongoDBConnectionRegionsList | undefined;
@@ -2038,8 +2116,6 @@ export interface UpdateMongoDBCatalogRequest {
   body: MongoDBCatalogPatch;
 }
 export type UpdateMongoDBCatalogResponse = MongoDBCatalog;
-/** MySQL cloud kind. Defaults to AWS. */
-export type MySQLCatalogPatchCloudKind = "AWS" | "AZURE" | "GCP";
 export type MySQLCatalogPatchDirectMySQLConnectionConnectionType = "direct";
 /** Connect directly to MySQL instance */
 export interface MySQLCatalogPatchDirectMySQLConnection {
@@ -2052,7 +2128,7 @@ export interface MySQLCatalogPatchDirectMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MySQLCatalogPatchDirectMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -2075,7 +2151,7 @@ export interface MySQLCatalogPatchSshTunnelMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MySQLCatalogPatchSshTunnelMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -2100,7 +2176,7 @@ export interface MySQLCatalogPatchPrivateLinkMySQLConnection {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** MySQL cloud kind. Defaults to AWS. */
-  cloudKind?: MySQLCatalogPatchCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   connectionType: MySQLCatalogPatchPrivateLinkMySQLConnectionConnectionType;
   /** MySQL database port. Defaults to 3306. */
   port?: number | undefined;
@@ -2204,8 +2280,6 @@ export interface UpdateOpenSearchCatalogRequest {
   body: OpenSearchCatalogPatch;
 }
 export type UpdateOpenSearchCatalogResponse = OpenSearchCatalog;
-/** PostgreSQL cloud kind. Defaults to AWS. */
-export type UpdatePostgresqlCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface UpdatePostgresqlCatalogRequest {
   /** A catalog connecting to PostgreSQL */
   catalogId: string;
@@ -2218,7 +2292,7 @@ export interface UpdatePostgresqlCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** PostgreSQL cloud kind. Defaults to AWS. */
-  cloudKind?: UpdatePostgresqlCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** PostgreSQL database endpoint */
   endpoint?: string | undefined;
   /** PostgreSQL database port. Defaults to 5432. */
@@ -2430,8 +2504,6 @@ export interface UpdateS3CatalogRequest {
   body: S3CatalogPatch;
 }
 export type UpdateS3CatalogResponse = S3Catalog;
-/** Snowflake cloud kind. Defaults to AWS. */
-export type UpdateSnowflakeCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface UpdateSnowflakeCatalogRequest {
   /** A catalog connecting to Snowflake */
   catalogId: string;
@@ -2444,7 +2516,7 @@ export interface UpdateSnowflakeCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** Snowflake cloud kind. Defaults to AWS. */
-  cloudKind?: UpdateSnowflakeCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** Snowflake account identifier */
   accountIdentifier?: string | undefined;
   /** Snowflake database name */
@@ -2464,8 +2536,6 @@ export interface UpdateSnowflakeCatalogRequest {
   /** Snowflake role */
   role?: string | undefined;
 }
-/** SQL Server cloud kind. Defaults to AWS. */
-export type UpdateSqlServerCatalogRequestCloudKind = "AWS" | "AZURE" | "GCP";
 export interface UpdateSqlServerCatalogRequest {
   /** A catalog connecting to SQL Server */
   catalogId: string;
@@ -2478,7 +2548,7 @@ export interface UpdateSqlServerCatalogRequest {
   /** Validate catalog configuration before creation */
   validate?: boolean | undefined;
   /** SQL Server cloud kind. Defaults to AWS. */
-  cloudKind?: UpdateSqlServerCatalogRequestCloudKind | (string & {}) | undefined;
+  cloudKind?: CloudKind | (string & {}) | undefined;
   /** SQL Server database endpoint */
   endpoint?: string | undefined;
   /** SQL Server database port. Defaults to 1433. */
@@ -2611,8 +2681,8 @@ export const createCassandraCatalog: API.OperationMethod<
   CreateCassandraCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(403, __c50, 3) as any as S.Schema<CreateCassandraCatalogRequest2>,
-  output: __S(416, __c52, 0) as any as S.Schema<CreateCassandraCatalogResponse>,
+  input: __S(411, __c51, 3) as any as S.Schema<CreateCassandraCatalogRequest2>,
+  output: __S(424, __c53, 0) as any as S.Schema<CreateCassandraCatalogResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -2629,8 +2699,8 @@ export const createGcsCatalog: API.OperationMethod<
   CreateGcsCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(507, __c63, 3) as any as S.Schema<CreateGcsCatalogRequest2>,
-  output: __S(520, __c65, 0) as any as S.Schema<CreateGcsCatalogResponse>,
+  input: __S(515, __c64, 3) as any as S.Schema<CreateGcsCatalogRequest2>,
+  output: __S(528, __c66, 0) as any as S.Schema<CreateGcsCatalogResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -2647,8 +2717,8 @@ export const createMongoDBCatalog: API.OperationMethod<
   CreateMongoDBCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(620, __c77, 4) as any as S.Schema<CreateMongoDBCatalogRequest2>,
-  output: __S(640, __c80, 0) as any as S.Schema<CreateMongoDBCatalogResponse>,
+  input: __S(628, __c78, 4) as any as S.Schema<CreateMongoDBCatalogRequest2>,
+  output: __S(648, __c81, 0) as any as S.Schema<CreateMongoDBCatalogResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -2665,8 +2735,8 @@ export const createMySQLCatalog: API.OperationMethod<
   CreateMySQLCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(660, __c82, 4) as any as S.Schema<CreateMySQLCatalogRequest2>,
-  output: __S(672, __c84, 0) as any as S.Schema<CreateMySQLCatalogResponse>,
+  input: __S(668, __c83, 4) as any as S.Schema<CreateMySQLCatalogRequest2>,
+  output: __S(680, __c85, 0) as any as S.Schema<CreateMySQLCatalogResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -2687,8 +2757,8 @@ export const createOpenSearchCatalog: API.OperationMethod<
   CreateOpenSearchCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(684, __c85, 4) as any as S.Schema<CreateOpenSearchCatalogRequest2>,
-  output: __S(696, __c87, 0) as any as S.Schema<CreateOpenSearchCatalogResponse>,
+  input: __S(692, __c86, 4) as any as S.Schema<CreateOpenSearchCatalogRequest2>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateOpenSearchCatalogResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3044,7 +3114,7 @@ export const getCassandraCatalog: API.OperationMethod<
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetCassandraCatalogRequest>,
-  output: __S(416, __c52, 0) as any as S.Schema<GetCassandraCatalogResponse>,
+  output: __S(424, __c53, 0) as any as S.Schema<GetCassandraCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3062,7 +3132,7 @@ export const getGcsCatalog: API.OperationMethod<
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetGcsCatalogRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<GetGcsCatalogResponse>,
+  output: __S(528, __c66, 0) as any as S.Schema<GetGcsCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3080,7 +3150,7 @@ export const getMongoDBCatalog: API.OperationMethod<
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetMongoDBCatalogRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<GetMongoDBCatalogResponse>,
+  output: __S(648, __c81, 0) as any as S.Schema<GetMongoDBCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3098,7 +3168,7 @@ export const getMySQLCatalog: API.OperationMethod<
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetMySQLCatalogRequest>,
-  output: __S(672, __c84, 0) as any as S.Schema<GetMySQLCatalogResponse>,
+  output: __S(680, __c85, 0) as any as S.Schema<GetMySQLCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3116,7 +3186,7 @@ export const getOpenSearchCatalog: API.OperationMethod<
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetOpenSearchCatalogRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<GetOpenSearchCatalogResponse>,
+  output: __S(704, __c88, 0) as any as S.Schema<GetOpenSearchCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3312,8 +3382,8 @@ export const listGcsCatalogs: API.PaginatedOperationMethod<
   GcsCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c40, 0) as any as S.Schema<ListGcsCatalogsRequest>,
-    output: __S(322, __c40, 2) as any as S.Schema<PaginatedGcsCatalog>,
+    input: __S(328, __c41, 0) as any as S.Schema<ListGcsCatalogsRequest>,
+    output: __S(330, __c41, 2) as any as S.Schema<PaginatedGcsCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3341,8 +3411,8 @@ export const listMongoDBCatalogs: API.PaginatedOperationMethod<
   MongoDBCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(328, __c41, 0) as any as S.Schema<ListMongoDBCatalogsRequest>,
-    output: __S(330, __c41, 2) as any as S.Schema<PaginatedMongoDBCatalog>,
+    input: __S(336, __c42, 0) as any as S.Schema<ListMongoDBCatalogsRequest>,
+    output: __S(338, __c42, 2) as any as S.Schema<PaginatedMongoDBCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3370,8 +3440,8 @@ export const listMySQLCatalogs: API.PaginatedOperationMethod<
   MySQLCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c42, 0) as any as S.Schema<ListMySQLCatalogsRequest>,
-    output: __S(338, __c42, 2) as any as S.Schema<PaginatedMySQLCatalog>,
+    input: __S(344, __c43, 0) as any as S.Schema<ListMySQLCatalogsRequest>,
+    output: __S(346, __c43, 2) as any as S.Schema<PaginatedMySQLCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3403,8 +3473,8 @@ export const listOpenSearchCatalogs: API.PaginatedOperationMethod<
   OpenSearchCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(344, __c43, 0) as any as S.Schema<ListOpenSearchCatalogsRequest>,
-    output: __S(346, __c43, 2) as any as S.Schema<PaginatedOpenSearchCatalog>,
+    input: __S(352, __c44, 0) as any as S.Schema<ListOpenSearchCatalogsRequest>,
+    output: __S(354, __c44, 2) as any as S.Schema<PaginatedOpenSearchCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3436,8 +3506,8 @@ export const listPostgresqlCatalogs: API.PaginatedOperationMethod<
   PostgresqlCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c44, 0) as any as S.Schema<ListPostgresqlCatalogsRequest>,
-    output: __S(354, __c44, 2) as any as S.Schema<PaginatedPostgresqlCatalog>,
+    input: __S(360, __c45, 0) as any as S.Schema<ListPostgresqlCatalogsRequest>,
+    output: __S(362, __c45, 2) as any as S.Schema<PaginatedPostgresqlCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3465,8 +3535,8 @@ export const listRedshiftCatalogs: API.PaginatedOperationMethod<
   RedshiftCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(360, __c45, 0) as any as S.Schema<ListRedshiftCatalogsRequest>,
-    output: __S(362, __c45, 2) as any as S.Schema<PaginatedRedshiftCatalog>,
+    input: __S(368, __c46, 0) as any as S.Schema<ListRedshiftCatalogsRequest>,
+    output: __S(370, __c46, 2) as any as S.Schema<PaginatedRedshiftCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3494,8 +3564,8 @@ export const listS3Catalogs: API.PaginatedOperationMethod<
   S3Catalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(368, __c46, 0) as any as S.Schema<ListS3CatalogsRequest>,
-    output: __S(370, __c46, 2) as any as S.Schema<PaginatedS3Catalog>,
+    input: __S(376, __c47, 0) as any as S.Schema<ListS3CatalogsRequest>,
+    output: __S(378, __c47, 2) as any as S.Schema<PaginatedS3Catalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3523,8 +3593,8 @@ export const listSnowflakeCatalogs: API.PaginatedOperationMethod<
   SnowflakeCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(376, __c47, 0) as any as S.Schema<ListSnowflakeCatalogsRequest>,
-    output: __S(378, __c47, 2) as any as S.Schema<PaginatedSnowflakeCatalog>,
+    input: __S(384, __c48, 0) as any as S.Schema<ListSnowflakeCatalogsRequest>,
+    output: __S(386, __c48, 2) as any as S.Schema<PaginatedSnowflakeCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3552,8 +3622,8 @@ export const listSqlServerCatalogs: API.PaginatedOperationMethod<
   SqlServerCatalog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(384, __c48, 0) as any as S.Schema<ListSqlServerCatalogsRequest>,
-    output: __S(386, __c48, 2) as any as S.Schema<PaginatedSqlServerCatalog>,
+    input: __S(392, __c49, 0) as any as S.Schema<ListSqlServerCatalogsRequest>,
+    output: __S(394, __c49, 2) as any as S.Schema<PaginatedSqlServerCatalog>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
@@ -3584,7 +3654,7 @@ export const updateBigQueryCatalog: API.OperationMethod<
   UpdateBigQueryCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<UpdateBigQueryCatalogRequest>,
+  input: __S(400, __c50, 0) as any as S.Schema<UpdateBigQueryCatalogRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<BigQueryCatalog>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3607,8 +3677,8 @@ export const updateCassandraCatalog: API.OperationMethod<
   UpdateCassandraCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(427, __c53, 3) as any as S.Schema<UpdateCassandraCatalogRequest>,
-  output: __S(416, __c52, 0) as any as S.Schema<UpdateCassandraCatalogResponse>,
+  input: __S(435, __c54, 3) as any as S.Schema<UpdateCassandraCatalogRequest>,
+  output: __S(424, __c53, 0) as any as S.Schema<UpdateCassandraCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3630,8 +3700,8 @@ export const updateGcsCatalog: API.OperationMethod<
   UpdateGcsCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(435, __c54, 3) as any as S.Schema<UpdateGcsCatalogRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<UpdateGcsCatalogResponse>,
+  input: __S(443, __c55, 3) as any as S.Schema<UpdateGcsCatalogRequest>,
+  output: __S(528, __c66, 0) as any as S.Schema<UpdateGcsCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3653,8 +3723,8 @@ export const updateMongoDBCatalog: API.OperationMethod<
   UpdateMongoDBCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(444, __c55, 4) as any as S.Schema<UpdateMongoDBCatalogRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<UpdateMongoDBCatalogResponse>,
+  input: __S(452, __c56, 4) as any as S.Schema<UpdateMongoDBCatalogRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<UpdateMongoDBCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3676,8 +3746,8 @@ export const updateMySQLCatalog: API.OperationMethod<
   UpdateMySQLCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(452, __c56, 4) as any as S.Schema<UpdateMySQLCatalogRequest>,
-  output: __S(672, __c84, 0) as any as S.Schema<UpdateMySQLCatalogResponse>,
+  input: __S(460, __c57, 4) as any as S.Schema<UpdateMySQLCatalogRequest>,
+  output: __S(680, __c85, 0) as any as S.Schema<UpdateMySQLCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3699,8 +3769,8 @@ export const updateOpenSearchCatalog: API.OperationMethod<
   UpdateOpenSearchCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(460, __c57, 4) as any as S.Schema<UpdateOpenSearchCatalogRequest>,
-  output: __S(696, __c87, 0) as any as S.Schema<UpdateOpenSearchCatalogResponse>,
+  input: __S(468, __c58, 4) as any as S.Schema<UpdateOpenSearchCatalogRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<UpdateOpenSearchCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3722,7 +3792,7 @@ export const updatePostgresqlCatalog: API.OperationMethod<
   UpdatePostgresqlCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<UpdatePostgresqlCatalogRequest>,
+  input: __S(472, __c59, 0) as any as S.Schema<UpdatePostgresqlCatalogRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostgresqlCatalog>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3745,7 +3815,7 @@ export const updateRedshiftCatalog: API.OperationMethod<
   UpdateRedshiftCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(476, __c59, 4) as any as S.Schema<UpdateRedshiftCatalogRequest>,
+  input: __S(484, __c60, 4) as any as S.Schema<UpdateRedshiftCatalogRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<UpdateRedshiftCatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3768,7 +3838,7 @@ export const updateS3Catalog: API.OperationMethod<
   UpdateS3CatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(484, __c60, 4) as any as S.Schema<UpdateS3CatalogRequest>,
+  input: __S(492, __c61, 4) as any as S.Schema<UpdateS3CatalogRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateS3CatalogResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3791,7 +3861,7 @@ export const updateSnowflakeCatalog: API.OperationMethod<
   UpdateSnowflakeCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<UpdateSnowflakeCatalogRequest>,
+  input: __S(496, __c62, 0) as any as S.Schema<UpdateSnowflakeCatalogRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SnowflakeCatalog>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3814,7 +3884,7 @@ export const updateSqlServerCatalog: API.OperationMethod<
   UpdateSqlServerCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<UpdateSqlServerCatalogRequest>,
+  input: __S(504, __c63, 0) as any as S.Schema<UpdateSqlServerCatalogRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<SqlServerCatalog>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: StarburstGalaxyServiceErrors,
@@ -3836,8 +3906,8 @@ export const validateBigQueryCatalog: API.OperationMethod<
   ValidateBigQueryCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<ValidateBigQueryCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(536, __c67, 0) as any as S.Schema<ValidateBigQueryCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3858,8 +3928,8 @@ export const validateCassandraCatalog: API.OperationMethod<
   ValidateCassandraCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<ValidateCassandraCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(552, __c69, 0) as any as S.Schema<ValidateCassandraCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3876,8 +3946,8 @@ export const validateGcsCatalog: API.OperationMethod<
   ValidateGcsCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<ValidateGcsCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(560, __c70, 0) as any as S.Schema<ValidateGcsCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3898,8 +3968,8 @@ export const validateMongoDBCatalog: API.OperationMethod<
   ValidateMongoDBCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<ValidateMongoDBCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(568, __c71, 0) as any as S.Schema<ValidateMongoDBCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3916,8 +3986,8 @@ export const validateMySQLCatalog: API.OperationMethod<
   ValidateMySQLCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ValidateMySQLCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(576, __c72, 0) as any as S.Schema<ValidateMySQLCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3938,8 +4008,8 @@ export const validateOpenSearchCatalog: API.OperationMethod<
   ValidateOpenSearchCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ValidateOpenSearchCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(584, __c73, 0) as any as S.Schema<ValidateOpenSearchCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3960,8 +4030,8 @@ export const validatePostgresqlCatalog: API.OperationMethod<
   ValidatePostgresqlCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<ValidatePostgresqlCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(592, __c74, 0) as any as S.Schema<ValidatePostgresqlCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -3982,8 +4052,8 @@ export const validateRedshiftCatalog: API.OperationMethod<
   ValidateRedshiftCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<ValidateRedshiftCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(600, __c75, 0) as any as S.Schema<ValidateRedshiftCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -4000,8 +4070,8 @@ export const validateS3Catalog: API.OperationMethod<
   ValidateS3CatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<ValidateS3CatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(608, __c76, 0) as any as S.Schema<ValidateS3CatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -4022,8 +4092,8 @@ export const validateSnowflakeCatalog: API.OperationMethod<
   ValidateSnowflakeCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<ValidateSnowflakeCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(616, __c77, 0) as any as S.Schema<ValidateSnowflakeCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -4044,8 +4114,8 @@ export const validateSqlServerCatalog: API.OperationMethod<
   ValidateSqlServerCatalogError,
   StarburstGalaxyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<ValidateSqlServerCatalogRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<Validate>,
+  input: __S(656, __c82, 0) as any as S.Schema<ValidateSqlServerCatalogRequest>,
+  output: __S(544, __c68, 0) as any as S.Schema<Validate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
@@ -4103,6 +4173,7 @@ function __c1(j: number): any {
           tlsEnabled: S.optional(S.Boolean),
           sshTunnelId: S.optional(S.String),
           privateLinkId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "PostgresqlCatalog" });
   }
@@ -4180,6 +4251,7 @@ function __c3(j: number): any {
           endpoint: S.String,
           authType: S.String,
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
         }),
@@ -4196,6 +4268,7 @@ function __c3(j: number): any {
           endpoint: S.String,
           authType: S.String,
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           username: S.String,
           accessKey: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
@@ -4214,6 +4287,7 @@ function __c3(j: number): any {
           endpoint: S.String,
           authType: S.String,
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           username: S.String,
           roleArn: S.String,
           region: S.String,
@@ -4326,6 +4400,7 @@ function __c6(j: number): any {
           externalTableCreationEnabled: S.optional(S.Boolean),
           externalTableWritesEnabled: S.optional(S.Boolean),
           metadataMaxStalenessSeconds: S.optional(S.Number),
+          tags: S.optional(__S(321, __c40, 1)),
           defaultBucket: S.String,
           defaultDataLocation: S.String,
         }),
@@ -4347,6 +4422,7 @@ function __c6(j: number): any {
           externalTableCreationEnabled: S.optional(S.Boolean),
           externalTableWritesEnabled: S.optional(S.Boolean),
           metadataMaxStalenessSeconds: S.optional(S.Number),
+          tags: S.optional(__S(321, __c40, 1)),
           region: S.String,
           defaultBucket: S.String,
           defaultDataLocation: S.String,
@@ -4372,6 +4448,7 @@ function __c6(j: number): any {
           externalTableCreationEnabled: S.optional(S.Boolean),
           externalTableWritesEnabled: S.optional(S.Boolean),
           metadataMaxStalenessSeconds: S.optional(S.Number),
+          tags: S.optional(__S(321, __c40, 1)),
           hiveMetastoreHost: S.String,
           hiveMetastorePort: S.optional(S.Number),
           sshTunnelId: S.optional(S.String),
@@ -4439,6 +4516,7 @@ function __c9(j: number): any {
           authenticationType: S.optional(S.String),
           warehouse: S.optional(S.String),
           role: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "SnowflakeCatalog" });
   }
@@ -4489,6 +4567,7 @@ function __c11(j: number): any {
           password: S.String.pipe(T.SensitiveValue({})),
           sshTunnelId: S.optional(S.String),
           privateLinkId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "SqlServerCatalog" });
   }
@@ -4887,7 +4966,7 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "ListCassandraCatalogsRequest" });
     case 1:
-      return S.Array(__S(410, __c51, 2));
+      return S.Array(__S(418, __c52, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4911,6 +4990,8 @@ function __c37(j: number): any {
         S.Struct({
           catalogId: S.String,
           catalogName: S.String,
+          catalogType: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "Catalog" });
     case 2:
@@ -4956,11 +5037,25 @@ function __c39(j: number): any {
           credentialsKey: S.String.pipe(T.SensitiveValue({})),
           projectId: S.optional(S.String),
           parentProjectId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
         }),
       ).annotate({ identifier: "BigQueryCatalog" });
   }
 }
 function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tagId: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "TagName" });
+    case 1:
+      return S.Array(__S(320, __c40, 0));
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4972,17 +5067,17 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListGcsCatalogsRequest" });
     case 1:
-      return S.Array(__S(514, __c64, 2));
+      return S.Array(__S(522, __c65, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(321, __c40, 1),
+          result: __S(329, __c41, 1),
         }),
       ).annotate({ identifier: "PaginatedGcsCatalog" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,17 +5089,17 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListMongoDBCatalogsRequest" });
     case 1:
-      return S.Array(__S(627, __c78, 3));
+      return S.Array(__S(635, __c79, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(329, __c41, 1),
+          result: __S(337, __c42, 1),
         }),
       ).annotate({ identifier: "PaginatedMongoDBCatalog" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5016,17 +5111,17 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListMySQLCatalogsRequest" });
     case 1:
-      return S.Array(__S(667, __c83, 3));
+      return S.Array(__S(675, __c84, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(337, __c42, 1),
+          result: __S(345, __c43, 1),
         }),
       ).annotate({ identifier: "PaginatedMySQLCatalog" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5042,17 +5137,17 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListOpenSearchCatalogsRequest" });
     case 1:
-      return S.Array(__S(691, __c86, 3));
+      return S.Array(__S(699, __c87, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(345, __c43, 1),
+          result: __S(353, __c44, 1),
         }),
       ).annotate({ identifier: "PaginatedOpenSearchCatalog" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5073,12 +5168,12 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(353, __c44, 1),
+          result: __S(361, __c45, 1),
         }),
       ).annotate({ identifier: "PaginatedPostgresqlCatalog" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5095,12 +5190,12 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(361, __c45, 1),
+          result: __S(369, __c46, 1),
         }),
       ).annotate({ identifier: "PaginatedRedshiftCatalog" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5115,12 +5210,12 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(369, __c46, 1),
+          result: __S(377, __c47, 1),
         }),
       ).annotate({ identifier: "PaginatedS3Catalog" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5137,12 +5232,12 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(377, __c47, 1),
+          result: __S(385, __c48, 1),
         }),
       ).annotate({ identifier: "PaginatedSnowflakeCatalog" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5159,12 +5254,12 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          result: __S(385, __c48, 1),
+          result: __S(393, __c49, 1),
         }),
       ).annotate({ identifier: "PaginatedSqlServerCatalog" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5187,7 +5282,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateBigQueryCatalogRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5221,11 +5316,11 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "CreateCassandraCatalogRequestAstraDBConnection" });
     case 2:
-      return S.Union([__S(400, __c50, 0), __S(401, __c50, 1)]);
+      return S.Union([__S(408, __c51, 0), __S(409, __c51, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body: __S(402, __c50, 2).pipe(T.HttpBody()),
+          body: __S(410, __c51, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5236,7 +5331,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateCassandraCatalogRequest2" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5249,6 +5344,7 @@ function __c51(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           deploymentType: S.String,
+          tags: S.optional(__S(321, __c40, 1)),
           contactPoints: S.String,
           localDatacenter: S.String,
           port: S.optional(S.Number),
@@ -5268,24 +5364,25 @@ function __c51(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           deploymentType: S.String,
+          tags: S.optional(__S(321, __c40, 1)),
           databaseId: S.String,
           region: S.String,
           token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CassandraCatalogAstraDBConnection" });
     case 2:
-      return S.Union([__S(408, __c51, 0), __S(409, __c51, 1)]);
+      return S.Union([__S(416, __c52, 0), __S(417, __c52, 1)]);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(410, __c51, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(418, __c52, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateCassandraCatalogResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5319,12 +5416,12 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "CassandraCatalogPatchAstraDBConnection" });
     case 2:
-      return S.Union([__S(424, __c53, 0), __S(425, __c53, 1)]);
+      return S.Union([__S(432, __c54, 0), __S(433, __c54, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(426, __c53, 2).pipe(T.HttpBody()),
+          body: __S(434, __c54, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5335,7 +5432,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateCassandraCatalogRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5373,12 +5470,12 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "GcsCatalogPatchGcsHiveMetastore" });
     case 2:
-      return S.Union([__S(432, __c54, 0), __S(433, __c54, 1)]);
+      return S.Union([__S(440, __c55, 0), __S(441, __c55, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(434, __c54, 2).pipe(T.HttpBody()),
+          body: __S(442, __c55, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5389,7 +5486,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateGcsCatalogRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5400,7 +5497,7 @@ function __c55(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: S.optional(__S(632, __c79, 0)),
+          regions: S.optional(__S(640, __c80, 0)),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -5418,7 +5515,7 @@ function __c55(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: S.optional(__S(632, __c79, 0)),
+          regions: S.optional(__S(640, __c80, 0)),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -5437,7 +5534,7 @@ function __c55(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: S.optional(__S(632, __c79, 0)),
+          regions: S.optional(__S(640, __c80, 0)),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -5447,12 +5544,12 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "MongoDBCatalogPatchPrivateLinkMongoDBConnection" });
     case 3:
-      return S.Union([__S(440, __c55, 0), __S(441, __c55, 1), __S(442, __c55, 2)]);
+      return S.Union([__S(448, __c56, 0), __S(449, __c56, 1), __S(450, __c56, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(443, __c55, 3).pipe(T.HttpBody()),
+          body: __S(451, __c56, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5463,7 +5560,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateMongoDBCatalogRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5512,12 +5609,12 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "MySQLCatalogPatchPrivateLinkMySQLConnection" });
     case 3:
-      return S.Union([__S(448, __c56, 0), __S(449, __c56, 1), __S(450, __c56, 2)]);
+      return S.Union([__S(456, __c57, 0), __S(457, __c57, 1), __S(458, __c57, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(451, __c56, 3).pipe(T.HttpBody()),
+          body: __S(459, __c57, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5528,7 +5625,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateMySQLCatalogRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5577,12 +5674,12 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "OpenSearchCatalogPatchOpenSearchCrossAccountRoleAuth" });
     case 3:
-      return S.Union([__S(456, __c57, 0), __S(457, __c57, 1), __S(458, __c57, 2)]);
+      return S.Union([__S(464, __c58, 0), __S(465, __c58, 1), __S(466, __c58, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(459, __c57, 3).pipe(T.HttpBody()),
+          body: __S(467, __c58, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5593,7 +5690,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateOpenSearchCatalogRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5622,7 +5719,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdatePostgresqlCatalogRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5670,12 +5767,12 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "RedshiftCatalogPatchRedshiftCrossAccountRoleAuth" });
     case 3:
-      return S.Union([__S(472, __c59, 0), __S(473, __c59, 1), __S(474, __c59, 2)]);
+      return S.Union([__S(480, __c60, 0), __S(481, __c60, 1), __S(482, __c60, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(475, __c59, 3).pipe(T.HttpBody()),
+          body: __S(483, __c60, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5686,7 +5783,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UpdateRedshiftCatalogRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5751,12 +5848,12 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "S3CatalogPatchHiveMetastore" });
     case 3:
-      return S.Union([__S(480, __c60, 0), __S(481, __c60, 1), __S(482, __c60, 2)]);
+      return S.Union([__S(488, __c61, 0), __S(489, __c61, 1), __S(490, __c61, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           catalogId: S.String.pipe(T.Label()),
-          body: __S(483, __c60, 3).pipe(T.HttpBody()),
+          body: __S(491, __c61, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5767,7 +5864,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateS3CatalogRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5797,7 +5894,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateSnowflakeCatalogRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5825,7 +5922,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateSqlServerCatalogRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5863,18 +5960,18 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "CreateGcsCatalogRequestGcsHiveMetastore" });
     case 2:
-      return S.Union([__S(504, __c63, 0), __S(505, __c63, 1)]);
+      return S.Union([__S(512, __c64, 0), __S(513, __c64, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body: __S(506, __c63, 2).pipe(T.HttpBody()),
+          body: __S(514, __c64, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "POST", uri: "/public/api/v1/catalogType/gcs/catalog", code: 200 }),
         ),
       ).annotate({ identifier: "CreateGcsCatalogRequest2" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5891,6 +5988,7 @@ function __c64(j: number): any {
           externalTableCreationEnabled: S.optional(S.Boolean),
           externalTableWritesEnabled: S.optional(S.Boolean),
           metadataMaxStalenessSeconds: S.optional(S.Number),
+          tags: S.optional(__S(321, __c40, 1)),
           defaultBucket: S.String,
           defaultDataLocation: S.String,
         }),
@@ -5910,24 +6008,25 @@ function __c64(j: number): any {
           externalTableCreationEnabled: S.optional(S.Boolean),
           externalTableWritesEnabled: S.optional(S.Boolean),
           metadataMaxStalenessSeconds: S.optional(S.Number),
+          tags: S.optional(__S(321, __c40, 1)),
           hiveMetastoreHost: S.String,
           hiveMetastorePort: S.optional(S.Number),
           sshTunnelId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GcsCatalogGcsHiveMetastore" });
     case 2:
-      return S.Union([__S(512, __c64, 0), __S(513, __c64, 1)]);
+      return S.Union([__S(520, __c65, 0), __S(521, __c65, 1)]);
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(514, __c64, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(522, __c65, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateGcsCatalogResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5943,20 +6042,20 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ValidateBigQueryCatalogRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           validationSuccessful: S.Boolean,
-          errorMessages: __S(632, __c79, 0),
-          warningMessages: __S(632, __c79, 0),
-          infoMessages: __S(632, __c79, 0),
+          errorMessages: __S(640, __c80, 0),
+          warningMessages: __S(640, __c80, 0),
+          infoMessages: __S(640, __c80, 0),
         }),
       ).annotate({ identifier: "Validate" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5972,7 +6071,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ValidateCassandraCatalogRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5988,7 +6087,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ValidateGcsCatalogRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6004,7 +6103,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ValidateMongoDBCatalogRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6020,7 +6119,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ValidateMySQLCatalogRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6036,7 +6135,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ValidateOpenSearchCatalogRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6052,7 +6151,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ValidatePostgresqlCatalogRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6068,7 +6167,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ValidateRedshiftCatalogRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6084,7 +6183,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ValidateS3CatalogRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6100,7 +6199,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ValidateSnowflakeCatalogRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6111,7 +6210,7 @@ function __c77(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -6129,7 +6228,7 @@ function __c77(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -6148,7 +6247,7 @@ function __c77(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
@@ -6158,18 +6257,18 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "CreateMongoDBCatalogRequestPrivateLinkMongoDBConnection" });
     case 3:
-      return S.Union([__S(616, __c77, 0), __S(617, __c77, 1), __S(618, __c77, 2)]);
+      return S.Union([__S(624, __c78, 0), __S(625, __c78, 1), __S(626, __c78, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          body: __S(619, __c77, 3).pipe(T.HttpBody()),
+          body: __S(627, __c78, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "POST", uri: "/public/api/v1/catalogType/mongodb/catalog", code: 200 }),
         ),
       ).annotate({ identifier: "CreateMongoDBCatalogRequest2" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6182,12 +6281,13 @@ function __c78(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
           tlsEnabled: S.optional(S.Boolean),
           federatedDatabaseEnabled: S.optional(S.Boolean),
+          tags: S.optional(__S(321, __c40, 1)),
           hosts: S.String,
         }),
       ).annotate({ identifier: "MongoDBCatalogDirectMongoDBConnection" });
@@ -6202,12 +6302,13 @@ function __c78(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
           tlsEnabled: S.optional(S.Boolean),
           federatedDatabaseEnabled: S.optional(S.Boolean),
+          tags: S.optional(__S(321, __c40, 1)),
           sshTunnelId: S.String,
           hosts: S.String,
         }),
@@ -6223,34 +6324,35 @@ function __c78(j: number): any {
           validate: S.optional(S.Boolean),
           cloudKind: S.optional(S.String),
           connectionType: S.String,
-          regions: __S(632, __c79, 0),
+          regions: __S(640, __c80, 0),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
           dnsSeedListEnabled: S.optional(S.Boolean),
           tlsEnabled: S.optional(S.Boolean),
           federatedDatabaseEnabled: S.optional(S.Boolean),
+          tags: S.optional(__S(321, __c40, 1)),
           privateLinkId: S.String,
         }),
       ).annotate({ identifier: "MongoDBCatalogPrivateLinkMongoDBConnection" });
     case 3:
-      return S.Union([__S(624, __c78, 0), __S(625, __c78, 1), __S(626, __c78, 2)]);
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Union([__S(632, __c79, 0), __S(633, __c79, 1), __S(634, __c79, 2)]);
   }
 }
 function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(627, __c78, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(S.String);
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(635, __c79, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateMongoDBCatalogResponse",
       });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6266,7 +6368,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ValidateSqlServerCatalogRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6315,18 +6417,18 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CreateMySQLCatalogRequestPrivateLinkMySQLConnection" });
     case 3:
-      return S.Union([__S(656, __c82, 0), __S(657, __c82, 1), __S(658, __c82, 2)]);
+      return S.Union([__S(664, __c83, 0), __S(665, __c83, 1), __S(666, __c83, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          body: __S(659, __c82, 3).pipe(T.HttpBody()),
+          body: __S(667, __c83, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "POST", uri: "/public/api/v1/catalogType/mysql/catalog", code: 200 }),
         ),
       ).annotate({ identifier: "CreateMySQLCatalogRequest2" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6342,6 +6444,7 @@ function __c83(j: number): any {
           port: S.optional(S.Number),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
+          tags: S.optional(__S(321, __c40, 1)),
           host: S.String,
         }),
       ).annotate({ identifier: "MySQLCatalogDirectMySQLConnection" });
@@ -6359,6 +6462,7 @@ function __c83(j: number): any {
           port: S.optional(S.Number),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
+          tags: S.optional(__S(321, __c40, 1)),
           sshTunnelId: S.String,
           host: S.String,
         }),
@@ -6377,22 +6481,23 @@ function __c83(j: number): any {
           port: S.optional(S.Number),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
+          tags: S.optional(__S(321, __c40, 1)),
           privateLinkId: S.String,
         }),
       ).annotate({ identifier: "MySQLCatalogPrivateLinkMySQLConnection" });
     case 3:
-      return S.Union([__S(664, __c83, 0), __S(665, __c83, 1), __S(666, __c83, 2)]);
+      return S.Union([__S(672, __c84, 0), __S(673, __c84, 1), __S(674, __c84, 2)]);
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(667, __c83, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(675, __c84, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateMySQLCatalogResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6441,11 +6546,11 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "CreateOpenSearchCatalogRequestOpenSearchCrossAccountRoleAuth" });
     case 3:
-      return S.Union([__S(680, __c85, 0), __S(681, __c85, 1), __S(682, __c85, 2)]);
+      return S.Union([__S(688, __c86, 0), __S(689, __c86, 1), __S(690, __c86, 2)]);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          body: __S(683, __c85, 3).pipe(T.HttpBody()),
+          body: __S(691, __c86, 3).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6456,7 +6561,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateOpenSearchCatalogRequest2" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6471,6 +6576,7 @@ function __c86(j: number): any {
           endpoint: S.String,
           port: S.optional(S.Number),
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           username: S.String,
           password: S.String.pipe(T.SensitiveValue({})),
         }),
@@ -6488,6 +6594,7 @@ function __c86(j: number): any {
           endpoint: S.String,
           port: S.optional(S.Number),
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           accessKey: S.String,
           secretKey: S.String.pipe(T.SensitiveValue({})),
           region: S.String,
@@ -6506,18 +6613,19 @@ function __c86(j: number): any {
           endpoint: S.String,
           port: S.optional(S.Number),
           sshTunnelId: S.optional(S.String),
+          tags: S.optional(__S(321, __c40, 1)),
           roleArn: S.String,
           region: S.String,
         }),
       ).annotate({ identifier: "OpenSearchCatalogOpenSearchCrossAccountRoleAuth" });
     case 3:
-      return S.Union([__S(688, __c86, 0), __S(689, __c86, 1), __S(690, __c86, 2)]);
+      return S.Union([__S(696, __c87, 0), __S(697, __c87, 1), __S(698, __c87, 2)]);
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(691, __c86, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(699, __c87, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateOpenSearchCatalogResponse",
       });
   }

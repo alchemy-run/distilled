@@ -268,6 +268,7 @@ export interface GetV2LogoMatchResponse {
 export type V2MatchesGetRequestQueryIdList = Array<string>;
 export type V2MatchesGetRequestOrder = "asc" | "desc";
 export type V2MatchesGetRequestOrderBy = "domain" | "first_seen" | "registrar";
+export type V2MatchesGetRequestQuality = "high" | "low";
 export interface GetV2MatchRequest {
   accountId: string;
   /** ID of a domain query, or a comma-separated list of domain query IDs. When you pass several IDs, matches are deduplicated by domain and each match includes a `match_details` array with per-query metadata and dismissed state. */
@@ -286,15 +287,33 @@ export interface GetV2MatchRequest {
   order?: V2MatchesGetRequestOrder | (string & {}) | undefined;
   /** Field to sort by: `domain`, `first_seen`, or `registrar`. Defaults to `first_seen`. */
   orderBy?: V2MatchesGetRequestOrderBy | (string & {}) | undefined;
+  /** Filter matches by quality. Options: 'high' or 'low' */
+  quality?: V2MatchesGetRequestQuality | (string & {}) | undefined;
 }
+export type V2MatchesGetResponseMatchesItemAiVerdict =
+  | "confirmed"
+  | "rejected"
+  | "unavailable"
+  | "not_sent";
 export interface V2MatchesGetResponseMatchesItemPublicScans {
   submissionId: string;
 }
+export type V2MatchesGetResponseMatchesItemQuality = "high" | "low";
+export type V2MatchesGetResponseMatchesItemMatchDetailsItemAiVerdict =
+  | "confirmed"
+  | "rejected"
+  | "unavailable"
+  | "not_sent";
+export type V2MatchesGetResponseMatchesItemMatchDetailsItemQuality = "high" | "low";
 export interface V2MatchesGetResponseMatchesItemMatchDetailsItem {
+  aiVerdict: V2MatchesGetResponseMatchesItemMatchDetailsItemAiVerdict;
   /** Individual dismissed state for this specific match. */
   dismissed: boolean;
+  editDistance: number;
+  matchCategory: string;
   /** ID of the match. Accepted by the legacy `match_ids` format. */
   matchId: number;
+  quality: V2MatchesGetResponseMatchesItemMatchDetailsItemQuality;
   /** ID of the domain query that produced this match. */
   queryId: number;
   /** Tag associated with the query, if one exists. */
@@ -303,11 +322,15 @@ export interface V2MatchesGetResponseMatchesItemMatchDetailsItem {
 export type V2MatchesGetResponseMatchesItemMatchDetailsList =
   Array<V2MatchesGetResponseMatchesItemMatchDetailsItem>;
 export interface V2MatchesGetResponseMatchesItem {
+  aiVerdict: V2MatchesGetResponseMatchesItemAiVerdict;
   /** The matched domain name. */
   domain: string;
+  editDistance: number;
   /** When the domain was matched. For multi-query requests, the most recent match time across the requested queries. */
   firstSeen: string;
+  matchCategory: string;
   publicScans: V2MatchesGetResponseMatchesItemPublicScans;
+  quality: V2MatchesGetResponseMatchesItemQuality;
   /** Registrar of the matched domain, if known. */
   registrar: string;
   scanStatus: string;
@@ -890,6 +913,7 @@ function __c7(j: number): any {
           offset: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          quality: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(
             T.Http({
@@ -909,8 +933,12 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          aiVerdict: S.String.pipe(T.Body("ai_verdict")),
           dismissed: S.Boolean,
+          editDistance: S.Number.pipe(T.Body("edit_distance")),
+          matchCategory: S.String.pipe(T.Body("match_category")),
           matchId: S.Number.pipe(T.Body("match_id")),
+          quality: S.String,
           queryId: S.Number.pipe(T.Body("query_id")),
           queryTag: S.String.pipe(T.Body("query_tag")),
         }),
@@ -920,9 +948,13 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          aiVerdict: S.String.pipe(T.Body("ai_verdict")),
           domain: S.String,
+          editDistance: S.Number.pipe(T.Body("edit_distance")),
           firstSeen: S.String.pipe(T.Body("first_seen")),
+          matchCategory: S.String.pipe(T.Body("match_category")),
           publicScans: __S(57, __c7, 1).pipe(T.Body("public_scans")),
+          quality: S.String,
           registrar: S.String,
           scanStatus: S.String.pipe(T.Body("scan_status")),
           scanSubmissionId: S.Number.pipe(T.Body("scan_submission_id")),

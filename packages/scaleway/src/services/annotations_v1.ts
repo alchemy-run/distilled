@@ -58,6 +58,10 @@ export interface Binding {
   key?: BindingKey | undefined;
   /** Value associated to the binding. */
   value?: BindingValue | undefined;
+  /** Timestamp of creation of the binding. (RFC 3339 format) */
+  created_at?: string | null | undefined;
+  /** Timestamp of the last update of the binding. (RFC 3339 format) */
+  updated_at?: string | null | undefined;
 }
 export interface CreateKeyRequest {
   /** ID of the organization. (UUID format) */
@@ -76,6 +80,10 @@ export interface Key {
   name?: string | undefined;
   /** Description of the annotation key. */
   description?: string | undefined;
+  /** Timestamp of creation of the annotation key. (RFC 3339 format) */
+  created_at?: string | null | undefined;
+  /** Timestamp of the last update of the annotation key. (RFC 3339 format) */
+  updated_at?: string | null | undefined;
 }
 export interface CreateValueRequest {
   /** ID of the key the value will be bound to. (UUID format) */
@@ -96,6 +104,10 @@ export interface Value {
   name?: string | undefined;
   /** Description of the value. */
   description?: string | undefined;
+  /** Timestamp of creation of the value. (RFC 3339 format) */
+  created_at?: string | null | undefined;
+  /** Timestamp of the last update of the value. (RFC 3339 format) */
+  updated_at?: string | null | undefined;
 }
 export interface DeleteBindingRequest {
   /** ID of the binding to delete. (UUID format) */
@@ -233,7 +245,7 @@ export const createBinding: API.OperationMethod<
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBindingRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<Binding>,
+  output: __S(9, __c1, 1) as any as S.Schema<Binding>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -250,8 +262,8 @@ export const createKey: API.OperationMethod<
   CreateKeyError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateKeyRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<Key>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateKeyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<Key>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -268,8 +280,8 @@ export const createValue: API.OperationMethod<
   CreateValueError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<CreateValueRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Value>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateValueRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Value>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -286,8 +298,8 @@ export const deleteBinding: API.OperationMethod<
   DeleteBindingError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<DeleteBindingRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<DeleteBindingResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteBindingRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<DeleteBindingResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -304,8 +316,8 @@ export const deleteKey: API.OperationMethod<
   DeleteKeyError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<DeleteKeyRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<DeleteKeyResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteKeyRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<DeleteKeyResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -322,8 +334,8 @@ export const deleteValue: API.OperationMethod<
   DeleteValueError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<DeleteValueRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<DeleteValueResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteValueRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<DeleteValueResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -336,8 +348,8 @@ export type GetKeyError = ScalewayOpError;
 /** Retrieve a specific key. */
 export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, ScalewayOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(56, __c14, 0) as any as S.Schema<GetKeyRequest>,
-    output: __S(12, __c3, 0) as any as S.Schema<Key>,
+    input: __S(112, __c14, 0) as any as S.Schema<GetKeyRequest>,
+    output: __S(24, __c3, 0) as any as S.Schema<Key>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -354,8 +366,8 @@ export const getValue: API.OperationMethod<
   GetValueError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetValueRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Value>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetValueRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Value>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -372,8 +384,8 @@ export const listAllKeysAndValues: API.OperationMethod<
   ListAllKeysAndValuesError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<ListAllKeysAndValuesRequest>,
-  output: __S(67, __c16, 3) as any as S.Schema<ListAllKeysAndValuesResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListAllKeysAndValuesRequest>,
+  output: __S(133, __c16, 5) as any as S.Schema<ListAllKeysAndValuesResponse>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -392,8 +404,8 @@ export const listBindings: API.PaginatedOperationMethod<
   Binding
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c18, 0) as any as S.Schema<ListBindingsRequest>,
-    output: __S(74, __c18, 2) as any as S.Schema<ListBindingsResponse>,
+    input: __S(136, __c17, 0) as any as S.Schema<ListBindingsRequest>,
+    output: __S(138, __c17, 2) as any as S.Schema<ListBindingsResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -421,8 +433,8 @@ export const listKeys: API.PaginatedOperationMethod<
   Key
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListKeysRequest>,
-    output: __S(17, __c4, 1) as any as S.Schema<ListKeysResponse>,
+    input: __S(32, __c4, 0) as any as S.Schema<ListKeysRequest>,
+    output: __S(34, __c4, 2) as any as S.Schema<ListKeysResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -450,8 +462,8 @@ export const listValues: API.PaginatedOperationMethod<
   Value
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(20, __c5, 0) as any as S.Schema<ListValuesRequest>,
-    output: __S(22, __c5, 2) as any as S.Schema<ListValuesResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListValuesRequest>,
+    output: __S(42, __c5, 2) as any as S.Schema<ListValuesResponse>,
     errors: [],
     serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
@@ -477,8 +489,8 @@ export const updateKey: API.OperationMethod<
   UpdateKeyError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateKeyRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<Key>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateKeyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<Key>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -495,8 +507,8 @@ export const updateValue: API.OperationMethod<
   UpdateValueError,
   ScalewayOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateValueRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Value>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateValueRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Value>,
   errors: [],
   serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
@@ -540,8 +552,10 @@ function __c1(j: number): any {
           id: S.optional(S.String),
           srn: S.optional(S.String),
           target_srn: S.optional(S.String),
-          key: S.optional(__S(4, __c1, 0)),
-          value: S.optional(__S(4, __c1, 0)),
+          key: S.optional(__S(8, __c1, 0)),
+          value: S.optional(__S(8, __c1, 0)),
+          created_at: S.optional(S.NullOr(S.String)),
+          updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Binding" });
   }
@@ -574,6 +588,8 @@ function __c3(j: number): any {
           srn: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
+          created_at: S.optional(S.NullOr(S.String)),
+          updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Key" });
   }
@@ -596,9 +612,11 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListKeysRequest" });
     case 1:
+      return S.Array(__S(24, __c3, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(68, __c17, 0),
+          keys: __S(33, __c4, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListKeysResponse" });
@@ -623,11 +641,11 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListValuesRequest" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(72, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          values: __S(21, __c5, 1),
+          values: __S(41, __c5, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListValuesResponse" });
@@ -700,6 +718,8 @@ function __c9(j: number): any {
           key_id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
+          created_at: S.optional(S.NullOr(S.String)),
+          updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Value" });
   }
@@ -817,26 +837,31 @@ function __c16(j: number): any {
           srn: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          values: S.optional(__S(68, __c17, 0)),
         }),
-      ).annotate({ identifier: "ListAllKeysAndValuesResponseKey" });
+      ).annotate({ identifier: "ListAllKeysAndValuesResponseValue" });
     case 2:
-      return S.Array(__S(65, __c16, 1));
+      return S.Array(__S(129, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(66, __c16, 2)),
+          id: S.optional(S.String),
+          srn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          values: S.optional(__S(130, __c16, 2)),
+        }),
+      ).annotate({ identifier: "ListAllKeysAndValuesResponseKey" });
+    case 4:
+      return S.Array(__S(131, __c16, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(132, __c16, 4)),
         }),
       ).annotate({ identifier: "ListAllKeysAndValuesResponse" });
   }
 }
 function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(12, __c3, 0));
-  }
-}
-function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -856,11 +881,11 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListBindingsRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c1, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bindings: __S(73, __c18, 1),
+          bindings: __S(137, __c17, 1),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListBindingsResponse" });

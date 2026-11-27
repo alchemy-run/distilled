@@ -148,14 +148,6 @@ export interface GetRunnerRunBySlugRequest {
   /** Run id (ULID) */
   runId: string;
 }
-export interface GetTrailRunRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** Configured runner id (e.g. trail-semantic-diff) */
-  runnerId: string;
-}
 export interface LaunchChangeRunnerRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
   repo_id: string;
@@ -169,14 +161,6 @@ export interface ManualTrailRunnerLaunchBody {
   _schema?: string | undefined;
   outcome: string;
   runId: string;
-}
-export interface LaunchTrailRunnerRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
-  /** Repo-authored runner id */
-  runnerId: string;
 }
 export interface ListChangeMonitorsRequest {
   /** Repo id: placement ULID or public repo_<group ULID> */
@@ -268,7 +252,7 @@ export interface RunListItemJSON {
   billingSubject: RunListItemJSONBillingSubject;
   createdAt: string;
   credentialSource?: string | undefined;
-  /** Set when the run was refused for billing: billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance. */
+  /** Set when the run was refused for billing (billing_trial_ended, billing_credit_exhausted, billing_over_limit, billing_blocked, billing_not_enrolled or billing_no_paid_balance) or failed on the repository's own model key (llm_key_quota_exhausted or llm_key_rejected). */
   errorCode: string | null;
   errorMessage: string | null;
   headSha: string | null;
@@ -305,12 +289,6 @@ export interface ListRunnerRunsBySlugRequest {
   pageToken?: string | undefined;
   /** Only runs attached to this Trail (Trail id, ULID). A pageToken must be reused with the same trail_id. */
   trail_id?: string | undefined;
-}
-export interface ListTrailMonitorsRequest {
-  /** Repo id: placement ULID or public repo_<group ULID> */
-  repo_id: string;
-  /** Trail number */
-  number: string;
 }
 export type CancelRunnerRunError = EntireOpError;
 /** Cancel a repo's runner run (repo_id addressing) Cancels a run, addressed by opaque repo id. Same admission rules, 409 and repo-scoping 404 as the wire-parity path. */
@@ -356,8 +334,8 @@ export const getChangeRun: API.OperationMethod<
   GetChangeRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetChangeRunRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<TrailRunResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetChangeRunRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<TrailRunResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -374,8 +352,8 @@ export const getProjectRunnerStatus: API.OperationMethod<
   GetProjectRunnerStatusError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetProjectRunnerStatusRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<RepoRunnerAdmission>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetProjectRunnerStatusRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<RepoRunnerAdmission>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -392,8 +370,8 @@ export const getRepoRunnerAdmission: API.OperationMethod<
   GetRepoRunnerAdmissionError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetRepoRunnerAdmissionRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<RepoRunnerAdmission>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetRepoRunnerAdmissionRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<RepoRunnerAdmission>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -410,8 +388,8 @@ export const getRunnerRun: API.OperationMethod<
   GetRunnerRunError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetRunnerRunRequest>,
-  output: __S(134, __c16, 6) as any as S.Schema<RunDetailResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetRunnerRunRequest>,
+  output: __S(86, __c10, 6) as any as S.Schema<RunDetailResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -428,32 +406,14 @@ export const getRunnerRunBySlug: API.OperationMethod<
   GetRunnerRunBySlugError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetRunnerRunBySlugRequest>,
-  output: __S(134, __c16, 6) as any as S.Schema<RunDetailResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetRunnerRunBySlugRequest>,
+  output: __S(86, __c10, 6) as any as S.Schema<RunDetailResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRunnerRunBySlug",
-}));
-
-export type GetTrailRunError = EntireOpError;
-/** Latest configured trail runner result (repo_id addressing) */
-export const getTrailRun: API.OperationMethod<
-  GetTrailRunRequest,
-  TrailRunResponse,
-  GetTrailRunError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetTrailRunRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<TrailRunResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTrailRun",
 }));
 
 export type LaunchChangeRunnerError = EntireOpError;
@@ -464,32 +424,14 @@ export const launchChangeRunner: API.OperationMethod<
   LaunchChangeRunnerError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<LaunchChangeRunnerRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<ManualTrailRunnerLaunchBody>,
+  input: __S(104, __c13, 0) as any as S.Schema<LaunchChangeRunnerRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<ManualTrailRunnerLaunchBody>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LaunchChangeRunner",
-}));
-
-export type LaunchTrailRunnerError = EntireOpError;
-/** Launch a configured trail runner Starts the requested configured trail runner against the trail's current head. Repeating a request while that runner is active returns the existing run with outcome already_in_progress; outcome already_complete means a completed review already covers this head and nothing new launched. A run recorded failed at launch because its prompt is over the 64 KiB launch limit answers 422 with the message the run records. A launch refused for billing (the free trial is used up, a monthly spend limit was reached, or billing is suspended) also answers 422, with a message saying what to do next and a code naming the reason, and records no run. A runner that only declares the push trigger (not api) is refused with 409 unless its own latest run for this trail already failed, timed out, or was canceled -- this route only ever retries a real prior failure for that runner, it never grants it unconditional manual launching -- and that retry is scoped to native review runners (trails_review-enabled); a merged/closed trail or one with no valid head is refused with 422, matching review-rerun's own admission. */
-export const launchTrailRunner: API.OperationMethod<
-  LaunchTrailRunnerRequest,
-  ManualTrailRunnerLaunchBody,
-  LaunchTrailRunnerError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<LaunchTrailRunnerRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<ManualTrailRunnerLaunchBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "LaunchTrailRunner",
 }));
 
 export type ListChangeMonitorsError = EntireOpError;
@@ -500,8 +442,8 @@ export const listChangeMonitors: API.OperationMethod<
   ListChangeMonitorsError,
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListChangeMonitorsRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<TrailMonitorsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<ListChangeMonitorsRequest>,
+  output: __S(118, __c14, 6) as any as S.Schema<TrailMonitorsResponse>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -520,8 +462,8 @@ export const listRunnerRuns: API.PaginatedOperationMethod<
   RunListItemJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListRunnerRunsRequest>,
-    output: __S(53, __c6, 5) as any as S.Schema<RunsListResponse>,
+    input: __S(120, __c15, 0) as any as S.Schema<ListRunnerRunsRequest>,
+    output: __S(133, __c16, 5) as any as S.Schema<RunsListResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -548,8 +490,8 @@ export const listRunnerRunsBySlug: API.PaginatedOperationMethod<
   RunListItemJSON
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListRunnerRunsBySlugRequest>,
-    output: __S(53, __c6, 5) as any as S.Schema<RunsListResponse>,
+    input: __S(24, __c3, 0) as any as S.Schema<ListRunnerRunsBySlugRequest>,
+    output: __S(133, __c16, 5) as any as S.Schema<RunsListResponse>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -565,24 +507,6 @@ export const listRunnerRunsBySlug: API.PaginatedOperationMethod<
   }),
   paginateCursor,
 ) as any;
-
-export type ListTrailMonitorsError = EntireOpError;
-/** Trail monitor results (repo_id addressing) */
-export const listTrailMonitors: API.OperationMethod<
-  ListTrailMonitorsRequest,
-  TrailMonitorsResponse,
-  ListTrailMonitorsError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListTrailMonitorsRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<TrailMonitorsResponse>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCellProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListTrailMonitors",
-}));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -632,155 +556,6 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/changes/{number}/monitors",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListChangeMonitorsRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          boolean_value: S.NullOr(S.Boolean),
-          evaluating: S.optional(S.Boolean),
-          head_sha: S.NullOr(S.String),
-          percent_value: S.NullOr(S.Number),
-          rationale: S.NullOr(S.String),
-          run_id: S.String,
-          size_value: S.NullOr(S.String),
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "TrailMonitorHistoryItemJSON" });
-    case 1:
-      return S.Array(__S(32, __c4, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          failed_at: S.String,
-          head_sha: S.NullOr(S.String),
-          run_id: S.String,
-        }),
-      ).annotate({ identifier: "TrailMonitorFailedAttemptJSON" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          boolean_value: S.NullOr(S.Boolean),
-          evaluated_at_sha: S.NullOr(S.String),
-          evaluating: S.Boolean,
-          head_sha: S.NullOr(S.String),
-          history: S.NullOr(__S(33, __c4, 1)),
-          key: S.String,
-          label: S.String,
-          last_failed_attempt: __S(34, __c4, 2),
-          outcome: S.NullOr(S.String),
-          percent_value: S.NullOr(S.Number),
-          polarity: S.NullOr(S.String),
-          rationale: S.NullOr(S.String),
-          run_id: S.String,
-          size_value: S.NullOr(S.String),
-          stale_reason: S.NullOr(S.String),
-          state: S.String,
-          trend_delta: S.NullOr(S.Number),
-          updated_at: S.String,
-          value_type: S.String,
-        }),
-      ).annotate({ identifier: "TrailMonitorItemJSON" });
-    case 4:
-      return S.Array(__S(35, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          configSource: S.String,
-          monitors: S.NullOr(__S(36, __c4, 4)),
-        }),
-      ).annotate({ identifier: "TrailMonitorsResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          trail_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-runs", code: 200 })),
-      ).annotate({ identifier: "ListRunnerRunsRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          branch: S.String,
-          id: S.String,
-          number: S.Number,
-          title: S.String,
-        }),
-      ).annotate({ identifier: "RunListTrailJSON" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cacheCreationTokens: S.Number,
-          cacheReadTokens: S.Number,
-          inputTokens: S.Number,
-          model: S.NullOr(S.String),
-          outputTokens: S.Number,
-        }),
-      ).annotate({ identifier: "RunModelUsageJSON" });
-    case 2:
-      return S.Array(__S(49, __c6, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          agent: S.NullOr(S.String),
-          automation: S.NullOr(S.String),
-          billingSubject: __S(104, __c13, 0),
-          createdAt: S.String,
-          credentialSource: S.optional(S.String),
-          errorCode: S.NullOr(S.String),
-          errorMessage: S.NullOr(S.String),
-          headSha: S.NullOr(S.String),
-          id: S.String,
-          modelsUsed: S.NullOr(__S(136, __c17, 0)),
-          promptStartedAt: S.NullOr(S.String),
-          provisionStartedAt: S.NullOr(S.String),
-          queuedAt: S.NullOr(S.String),
-          ref: S.NullOr(S.String),
-          status: S.String,
-          trail: __S(48, __c6, 0),
-          updatedAt: S.String,
-          usageByModel: S.NullOr(__S(50, __c6, 2)),
-        }),
-      ).annotate({ identifier: "RunListItemJSON" });
-    case 4:
-      return S.Array(__S(51, __c6, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          items: S.NullOr(__S(52, __c6, 4)),
-          nextPageToken: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "RunsListResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           host: S.String.pipe(T.Label()),
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
@@ -793,24 +568,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListRunnerRunsBySlugRequest" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/monitors",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTrailMonitorsRequest" });
-  }
-}
-function __c9(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -826,11 +584,7 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetChangeRunRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           adapter: S.String,
@@ -838,7 +592,7 @@ function __c10(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "RunnerResultJSON" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
@@ -850,17 +604,17 @@ function __c10(j: number): any {
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "RunnerRunJSON" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          result: __S(80, __c10, 0),
-          run: __S(81, __c10, 1),
+          result: __S(33, __c4, 1),
+          run: __S(34, __c4, 2),
         }),
       ).annotate({ identifier: "TrailRunResponse" });
   }
 }
-function __c11(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -874,20 +628,20 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectRunnerStatusRequest" });
   }
 }
-function __c12(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          billing_subject: __S(104, __c13, 0),
+          billing_subject: __S(56, __c7, 0),
           paused_by: S.NullOr(S.String),
           runs_paused: S.Boolean,
         }),
       ).annotate({ identifier: "RepoRunnerAdmission" });
   }
 }
-function __c13(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -898,7 +652,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RepoRunnerAdmissionBillingSubject" });
   }
 }
-function __c14(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -910,7 +664,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetRepoRunnerAdmissionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -923,7 +677,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetRunnerRunRequest" });
   }
 }
-function __c16(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -945,7 +699,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "RunEventJSON" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -956,11 +710,11 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "RunPromptJSON" });
     case 4:
-      return S.Array(__S(131, __c16, 3));
+      return S.Array(__S(83, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          extraArgs: S.NullOr(__S(136, __c17, 0)),
+          extraArgs: S.NullOr(__S(88, __c11, 0)),
           model: S.NullOr(S.String),
           scopeJson: S.Unknown,
         }),
@@ -969,21 +723,21 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          automationResult: __S(128, __c16, 0),
-          events: S.NullOr(__S(130, __c16, 2)),
-          prompts: S.NullOr(__S(132, __c16, 4)),
-          run: __S(133, __c16, 5),
+          automationResult: __S(80, __c10, 0),
+          events: S.NullOr(__S(82, __c10, 2)),
+          prompts: S.NullOr(__S(84, __c10, 4)),
+          run: __S(85, __c10, 5),
         }),
       ).annotate({ identifier: "RunDetailResponse" });
   }
 }
-function __c17(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1002,25 +756,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetRunnerRunBySlugRequest" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repo_id: S.String.pipe(T.Label()),
-          number: S.String.pipe(T.Label()),
-          runnerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTrailRunRequest" });
-  }
-}
-function __c20(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1036,11 +772,7 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LaunchChangeRunnerRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
@@ -1050,22 +782,149 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ManualTrailRunnerLaunchBody" });
   }
 }
-function __c22(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           repo_id: S.String.pipe(T.Label()),
           number: S.String.pipe(T.Label()),
-          runnerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/v1/repos/{repo_id}/trails/{number}/runs/{runnerId}",
+            method: "GET",
+            uri: "/api/v1/repos/{repo_id}/changes/{number}/monitors",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "LaunchTrailRunnerRequest" });
+      ).annotate({ identifier: "ListChangeMonitorsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          boolean_value: S.NullOr(S.Boolean),
+          evaluating: S.optional(S.Boolean),
+          head_sha: S.NullOr(S.String),
+          percent_value: S.NullOr(S.Number),
+          rationale: S.NullOr(S.String),
+          run_id: S.String,
+          size_value: S.NullOr(S.String),
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "TrailMonitorHistoryItemJSON" });
+    case 2:
+      return S.Array(__S(113, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          failed_at: S.String,
+          head_sha: S.NullOr(S.String),
+          run_id: S.String,
+        }),
+      ).annotate({ identifier: "TrailMonitorFailedAttemptJSON" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          boolean_value: S.NullOr(S.Boolean),
+          evaluated_at_sha: S.NullOr(S.String),
+          evaluating: S.Boolean,
+          head_sha: S.NullOr(S.String),
+          history: S.NullOr(__S(114, __c14, 2)),
+          key: S.String,
+          label: S.String,
+          last_failed_attempt: __S(115, __c14, 3),
+          outcome: S.NullOr(S.String),
+          percent_value: S.NullOr(S.Number),
+          polarity: S.NullOr(S.String),
+          rationale: S.NullOr(S.String),
+          run_id: S.String,
+          size_value: S.NullOr(S.String),
+          stale_reason: S.NullOr(S.String),
+          state: S.String,
+          trend_delta: S.NullOr(S.Number),
+          updated_at: S.String,
+          value_type: S.String,
+        }),
+      ).annotate({ identifier: "TrailMonitorItemJSON" });
+    case 5:
+      return S.Array(__S(116, __c14, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          configSource: S.String,
+          monitors: S.NullOr(__S(117, __c14, 5)),
+        }),
+      ).annotate({ identifier: "TrailMonitorsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repo_id: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          trail_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/repos/{repo_id}/runner-runs", code: 200 })),
+      ).annotate({ identifier: "ListRunnerRunsRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          branch: S.String,
+          id: S.String,
+          number: S.Number,
+          title: S.String,
+        }),
+      ).annotate({ identifier: "RunListTrailJSON" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          cacheCreationTokens: S.Number,
+          cacheReadTokens: S.Number,
+          inputTokens: S.Number,
+          model: S.NullOr(S.String),
+          outputTokens: S.Number,
+        }),
+      ).annotate({ identifier: "RunModelUsageJSON" });
+    case 2:
+      return S.Array(__S(129, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          agent: S.NullOr(S.String),
+          automation: S.NullOr(S.String),
+          billingSubject: __S(56, __c7, 0),
+          createdAt: S.String,
+          credentialSource: S.optional(S.String),
+          errorCode: S.NullOr(S.String),
+          errorMessage: S.NullOr(S.String),
+          headSha: S.NullOr(S.String),
+          id: S.String,
+          modelsUsed: S.NullOr(__S(88, __c11, 0)),
+          promptStartedAt: S.NullOr(S.String),
+          provisionStartedAt: S.NullOr(S.String),
+          queuedAt: S.NullOr(S.String),
+          ref: S.NullOr(S.String),
+          status: S.String,
+          trail: __S(128, __c16, 0),
+          updatedAt: S.String,
+          usageByModel: S.NullOr(__S(130, __c16, 2)),
+        }),
+      ).annotate({ identifier: "RunListItemJSON" });
+    case 4:
+      return S.Array(__S(131, __c16, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+          items: S.NullOr(__S(132, __c16, 4)),
+          nextPageToken: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "RunsListResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

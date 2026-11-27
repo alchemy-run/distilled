@@ -283,10 +283,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.logs#LogsAlertsDestinationsDeleteCreateRequest/members/hog_function_ids/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.logs#PaginatedLogsAlertEventList/members/count/traits"
     },
     {

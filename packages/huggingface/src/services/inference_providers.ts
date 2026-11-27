@@ -232,25 +232,7 @@ export interface ReorderInferenceProvidersRequest {
   body?: ReorderInferenceProvidersRequestBodyMap | undefined;
 }
 export interface ReorderInferenceProvidersResponse {}
-export type SetProviderKeyRequestProvider =
-  | "baseten"
-  | "cohere"
-  | "cerebras"
-  | "deepinfra"
-  | "fal-ai"
-  | "featherless-ai"
-  | "fireworks-ai"
-  | "groq"
-  | "novita"
-  | "nscale"
-  | "openrouter"
-  | "ovhcloud"
-  | "publicai"
-  | "replicate"
-  | "scaleway"
-  | "together"
-  | "wavespeed"
-  | "zai-org";
+export type SetProviderKeyRequestProvider = "fal-ai" | "replicate" | "wavespeed";
 export interface SetProviderKeyRequest {
   provider: SetProviderKeyRequestProvider | (string & {});
   apiKey: string | Redacted.Redacted<string>;

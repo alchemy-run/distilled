@@ -28,6 +28,11 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface GetOrganizationPostgresPrometheusMetricsRequest {
+  /** ID of the requested organization. */
+  organizationId: string;
+}
+export type GetOrganizationPostgresPrometheusMetricsResponse = string;
 export interface GetOrganizationPrometheusDiscoveryRequest {
   /** ID of the requested organization. */
   organizationId: string;
@@ -64,6 +69,13 @@ export type GetOrganizationPrometheusDiscoveryResponseBodyList =
   Array<PrometheusDiscoveryTargetGroup>;
 export type GetOrganizationPrometheusDiscoveryResponse =
   GetOrganizationPrometheusDiscoveryResponseBodyList;
+export interface GetPostgresServicePrometheusMetricsRequest {
+  /** ID of the organization that owns the Postgres service. */
+  organizationId: string;
+  /** ID of the requested Postgres service. */
+  postgresId: string;
+}
+export type GetPostgresServicePrometheusMetricsResponse = string;
 export interface GetServicePrometheusMetricsRequest {
   /** ID of the organization that owns the service. */
   organizationId: string;
@@ -73,6 +85,24 @@ export interface GetServicePrometheusMetricsRequest {
   filtered_metrics?: string | undefined;
 }
 export type GetServicePrometheusMetricsResponse = string;
+export type GetOrganizationPostgresPrometheusMetricsError = ClickHouseCloudOpError;
+/** Get organization PostgreSQL metrics Returns Prometheus metrics for all PostgreSQL services in an organization. Maximum 100 services supported. */
+export const getOrganizationPostgresPrometheusMetrics: API.OperationMethod<
+  GetOrganizationPostgresPrometheusMetricsRequest,
+  GetOrganizationPostgresPrometheusMetricsResponse,
+  GetOrganizationPostgresPrometheusMetricsError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<GetOrganizationPostgresPrometheusMetricsRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GetOrganizationPostgresPrometheusMetricsResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
+  protocol: ClickHouseCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPostgresPrometheusMetrics",
+}));
+
 export type GetOrganizationPrometheusDiscoveryError = ClickHouseCloudOpError;
 /** Get Prometheus service discovery targets Returns one Prometheus scrape target per service in the organization, in the [HTTP service discovery](https://prometheus.io/docs/prometheus/latest/http_sd/) (`http_sd`) format. Only services the API key is authorized to view are included; services that are being deleted or have been deleted are omitted. Point an [`http_sd_configs`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#http_sd_config) job at this endpoint to discover and scrape all services in the organization automatically. Prometheus refreshes the target list on every discovery poll, so newly created and deleted services are picked up without configuration changes. Filter targets in `relabel_configs` by `__meta_clickhouse_region`, `__meta_clickhouse_provider` or `__meta_clickhouse_tag_<key>`. Invalid label name characters in tag keys become `_`. `__meta_clickhouse_tagpresent_<key>` is `true` for every tag, including tags without a value. Discovered targets scrape with `filtered_metrics=true` by default; pass `?filtered_metrics=false` to this endpoint to discover unfiltered targets. See the [Prometheus integration guide](https://clickhouse.com/docs/integrations/prometheus) for more on the exported metrics. */
 export const getOrganizationPrometheusDiscovery: API.OperationMethod<
@@ -81,14 +111,32 @@ export const getOrganizationPrometheusDiscovery: API.OperationMethod<
   GetOrganizationPrometheusDiscoveryError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetOrganizationPrometheusDiscoveryRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<GetOrganizationPrometheusDiscoveryResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetOrganizationPrometheusDiscoveryRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<GetOrganizationPrometheusDiscoveryResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationPrometheusDiscovery",
+}));
+
+export type GetPostgresServicePrometheusMetricsError = ClickHouseCloudOpError;
+/** Get PostgreSQL service metrics Returns Prometheus metrics for a PostgreSQL service. */
+export const getPostgresServicePrometheusMetrics: API.OperationMethod<
+  GetPostgresServicePrometheusMetricsRequest,
+  GetPostgresServicePrometheusMetricsResponse,
+  GetPostgresServicePrometheusMetricsError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<GetPostgresServicePrometheusMetricsRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GetPostgresServicePrometheusMetricsResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
+  protocol: ClickHouseCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresServicePrometheusMetrics",
 }));
 
 export type GetServicePrometheusMetricsError = ClickHouseCloudOpError;
@@ -99,8 +147,8 @@ export const getServicePrometheusMetrics: API.OperationMethod<
   GetServicePrometheusMetricsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetServicePrometheusMetricsRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<GetServicePrometheusMetricsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetServicePrometheusMetricsRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<GetServicePrometheusMetricsResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -111,6 +159,30 @@ export const getServicePrometheusMetrics: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/postgres/prometheus",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationPostgresPrometheusMetricsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetOrganizationPostgresPrometheusMetricsResponse",
+      });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -146,19 +218,36 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          targets: S.optional(__S(1, __c0, 1)),
-          labels: S.optional(__S(2, __c0, 2)),
+          targets: S.optional(__S(17, __c2, 1)),
+          labels: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "PrometheusDiscoveryTargetGroup" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
-      return S.suspend(() => __S(4, __c0, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(20, __c2, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrganizationPrometheusDiscoveryResponse",
       });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          postgresId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/postgres/{postgresId}/prometheus",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetPostgresServicePrometheusMetricsRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -174,10 +263,6 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetServicePrometheusMetricsRequest" });
-    case 1:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetServicePrometheusMetricsResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

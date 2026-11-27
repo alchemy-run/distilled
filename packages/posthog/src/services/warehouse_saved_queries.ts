@@ -198,6 +198,8 @@ export interface CreateWarehouseSavedQueriesRevertMaterializationRequest {
   edited_history_id?: string | null | undefined;
   /** If true, skip column inference and external table discovery. On update, also skip the query revision conflict check. Query validation and revision updates still run. */
   soft_update?: boolean | null | undefined;
+  /** Confirm an update that removes columns used by downstream views. The first request is refused with code 'breaking_column_change' and names the affected views that the caller can access. */
+  acknowledge_breaking_changes?: boolean | undefined;
   /** Whether this view is for testing only and will auto-expire. */
   is_test?: boolean | undefined;
 }
@@ -247,8 +249,8 @@ export interface UserBasic {
 }
 /** * `tiered` - tiered * `managed_viewset` - managed_viewset * `no_node` - no_node */
 export type FrequencyModeEnum = "tiered" | "managed_viewset" | "no_node";
-/** * `source` - source * `consumer` - consumer */
-export type SyncFrequencyBlockedByEnum = "source" | "consumer";
+/** * `source` - source * `plan` - plan * `consumer` - consumer */
+export type SyncFrequencyBlockedByEnum = "source" | "plan" | "consumer";
 /** The node holding a cadence back, named so a refusal points at something a person can open. */
 export interface SyncFrequencyBlocker {
   /** Data modeling node ID of the source or view. */
@@ -263,9 +265,9 @@ export interface SyncFrequencyOption {
   cadence: MaterializeSyncFrequencyEnum;
   /** False when writing this cadence would be rejected. */
   allowed: boolean;
-  /** Which side withholds this cadence: 'source' when no upstream source syncs that often, 'consumer' when a downstream view or endpoint refreshes more often than this. Null when the cadence is allowed. * `source` - source * `consumer` - consumer */
+  /** Which side withholds this cadence: 'source' when no upstream source syncs that often, 'plan' when the organization's plan does not allow refreshing that often, 'consumer' when a downstream view or endpoint refreshes more often than this. Null when the cadence is allowed. * `source` - source * `plan` - plan * `consumer` - consumer */
   blocked_by: SyncFrequencyBlockedByEnum | null;
-  /** The source or consumer named in `blocked_by`. Null when allowed, and also when the blocker sits outside the caller's access grants, where `blocked_by` still gives the direction. */
+  /** The source or consumer named in `blocked_by`. Null when allowed, when `blocked_by` is 'plan', and also when the blocker sits outside the caller's access grants, where `blocked_by` still gives the direction. */
   blocker: SyncFrequencyBlocker | null;
   /** Upstream materialized views that would refresh more often than they do now if this cadence were chosen, because a view cannot be fresher than its inputs. Only views the caller may read are listed. Empty when the cadence is blocked. */
   speeds_up: SyncFrequencyOptionSpeedsUpList;
@@ -279,6 +281,8 @@ export interface SyncFrequencyBound {
   label: string;
   /** Node that set this bound. Null when nothing identifiable set it, and also when it sits outside the caller's access grants: the bound still applies, it just goes unnamed. */
   blocker: SyncFrequencyBlocker | null;
+  /** True when an upstream view held at its pinned cadence sets this bound, so unpinning or speeding up that view lifts it. False when a source sync sets it, and also when the pinned view sits outside the caller's access grants, like `blocker`. Always false for `plan_floor` and `ceiling`. */
+  pinned: boolean;
 }
 /** Upstream sources with no sync schedule, so the floor is a guess: these arrive when someone runs them, and refreshing more often than they really sync will serve stale data. Only sources the caller may read are listed. */
 export type SyncFrequencyBoundsBestEffortSourcesList = Array<SyncFrequencyBlocker>;
@@ -287,14 +291,24 @@ export interface SyncFrequencyBounds {
   frequency_mode: FrequencyModeEnum;
   /** Every cadence a picker may show, coarsest-last, each marked allowed or blocked with its cause. Empty outside 'tiered' mode. */
   options: SyncFrequencyBoundsOptionsList;
-  /** The fastest bound: no cadence finer than this is allowed, because the source named here does not sync more often. Null when no source withholds a cadence. */
+  /** The fastest bound: no cadence finer than this is allowed, because no upstream source syncs more often, or because the upstream view named here is pinned to this cadence (see `pinned`). Null when nothing upstream withholds a cadence. */
   floor: SyncFrequencyBound | null;
+  /** The fastest cadence the organization's plan allows: no cadence finer than this can be saved. `blocker` is always null. Null when the plan withholds no cadence. */
+  plan_floor: SyncFrequencyBound | null;
   /** The slowest bound: no cadence coarser than this is allowed, because the consumer named here refreshes that often. Null when no consumer withholds a cadence. */
   ceiling: SyncFrequencyBound | null;
   /** Upstream sources with no sync schedule, so the floor is a guess: these arrive when someone runs them, and refreshing more often than they really sync will serve stale data. Only sources the caller may read are listed. */
   best_effort_sources: SyncFrequencyBoundsBestEffortSourcesList;
   /** True when at least one such source sits outside the caller's access grants, so the list above is incomplete and the caveat still applies. */
   best_effort_sources_withheld: boolean;
+}
+export interface SavedQueryPlanClamp {
+  /** The refresh interval, in seconds, this view had before the rewrite. Null when it had none. */
+  previous_target_seconds: number | null;
+  /** The refresh interval, in seconds, the view was set to: the fastest the organization's plan allowed. */
+  plan_floor_seconds: number;
+  /** When the refresh interval was rewritten. */
+  at: string;
 }
 export type DataWarehouseSavedQueryOutputColumnsItemMap = { [key: string]: unknown | undefined };
 export type DataWarehouseSavedQueryOutputColumnsList =
@@ -321,6 +335,38 @@ export interface SavedQuerySuspension {
 export type DataWarehouseSavedQueryOutputSuspendedMap = {
   [key: string]: SavedQuerySuspension | undefined;
 };
+/** * `clickhouse` - ClickHouse * `managed_trino` - Hosted Trino * `connection` - Direct connection */
+export type ViewEngineTargetEnum = "clickhouse" | "managed_trino" | "connection";
+/** * `hogql` - HogQL * `raw` - Raw SQL */
+export type ViewEngineDialectEnum = "hogql" | "raw";
+export interface ViewCapability {
+  /** Whether the view supports this. */
+  available: boolean;
+  /** Why the view does not support this, written for the user. Null when available. */
+  reason: string | null;
+}
+/** * `clickhouse_probe` - ClickHouse probe * `client_types` - Column types sent by the client */
+export type ViewColumnSourceEnum = "clickhouse_probe" | "client_types";
+export interface ViewEngineCapabilities {
+  /** Whether the view can be materialized, run or scheduled. */
+  materialize: ViewCapability;
+  /** Whether the view has lineage and a node in the data modeling DAG. */
+  lineage: ViewCapability;
+  /** Whether HogQL queries on ClickHouse can read from this view by name. */
+  referenceable_from_clickhouse: ViewCapability;
+  /** Where the view's column types come from: a ClickHouse probe of the query, or the types the client sends from its last run. * `clickhouse_probe` - ClickHouse probe * `client_types` - Column types sent by the client */
+  column_source: ViewColumnSourceEnum;
+}
+export interface ViewEngine {
+  /** The engine that runs this view: ClickHouse, hosted Trino, or a direct connection. * `clickhouse` - ClickHouse * `managed_trino` - Hosted Trino * `connection` - Direct connection */
+  target: ViewEngineTargetEnum;
+  /** Whether the view stores HogQL or raw SQL for its engine. * `hogql` - HogQL * `raw` - Raw SQL */
+  dialect: ViewEngineDialectEnum;
+  /** The direct connection that runs this view. Null for any other engine. */
+  connection_id: string | null;
+  /** What the rest of the product can do with this view. */
+  capabilities: ViewEngineCapabilities;
+}
 /** Shared methods for DataWarehouseSavedQuery serializers. This mixin is intended to be used with serializers.ModelSerializer subclasses. */
 export interface DataWarehouseSavedQueryOutput {
   id?: string | undefined;
@@ -342,8 +388,10 @@ export interface DataWarehouseSavedQueryOutput {
   description?: string | null | undefined;
   /** How often to materialize this view. One of '15min', '30min', '1hour', '6hour', '12hour', '24hour', '7day', '30day', or 'never' to pause scheduled materialization. 15min is the fastest cadence available. Null means no scheduled materialization. Read back after a write, this reflects the cadence stored on the view's DAG node. * `never` - never * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
   sync_frequency?: SavedQuerySyncFrequencyEnum | null | undefined;
-  /** Which cadences this view can actually be set to, and what withholds the rest. Computed from the view's data modeling lineage: upstream source sync frequencies set a floor, downstream cadences set a ceiling. Read-only, and present on retrieve, create and update responses only. */
+  /** Which cadences this view can actually be set to, and what withholds the rest. Computed from the view's data modeling lineage: upstream source sync frequencies set a floor, downstream cadences set a ceiling, and the organization's plan can set a floor too. Read-only, and present on retrieve, create and update responses only. */
   sync_frequency_bounds?: SyncFrequencyBounds | undefined;
+  /** Set when a scheduled run slowed this view's refresh interval to the fastest one the organization's plan allows. Saving a different interval clears it. Null when no such rewrite stands. */
+  plan_clamp: SavedQueryPlanClamp | null;
   columns?: DataWarehouseSavedQueryOutputColumnsList | undefined;
   status?: DataWarehouseSavedQueryStatusEnum | null | undefined;
   last_run_at?: string | null | undefined;
@@ -366,8 +414,8 @@ export interface DataWarehouseSavedQueryOutput {
   user_access_level?: string | null | undefined;
   /** Engines this query's materialization is suspended for after repeated failures. Suspended engines are skipped by scheduled runs until the query is resumed. */
   suspended?: DataWarehouseSavedQueryOutputSuspendedMap | undefined;
-  /** Whether this view stores raw Trino SQL. Only hosted Trino can run it, and HogQL queries cannot reference it. */
-  is_raw_managed_trino: boolean;
+  /** The engine that runs this view, and what the product can do with it. */
+  engine: ViewEngine;
 }
 /** * `upstream` - Upstream * `downstream` - Downstream */
 export type MaterializationRunDirectionEnum = "upstream" | "downstream";
@@ -387,9 +435,21 @@ export interface CreateWarehouseSavedQueriesRunRequest {
 }
 /** The data model nodes included in the run. */
 export type SavedQueryRunResponseNodeIdsList = Array<string>;
+export interface SavedQueryRunSkippedNode {
+  /** The data model node left out of the run. */
+  node_id: string;
+  /** Name of the view left out of the run. */
+  name: string;
+  /** Why the view was left out: its query doesn't compile, or it depends on a view whose query doesn't compile. */
+  reason: string;
+}
+/** Views an upstream or downstream run selected but left out, because their query doesn't compile or they depend on one that doesn't. Their sources can't be checked against your access, so they don't run. Always empty for a run of only this view. */
+export type SavedQueryRunResponseSkippedList = Array<SavedQueryRunSkippedNode>;
 export interface SavedQueryRunResponse {
   /** The data model nodes included in the run. */
   node_ids: SavedQueryRunResponseNodeIdsList;
+  /** Views an upstream or downstream run selected but left out, because their query doesn't compile or they depend on one that doesn't. Their sources can't be checked against your access, so they don't run. Always empty for a run of only this view. */
+  skipped: SavedQueryRunResponseSkippedList;
 }
 export type CreateWarehouseSavedQueryRequestQueryKind = "HogQLQuery";
 /** HogQL query definition as a JSON object with a "query" key containing the SQL string and a "kind" key (always "HogQLQuery"). Format the SQL string multi-line with indentation and inline `--` comments for non-obvious logic -- the SQL editor renders it verbatim, so avoid minified single-line SQL. Example: {"kind": "HogQLQuery", "query": "SELECT\n event,\n count() AS cnt\nFROM events\nGROUP BY event\nLIMIT 100"} */
@@ -416,6 +476,8 @@ export interface CreateWarehouseSavedQueryRequest {
   edited_history_id?: string | null | undefined;
   /** If true, skip column inference and external table discovery. On update, also skip the query revision conflict check. Query validation and revision updates still run. */
   soft_update?: boolean | null | undefined;
+  /** Confirm an update that removes columns used by downstream views. The first request is refused with code 'breaking_column_change' and names the affected views that the caller can access. */
+  acknowledge_breaking_changes?: boolean | undefined;
   /** Whether this view is for testing only and will auto-expire. */
   is_test?: boolean | undefined;
 }
@@ -496,8 +558,8 @@ export interface DataWarehouseSavedQueryMinimal {
   expires_at?: string | null | undefined;
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
-  /** Whether this view stores raw Trino SQL. Only hosted Trino can run it, and HogQL queries cannot reference it. */
-  is_raw_managed_trino: boolean;
+  /** The engine that runs this view, and what the product can do with it. */
+  engine: ViewEngine;
 }
 export type PaginatedDataWarehouseSavedQueryMinimalListResultsList =
   Array<DataWarehouseSavedQueryMinimal>;
@@ -534,6 +596,8 @@ export interface UpdateWarehouseSavedQueriesPartialRequest {
   edited_history_id?: string | null | undefined;
   /** If true, skip column inference and external table discovery. On update, also skip the query revision conflict check. Query validation and revision updates still run. */
   soft_update?: boolean | null | undefined;
+  /** Confirm an update that removes columns used by downstream views. The first request is refused with code 'breaking_column_change' and names the affected views that the caller can access. */
+  acknowledge_breaking_changes?: boolean | undefined;
   /** Whether this view is for testing only and will auto-expire. */
   is_test?: boolean | undefined;
 }
@@ -564,6 +628,8 @@ export interface UpdateWarehouseSavedQueryRequest {
   edited_history_id?: string | null | undefined;
   /** If true, skip column inference and external table discovery. On update, also skip the query revision conflict check. Query validation and revision updates still run. */
   soft_update?: boolean | null | undefined;
+  /** Confirm an update that removes columns used by downstream views. The first request is refused with code 'breaking_column_change' and names the affected views that the caller can access. */
+  acknowledge_breaking_changes?: boolean | undefined;
   /** Whether this view is for testing only and will auto-expire. */
   is_test?: boolean | undefined;
 }
@@ -594,6 +660,8 @@ export interface WarehouseSavedQueriesCancelCreateRequest {
   edited_history_id?: string | null | undefined;
   /** If true, skip column inference and external table discovery. On update, also skip the query revision conflict check. Query validation and revision updates still run. */
   soft_update?: boolean | null | undefined;
+  /** Confirm an update that removes columns used by downstream views. The first request is refused with code 'breaking_column_change' and names the affected views that the caller can access. */
+  acknowledge_breaking_changes?: boolean | undefined;
   /** Whether this view is for testing only and will auto-expire. */
   is_test?: boolean | undefined;
 }
@@ -726,7 +794,7 @@ export const createWarehouseSavedQueriesRevertMaterialization: API.OperationMeth
     __c17,
     0,
   ) as any as S.Schema<CreateWarehouseSavedQueriesRevertMaterializationRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -748,7 +816,7 @@ export const createWarehouseSavedQueriesRun: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateWarehouseSavedQueriesRunRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<SavedQueryRunResponse>,
+  output: __S(323, __c20, 3) as any as S.Schema<SavedQueryRunResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -766,7 +834,7 @@ export const createWarehouseSavedQuery: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateWarehouseSavedQueryRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -784,7 +852,7 @@ export const getWarehouseSavedQueriesActivity: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetWarehouseSavedQueriesActivityRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -820,7 +888,7 @@ export const getWarehouseSavedQueriesRunHistory: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetWarehouseSavedQueriesRunHistoryRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -838,7 +906,7 @@ export const getWarehouseSavedQuery: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetWarehouseSavedQueryRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -878,7 +946,7 @@ export const updateWarehouseSavedQueriesPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<UpdateWarehouseSavedQueriesPartialRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -896,7 +964,7 @@ export const updateWarehouseSavedQuery: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<UpdateWarehouseSavedQueryRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -918,7 +986,7 @@ export const warehouseSavedQueriesCancelCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<WarehouseSavedQueriesCancelCreateRequest>,
-  output: __S(313, __c19, 9) as any as S.Schema<DataWarehouseSavedQueryOutput>,
+  output: __S(314, __c19, 10) as any as S.Schema<DataWarehouseSavedQueryOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1102,7 +1170,7 @@ function __c4(j: number): any {
           is_test: S.optional(S.Boolean),
           expires_at: S.optional(S.NullOr(S.String)),
           user_access_level: S.optional(S.NullOr(S.String)),
-          is_raw_managed_trino: S.Boolean,
+          engine: __S(295, __c18, 7),
         }),
       ).annotate({ identifier: "DataWarehouseSavedQueryMinimal" });
     case 2:
@@ -1133,6 +1201,7 @@ function __c5(j: number): any {
           folder_id: S.optional(S.NullOr(S.String)),
           edited_history_id: S.optional(S.NullOr(S.String)),
           soft_update: S.optional(S.NullOr(S.Boolean)),
+          acknowledge_breaking_changes: S.optional(S.Boolean),
           is_test: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1159,6 +1228,7 @@ function __c6(j: number): any {
           folder_id: S.optional(S.NullOr(S.String)),
           edited_history_id: S.optional(S.NullOr(S.String)),
           soft_update: S.optional(S.NullOr(S.Boolean)),
+          acknowledge_breaking_changes: S.optional(S.Boolean),
           is_test: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1185,6 +1255,7 @@ function __c7(j: number): any {
           folder_id: S.optional(S.NullOr(S.String)),
           edited_history_id: S.optional(S.NullOr(S.String)),
           soft_update: S.optional(S.NullOr(S.Boolean)),
+          acknowledge_breaking_changes: S.optional(S.Boolean),
           is_test: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1382,6 +1453,7 @@ function __c17(j: number): any {
           folder_id: S.optional(S.NullOr(S.String)),
           edited_history_id: S.optional(S.NullOr(S.String)),
           soft_update: S.optional(S.NullOr(S.Boolean)),
+          acknowledge_breaking_changes: S.optional(S.Boolean),
           is_test: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1423,6 +1495,31 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SavedQuerySuspension" });
     case 4:
       return S.Record(S.String, __S(291, __c18, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          available: S.Boolean,
+          reason: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ViewCapability" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          materialize: __S(293, __c18, 5),
+          lineage: __S(293, __c18, 5),
+          referenceable_from_clickhouse: __S(293, __c18, 5),
+          column_source: S.String,
+        }),
+      ).annotate({ identifier: "ViewEngineCapabilities" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          dialect: S.String,
+          connection_id: S.NullOr(S.String),
+          capabilities: __S(294, __c18, 6),
+        }),
+      ).annotate({ identifier: "ViewEngine" });
   }
 }
 function __c19(j: number): any {
@@ -1479,6 +1576,7 @@ function __c19(j: number): any {
         S.Struct({
           label: S.String,
           blocker: S.NullOr(__S(307, __c19, 3)),
+          pinned: S.Boolean,
         }),
       ).annotate({ identifier: "SyncFrequencyBound" });
     case 8:
@@ -1487,12 +1585,21 @@ function __c19(j: number): any {
           frequency_mode: S.String,
           options: __S(310, __c19, 6),
           floor: S.NullOr(__S(311, __c19, 7)),
+          plan_floor: S.NullOr(__S(311, __c19, 7)),
           ceiling: S.NullOr(__S(311, __c19, 7)),
           best_effort_sources: __S(308, __c19, 4),
           best_effort_sources_withheld: S.Boolean,
         }),
       ).annotate({ identifier: "SyncFrequencyBounds" });
     case 9:
+      return S.suspend(() =>
+        S.Struct({
+          previous_target_seconds: S.NullOr(S.Number),
+          plan_floor_seconds: S.Number,
+          at: S.String,
+        }),
+      ).annotate({ identifier: "SavedQueryPlanClamp" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1508,6 +1615,7 @@ function __c19(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           sync_frequency: S.optional(S.NullOr(S.String)),
           sync_frequency_bounds: S.optional(__S(312, __c19, 8)),
+          plan_clamp: S.NullOr(__S(313, __c19, 9)),
           columns: S.optional(__S(290, __c18, 2)),
           status: S.optional(S.NullOr(S.String)),
           last_run_at: S.optional(S.NullOr(S.String)),
@@ -1522,7 +1630,7 @@ function __c19(j: number): any {
           expires_at: S.optional(S.NullOr(S.String)),
           user_access_level: S.optional(S.NullOr(S.String)),
           suspended: S.optional(__S(292, __c18, 4)),
-          is_raw_managed_trino: S.Boolean,
+          engine: __S(295, __c18, 7),
         }),
       ).annotate({ identifier: "DataWarehouseSavedQueryOutput" });
   }
@@ -1548,7 +1656,18 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          node_id: S.String,
+          name: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "SavedQueryRunSkippedNode" });
+    case 2:
+      return S.Array(__S(321, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           node_ids: __S(192, __c12, 0),
+          skipped: __S(322, __c20, 2),
         }),
       ).annotate({ identifier: "SavedQueryRunResponse" });
   }
@@ -1567,6 +1686,7 @@ function __c21(j: number): any {
           folder_id: S.optional(S.NullOr(S.String)),
           edited_history_id: S.optional(S.NullOr(S.String)),
           soft_update: S.optional(S.NullOr(S.Boolean)),
+          acknowledge_breaking_changes: S.optional(S.Boolean),
           is_test: S.optional(S.Boolean),
         }).pipe(
           T.Http({

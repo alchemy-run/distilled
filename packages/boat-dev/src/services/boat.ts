@@ -105,7 +105,7 @@ export class Conflict
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(2112, __c66, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(2176, __c68, 0)),
           S.String,
         ]),
       ),
@@ -777,7 +777,7 @@ export interface CommandHistoryRequest {
 export type CommandRecordMode = "sync" | "stream" | "detached" | "process";
 /** failed: the command could not start or its result never arrived. killed: ended by a signal or by DELETE /commands/{processId}. lost: the sandbox stopped or its agent restarted while the command ran. */
 export type CommandRecordStatus = "running" | "exited" | "timed_out" | "failed" | "killed" | "lost";
-/** One command run through the commands endpoint (kept 90 days), or one process of the sandbox with mode `process` (kept 72 hours). Readable while the sandbox is stopped. */
+/** One command run through the commands endpoint (kept 7 days), or one process of the sandbox with mode `process` (kept 72 hours). Readable while the sandbox is stopped. */
 export interface CommandRecord {
   /** Id of the record in the command history. */
   commandId: string;
@@ -867,6 +867,8 @@ export interface ConnectCiGithubRequest {
   org?: string | undefined;
   /** GitHub organization or user login. Set this to authorize and link an existing installation. Omit it to install the app. */
   account?: string | undefined;
+  /** Install Boat CI for orgs instead. It needs only the organization permission Self-hosted runners, not repository Administration. GitHub organizations only. */
+  orgApp?: boolean | undefined;
 }
 export interface ConnectCiGithubResponse {
   ok: boolean;
@@ -963,6 +965,21 @@ export interface CreateEnvironmentRequest {
   /** Unique environment name. Letters, numbers, dot, dash, underscore; max 64 chars. */
   name: string;
 }
+/** `open`: no limit, also for a sandbox whose own policy is unset. `deny`: no connection. `allow`: only the entries of `allow`. */
+export type EnvironmentNetworkPolicyMode = "open" | "deny" | "allow";
+/** With mode `allow`, 1 to 100 entries, as in a sandbox policy. Empty or omitted with any other mode. */
+export type EnvironmentNetworkPolicyAllowList = Array<string>;
+/** Who can connect to the sandboxes of this environment. `open`: anyone on the internet. `boat-only`: only boat; code in a sandbox cannot make a port public, and SSH, the desktop and raw ports stop. A caller outside the sandbox can still publish a port. Omitted in a request: the environment keeps what it has. */
+export type EnvironmentNetworkPolicyInbound = "open" | "boat-only";
+/** The outbound network policy that an environment gives its sandboxes. */
+export interface EnvironmentNetworkPolicy {
+  /** `open`: no limit, also for a sandbox whose own policy is unset. `deny`: no connection. `allow`: only the entries of `allow`. */
+  mode?: EnvironmentNetworkPolicyMode | (string & {}) | undefined;
+  /** With mode `allow`, 1 to 100 entries, as in a sandbox policy. Empty or omitted with any other mode. */
+  allow?: EnvironmentNetworkPolicyAllowList | undefined;
+  /** Who can connect to the sandboxes of this environment. `open`: anyone on the internet. `boat-only`: only boat; code in a sandbox cannot make a port public, and SSH, the desktop and raw ports stop. A caller outside the sandbox can still publish a port. Omitted in a request: the environment keeps what it has. */
+  inbound?: EnvironmentNetworkPolicyInbound | (string & {}) | undefined;
+}
 export interface SecretFile {
   path: string;
   /** Secret file contents. Treat as sensitive. */
@@ -1027,6 +1044,8 @@ export interface SandboxEnvironment {
   /** Only with `safeForThirdParties` true. The sandboxes still get AI credentials, as AI credentials proxy placeholders. Real keys never enter them. */
   proxyAiCredentials?: boolean | undefined;
   access?: ResourceAccess | undefined;
+  /** The outbound network policy of the latest version, or null when it sets none. A new sandbox in this environment gets it, unless the request sets a policy of its own. See https://docs.boat.dev/network-policy. */
+  network?: EnvironmentNetworkPolicy | null | undefined;
   /** The latest version's .env-style content. Treat as sensitive. */
   envContents: string;
   secretFiles: SandboxEnvironmentSecretFilesList;
@@ -1069,6 +1088,21 @@ export type CreateSandboxRequestType = "small" | "default" | "large" | "xlarge";
 export type CreateSandboxRequestLabelsMap = { [key: string]: string | undefined };
 /** Per-sandbox environment variables injected into the sandbox's tool environment, on top of the account environment's variables (per-sandbox values win on conflicts). Keys must match `[A-Za-z_][A-Za-z0-9_]{0,127}`; at most 100 variables and 64KB total. Reserved names (`ASCII_TOKEN`, `ASCII_API_URL`, `AGENT_ID`, `PRODUCT_MODE`, `ENVIRONMENT_ID`, `BOAT_ID`, `SERVICE_PREVIEW_TOKEN`, `BOAT_CLI_TOKEN`) are rejected with `invalid_env`. Forked sandboxes inherit the source sandbox's env unless the fork request supplies its own `env`. */
 export type CreateSandboxRequestEnvMap = { [key: string]: string | undefined };
+/** `open`: no limit. `deny`: the sandbox opens no connection. `allow`: it connects only to the entries of `allow`. `environment`: no policy of its own; the sandbox follows the policy of its environment (open when the environment sets none). This is the default on create. In an organization environment that sets a policy, only owners and admins can give a sandbox another policy: members get 403 `network_policy_managed`. */
+export type NetworkPolicyRequestMode = "open" | "deny" | "allow" | "environment";
+/** With mode `allow`, 1 to 100 entries; empty or omitted with any other mode. Each entry is a domain (`github.com`), a wildcard (`*.github.com`, which covers the domain itself and every subdomain), a public IP address or a public CIDR range. No scheme, port or path. A domain entry allows TCP 443 (matched by TLS SNI) and TCP 80 (matched by HTTP Host). An IP or CIDR entry allows every protocol and port. */
+export type NetworkPolicyRequestAllowList = Array<string>;
+/** Who can connect to the sandbox. `open`: anyone on the internet, on the ports that the sandbox opens. `boat-only`: only boat. The host drops every other connection to the sandbox, so code inside cannot make a port public. SSH, editors, port forwards, the desktop and raw ports stop: their routes answer 403 `inbound_closed`. A caller outside the sandbox (a session, or an API key that does not live in a sandbox) can still publish a port with `POST /sandboxes/{id}/host`. Commands and files through the API keep working. Omitted on PUT: the sandbox keeps what it has. Omitted on create or fork: what the sandbox inherits, else `open`. A change of `inbound` is a change of the policy: the same rules on keys and on organization environments apply. */
+export type NetworkPolicyRequestInbound = "open" | "boat-only";
+/** What the sandbox may connect to. Send `mode`, `inbound` or both: at least one. The side that the request does not name stays as it is. A sandbox that sets one side has its own policy and no longer follows its environment; `mode: environment` makes it follow again. On create, omitted means the policy of its environment; with `from`, the policy that the saved snapshot's sandbox had. On fork, omitted means what the source sandbox has. An API key without the `network.write` action always gets the policy that the sandbox would have without this field, a tighter one included: any other value is refused with 403 `api_key_action_forbidden`. A bad policy is refused with 400 `invalid_network_policy`. When no host can enforce a policy now, create and fork answer 409 `network_policy_unsupported`. A CI runner is always `open` and follows no environment. */
+export interface NetworkPolicyRequest {
+  /** `open`: no limit. `deny`: the sandbox opens no connection. `allow`: it connects only to the entries of `allow`. `environment`: no policy of its own; the sandbox follows the policy of its environment (open when the environment sets none). This is the default on create. In an organization environment that sets a policy, only owners and admins can give a sandbox another policy: members get 403 `network_policy_managed`. */
+  mode?: NetworkPolicyRequestMode | (string & {}) | undefined;
+  /** With mode `allow`, 1 to 100 entries; empty or omitted with any other mode. Each entry is a domain (`github.com`), a wildcard (`*.github.com`, which covers the domain itself and every subdomain), a public IP address or a public CIDR range. No scheme, port or path. A domain entry allows TCP 443 (matched by TLS SNI) and TCP 80 (matched by HTTP Host). An IP or CIDR entry allows every protocol and port. */
+  allow?: NetworkPolicyRequestAllowList | undefined;
+  /** Who can connect to the sandbox. `open`: anyone on the internet, on the ports that the sandbox opens. `boat-only`: only boat. The host drops every other connection to the sandbox, so code inside cannot make a port public. SSH, editors, port forwards, the desktop and raw ports stop: their routes answer 403 `inbound_closed`. A caller outside the sandbox (a session, or an API key that does not live in a sandbox) can still publish a port with `POST /sandboxes/{id}/host`. Commands and files through the API keep working. Omitted on PUT: the sandbox keeps what it has. Omitted on create or fork: what the sandbox inherits, else `open`. A change of `inbound` is a change of the policy: the same rules on keys and on organization environments apply. */
+  inbound?: NetworkPolicyRequestInbound | (string & {}) | undefined;
+}
 /** Who can use a sandbox billed to an organization, with the same rules as the sandbox's `visibility` field. `private`: only you can use it. `shared`: every member can, as long as it holds none of your personal logins (`noEnv`, or an environment that passes nothing). Omitted, the organization's default for new sandboxes applies (`PATCH /orgs/{org}` `newSandboxesPrivate`). It is set before the sandbox gets a machine, so a `private` sandbox is never shared, not even for a moment, and needs no `unshare` call. A personal sandbox is always private: `shared` is refused with 400 `not_org_sandbox`. Change it later with `POST /sandboxes/{id}/share` and `POST /sandboxes/{id}/unshare`. */
 export type CreateSandboxRequestVisibility = "private" | "shared";
 export interface HostPortRequest {
@@ -1115,6 +1149,7 @@ export interface CreateSandboxRequest {
   snapshots?: boolean | undefined;
   /** Pass `false` for monitoring off. Boat keeps no command or process output, process list or CPU/RAM samples for this sandbox, and its history, processes and metrics calls answer 409 `monitoring_off`. Live output of a running command still works. While the account default is on, `true` is refused with 409 `monitoring_off_for_account`. */
   monitoring?: boolean | undefined;
+  network?: NetworkPolicyRequest | undefined;
   /** Pass `true` to get a sandbox only if a machine of this type is ready right now. The call answers within about 1.5 s: either the usual `202` with the sandbox, or `503` `no_ready_machine` with nothing created, billed, or counted against your start limits, so you can retry or fall back at once. Without it, a create waits for a machine to be built when none is ready. Works with `from`; fork and resume take it too. */
   failFast?: boolean | undefined;
   /** With `from`: create this many sandboxes from the saved snapshot in one request. Boat creates them together, which is faster than separate creates when you need many sandboxes at once. Start limits and the active-sandbox limit count every sandbox of the batch; if the batch does not fit, nothing is created. The answer lists all of them in `sandboxes` (and the first one in `sandbox`). Refused with 400 `count_requires_from` without `from`, and with 400 `count_with_fail_fast` together with `failFast`. */
@@ -1167,6 +1202,35 @@ export interface SandboxHydration {
 export type SandboxType = "small" | "default" | "large" | "xlarge";
 /** Always `baremetal`. Every sandbox runs on bare metal. */
 export type SandboxMachineProvider = "baremetal";
+export type SandboxNetworkMode = "open" | "deny" | "allow";
+/** The canonical entries. Empty unless mode is `allow`. */
+export type SandboxNetworkAllowList = Array<string>;
+/** `enforced`: the sandbox's host confirmed this policy. `pending`: saved, and not on the host yet. A running sandbox keeps its previous rules until then; a stopped one gets this policy before its next start. `none`: the mode is `open`. */
+export type SandboxNetworkStatus = "enforced" | "pending" | "none";
+/** Who can connect to the sandbox. `open`: anyone on the internet. `boat-only`: only boat; the host drops every other connection to the sandbox. `status` covers both directions. */
+export type SandboxNetworkInbound = "open" | "boat-only";
+/** Only with status `pending`. `host`: the host has not confirmed the policy yet. `transfer`: the host enforces the policy, and a restore or a snapshot still runs. Until it ends, the storage servers of boat stay reachable over TLS. */
+export type SandboxNetworkPendingReason = "host" | "transfer";
+/** Where the policy comes from. `environment`: the policy of its environment version. `sandbox`: a policy set on this sandbox. `default`: neither sets one, so the sandbox is open. */
+export type SandboxNetworkSource = "environment" | "sandbox" | "default";
+/** The sandbox's outbound network policy. */
+export interface SandboxNetwork {
+  mode: SandboxNetworkMode;
+  /** The canonical entries. Empty unless mode is `allow`. */
+  allow: SandboxNetworkAllowList;
+  /** `enforced`: the sandbox's host confirmed this policy. `pending`: saved, and not on the host yet. A running sandbox keeps its previous rules until then; a stopped one gets this policy before its next start. `none`: the mode is `open`. */
+  status: SandboxNetworkStatus;
+  /** Who can connect to the sandbox. `open`: anyone on the internet. `boat-only`: only boat; the host drops every other connection to the sandbox. `status` covers both directions. */
+  inbound?: SandboxNetworkInbound | undefined;
+  /** Only with status `pending`. `host`: the host has not confirmed the policy yet. `transfer`: the host enforces the policy, and a restore or a snapshot still runs. Until it ends, the storage servers of boat stay reachable over TLS. */
+  pendingReason?: SandboxNetworkPendingReason | undefined;
+  /** True when this sandbox reaches the boat API only as itself, with the credentials boat put in it. boat refuses every other key, sign-in or session from inside it with 403 `sandbox_bound`. Every sandbox that starts restricted is bound. False on a running sandbox that you restricted while it ran: its next start binds it. Null while the sandbox has no machine, or while boat prepares one. */
+  apiBound?: boolean | null | undefined;
+  /** Where the policy comes from. `environment`: the policy of its environment version. `sandbox`: a policy set on this sandbox. `default`: neither sets one, so the sandbox is open. */
+  source?: SandboxNetworkSource | undefined;
+  /** When the policy was last set, or null if never. */
+  updatedAt: string | null;
+}
 /** The organization billed for this sandbox, or null when the owner is billed. */
 export interface SandboxTeam {
   id: string;
@@ -1253,11 +1317,11 @@ export interface Sandbox {
   billingMultiplier?: number | undefined;
   /** Always `baremetal`. Every sandbox runs on bare metal. */
   machineProvider?: SandboxMachineProvider | undefined;
-  /** Machine URL when assigned. */
+  /** Machine URL when assigned. Null when `network.inbound` is `boat-only`. */
   url?: string | null | undefined;
   /** Machine IPv6 or IPv4 address when assigned. */
   ip?: string | null | undefined;
-  /** Public IPv4 `host:port` that forwards to the sandbox SSH server. Set only when the machine has no public IPv4 of its own; null otherwise. Connect with `ssh -p <port> user@<host>`. */
+  /** Public IPv4 `host:port` that forwards to the sandbox SSH server. Set only when the machine has no public IPv4 of its own; null otherwise. Connect with `ssh -p <port> user@<host>`. Null when `network.inbound` is `boat-only`. */
   sshEndpoint?: string | null | undefined;
   createdAt?: string | null | undefined;
   updatedAt?: string | null | undefined;
@@ -1272,6 +1336,7 @@ export interface Sandbox {
   snapshots?: boolean | undefined;
   /** False when the sandbox was created with monitoring off. */
   monitoring?: boolean | undefined;
+  network?: SandboxNetwork | undefined;
   snapshotAvailable?: boolean | undefined;
   /** Timestamp of the most recent successfully completed snapshot, or null. */
   snapshotCompletedAt?: string | null | undefined;
@@ -1377,11 +1442,15 @@ export type ApiKeyScopeEnvironmentsCase1List = Array<string>;
 export type ApiKeyScopeEnvironments =
   | ApiKeyScopeEnvironmentsCase0
   | ApiKeyScopeEnvironmentsCase1List;
+/** `none`: the key reaches every sandbox and environment of the account. `limited`: only the listed sandboxes and environments. */
+export type ApiKeyScopeRestriction = "none" | "limited";
 export interface ApiKeyScope {
   expiresAt?: string | null | undefined;
   actions?: ApiKeyScopeActionsList | undefined;
   sandboxes?: ApiKeyScopeSandboxes | undefined;
   environments?: ApiKeyScopeEnvironments | undefined;
+  /** `none`: the key reaches every sandbox and environment of the account. `limited`: only the listed sandboxes and environments. */
+  restriction?: ApiKeyScopeRestriction | undefined;
   grandfathered?: boolean | undefined;
 }
 export interface ApiKey {
@@ -1855,6 +1924,7 @@ export interface ForkSandboxRequest {
   failFast?: boolean | undefined;
   /** `false` creates the fork with monitoring off: Boat keeps no command or process output, process list or CPU/RAM samples for it. Omitted, the fork keeps the source sandbox's setting. `true` turns it on for the fork, unless the account has monitoring off by default (`409` `monitoring_off_for_account`). */
   monitoring?: boolean | undefined;
+  network?: NetworkPolicyRequest | undefined;
   /** Replaces the env the fork would otherwise inherit from the source sandbox. Same validation rules as `CreateSandboxRequest.env`. */
   env?: ForkSandboxRequestEnvMap | undefined;
   /** Optionally pin the fork to a different named sandbox environment. Omit to inherit the source sandbox's environment. Unknown names are rejected with `unknown_environment`. */
@@ -1873,6 +1943,12 @@ export interface ForkSandboxResponse {
   id: string;
   status: string;
   sandbox?: Sandbox | null | undefined;
+  /** On stop, true when this stop discards work written after the last snapshot. */
+  forced?: boolean | undefined;
+  /** On stop, the stop operation (also on a sandbox that is already stopping or stopped). */
+  operation?: StopOperation | null | undefined;
+  /** On stop, the path that reads this stop operation, for example `/api/v1/sandboxes/bx_23456789/stops/stop_0123456789abcdef`. */
+  statusUrl?: string | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
   giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
@@ -1984,11 +2060,15 @@ export type GetApiKeyUsageResponseScopeEnvironmentsCase1List = Array<string>;
 export type GetApiKeyUsageResponseScopeEnvironments =
   | GetApiKeyUsageResponseScopeEnvironmentsCase0
   | GetApiKeyUsageResponseScopeEnvironmentsCase1List;
+/** `none`: the key reaches every sandbox and environment of the account. `limited`: only the listed sandboxes and environments. */
+export type GetApiKeyUsageResponseScopeRestriction = "none" | "limited";
 export interface GetApiKeyUsageResponseScope {
   expiresAt?: string | null | undefined;
   actions?: GetApiKeyUsageResponseScopeActionsList | undefined;
   sandboxes?: GetApiKeyUsageResponseScopeSandboxes | undefined;
   environments?: GetApiKeyUsageResponseScopeEnvironments | undefined;
+  /** `none`: the key reaches every sandbox and environment of the account. `limited`: only the listed sandboxes and environments. */
+  restriction?: GetApiKeyUsageResponseScopeRestriction | undefined;
   grandfathered?: boolean | undefined;
 }
 export type ApiKeyCreatedResourceKind = "sandbox" | "agent";
@@ -2478,7 +2558,7 @@ export interface GetLimitsResponseOveragePrices {
   /** Extra starts stop at this multiple of the minute limit. */
   startMinuteLimitMultiplier?: number | undefined;
 }
-/** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
+/** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, extra starts set to fail, or an unlimited account). */
 export type GetLimitsResponseStartLimitsWithWallet = GetLimitsResponseStartLimits;
 /** One rolling start window. Null when the account is unlimited. */
 export interface StartWindowUsage {
@@ -2556,7 +2636,7 @@ export interface GetLimitsResponse {
   overagePrices?: GetLimitsResponseOveragePrices | undefined;
   /** What the next start costs now. 0 inside every limit; null when it would be refused. */
   nextStartDollars?: number | null | undefined;
-  /** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
+  /** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, extra starts set to fail, or an unlimited account). */
   startLimitsWithWallet?: GetLimitsResponseStartLimits | null | undefined;
   /** Remaining machine starts in the rolling minute, hour and day windows. Null windows mean the account is unlimited. */
   starts?: GetLimitsResponseStarts | undefined;
@@ -2618,6 +2698,24 @@ export interface GetLimitsResponse {
   /** Caller's role on that team when `teamId` is present. */
   teamRole?: string | undefined;
 }
+export interface GetNetworkPolicyRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+}
+/** The sandbox of this policy and its state now. */
+export interface GetNetworkPolicyResponseSandbox {
+  id?: string | undefined;
+  /** The sandbox state, as in the sandbox object. */
+  state?: string | null | undefined;
+}
+export interface GetNetworkPolicyResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  network: SandboxNetwork;
+  /** The sandbox of this policy and its state now. */
+  sandbox?: GetNetworkPolicyResponseSandbox | undefined;
+}
 export interface GetPromptRunStatusRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
@@ -2630,6 +2728,8 @@ export type PromptRunStatus =
   | "finished"
   | "failed"
   | "interrupted";
+/** The speed of the prompt. `null` has the same meaning as for `fast`. */
+export type PromptRunSpeed = "standard" | "fast" | "ultrafast";
 export interface PromptRun {
   id: string;
   promptId: string;
@@ -2639,8 +2739,10 @@ export interface PromptRun {
   createdAt?: string | null | undefined;
   model?: string | null | undefined;
   reasoningEffort?: string | null | undefined;
-  /** The prompt runs in fast mode. `null` means no speed is set yet. The prompt waits without a speed choice, or it ended without running (`done` is true). The speed is set when the prompt starts, for the model that runs. */
+  /** The prompt runs in fast mode or Ultrafast. `null` means no speed is set yet. The prompt waits without a speed choice, or it ended without running (`done` is true). The speed is set when the prompt starts, for the model that runs. */
   fast?: boolean | null | undefined;
+  /** The speed of the prompt. `null` has the same meaning as for `fast`. */
+  speed?: PromptRunSpeed | null | undefined;
   /** The conversation this prompt ran in. A Sandbox runs many conversations in parallel; see [Integrated agents](/integrated-agents). */
   conversationId?: string | null | undefined;
 }
@@ -2909,6 +3011,12 @@ export interface InterruptSandboxResponse {
   id: string;
   status: string;
   sandbox?: Sandbox | null | undefined;
+  /** On stop, true when this stop discards work written after the last snapshot. */
+  forced?: boolean | undefined;
+  /** On stop, the stop operation (also on a sandbox that is already stopping or stopped). */
+  operation?: StopOperation | null | undefined;
+  /** On stop, the path that reads this stop operation, for example `/api/v1/sandboxes/bx_23456789/stops/stop_0123456789abcdef`. */
+  statusUrl?: string | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
   giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
@@ -3150,6 +3258,8 @@ export interface ListSandboxesRequest {
   sort?: ListSandboxesRequestSort | (string & {}) | undefined;
   /** Comma-separated sandbox state filter, for example `ready,idle,running`. */
   state?: string | undefined;
+  /** Keep the sandboxes with exactly this name. */
+  name?: string | undefined;
   /** Keep sandboxes whose name starts with this text, for example `myapp-`. The match is literal. */
   namePrefix?: string | undefined;
   /** Keep stopped sandboxes that stopped before this ISO 8601 time. Every stop counts, auto-stops too. */
@@ -3265,7 +3375,16 @@ export interface ListSandboxSnapshotsResponse {
   snapshots: ListSandboxSnapshotsResponseSnapshotsList;
   pageInfo?: PageInfo | undefined;
 }
-export interface ListSavedSnapshotsRequest {}
+export interface ListSavedSnapshotsRequest {
+  /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
+  org?: string | undefined;
+  /** Keep the saved snapshot with exactly this name. */
+  name?: string | undefined;
+  /** Keep saved snapshots whose name starts with this text, for example `ci-`. The match is literal. */
+  namePrefix?: string | undefined;
+  /** Same as the `org` query parameter. Query wins when both are set. */
+  xBoatOrg?: string | undefined;
+}
 export type ListSavedSnapshotsResponseSnapshotsList = Array<SavedSnapshot>;
 /** What the request's wallet (your active organization, `?org=`, or personal) pays for saved snapshots. The plan includes some; each one above costs $0.056 a day from the wallet. An organization's count includes every member's names billed to it. */
 export interface SavedSnapshotAllowance {
@@ -3361,6 +3480,8 @@ export type PromptSandboxRequestProvider =
   | "kimi"
   | "kimi-code"
   | "mistral";
+/** Optional. Same as `fast`, plus `ultrafast`, the fastest Codex tier, billed above fast. Only models with `ultrafastMode` set to `true` in `GET /provider-models` accept `ultrafast`. Other models return 400 `ultrafast_not_supported`. Ultrafast needs ChatGPT Pro, an Enterprise or Edu workspace with Ultrafast turned on, or an API organization with Ultrafast access. Without it, the prompt fails and says so. When you send both `speed` and `fast`, they must agree, or the request returns 400 `invalid_speed`. */
+export type PromptSandboxRequestSpeed = "standard" | "fast" | "ultrafast";
 export interface PromptSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
@@ -3371,6 +3492,8 @@ export interface PromptSandboxRequest {
   reasoningEffort?: string | null | undefined;
   /** Optional. `true` runs this prompt in fast mode. The model stays the same and gives output faster. The provider bills fast mode at its higher fast rate. Omit to use the choice saved on the Agents dashboard for that model. `false` forces standard speed. Only models with `fastMode` set to `true` in `GET /provider-models` accept `true`. Other models return 400 `fast_mode_not_supported`. */
   fast?: boolean | null | undefined;
+  /** Optional. Same as `fast`, plus `ultrafast`, the fastest Codex tier, billed above fast. Only models with `ultrafastMode` set to `true` in `GET /provider-models` accept `ultrafast`. Other models return 400 `ultrafast_not_supported`. Ultrafast needs ChatGPT Pro, an Enterprise or Edu workspace with Ultrafast turned on, or an API organization with Ultrafast access. Without it, the prompt fails and says so. When you send both `speed` and `fast`, they must agree, or the request returns 400 `invalid_speed`. */
+  speed?: PromptSandboxRequestSpeed | (string & {}) | null | undefined;
   /** Start a NEW conversation on the sandbox (runs in parallel with any existing ones) instead of continuing the most-recently-active one. Mutually exclusive with `conversationId`. */
   new?: boolean | undefined;
   /** Continue a specific conversation by id (as returned by a previous prompt). Omit (and omit `new`) to continue the sandbox's most-recently-active conversation. */
@@ -3379,6 +3502,7 @@ export interface PromptSandboxRequest {
   prompt: string;
 }
 export type PromptSandboxResponseStatus = "queued";
+export type PromptSandboxResponseSpeed = "standard" | "fast" | "ultrafast";
 export interface PromptSandboxResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
@@ -3393,8 +3517,9 @@ export interface PromptSandboxResponse {
   provider: string;
   model?: string | null | undefined;
   reasoningEffort?: string | null | undefined;
-  /** The prompt runs in fast mode. */
+  /** The prompt runs in fast mode or Ultrafast. */
   fast?: boolean | undefined;
+  speed?: PromptSandboxResponseSpeed | undefined;
 }
 export type ReadSandboxFileRequestEncoding = "utf8" | "base64";
 export interface ReadSandboxFileRequest {
@@ -3480,6 +3605,12 @@ export interface ResumeSandboxResponse {
   id: string;
   status: string;
   sandbox?: Sandbox | null | undefined;
+  /** On stop, true when this stop discards work written after the last snapshot. */
+  forced?: boolean | undefined;
+  /** On stop, the stop operation (also on a sandbox that is already stopping or stopped). */
+  operation?: StopOperation | null | undefined;
+  /** On stop, the path that reads this stop operation, for example `/api/v1/sandboxes/bx_23456789/stops/stop_0123456789abcdef`. */
+  statusUrl?: string | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
   giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
@@ -3715,6 +3846,32 @@ export interface SetFilePermissionsResponse {
   modifiedAt: string;
   success?: boolean | undefined;
 }
+/** `open`: no limit. `deny`: the sandbox opens no connection. `allow`: it connects only to the entries of `allow`. `environment`: no policy of its own; the sandbox follows the policy of its environment (open when the environment sets none). This is the default on create. In an organization environment that sets a policy, only owners and admins can give a sandbox another policy: members get 403 `network_policy_managed`. */
+export type SetNetworkPolicyRequestMode = "open" | "deny" | "allow" | "environment";
+/** With mode `allow`, 1 to 100 entries; empty or omitted with any other mode. Each entry is a domain (`github.com`), a wildcard (`*.github.com`, which covers the domain itself and every subdomain), a public IP address or a public CIDR range. No scheme, port or path. A domain entry allows TCP 443 (matched by TLS SNI) and TCP 80 (matched by HTTP Host). An IP or CIDR entry allows every protocol and port. */
+export type SetNetworkPolicyRequestAllowList = Array<string>;
+/** Who can connect to the sandbox. `open`: anyone on the internet, on the ports that the sandbox opens. `boat-only`: only boat. The host drops every other connection to the sandbox, so code inside cannot make a port public. SSH, editors, port forwards, the desktop and raw ports stop: their routes answer 403 `inbound_closed`. A caller outside the sandbox (a session, or an API key that does not live in a sandbox) can still publish a port with `POST /sandboxes/{id}/host`. Commands and files through the API keep working. Omitted on PUT: the sandbox keeps what it has. Omitted on create or fork: what the sandbox inherits, else `open`. A change of `inbound` is a change of the policy: the same rules on keys and on organization environments apply. */
+export type SetNetworkPolicyRequestInbound = "open" | "boat-only";
+export interface SetNetworkPolicyRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  /** `open`: no limit. `deny`: the sandbox opens no connection. `allow`: it connects only to the entries of `allow`. `environment`: no policy of its own; the sandbox follows the policy of its environment (open when the environment sets none). This is the default on create. In an organization environment that sets a policy, only owners and admins can give a sandbox another policy: members get 403 `network_policy_managed`. */
+  mode?: SetNetworkPolicyRequestMode | (string & {}) | undefined;
+  /** With mode `allow`, 1 to 100 entries; empty or omitted with any other mode. Each entry is a domain (`github.com`), a wildcard (`*.github.com`, which covers the domain itself and every subdomain), a public IP address or a public CIDR range. No scheme, port or path. A domain entry allows TCP 443 (matched by TLS SNI) and TCP 80 (matched by HTTP Host). An IP or CIDR entry allows every protocol and port. */
+  allow?: SetNetworkPolicyRequestAllowList | undefined;
+  /** Who can connect to the sandbox. `open`: anyone on the internet, on the ports that the sandbox opens. `boat-only`: only boat. The host drops every other connection to the sandbox, so code inside cannot make a port public. SSH, editors, port forwards, the desktop and raw ports stop: their routes answer 403 `inbound_closed`. A caller outside the sandbox (a session, or an API key that does not live in a sandbox) can still publish a port with `POST /sandboxes/{id}/host`. Commands and files through the API keep working. Omitted on PUT: the sandbox keeps what it has. Omitted on create or fork: what the sandbox inherits, else `open`. A change of `inbound` is a change of the policy: the same rules on keys and on organization environments apply. */
+  inbound?: SetNetworkPolicyRequestInbound | (string & {}) | undefined;
+}
+/** The sandbox of this policy and its state now. */
+export type SetNetworkPolicyResponseSandbox = GetNetworkPolicyResponseSandbox;
+export interface SetNetworkPolicyResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  network: SandboxNetwork;
+  /** The sandbox of this policy and its state now. */
+  sandbox?: GetNetworkPolicyResponseSandbox | undefined;
+}
 export interface SetSandboxAiAccessRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
@@ -3818,6 +3975,12 @@ export interface StopSandboxResponse {
   id: string;
   status: string;
   sandbox?: Sandbox | null | undefined;
+  /** On stop, true when this stop discards work written after the last snapshot. */
+  forced?: boolean | undefined;
+  /** On stop, the stop operation (also on a sandbox that is already stopping or stopped). */
+  operation?: StopOperation | null | undefined;
+  /** On stop, the path that reads this stop operation, for example `/api/v1/sandboxes/bx_23456789/stops/stop_0123456789abcdef`. */
+  statusUrl?: string | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
   giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
@@ -3973,6 +4136,8 @@ export interface UpdateEnvironmentRequest {
   /** With `safeForThirdParties` true, pass AI credentials as proxy placeholders. Setting true needs the AI credentials proxy on for the profile owner, else `400 ai_proxy_off`. */
   proxyAiCredentials?: boolean | undefined;
   access?: ResourceAccessUpdate | undefined;
+  /** Replaces the outbound network policy of the environment. An object sets it, null clears it, and an absent field keeps it. It makes a new version, like every other setting: a running sandbox changes only at an upgrade. Needs the `network.write` action as well as `environment.write`. A bad policy is refused with 400 `invalid_network_policy` before anything else of the request is saved. */
+  network?: EnvironmentNetworkPolicy | null | undefined;
   /** Full .env-style content for the new version. */
   envContents?: string | undefined;
   secretFiles?: UpdateEnvironmentRequestSecretFilesList | undefined;
@@ -3994,11 +4159,14 @@ export interface UpdateOrganizationResponse {
   name?: string | undefined;
   newSandboxesPrivate?: boolean | undefined;
 }
+export type UpdateSandboxRequestLabelsMap = { [key: string]: string | undefined };
 export interface UpdateSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** New display name. Empty strings are rejected; longer names are truncated to 120 chars by the backend. */
   name?: string | undefined;
+  /** Replaces all labels of the sandbox. `{}` or `null` removes them. Same rules as `CreateSandboxRequest.labels`. */
+  labels?: UpdateSandboxRequestLabelsMap | null | undefined;
   /** New auto-stop TTL. The deadline becomes now + `ttlSeconds`, so calling this again extends a running sandbox's life. `null` disables auto-stop. */
   ttlSeconds?: number | null | undefined;
   /** Rename the sandbox's stable subdomain (the `<subdomain>.on.boat.dev` label). Lowercase letters, digits and hyphens; no leading/trailing/double hyphens; cannot end in `-desktop` or `-<number>` (reserved for the desktop and hosted-port URLs). Must be globally unique. The base URL, desktop URL and every live `host <port>` URL are re-pointed to the new name with no downtime and their access tokens preserved; the old URLs stop resolving. On a transient routing error the rename is saved but returns 502 `gateway_error` - retry with the same value to finish activating routes. */
@@ -4058,6 +4226,21 @@ export interface UpgradeEnvironmentRequest {
   /** Restrict the upgrade to these sandbox (agent) ids. Omit to upgrade all of the caller's active sandboxes that are on an older version of this environment. */
   agentIds?: UpgradeEnvironmentRequestAgentIdsList | undefined;
 }
+/** `network_policy_unsupported`: its host cannot enforce a policy yet. `network_policy_agent_outdated`: its agent is from before network policies. For both, stop the sandbox, then upgrade again. `network_policy_pending`: its host did not confirm the policy in time. `upgrade_failed`: another failure. */
+export type UpgradeSandboxEnvironmentResponseFailuresItemError =
+  | "network_policy_unsupported"
+  | "network_policy_agent_outdated"
+  | "network_policy_pending"
+  | "upgrade_failed";
+export interface UpgradeSandboxEnvironmentResponseFailuresItem {
+  sandboxId?: string | null | undefined;
+  /** `network_policy_unsupported`: its host cannot enforce a policy yet. `network_policy_agent_outdated`: its agent is from before network policies. For both, stop the sandbox, then upgrade again. `network_policy_pending`: its host did not confirm the policy in time. `upgrade_failed`: another failure. */
+  error?: UpgradeSandboxEnvironmentResponseFailuresItemError | undefined;
+  message?: string | undefined;
+}
+/** One entry for each sandbox that the upgrade did not move. It stays on its version, with its policy. */
+export type UpgradeSandboxEnvironmentResponseFailuresList =
+  Array<UpgradeSandboxEnvironmentResponseFailuresItem>;
 export interface UpgradeSandboxEnvironmentResponse {
   success: boolean;
   upgraded: number;
@@ -4066,6 +4249,8 @@ export interface UpgradeSandboxEnvironmentResponse {
   /** Stopped sandboxes moved to the latest version; they pick it up when they next resume. */
   upgradedStopped?: number | undefined;
   failed: number;
+  /** One entry for each sandbox that the upgrade did not move. It stays on its version, with its policy. */
+  failures?: UpgradeSandboxEnvironmentResponseFailuresList | undefined;
   /** Id of the version the sandboxes were moved to. */
   latestVersionId?: string | undefined;
 }
@@ -4117,8 +4302,8 @@ export const addCredentialAccount: API.OperationMethod<
   AddCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<AddCredentialAccountRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<AddCredentialAccountResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<AddCredentialAccountRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<AddCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4135,8 +4320,8 @@ export const addEnvironmentRepo: API.OperationMethod<
   AddEnvironmentRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4153,8 +4338,8 @@ export const attachCommand: API.StreamingOperationMethod<
   AttachCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<AttachCommandRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<AttachCommandResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<AttachCommandRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<AttachCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4165,15 +4350,15 @@ export const attachCommand: API.StreamingOperationMethod<
 }));
 
 export type CommandHistoryError = BadRequest | NotFound | BoatOpError;
-/** List the command and process history Every command run through `POST /sandboxes/{sandboxId}/commands` in the last 90 days, and every other process that wrote to its stdout/stderr in the last 72 hours (mode `process`), newest first. Works while the sandbox is stopped. */
+/** List the command and process history Every command run through `POST /sandboxes/{sandboxId}/commands` in the last 7 days, and every other process that wrote to its stdout/stderr in the last 72 hours (mode `process`), newest first. Works while the sandbox is stopped. */
 export const commandHistory: API.OperationMethod<
   CommandHistoryRequest,
   CommandHistoryResponse,
   CommandHistoryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CommandHistoryRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<CommandHistoryResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CommandHistoryRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<CommandHistoryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4190,8 +4375,8 @@ export const commandLogs: API.OperationMethod<
   CommandLogsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<CommandLogsRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<CommandLogsResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CommandLogsRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<CommandLogsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4208,8 +4393,8 @@ export const configureSshKey: API.OperationMethod<
   ConfigureSshKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ConfigureSshKeyRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ConfigureSshKeyResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ConfigureSshKeyRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ConfigureSshKeyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4226,8 +4411,8 @@ export const connectCiGithub: API.OperationMethod<
   ConnectCiGithubError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ConnectCiGithubRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<ConnectCiGithubResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ConnectCiGithubRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<ConnectCiGithubResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4244,8 +4429,8 @@ export const createCredentialProfile: API.OperationMethod<
   CreateCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<CreateCredentialProfileRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<CreateCredentialProfileResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateCredentialProfileRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<CreateCredentialProfileResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4267,8 +4452,8 @@ export const createDownloadUrl: API.OperationMethod<
   CreateDownloadUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<CreateDownloadUrlRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<CreateDownloadUrlResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateDownloadUrlRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<CreateDownloadUrlResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4285,8 +4470,8 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
   errors: [BadRequest, Conflict, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4303,8 +4488,8 @@ export const createFolder: API.OperationMethod<
   CreateFolderError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CreateFolderRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<CreateFolderResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateFolderRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<CreateFolderResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4343,8 +4528,8 @@ export const createSandbox: API.OperationMethod<
   CreateSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2884, __c90, 4) as any as S.Schema<CreateSandboxRequest>,
-  output: __S(2887, __c90, 7) as any as S.Schema<CreateSandboxResponse>,
+  input: __S(2980, __c93, 4) as any as S.Schema<CreateSandboxRequest>,
+  output: __S(2983, __c93, 7) as any as S.Schema<CreateSandboxResponse>,
   errors: [
     Forbidden,
     Conflict,
@@ -4376,15 +4561,15 @@ export const createSandbox: API.OperationMethod<
 }));
 
 export type CreateScopedApiKeyError = BadRequest | Forbidden | ApiKeyOutlivesSigner | BoatOpError;
-/** Create a scoped API key Creates a scoped, expiring API key. Requires a dashboard/CLI session or an admin-scoped token. The secret is returned once. An unknown field is a 400, so a misspelled scope never creates a full-access key. environmentIds takes your own environments and the org environments you can use. This dedicated path returns a typed 503 until scoped credential creation is activated. */
+/** Create a scoped API key Creates a scoped, expiring API key. Requires a dashboard/CLI session or an admin-scoped token. The secret is returned once. At least one of preset, actions, sandboxIds, or environmentIds is required. Full account access requires an explicit admin preset. An unknown field is a 400, so a misspelled scope never creates a full-access key. An empty sandboxIds or environmentIds list is a 400 for the same reason. environmentIds takes your own environments and the org environments you can use. This dedicated path returns a typed 503 until scoped credential creation is activated. */
 export const createScopedApiKey: API.OperationMethod<
   CreateScopedApiKeyRequest,
   CreateScopedApiKeyResponse,
   CreateScopedApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CreateScopedApiKeyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<CreateScopedApiKeyResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateScopedApiKeyRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<CreateScopedApiKeyResponse>,
   errors: [BadRequest, Forbidden, ApiKeyOutlivesSigner],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4401,8 +4586,8 @@ export const createSnapshotShare: API.OperationMethod<
   CreateSnapshotShareError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CreateSnapshotShareRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<CreateSnapshotShareResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<CreateSnapshotShareRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<CreateSnapshotShareResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4424,8 +4609,8 @@ export const createUploadUrl: API.OperationMethod<
   CreateUploadUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateUploadUrlRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<CreateUploadUrlResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<CreateUploadUrlRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<CreateUploadUrlResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4442,8 +4627,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(3328, __c104, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(3456, __c108, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4460,8 +4645,8 @@ export const deleteCredentialAccount: API.OperationMethod<
   DeleteCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4478,8 +4663,8 @@ export const deleteCredentialProfile: API.OperationMethod<
   DeleteCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DeleteCredentialProfileRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<DeleteCredentialProfileResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteCredentialProfileRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<DeleteCredentialProfileResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4496,8 +4681,8 @@ export const deleteCredentialProfileCustomApi: API.OperationMethod<
   DeleteCredentialProfileCustomApiError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DeleteCredentialProfileCustomApiRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<DeleteCredentialProfileCustomApiResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteCredentialProfileCustomApiRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<DeleteCredentialProfileCustomApiResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4514,8 +4699,8 @@ export const deleteCredentialProfileKey: API.OperationMethod<
   DeleteCredentialProfileKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DeleteCredentialProfileKeyRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<DeleteCredentialProfileKeyResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DeleteCredentialProfileKeyRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<DeleteCredentialProfileKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4532,8 +4717,8 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<SandboxEnvironmentResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<SandboxEnvironmentResponse>,
   errors: [NotFound, Conflict, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4550,8 +4735,8 @@ export const deleteEnvironmentRepo: API.OperationMethod<
   DeleteEnvironmentRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4568,8 +4753,8 @@ export const deleteEnvironmentSecretFile: API.OperationMethod<
   DeleteEnvironmentSecretFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4586,8 +4771,8 @@ export const deleteEnvironmentVar: API.OperationMethod<
   DeleteEnvironmentVarError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4604,8 +4789,8 @@ export const deleteFile: API.OperationMethod<
   DeleteFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DeleteFileRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<DeleteFileResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteFileRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<DeleteFileResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4622,8 +4807,8 @@ export const deleteSandbox: API.OperationMethod<
   DeleteSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<DeleteSandboxResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<DeleteSandboxResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4640,8 +4825,8 @@ export const deleteSandboxSnapshots: API.OperationMethod<
   DeleteSandboxSnapshotsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<DeleteSandboxSnapshotsRequest>,
-  output: __S(3778, __c118, 2) as any as S.Schema<DeleteSandboxSnapshotsResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DeleteSandboxSnapshotsRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<DeleteSandboxSnapshotsResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4658,8 +4843,8 @@ export const deleteSavedSnapshot: API.OperationMethod<
   DeleteSavedSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<DeleteSavedSnapshotRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<DeleteSavedSnapshotResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<DeleteSavedSnapshotRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<DeleteSavedSnapshotResponse>,
   errors: [NotFound, Conflict, SaveInProgress],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4676,8 +4861,8 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DeleteSnapshotRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4694,8 +4879,8 @@ export const deleteTelemetry: API.OperationMethod<
   DeleteTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<DeleteTelemetryRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<DeleteTelemetryResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<DeleteTelemetryRequest>,
+  output: __S(4032, __c126, 0) as any as S.Schema<DeleteTelemetryResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4712,8 +4897,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4730,8 +4915,8 @@ export const downloadSandboxArtifact: API.OperationMethod<
   DownloadSandboxArtifactError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
+  output: __S(4160, __c130, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4746,7 +4931,7 @@ export type ExecuteSandboxCommandError =
   | Conflict
   | SandboxNotRunning
   | BoatOpError;
-/** Execute a command in a sandbox Runs the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. With `stream: true` the output arrives as the command writes it, as newline-delimited JSON (`application/x-ndjson`): `{"type":"started"}`, then `{"type":"stdout"|"stderr","data":"..."}` per chunk, and last `{"type":"exit",...}` (the synchronous result without stdout/stderr) or `{"type":"error","error":"...","message":"..."}`. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. A command sent while the sandbox is still starting (right after a resume) waits up to 60s for it to be ready instead of failing; 409 boat_starting (retryable) is returned only if it is still not ready by then. A sandbox that is not starting (`error`, `stopped`) returns 409 sandbox_not_ready with `retryable: false` and its `state` at once: resume or recover it first. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox. Every command and its output are kept 90 days in the command history (`/sandboxes/{sandboxId}/command-history`), readable while the sandbox is stopped. */
+/** Execute a command in a sandbox Runs the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. With `stream: true` the output arrives as the command writes it, as newline-delimited JSON (`application/x-ndjson`): `{"type":"started"}`, then `{"type":"stdout"|"stderr","data":"..."}` per chunk, and last `{"type":"exit",...}` (the synchronous result without stdout/stderr) or `{"type":"error","error":"...","message":"..."}`. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. A command sent while the sandbox is still starting (right after a resume) waits up to 60s for it to be ready instead of failing; 409 boat_starting (retryable) is returned only if it is still not ready by then. A sandbox that is not starting (`error`, `stopped`) returns 409 sandbox_not_ready with `retryable: false` and its `state` at once: resume or recover it first. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox. Every command and its output are kept 7 days in the command history (`/sandboxes/{sandboxId}/command-history`), readable while the sandbox is stopped. */
 export const executeSandboxCommand: API.StreamingOperationMethod<
   ExecuteSandboxCommandRequest,
   ExecuteSandboxCommandResponse,
@@ -4754,14 +4939,14 @@ export const executeSandboxCommand: API.StreamingOperationMethod<
   BoatOpContext,
   CommandStreamFrame
 > = /*@__PURE__*/ API.makeStreaming(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   framing: T.ndjson,
-  items: __S(4066, __c127, 2),
+  items: __S(4194, __c131, 2),
   streamInput: { stream: true },
   telemetry: TELEMETRY,
   span: "ExecuteSandboxCommand",
@@ -4775,8 +4960,8 @@ export const findInFiles: API.OperationMethod<
   FindInFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<FindInFilesRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<FindInFilesResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<FindInFilesRequest>,
+  output: __S(4227, __c132, 3) as any as S.Schema<FindInFilesResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4808,8 +4993,8 @@ export const forkSandbox: API.OperationMethod<
   ForkSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<ForkSandboxResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<ForkSandboxResponse>,
   errors: [
     Forbidden,
     NotFound,
@@ -4841,8 +5026,8 @@ export const getAiProxy: API.OperationMethod<
   GetAiProxyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetAiProxyRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<GetAiProxyResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetAiProxyRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetAiProxyResponse>,
   errors: [AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4859,8 +5044,8 @@ export const getAiUsage: API.OperationMethod<
   GetAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetAiUsageRequest>,
-  output: __S(4259, __c133, 3) as any as S.Schema<GetAiUsageResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetAiUsageRequest>,
+  output: __S(4387, __c137, 3) as any as S.Schema<GetAiUsageResponse>,
   errors: [AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4877,8 +5062,8 @@ export const getApiKeyUsage: API.OperationMethod<
   GetApiKeyUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetApiKeyUsageRequest>,
-  output: __S(4324, __c135, 4) as any as S.Schema<GetApiKeyUsageResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetApiKeyUsageRequest>,
+  output: __S(4452, __c139, 4) as any as S.Schema<GetApiKeyUsageResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4895,8 +5080,8 @@ export const getCiJob: API.OperationMethod<
   GetCiJobError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetCiJobRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<GetCiJobResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetCiJobRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetCiJobResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4913,8 +5098,8 @@ export const getCiJobLog: API.OperationMethod<
   GetCiJobLogError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetCiJobLogRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetCiJobLogResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetCiJobLogRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<GetCiJobLogResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4931,8 +5116,8 @@ export const getCiOverview: API.OperationMethod<
   GetCiOverviewError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetCiOverviewRequest>,
-  output: __S(4464, __c139, 16) as any as S.Schema<GetCiOverviewResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetCiOverviewRequest>,
+  output: __S(4592, __c143, 16) as any as S.Schema<GetCiOverviewResponse>,
   errors: [BadRequest],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4949,8 +5134,8 @@ export const getCommand: API.OperationMethod<
   GetCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetCommandRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<GetCommandResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetCommandRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<GetCommandResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4973,8 +5158,8 @@ export const getCommandStatus: API.OperationMethod<
   GetCommandStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetCommandStatusRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<GetCommandStatusResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetCommandStatusRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<GetCommandStatusResponse>,
   errors: [BadRequest, NotFound, Conflict, AgentOutdated, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -4991,8 +5176,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<GetCurrentUserResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<GetCurrentUserResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5009,8 +5194,8 @@ export const getDataRetention: API.OperationMethod<
   GetDataRetentionError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetDataRetentionRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<GetDataRetentionResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetDataRetentionRequest>,
+  output: __S(4736, __c148, 0) as any as S.Schema<GetDataRetentionResponse>,
   errors: [Forbidden],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5027,8 +5212,8 @@ export const getDeletionOperation: API.OperationMethod<
   GetDeletionOperationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetDeletionOperationRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<GetDeletionOperationResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetDeletionOperationRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<GetDeletionOperationResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5045,8 +5230,8 @@ export const getDesktopStreamingUrl: API.OperationMethod<
   GetDesktopStreamingUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5063,8 +5248,8 @@ export const getFileInfo: API.OperationMethod<
   GetFileInfoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetFileInfoRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<GetFileInfoResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetFileInfoRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<GetFileInfoResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5081,8 +5266,8 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
   GetLatestSandboxSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
-  output: __S(4737, __c148, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5099,14 +5284,32 @@ export const getLimits: API.OperationMethod<
   GetLimitsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(4815, __c150, 15) as any as S.Schema<GetLimitsResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(4943, __c154, 15) as any as S.Schema<GetLimitsResponse>,
   errors: [AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLimits",
+}));
+
+export type GetNetworkPolicyError = Forbidden | NotFound | BoatOpError;
+/** Get a sandbox's network policy The outbound network policy, and whether the sandbox's host enforces it. Needs `sandbox.read`. */
+export const getNetworkPolicy: API.OperationMethod<
+  GetNetworkPolicyRequest,
+  GetNetworkPolicyResponse,
+  GetNetworkPolicyError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4960, __c155, 0) as any as S.Schema<GetNetworkPolicyRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<GetNetworkPolicyResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: BoatServiceErrors,
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkPolicy",
 }));
 
 export type GetPromptRunStatusError = NotFound | BoatOpError;
@@ -5117,8 +5320,8 @@ export const getPromptRunStatus: API.OperationMethod<
   GetPromptRunStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetPromptRunStatusRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<GetPromptRunStatusResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetPromptRunStatusRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<GetPromptRunStatusResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5135,8 +5338,8 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<GetSandboxResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<GetSandboxResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5153,8 +5356,8 @@ export const getSandboxAiUsage: API.OperationMethod<
   GetSandboxAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
-  output: __S(4961, __c155, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
+  output: __S(5153, __c161, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5171,8 +5374,8 @@ export const getSandboxUsage: API.OperationMethod<
   GetSandboxUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetSandboxUsageRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<GetSandboxUsageResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetSandboxUsageRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<GetSandboxUsageResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5189,8 +5392,8 @@ export const getSavedSnapshot: API.OperationMethod<
   GetSavedSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetSavedSnapshotRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<GetSavedSnapshotResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetSavedSnapshotRequest>,
+  output: __S(5217, __c163, 1) as any as S.Schema<GetSavedSnapshotResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5207,8 +5410,8 @@ export const getSecrets: API.OperationMethod<
   GetSecretsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetSecretsRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<GetSecretsResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetSecretsRequest>,
+  output: __S(5312, __c166, 0) as any as S.Schema<GetSecretsResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5225,8 +5428,8 @@ export const getSnapshotDownload: API.OperationMethod<
   GetSnapshotDownloadError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
-  output: __S(5156, __c161, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
+  output: __S(5348, __c167, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
   errors: [NotFound, SnapshotCompacted],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5243,8 +5446,8 @@ export const getSnapshotFile: API.OperationMethod<
   GetSnapshotFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetSnapshotFileRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GetSnapshotFileResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetSnapshotFileRequest>,
+  output: __S(4160, __c130, 0) as any as S.Schema<GetSnapshotFileResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5261,8 +5464,8 @@ export const getSnapshotTree: API.OperationMethod<
   GetSnapshotTreeError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetSnapshotTreeRequest>,
-  output: __S(5219, __c163, 3) as any as S.Schema<GetSnapshotTreeResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetSnapshotTreeRequest>,
+  output: __S(5411, __c169, 3) as any as S.Schema<GetSnapshotTreeResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5279,8 +5482,8 @@ export const getStop: API.OperationMethod<
   GetStopError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetStopRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<GetStopResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetStopRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<GetStopResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5297,8 +5500,8 @@ export const getTelemetry: API.OperationMethod<
   GetTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<GetTelemetryRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<GetTelemetryResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetTelemetryRequest>,
+  output: __S(4032, __c126, 0) as any as S.Schema<GetTelemetryResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5315,8 +5518,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<GetWebhookResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<GetWebhookResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5325,17 +5528,17 @@ export const getWebhook: API.OperationMethod<
   span: "GetWebhook",
 }));
 
-export type HostPortError = BadRequest | NotFound | SandboxNotRunning | BoatOpError;
-/** Expose a sandbox port on a public HTTPS URL Registers a stable `https://<sandbox-subdomain>-<port>.on.boat.dev` route for a port inside the sandbox and opens the sandbox firewall for it. Idempotent: calling it again for the same sandbox and port returns the same URL and token. */
+export type HostPortError = BadRequest | Forbidden | NotFound | SandboxNotRunning | BoatOpError;
+/** Expose a sandbox port on a public HTTPS URL Registers a stable `https://<sandbox-subdomain>-<port>.on.boat.dev` route for a port inside the sandbox and opens the sandbox firewall for it. Idempotent: calling it again for the same sandbox and port returns the same URL and token. On a sandbox with `network.inbound` `boat-only`, only a caller outside the sandbox can publish: a session, or an API key that does not live in a sandbox. The key that lives in the sandbox, and any request that a sandbox with a network policy sends, get 403 `inbound_closed`. With `public: true` the URL carries no token; the raw port stays closed. */
 export const hostPort: API.OperationMethod<
   HostPortRequest2,
   HostPortResponse,
   HostPortError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<HostPortRequest2>,
-  output: __S(129, __c4, 1) as any as S.Schema<HostPortResponse>,
-  errors: [BadRequest, NotFound, SandboxNotRunning],
+  input: __S(160, __c5, 0) as any as S.Schema<HostPortRequest2>,
+  output: __S(161, __c5, 1) as any as S.Schema<HostPortResponse>,
+  errors: [BadRequest, Forbidden, NotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -5351,8 +5554,8 @@ export const interruptSandbox: API.OperationMethod<
   InterruptSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<InterruptSandboxRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<InterruptSandboxResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<InterruptSandboxRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<InterruptSandboxResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5369,8 +5572,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListApiKeysRequest>,
-  output: __S(198, __c6, 6) as any as S.Schema<ListApiKeysResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListApiKeysRequest>,
+  output: __S(230, __c7, 6) as any as S.Schema<ListApiKeysResponse>,
   errors: [Forbidden],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5387,8 +5590,8 @@ export const listCredentialAccounts: API.OperationMethod<
   ListCredentialAccountsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListCredentialAccountsRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<ListCredentialAccountsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListCredentialAccountsRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<ListCredentialAccountsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5405,8 +5608,8 @@ export const listCredentialProfiles: API.OperationMethod<
   ListCredentialProfilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListCredentialProfilesRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<ListCredentialProfilesResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListCredentialProfilesRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListCredentialProfilesResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5423,8 +5626,8 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
   errors: [AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5441,8 +5644,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(323, __c10, 3) as any as S.Schema<ListFilesResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(355, __c11, 3) as any as S.Schema<ListFilesResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5459,8 +5662,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<ListOrganizationsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<ListOrganizationsResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5479,8 +5682,8 @@ export const listRepos: API.PaginatedOperationMethod<
   RepositoryInstallation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(384, __c12, 0) as any as S.Schema<ListReposRequest>,
-    output: __S(389, __c12, 5) as any as S.Schema<ListReposResponse>,
+    input: __S(416, __c13, 0) as any as S.Schema<ListReposRequest>,
+    output: __S(421, __c13, 5) as any as S.Schema<ListReposResponse>,
     errors: [Conflict],
     serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
@@ -5507,8 +5710,8 @@ export const listSandboxConversations: API.OperationMethod<
   ListSandboxConversationsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListSandboxConversationsRequest>,
-  output: __S(451, __c14, 3) as any as S.Schema<ListSandboxConversationsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListSandboxConversationsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<ListSandboxConversationsResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5518,7 +5721,7 @@ export const listSandboxConversations: API.OperationMethod<
 }));
 
 export type ListSandboxesError = AmbiguousOrg | BoatOpError;
-/** List sandboxes Your sandboxes. In an organization's scope (the active wallet, `org`, or `X-Boat-Org`) the list also holds every sandbox that organization pays for, whoever created it; `createdBy` and `access` say whose it is and what you may do with it. */
+/** List sandboxes Your sandboxes. In an organization's scope (the active wallet, `org`, or `X-Boat-Org`) the list also holds every sandbox that organization pays for, whoever created it; `createdBy` and `access` say whose it is and what you may do with it. An unknown query parameter is refused with `400 invalid_query`, which names it. */
 export const listSandboxes: API.PaginatedOperationMethod<
   ListSandboxesRequest,
   ListSandboxesResponse,
@@ -5527,8 +5730,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
   Sandbox
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(480, __c15, 0) as any as S.Schema<ListSandboxesRequest>,
-    output: __S(481, __c15, 1) as any as S.Schema<ListSandboxesResponse>,
+    input: __S(512, __c16, 0) as any as S.Schema<ListSandboxesRequest>,
+    output: __S(513, __c16, 1) as any as S.Schema<ListSandboxesResponse>,
     errors: [AmbiguousOrg],
     serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
@@ -5557,8 +5760,8 @@ export const listSandboxEvents: API.PaginatedOperationMethod<
   SandboxEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(512, __c16, 0) as any as S.Schema<ListSandboxEventsRequest>,
-    output: __S(515, __c16, 3) as any as S.Schema<ListSandboxEventsResponse>,
+    input: __S(544, __c17, 0) as any as S.Schema<ListSandboxEventsRequest>,
+    output: __S(547, __c17, 3) as any as S.Schema<ListSandboxEventsResponse>,
     errors: [NotFound],
     serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
@@ -5585,8 +5788,8 @@ export const listSandboxProcesses: API.OperationMethod<
   ListSandboxProcessesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListSandboxProcessesRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<ListSandboxProcessesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListSandboxProcessesRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<ListSandboxProcessesResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5605,8 +5808,8 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
   SnapshotSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(576, __c18, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
-    output: __S(609, __c19, 1) as any as S.Schema<ListSandboxSnapshotsResponse>,
+    input: __S(608, __c19, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
+    output: __S(641, __c20, 1) as any as S.Schema<ListSandboxSnapshotsResponse>,
     errors: [BadRequest, NotFound],
     serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
@@ -5625,17 +5828,17 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListSavedSnapshotsError = BoatOpError;
-/** List saved snapshots List your saved snapshots, newest first. */
+export type ListSavedSnapshotsError = BadRequest | BoatOpError;
+/** List saved snapshots List your saved snapshots, newest first. An unknown query parameter is refused with `400 invalid_query`, which names it. */
 export const listSavedSnapshots: API.OperationMethod<
   ListSavedSnapshotsRequest,
   ListSavedSnapshotsResponse,
   ListSavedSnapshotsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListSavedSnapshotsRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<ListSavedSnapshotsResponse>,
-  errors: [],
+  input: __S(672, __c21, 0) as any as S.Schema<ListSavedSnapshotsRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<ListSavedSnapshotsResponse>,
+  errors: [BadRequest],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -5644,7 +5847,7 @@ export const listSavedSnapshots: API.OperationMethod<
 }));
 
 export type ListSnapshotsError = BadRequest | BoatOpError;
-/** List snapshots List visible completed snapshots across all of your sandboxes using immutable ownership attribution. Pinned, deletion-scheduled, and privacy-fenced sandbox snapshots are omitted. Follow `nextCursor` through the complete history; there is no hidden 500-snapshot cap. */
+/** List snapshots List visible completed snapshots across all of your sandboxes using immutable ownership attribution. Pinned, deletion-scheduled, and privacy-fenced sandbox snapshots are omitted. Follow `nextCursor` through the complete history; there is no hidden 500-snapshot cap. An unknown query parameter is refused with `400 invalid_query`, which names it. */
 export const listSnapshots: API.PaginatedOperationMethod<
   ListSnapshotsRequest,
   ListSnapshotsResponse,
@@ -5653,8 +5856,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
   SnapshotSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c21, 0) as any as S.Schema<ListSnapshotsRequest>,
-    output: __S(609, __c19, 1) as any as S.Schema<ListSnapshotsResponse>,
+    input: __S(704, __c22, 0) as any as S.Schema<ListSnapshotsRequest>,
+    output: __S(641, __c20, 1) as any as S.Schema<ListSnapshotsResponse>,
     errors: [BadRequest],
     serviceErrors: BoatServiceErrors,
     protocol: BoatProtocol,
@@ -5681,8 +5884,8 @@ export const listSnapshotShares: API.OperationMethod<
   ListSnapshotSharesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListSnapshotSharesRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListSnapshotSharesResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListSnapshotSharesRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<ListSnapshotSharesResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5699,8 +5902,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListWebhooksResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListWebhooksResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5717,8 +5920,8 @@ export const moveFile: API.OperationMethod<
   MoveFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<MoveFileRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<MoveFileResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<MoveFileRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<MoveFileResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5740,8 +5943,8 @@ export const promptSandbox: API.OperationMethod<
   PromptSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<PromptSandboxRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<PromptSandboxResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<PromptSandboxRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<PromptSandboxResponse>,
   errors: [BadRequest, NotFound, Conflict, FastModeNotSupported],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5758,8 +5961,8 @@ export const readSandboxFile: API.OperationMethod<
   ReadSandboxFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ReadSandboxFileRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<ReadSandboxFileResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ReadSandboxFileRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<ReadSandboxFileResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5784,8 +5987,8 @@ export const recoverSandbox: API.OperationMethod<
   RecoverSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<RecoverSandboxRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<RecoverSandboxResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<RecoverSandboxRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<RecoverSandboxResponse>,
   errors: [
     NotFound,
     Conflict,
@@ -5810,8 +6013,8 @@ export const replaceInFiles: API.OperationMethod<
   ReplaceInFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ReplaceInFilesRequest>,
-  output: __S(899, __c28, 3) as any as S.Schema<ReplaceInFilesResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ReplaceInFilesRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<ReplaceInFilesResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5837,8 +6040,8 @@ export const resumeSandbox: API.OperationMethod<
   ResumeSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ResumeSandboxRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<ResumeSandboxResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ResumeSandboxRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<ResumeSandboxResponse>,
   errors: [
     Forbidden,
     NotFound,
@@ -5857,15 +6060,15 @@ export const resumeSandbox: API.OperationMethod<
 }));
 
 export type RevokeApiKeyError = Forbidden | NotFound | BoatOpError;
-/** Revoke an API key Revokes the key immediately. Requires a dashboard or CLI session, or an admin-scoped key. A key revokes itself or a key it could create (same or fewer actions, sandboxes and environments, no later expiry). */
+/** Revoke an API key Revokes the key immediately. Command streams opened with it end within 15 seconds. It does not remove SSH keys that were added to a sandbox, stop running commands, or rotate hosted port tokens. Requires a dashboard or CLI session, or an admin-scoped key. A key revokes itself or a key it could create (same or fewer actions, sandboxes and environments, no later expiry). */
 export const revokeApiKey: API.OperationMethod<
   RevokeApiKeyRequest,
   RevokeApiKeyResponse,
   RevokeApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<RevokeApiKeyRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<RevokeApiKeyResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<RevokeApiKeyRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<RevokeApiKeyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5882,8 +6085,8 @@ export const revokeSnapshotShare: API.OperationMethod<
   RevokeSnapshotShareError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<RevokeSnapshotShareRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<RevokeSnapshotShareResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<RevokeSnapshotShareRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<RevokeSnapshotShareResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5900,8 +6103,8 @@ export const rotateApiKey: API.OperationMethod<
   RotateApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<RotateApiKeyRequest>,
-  output: __S(3104, __c97, 0) as any as S.Schema<RotateApiKeyResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<RotateApiKeyRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<RotateApiKeyResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5918,8 +6121,8 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   RotateWebhookSigningSecretError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
-  output: __S(3328, __c104, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
+  output: __S(3456, __c108, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
   errors: [NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5941,8 +6144,8 @@ export const saveSavedSnapshot: API.OperationMethod<
   SaveSavedSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SaveSavedSnapshotRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<SaveSavedSnapshotResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SaveSavedSnapshotRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<SaveSavedSnapshotResponse>,
   errors: [BadRequest, NotFound, Conflict, SaveInProgress],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5959,8 +6162,8 @@ export const searchFiles: API.OperationMethod<
   SearchFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<SearchFilesRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<SearchFilesResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SearchFilesRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<SearchFilesResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -5977,8 +6180,8 @@ export const selectRepo: API.OperationMethod<
   SelectRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<SelectRepoRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SelectRepoResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<SelectRepoRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<SelectRepoResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6000,8 +6203,8 @@ export const setActiveOrganization: API.OperationMethod<
   SetActiveOrganizationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<SetActiveOrganizationRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<SetActiveOrganizationResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<SetActiveOrganizationRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<SetActiveOrganizationResponse>,
   errors: [BadRequest, Forbidden, Conflict, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6018,8 +6221,8 @@ export const setCiPublicRepos: API.OperationMethod<
   SetCiPublicReposError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<SetCiPublicReposRequest>,
-  output: __S(1219, __c38, 3) as any as S.Schema<SetCiPublicReposResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<SetCiPublicReposRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<SetCiPublicReposResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6036,8 +6239,8 @@ export const setCredentialProfileCustomApi: API.OperationMethod<
   SetCredentialProfileCustomApiError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<SetCredentialProfileCustomApiRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<SetCredentialProfileCustomApiResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SetCredentialProfileCustomApiRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<SetCredentialProfileCustomApiResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6054,8 +6257,8 @@ export const setCredentialProfileKey: API.OperationMethod<
   SetCredentialProfileKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<SetCredentialProfileKeyRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<SetCredentialProfileKeyResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<SetCredentialProfileKeyRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<SetCredentialProfileKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6072,8 +6275,8 @@ export const setEnvironmentSecretFile: API.OperationMethod<
   SetEnvironmentSecretFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6090,8 +6293,8 @@ export const setEnvironmentVar: API.OperationMethod<
   SetEnvironmentVarError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<SetEnvironmentVarRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SetEnvironmentVarRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6108,14 +6311,32 @@ export const setFilePermissions: API.OperationMethod<
   SetFilePermissionsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<SetFilePermissionsRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<SetFilePermissionsResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<SetFilePermissionsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<SetFilePermissionsResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetFilePermissions",
+}));
+
+export type SetNetworkPolicyError = BadRequest | Forbidden | NotFound | Conflict | BoatOpError;
+/** Replace a sandbox's network policy Replaces the whole outbound policy, on a running or a stopped sandbox. A change also ends open connections that the new policy does not allow. Commands, SSH and files keep working. Hosted ports and the desktop stop working in `deny` and `allow`, because their tunnel is an outbound connection. Needs `network.write`, which only the `admin` preset holds. The key inside a sandbox is always refused. */
+export const setNetworkPolicy: API.OperationMethod<
+  SetNetworkPolicyRequest,
+  SetNetworkPolicyResponse,
+  SetNetworkPolicyError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c45, 0) as any as S.Schema<SetNetworkPolicyRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<SetNetworkPolicyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: BoatServiceErrors,
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetNetworkPolicy",
 }));
 
 export type SetSandboxAiAccessError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -6126,8 +6347,8 @@ export const setSandboxAiAccess: API.OperationMethod<
   SetSandboxAiAccessError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<SetSandboxAiAccessRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<SetSandboxAiAccessResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SetSandboxAiAccessRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<SetSandboxAiAccessResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6144,8 +6365,8 @@ export const setTelemetry: API.OperationMethod<
   SetTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SetTelemetryRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<SetTelemetryResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SetTelemetryRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<SetTelemetryResponse>,
   errors: [BadRequest],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6162,8 +6383,8 @@ export const shareSandbox: API.OperationMethod<
   ShareSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ShareSandboxRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<ShareSandboxResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ShareSandboxRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<ShareSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6180,8 +6401,8 @@ export const steerSandbox: API.OperationMethod<
   SteerSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SteerSandboxRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<SteerSandboxResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SteerSandboxRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<SteerSandboxResponse>,
   errors: [BadRequest, NotFound, Conflict, NoRunningTurn],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6198,8 +6419,8 @@ export const stopCommand: API.OperationMethod<
   StopCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<StopCommandRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<StopCommandResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<StopCommandRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<StopCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6209,15 +6430,15 @@ export const stopCommand: API.OperationMethod<
 }));
 
 export type StopSandboxError = BadRequest | NotFound | SandboxAlreadyStopped | BoatOpError;
-/** Stop and archive sandbox Stop active work and archive/snapshot the sandbox for later resume or fork. A stop always saves the sandbox's disk first. If that save is failing, the stop is refused and the sandbox keeps running so your work is not discarded, we retry automatically and email you. You are not billed for time spent in that state. The stop is an operation: the response and the sandbox carry it as `stop`, with an `id` and a `status`. Poll `GET /sandboxes/{sandboxId}` until `stop.status` is `completed`. A failed attempt shows `failing` with its `error` and is retried until the sandbox archives; commands and prompts you send meanwhile do not cancel it. Only a resume ends it early (`superseded`). Calling stop again while one is pending returns the same `id`. Set `force: true` to stop anyway, keeping the last successful snapshot and losing everything written since then. This is irreversible; only reach for it after a stop has already failed. A force on a stop that is already pending escalates that stop. */
+/** Stop and archive sandbox Stop active work and archive/snapshot the sandbox for later resume or fork. A stop always saves the sandbox's disk first. If that save is failing, the stop is refused and the sandbox keeps running so your work is not discarded, we retry automatically and email you. You are not billed for time spent in that state. The stop is an operation: the response and the sandbox carry it as `stop`, with an `id` and a `status`. Poll `GET /sandboxes/{sandboxId}` until `stop.status` is `completed`. A failed attempt shows `failing` with its `error` and is retried until the sandbox archives; commands and prompts you send meanwhile do not cancel it. Only a resume ends it early (`superseded`). Calling stop again while one is pending returns the same `id`. Set `force: true` to stop anyway, keeping the last successful snapshot and losing everything written since then. This is irreversible; only reach for it after a stop has already failed. A force on a stop that is already pending escalates that stop. A stop never fails because the sandbox is already stopping or stopped: you get `202` with the stop in progress, or `200` with the last stop once the sandbox is stopped. `statusUrl` is the path that reads the stop. */
 export const stopSandbox: API.OperationMethod<
   StopSandboxRequest,
   StopSandboxResponse,
   StopSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<StopSandboxResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<StopSandboxRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<StopSandboxResponse>,
   errors: [BadRequest, NotFound, SandboxAlreadyStopped],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6234,8 +6455,8 @@ export const switchCredentialAccount: API.OperationMethod<
   SwitchCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6252,8 +6473,8 @@ export const unshareSandbox: API.OperationMethod<
   UnshareSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UnshareSandboxRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<UnshareSandboxResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UnshareSandboxRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<UnshareSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6270,8 +6491,8 @@ export const updateAiProxy: API.OperationMethod<
   UpdateAiProxyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UpdateAiProxyRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<UpdateAiProxyResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateAiProxyRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<UpdateAiProxyResponse>,
   errors: [BadRequest, Forbidden, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6293,8 +6514,8 @@ export const updateCredentialProfile: API.OperationMethod<
   UpdateCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<UpdateCredentialProfileRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<UpdateCredentialProfileResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateCredentialProfileRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<UpdateCredentialProfileResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6311,8 +6532,8 @@ export const updateDataRetention: API.OperationMethod<
   UpdateDataRetentionError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpdateDataRetentionRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<UpdateDataRetentionResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<UpdateDataRetentionRequest>,
+  output: __S(4736, __c148, 0) as any as S.Schema<UpdateDataRetentionResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6329,8 +6550,8 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1794, __c56, 2) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<SandboxEnvironmentResponse>,
+  input: __S(1858, __c58, 2) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(3648, __c114, 0) as any as S.Schema<SandboxEnvironmentResponse>,
   errors: [BadRequest, NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6347,8 +6568,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<UpdateOrganizationResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6365,8 +6586,8 @@ export const updateSandbox: API.OperationMethod<
   UpdateSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<UpdateSandboxRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<UpdateSandboxResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<UpdateSandboxRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateSandboxResponse>,
   errors: [BadRequest, NotFound, GatewayError],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6383,8 +6604,8 @@ export const updateSecrets: API.OperationMethod<
   UpdateSecretsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<UpdateSecretsRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<UpdateSecretsResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<UpdateSecretsRequest>,
+  output: __S(5312, __c166, 0) as any as S.Schema<UpdateSecretsResponse>,
   errors: [],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6401,8 +6622,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<UpdateWebhookResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<UpdateWebhookResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6419,8 +6640,8 @@ export const upgradeEnvironment: API.OperationMethod<
   UpgradeEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<UpgradeEnvironmentRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<UpgradeSandboxEnvironmentResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpgradeEnvironmentRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<UpgradeSandboxEnvironmentResponse>,
   errors: [NotFound, AmbiguousOrg],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6437,8 +6658,8 @@ export const writeSandboxFile: API.OperationMethod<
   WriteSandboxFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<WriteSandboxFileRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<WriteSandboxFileResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<WriteSandboxFileRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<WriteSandboxFileResponse>,
   errors: [BadRequest, FileNotFound, SandboxNotRunning],
   serviceErrors: BoatServiceErrors,
   protocol: BoatProtocol,
@@ -6483,10 +6704,8 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/telemetry", code: 200 })),
+      ).annotate({ identifier: "GetTelemetryRequest" });
   }
 }
 function __c3(j: number): any {
@@ -6494,14 +6713,24 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          webhookId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ok: S.Boolean,
           type: S.String,
-          webhook: __S(3296, __c103, 0),
+          webhook: __S(3424, __c107, 0),
         }),
       ).annotate({ identifier: "GetWebhookResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6528,7 +6757,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "HostPortResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6539,14 +6768,14 @@ function __c5(j: number): any {
       ).annotate({ identifier: "InterruptSandboxRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api-keys", code: 200 })),
       ).annotate({ identifier: "ListApiKeysRequest" });
     case 1:
-      return S.Record(S.String, __S(2432, __c76, 0));
+      return S.Record(S.String, __S(2496, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6557,23 +6786,23 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyScopeResource" });
     case 3:
-      return S.Array(__S(194, __c6, 2));
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: __S(195, __c6, 3),
-          environments: __S(195, __c6, 3),
+          sandboxes: __S(227, __c7, 3),
+          environments: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "ApiKeyCatalogScopeResources" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(2432, __c76, 0),
-          presets: __S(193, __c6, 1),
+          actions: __S(2496, __c78, 0),
+          presets: __S(225, __c7, 1),
           defaultTtl: S.String,
           maxTtl: S.String,
           scopedCreationEnabled: S.Boolean,
-          scopeResources: S.optional(__S(196, __c6, 4)),
+          scopeResources: S.optional(__S(228, __c7, 4)),
         }),
       ).annotate({ identifier: "ApiKeyCatalog" });
     case 6:
@@ -6581,13 +6810,13 @@ function __c6(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          apiKeys: __S(3074, __c96, 2),
-          catalog: __S(197, __c6, 5),
+          apiKeys: __S(3202, __c100, 2),
+          catalog: __S(229, __c7, 5),
         }),
       ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6604,25 +6833,25 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListCredentialAccountsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credential-profiles", code: 200 })),
       ).annotate({ identifier: "ListCredentialProfilesRequest" });
     case 1:
-      return S.Array(__S(2530, __c79, 2));
+      return S.Array(__S(2594, __c81, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          profiles: __S(257, __c8, 1),
+          profiles: __S(289, __c9, 1),
         }),
       ).annotate({ identifier: "ListCredentialProfilesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6632,7 +6861,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListEnvironmentsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6654,7 +6883,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "FileEntry" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6662,13 +6891,13 @@ function __c10(j: number): any {
           type: S.String,
           success: S.optional(S.Boolean),
           path: S.String,
-          files: __S(322, __c10, 2),
+          files: __S(354, __c11, 2),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ListFilesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6687,19 +6916,19 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Org" });
     case 2:
-      return S.Array(__S(353, __c11, 1));
+      return S.Array(__S(385, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           activeWalletChosen: S.Boolean,
-          orgs: __S(354, __c11, 2),
+          orgs: __S(386, __c12, 2),
         }),
       ).annotate({ identifier: "ListOrganizationsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6731,33 +6960,33 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "Repository" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           accountLogin: S.optional(S.String),
           accountAvatarUrl: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(386, __c12, 2)),
+          repositories: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "RepositoryInstallation" });
     case 4:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          installations: __S(388, __c12, 4),
+          installations: __S(420, __c13, 4),
           environmentId: S.String,
           subenvironmentId: S.optional(S.NullOr(S.String)),
-          selectedRepositories: __S(2721, __c85, 1),
-          pageInfo: S.optional(__S(416, __c13, 0)),
+          selectedRepositories: __S(2817, __c88, 1),
+          pageInfo: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "ListReposResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6769,7 +6998,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PageInfo" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6792,19 +7021,19 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "Conversation" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          conversations: __S(450, __c14, 2),
+          conversations: __S(482, __c15, 2),
         }),
       ).annotate({ identifier: "ListSandboxConversationsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6814,10 +7043,11 @@ function __c15(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           state: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
           namePrefix: S.optional(S.String.pipe(T.Query())),
           stoppedBefore: S.optional(S.String.pipe(T.Query())),
           dataExpired: S.optional(S.Boolean.pipe(T.Query())),
-          label: S.optional(__S(2432, __c76, 0).pipe(T.Query())),
+          label: S.optional(__S(2496, __c78, 0).pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
           xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
         }).pipe(T.Http({ method: "GET", uri: "/sandboxes", code: 200 })),
@@ -6827,14 +7057,14 @@ function __c15(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          sandboxes: __S(2912, __c91, 0),
-          pageInfo: S.optional(__S(416, __c13, 0)),
-          deletedCost: S.optional(__S(2978, __c93, 2)),
+          sandboxes: __S(3008, __c94, 0),
+          pageInfo: S.optional(__S(448, __c14, 0)),
+          deletedCost: S.optional(__S(3106, __c97, 2)),
         }),
       ).annotate({ identifier: "ListSandboxesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6863,20 +7093,20 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "SandboxEvent" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          events: __S(514, __c16, 2),
-          pageInfo: S.optional(__S(416, __c13, 0)),
+          events: __S(546, __c17, 2),
+          pageInfo: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "ListSandboxEventsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6898,7 +7128,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SandboxProcess" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6907,12 +7137,12 @@ function __c17(j: number): any {
           live: S.Boolean,
           sampledAt: S.NullOr(S.String),
           total: S.Number,
-          processes: __S(546, __c17, 2),
+          processes: __S(578, __c18, 2),
         }),
       ).annotate({ identifier: "ListSandboxProcessesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6925,29 +7155,34 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListSandboxSnapshotsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4768, __c149, 0));
+      return S.Array(__S(4896, __c153, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshots: __S(608, __c19, 0),
-          pageInfo: S.optional(__S(416, __c13, 0)),
+          snapshots: __S(640, __c20, 0),
+          pageInfo: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "ListSandboxSnapshotsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/saved-snapshots", code: 200 })),
+        S.Struct({
+          org: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          namePrefix: S.optional(S.String.pipe(T.Query())),
+          xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
+        }).pipe(T.Http({ method: "GET", uri: "/saved-snapshots", code: 200 })),
       ).annotate({ identifier: "ListSavedSnapshotsRequest" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6968,13 +7203,13 @@ function __c20(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshots: __S(641, __c20, 1),
-          allowance: S.optional(__S(642, __c20, 2)),
+          snapshots: __S(673, __c21, 1),
+          allowance: S.optional(__S(674, __c21, 2)),
         }),
       ).annotate({ identifier: "ListSavedSnapshotsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6986,7 +7221,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListSnapshotsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6995,37 +7230,37 @@ function __c22(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/saved-snapshots/{name}/shares", code: 200 })),
       ).annotate({ identifier: "ListSnapshotSharesRequest" });
     case 1:
-      return S.Array(__S(3200, __c100, 0));
+      return S.Array(__S(3328, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           name: S.String,
-          shares: __S(705, __c22, 1),
+          shares: __S(737, __c23, 1),
         }),
       ).annotate({ identifier: "ListSnapshotSharesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3424, __c107, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          webhooks: __S(737, __c23, 1),
+          webhooks: __S(769, __c24, 1),
         }),
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7048,7 +7283,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "MoveFileResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7058,6 +7293,7 @@ function __c25(j: number): any {
           model: S.optional(S.NullOr(S.String)),
           reasoningEffort: S.optional(S.NullOr(S.String)),
           fast: S.optional(S.NullOr(S.Boolean)),
+          speed: S.optional(S.NullOr(S.String)),
           new: S.optional(S.Boolean),
           conversationId: S.optional(S.NullOr(S.String)),
           prompt: S.String,
@@ -7071,17 +7307,18 @@ function __c25(j: number): any {
           id: S.String,
           promptId: S.String,
           conversationId: S.optional(S.NullOr(S.String)),
-          promptRun: __S(4864, __c152, 0),
+          promptRun: __S(5056, __c158, 0),
           status: S.String,
           provider: S.String,
           model: S.optional(S.NullOr(S.String)),
           reasoningEffort: S.optional(S.NullOr(S.String)),
           fast: S.optional(S.Boolean),
+          speed: S.optional(S.String),
         }),
       ).annotate({ identifier: "PromptSandboxResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7105,7 +7342,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ReadSandboxFileResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7124,13 +7361,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RecoverSandboxResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String.pipe(T.Label()),
-          paths: __S(2432, __c76, 0),
+          paths: __S(2496, __c78, 0),
           pattern: S.String,
           newValue: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/files/replace", code: 200 })),
@@ -7145,19 +7382,19 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ReplaceInFilesResponseResultsItem" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           success: S.optional(S.Boolean),
-          results: __S(898, __c28, 2),
+          results: __S(930, __c29, 2),
         }),
       ).annotate({ identifier: "ReplaceInFilesResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7165,7 +7402,7 @@ function __c29(j: number): any {
           sandboxId: S.String.pipe(T.Label()),
           failFast: S.optional(S.Boolean),
           type: S.optional(S.String),
-          env: S.optional(__S(2944, __c92, 0)),
+          env: S.optional(__S(3072, __c96, 0)),
           environment: S.optional(S.String),
           noEnv: S.optional(S.Boolean),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
@@ -7173,7 +7410,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ResumeSandboxRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7186,12 +7423,12 @@ function __c30(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          apiKeys: __S(3074, __c96, 2),
+          apiKeys: __S(3202, __c100, 2),
         }),
       ).annotate({ identifier: "RevokeApiKeyResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7208,12 +7445,12 @@ function __c31(j: number): any {
           ok: S.Boolean,
           type: S.String,
           name: S.String,
-          share: __S(3200, __c100, 0),
+          share: __S(3328, __c104, 0),
         }),
       ).annotate({ identifier: "RevokeSnapshotShareResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7223,7 +7460,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RotateApiKeyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7233,7 +7470,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RotateWebhookSigningSecretRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7248,12 +7485,12 @@ function __c34(j: number): any {
           ok: S.Boolean,
           type: S.String,
           status: S.String,
-          snapshot: __S(5056, __c158, 0),
+          snapshot: __S(5248, __c164, 0),
         }),
       ).annotate({ identifier: "SaveSavedSnapshotResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7269,14 +7506,14 @@ function __c35(j: number): any {
           ok: S.Boolean,
           type: S.String,
           success: S.optional(S.Boolean),
-          files: __S(2432, __c76, 0),
+          files: __S(2496, __c78, 0),
           truncated: S.Boolean,
-          errors: S.optional(__S(2432, __c76, 0)),
+          errors: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "SearchFilesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7293,12 +7530,12 @@ function __c36(j: number): any {
           success: S.Boolean,
           environmentId: S.String,
           subenvironmentId: S.optional(S.NullOr(S.String)),
-          selectedRepositories: __S(2721, __c85, 1),
+          selectedRepositories: __S(2817, __c88, 1),
         }),
       ).annotate({ identifier: "SelectRepoResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7319,12 +7556,12 @@ function __c37(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          active: __S(1185, __c37, 1),
+          active: __S(1217, __c38, 1),
         }),
       ).annotate({ identifier: "SetActiveOrganizationResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7344,19 +7581,19 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "SetCiPublicReposResponsePublicRepoUsersItem" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           allowPublicRepos: S.Boolean,
-          publicRepoUsers: __S(1218, __c38, 2),
+          publicRepoUsers: __S(1250, __c39, 2),
         }),
       ).annotate({ identifier: "SetCiPublicReposResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7375,7 +7612,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SetCredentialProfileCustomApiRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7394,7 +7631,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetCredentialProfileKeyRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7409,7 +7646,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SetEnvironmentSecretFileRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7424,7 +7661,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SetEnvironmentVarRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7438,7 +7675,20 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SetFilePermissionsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          mode: S.optional(S.String),
+          allow: S.optional(__S(2496, __c78, 0)),
+          inbound: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/sandboxes/{sandboxId}/network", code: 200 })),
+      ).annotate({ identifier: "SetNetworkPolicyRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7459,13 +7709,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SetSandboxAiAccessResponse" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: S.optional(__S(2944, __c92, 0)),
+          headers: S.optional(__S(3072, __c96, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/telemetry", code: 200 })),
       ).annotate({ identifier: "SetTelemetryRequest" });
     case 1:
@@ -7481,13 +7731,13 @@ function __c45(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          telemetry: S.NullOr(__S(3937, __c123, 1)),
-          test: __S(1441, __c45, 1),
+          telemetry: S.NullOr(__S(4065, __c127, 1)),
+          test: __S(1505, __c47, 1),
         }),
       ).annotate({ identifier: "SetTelemetryResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7498,14 +7748,14 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandbox: S.optional(__S(2980, __c93, 4)),
+          sandbox: S.optional(__S(3108, __c97, 4)),
           restartRequired: S.optional(S.Boolean),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShareSandboxResponse" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7530,7 +7780,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SteerSandboxResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7553,12 +7803,12 @@ function __c48(j: number): any {
           processId: S.Number,
           running: S.Boolean,
           signaled: S.Boolean,
-          command: S.NullOr(__S(2272, __c71, 0)),
+          command: S.NullOr(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "StopCommandResponse" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7569,7 +7819,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "StopSandboxRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7587,7 +7837,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "SwitchCredentialAccountRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7598,13 +7848,13 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandbox: S.optional(__S(2980, __c93, 4)),
+          sandbox: S.optional(__S(3108, __c97, 4)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "UnshareSandboxResponse" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7616,7 +7866,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateAiProxyRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7624,23 +7874,23 @@ function __c53(j: number): any {
           profile: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          access: S.optional(__S(1728, __c54, 0)),
+          access: S.optional(__S(1792, __c56, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/credential-profiles/{profile}", code: 200 })),
       ).annotate({ identifier: "UpdateCredentialProfileRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           restricted: S.Boolean,
-          members: S.optional(__S(2432, __c76, 0)),
+          members: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "ResourceAccessUpdate" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7653,7 +7903,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateDataRetentionRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7665,7 +7915,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvironmentRequestRepositoriesItem" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7680,15 +7930,16 @@ function __c56(j: number): any {
           passAgentsCredentials: S.optional(S.Boolean),
           credentialProfileId: S.optional(S.NullOr(S.String)),
           proxyAiCredentials: S.optional(S.Boolean),
-          access: S.optional(__S(1728, __c54, 0)),
+          access: S.optional(__S(1792, __c56, 0)),
+          network: S.optional(S.NullOr(__S(2784, __c87, 0))),
           envContents: S.optional(S.String),
-          secretFiles: S.optional(__S(2785, __c87, 1)),
-          repositories: S.optional(__S(1793, __c56, 1)),
+          secretFiles: S.optional(__S(2881, __c90, 1)),
+          repositories: S.optional(__S(1857, __c58, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/environments/{environmentId}", code: 200 })),
       ).annotate({ identifier: "UpdateEnvironmentRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7710,41 +7961,18 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationResponse" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          labels: S.optional(S.NullOr(__S(3072, __c96, 0))),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
           subdomain: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/sandboxes/{sandboxId}", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          envContents: S.optional(S.String),
-          secretFiles: S.optional(__S(2785, __c87, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/secrets", code: 200 })),
-      ).annotate({ identifier: "UpdateSecretsRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookId: S.String.pipe(T.Label()),
-          name: S.optional(S.NullOr(S.String)),
-          url: S.optional(S.String),
-          events: S.optional(__S(2496, __c78, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{webhookId}", code: 200 })),
-      ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
 function __c61(j: number): any {
@@ -7752,9 +7980,33 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          envContents: S.optional(S.String),
+          secretFiles: S.optional(__S(2881, __c90, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/secrets", code: 200 })),
+      ).annotate({ identifier: "UpdateSecretsRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookId: S.String.pipe(T.Label()),
+          name: S.optional(S.NullOr(S.String)),
+          url: S.optional(S.String),
+          events: S.optional(__S(2560, __c80, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{webhookId}", code: 200 })),
+      ).annotate({ identifier: "UpdateWebhookRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           environmentId: S.String.pipe(T.Label()),
           org: S.optional(S.String.pipe(T.Query())),
-          agentIds: S.optional(__S(2432, __c76, 0)),
+          agentIds: S.optional(__S(2496, __c78, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/environments/{environmentId}/upgrade", code: 200 }),
         ),
@@ -7762,17 +8014,28 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          sandboxId: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpgradeSandboxEnvironmentResponseFailuresItem" });
+    case 2:
+      return S.Array(__S(2017, __c63, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           success: S.Boolean,
           upgraded: S.Number,
           upgradedLive: S.optional(S.Number),
           upgradedStopped: S.optional(S.Number),
           failed: S.Number,
+          failures: S.optional(__S(2018, __c63, 2)),
           latestVersionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpgradeSandboxEnvironmentResponse" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7796,7 +8059,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "WriteSandboxFileResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7815,7 +8078,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "AddCredentialAccountRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7827,10 +8090,10 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "CredentialAccount" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2112, __c66, 0));
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7840,12 +8103,12 @@ function __c65(j: number): any {
           success: S.Boolean,
           profileId: S.String,
           credential: S.String,
-          accounts: __S(2049, __c64, 1),
+          accounts: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "AddCredentialAccountResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7856,7 +8119,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "Error409Body" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7869,7 +8132,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "AddEnvironmentRepoRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7881,7 +8144,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "EnvironmentItemChangeResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7915,16 +8178,16 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "CommandAttachFrame" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2210, __c69, 2),
+          items: __S(2274, __c71, 2),
         }),
       ).annotate({ identifier: "AttachCommandResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7939,19 +8202,19 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "CommandHistoryRequest" });
     case 1:
-      return S.Array(__S(2272, __c71, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          commands: __S(2241, __c70, 1),
+          commands: __S(2305, __c72, 1),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CommandHistoryResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7974,7 +8237,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CommandRecord" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8010,7 +8273,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CommandLogsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8033,13 +8296,14 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ConfigureSshKeyResponse" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org: S.optional(S.String),
           account: S.optional(S.String),
+          orgApp: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/ci/connect", code: 200 })),
       ).annotate({ identifier: "ConnectCiGithubRequest" });
     case 1:
@@ -8052,7 +8316,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ConnectCiGithubResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8062,23 +8326,6 @@ function __c75(j: number): any {
           copyFrom: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/credential-profiles", code: 200 })),
       ).annotate({ identifier: "CreateCredentialProfileRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          restricted: S.Boolean,
-          members: __S(2432, __c76, 0),
-        }),
-      ).annotate({ identifier: "ResourceAccess" });
   }
 }
 function __c78(j: number): any {
@@ -8092,6 +8339,23 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          restricted: S.Boolean,
+          members: __S(2496, __c78, 0),
+        }),
+      ).annotate({ identifier: "ResourceAccess" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           kind: S.String,
           name: S.String,
@@ -8099,26 +8363,26 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "CredentialProfileOwner" });
     case 1:
-      return S.Record(S.String, __S(2049, __c64, 1));
+      return S.Record(S.String, __S(2113, __c66, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           isDefault: S.Boolean,
-          owner: __S(2528, __c79, 0),
+          owner: __S(2592, __c81, 0),
           canManage: S.Boolean,
-          connected: __S(2496, __c78, 0),
-          accounts: S.optional(__S(2529, __c79, 1)),
-          customApis: __S(2432, __c76, 0),
+          connected: __S(2560, __c80, 0),
+          accounts: S.optional(__S(2593, __c81, 1)),
+          customApis: __S(2496, __c78, 0),
           createdAt: S.String,
           updatedAt: S.String,
-          access: S.optional(__S(2464, __c77, 0)),
+          access: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "CredentialProfile" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8126,12 +8390,12 @@ function __c80(j: number): any {
           ok: S.Boolean,
           type: S.String,
           success: S.Boolean,
-          profile: __S(2530, __c79, 2),
+          profile: __S(2594, __c81, 2),
         }),
       ).annotate({ identifier: "CreateCredentialProfileResponse" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8145,7 +8409,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateDownloadUrlRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8160,7 +8424,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateDownloadUrlResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8171,21 +8435,33 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2754, __c86, 2));
+      return S.Array(__S(2850, __c89, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           ok: S.optional(S.Boolean),
           type: S.optional(S.String),
-          environments: __S(2688, __c84, 0),
+          environments: __S(2752, __c86, 0),
         }),
       ).annotate({ identifier: "SandboxEnvironmentListResponse" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.optional(S.String),
+          allow: S.optional(__S(2496, __c78, 0)),
+          inbound: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentNetworkPolicy" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8210,10 +8486,10 @@ function __c85(j: number): any {
         ),
       ).annotate({ identifier: "SelectedRepository" });
     case 1:
-      return S.Array(__S(2720, __c85, 0));
+      return S.Array(__S(2816, __c88, 0));
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8225,7 +8501,7 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "SandboxEnvironmentVersionSummary" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2848, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8242,16 +8518,17 @@ function __c86(j: number): any {
           passAgentsCredentials: S.Boolean,
           credentialProfileId: S.optional(S.NullOr(S.String)),
           proxyAiCredentials: S.optional(S.Boolean),
-          access: S.optional(__S(2464, __c77, 0)),
+          access: S.optional(__S(2528, __c79, 0)),
+          network: S.optional(S.NullOr(__S(2784, __c87, 0))),
           envContents: S.String,
-          secretFiles: __S(2785, __c87, 1),
-          selectedRepositories: S.optional(__S(2721, __c85, 1)),
-          versions: __S(2753, __c86, 1),
+          secretFiles: __S(2881, __c90, 1),
+          selectedRepositories: S.optional(__S(2817, __c88, 1)),
+          versions: __S(2849, __c89, 1),
         }),
       ).annotate({ identifier: "SandboxEnvironment" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8261,10 +8538,10 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "SecretFile" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(2880, __c90, 0));
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8276,7 +8553,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CreateFolderRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8295,7 +8572,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateFolderResponse" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8307,7 +8584,7 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "HostPortRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8317,7 +8594,7 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "CreateSandboxRequestFilesItem" });
     case 3:
-      return S.Array(__S(2882, __c90, 2));
+      return S.Array(__S(2978, __c93, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8328,19 +8605,20 @@ function __c90(j: number): any {
           xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
           type: S.optional(S.String),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
-          labels: S.optional(__S(2944, __c92, 0)),
-          env: S.optional(__S(2944, __c92, 0)),
+          labels: S.optional(__S(3072, __c96, 0)),
+          env: S.optional(__S(3072, __c96, 0)),
           environment: S.optional(S.String),
           noEnv: S.optional(S.Boolean),
           snapshots: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
+          network: S.optional(__S(2784, __c87, 0)),
           failFast: S.optional(S.Boolean),
           count: S.optional(S.Number),
           setupScript: S.optional(S.String),
           name: S.optional(S.String),
           visibility: S.optional(S.String),
-          hostedPorts: S.optional(__S(2881, __c90, 1)),
-          files: S.optional(__S(2883, __c90, 3)),
+          hostedPorts: S.optional(__S(2977, __c93, 1)),
+          files: S.optional(__S(2979, __c93, 3)),
           teamId: S.optional(S.String),
           from: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandboxes", code: 200 })),
@@ -8361,7 +8639,7 @@ function __c90(j: number): any {
         ),
       ).annotate({ identifier: "CreateSandboxResponseHostedPortsItem" });
     case 6:
-      return S.Array(__S(2885, __c90, 5));
+      return S.Array(__S(2981, __c93, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -8369,27 +8647,44 @@ function __c90(j: number): any {
           type: S.String,
           status: S.String,
           ttlSeconds: S.NullOr(S.Number),
-          sandbox: __S(2980, __c93, 4),
-          sandboxes: S.optional(__S(2912, __c91, 0)),
-          hostedPorts: S.optional(__S(2886, __c90, 6)),
+          sandbox: __S(3108, __c97, 4),
+          sandboxes: S.optional(__S(3008, __c94, 0)),
+          hostedPorts: S.optional(__S(2982, __c93, 6)),
           giftLimitNotice: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSandboxResponse" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2980, __c93, 4));
+      return S.Array(__S(3108, __c97, 4));
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mode: S.String,
+          allow: __S(2496, __c78, 0),
+          status: S.String,
+          inbound: S.optional(S.String),
+          pendingReason: S.optional(S.String),
+          apiBound: S.optional(S.NullOr(S.Boolean)),
+          source: S.optional(S.String),
+          updatedAt: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "SandboxNetwork" });
+  }
+}
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8431,13 +8726,13 @@ function __c93(j: number): any {
           error: S.optional(S.NullOr(S.String)),
           dataExpiredAt: S.optional(S.NullOr(S.String)),
           stoppedAt: S.optional(S.NullOr(S.String)),
-          labels: S.optional(__S(2944, __c92, 0)),
+          labels: S.optional(__S(3072, __c96, 0)),
           health: S.optional(S.String),
           healthReason: S.optional(S.NullOr(S.String)),
           degradedSince: S.optional(S.NullOr(S.String)),
           hydrated: S.optional(S.Boolean),
           hydratedAt: S.optional(S.NullOr(S.String)),
-          hydration: S.optional(S.NullOr(__S(2976, __c93, 0))),
+          hydration: S.optional(S.NullOr(__S(3104, __c97, 0))),
           type: S.optional(S.String),
           vcpu: S.optional(S.Number),
           memoryGB: S.optional(S.Number),
@@ -8454,31 +8749,32 @@ function __c93(j: number): any {
           desktopUrl: S.optional(S.NullOr(S.String)),
           snapshots: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
+          network: S.optional(__S(3040, __c95, 0)),
           snapshotAvailable: S.optional(S.Boolean),
           snapshotCompletedAt: S.optional(S.NullOr(S.String)),
           snapshotVerifiedAt: S.optional(S.NullOr(S.String)),
-          team: S.optional(S.NullOr(__S(2977, __c93, 1))),
+          team: S.optional(S.NullOr(__S(3105, __c97, 1))),
           createdBy: S.optional(S.NullOr(S.String)),
           createdById: S.optional(S.NullOr(S.String)),
           access: S.optional(S.String),
           holdsCreatorLogins: S.optional(S.Boolean),
           visibility: S.optional(S.NullOr(S.String)),
-          cost: S.optional(__S(2978, __c93, 2)),
+          cost: S.optional(__S(3106, __c97, 2)),
           wipePendingUntilRestart: S.optional(S.Boolean),
           subdomain: S.optional(S.NullOr(S.String)),
           lastSnapshotAttemptAt: S.optional(S.NullOr(S.String)),
           lastSnapshotStatus: S.optional(S.NullOr(S.String)),
-          lastReboot: S.optional(S.NullOr(__S(2979, __c93, 3))),
+          lastReboot: S.optional(S.NullOr(__S(3107, __c97, 3))),
           setupStatus: S.optional(S.NullOr(S.String)),
           setupError: S.optional(S.NullOr(S.String)),
           environment: S.optional(S.NullOr(S.String)),
           environmentVersion: S.optional(S.NullOr(S.Number)),
-          stop: S.optional(S.NullOr(__S(3008, __c94, 0))),
+          stop: S.optional(S.NullOr(__S(3136, __c98, 0))),
         }),
       ).annotate({ identifier: "Sandbox" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8494,7 +8790,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StopOperation" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8502,22 +8798,23 @@ function __c95(j: number): any {
           name: S.optional(S.String),
           ttl: S.optional(S.String),
           preset: S.optional(S.String),
-          actions: S.optional(__S(2432, __c76, 0)),
-          sandboxIds: S.optional(__S(2432, __c76, 0)),
-          environmentIds: S.optional(__S(2432, __c76, 0)),
+          actions: S.optional(__S(2496, __c78, 0)),
+          sandboxIds: S.optional(__S(2496, __c78, 0)),
+          environmentIds: S.optional(__S(2496, __c78, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api-keys/scoped", code: 200 })),
       ).annotate({ identifier: "CreateScopedApiKeyRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           expiresAt: S.optional(S.NullOr(S.String)),
-          actions: S.optional(__S(2432, __c76, 0)),
+          actions: S.optional(__S(2496, __c78, 0)),
           sandboxes: S.optional(S.Unknown),
           environments: S.optional(S.Unknown),
+          restriction: S.optional(S.String),
           grandfathered: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ApiKeyScope" });
@@ -8532,33 +8829,33 @@ function __c96(j: number): any {
           sandboxId: S.NullOr(S.String),
           createdAt: S.String,
           lastUsedAt: S.NullOr(S.String),
-          usage: __S(3136, __c98, 0),
-          resources: __S(3137, __c98, 1),
+          usage: __S(3264, __c102, 0),
+          resources: __S(3265, __c102, 1),
           expiresAt: S.optional(S.NullOr(S.String)),
           expired: S.optional(S.Boolean),
           expiringSoon: S.optional(S.Boolean),
-          scope: S.optional(__S(3072, __c96, 0)),
+          scope: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "ApiKey" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3201, __c100, 1));
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          apiKey: __S(3073, __c96, 1),
+          apiKey: __S(3201, __c100, 1),
           secret: S.String.pipe(T.SensitiveValue({})),
-          apiKeys: __S(3074, __c96, 2),
+          apiKeys: __S(3202, __c100, 2),
         }),
       ).annotate({ identifier: "CreateScopedApiKeyResponse" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8577,7 +8874,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ApiKeyResourceTotals" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8592,12 +8889,12 @@ function __c99(j: number): any {
           type: S.String,
           name: S.String,
           shareCode: S.String,
-          share: __S(3200, __c100, 0),
+          share: __S(3328, __c104, 0),
         }),
       ).annotate({ identifier: "CreateSnapshotShareResponse" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8613,7 +8910,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "NamedSnapshotShare" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8627,19 +8924,19 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateUploadUrlRequest" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
           url: S.String,
-          events: __S(2496, __c78, 0),
+          events: __S(2560, __c80, 0),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8647,27 +8944,27 @@ function __c103(j: number): any {
           id: S.String,
           name: S.NullOr(S.String),
           url: S.String,
-          events: __S(2496, __c78, 0),
+          events: __S(2560, __c80, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          webhook: __S(3296, __c103, 0),
+          webhook: __S(3424, __c107, 0),
           secret: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8685,7 +8982,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteCredentialAccountRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8703,7 +9000,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileResponse" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8720,7 +9017,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileCustomApiRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8737,7 +9034,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileKeyRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8748,18 +9045,18 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          environment: S.optional(S.NullOr(__S(2754, __c86, 2))),
+          environment: S.optional(S.NullOr(__S(2850, __c89, 2))),
         }),
       ).annotate({ identifier: "SandboxEnvironmentResponse" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8777,7 +9074,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRepoRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8795,7 +9092,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentSecretFileRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8809,7 +9106,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentVarRequest" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8830,7 +9127,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DeleteFileResponse" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8841,7 +9138,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteSandboxRequest" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8860,19 +9157,19 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeletionOperation" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          operation: __S(3712, __c116, 0),
+          operation: __S(3840, __c120, 0),
         }),
       ).annotate({ identifier: "DeleteSandboxResponse" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8882,18 +9179,18 @@ function __c118(j: number): any {
         }).pipe(T.Http({ method: "DELETE", uri: "/sandboxes/{sandboxId}/snapshots", code: 200 })),
       ).annotate({ identifier: "DeleteSandboxSnapshotsRequest" });
     case 1:
-      return S.Array(__S(3712, __c116, 0));
+      return S.Array(__S(3840, __c120, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          operations: __S(3777, __c118, 1),
+          operations: __S(3905, __c122, 1),
         }),
       ).annotate({ identifier: "DeleteSandboxSnapshotsResponse" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8912,7 +9209,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "DeleteSavedSnapshotResponse" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8923,7 +9220,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8931,19 +9228,19 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          telemetry: S.NullOr(__S(3937, __c123, 1)),
+          telemetry: S.NullOr(__S(4065, __c127, 1)),
         }),
       ).annotate({ identifier: "DeleteTelemetryResponse" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8957,15 +9254,15 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: __S(2432, __c76, 0),
+          headers: __S(2496, __c78, 0),
           lastExportAt: S.NullOr(S.String),
-          lastError: S.NullOr(__S(3936, __c123, 0)),
+          lastError: S.NullOr(__S(4064, __c127, 0)),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "TelemetryConfig" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8983,7 +9280,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8994,7 +9291,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DownloadSandboxArtifactRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -9002,7 +9299,7 @@ function __c126(j: number): any {
       });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9042,7 +9339,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CommandStreamFrame" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9062,21 +9359,21 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "FindInFilesResponseMatchesItem" });
     case 2:
-      return S.Array(__S(4097, __c128, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           success: S.optional(S.Boolean),
-          matches: __S(4098, __c128, 2),
+          matches: __S(4226, __c132, 2),
           truncated: S.Boolean,
-          errors: S.optional(__S(2432, __c76, 0)),
+          errors: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "FindInFilesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9085,10 +9382,11 @@ function __c129(j: number): any {
           idempotencyKey: S.optional(
             S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
           ),
-          labels: S.optional(__S(2944, __c92, 0)),
+          labels: S.optional(__S(3072, __c96, 0)),
           failFast: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
-          env: S.optional(__S(2944, __c92, 0)),
+          network: S.optional(__S(2784, __c87, 0)),
+          env: S.optional(__S(3072, __c96, 0)),
           environment: S.optional(S.String),
           noEnv: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -9097,7 +9395,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ForkSandboxRequest" });
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9106,14 +9404,17 @@ function __c130(j: number): any {
           type: S.String,
           id: S.String,
           status: S.String,
-          sandbox: S.optional(S.NullOr(__S(2980, __c93, 4))),
+          sandbox: S.optional(S.NullOr(__S(3108, __c97, 4))),
+          forced: S.optional(S.Boolean),
+          operation: S.optional(S.NullOr(__S(3136, __c98, 0))),
+          statusUrl: S.optional(S.NullOr(S.String)),
           giftLimitNotice: S.optional(S.String),
           conversationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ForkSandboxResponse" });
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9124,7 +9425,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetAiProxyRequest" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9143,13 +9444,13 @@ function __c132(j: number): any {
           org: S.Boolean,
           enabled: S.Boolean,
           enabledAt: S.NullOr(S.String),
-          pricing: __S(4224, __c132, 0),
+          pricing: __S(4352, __c136, 0),
           proxyUrl: S.String,
         }),
       ).annotate({ identifier: "GetAiProxyResponse" });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9166,13 +9467,13 @@ function __c133(j: number): any {
           sandboxId: S.NullOr(S.String),
           name: S.NullOr(S.String),
           blocked: S.Boolean,
-          usage: __S(4289, __c134, 1),
-          totals: __S(4290, __c134, 2),
+          usage: __S(4417, __c138, 1),
+          totals: __S(4418, __c138, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "SandboxAiUsage" });
     case 2:
-      return S.Array(__S(4257, __c133, 1));
+      return S.Array(__S(4385, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9181,15 +9482,15 @@ function __c133(j: number): any {
           accountId: S.NullOr(S.String),
           profileId: S.NullOr(S.String),
           since: S.String,
-          sandboxes: __S(4258, __c133, 2),
-          usage: __S(4289, __c134, 1),
-          totals: __S(4290, __c134, 2),
+          sandboxes: __S(4386, __c137, 2),
+          usage: __S(4417, __c138, 1),
+          totals: __S(4418, __c138, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetAiUsageResponse" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9206,7 +9507,7 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "AiUsageRow" });
     case 1:
-      return S.Array(__S(4288, __c134, 0));
+      return S.Array(__S(4416, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9220,7 +9521,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "AiUsageTotals" });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9232,9 +9533,10 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expiresAt: S.optional(S.NullOr(S.String)),
-          actions: S.optional(__S(2432, __c76, 0)),
+          actions: S.optional(__S(2496, __c78, 0)),
           sandboxes: S.optional(S.Unknown),
           environments: S.optional(S.Unknown),
+          restriction: S.optional(S.String),
           grandfathered: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponseScope" });
@@ -9249,7 +9551,7 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyCreatedResource" });
     case 3:
-      return S.Array(__S(4322, __c135, 2));
+      return S.Array(__S(4450, __c139, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9263,18 +9565,18 @@ function __c135(j: number): any {
           sandboxId: S.NullOr(S.String),
           createdAt: S.String,
           lastUsedAt: S.NullOr(S.String),
-          usage: __S(3136, __c98, 0),
-          resources: __S(3137, __c98, 1),
+          usage: __S(3264, __c102, 0),
+          resources: __S(3265, __c102, 1),
           expiresAt: S.optional(S.NullOr(S.String)),
           expired: S.optional(S.Boolean),
           expiringSoon: S.optional(S.Boolean),
-          scope: S.optional(__S(4321, __c135, 1)),
-          createdResources: __S(4323, __c135, 3),
+          scope: S.optional(__S(4449, __c139, 1)),
+          createdResources: __S(4451, __c139, 3),
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponse" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9287,12 +9589,12 @@ function __c136(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          job: __S(4384, __c137, 0),
+          job: __S(4512, __c141, 0),
         }),
       ).annotate({ identifier: "GetCiJobResponse" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9321,7 +9623,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CiJob" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9339,7 +9641,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetCiJobLogResponse" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9360,7 +9662,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "GetCiOverviewResponseSetupStepsItem" });
     case 2:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9372,14 +9674,14 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "GetCiOverviewResponseSetupProblemsItem" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(4579, __c143, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           complete: S.optional(S.Boolean),
           next: S.optional(S.NullOr(S.String)),
-          steps: S.optional(__S(4450, __c139, 2)),
-          problems: S.optional(__S(4452, __c139, 4)),
+          steps: S.optional(__S(4578, __c143, 2)),
+          problems: S.optional(__S(4580, __c143, 4)),
         }),
       ).annotate({ identifier: "GetCiOverviewResponseSetup" });
     case 6:
@@ -9396,7 +9698,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "CiRepository" });
     case 7:
-      return S.Array(__S(4454, __c139, 6));
+      return S.Array(__S(4582, __c143, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -9405,13 +9707,13 @@ function __c139(j: number): any {
           accountType: S.String,
           teamId: S.optional(S.NullOr(S.String)),
           allowPublicRepos: S.optional(S.Boolean),
-          publicRepoUsers: S.optional(__S(2432, __c76, 0)),
+          publicRepoUsers: S.optional(__S(2496, __c78, 0)),
           manageUrl: S.String,
-          repositories: __S(4455, __c139, 7),
+          repositories: __S(4583, __c143, 7),
         }),
       ).annotate({ identifier: "CiInstallation" });
     case 9:
-      return S.Array(__S(4456, __c139, 8));
+      return S.Array(__S(4584, __c143, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -9438,7 +9740,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "GetCiOverviewResponseStatsPerDayItem" });
     case 13:
-      return S.Array(__S(4460, __c139, 12));
+      return S.Array(__S(4588, __c143, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9448,27 +9750,27 @@ function __c139(j: number): any {
           medianWaitSeconds: S.optional(S.NullOr(S.Number)),
           medianRunSeconds: S.optional(S.NullOr(S.Number)),
           costDollars: S.optional(S.Number),
-          perDay: S.optional(__S(4461, __c139, 13)),
+          perDay: S.optional(__S(4589, __c143, 13)),
         }),
       ).annotate({ identifier: "GetCiOverviewResponseStats" });
     case 15:
-      return S.Array(__S(4384, __c137, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 16:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          setup: __S(4453, __c139, 5),
-          installations: __S(4457, __c139, 9),
-          filter: S.optional(__S(4458, __c139, 10)),
-          counts: __S(4459, __c139, 11),
-          stats: __S(4462, __c139, 14),
-          jobs: __S(4463, __c139, 15),
+          setup: __S(4581, __c143, 5),
+          installations: __S(4585, __c143, 9),
+          filter: S.optional(__S(4586, __c143, 10)),
+          counts: __S(4587, __c143, 11),
+          stats: __S(4590, __c143, 14),
+          jobs: __S(4591, __c143, 15),
         }),
       ).annotate({ identifier: "GetCiOverviewResponse" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9488,12 +9790,12 @@ function __c140(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          command: __S(2272, __c71, 0),
+          command: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "GetCommandResponse" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9540,7 +9842,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetCommandStatusResponse" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9554,7 +9856,7 @@ function __c142(j: number): any {
           email: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           connectionMethod: S.optional(S.String),
-          connectionMethods: S.optional(__S(2432, __c76, 0)),
+          connectionMethods: S.optional(__S(2496, __c78, 0)),
           accountPlan: S.optional(S.String),
           serviceAccount: S.optional(S.Boolean),
           accountStatus: S.optional(S.String),
@@ -9575,12 +9877,12 @@ function __c142(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          user: __S(4545, __c142, 1),
+          user: __S(4673, __c146, 1),
         }),
       ).annotate({ identifier: "GetCurrentUserResponse" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9588,7 +9890,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetDataRetentionRequest" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9607,7 +9909,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetDataRetentionResponse" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9617,7 +9919,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetDeletionOperationRequest" });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9643,7 +9945,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetDesktopStreamingUrlResponse" });
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9654,7 +9956,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetFileInfoRequest" });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9669,12 +9971,12 @@ function __c148(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshot: S.NullOr(__S(4768, __c149, 0)),
+          snapshot: S.NullOr(__S(4896, __c153, 0)),
         }),
       ).annotate({ identifier: "GetLatestSandboxSnapshotResponse" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9696,7 +9998,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "SnapshotSummary" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9749,13 +10051,13 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseOveragePricesStartBracketsItem" });
     case 6:
-      return S.Array(__S(4805, __c150, 5));
+      return S.Array(__S(4933, __c154, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           vmHourDollars: S.optional(S.Number),
           savedSnapshotDayDollars: S.optional(S.Number),
-          startBrackets: S.optional(__S(4806, __c150, 6)),
+          startBrackets: S.optional(__S(4934, __c154, 6)),
           startLimitMultiplier: S.optional(S.Number),
           startMinuteLimitMultiplier: S.optional(S.Number),
         }),
@@ -9772,9 +10074,9 @@ function __c150(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unlimited: S.optional(S.Boolean),
-          minute: S.optional(S.NullOr(__S(4808, __c150, 8))),
-          hour: S.optional(S.NullOr(__S(4808, __c150, 8))),
-          day: S.optional(S.NullOr(__S(4808, __c150, 8))),
+          minute: S.optional(S.NullOr(__S(4936, __c154, 8))),
+          hour: S.optional(S.NullOr(__S(4936, __c154, 8))),
+          day: S.optional(S.NullOr(__S(4936, __c154, 8))),
         }),
       ).annotate({ identifier: "GetLimitsResponseStarts" });
     case 10:
@@ -9792,7 +10094,7 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseSandboxPlanTiersItem" });
     case 11:
-      return S.Array(__S(4810, __c150, 10));
+      return S.Array(__S(4938, __c154, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -9802,7 +10104,7 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseMachineTypesItem" });
     case 13:
-      return S.Array(__S(4812, __c150, 12));
+      return S.Array(__S(4940, __c154, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9819,26 +10121,26 @@ function __c150(j: number): any {
           type: S.String,
           accessTier: S.optional(S.String),
           blockedReason: S.optional(S.NullOr(S.String)),
-          currentLimits: S.optional(__S(4801, __c150, 1)),
-          standardLimits: S.optional(__S(4801, __c150, 1)),
-          trialLimits: S.optional(__S(4801, __c150, 1)),
+          currentLimits: S.optional(__S(4929, __c154, 1)),
+          standardLimits: S.optional(__S(4929, __c154, 1)),
+          trialLimits: S.optional(__S(4929, __c154, 1)),
           upgradeEffects: S.optional(__S(0, __c0, 0)),
           canStart: S.Boolean,
           checkoutRequired: S.optional(S.Boolean),
           startBlockedReason: S.optional(S.NullOr(S.String)),
           contactMessage: S.optional(S.NullOr(S.String)),
           activeSandboxes: S.Number,
-          activeStates: S.optional(__S(2432, __c76, 0)),
+          activeStates: S.optional(__S(2496, __c78, 0)),
           maxActiveSandboxes: S.Number,
           maxCreationRequestsPerMinute: S.optional(S.Number),
           maxCreationRequestsPerDay: S.optional(S.NullOr(S.Number)),
-          startLimits: S.optional(S.NullOr(__S(4802, __c150, 2))),
-          wallet: S.optional(S.NullOr(__S(4803, __c150, 3))),
-          planIncluded: S.optional(S.NullOr(__S(4804, __c150, 4))),
-          overagePrices: S.optional(__S(4807, __c150, 7)),
+          startLimits: S.optional(S.NullOr(__S(4930, __c154, 2))),
+          wallet: S.optional(S.NullOr(__S(4931, __c154, 3))),
+          planIncluded: S.optional(S.NullOr(__S(4932, __c154, 4))),
+          overagePrices: S.optional(__S(4935, __c154, 7)),
           nextStartDollars: S.optional(S.NullOr(S.Number)),
-          startLimitsWithWallet: S.optional(S.NullOr(__S(4802, __c150, 2))),
-          starts: S.optional(__S(4809, __c150, 9)),
+          startLimitsWithWallet: S.optional(S.NullOr(__S(4930, __c154, 2))),
+          starts: S.optional(__S(4937, __c154, 9)),
           creditBalanceHours: S.optional(S.NullOr(S.Number)),
           packBalanceHours: S.optional(S.Number),
           packBalanceDollars: S.optional(S.Number),
@@ -9852,7 +10154,7 @@ function __c150(j: number): any {
           creditSecondsPerDollar: S.optional(S.Number),
           sandboxPlanKey: S.optional(S.String),
           sandboxPlanDollars: S.optional(S.Number),
-          sandboxPlanTiers: S.optional(__S(4811, __c150, 11)),
+          sandboxPlanTiers: S.optional(__S(4939, __c154, 11)),
           accountPlan: S.optional(S.String),
           plan: S.optional(S.NullOr(S.String)),
           planName: S.optional(S.NullOr(S.String)),
@@ -9863,8 +10165,8 @@ function __c150(j: number): any {
           trialComputeCapSeconds: S.optional(S.NullOr(S.Number)),
           trialComputeUsedSeconds: S.optional(S.NullOr(S.Number)),
           trialLine: S.optional(S.NullOr(S.String)),
-          machineTypes: S.optional(__S(4813, __c150, 13)),
-          giftLimit: S.optional(S.NullOr(__S(4814, __c150, 14))),
+          machineTypes: S.optional(__S(4941, __c154, 13)),
+          giftLimit: S.optional(S.NullOr(__S(4942, __c154, 14))),
           billingStatus: S.String,
           subscriptionStatus: S.optional(S.NullOr(S.String)),
           subscriptionCancelAtPeriodEnd: S.optional(S.Boolean),
@@ -9878,7 +10180,37 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetLimitsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/network", code: 200 })),
+      ).annotate({ identifier: "GetNetworkPolicyRequest" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          state: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetNetworkPolicyResponseSandbox" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          network: __S(3040, __c95, 0),
+          sandbox: S.optional(__S(4992, __c156, 0)),
+        }),
+      ).annotate({ identifier: "GetNetworkPolicyResponse" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9895,12 +10227,12 @@ function __c151(j: number): any {
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          promptRun: __S(4864, __c152, 0),
+          promptRun: __S(5056, __c158, 0),
         }),
       ).annotate({ identifier: "GetPromptRunStatusResponse" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9914,12 +10246,13 @@ function __c152(j: number): any {
           model: S.optional(S.NullOr(S.String)),
           reasoningEffort: S.optional(S.NullOr(S.String)),
           fast: S.optional(S.NullOr(S.Boolean)),
+          speed: S.optional(S.NullOr(S.String)),
           conversationId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PromptRun" });
   }
 }
-function __c153(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9929,20 +10262,20 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c154(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          sandbox: __S(2980, __c93, 4),
+          sandbox: __S(3108, __c97, 4),
           giftLimitNotice: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSandboxResponse" });
   }
 }
-function __c155(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9961,14 +10294,14 @@ function __c155(j: number): any {
           proxied: S.Boolean,
           credentialProfileId: S.NullOr(S.String),
           since: S.String,
-          usage: __S(4289, __c134, 1),
-          totals: __S(4290, __c134, 2),
+          usage: __S(4417, __c138, 1),
+          totals: __S(4418, __c138, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetSandboxAiUsageResponse" });
   }
 }
-function __c156(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9996,7 +10329,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetSandboxUsageResponse" });
   }
 }
-function __c157(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10009,12 +10342,12 @@ function __c157(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshot: __S(5056, __c158, 0),
+          snapshot: __S(5248, __c164, 0),
         }),
       ).annotate({ identifier: "GetSavedSnapshotResponse" });
   }
 }
-function __c158(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10031,7 +10364,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "SavedSnapshot" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10039,7 +10372,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetSecretsRequest" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10050,13 +10383,13 @@ function __c160(j: number): any {
           environmentId: S.String,
           subenvironmentId: S.optional(S.String),
           envContents: S.String,
-          secretFiles: __S(2785, __c87, 1),
+          secretFiles: __S(2881, __c90, 1),
           pushed: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "GetSecretsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10084,7 +10417,7 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotChunk" });
     case 3:
-      return S.Array(__S(5154, __c161, 2));
+      return S.Array(__S(5346, __c167, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10096,13 +10429,13 @@ function __c161(j: number): any {
           generation: S.Number,
           expiresInSeconds: S.Number,
           reconstruct: S.String,
-          inventory: S.optional(S.NullOr(__S(5153, __c161, 1))),
-          chunks: __S(5155, __c161, 3),
+          inventory: S.optional(S.NullOr(__S(5345, __c167, 1))),
+          chunks: __S(5347, __c167, 3),
         }),
       ).annotate({ identifier: "GetSnapshotDownloadResponse" });
   }
 }
-function __c162(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10113,7 +10446,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetSnapshotFileRequest" });
   }
 }
-function __c163(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10130,7 +10463,7 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotTreeEntry" });
     case 2:
-      return S.Array(__S(5217, __c163, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10143,13 +10476,13 @@ function __c163(j: number): any {
           truncated: S.Boolean,
           fileCount: S.Number,
           totalSizeBytes: S.Number,
-          entries: __S(5218, __c163, 2),
+          entries: __S(5410, __c169, 2),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSnapshotTreeResponse" });
   }
 }
-function __c164(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10164,17 +10497,9 @@ function __c164(j: number): any {
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          stop: __S(3008, __c94, 0),
+          stop: __S(3136, __c98, 0),
         }),
       ).annotate({ identifier: "GetStopResponse" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/telemetry", code: 200 })),
-      ).annotate({ identifier: "GetTelemetryRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

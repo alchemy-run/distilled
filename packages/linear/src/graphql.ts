@@ -470,7 +470,11 @@ export type TeamVisibility = "public" | "restricted" | "private";
 export type TriageResponsibilityAction = "assign" | "notify";
 
 /** The condition a usage alert was triggered by. */
-export type UsageAlertType = "lowBalance" | "exhausted" | "expiringPromoCredit";
+export type UsageAlertType =
+  | "lowBalance"
+  | "exhausted"
+  | "expiringPromoCredit"
+  | "spendLimitReached";
 
 /** A built-in user view used by notification subscriptions. */
 export type UserContextViewType = "assigned";
@@ -540,6 +544,7 @@ export type UserFlagType =
   | "reviewsPromptToConnectGithubDismissed"
   | "workspaceSetupCompletedHidden"
   | "pinnedDocumentsEmptyStateDismissed"
+  | "homeCardsEmptyStateDismissed"
   | "all";
 
 /** Operations that can be applied to UserFlagType. */
@@ -1202,7 +1207,7 @@ export interface CustomerNeedCreateFromAttachmentInput {
   readonly attachmentId: string;
 }
 
-/** The issue and optional customer details for a new request. Provide issueId when using the public API. You can include Markdown feedback and a source attachment, and identify the customer by either its UUID or external-system ID. */
+/** The feedback and optional customer and work links for a new request. Requests may be created without a linked issue, project, or signal when Customer Signals is enabled. You can include Markdown feedback and a source attachment, and identify the customer by either its UUID or external-system ID. */
 export interface CustomerNeedCreateInput {
   readonly id?: string | null | undefined;
   readonly customerId?: string | null | undefined;
@@ -1436,7 +1441,7 @@ export interface CycleUpdateInput {
   readonly completedAt?: string | null | undefined;
 }
 
-/** Compares timestamps at millisecond precision. Accepts ISO 8601 timestamps or durations relative to when the filter runs; `{ gte: "-P7D" }` includes times from seven days ago onward. Combine `gte` and `lt` for a time window. A YYYY-MM-DD value means midnight UTC, so equality with a date does not match the whole day. */
+/** Compares timestamps at millisecond precision. Accepts ISO 8601 timestamps or durations relative to when the filter runs; `{ gte: "-P7D" }` includes times from seven days ago onward. Combine `gte` and `lt` for a time window. A YYYY-MM-DD value means midnight in `timezone`, or UTC by default, so equality with a date does not match the whole day. Use `today` to match the whole current day. */
 export interface DateComparator {
   readonly eq?: string | null | undefined;
   readonly neq?: string | null | undefined;
@@ -1446,6 +1451,8 @@ export interface DateComparator {
   readonly lte?: string | null | undefined;
   readonly gt?: string | null | undefined;
   readonly gte?: string | null | undefined;
+  readonly today?: boolean | null | undefined;
+  readonly timezone?: string | null | undefined;
 }
 
 /** Issue delegate sorting options. */
@@ -1479,6 +1486,7 @@ export interface DocumentCreateInput {
   readonly lastAppliedTemplateId?: string | null | undefined;
   readonly ownerId?: string | null | undefined;
   readonly sortOrder?: number | null | undefined;
+  readonly personalUserId?: string | null | undefined;
 }
 
 /** Document creation date sorting options. */
@@ -1550,6 +1558,7 @@ export interface DocumentUpdateInput {
   readonly hiddenAt?: string | null | undefined;
   readonly sortOrder?: number | null | undefined;
   readonly trashed?: boolean | null | undefined;
+  readonly personalUserId?: string | null | undefined;
 }
 
 /** Document update date sorting options. */
@@ -1832,6 +1841,7 @@ export interface InitiativeCollectionFilter {
   readonly name?: StringComparator | null | undefined;
   readonly slugId?: StringComparator | null | undefined;
   readonly customIdentifier?: NullableStringComparator | null | undefined;
+  readonly searchableContent?: ContentComparator | null | undefined;
   readonly creator?: NullableUserFilter | null | undefined;
   readonly status?: StringComparator | null | undefined;
   readonly priority?: NullableNumberComparator | null | undefined;
@@ -1889,6 +1899,7 @@ export interface InitiativeFilter {
   readonly name?: StringComparator | null | undefined;
   readonly slugId?: StringComparator | null | undefined;
   readonly customIdentifier?: NullableStringComparator | null | undefined;
+  readonly searchableContent?: ContentComparator | null | undefined;
   readonly creator?: NullableUserFilter | null | undefined;
   readonly status?: StringComparator | null | undefined;
   readonly priority?: NullableNumberComparator | null | undefined;
@@ -2235,6 +2246,7 @@ export interface IssueCollectionFilter {
   readonly autoClosedAt?: NullableDateComparator | null | undefined;
   readonly autoArchivedAt?: NullableDateComparator | null | undefined;
   readonly addedToCycleAt?: NullableDateComparator | null | undefined;
+  readonly addedToProjectAt?: NullableDateComparator | null | undefined;
   readonly addedToCyclePeriod?: CyclePeriodComparator | null | undefined;
   readonly dueDate?: NullableTimelessDateComparator | null | undefined;
   readonly accumulatedStateUpdatedAt?: NullableDateComparator | null | undefined;
@@ -2347,6 +2359,7 @@ export interface IssueFilter {
   readonly autoClosedAt?: NullableDateComparator | null | undefined;
   readonly autoArchivedAt?: NullableDateComparator | null | undefined;
   readonly addedToCycleAt?: NullableDateComparator | null | undefined;
+  readonly addedToProjectAt?: NullableDateComparator | null | undefined;
   readonly addedToCyclePeriod?: CyclePeriodComparator | null | undefined;
   readonly dueDate?: NullableTimelessDateComparator | null | undefined;
   readonly accumulatedStateUpdatedAt?: NullableDateComparator | null | undefined;
@@ -2941,6 +2954,8 @@ export interface NullableDateComparator {
   readonly lte?: string | null | undefined;
   readonly gt?: string | null | undefined;
   readonly gte?: string | null | undefined;
+  readonly today?: boolean | null | undefined;
+  readonly timezone?: string | null | undefined;
 }
 
 /** Conditions on an optional document content relation. Use null to test whether the relation is set, or supply document content fields to filter the related record. Combine conditions with `and` or `or`. */
@@ -3003,6 +3018,7 @@ export interface NullableInitiativeFilter {
   readonly name?: StringComparator | null | undefined;
   readonly slugId?: StringComparator | null | undefined;
   readonly customIdentifier?: NullableStringComparator | null | undefined;
+  readonly searchableContent?: ContentComparator | null | undefined;
   readonly creator?: NullableUserFilter | null | undefined;
   readonly status?: StringComparator | null | undefined;
   readonly priority?: NullableNumberComparator | null | undefined;
@@ -3057,6 +3073,7 @@ export interface NullableIssueFilter {
   readonly autoClosedAt?: NullableDateComparator | null | undefined;
   readonly autoArchivedAt?: NullableDateComparator | null | undefined;
   readonly addedToCycleAt?: NullableDateComparator | null | undefined;
+  readonly addedToProjectAt?: NullableDateComparator | null | undefined;
   readonly addedToCyclePeriod?: CyclePeriodComparator | null | undefined;
   readonly dueDate?: NullableTimelessDateComparator | null | undefined;
   readonly accumulatedStateUpdatedAt?: NullableDateComparator | null | undefined;
@@ -3270,6 +3287,8 @@ export interface NullableTimelessDateComparator {
   readonly lte?: string | null | undefined;
   readonly gt?: string | null | undefined;
   readonly gte?: string | null | undefined;
+  readonly today?: boolean | null | undefined;
+  readonly timezone?: string | null | undefined;
 }
 
 /** Filters an optional relation to users. Use null to test whether the relation is set, or supply property conditions to filter the related object. */
@@ -3786,6 +3805,30 @@ export interface ProjectMilestoneFilter {
   readonly project?: NullableProjectFilter | null | undefined;
   readonly and?: ReadonlyArray<ProjectMilestoneFilter> | null | undefined;
   readonly or?: ReadonlyArray<ProjectMilestoneFilter> | null | undefined;
+}
+
+/** Input for moving a project milestone to another project. */
+export interface ProjectMilestoneMoveInput {
+  readonly projectId: string;
+  readonly newIssueTeamId?: string | null | undefined;
+  readonly addIssueTeamToProject?: boolean | null | undefined;
+  readonly undoIssueTeamIds?:
+    | ReadonlyArray<ProjectMilestoneMoveIssueToTeamInput>
+    | null
+    | undefined;
+  readonly undoProjectTeamIds?: ProjectMilestoneMoveProjectTeamsInput | null | undefined;
+}
+
+/** Used for ProjectMilestoneMoveInput to describe a mapping between an issue and its team. */
+export interface ProjectMilestoneMoveIssueToTeamInput {
+  readonly issueId: string;
+  readonly teamId: string;
+}
+
+/** Used for ProjectMilestoneMoveInput to describe a snapshot of a project and its team ids */
+export interface ProjectMilestoneMoveProjectTeamsInput {
+  readonly projectId: string;
+  readonly teamIds: ReadonlyArray<string>;
 }
 
 /** Changes to an existing milestone. Omit fields to keep their current values. A null targetDate clears the date, while an empty or null description leaves the existing description unchanged. */
@@ -4922,14 +4965,26 @@ export interface UsageAlertFilter {
 
 /** Comparator for the condition a usage alert was triggered by. */
 export interface UsageAlertTypeComparator {
-  readonly eq?: "lowBalance" | "exhausted" | "expiringPromoCredit" | null | undefined;
-  readonly neq?: "lowBalance" | "exhausted" | "expiringPromoCredit" | null | undefined;
+  readonly eq?:
+    | "lowBalance"
+    | "exhausted"
+    | "expiringPromoCredit"
+    | "spendLimitReached"
+    | null
+    | undefined;
+  readonly neq?:
+    | "lowBalance"
+    | "exhausted"
+    | "expiringPromoCredit"
+    | "spendLimitReached"
+    | null
+    | undefined;
   readonly in?:
-    | ReadonlyArray<"lowBalance" | "exhausted" | "expiringPromoCredit">
+    | ReadonlyArray<"lowBalance" | "exhausted" | "expiringPromoCredit" | "spendLimitReached">
     | null
     | undefined;
   readonly nin?:
-    | ReadonlyArray<"lowBalance" | "exhausted" | "expiringPromoCredit">
+    | ReadonlyArray<"lowBalance" | "exhausted" | "expiringPromoCredit" | "spendLimitReached">
     | null
     | undefined;
 }
@@ -5819,6 +5874,7 @@ export interface CustomView {
   readonly feedItemFilterData: unknown | null;
   readonly filterData: unknown;
   readonly filters: unknown;
+  readonly filterTimezone: string | null;
   readonly icon: string | null;
   readonly id: string;
   readonly initiativeFilterData: unknown | null;
@@ -5871,7 +5927,7 @@ export interface CustomViewNotificationSubscription {
     | null;
   readonly createdAt: string;
   readonly customer: Customer | null;
-  readonly customView: CustomView;
+  readonly customView: CustomView | null;
   readonly cycle: Cycle | null;
   readonly id: string;
   readonly includeSubInitiativeUpdates: boolean;
@@ -5930,7 +5986,7 @@ export interface CustomerEdge {
   readonly node: Customer;
 }
 
-/** A request or piece of feedback associated with a customer and linked to an issue or project. It can include a written message, priority, and an attachment pointing to the original conversation. Multiple needs can connect the same customer to the same work, preserving each source of feedback. */
+/** A request or piece of feedback optionally associated with a customer and linked to work. It can include a written message, priority, and an attachment pointing to the original conversation. Multiple needs can connect the same customer to the same work, preserving each source of feedback. */
 export interface CustomerNeed {
   readonly archivedAt: string | null;
   readonly attachment: Attachment | null;
@@ -6073,7 +6129,7 @@ export interface CustomerNotificationSubscription {
     | "triage"
     | null;
   readonly createdAt: string;
-  readonly customer: Customer;
+  readonly customer: Customer | null;
   readonly customView: CustomView | null;
   readonly cycle: Cycle | null;
   readonly id: string;
@@ -6227,7 +6283,7 @@ export interface CycleNotificationSubscription {
   readonly createdAt: string;
   readonly customer: Customer | null;
   readonly customView: CustomView | null;
-  readonly cycle: Cycle;
+  readonly cycle: Cycle | null;
   readonly id: string;
   readonly includeSubInitiativeUpdates: boolean;
   readonly initiative: Initiative | null;
@@ -6273,6 +6329,7 @@ export interface Document {
   readonly createdAt: string;
   readonly creator: User | null;
   readonly documentContentId: string | null;
+  readonly generalAccess: "edit" | "comment" | "view" | null;
   readonly hiddenAt: string | null;
   readonly icon: string | null;
   readonly id: string;
@@ -6280,6 +6337,7 @@ export interface Document {
   readonly issue: Issue | null;
   readonly lastAppliedTemplate: Template | null;
   readonly owner: User | null;
+  readonly personalUser: User | null;
   readonly project: Project | null;
   readonly release: Release | null;
   readonly slugId: string;
@@ -6323,19 +6381,6 @@ export interface DocumentContent {
   readonly restoredAt: string | null;
   readonly updatedAt: string;
   readonly welcomeMessage: WelcomeMessage | null;
-}
-
-/** A user's unpublished changes to a DocumentContent record. Each user can have one active draft for the same content, and the live body stays unchanged until the draft is applied. Use documentContentId to associate the draft with the resource being edited. */
-export interface DocumentContentDraft {
-  readonly archivedAt: string | null;
-  readonly contentState: string;
-  readonly createdAt: string;
-  readonly documentContent: DocumentContent;
-  readonly documentContentId: string;
-  readonly id: string;
-  readonly updatedAt: string;
-  readonly user: User;
-  readonly userId: string;
 }
 
 /** A saved version of rich-text content, with its capture time and contributors. */
@@ -6450,6 +6495,7 @@ export interface DocumentSearchResult {
   readonly createdAt: string;
   readonly creator: User | null;
   readonly documentContentId: string | null;
+  readonly generalAccess: "edit" | "comment" | "view" | null;
   readonly hiddenAt: string | null;
   readonly icon: string | null;
   readonly id: string;
@@ -6458,6 +6504,7 @@ export interface DocumentSearchResult {
   readonly lastAppliedTemplate: Template | null;
   readonly metadata: unknown;
   readonly owner: User | null;
+  readonly personalUser: User | null;
   readonly project: Project | null;
   readonly release: Release | null;
   readonly slugId: string;
@@ -7174,7 +7221,7 @@ export interface InitiativeNotificationSubscription {
   readonly cycle: Cycle | null;
   readonly id: string;
   readonly includeSubInitiativeUpdates: boolean;
-  readonly initiative: Initiative;
+  readonly initiative: Initiative | null;
   readonly label: IssueLabel | null;
   readonly notificationSubscriptionTypes: ReadonlyArray<string>;
   readonly project: Project | null;
@@ -8208,7 +8255,7 @@ export interface LabelNotificationSubscription {
   readonly id: string;
   readonly includeSubInitiativeUpdates: boolean;
   readonly initiative: Initiative | null;
-  readonly label: IssueLabel;
+  readonly label: IssueLabel | null;
   readonly notificationSubscriptionTypes: ReadonlyArray<string>;
   readonly project: Project | null;
   readonly subscriber: User;
@@ -9102,6 +9149,25 @@ export interface ProjectMilestoneEdge {
   readonly node: ProjectMilestone;
 }
 
+export interface ProjectMilestoneMoveIssueToTeam {
+  readonly issueId: string;
+  readonly teamId: string;
+}
+
+/** The result of a project milestone move mutation. */
+export interface ProjectMilestoneMovePayload {
+  readonly lastSyncId: number;
+  readonly previousIssueTeamIds: ReadonlyArray<ProjectMilestoneMoveIssueToTeam> | null;
+  readonly previousProjectTeamIds: ProjectMilestoneMoveProjectTeams | null;
+  readonly projectMilestone: ProjectMilestone;
+  readonly success: boolean;
+}
+
+export interface ProjectMilestoneMoveProjectTeams {
+  readonly projectId: string;
+  readonly teamIds: ReadonlyArray<string>;
+}
+
 /** The result of a project milestone mutation. */
 export interface ProjectMilestonePayload {
   readonly lastSyncId: number;
@@ -9175,7 +9241,7 @@ export interface ProjectNotificationSubscription {
   readonly initiative: Initiative | null;
   readonly label: IssueLabel | null;
   readonly notificationSubscriptionTypes: ReadonlyArray<string>;
-  readonly project: Project;
+  readonly project: Project | null;
   readonly subscriber: User;
   readonly team: Team | null;
   readonly updatedAt: string;
@@ -10161,7 +10227,7 @@ export interface TeamNotificationSubscription {
   readonly notificationSubscriptionTypes: ReadonlyArray<string>;
   readonly project: Project | null;
   readonly subscriber: User;
-  readonly team: Team;
+  readonly team: Team | null;
   readonly updatedAt: string;
   readonly user: User | null;
   readonly userContextViewType: "assigned" | null;
@@ -10510,7 +10576,7 @@ export interface UserNotificationSubscription {
   readonly subscriber: User;
   readonly team: Team | null;
   readonly updatedAt: string;
-  readonly user: User;
+  readonly user: User | null;
   readonly userContextViewType: "assigned" | null;
 }
 
@@ -10831,6 +10897,7 @@ export interface ViewPreferencesValues {
   readonly reviewFieldQuickToReview: boolean | null;
   readonly reviewFieldRepository: boolean | null;
   readonly reviewFieldReviewers: boolean | null;
+  readonly reviewFieldRisk: boolean | null;
   readonly reviewFieldSla: boolean | null;
   readonly reviewFieldStatusDetails: boolean | null;
   readonly reviewGrouping: string | null;
@@ -10897,6 +10964,7 @@ export interface Webhook {
   readonly createdAt: string;
   readonly creator: User | null;
   readonly enabled: boolean;
+  readonly failures: ReadonlyArray<WebhookFailureEvent>;
   readonly id: string;
   readonly label: string | null;
   readonly resourceTypes: ReadonlyArray<string>;
@@ -10917,6 +10985,17 @@ export interface WebhookConnection {
 export interface WebhookEdge {
   readonly cursor: string;
   readonly node: Webhook;
+}
+
+/** A record of a failed webhook delivery attempt. Created when a webhook payload could not be successfully delivered to the destination URL, either due to an HTTP error response or a network failure. Each failure event captures the HTTP status code (if available), the response body or error message, and a stable execution ID that is shared across retries of the same delivery. */
+export interface WebhookFailureEvent {
+  readonly createdAt: string;
+  readonly executionId: string;
+  readonly httpStatus: number | null;
+  readonly id: string;
+  readonly responseOrError: string | null;
+  readonly url: string;
+  readonly webhook: Webhook;
 }
 
 /** The result of a webhook mutation. */
@@ -11761,12 +11840,6 @@ export const DocumentContent: TypeMeta = {
   name: "DocumentContent",
   get fields() {
     return DocumentContentFields;
-  },
-};
-export const DocumentContentDraft: TypeMeta = {
-  name: "DocumentContentDraft",
-  get fields() {
-    return DocumentContentDraftFields;
   },
 };
 export const DocumentContentHistory: TypeMeta = {
@@ -13065,6 +13138,24 @@ export const ProjectMilestoneEdge: TypeMeta = {
     return ProjectMilestoneEdgeFields;
   },
 };
+export const ProjectMilestoneMoveIssueToTeam: TypeMeta = {
+  name: "ProjectMilestoneMoveIssueToTeam",
+  get fields() {
+    return ProjectMilestoneMoveIssueToTeamFields;
+  },
+};
+export const ProjectMilestoneMovePayload: TypeMeta = {
+  name: "ProjectMilestoneMovePayload",
+  get fields() {
+    return ProjectMilestoneMovePayloadFields;
+  },
+};
+export const ProjectMilestoneMoveProjectTeams: TypeMeta = {
+  name: "ProjectMilestoneMoveProjectTeams",
+  get fields() {
+    return ProjectMilestoneMoveProjectTeamsFields;
+  },
+};
 export const ProjectMilestonePayload: TypeMeta = {
   name: "ProjectMilestonePayload",
   get fields() {
@@ -13875,6 +13966,12 @@ export const WebhookEdge: TypeMeta = {
     return WebhookEdgeFields;
   },
 };
+export const WebhookFailureEvent: TypeMeta = {
+  name: "WebhookFailureEvent",
+  get fields() {
+    return WebhookFailureEventFields;
+  },
+};
 export const WebhookPayload: TypeMeta = {
   name: "WebhookPayload",
   get fields() {
@@ -14506,6 +14603,7 @@ const CustomViewFields: TypeMeta["fields"] = {
   feedItemFilterData: scalarField("feedItemFilterData"),
   filterData: scalarField("filterData"),
   filters: scalarField("filters"),
+  filterTimezone: scalarField("filterTimezone"),
   icon: scalarField("icon"),
   id: scalarField("id"),
   initiativeFilterData: scalarField("initiativeFilterData"),
@@ -14925,6 +15023,7 @@ const DocumentFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", User),
   documentContentId: scalarField("documentContentId"),
+  generalAccess: scalarField("generalAccess"),
   hiddenAt: scalarField("hiddenAt"),
   icon: scalarField("icon"),
   id: scalarField("id"),
@@ -14932,6 +15031,7 @@ const DocumentFields: TypeMeta["fields"] = {
   issue: objectField("issue", Issue),
   lastAppliedTemplate: objectField("lastAppliedTemplate", Template),
   owner: objectField("owner", User),
+  personalUser: objectField("personalUser", User),
   project: objectField("project", Project),
   release: objectField("release", Release),
   slugId: scalarField("slugId"),
@@ -14981,18 +15081,6 @@ const DocumentContentFields: TypeMeta["fields"] = {
   restoredAt: scalarField("restoredAt"),
   updatedAt: scalarField("updatedAt"),
   welcomeMessage: objectField("welcomeMessage", WelcomeMessage),
-};
-
-const DocumentContentDraftFields: TypeMeta["fields"] = {
-  archivedAt: scalarField("archivedAt"),
-  contentState: scalarField("contentState"),
-  createdAt: scalarField("createdAt"),
-  documentContent: objectField("documentContent", DocumentContent),
-  documentContentId: scalarField("documentContentId"),
-  id: scalarField("id"),
-  updatedAt: scalarField("updatedAt"),
-  user: objectField("user", User),
-  userId: scalarField("userId"),
 };
 
 const DocumentContentHistoryFields: TypeMeta["fields"] = {
@@ -15089,6 +15177,7 @@ const DocumentSearchResultFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", User),
   documentContentId: scalarField("documentContentId"),
+  generalAccess: scalarField("generalAccess"),
   hiddenAt: scalarField("hiddenAt"),
   icon: scalarField("icon"),
   id: scalarField("id"),
@@ -15097,6 +15186,7 @@ const DocumentSearchResultFields: TypeMeta["fields"] = {
   lastAppliedTemplate: objectField("lastAppliedTemplate", Template),
   metadata: scalarField("metadata"),
   owner: objectField("owner", User),
+  personalUser: objectField("personalUser", User),
   project: objectField("project", Project),
   release: objectField("release", Release),
   slugId: scalarField("slugId"),
@@ -17745,6 +17835,24 @@ const ProjectMilestoneEdgeFields: TypeMeta["fields"] = {
   node: objectField("node", ProjectMilestone),
 };
 
+const ProjectMilestoneMoveIssueToTeamFields: TypeMeta["fields"] = {
+  issueId: scalarField("issueId"),
+  teamId: scalarField("teamId"),
+};
+
+const ProjectMilestoneMovePayloadFields: TypeMeta["fields"] = {
+  lastSyncId: scalarField("lastSyncId"),
+  previousIssueTeamIds: listField("previousIssueTeamIds", ProjectMilestoneMoveIssueToTeam),
+  previousProjectTeamIds: objectField("previousProjectTeamIds", ProjectMilestoneMoveProjectTeams),
+  projectMilestone: objectField("projectMilestone", ProjectMilestone),
+  success: scalarField("success"),
+};
+
+const ProjectMilestoneMoveProjectTeamsFields: TypeMeta["fields"] = {
+  projectId: scalarField("projectId"),
+  teamIds: scalarField("teamIds"),
+};
+
 const ProjectMilestonePayloadFields: TypeMeta["fields"] = {
   lastSyncId: scalarField("lastSyncId"),
   projectMilestone: objectField("projectMilestone", ProjectMilestone),
@@ -19614,6 +19722,7 @@ const ViewPreferencesValuesFields: TypeMeta["fields"] = {
   reviewFieldQuickToReview: scalarField("reviewFieldQuickToReview"),
   reviewFieldRepository: scalarField("reviewFieldRepository"),
   reviewFieldReviewers: scalarField("reviewFieldReviewers"),
+  reviewFieldRisk: scalarField("reviewFieldRisk"),
   reviewFieldSla: scalarField("reviewFieldSla"),
   reviewFieldStatusDetails: scalarField("reviewFieldStatusDetails"),
   reviewGrouping: scalarField("reviewGrouping"),
@@ -19679,6 +19788,7 @@ const WebhookFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", User),
   enabled: scalarField("enabled"),
+  failures: listField("failures", WebhookFailureEvent),
   id: scalarField("id"),
   label: scalarField("label"),
   resourceTypes: scalarField("resourceTypes"),
@@ -19697,6 +19807,16 @@ const WebhookConnectionFields: TypeMeta["fields"] = {
 const WebhookEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Webhook),
+};
+
+const WebhookFailureEventFields: TypeMeta["fields"] = {
+  createdAt: scalarField("createdAt"),
+  executionId: scalarField("executionId"),
+  httpStatus: scalarField("httpStatus"),
+  id: scalarField("id"),
+  responseOrError: scalarField("responseOrError"),
+  url: scalarField("url"),
+  webhook: objectField("webhook", Webhook),
 };
 
 const WebhookPayloadFields: TypeMeta["fields"] = {
@@ -21370,6 +21490,8 @@ export const Linear = {
   rateLimitStatus: (): Query<RateLimitPayload, LinearGlobalError> =>
     root("query", "rateLimitStatus", RateLimitPayload, undefined, undefined, globalErrors),
   recentReleasesByAccessKey: (args?: {
+    readonly after?: string | null | undefined;
+    readonly includeArchived?: boolean | null | undefined;
     readonly limit?: number | null | undefined;
   }): Query<ReadonlyArray<AccessKeyRelease>, LinearGlobalError> =>
     rootList(
@@ -21377,7 +21499,7 @@ export const Linear = {
       "recentReleasesByAccessKey",
       AccessKeyRelease,
       args,
-      { limit: "Int" },
+      { after: "String", includeArchived: "Boolean", limit: "Int" },
       globalErrors,
     ),
   release: (args: { readonly id: string }): Query<Release, LinearGlobalError> =>
@@ -21566,6 +21688,7 @@ export const Linear = {
     ),
   searchDocuments: (args: {
     readonly term: string;
+    readonly filter?: DocumentFilter | null | undefined;
     readonly before?: string | null | undefined;
     readonly after?: string | null | undefined;
     readonly first?: number | null | undefined;
@@ -21581,6 +21704,7 @@ export const Linear = {
       DocumentSearchResult,
       args,
       {
+        filter: "DocumentFilter",
         before: "String",
         after: "String",
         first: "Int",
@@ -22179,10 +22303,10 @@ export const Linear = {
     readonly channelId: string;
     readonly messageId: string;
     readonly url: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22190,11 +22314,11 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
-        id: "String",
         channelId: "String!",
         messageId: "String!",
         url: "String!",
@@ -22204,10 +22328,10 @@ export const Linear = {
   attachmentLinkFront: (args: {
     readonly conversationId: string;
     readonly issueId: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<FrontAttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22215,22 +22339,22 @@ export const Linear = {
       FrontAttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         conversationId: "String!",
         issueId: "String!",
-        id: "String",
       },
       globalErrors,
     ),
   attachmentLinkGitHubIssue: (args: {
     readonly issueId: string;
     readonly url: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22238,11 +22362,11 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
-        id: "String",
         url: "String!",
       },
       globalErrors,
@@ -22250,10 +22374,10 @@ export const Linear = {
   attachmentLinkGitHubPR: (args: {
     readonly issueId: string;
     readonly url: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
     readonly linkKind?: "closes" | "contributes" | "links" | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
@@ -22262,11 +22386,11 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
-        id: "String",
         url: "String!",
         linkKind: "GitLinkKind",
       },
@@ -22277,10 +22401,10 @@ export const Linear = {
     readonly url: string;
     readonly projectPathWithNamespace: string;
     readonly number: number;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22288,11 +22412,11 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
-        id: "String",
         url: "String!",
         projectPathWithNamespace: "String!",
         number: "Float!",
@@ -22302,11 +22426,11 @@ export const Linear = {
   attachmentLinkIntercom: (args: {
     readonly conversationId: string;
     readonly issueId: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
     readonly partId?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22314,12 +22438,12 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         conversationId: "String!",
         partId: "String",
-        id: "String",
         issueId: "String!",
       },
       globalErrors,
@@ -22327,10 +22451,10 @@ export const Linear = {
   attachmentLinkJiraIssue: (args: {
     readonly issueId: string;
     readonly jiraIssueId: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
     readonly url?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
@@ -22339,12 +22463,12 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
         jiraIssueId: "String!",
-        id: "String",
         url: "String",
       },
       globalErrors,
@@ -22352,10 +22476,10 @@ export const Linear = {
   attachmentLinkSalesforce: (args: {
     readonly issueId: string;
     readonly url: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22363,11 +22487,11 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
-        id: "String",
         url: "String!",
       },
       globalErrors,
@@ -22375,10 +22499,10 @@ export const Linear = {
   attachmentLinkSlack: (args: {
     readonly issueId: string;
     readonly url: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
     readonly syncToCommentThread?: boolean | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
@@ -22387,12 +22511,12 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         issueId: "String!",
         url: "String!",
-        id: "String",
         syncToCommentThread: "Boolean",
       },
       globalErrors,
@@ -22400,10 +22524,10 @@ export const Linear = {
   attachmentLinkURL: (args: {
     readonly url: string;
     readonly issueId: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
       "mutation",
@@ -22411,22 +22535,22 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         url: "String!",
         issueId: "String!",
-        id: "String",
       },
       globalErrors,
     ),
   attachmentLinkZendesk: (args: {
     readonly ticketId: string;
     readonly issueId: string;
+    readonly id?: string | null | undefined;
     readonly createAsUser?: string | null | undefined;
     readonly displayIconUrl?: string | null | undefined;
     readonly title?: string | null | undefined;
-    readonly id?: string | null | undefined;
     readonly url?: string | null | undefined;
   }): Query<AttachmentPayload, LinearGlobalError> =>
     root(
@@ -22435,12 +22559,12 @@ export const Linear = {
       AttachmentPayload,
       args,
       {
+        id: "String",
         createAsUser: "String",
         displayIconUrl: "String",
         title: "String",
         ticketId: "String!",
         issueId: "String!",
-        id: "String",
         url: "String",
       },
       globalErrors,
@@ -22819,6 +22943,19 @@ export const Linear = {
       { ifParentDocumentId: "String", id: "String!" },
       globalErrors,
     ),
+  documentShare: (args: {
+    readonly userIds: ReadonlyArray<string>;
+    readonly id: string;
+    readonly role?: "edit" | "comment" | "view" | null | undefined;
+  }): Query<DocumentPayload, LinearGlobalError> =>
+    root(
+      "mutation",
+      "documentShare",
+      DocumentPayload,
+      args,
+      { role: "DocumentShareRole", userIds: "[String!]!", id: "String!" },
+      globalErrors,
+    ),
   documentUnarchive: (args: {
     readonly id: string;
   }): Query<DocumentArchivePayload, LinearGlobalError> =>
@@ -22828,6 +22965,18 @@ export const Linear = {
       DocumentArchivePayload,
       args,
       { id: "String!" },
+      globalErrors,
+    ),
+  documentUnshare: (args: {
+    readonly userIds: ReadonlyArray<string>;
+    readonly id: string;
+  }): Query<DocumentPayload, LinearGlobalError> =>
+    root(
+      "mutation",
+      "documentUnshare",
+      DocumentPayload,
+      args,
+      { userIds: "[String!]!", id: "String!" },
       globalErrors,
     ),
   documentUpdate: (args: {
@@ -22840,6 +22989,27 @@ export const Linear = {
       DocumentPayload,
       args,
       { input: "DocumentUpdateInput!", id: "String!" },
+      globalErrors,
+    ),
+  documentUpdateGeneralAccess: (args: {
+    readonly generalAccess: string;
+    readonly id: string;
+    readonly removeCollaboratorIds?: ReadonlyArray<string> | null | undefined;
+    readonly previousGeneralAccess?: string | null | undefined;
+    readonly applyToSubDocuments?: boolean | null | undefined;
+  }): Query<DocumentPayload, LinearGlobalError> =>
+    root(
+      "mutation",
+      "documentUpdateGeneralAccess",
+      DocumentPayload,
+      args,
+      {
+        removeCollaboratorIds: "[String!]",
+        previousGeneralAccess: "String",
+        applyToSubDocuments: "Boolean",
+        generalAccess: "String!",
+        id: "String!",
+      },
       globalErrors,
     ),
   documentUpdateWorkspaceAccess: (args: {
@@ -23475,6 +23645,7 @@ export const Linear = {
   integrationGithubConnect: (args: {
     readonly code: string;
     readonly installationId: string;
+    readonly addLinkingInstallation?: boolean | null | undefined;
     readonly confirmReplace?: boolean | null | undefined;
     readonly githubHost?: string | null | undefined;
     readonly codeAccess?: boolean | null | undefined;
@@ -23485,6 +23656,7 @@ export const Linear = {
       IntegrationPayload,
       args,
       {
+        addLinkingInstallation: "Boolean",
         confirmReplace: "Boolean",
         githubHost: "String",
         codeAccess: "Boolean",
@@ -23747,7 +23919,6 @@ export const Linear = {
       globalErrors,
     ),
   integrationSentryConnect: (args: {
-    readonly organizationSlug: string;
     readonly code: string;
     readonly installationId: string;
   }): Query<IntegrationPayload, LinearGlobalError> =>
@@ -23756,7 +23927,7 @@ export const Linear = {
       "integrationSentryConnect",
       IntegrationPayload,
       args,
-      { organizationSlug: "String!", code: "String!", installationId: "String!" },
+      { code: "String!", installationId: "String!" },
       globalErrors,
     ),
   integrationSlack: (args: {
@@ -24856,6 +25027,18 @@ export const Linear = {
       { id: "String!" },
       globalErrors,
     ),
+  projectMilestoneMove: (args: {
+    readonly input: ProjectMilestoneMoveInput;
+    readonly id: string;
+  }): Query<ProjectMilestoneMovePayload, LinearGlobalError> =>
+    root(
+      "mutation",
+      "projectMilestoneMove",
+      ProjectMilestoneMovePayload,
+      args,
+      { input: "ProjectMilestoneMoveInput!", id: "String!" },
+      globalErrors,
+    ),
   projectMilestoneUpdate: (args: {
     readonly input: ProjectMilestoneUpdateInput;
     readonly id: string;
@@ -25708,6 +25891,7 @@ export const Linear = {
       | "reviewsPromptToConnectGithubDismissed"
       | "workspaceSetupCompletedHidden"
       | "pinnedDocumentsEmptyStateDismissed"
+      | "homeCardsEmptyStateDismissed"
       | "all";
   }): Query<UserSettingsFlagPayload, LinearGlobalError> =>
     root(
@@ -25807,6 +25991,7 @@ export const Linear = {
           | "reviewsPromptToConnectGithubDismissed"
           | "workspaceSetupCompletedHidden"
           | "pinnedDocumentsEmptyStateDismissed"
+          | "homeCardsEmptyStateDismissed"
           | "all"
         >
       | null

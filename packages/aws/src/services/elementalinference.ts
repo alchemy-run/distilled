@@ -183,6 +183,7 @@ export type TranscriptionLanguage =
   | "deu"
   | "spa"
   | "por"
+  | "ara"
   | (string & {});
 export interface AspectRatio {
   width: number;
@@ -315,7 +316,15 @@ export interface AssociateFeedResponse {
   arn: string;
   id: string;
 }
-export type DictionaryLanguage = "eng" | "fra" | "ita" | "deu" | "spa" | "por" | (string & {});
+export type DictionaryLanguage =
+  | "eng"
+  | "fra"
+  | "ita"
+  | "deu"
+  | "spa"
+  | "por"
+  | "ara"
+  | (string & {});
 export type DictionaryEntriesPayload = string;
 export type TagKey = string;
 export type TagValue = string;

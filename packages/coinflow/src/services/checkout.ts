@@ -881,9 +881,9 @@ export interface AchCheckoutRequest {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Cents;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Cents;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -899,7 +899,7 @@ export interface AchCheckoutRequest {
   orderType?: OrderType | (string & {}) | undefined;
   /** If this debit is a subsequent charge (recurring/top-up/limit-order/ fair-market-value fill) under a previously submitted ACH authorization, pass that authorization's founding `paymentId` here so this debit is traceable back to the same authorization record. */
   achAuthorizationId?: string | undefined;
-  /** Shown on the customer's bank statement. Up to 10 letters, digits and spaces, sent with no `CF ` prefix; other characters are stripped and longer values are cut, never rejected. Only used when Coinflow has enabled custom statement descriptors for the merchant and the value comes from the checkout JWT or an API-key request; otherwise the merchant's default descriptor is used. */
+  /** Shown on the customer's bank statement. Up to 10 letters, digits and spaces; other characters are stripped and longer values are cut, never rejected. Only used when Coinflow has enabled custom statement descriptors for the merchant and the value comes from the checkout JWT or an API-key request; otherwise the merchant's default descriptor is used. */
   statementDescriptor?: string | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
@@ -950,9 +950,9 @@ export interface ApaCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1103,9 +1103,9 @@ export interface ApplePayRequest {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1124,12 +1124,53 @@ export interface ApplePayRequest {
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
+export interface L2L3Level2 {
+  invoiceReference?: string | undefined;
+}
+export type L2L3DataOneOf0Level = "level2";
+export interface L2L3Data0 {
+  level2: L2L3Level2;
+  level: L2L3DataOneOf0Level;
+}
+export interface L2L3Level3Shipping {
+  countryCode: string;
+  postalCode: string;
+}
+export interface L2L3Item {
+  name: string;
+  productCode: string;
+  quantity: number;
+  unitCost: Cents;
+  unitOfMeasure: string;
+  /** NIGP commodity code */
+  commodityCode: string;
+  totalTaxAmount: Cents;
+  totalDiscountAmount: Cents;
+  totalAmountNoTax: Cents;
+  totalAmount: Cents;
+}
+export type L2L3Level3ItemsList = Array<L2L3Item>;
+export interface L2L3Level3 {
+  discountAmount: Cents;
+  shippingAmount: Cents;
+  dutyAmount: Cents;
+  shipping: L2L3Level3Shipping;
+  items: L2L3Level3ItemsList;
+}
+export type L2L3DataOneOf1Level = "level3";
+export interface L2L3Data1 {
+  level3: L2L3Level3;
+  level2: L2L3Level2;
+  level: L2L3DataOneOf1Level;
+}
+export type L2L3Data = L2L3Data0 | L2L3Data1;
 export interface CapturePaymentRequest {
   /** The ID of the payment that was created. */
   paymentId: string;
   subtotal: Subtotal;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
+  l2l3Data?: L2L3Data | undefined;
 }
 export type CheckoutCapturePostResponsesContentApplicationJsonSchemaJobId = number | string;
 export interface CheckoutCapturePaymentResponse200 {
@@ -1198,46 +1239,6 @@ export interface CardDataWithoutAddress {
 }
 /** Credit card information. <b>Always</b> pass address unless explicitly told that you may not */
 export type CardCheckoutArgsCard = CardData | CardDataWithoutAddress;
-export interface L2L3Level2 {
-  invoiceReference?: string | undefined;
-}
-export type L2L3DataOneOf0Level = "level2";
-export interface L2L3Data0 {
-  level2: L2L3Level2;
-  level: L2L3DataOneOf0Level;
-}
-export interface L2L3Level3Shipping {
-  countryCode: string;
-  postalCode: string;
-}
-export interface L2L3Item {
-  name: string;
-  productCode: string;
-  quantity: number;
-  unitCost: Cents;
-  unitOfMeasure: string;
-  /** NIGP commodity code */
-  commodityCode: string;
-  totalTaxAmount: Cents;
-  totalDiscountAmount: Cents;
-  totalAmountNoTax: Cents;
-  totalAmount: Cents;
-}
-export type L2L3Level3ItemsList = Array<L2L3Item>;
-export interface L2L3Level3 {
-  discountAmount: Cents;
-  shippingAmount: Cents;
-  dutyAmount: Cents;
-  shipping: L2L3Level3Shipping;
-  items: L2L3Level3ItemsList;
-}
-export type L2L3DataOneOf1Level = "level3";
-export interface L2L3Data1 {
-  level3: L2L3Level3;
-  level2: L2L3Level2;
-  level: L2L3DataOneOf1Level;
-}
-export type L2L3Data = L2L3Data0 | L2L3Data1;
 export interface CardCheckoutRequest {
   merchantId: string;
   /** - (Optional) If you are using Coinflow Chargeback Protection, you must pass the device id of the customer's device. */
@@ -1308,9 +1309,9 @@ export interface CardOnFileCheckoutArgsWithOriginalPaymentId {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1342,9 +1343,9 @@ export interface CardOnFileCheckoutArgsWithToken {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1386,9 +1387,9 @@ export interface CashAppCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -1465,9 +1466,9 @@ export interface CreatePixPaymentRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2052,9 +2053,9 @@ export interface SupportedChainTokenCombos {
 }
 export interface GetTotalsRequest {
   merchantId: string;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   doNotReviewChargebackProtection?: boolean | undefined;
   settlementType?: SettlementType | (string & {}) | undefined;
   rent?: LamportsAmount | undefined;
@@ -2316,9 +2317,9 @@ export interface IbanCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2361,9 +2362,9 @@ export interface IbanTokenCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2389,9 +2390,9 @@ export interface InteracCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2431,9 +2432,9 @@ export interface InteracTokenCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2909,6 +2910,7 @@ export interface AddUSWireBankAccountData {
   businessName?: string | undefined;
   plaidAccountId?: string | undefined;
   plaidAccessToken?: string | Redacted.Redacted<string> | undefined;
+  plaidItemId?: string | undefined;
   plaidAccountType?: string | undefined;
   plaidAccountSubtype?: string | undefined;
   isTokenized?: boolean | undefined;
@@ -2922,9 +2924,9 @@ export interface WireCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -2969,9 +2971,9 @@ export interface WireTokenCheckoutRequest {
   webhookInfo?: AnyObject | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
-  subtotal: Subtotal;
   /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
   jwtToken?: string | Redacted.Redacted<string> | undefined;
+  subtotal: Subtotal;
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
@@ -3916,8 +3918,8 @@ function __c0(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           chargebackProtectionData: S.optional(__S(112, __c7, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: __S(32, __c2, 0),
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: __S(32, __c2, 0),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4020,8 +4022,8 @@ function __c8(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4155,8 +4157,8 @@ function __c10(j: number): any {
           webhookInfo: S.optional(__S(80, __c5, 0)),
           chargebackProtectionData: S.optional(__S(112, __c7, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4236,6 +4238,7 @@ function __c14(j: number): any {
           subtotal: S.Unknown,
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
+          l2l3Data: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/checkout/capture", code: 200 })),
       ).annotate({ identifier: "CapturePaymentRequest" });
     case 1:
@@ -4346,8 +4349,8 @@ function __c19(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4433,8 +4436,8 @@ function __c21(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -4793,8 +4796,8 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           merchantId: S.String.pipe(T.Label()),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           doNotReviewChargebackProtection: S.optional(S.Boolean),
           settlementType: S.optional(S.String),
           rent: S.optional(__S(16, __c1, 0)),
@@ -5061,8 +5064,8 @@ function __c36(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5120,8 +5123,8 @@ function __c38(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5152,8 +5155,8 @@ function __c39(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5199,8 +5202,8 @@ function __c41(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5660,6 +5663,7 @@ function __c57(j: number): any {
           businessName: S.optional(S.String),
           plaidAccountId: S.optional(S.String),
           plaidAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          plaidItemId: S.optional(S.String),
           plaidAccountType: S.optional(S.String),
           plaidAccountSubtype: S.optional(S.String),
           isTokenized: S.optional(S.Boolean),
@@ -5675,8 +5679,8 @@ function __c57(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),
@@ -5735,8 +5739,8 @@ function __c59(j: number): any {
           customerInfo: S.optional(S.Unknown),
           webhookInfo: S.optional(__S(80, __c5, 0)),
           feePercentage: S.optional(S.Number),
-          subtotal: S.Unknown,
           jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subtotal: S.Unknown,
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
           chargebackProtectionAccountType: S.optional(S.String),
           doNotReviewChargebackProtection: S.optional(S.Boolean),

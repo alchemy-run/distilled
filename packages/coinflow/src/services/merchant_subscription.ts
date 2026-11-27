@@ -360,7 +360,7 @@ export const createPlan: API.OperationMethod<
 }));
 
 export type DeactivatePlanError = CoinflowOpError;
-/** Deactivate Plan Deactivate a subscription plan If no subscribers, will be deleted. New subscriptions will not be allowed. */
+/** Deactivate Plan Deactivate a subscription plan New subscriptions will not be allowed. The plan is kept and can be reactivated by updating it with `active: true`. */
 export const deactivatePlan: API.OperationMethod<
   DeactivatePlanRequest,
   DeactivatePlanResponse,

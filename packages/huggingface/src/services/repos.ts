@@ -600,6 +600,152 @@ export interface CreateRepositoryResponse {
   id: string;
   filesCopyPending?: boolean | undefined;
 }
+export type CreateRepoTrustedPublisherRequestRepoType =
+  | "models"
+  | "spaces"
+  | "datasets"
+  | "kernels"
+  | "buckets"
+  | "containers";
+export interface CreateRepoTrustedPublisherRequestClaimsValueCase0 {
+  kind: string;
+  value: string;
+}
+export type CreateRepoTrustedPublisherRequestClaimsValueCase1 =
+  CreateRepoTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type CreateRepoTrustedPublisherRequestClaimsValue =
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0;
+/** Claims the OIDC token must match, by claim name. At least one is required. */
+export type CreateRepoTrustedPublisherRequestClaimsMap = {
+  [key: string]: CreateRepoTrustedPublisherRequestClaimsValue | undefined;
+};
+export type CreateRepoTrustedPublisherRequestPermissionsItem =
+  | "repo.content.read"
+  | "repo.content.write";
+/** Permissions granted on the repo to matching tokens. Defaults to `["repo.content.write"]`. */
+export type CreateRepoTrustedPublisherRequestPermissionsList = Array<
+  CreateRepoTrustedPublisherRequestPermissionsItem | (string & {})
+>;
+export interface CreateRepoTrustedPublisherRequest {
+  repoType: CreateRepoTrustedPublisherRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  /** URL of the OIDC issuer, e.g. `https://token.actions.githubusercontent.com`. */
+  issuerUrl: string;
+  /** Claims the OIDC token must match, by claim name. At least one is required. */
+  claims: CreateRepoTrustedPublisherRequestClaimsMap;
+  /** Permissions granted on the repo to matching tokens. Defaults to `["repo.content.write"]`. */
+  permissions?: CreateRepoTrustedPublisherRequestPermissionsList | undefined;
+}
+export type CreateRepoTrustedPublisherResponseClaimsValueCase0 =
+  CreateRepoTrustedPublisherRequestClaimsValueCase0;
+export type CreateRepoTrustedPublisherResponseClaimsValueCase1 =
+  CreateRepoTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type CreateRepoTrustedPublisherResponseClaimsValue =
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0;
+export type CreateRepoTrustedPublisherResponseClaimsMap = {
+  [key: string]: CreateRepoTrustedPublisherResponseClaimsValue | undefined;
+};
+export type CreateRepoTrustedPublisherResponseConfiguredByCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export interface CreateRepoTrustedPublisherResponseConfiguredByCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  plan?: CreateRepoTrustedPublisherResponseConfiguredByCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
+}
+export type CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export type CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export interface CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean | undefined;
+  plan?: CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
+}
+export interface CreateRepoTrustedPublisherResponseConfiguredByCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateRepoTrustedPublisherResponseConfiguredByCase1PrimaryOrg | undefined;
+}
+export type CreateRepoTrustedPublisherResponseConfiguredBy =
+  | CreateRepoTrustedPublisherResponseConfiguredByCase0
+  | CreateRepoTrustedPublisherResponseConfiguredByCase1;
+export type CreateRepoTrustedPublisherResponseCapabilitiesItem =
+  | "inference-api"
+  | "request-gated-repos";
+export type CreateRepoTrustedPublisherResponseCapabilitiesList =
+  Array<CreateRepoTrustedPublisherResponseCapabilitiesItem>;
+export type CreateRepoTrustedPublisherResponsePermissionsItem =
+  | "repo.content.read"
+  | "repo.content.write";
+export type CreateRepoTrustedPublisherResponsePermissionsList =
+  Array<CreateRepoTrustedPublisherResponsePermissionsItem>;
+export interface CreateRepoTrustedPublisherResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  issuerUrl: string;
+  claims: CreateRepoTrustedPublisherResponseClaimsMap;
+  configuredBy?: CreateRepoTrustedPublisherResponseConfiguredBy | undefined;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+  capabilities?: CreateRepoTrustedPublisherResponseCapabilitiesList | undefined;
+  permissions?: CreateRepoTrustedPublisherResponsePermissionsList | undefined;
+}
+export type DeleteRepoTrustedPublisherRequestRepoType =
+  | "models"
+  | "spaces"
+  | "datasets"
+  | "kernels"
+  | "buckets"
+  | "containers";
+export interface DeleteRepoTrustedPublisherRequest {
+  repoType: DeleteRepoTrustedPublisherRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+  publisherId: string;
+}
+export interface DeleteRepoTrustedPublisherResponse {}
 export type DuplicateRepositoryRequestRepoType = "spaces";
 export type DuplicateRepositoryRequestVisibility = "private" | "public" | "protected";
 export type DuplicateRepositoryRequestHardware =
@@ -690,6 +836,117 @@ export interface DuplicationStatusResponse {
   /** Number of files copied so far */
   filesCopied?: number | undefined;
 }
+export type ListRepoTrustedPublishersRequestRepoType =
+  | "models"
+  | "spaces"
+  | "datasets"
+  | "kernels"
+  | "buckets"
+  | "containers";
+export interface ListRepoTrustedPublishersRequest {
+  repoType: ListRepoTrustedPublishersRequestRepoType | (string & {});
+  namespace: string;
+  repo: string;
+}
+export type ListRepoTrustedPublishersResponseBodyItemClaimsValueCase0 =
+  CreateRepoTrustedPublisherRequestClaimsValueCase0;
+export type ListRepoTrustedPublishersResponseBodyItemClaimsValueCase1 =
+  CreateRepoTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type ListRepoTrustedPublishersResponseBodyItemClaimsValue =
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0
+  | CreateRepoTrustedPublisherRequestClaimsValueCase0;
+export type ListRepoTrustedPublishersResponseBodyItemClaimsMap = {
+  [key: string]: ListRepoTrustedPublishersResponseBodyItemClaimsValue | undefined;
+};
+export type ListRepoTrustedPublishersResponseBodyItemConfiguredByCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export interface ListRepoTrustedPublishersResponseBodyItemConfiguredByCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  plan?: ListRepoTrustedPublishersResponseBodyItemConfiguredByCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
+}
+export type ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export type ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export interface ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean | undefined;
+  plan?: ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
+}
+export interface ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrg | undefined;
+}
+export type ListRepoTrustedPublishersResponseBodyItemConfiguredBy =
+  | ListRepoTrustedPublishersResponseBodyItemConfiguredByCase0
+  | ListRepoTrustedPublishersResponseBodyItemConfiguredByCase1;
+export type ListRepoTrustedPublishersResponseBodyItemCapabilitiesItem =
+  | "inference-api"
+  | "request-gated-repos";
+export type ListRepoTrustedPublishersResponseBodyItemCapabilitiesList =
+  Array<ListRepoTrustedPublishersResponseBodyItemCapabilitiesItem>;
+export type ListRepoTrustedPublishersResponseBodyItemPermissionsItem =
+  | "repo.content.read"
+  | "repo.content.write";
+export type ListRepoTrustedPublishersResponseBodyItemPermissionsList =
+  Array<ListRepoTrustedPublishersResponseBodyItemPermissionsItem>;
+/** Trusted publisher */
+export interface ListRepoTrustedPublishersResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  issuerUrl: string;
+  claims: ListRepoTrustedPublishersResponseBodyItemClaimsMap;
+  configuredBy?: ListRepoTrustedPublishersResponseBodyItemConfiguredBy | undefined;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+  capabilities?: ListRepoTrustedPublishersResponseBodyItemCapabilitiesList | undefined;
+  permissions?: ListRepoTrustedPublishersResponseBodyItemPermissionsList | undefined;
+}
+export type ListRepoTrustedPublishersResponseBodyList =
+  Array<ListRepoTrustedPublishersResponseBodyItem>;
+export type ListRepoTrustedPublishersResponse = ListRepoTrustedPublishersResponseBodyList;
 export type MoveRepoRequestType = "dataset" | "model" | "space" | "bucket" | "kernel" | "container";
 export interface MoveRepoRequest {
   fromRepo: string;
@@ -719,6 +976,42 @@ export const createRepository: API.OperationMethod<
   span: "CreateRepository",
 }));
 
+export type CreateRepoTrustedPublisherError = HuggingFaceOpError;
+/** Repo trusted publisher Let OIDC tokens matching the issuer and claims exchange for a short-lived token on the repo. Requires write access to the repo. */
+export const createRepoTrustedPublisher: API.OperationMethod<
+  CreateRepoTrustedPublisherRequest,
+  CreateRepoTrustedPublisherResponse,
+  CreateRepoTrustedPublisherError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(17, __c2, 1) as any as S.Schema<CreateRepoTrustedPublisherRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<CreateRepoTrustedPublisherResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoTrustedPublisher",
+}));
+
+export type DeleteRepoTrustedPublisherError = HuggingFaceOpError;
+/** Repo trusted publisher */
+export const deleteRepoTrustedPublisher: API.OperationMethod<
+  DeleteRepoTrustedPublisherRequest,
+  DeleteRepoTrustedPublisherResponse,
+  DeleteRepoTrustedPublisherError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteRepoTrustedPublisherRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<DeleteRepoTrustedPublisherResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoTrustedPublisher",
+}));
+
 export type DuplicateRepositoryError = HuggingFaceOpError;
 /** Duplicate a repository */
 export const duplicateRepository: API.OperationMethod<
@@ -727,8 +1020,8 @@ export const duplicateRepository: API.OperationMethod<
   DuplicateRepositoryError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c2, 6) as any as S.Schema<DuplicateRepositoryRequest>,
-  output: __S(23, __c2, 7) as any as S.Schema<DuplicateRepositoryResponse>,
+  input: __S(54, __c6, 6) as any as S.Schema<DuplicateRepositoryRequest>,
+  output: __S(55, __c6, 7) as any as S.Schema<DuplicateRepositoryResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -745,14 +1038,32 @@ export const duplicationStatus: API.OperationMethod<
   DuplicationStatusError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DuplicationStatusRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DuplicationStatusResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DuplicationStatusRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<DuplicationStatusResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DuplicationStatus",
+}));
+
+export type ListRepoTrustedPublishersError = HuggingFaceOpError;
+/** Repo trusted publishers List the [trusted publishers](https://huggingface.co/docs/hub/trusted-publishers) of a repo. */
+export const listRepoTrustedPublishers: API.OperationMethod<
+  ListRepoTrustedPublishersRequest,
+  ListRepoTrustedPublishersResponse,
+  ListRepoTrustedPublishersError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<ListRepoTrustedPublishersRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<ListRepoTrustedPublishersResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoTrustedPublishers",
 }));
 
 export type MoveRepoError = HuggingFaceOpError;
@@ -763,8 +1074,8 @@ export const moveRepo: API.OperationMethod<
   MoveRepoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<MoveRepoRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<MoveRepoResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<MoveRepoRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<MoveRepoResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -807,6 +1118,77 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          repoType: S.String.pipe(T.Label()),
+          namespace: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issuerUrl: S.String,
+          claims: __S(16, __c2, 0),
+          permissions: S.optional(__S(24, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/{repoType}/{namespace}/{repo}/settings/trusted-publishers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateRepoTrustedPublisherRequest" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          issuerUrl: S.String,
+          claims: __S(18, __c2, 2),
+          configuredBy: S.optional(S.Unknown),
+          createdAt: S.String,
+          lastUsedAt: S.optional(S.String),
+          capabilities: S.optional(__S(24, __c3, 0)),
+          permissions: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "CreateRepoTrustedPublisherResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repoType: S.String.pipe(T.Label()),
+          namespace: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          publisherId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/{repoType}/{namespace}/{repo}/settings/trusted-publishers/{publisherId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteRepoTrustedPublisherRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteRepoTrustedPublisherResponse",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -815,7 +1197,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3SecretsItem" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(48, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -825,7 +1207,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3VariablesItem" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(50, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -838,7 +1220,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateRepositoryRequestBodyCase3VolumesItem" });
     case 5:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(52, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -851,9 +1233,9 @@ function __c2(j: number): any {
           resourceGroupId: S.optional(S.NullOr(S.String)),
           hardware: S.optional(S.String),
           sleepTimeSeconds: S.optional(S.Unknown),
-          secrets: S.optional(__S(17, __c2, 1)),
-          variables: S.optional(__S(19, __c2, 3)),
-          volumes: S.optional(__S(21, __c2, 5)),
+          secrets: S.optional(__S(49, __c6, 1)),
+          variables: S.optional(__S(51, __c6, 3)),
+          volumes: S.optional(__S(53, __c6, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -871,7 +1253,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DuplicateRepositoryResponse" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -897,7 +1279,46 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DuplicationStatusResponse" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repoType: S.String.pipe(T.Label()),
+          namespace: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/{repoType}/{namespace}/{repo}/settings/trusted-publishers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListRepoTrustedPublishersRequest" });
+    case 1:
+      return S.Record(S.String, S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          issuerUrl: S.String,
+          claims: __S(65, __c8, 1),
+          configuredBy: S.optional(S.Unknown),
+          createdAt: S.String,
+          lastUsedAt: S.optional(S.String),
+          capabilities: S.optional(__S(24, __c3, 0)),
+          permissions: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "ListRepoTrustedPublishersResponseBodyItem" });
+    case 3:
+      return S.Array(__S(66, __c8, 2));
+    case 4:
+      return S.suspend(() => __S(67, __c8, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListRepoTrustedPublishersResponse",
+      });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -907,8 +1328,6 @@ function __c4(j: number): any {
           type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/repos/move", code: 200 })),
       ).annotate({ identifier: "MoveRepoRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "MoveRepoResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

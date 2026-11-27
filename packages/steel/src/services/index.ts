@@ -8,4 +8,6 @@ export * as extensions from "./extensions.ts";
 export * as files from "./files.ts";
 export * as profiles from "./profiles.ts";
 export * as projects from "./projects.ts";
+export * as secretConnections from "./secret_connections.ts";
 export * as sessions from "./sessions.ts";
+export * as vaults from "./vaults.ts";

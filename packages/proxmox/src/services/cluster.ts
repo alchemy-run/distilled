@@ -104,6 +104,11 @@ export interface DeleteClusterMetricsServerByIdRequest {
   id: string;
 }
 export type DeleteClusterMetricsServerByIdResponse = null;
+export interface DeleteClusterMultipathWwidByWwidRequest {
+  digest?: string | undefined;
+  wwid: string;
+}
+export type DeleteClusterMultipathWwidByWwidResponse = null;
 export interface DeleteClusterNotificationsEndpointsGotifyByNameRequest {
   name: string;
 }
@@ -273,24 +278,34 @@ export type GetClusterAcmePluginsResultItemApi =
   | "alviy"
   | "anx"
   | "artfiles"
+  | "arubabusiness"
   | "arvan"
   | "aurora"
   | "autodns"
   | "aws"
   | "azion"
   | "azure"
+  | "baidu"
   | "beget"
+  | "bh"
+  | "bhosted"
   | "bookmyname"
   | "bunny"
+  | "calrissia"
+  | "cdmon"
   | "cf"
   | "clouddns"
   | "cloudns"
   | "cn"
+  | "comlaude"
   | "conoha"
   | "constellix"
   | "cpanel"
+  | "cpanel_uapi"
+  | "creoline"
   | "curanet"
   | "cyon"
+  | "czechia"
   | "da"
   | "ddnss"
   | "desec"
@@ -299,6 +314,7 @@ export type GetClusterAcmePluginsResultItemApi =
   | "dnsexit"
   | "dnshome"
   | "dnsimple"
+  | "dnsmint"
   | "dnsservices"
   | "doapi"
   | "domeneshop"
@@ -313,8 +329,11 @@ export type GetClusterAcmePluginsResultItemApi =
   | "easydns"
   | "edgecenter"
   | "edgedns"
+  | "efficientip"
+  | "eurodns"
   | "euserv"
   | "exoscale"
+  | "firestorm"
   | "fornex"
   | "freedns"
   | "freemyip"
@@ -323,20 +342,27 @@ export type GetClusterAcmePluginsResultItemApi =
   | "gcore"
   | "gd"
   | "geoscaling"
+  | "glesys"
+  | "gname"
   | "googledomains"
   | "he"
   | "he_ddns"
-  | "hetzner"
+  | "hestiacp"
   | "hetznercloud"
   | "hexonet"
   | "hostingde"
+  | "hostinger"
+  | "hostup"
   | "huaweicloud"
+  | "hw"
   | "infoblox"
+  | "infoblox_uddi"
   | "infomaniak"
   | "internetbs"
   | "inwx"
   | "ionos"
   | "ionos_cloud"
+  | "ipprojects"
   | "ipv64"
   | "ispconfig"
   | "jd"
@@ -346,21 +372,25 @@ export type GetClusterAcmePluginsResultItemApi =
   | "kinghost"
   | "knot"
   | "la"
+  | "laodc"
   | "leaseweb"
+  | "level27"
   | "lexicon"
   | "limacity"
-  | "linode"
   | "linode_v4"
   | "loopia"
   | "lua"
   | "maradns"
   | "me"
+  | "mgwm"
   | "miab"
   | "mijnhost"
   | "misaka"
+  | "muumuu"
   | "myapi"
   | "mydevil"
   | "mydnsjp"
+  | "myloc"
   | "mythic_beasts"
   | "namecheap"
   | "namecom"
@@ -370,6 +400,7 @@ export type GetClusterAcmePluginsResultItemApi =
   | "neodigit"
   | "netcup"
   | "netlify"
+  | "nexdns"
   | "nic"
   | "njalla"
   | "nm"
@@ -385,23 +416,32 @@ export type GetClusterAcmePluginsResultItemApi =
   | "openprovider_rest"
   | "openstack"
   | "opnsense"
+  | "opteamax"
+  | "optidata"
+  | "opusdns"
   | "ovh"
   | "pdns"
   | "pleskxml"
   | "pointhq"
   | "porkbun"
+  | "poweradmin"
+  | "qc"
   | "rackcorp"
   | "rackspace"
   | "rage4"
   | "rcode0"
   | "regru"
+  | "rltx"
   | "scaleway"
   | "schlundtech"
   | "selectel"
   | "selfhost"
   | "servercow"
   | "simply"
+  | "sitehost"
+  | "sotoon"
   | "spaceship"
+  | "subreg"
   | "technitium"
   | "tele3"
   | "tencent"
@@ -413,9 +453,12 @@ export type GetClusterAcmePluginsResultItemApi =
   | "variomedia"
   | "veesp"
   | "vercel"
+  | "virakcloud"
+  | "volcengine"
   | "vscale"
   | "vultr"
   | "websupport"
+  | "wedos"
   | "west_cn"
   | "world4you"
   | "yandex360"
@@ -450,24 +493,34 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "alviy"
   | "anx"
   | "artfiles"
+  | "arubabusiness"
   | "arvan"
   | "aurora"
   | "autodns"
   | "aws"
   | "azion"
   | "azure"
+  | "baidu"
   | "beget"
+  | "bh"
+  | "bhosted"
   | "bookmyname"
   | "bunny"
+  | "calrissia"
+  | "cdmon"
   | "cf"
   | "clouddns"
   | "cloudns"
   | "cn"
+  | "comlaude"
   | "conoha"
   | "constellix"
   | "cpanel"
+  | "cpanel_uapi"
+  | "creoline"
   | "curanet"
   | "cyon"
+  | "czechia"
   | "da"
   | "ddnss"
   | "desec"
@@ -476,6 +529,7 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "dnsexit"
   | "dnshome"
   | "dnsimple"
+  | "dnsmint"
   | "dnsservices"
   | "doapi"
   | "domeneshop"
@@ -490,8 +544,11 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "easydns"
   | "edgecenter"
   | "edgedns"
+  | "efficientip"
+  | "eurodns"
   | "euserv"
   | "exoscale"
+  | "firestorm"
   | "fornex"
   | "freedns"
   | "freemyip"
@@ -500,20 +557,27 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "gcore"
   | "gd"
   | "geoscaling"
+  | "glesys"
+  | "gname"
   | "googledomains"
   | "he"
   | "he_ddns"
-  | "hetzner"
+  | "hestiacp"
   | "hetznercloud"
   | "hexonet"
   | "hostingde"
+  | "hostinger"
+  | "hostup"
   | "huaweicloud"
+  | "hw"
   | "infoblox"
+  | "infoblox_uddi"
   | "infomaniak"
   | "internetbs"
   | "inwx"
   | "ionos"
   | "ionos_cloud"
+  | "ipprojects"
   | "ipv64"
   | "ispconfig"
   | "jd"
@@ -523,21 +587,25 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "kinghost"
   | "knot"
   | "la"
+  | "laodc"
   | "leaseweb"
+  | "level27"
   | "lexicon"
   | "limacity"
-  | "linode"
   | "linode_v4"
   | "loopia"
   | "lua"
   | "maradns"
   | "me"
+  | "mgwm"
   | "miab"
   | "mijnhost"
   | "misaka"
+  | "muumuu"
   | "myapi"
   | "mydevil"
   | "mydnsjp"
+  | "myloc"
   | "mythic_beasts"
   | "namecheap"
   | "namecom"
@@ -547,6 +615,7 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "neodigit"
   | "netcup"
   | "netlify"
+  | "nexdns"
   | "nic"
   | "njalla"
   | "nm"
@@ -562,23 +631,32 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "openprovider_rest"
   | "openstack"
   | "opnsense"
+  | "opteamax"
+  | "optidata"
+  | "opusdns"
   | "ovh"
   | "pdns"
   | "pleskxml"
   | "pointhq"
   | "porkbun"
+  | "poweradmin"
+  | "qc"
   | "rackcorp"
   | "rackspace"
   | "rage4"
   | "rcode0"
   | "regru"
+  | "rltx"
   | "scaleway"
   | "schlundtech"
   | "selectel"
   | "selfhost"
   | "servercow"
   | "simply"
+  | "sitehost"
+  | "sotoon"
   | "spaceship"
+  | "subreg"
   | "technitium"
   | "tele3"
   | "tencent"
@@ -590,9 +668,12 @@ export type GetClusterAcmePluginsByIdResultApi =
   | "variomedia"
   | "veesp"
   | "vercel"
+  | "virakcloud"
+  | "volcengine"
   | "vscale"
   | "vultr"
   | "websupport"
+  | "wedos"
   | "west_cn"
   | "world4you"
   | "yandex360"
@@ -629,7 +710,8 @@ export type GetClusterBackupResultItemMode = "snapshot" | "suspend" | "stop";
 export type GetClusterBackupResultItemNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type GetClusterBackupResultItemPbsChangeDetectionMode = "legacy" | "data" | "metadata";
 export interface GetClusterBackupResultItemPerformance {
   "max-workers"?: number | undefined;
@@ -696,7 +778,8 @@ export type GetClusterBackupByIdResultMode = "snapshot" | "suspend" | "stop";
 export type GetClusterBackupByIdResultNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type GetClusterBackupByIdResultPbsChangeDetectionMode = "legacy" | "data" | "metadata";
 export type GetClusterBackupByIdResultPerformance = GetClusterBackupResultItemPerformance;
 export type GetClusterBackupByIdResultPruneBackups = GetClusterBackupResultItemPruneBackups;
@@ -898,6 +981,7 @@ export interface GetClusterConfigJoinResult {
   config_digest: string;
   nodelist: GetClusterConfigJoinResultNodelist;
   preferred_node: string;
+  "pve-version"?: string | undefined;
   totem: GetClusterConfigJoinResultTotem;
 }
 export type GetClusterConfigJoinResponse = GetClusterConfigJoinResult;
@@ -1208,6 +1292,8 @@ export interface GetClusterHaStatusCurrentResultItem {
   crm_state?: string | undefined;
   failback?: boolean | 0 | 1 | undefined;
   id: string;
+  "maintenance-request-queued"?: boolean | 0 | 1 | undefined;
+  "maintenance-requested"?: boolean | 0 | 1 | undefined;
   max_relocate?: number | undefined;
   max_restart?: number | undefined;
   node: string;
@@ -1371,6 +1457,40 @@ export interface GetClusterMetricsServerByIdRequest {
 }
 export type GetClusterMetricsServerByIdResult = { [key: string]: unknown | undefined };
 export type GetClusterMetricsServerByIdResponse = GetClusterMetricsServerByIdResult;
+export interface GetClusterMultipathRequest {}
+export interface GetClusterMultipathResultItem {
+  name: string;
+}
+export type GetClusterMultipathResult = Array<GetClusterMultipathResultItem>;
+export type GetClusterMultipathResponse = GetClusterMultipathResult;
+export interface GetClusterMultipathOverridesRequest {}
+export interface GetClusterMultipathOverridesResult {
+  digest?: string | undefined;
+  overrides?: string | undefined;
+}
+export type GetClusterMultipathOverridesResponse = GetClusterMultipathOverridesResult;
+export interface GetClusterMultipathWwidRequest {}
+export interface GetClusterMultipathWwidResultItem {
+  alias?: string | undefined;
+  "no-path-retry"?: string | undefined;
+  nodes?: string | undefined;
+  "paths-expected"?: number | undefined;
+  wwid: string;
+}
+export type GetClusterMultipathWwidResult = Array<GetClusterMultipathWwidResultItem>;
+export type GetClusterMultipathWwidResponse = GetClusterMultipathWwidResult;
+export interface GetClusterMultipathWwidByWwidRequest {
+  wwid: string;
+}
+export interface GetClusterMultipathWwidByWwidResult {
+  alias?: string | undefined;
+  digest?: string | undefined;
+  "no-path-retry"?: string | undefined;
+  nodes?: string | undefined;
+  "paths-expected"?: number | undefined;
+  wwid: string;
+}
+export type GetClusterMultipathWwidByWwidResponse = GetClusterMultipathWwidByWwidResult;
 export interface GetClusterNextidRequest {
   vmid?: number | undefined;
 }
@@ -1541,11 +1661,8 @@ export interface GetClusterNotificationsEndpointsWebhookByNameResult {
 export type GetClusterNotificationsEndpointsWebhookByNameResponse =
   GetClusterNotificationsEndpointsWebhookByNameResult;
 export interface GetClusterNotificationsMatcherFieldsRequest {}
-export interface GetClusterNotificationsMatcherFieldsResultItem {
-  name: string;
-}
-export type GetClusterNotificationsMatcherFieldsResult =
-  Array<GetClusterNotificationsMatcherFieldsResultItem>;
+export type GetClusterNotificationsMatcherFieldsResultItem = GetClusterMultipathResultItem;
+export type GetClusterNotificationsMatcherFieldsResult = Array<GetClusterMultipathResultItem>;
 export type GetClusterNotificationsMatcherFieldsResponse =
   GetClusterNotificationsMatcherFieldsResult;
 export interface GetClusterNotificationsMatcherFieldValuesRequest {}
@@ -1708,6 +1825,7 @@ export interface GetClusterOptionsResult {
   "registered-tags"?: string | undefined;
   replication?: string | undefined;
   "tag-style"?: string | undefined;
+  "token-policy"?: string | undefined;
   u2f?: string | undefined;
   "user-tag-access"?: string | undefined;
   webauthn?: string | undefined;
@@ -2096,6 +2214,7 @@ export interface GetClusterResourcesResultItem {
   plugintype?: string | undefined;
   pool?: string | undefined;
   protocol?: string | undefined;
+  rtime?: number | undefined;
   sdn?: string | undefined;
   shared?: boolean | 0 | 1 | undefined;
   status?: string | undefined;
@@ -2103,12 +2222,43 @@ export interface GetClusterResourcesResultItem {
   tags?: string | undefined;
   template?: boolean | 0 | 1 | undefined;
   type: GetClusterResourcesResultItemType;
+  uid?: string | undefined;
   uptime?: number | undefined;
   vmid?: number | undefined;
   "zone-type"?: string | undefined;
 }
 export type GetClusterResourcesResult = Array<GetClusterResourcesResultItem>;
 export type GetClusterResourcesResponse = GetClusterResourcesResult;
+export interface GetClusterSanRequest {}
+export type GetClusterSanResultItem = GetClusterMultipathResultItem;
+export type GetClusterSanResult = Array<GetClusterMultipathResultItem>;
+export type GetClusterSanResponse = GetClusterSanResult;
+export interface GetClusterSanStatusRequest {}
+export type GetClusterSanStatusResultLunsItemNodes = { [key: string]: unknown | undefined };
+export type GetClusterSanStatusResultLunsItemState =
+  | "optimal"
+  | "degraded"
+  | "failed"
+  | "missing"
+  | "unknown";
+export interface GetClusterSanStatusResultLunsItem {
+  explicit: boolean | 0 | 1;
+  "multipath-storage"?: string | undefined;
+  name?: string | undefined;
+  native?: boolean | 0 | 1 | undefined;
+  nodes: GetClusterSanStatusResultLunsItemNodes;
+  size?: number | undefined;
+  state: GetClusterSanStatusResultLunsItemState;
+  "used-by-storage"?: string | undefined;
+  wwid: string;
+}
+export type GetClusterSanStatusResultLuns = Array<GetClusterSanStatusResultLunsItem>;
+export type GetClusterSanStatusResultNodes = { [key: string]: unknown | undefined };
+export interface GetClusterSanStatusResult {
+  luns: GetClusterSanStatusResultLuns;
+  nodes: GetClusterSanStatusResultNodes;
+}
+export type GetClusterSanStatusResponse = GetClusterSanStatusResult;
 export interface GetClusterSdnRequest {}
 export type GetClusterSdnResultItem = GetClusterHaResultItem;
 export type GetClusterSdnResult = Array<GetClusterHaResultItem>;
@@ -2240,50 +2390,96 @@ export interface GetClusterSdnFabricsAllRequest {
   pending?: boolean | 0 | 1 | undefined;
   running?: boolean | 0 | 1 | undefined;
 }
+export type GetClusterSdnFabricsAllResultFabricsItemPendingProtocol =
+  | "openfabric"
+  | "ospf"
+  | "wireguard"
+  | "bgp";
+export type GetClusterSdnFabricsAllResultFabricsItemPendingRedistribute = Array<unknown>;
+export interface GetClusterSdnFabricsAllResultFabricsItemPending {
+  area?: string | undefined;
+  csnp_interval?: number | undefined;
+  hello_interval?: number | undefined;
+  id?: string | undefined;
+  ip6_prefix?: string | undefined;
+  ip_prefix?: string | undefined;
+  persistent_keepalive?: number | undefined;
+  protocol?: GetClusterSdnFabricsAllResultFabricsItemPendingProtocol | undefined;
+  redistribute?: GetClusterSdnFabricsAllResultFabricsItemPendingRedistribute | undefined;
+  route_filter?: string | undefined;
+  zone?: string | undefined;
+}
 export type GetClusterSdnFabricsAllResultFabricsItemProtocol =
   | "openfabric"
   | "ospf"
   | "wireguard"
   | "bgp";
 export type GetClusterSdnFabricsAllResultFabricsItemRedistribute = Array<unknown>;
+export type GetClusterSdnFabricsAllResultFabricsItemState = "new" | "changed" | "deleted";
 export interface GetClusterSdnFabricsAllResultFabricsItem {
   area?: string | undefined;
   csnp_interval?: number | undefined;
   digest?: string | undefined;
   hello_interval?: number | undefined;
-  id: string;
+  id?: string | undefined;
   ip6_prefix?: string | undefined;
   ip_prefix?: string | undefined;
-  "lock-token"?: string | undefined;
+  pending?: GetClusterSdnFabricsAllResultFabricsItemPending | undefined;
   persistent_keepalive?: number | undefined;
-  protocol: GetClusterSdnFabricsAllResultFabricsItemProtocol;
+  protocol?: GetClusterSdnFabricsAllResultFabricsItemProtocol | undefined;
   redistribute: GetClusterSdnFabricsAllResultFabricsItemRedistribute;
   route_filter?: string | undefined;
+  state?: GetClusterSdnFabricsAllResultFabricsItemState | undefined;
+  zone?: string | undefined;
 }
 export type GetClusterSdnFabricsAllResultFabrics = Array<GetClusterSdnFabricsAllResultFabricsItem>;
 export type GetClusterSdnFabricsAllResultNodesItemAllowedIps = Array<string>;
 export type GetClusterSdnFabricsAllResultNodesItemInterfaces = Array<unknown>;
 export type GetClusterSdnFabricsAllResultNodesItemPeers = Array<string>;
+export type GetClusterSdnFabricsAllResultNodesItemPendingAllowedIps = Array<string>;
+export type GetClusterSdnFabricsAllResultNodesItemPendingInterfaces = Array<unknown>;
+export type GetClusterSdnFabricsAllResultNodesItemPendingPeers = Array<string>;
+export type GetClusterSdnFabricsAllResultNodesItemPendingProtocol =
+  | "openfabric"
+  | "ospf"
+  | "wireguard"
+  | "bgp";
+export type GetClusterSdnFabricsAllResultNodesItemPendingRole = "internal" | "external";
+export interface GetClusterSdnFabricsAllResultNodesItemPending {
+  allowed_ips?: GetClusterSdnFabricsAllResultNodesItemPendingAllowedIps | undefined;
+  endpoint?: string | undefined;
+  fabric_id?: string | undefined;
+  interfaces?: GetClusterSdnFabricsAllResultNodesItemPendingInterfaces | undefined;
+  ip?: string | undefined;
+  ip6?: string | undefined;
+  node_id?: string | undefined;
+  peers?: GetClusterSdnFabricsAllResultNodesItemPendingPeers | undefined;
+  protocol?: GetClusterSdnFabricsAllResultNodesItemPendingProtocol | undefined;
+  public_key?: string | undefined;
+  role?: GetClusterSdnFabricsAllResultNodesItemPendingRole | undefined;
+}
 export type GetClusterSdnFabricsAllResultNodesItemProtocol =
   | "openfabric"
   | "ospf"
   | "wireguard"
   | "bgp";
 export type GetClusterSdnFabricsAllResultNodesItemRole = "internal" | "external";
+export type GetClusterSdnFabricsAllResultNodesItemState = "new" | "changed" | "deleted";
 export interface GetClusterSdnFabricsAllResultNodesItem {
   allowed_ips?: GetClusterSdnFabricsAllResultNodesItemAllowedIps | undefined;
   digest?: string | undefined;
   endpoint?: string | undefined;
-  fabric_id: string;
+  fabric_id?: string | undefined;
   interfaces: GetClusterSdnFabricsAllResultNodesItemInterfaces;
   ip?: string | undefined;
   ip6?: string | undefined;
-  "lock-token"?: string | undefined;
-  node_id: string;
+  node_id?: string | undefined;
   peers?: GetClusterSdnFabricsAllResultNodesItemPeers | undefined;
-  protocol: GetClusterSdnFabricsAllResultNodesItemProtocol;
+  pending?: GetClusterSdnFabricsAllResultNodesItemPending | undefined;
+  protocol?: GetClusterSdnFabricsAllResultNodesItemProtocol | undefined;
   public_key?: string | undefined;
   role?: GetClusterSdnFabricsAllResultNodesItemRole | undefined;
+  state?: GetClusterSdnFabricsAllResultNodesItemState | undefined;
 }
 export type GetClusterSdnFabricsAllResultNodes = Array<GetClusterSdnFabricsAllResultNodesItem>;
 export interface GetClusterSdnFabricsAllResult {
@@ -2295,25 +2491,47 @@ export interface GetClusterSdnFabricsFabricRequest {
   pending?: boolean | 0 | 1 | undefined;
   running?: boolean | 0 | 1 | undefined;
 }
+export type GetClusterSdnFabricsFabricResultItemPendingProtocol =
+  | "openfabric"
+  | "ospf"
+  | "wireguard"
+  | "bgp";
+export type GetClusterSdnFabricsFabricResultItemPendingRedistribute = Array<unknown>;
+export interface GetClusterSdnFabricsFabricResultItemPending {
+  area?: string | undefined;
+  csnp_interval?: number | undefined;
+  hello_interval?: number | undefined;
+  id?: string | undefined;
+  ip6_prefix?: string | undefined;
+  ip_prefix?: string | undefined;
+  persistent_keepalive?: number | undefined;
+  protocol?: GetClusterSdnFabricsFabricResultItemPendingProtocol | undefined;
+  redistribute?: GetClusterSdnFabricsFabricResultItemPendingRedistribute | undefined;
+  route_filter?: string | undefined;
+  zone?: string | undefined;
+}
 export type GetClusterSdnFabricsFabricResultItemProtocol =
   | "openfabric"
   | "ospf"
   | "wireguard"
   | "bgp";
 export type GetClusterSdnFabricsFabricResultItemRedistribute = Array<unknown>;
+export type GetClusterSdnFabricsFabricResultItemState = "new" | "changed" | "deleted";
 export interface GetClusterSdnFabricsFabricResultItem {
   area?: string | undefined;
   csnp_interval?: number | undefined;
   digest?: string | undefined;
   hello_interval?: number | undefined;
-  id: string;
+  id?: string | undefined;
   ip6_prefix?: string | undefined;
   ip_prefix?: string | undefined;
-  "lock-token"?: string | undefined;
+  pending?: GetClusterSdnFabricsFabricResultItemPending | undefined;
   persistent_keepalive?: number | undefined;
-  protocol: GetClusterSdnFabricsFabricResultItemProtocol;
+  protocol?: GetClusterSdnFabricsFabricResultItemProtocol | undefined;
   redistribute: GetClusterSdnFabricsFabricResultItemRedistribute;
   route_filter?: string | undefined;
+  state?: GetClusterSdnFabricsFabricResultItemState | undefined;
+  zone?: string | undefined;
 }
 export type GetClusterSdnFabricsFabricResult = Array<GetClusterSdnFabricsFabricResultItem>;
 export type GetClusterSdnFabricsFabricResponse = GetClusterSdnFabricsFabricResult;
@@ -2339,6 +2557,7 @@ export interface GetClusterSdnFabricsFabricByIdResult {
   protocol: GetClusterSdnFabricsFabricByIdResultProtocol;
   redistribute: GetClusterSdnFabricsFabricByIdResultRedistribute;
   route_filter?: string | undefined;
+  zone?: string | undefined;
 }
 export type GetClusterSdnFabricsFabricByIdResponse = GetClusterSdnFabricsFabricByIdResult;
 export interface GetClusterSdnFabricsNodeRequest {
@@ -2348,26 +2567,50 @@ export interface GetClusterSdnFabricsNodeRequest {
 export type GetClusterSdnFabricsNodeResultItemAllowedIps = Array<string>;
 export type GetClusterSdnFabricsNodeResultItemInterfaces = Array<unknown>;
 export type GetClusterSdnFabricsNodeResultItemPeers = Array<string>;
+export type GetClusterSdnFabricsNodeResultItemPendingAllowedIps = Array<string>;
+export type GetClusterSdnFabricsNodeResultItemPendingInterfaces = Array<unknown>;
+export type GetClusterSdnFabricsNodeResultItemPendingPeers = Array<string>;
+export type GetClusterSdnFabricsNodeResultItemPendingProtocol =
+  | "openfabric"
+  | "ospf"
+  | "wireguard"
+  | "bgp";
+export type GetClusterSdnFabricsNodeResultItemPendingRole = "internal" | "external";
+export interface GetClusterSdnFabricsNodeResultItemPending {
+  allowed_ips?: GetClusterSdnFabricsNodeResultItemPendingAllowedIps | undefined;
+  endpoint?: string | undefined;
+  fabric_id?: string | undefined;
+  interfaces?: GetClusterSdnFabricsNodeResultItemPendingInterfaces | undefined;
+  ip?: string | undefined;
+  ip6?: string | undefined;
+  node_id?: string | undefined;
+  peers?: GetClusterSdnFabricsNodeResultItemPendingPeers | undefined;
+  protocol?: GetClusterSdnFabricsNodeResultItemPendingProtocol | undefined;
+  public_key?: string | undefined;
+  role?: GetClusterSdnFabricsNodeResultItemPendingRole | undefined;
+}
 export type GetClusterSdnFabricsNodeResultItemProtocol =
   | "openfabric"
   | "ospf"
   | "wireguard"
   | "bgp";
 export type GetClusterSdnFabricsNodeResultItemRole = "internal" | "external";
+export type GetClusterSdnFabricsNodeResultItemState = "new" | "changed" | "deleted";
 export interface GetClusterSdnFabricsNodeResultItem {
   allowed_ips?: GetClusterSdnFabricsNodeResultItemAllowedIps | undefined;
   digest?: string | undefined;
   endpoint?: string | undefined;
-  fabric_id: string;
+  fabric_id?: string | undefined;
   interfaces: GetClusterSdnFabricsNodeResultItemInterfaces;
   ip?: string | undefined;
   ip6?: string | undefined;
-  "lock-token"?: string | undefined;
-  node_id: string;
+  node_id?: string | undefined;
   peers?: GetClusterSdnFabricsNodeResultItemPeers | undefined;
-  protocol: GetClusterSdnFabricsNodeResultItemProtocol;
+  pending?: GetClusterSdnFabricsNodeResultItemPending | undefined;
+  protocol?: GetClusterSdnFabricsNodeResultItemProtocol | undefined;
   public_key?: string | undefined;
   role?: GetClusterSdnFabricsNodeResultItemRole | undefined;
+  state?: GetClusterSdnFabricsNodeResultItemState | undefined;
 }
 export type GetClusterSdnFabricsNodeResult = Array<GetClusterSdnFabricsNodeResultItem>;
 export type GetClusterSdnFabricsNodeResponse = GetClusterSdnFabricsNodeResult;
@@ -2379,26 +2622,50 @@ export interface GetClusterSdnFabricsNodeByFabricIdRequest {
 export type GetClusterSdnFabricsNodeByFabricIdResultItemAllowedIps = Array<string>;
 export type GetClusterSdnFabricsNodeByFabricIdResultItemInterfaces = Array<unknown>;
 export type GetClusterSdnFabricsNodeByFabricIdResultItemPeers = Array<string>;
+export type GetClusterSdnFabricsNodeByFabricIdResultItemPendingAllowedIps = Array<string>;
+export type GetClusterSdnFabricsNodeByFabricIdResultItemPendingInterfaces = Array<unknown>;
+export type GetClusterSdnFabricsNodeByFabricIdResultItemPendingPeers = Array<string>;
+export type GetClusterSdnFabricsNodeByFabricIdResultItemPendingProtocol =
+  | "openfabric"
+  | "ospf"
+  | "wireguard"
+  | "bgp";
+export type GetClusterSdnFabricsNodeByFabricIdResultItemPendingRole = "internal" | "external";
+export interface GetClusterSdnFabricsNodeByFabricIdResultItemPending {
+  allowed_ips?: GetClusterSdnFabricsNodeByFabricIdResultItemPendingAllowedIps | undefined;
+  endpoint?: string | undefined;
+  fabric_id?: string | undefined;
+  interfaces?: GetClusterSdnFabricsNodeByFabricIdResultItemPendingInterfaces | undefined;
+  ip?: string | undefined;
+  ip6?: string | undefined;
+  node_id?: string | undefined;
+  peers?: GetClusterSdnFabricsNodeByFabricIdResultItemPendingPeers | undefined;
+  protocol?: GetClusterSdnFabricsNodeByFabricIdResultItemPendingProtocol | undefined;
+  public_key?: string | undefined;
+  role?: GetClusterSdnFabricsNodeByFabricIdResultItemPendingRole | undefined;
+}
 export type GetClusterSdnFabricsNodeByFabricIdResultItemProtocol =
   | "openfabric"
   | "ospf"
   | "wireguard"
   | "bgp";
 export type GetClusterSdnFabricsNodeByFabricIdResultItemRole = "internal" | "external";
+export type GetClusterSdnFabricsNodeByFabricIdResultItemState = "new" | "changed" | "deleted";
 export interface GetClusterSdnFabricsNodeByFabricIdResultItem {
   allowed_ips?: GetClusterSdnFabricsNodeByFabricIdResultItemAllowedIps | undefined;
   digest?: string | undefined;
   endpoint?: string | undefined;
-  fabric_id: string;
+  fabric_id?: string | undefined;
   interfaces: GetClusterSdnFabricsNodeByFabricIdResultItemInterfaces;
   ip?: string | undefined;
   ip6?: string | undefined;
-  "lock-token"?: string | undefined;
-  node_id: string;
+  node_id?: string | undefined;
   peers?: GetClusterSdnFabricsNodeByFabricIdResultItemPeers | undefined;
-  protocol: GetClusterSdnFabricsNodeByFabricIdResultItemProtocol;
+  pending?: GetClusterSdnFabricsNodeByFabricIdResultItemPending | undefined;
+  protocol?: GetClusterSdnFabricsNodeByFabricIdResultItemProtocol | undefined;
   public_key?: string | undefined;
   role?: GetClusterSdnFabricsNodeByFabricIdResultItemRole | undefined;
+  state?: GetClusterSdnFabricsNodeByFabricIdResultItemState | undefined;
 }
 export type GetClusterSdnFabricsNodeByFabricIdResult =
   Array<GetClusterSdnFabricsNodeByFabricIdResultItem>;
@@ -2722,6 +2989,7 @@ export interface GetClusterSdnZonesRequest {
 }
 export type GetClusterSdnZonesResultItemDhcp = "dnsmasq";
 export type GetClusterSdnZonesResultItemPendingDhcp = "dnsmasq";
+export type GetClusterSdnZonesResultItemPendingRoute = Array<string>;
 export type GetClusterSdnZonesResultItemPendingSecondaryControllers = Array<string>;
 export type GetClusterSdnZonesResultItemPendingVlanProtocol = "802.1q" | "802.1ad";
 export interface GetClusterSdnZonesResultItemPending {
@@ -2729,6 +2997,8 @@ export interface GetClusterSdnZonesResultItemPending {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   dhcp?: GetClusterSdnZonesResultItemPendingDhcp | undefined;
   "disable-arp-nd-suppression"?: boolean | 0 | 1 | undefined;
   dns?: string | undefined;
@@ -2742,6 +3012,7 @@ export interface GetClusterSdnZonesResultItemPending {
   nodes?: string | undefined;
   peers?: string | undefined;
   reversedns?: string | undefined;
+  route?: GetClusterSdnZonesResultItemPendingRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: GetClusterSdnZonesResultItemPendingSecondaryControllers | undefined;
   tag?: number | undefined;
@@ -2749,6 +3020,7 @@ export interface GetClusterSdnZonesResultItemPending {
   "vrf-vxlan"?: number | undefined;
   "vxlan-port"?: number | undefined;
 }
+export type GetClusterSdnZonesResultItemRoute = Array<string>;
 export type GetClusterSdnZonesResultItemSecondaryControllers = Array<string>;
 export type GetClusterSdnZonesResultItemState = "new" | "changed" | "deleted";
 export type GetClusterSdnZonesResultItemType =
@@ -2764,6 +3036,8 @@ export interface GetClusterSdnZonesResultItem {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   dhcp?: GetClusterSdnZonesResultItemDhcp | undefined;
   digest?: string | undefined;
   "disable-arp-nd-suppression"?: boolean | 0 | 1 | undefined;
@@ -2779,6 +3053,7 @@ export interface GetClusterSdnZonesResultItem {
   peers?: string | undefined;
   pending?: GetClusterSdnZonesResultItemPending | undefined;
   reversedns?: string | undefined;
+  route?: GetClusterSdnZonesResultItemRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: GetClusterSdnZonesResultItemSecondaryControllers | undefined;
   state?: GetClusterSdnZonesResultItemState | undefined;
@@ -2798,6 +3073,7 @@ export interface GetClusterSdnZonesByZoneRequest {
 }
 export type GetClusterSdnZonesByZoneResultDhcp = "dnsmasq";
 export type GetClusterSdnZonesByZoneResultPendingDhcp = "dnsmasq";
+export type GetClusterSdnZonesByZoneResultPendingRoute = Array<string>;
 export type GetClusterSdnZonesByZoneResultPendingSecondaryControllers = Array<string>;
 export type GetClusterSdnZonesByZoneResultPendingVlanProtocol = "802.1q" | "802.1ad";
 export interface GetClusterSdnZonesByZoneResultPending {
@@ -2805,6 +3081,8 @@ export interface GetClusterSdnZonesByZoneResultPending {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   dhcp?: GetClusterSdnZonesByZoneResultPendingDhcp | undefined;
   "disable-arp-nd-suppression"?: boolean | 0 | 1 | undefined;
   dns?: string | undefined;
@@ -2818,6 +3096,7 @@ export interface GetClusterSdnZonesByZoneResultPending {
   nodes?: string | undefined;
   peers?: string | undefined;
   reversedns?: string | undefined;
+  route?: GetClusterSdnZonesByZoneResultPendingRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: GetClusterSdnZonesByZoneResultPendingSecondaryControllers | undefined;
   tag?: number | undefined;
@@ -2825,6 +3104,7 @@ export interface GetClusterSdnZonesByZoneResultPending {
   "vrf-vxlan"?: number | undefined;
   "vxlan-port"?: number | undefined;
 }
+export type GetClusterSdnZonesByZoneResultRoute = Array<string>;
 export type GetClusterSdnZonesByZoneResultSecondaryControllers = Array<string>;
 export type GetClusterSdnZonesByZoneResultState = "new" | "changed" | "deleted";
 export type GetClusterSdnZonesByZoneResultType =
@@ -2840,6 +3120,8 @@ export interface GetClusterSdnZonesByZoneResult {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   dhcp?: GetClusterSdnZonesByZoneResultDhcp | undefined;
   digest?: string | undefined;
   "disable-arp-nd-suppression"?: boolean | 0 | 1 | undefined;
@@ -2855,6 +3137,7 @@ export interface GetClusterSdnZonesByZoneResult {
   peers?: string | undefined;
   pending?: GetClusterSdnZonesByZoneResultPending | undefined;
   reversedns?: string | undefined;
+  route?: GetClusterSdnZonesByZoneResultRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: GetClusterSdnZonesByZoneResultSecondaryControllers | undefined;
   state?: GetClusterSdnZonesByZoneResultState | undefined;
@@ -2869,6 +3152,7 @@ export type GetClusterSdnZonesByZoneResponse = GetClusterSdnZonesByZoneResult;
 export interface GetClusterStatusRequest {}
 export type GetClusterStatusResultItemType = "cluster" | "node";
 export interface GetClusterStatusResultItem {
+  "cluster-id"?: string | undefined;
   id: string;
   ip?: string | undefined;
   level?: string | undefined;
@@ -2908,24 +3192,34 @@ export type PostClusterAcmePluginsRequestApi =
   | "alviy"
   | "anx"
   | "artfiles"
+  | "arubabusiness"
   | "arvan"
   | "aurora"
   | "autodns"
   | "aws"
   | "azion"
   | "azure"
+  | "baidu"
   | "beget"
+  | "bh"
+  | "bhosted"
   | "bookmyname"
   | "bunny"
+  | "calrissia"
+  | "cdmon"
   | "cf"
   | "clouddns"
   | "cloudns"
   | "cn"
+  | "comlaude"
   | "conoha"
   | "constellix"
   | "cpanel"
+  | "cpanel_uapi"
+  | "creoline"
   | "curanet"
   | "cyon"
+  | "czechia"
   | "da"
   | "ddnss"
   | "desec"
@@ -2934,6 +3228,7 @@ export type PostClusterAcmePluginsRequestApi =
   | "dnsexit"
   | "dnshome"
   | "dnsimple"
+  | "dnsmint"
   | "dnsservices"
   | "doapi"
   | "domeneshop"
@@ -2948,8 +3243,11 @@ export type PostClusterAcmePluginsRequestApi =
   | "easydns"
   | "edgecenter"
   | "edgedns"
+  | "efficientip"
+  | "eurodns"
   | "euserv"
   | "exoscale"
+  | "firestorm"
   | "fornex"
   | "freedns"
   | "freemyip"
@@ -2958,20 +3256,27 @@ export type PostClusterAcmePluginsRequestApi =
   | "gcore"
   | "gd"
   | "geoscaling"
+  | "glesys"
+  | "gname"
   | "googledomains"
   | "he"
   | "he_ddns"
-  | "hetzner"
+  | "hestiacp"
   | "hetznercloud"
   | "hexonet"
   | "hostingde"
+  | "hostinger"
+  | "hostup"
   | "huaweicloud"
+  | "hw"
   | "infoblox"
+  | "infoblox_uddi"
   | "infomaniak"
   | "internetbs"
   | "inwx"
   | "ionos"
   | "ionos_cloud"
+  | "ipprojects"
   | "ipv64"
   | "ispconfig"
   | "jd"
@@ -2981,21 +3286,25 @@ export type PostClusterAcmePluginsRequestApi =
   | "kinghost"
   | "knot"
   | "la"
+  | "laodc"
   | "leaseweb"
+  | "level27"
   | "lexicon"
   | "limacity"
-  | "linode"
   | "linode_v4"
   | "loopia"
   | "lua"
   | "maradns"
   | "me"
+  | "mgwm"
   | "miab"
   | "mijnhost"
   | "misaka"
+  | "muumuu"
   | "myapi"
   | "mydevil"
   | "mydnsjp"
+  | "myloc"
   | "mythic_beasts"
   | "namecheap"
   | "namecom"
@@ -3005,6 +3314,7 @@ export type PostClusterAcmePluginsRequestApi =
   | "neodigit"
   | "netcup"
   | "netlify"
+  | "nexdns"
   | "nic"
   | "njalla"
   | "nm"
@@ -3020,23 +3330,32 @@ export type PostClusterAcmePluginsRequestApi =
   | "openprovider_rest"
   | "openstack"
   | "opnsense"
+  | "opteamax"
+  | "optidata"
+  | "opusdns"
   | "ovh"
   | "pdns"
   | "pleskxml"
   | "pointhq"
   | "porkbun"
+  | "poweradmin"
+  | "qc"
   | "rackcorp"
   | "rackspace"
   | "rage4"
   | "rcode0"
   | "regru"
+  | "rltx"
   | "scaleway"
   | "schlundtech"
   | "selectel"
   | "selfhost"
   | "servercow"
   | "simply"
+  | "sitehost"
+  | "sotoon"
   | "spaceship"
+  | "subreg"
   | "technitium"
   | "tele3"
   | "tencent"
@@ -3048,9 +3367,12 @@ export type PostClusterAcmePluginsRequestApi =
   | "variomedia"
   | "veesp"
   | "vercel"
+  | "virakcloud"
+  | "volcengine"
   | "vscale"
   | "vultr"
   | "websupport"
+  | "wedos"
   | "west_cn"
   | "world4you"
   | "yandex360"
@@ -3077,7 +3399,8 @@ export type PostClusterBackupRequestMode = "snapshot" | "suspend" | "stop";
 export type PostClusterBackupRequestNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type PostClusterBackupRequestPbsChangeDetectionMode = "legacy" | "data" | "metadata";
 export interface PostClusterBackupRequest {
   all?: boolean | 0 | 1 | undefined;
@@ -3317,10 +3640,7 @@ export interface PostClusterHaResourcesRequest {
   type?: PostClusterHaResourcesRequestType | (string & {}) | undefined;
 }
 export type PostClusterHaResourcesResponse = null;
-export interface PostClusterHaResourcesBySidMigrateRequest {
-  node: string;
-  sid: string;
-}
+export interface PostClusterHaResourcesBySidMigrateRequest {}
 export type PostClusterHaResourcesBySidMigrateResultBlockingResourcesItemCause =
   | "node-affinity"
   | "resource-affinity";
@@ -3438,6 +3758,15 @@ export interface PostClusterMetricsServerByIdRequest {
   "verify-certificate"?: boolean | 0 | 1 | undefined;
 }
 export type PostClusterMetricsServerByIdResponse = null;
+export interface PostClusterMultipathWwidRequest {
+  alias?: string | undefined;
+  digest?: string | undefined;
+  "no-path-retry"?: string | undefined;
+  nodes?: string | undefined;
+  "paths-expected"?: number | undefined;
+  wwid: string;
+}
+export type PostClusterMultipathWwidResponse = null;
 export interface PostClusterNotificationsEndpointsGotifyRequest {
   comment?: string | undefined;
   disable?: boolean | 0 | 1 | undefined;
@@ -3721,6 +4050,7 @@ export interface PostClusterSdnFabricsFabricRequest {
   protocol: PostClusterSdnFabricsFabricRequestProtocol | (string & {});
   redistribute: PostClusterSdnFabricsFabricRequestRedistribute;
   route_filter?: string | undefined;
+  zone?: string | undefined;
 }
 export type PostClusterSdnFabricsFabricResponse = null;
 export type PostClusterSdnFabricsNodeByFabricIdRequestAllowedIps = Array<string>;
@@ -3866,6 +4196,7 @@ export interface PostClusterSdnVnetsByVnetSubnetsRequest {
 }
 export type PostClusterSdnVnetsByVnetSubnetsResponse = null;
 export type PostClusterSdnZonesRequestDhcp = "dnsmasq";
+export type PostClusterSdnZonesRequestRoute = Array<string>;
 export type PostClusterSdnZonesRequestSecondaryControllers = Array<string>;
 export type PostClusterSdnZonesRequestType =
   | "evpn"
@@ -3880,6 +4211,8 @@ export interface PostClusterSdnZonesRequest {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   dhcp?: PostClusterSdnZonesRequestDhcp | (string & {}) | undefined;
   "disable-arp-nd-suppression"?: boolean | 0 | 1 | undefined;
   dns?: string | undefined;
@@ -3896,6 +4229,7 @@ export interface PostClusterSdnZonesRequest {
   nodes?: string | undefined;
   peers?: string | undefined;
   reversedns?: string | undefined;
+  route?: PostClusterSdnZonesRequestRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: PostClusterSdnZonesRequestSecondaryControllers | undefined;
   tag?: number | undefined;
@@ -3921,24 +4255,34 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "alviy"
   | "anx"
   | "artfiles"
+  | "arubabusiness"
   | "arvan"
   | "aurora"
   | "autodns"
   | "aws"
   | "azion"
   | "azure"
+  | "baidu"
   | "beget"
+  | "bh"
+  | "bhosted"
   | "bookmyname"
   | "bunny"
+  | "calrissia"
+  | "cdmon"
   | "cf"
   | "clouddns"
   | "cloudns"
   | "cn"
+  | "comlaude"
   | "conoha"
   | "constellix"
   | "cpanel"
+  | "cpanel_uapi"
+  | "creoline"
   | "curanet"
   | "cyon"
+  | "czechia"
   | "da"
   | "ddnss"
   | "desec"
@@ -3947,6 +4291,7 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "dnsexit"
   | "dnshome"
   | "dnsimple"
+  | "dnsmint"
   | "dnsservices"
   | "doapi"
   | "domeneshop"
@@ -3961,8 +4306,11 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "easydns"
   | "edgecenter"
   | "edgedns"
+  | "efficientip"
+  | "eurodns"
   | "euserv"
   | "exoscale"
+  | "firestorm"
   | "fornex"
   | "freedns"
   | "freemyip"
@@ -3971,20 +4319,27 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "gcore"
   | "gd"
   | "geoscaling"
+  | "glesys"
+  | "gname"
   | "googledomains"
   | "he"
   | "he_ddns"
-  | "hetzner"
+  | "hestiacp"
   | "hetznercloud"
   | "hexonet"
   | "hostingde"
+  | "hostinger"
+  | "hostup"
   | "huaweicloud"
+  | "hw"
   | "infoblox"
+  | "infoblox_uddi"
   | "infomaniak"
   | "internetbs"
   | "inwx"
   | "ionos"
   | "ionos_cloud"
+  | "ipprojects"
   | "ipv64"
   | "ispconfig"
   | "jd"
@@ -3994,21 +4349,25 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "kinghost"
   | "knot"
   | "la"
+  | "laodc"
   | "leaseweb"
+  | "level27"
   | "lexicon"
   | "limacity"
-  | "linode"
   | "linode_v4"
   | "loopia"
   | "lua"
   | "maradns"
   | "me"
+  | "mgwm"
   | "miab"
   | "mijnhost"
   | "misaka"
+  | "muumuu"
   | "myapi"
   | "mydevil"
   | "mydnsjp"
+  | "myloc"
   | "mythic_beasts"
   | "namecheap"
   | "namecom"
@@ -4018,6 +4377,7 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "neodigit"
   | "netcup"
   | "netlify"
+  | "nexdns"
   | "nic"
   | "njalla"
   | "nm"
@@ -4033,23 +4393,32 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "openprovider_rest"
   | "openstack"
   | "opnsense"
+  | "opteamax"
+  | "optidata"
+  | "opusdns"
   | "ovh"
   | "pdns"
   | "pleskxml"
   | "pointhq"
   | "porkbun"
+  | "poweradmin"
+  | "qc"
   | "rackcorp"
   | "rackspace"
   | "rage4"
   | "rcode0"
   | "regru"
+  | "rltx"
   | "scaleway"
   | "schlundtech"
   | "selectel"
   | "selfhost"
   | "servercow"
   | "simply"
+  | "sitehost"
+  | "sotoon"
   | "spaceship"
+  | "subreg"
   | "technitium"
   | "tele3"
   | "tencent"
@@ -4061,9 +4430,12 @@ export type PutClusterAcmePluginsByIdRequestApi =
   | "variomedia"
   | "veesp"
   | "vercel"
+  | "virakcloud"
+  | "volcengine"
   | "vscale"
   | "vultr"
   | "websupport"
+  | "wedos"
   | "west_cn"
   | "world4you"
   | "yandex360"
@@ -4090,7 +4462,8 @@ export type PutClusterBackupByIdRequestMode = "snapshot" | "suspend" | "stop";
 export type PutClusterBackupByIdRequestNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type PutClusterBackupByIdRequestPbsChangeDetectionMode = "legacy" | "data" | "metadata";
 export interface PutClusterBackupByIdRequest {
   all?: boolean | 0 | 1 | undefined;
@@ -4377,6 +4750,21 @@ export interface PutClusterMetricsServerByIdRequest {
   "verify-certificate"?: boolean | 0 | 1 | undefined;
 }
 export type PutClusterMetricsServerByIdResponse = null;
+export interface PutClusterMultipathOverridesRequest {
+  digest?: string | undefined;
+  overrides?: string | undefined;
+}
+export type PutClusterMultipathOverridesResponse = null;
+export interface PutClusterMultipathWwidByWwidRequest {
+  alias?: string | undefined;
+  delete?: string | undefined;
+  digest?: string | undefined;
+  "no-path-retry"?: string | undefined;
+  nodes?: string | undefined;
+  "paths-expected"?: number | undefined;
+  wwid: string;
+}
+export type PutClusterMultipathWwidByWwidResponse = null;
 export type PutClusterNotificationsEndpointsGotifyByNameRequestDelete = Array<string>;
 export interface PutClusterNotificationsEndpointsGotifyByNameRequest {
   comment?: string | undefined;
@@ -4541,6 +4929,7 @@ export interface PutClusterOptionsRequest {
   "registered-tags"?: string | undefined;
   replication?: string | undefined;
   "tag-style"?: string | undefined;
+  "token-policy"?: string | undefined;
   u2f?: string | undefined;
   "user-tag-access"?: string | undefined;
   webauthn?: string | undefined;
@@ -4765,6 +5154,7 @@ export interface PutClusterSdnFabricsFabricByIdRequest {
   protocol: PutClusterSdnFabricsFabricByIdRequestProtocol | (string & {});
   redistribute: PutClusterSdnFabricsFabricByIdRequestRedistribute;
   route_filter?: string | undefined;
+  zone?: string | undefined;
 }
 export type PutClusterSdnFabricsFabricByIdResponse = null;
 export type PutClusterSdnFabricsNodeByFabricIdByNodeIdRequestAllowedIps = Array<string>;
@@ -4958,6 +5348,7 @@ export interface PutClusterSdnVnetsByVnetSubnetsBySubnetRequest {
 }
 export type PutClusterSdnVnetsByVnetSubnetsBySubnetResponse = null;
 export type PutClusterSdnZonesByZoneRequestDhcp = "dnsmasq";
+export type PutClusterSdnZonesByZoneRequestRoute = Array<string>;
 export type PutClusterSdnZonesByZoneRequestSecondaryControllers = Array<string>;
 export type PutClusterSdnZonesByZoneRequestVlanProtocol = "802.1q" | "802.1ad";
 export interface PutClusterSdnZonesByZoneRequest {
@@ -4965,6 +5356,8 @@ export interface PutClusterSdnZonesByZoneRequest {
   bridge?: string | undefined;
   "bridge-disable-mac-learning"?: boolean | 0 | 1 | undefined;
   controller?: string | undefined;
+  "ct-zone"?: number | undefined;
+  "dedicated-vrf"?: boolean | 0 | 1 | undefined;
   delete?: string | undefined;
   dhcp?: PutClusterSdnZonesByZoneRequestDhcp | (string & {}) | undefined;
   digest?: string | undefined;
@@ -4983,6 +5376,7 @@ export interface PutClusterSdnZonesByZoneRequest {
   nodes?: string | undefined;
   peers?: string | undefined;
   reversedns?: string | undefined;
+  route?: PutClusterSdnZonesByZoneRequestRoute | undefined;
   "rt-import"?: string | undefined;
   "secondary-controllers"?: PutClusterSdnZonesByZoneRequestSecondaryControllers | undefined;
   tag?: number | undefined;
@@ -5034,7 +5428,7 @@ export const deleteClusterBackupById: API.OperationMethod<
   DeleteClusterBackupByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<DeleteClusterBackupByIdRequest>,
+  input: __S(1016, __c127, 0) as any as S.Schema<DeleteClusterBackupByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterBackupByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5051,7 +5445,7 @@ export const deleteClusterConfigNodesByNode: API.OperationMethod<
   DeleteClusterConfigNodesByNodeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c202, 0) as any as S.Schema<DeleteClusterConfigNodesByNodeRequest>,
+  input: __S(1688, __c211, 0) as any as S.Schema<DeleteClusterConfigNodesByNodeRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterConfigNodesByNodeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5068,7 +5462,7 @@ export const deleteClusterFirewallAliasesByName: API.OperationMethod<
   DeleteClusterFirewallAliasesByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<DeleteClusterFirewallAliasesByNameRequest>,
+  input: __S(1776, __c222, 0) as any as S.Schema<DeleteClusterFirewallAliasesByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallAliasesByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5085,7 +5479,7 @@ export const deleteClusterFirewallGroupsByGroup: API.OperationMethod<
   DeleteClusterFirewallGroupsByGroupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupRequest>,
+  input: __S(1896, __c237, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5102,7 +5496,7 @@ export const deleteClusterFirewallGroupsByGroupByPos: API.OperationMethod<
   DeleteClusterFirewallGroupsByGroupByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupByPosRequest>,
+  input: __S(2000, __c250, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupByPosRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallGroupsByGroupByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5119,7 +5513,7 @@ export const deleteClusterFirewallIpsetByName: API.OperationMethod<
   DeleteClusterFirewallIpsetByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameRequest>,
+  input: __S(2104, __c263, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5136,7 +5530,7 @@ export const deleteClusterFirewallIpsetByNameByCidr: API.OperationMethod<
   DeleteClusterFirewallIpsetByNameByCidrError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c268, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameByCidrRequest>,
+  input: __S(2216, __c277, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameByCidrRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallIpsetByNameByCidrResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5153,7 +5547,7 @@ export const deleteClusterFirewallRulesByPos: API.OperationMethod<
   DeleteClusterFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c280, 0) as any as S.Schema<DeleteClusterFirewallRulesByPosRequest>,
+  input: __S(2312, __c289, 0) as any as S.Schema<DeleteClusterFirewallRulesByPosRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterFirewallRulesByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5187,7 +5581,7 @@ export const deleteClusterHaResourcesBySid: API.OperationMethod<
   DeleteClusterHaResourcesBySidError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteClusterHaResourcesBySidRequest>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteClusterHaResourcesBySidRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterHaResourcesBySidResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5204,7 +5598,7 @@ export const deleteClusterHaRulesByRule: API.OperationMethod<
   DeleteClusterHaRulesByRuleError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<DeleteClusterHaRulesByRuleRequest>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteClusterHaRulesByRuleRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterHaRulesByRuleResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5238,7 +5632,7 @@ export const deleteClusterMappingDirById: API.OperationMethod<
   DeleteClusterMappingDirByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<DeleteClusterMappingDirByIdRequest>,
+  input: __S(400, __c50, 0) as any as S.Schema<DeleteClusterMappingDirByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterMappingDirByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5255,7 +5649,7 @@ export const deleteClusterMappingPciById: API.OperationMethod<
   DeleteClusterMappingPciByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<DeleteClusterMappingPciByIdRequest>,
+  input: __S(528, __c66, 0) as any as S.Schema<DeleteClusterMappingPciByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterMappingPciByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5272,7 +5666,7 @@ export const deleteClusterMappingUsbById: API.OperationMethod<
   DeleteClusterMappingUsbByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<DeleteClusterMappingUsbByIdRequest>,
+  input: __S(616, __c77, 0) as any as S.Schema<DeleteClusterMappingUsbByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterMappingUsbByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5289,13 +5683,30 @@ export const deleteClusterMetricsServerById: API.OperationMethod<
   DeleteClusterMetricsServerByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<DeleteClusterMetricsServerByIdRequest>,
+  input: __S(728, __c91, 0) as any as S.Schema<DeleteClusterMetricsServerByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterMetricsServerByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "DeleteClusterMetricsServerById",
+}));
+
+export type DeleteClusterMultipathWwidByWwidError = ProxmoxOpError;
+/** DELETE /cluster/multipath/wwid/{wwid} */
+export const deleteClusterMultipathWwidByWwid: API.OperationMethod<
+  DeleteClusterMultipathWwidByWwidRequest,
+  DeleteClusterMultipathWwidByWwidResponse,
+  DeleteClusterMultipathWwidByWwidError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c104, 0) as any as S.Schema<DeleteClusterMultipathWwidByWwidRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterMultipathWwidByWwidResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "DeleteClusterMultipathWwidByWwid",
 }));
 
 export type DeleteClusterNotificationsEndpointsGotifyByNameError = ProxmoxOpError;
@@ -5307,8 +5718,8 @@ export const deleteClusterNotificationsEndpointsGotifyByName: API.OperationMetho
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    840,
-    __c105,
+    920,
+    __c115,
     0,
   ) as any as S.Schema<DeleteClusterNotificationsEndpointsGotifyByNameRequest>,
   output: __S(
@@ -5332,8 +5743,8 @@ export const deleteClusterNotificationsEndpointsSendmailByName: API.OperationMet
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    936,
-    __c117,
+    1024,
+    __c128,
     0,
   ) as any as S.Schema<DeleteClusterNotificationsEndpointsSendmailByNameRequest>,
   output: __S(
@@ -5357,8 +5768,8 @@ export const deleteClusterNotificationsEndpointsSmtpByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1032,
-    __c129,
+    1112,
+    __c139,
     0,
   ) as any as S.Schema<DeleteClusterNotificationsEndpointsSmtpByNameRequest>,
   output: __S(
@@ -5382,8 +5793,8 @@ export const deleteClusterNotificationsEndpointsWebhookByName: API.OperationMeth
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c140,
+    1200,
+    __c150,
     0,
   ) as any as S.Schema<DeleteClusterNotificationsEndpointsWebhookByNameRequest>,
   output: __S(
@@ -5406,7 +5817,7 @@ export const deleteClusterNotificationsMatchersByName: API.OperationMethod<
   DeleteClusterNotificationsMatchersByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<DeleteClusterNotificationsMatchersByNameRequest>,
+  input: __S(1288, __c161, 0) as any as S.Schema<DeleteClusterNotificationsMatchersByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterNotificationsMatchersByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5423,7 +5834,7 @@ export const deleteClusterQemuCustomCpuModelsByCputype: API.OperationMethod<
   DeleteClusterQemuCustomCpuModelsByCputypeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<DeleteClusterQemuCustomCpuModelsByCputypeRequest>,
+  input: __S(1376, __c172, 0) as any as S.Schema<DeleteClusterQemuCustomCpuModelsByCputypeRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterQemuCustomCpuModelsByCputypeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5440,7 +5851,7 @@ export const deleteClusterReplicationById: API.OperationMethod<
   DeleteClusterReplicationByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1384, __c173, 0) as any as S.Schema<DeleteClusterReplicationByIdRequest>,
+  input: __S(1464, __c183, 0) as any as S.Schema<DeleteClusterReplicationByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterReplicationByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5457,7 +5868,7 @@ export const deleteClusterSdnControllersByController: API.OperationMethod<
   DeleteClusterSdnControllersByControllerError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<DeleteClusterSdnControllersByControllerRequest>,
+  input: __S(1552, __c194, 0) as any as S.Schema<DeleteClusterSdnControllersByControllerRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnControllersByControllerResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5474,7 +5885,7 @@ export const deleteClusterSdnDnsByDns: API.OperationMethod<
   DeleteClusterSdnDnsByDnsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<DeleteClusterSdnDnsByDnsRequest>,
+  input: __S(1648, __c206, 0) as any as S.Schema<DeleteClusterSdnDnsByDnsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnDnsByDnsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5491,7 +5902,7 @@ export const deleteClusterSdnFabricsFabricById: API.OperationMethod<
   DeleteClusterSdnFabricsFabricByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<DeleteClusterSdnFabricsFabricByIdRequest>,
+  input: __S(1672, __c209, 0) as any as S.Schema<DeleteClusterSdnFabricsFabricByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnFabricsFabricByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5509,8 +5920,8 @@ export const deleteClusterSdnFabricsNodeByFabricIdByNodeId: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1600,
-    __c200,
+    1680,
+    __c210,
     0,
   ) as any as S.Schema<DeleteClusterSdnFabricsNodeByFabricIdByNodeIdRequest>,
   output: __S(
@@ -5533,7 +5944,7 @@ export const deleteClusterSdnIpamsByIpam: API.OperationMethod<
   DeleteClusterSdnIpamsByIpamError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<DeleteClusterSdnIpamsByIpamRequest>,
+  input: __S(1696, __c212, 0) as any as S.Schema<DeleteClusterSdnIpamsByIpamRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnIpamsByIpamResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5550,7 +5961,7 @@ export const deleteClusterSdnLock: API.OperationMethod<
   DeleteClusterSdnLockError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<DeleteClusterSdnLockRequest>,
+  input: __S(1704, __c213, 0) as any as S.Schema<DeleteClusterSdnLockRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnLockResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5567,7 +5978,7 @@ export const deleteClusterSdnPrefixListsById: API.OperationMethod<
   DeleteClusterSdnPrefixListsByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c204, 0) as any as S.Schema<DeleteClusterSdnPrefixListsByIdRequest>,
+  input: __S(1712, __c214, 0) as any as S.Schema<DeleteClusterSdnPrefixListsByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnPrefixListsByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5585,8 +5996,8 @@ export const deleteClusterSdnPrefixListsByIdEntriesByUrlSeq: API.OperationMethod
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1640,
-    __c205,
+    1720,
+    __c215,
     0,
   ) as any as S.Schema<DeleteClusterSdnPrefixListsByIdEntriesByUrlSeqRequest>,
   output: __S(
@@ -5610,8 +6021,8 @@ export const deleteClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrder: API.Opera
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1648,
-    __c206,
+    1728,
+    __c216,
     0,
   ) as any as S.Schema<DeleteClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest>,
   output: __S(
@@ -5634,7 +6045,7 @@ export const deleteClusterSdnVnetsByVnet: API.OperationMethod<
   DeleteClusterSdnVnetsByVnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetRequest>,
+  input: __S(1736, __c217, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5652,8 +6063,8 @@ export const deleteClusterSdnVnetsByVnetFirewallRulesByPos: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c208,
+    1744,
+    __c218,
     0,
   ) as any as S.Schema<DeleteClusterSdnVnetsByVnetFirewallRulesByPosRequest>,
   output: __S(
@@ -5676,7 +6087,7 @@ export const deleteClusterSdnVnetsByVnetIps: API.OperationMethod<
   DeleteClusterSdnVnetsByVnetIpsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetIpsRequest>,
+  input: __S(1752, __c219, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetIpsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetIpsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5693,7 +6104,7 @@ export const deleteClusterSdnVnetsByVnetSubnetsBySubnet: API.OperationMethod<
   DeleteClusterSdnVnetsByVnetSubnetsBySubnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
+  input: __S(1760, __c220, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnVnetsByVnetSubnetsBySubnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5710,7 +6121,7 @@ export const deleteClusterSdnZonesByZone: API.OperationMethod<
   DeleteClusterSdnZonesByZoneError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1688, __c211, 0) as any as S.Schema<DeleteClusterSdnZonesByZoneRequest>,
+  input: __S(1768, __c221, 0) as any as S.Schema<DeleteClusterSdnZonesByZoneRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DeleteClusterSdnZonesByZoneResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5727,8 +6138,8 @@ export const getCluster: API.OperationMethod<
   GetClusterError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterResponse>,
+  input: __S(1784, __c223, 0) as any as S.Schema<GetClusterRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5744,8 +6155,8 @@ export const getClusterAcme: API.OperationMethod<
   GetClusterAcmeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c216, 0) as any as S.Schema<GetClusterAcmeRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterAcmeResponse>,
+  input: __S(1808, __c226, 0) as any as S.Schema<GetClusterAcmeRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterAcmeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5761,8 +6172,8 @@ export const getClusterAcmeAccount: API.OperationMethod<
   GetClusterAcmeAccountError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1736, __c217, 0) as any as S.Schema<GetClusterAcmeAccountRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterAcmeAccountResponse>,
+  input: __S(1816, __c227, 0) as any as S.Schema<GetClusterAcmeAccountRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterAcmeAccountResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5778,8 +6189,8 @@ export const getClusterAcmeAccountByName: API.OperationMethod<
   GetClusterAcmeAccountByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<GetClusterAcmeAccountByNameRequest>,
-  output: __S(1746, __c218, 2) as any as S.Schema<GetClusterAcmeAccountByNameResponse>,
+  input: __S(1824, __c228, 0) as any as S.Schema<GetClusterAcmeAccountByNameRequest>,
+  output: __S(1826, __c228, 2) as any as S.Schema<GetClusterAcmeAccountByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5795,8 +6206,8 @@ export const getClusterAcmeChallengeSchema: API.OperationMethod<
   GetClusterAcmeChallengeSchemaError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1752, __c219, 0) as any as S.Schema<GetClusterAcmeChallengeSchemaRequest>,
-  output: __S(1755, __c219, 3) as any as S.Schema<GetClusterAcmeChallengeSchemaResponse>,
+  input: __S(1832, __c229, 0) as any as S.Schema<GetClusterAcmeChallengeSchemaRequest>,
+  output: __S(1835, __c229, 3) as any as S.Schema<GetClusterAcmeChallengeSchemaResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5812,8 +6223,8 @@ export const getClusterAcmeDirectories: API.OperationMethod<
   GetClusterAcmeDirectoriesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c220, 0) as any as S.Schema<GetClusterAcmeDirectoriesRequest>,
-  output: __S(1763, __c220, 3) as any as S.Schema<GetClusterAcmeDirectoriesResponse>,
+  input: __S(1840, __c230, 0) as any as S.Schema<GetClusterAcmeDirectoriesRequest>,
+  output: __S(1843, __c230, 3) as any as S.Schema<GetClusterAcmeDirectoriesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5829,8 +6240,8 @@ export const getClusterAcmeMeta: API.OperationMethod<
   GetClusterAcmeMetaError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<GetClusterAcmeMetaRequest>,
-  output: __S(1770, __c221, 2) as any as S.Schema<GetClusterAcmeMetaResponse>,
+  input: __S(1848, __c231, 0) as any as S.Schema<GetClusterAcmeMetaRequest>,
+  output: __S(1850, __c231, 2) as any as S.Schema<GetClusterAcmeMetaResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5846,8 +6257,8 @@ export const getClusterAcmePlugins: API.OperationMethod<
   GetClusterAcmePluginsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<GetClusterAcmePluginsRequest>,
-  output: __S(1786, __c223, 2) as any as S.Schema<GetClusterAcmePluginsResponse>,
+  input: __S(1864, __c233, 0) as any as S.Schema<GetClusterAcmePluginsRequest>,
+  output: __S(1866, __c233, 2) as any as S.Schema<GetClusterAcmePluginsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5863,8 +6274,8 @@ export const getClusterAcmePluginsById: API.OperationMethod<
   GetClusterAcmePluginsByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<GetClusterAcmePluginsByIdRequest>,
-  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterAcmePluginsByIdResponse>,
+  input: __S(1880, __c235, 0) as any as S.Schema<GetClusterAcmePluginsByIdRequest>,
+  output: __S(1881, __c235, 1) as any as S.Schema<GetClusterAcmePluginsByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5880,7 +6291,7 @@ export const getClusterAcmeTos: API.OperationMethod<
   GetClusterAcmeTosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<GetClusterAcmeTosRequest>,
+  input: __S(1888, __c236, 0) as any as S.Schema<GetClusterAcmeTosRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetClusterAcmeTosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -5897,8 +6308,8 @@ export const getClusterBackup: API.OperationMethod<
   GetClusterBackupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<GetClusterBackupRequest>,
-  output: __S(1818, __c227, 2) as any as S.Schema<GetClusterBackupResponse>,
+  input: __S(1904, __c238, 0) as any as S.Schema<GetClusterBackupRequest>,
+  output: __S(1906, __c238, 2) as any as S.Schema<GetClusterBackupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5914,8 +6325,8 @@ export const getClusterBackupById: API.OperationMethod<
   GetClusterBackupByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c230, 0) as any as S.Schema<GetClusterBackupByIdRequest>,
-  output: __S(1841, __c230, 1) as any as S.Schema<GetClusterBackupByIdResponse>,
+  input: __S(1920, __c240, 0) as any as S.Schema<GetClusterBackupByIdRequest>,
+  output: __S(1921, __c240, 1) as any as S.Schema<GetClusterBackupByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5931,8 +6342,8 @@ export const getClusterBackupByIdIncludedVolumes: API.OperationMethod<
   GetClusterBackupByIdIncludedVolumesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<GetClusterBackupByIdIncludedVolumesRequest>,
-  output: __S(1854, __c231, 6) as any as S.Schema<GetClusterBackupByIdIncludedVolumesResponse>,
+  input: __S(1928, __c241, 0) as any as S.Schema<GetClusterBackupByIdIncludedVolumesRequest>,
+  output: __S(1934, __c241, 6) as any as S.Schema<GetClusterBackupByIdIncludedVolumesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5948,8 +6359,8 @@ export const getClusterBackupInfo: API.OperationMethod<
   GetClusterBackupInfoError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<GetClusterBackupInfoRequest>,
-  output: __S(1866, __c233, 2) as any as S.Schema<GetClusterBackupInfoResponse>,
+  input: __S(1936, __c242, 0) as any as S.Schema<GetClusterBackupInfoRequest>,
+  output: __S(1946, __c243, 2) as any as S.Schema<GetClusterBackupInfoResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5965,8 +6376,8 @@ export const getClusterBackupInfoNotBackedUp: API.OperationMethod<
   GetClusterBackupInfoNotBackedUpError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<GetClusterBackupInfoNotBackedUpRequest>,
-  output: __S(1875, __c234, 3) as any as S.Schema<GetClusterBackupInfoNotBackedUpResponse>,
+  input: __S(1952, __c244, 0) as any as S.Schema<GetClusterBackupInfoNotBackedUpRequest>,
+  output: __S(1955, __c244, 3) as any as S.Schema<GetClusterBackupInfoNotBackedUpResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5982,8 +6393,8 @@ export const getClusterBulkAction: API.OperationMethod<
   GetClusterBulkActionError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<GetClusterBulkActionRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterBulkActionResponse>,
+  input: __S(1960, __c245, 0) as any as S.Schema<GetClusterBulkActionRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterBulkActionResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5999,8 +6410,8 @@ export const getClusterBulkActionGuest: API.OperationMethod<
   GetClusterBulkActionGuestError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<GetClusterBulkActionGuestRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterBulkActionGuestResponse>,
+  input: __S(1968, __c246, 0) as any as S.Schema<GetClusterBulkActionGuestRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterBulkActionGuestResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6016,8 +6427,8 @@ export const getClusterCeph: API.OperationMethod<
   GetClusterCephError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1896, __c237, 0) as any as S.Schema<GetClusterCephRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterCephResponse>,
+  input: __S(1976, __c247, 0) as any as S.Schema<GetClusterCephRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterCephResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6033,8 +6444,8 @@ export const getClusterCephFlags: API.OperationMethod<
   GetClusterCephFlagsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<GetClusterCephFlagsRequest>,
-  output: __S(1907, __c238, 3) as any as S.Schema<GetClusterCephFlagsResponse>,
+  input: __S(1984, __c248, 0) as any as S.Schema<GetClusterCephFlagsRequest>,
+  output: __S(1987, __c248, 3) as any as S.Schema<GetClusterCephFlagsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6050,8 +6461,8 @@ export const getClusterCephFlagsByFlag: API.OperationMethod<
   GetClusterCephFlagsByFlagError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<GetClusterCephFlagsByFlagRequest>,
-  output: __S(1913, __c239, 1) as any as S.Schema<GetClusterCephFlagsByFlagResponse>,
+  input: __S(1992, __c249, 0) as any as S.Schema<GetClusterCephFlagsByFlagRequest>,
+  output: __S(1993, __c249, 1) as any as S.Schema<GetClusterCephFlagsByFlagResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6067,8 +6478,8 @@ export const getClusterCephHealthMute: API.OperationMethod<
   GetClusterCephHealthMuteError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<GetClusterCephHealthMuteRequest>,
-  output: __S(1923, __c240, 3) as any as S.Schema<GetClusterCephHealthMuteResponse>,
+  input: __S(2008, __c251, 0) as any as S.Schema<GetClusterCephHealthMuteRequest>,
+  output: __S(2011, __c251, 3) as any as S.Schema<GetClusterCephHealthMuteResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6084,8 +6495,8 @@ export const getClusterCephMetadata: API.OperationMethod<
   GetClusterCephMetadataError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<GetClusterCephMetadataRequest>,
-  output: __S(1940, __c242, 4) as any as S.Schema<GetClusterCephMetadataResponse>,
+  input: __S(2016, __c252, 0) as any as S.Schema<GetClusterCephMetadataRequest>,
+  output: __S(2020, __c252, 4) as any as S.Schema<GetClusterCephMetadataResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6101,8 +6512,8 @@ export const getClusterCephStatus: API.OperationMethod<
   GetClusterCephStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<GetClusterCephStatusRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterCephStatusResponse>,
+  input: __S(2024, __c253, 0) as any as S.Schema<GetClusterCephStatusRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterCephStatusResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6118,8 +6529,8 @@ export const getClusterConfig: API.OperationMethod<
   GetClusterConfigError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<GetClusterConfigRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterConfigResponse>,
+  input: __S(2040, __c255, 0) as any as S.Schema<GetClusterConfigRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterConfigResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6135,8 +6546,8 @@ export const getClusterConfigApiversion: API.OperationMethod<
   GetClusterConfigApiversionError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<GetClusterConfigApiversionRequest>,
-  output: __S(1976, __c247, 0) as any as S.Schema<GetClusterConfigApiversionResponse>,
+  input: __S(2048, __c256, 0) as any as S.Schema<GetClusterConfigApiversionRequest>,
+  output: __S(2056, __c257, 0) as any as S.Schema<GetClusterConfigApiversionResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6152,8 +6563,8 @@ export const getClusterConfigJoin: API.OperationMethod<
   GetClusterConfigJoinError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<GetClusterConfigJoinRequest>,
-  output: __S(1988, __c248, 4) as any as S.Schema<GetClusterConfigJoinResponse>,
+  input: __S(2064, __c258, 0) as any as S.Schema<GetClusterConfigJoinRequest>,
+  output: __S(2068, __c258, 4) as any as S.Schema<GetClusterConfigJoinResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6169,8 +6580,8 @@ export const getClusterConfigNodes: API.OperationMethod<
   GetClusterConfigNodesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<GetClusterConfigNodesRequest>,
-  output: __S(1995, __c249, 3) as any as S.Schema<GetClusterConfigNodesResponse>,
+  input: __S(2072, __c259, 0) as any as S.Schema<GetClusterConfigNodesRequest>,
+  output: __S(2075, __c259, 3) as any as S.Schema<GetClusterConfigNodesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6186,8 +6597,8 @@ export const getClusterConfigQdevice: API.OperationMethod<
   GetClusterConfigQdeviceError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<GetClusterConfigQdeviceRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterConfigQdeviceResponse>,
+  input: __S(2080, __c260, 0) as any as S.Schema<GetClusterConfigQdeviceRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterConfigQdeviceResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6203,8 +6614,8 @@ export const getClusterConfigTotem: API.OperationMethod<
   GetClusterConfigTotemError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<GetClusterConfigTotemRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterConfigTotemResponse>,
+  input: __S(2088, __c261, 0) as any as S.Schema<GetClusterConfigTotemRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterConfigTotemResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6220,8 +6631,8 @@ export const getClusterFirewall: API.OperationMethod<
   GetClusterFirewallError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c252, 0) as any as S.Schema<GetClusterFirewallRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterFirewallResponse>,
+  input: __S(2096, __c262, 0) as any as S.Schema<GetClusterFirewallRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterFirewallResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6237,8 +6648,8 @@ export const getClusterFirewallAliases: API.OperationMethod<
   GetClusterFirewallAliasesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<GetClusterFirewallAliasesRequest>,
-  output: __S(2027, __c253, 3) as any as S.Schema<GetClusterFirewallAliasesResponse>,
+  input: __S(2112, __c264, 0) as any as S.Schema<GetClusterFirewallAliasesRequest>,
+  output: __S(2115, __c264, 3) as any as S.Schema<GetClusterFirewallAliasesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6254,8 +6665,8 @@ export const getClusterFirewallAliasesByName: API.OperationMethod<
   GetClusterFirewallAliasesByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<GetClusterFirewallAliasesByNameRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterFirewallAliasesByNameResponse>,
+  input: __S(2120, __c265, 0) as any as S.Schema<GetClusterFirewallAliasesByNameRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterFirewallAliasesByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6271,8 +6682,8 @@ export const getClusterFirewallGroups: API.OperationMethod<
   GetClusterFirewallGroupsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c256, 0) as any as S.Schema<GetClusterFirewallGroupsRequest>,
-  output: __S(2051, __c256, 3) as any as S.Schema<GetClusterFirewallGroupsResponse>,
+  input: __S(2128, __c266, 0) as any as S.Schema<GetClusterFirewallGroupsRequest>,
+  output: __S(2131, __c266, 3) as any as S.Schema<GetClusterFirewallGroupsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6288,8 +6699,8 @@ export const getClusterFirewallGroupsByGroup: API.OperationMethod<
   GetClusterFirewallGroupsByGroupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2056, __c257, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupRequest>,
-  output: __S(2073, __c259, 1) as any as S.Schema<GetClusterFirewallGroupsByGroupResponse>,
+  input: __S(2136, __c267, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupRequest>,
+  output: __S(2153, __c269, 1) as any as S.Schema<GetClusterFirewallGroupsByGroupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6305,8 +6716,8 @@ export const getClusterFirewallGroupsByGroupByPos: API.OperationMethod<
   GetClusterFirewallGroupsByGroupByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c260, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupByPosRequest>,
-  output: __S(2088, __c261, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupByPosResponse>,
+  input: __S(2160, __c270, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupByPosRequest>,
+  output: __S(2168, __c271, 0) as any as S.Schema<GetClusterFirewallGroupsByGroupByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6322,8 +6733,8 @@ export const getClusterFirewallIpset: API.OperationMethod<
   GetClusterFirewallIpsetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c262, 0) as any as S.Schema<GetClusterFirewallIpsetRequest>,
-  output: __S(2099, __c262, 3) as any as S.Schema<GetClusterFirewallIpsetResponse>,
+  input: __S(2176, __c272, 0) as any as S.Schema<GetClusterFirewallIpsetRequest>,
+  output: __S(2179, __c272, 3) as any as S.Schema<GetClusterFirewallIpsetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6339,8 +6750,8 @@ export const getClusterFirewallIpsetByName: API.OperationMethod<
   GetClusterFirewallIpsetByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2104, __c263, 0) as any as S.Schema<GetClusterFirewallIpsetByNameRequest>,
-  output: __S(2107, __c263, 3) as any as S.Schema<GetClusterFirewallIpsetByNameResponse>,
+  input: __S(2184, __c273, 0) as any as S.Schema<GetClusterFirewallIpsetByNameRequest>,
+  output: __S(2187, __c273, 3) as any as S.Schema<GetClusterFirewallIpsetByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6356,8 +6767,8 @@ export const getClusterFirewallIpsetByNameByCidr: API.OperationMethod<
   GetClusterFirewallIpsetByNameByCidrError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c264, 0) as any as S.Schema<GetClusterFirewallIpsetByNameByCidrRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterFirewallIpsetByNameByCidrResponse>,
+  input: __S(2192, __c274, 0) as any as S.Schema<GetClusterFirewallIpsetByNameByCidrRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterFirewallIpsetByNameByCidrResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6373,8 +6784,8 @@ export const getClusterFirewallMacros: API.OperationMethod<
   GetClusterFirewallMacrosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2120, __c265, 0) as any as S.Schema<GetClusterFirewallMacrosRequest>,
-  output: __S(2123, __c265, 3) as any as S.Schema<GetClusterFirewallMacrosResponse>,
+  input: __S(2200, __c275, 0) as any as S.Schema<GetClusterFirewallMacrosRequest>,
+  output: __S(2203, __c275, 3) as any as S.Schema<GetClusterFirewallMacrosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6390,8 +6801,8 @@ export const getClusterFirewallOptions: API.OperationMethod<
   GetClusterFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c266, 0) as any as S.Schema<GetClusterFirewallOptionsRequest>,
-  output: __S(2130, __c266, 2) as any as S.Schema<GetClusterFirewallOptionsResponse>,
+  input: __S(2208, __c276, 0) as any as S.Schema<GetClusterFirewallOptionsRequest>,
+  output: __S(2210, __c276, 2) as any as S.Schema<GetClusterFirewallOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6407,8 +6818,8 @@ export const getClusterFirewallRefs: API.OperationMethod<
   GetClusterFirewallRefsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2136, __c267, 0) as any as S.Schema<GetClusterFirewallRefsRequest>,
-  output: __S(2139, __c267, 3) as any as S.Schema<GetClusterFirewallRefsResponse>,
+  input: __S(2224, __c278, 0) as any as S.Schema<GetClusterFirewallRefsRequest>,
+  output: __S(2227, __c278, 3) as any as S.Schema<GetClusterFirewallRefsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6424,8 +6835,8 @@ export const getClusterFirewallRules: API.OperationMethod<
   GetClusterFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2152, __c269, 0) as any as S.Schema<GetClusterFirewallRulesRequest>,
-  output: __S(2073, __c259, 1) as any as S.Schema<GetClusterFirewallRulesResponse>,
+  input: __S(2232, __c279, 0) as any as S.Schema<GetClusterFirewallRulesRequest>,
+  output: __S(2153, __c269, 1) as any as S.Schema<GetClusterFirewallRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6441,8 +6852,8 @@ export const getClusterFirewallRulesByPos: API.OperationMethod<
   GetClusterFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c270, 0) as any as S.Schema<GetClusterFirewallRulesByPosRequest>,
-  output: __S(2088, __c261, 0) as any as S.Schema<GetClusterFirewallRulesByPosResponse>,
+  input: __S(2240, __c280, 0) as any as S.Schema<GetClusterFirewallRulesByPosRequest>,
+  output: __S(2168, __c271, 0) as any as S.Schema<GetClusterFirewallRulesByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6458,8 +6869,8 @@ export const getClusterHa: API.OperationMethod<
   GetClusterHaError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2168, __c271, 0) as any as S.Schema<GetClusterHaRequest>,
-  output: __S(2178, __c272, 2) as any as S.Schema<GetClusterHaResponse>,
+  input: __S(2248, __c281, 0) as any as S.Schema<GetClusterHaRequest>,
+  output: __S(2258, __c282, 2) as any as S.Schema<GetClusterHaResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6475,8 +6886,8 @@ export const getClusterHaGroups: API.OperationMethod<
   GetClusterHaGroupsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2184, __c273, 0) as any as S.Schema<GetClusterHaGroupsRequest>,
-  output: __S(2187, __c273, 3) as any as S.Schema<GetClusterHaGroupsResponse>,
+  input: __S(2264, __c283, 0) as any as S.Schema<GetClusterHaGroupsRequest>,
+  output: __S(2267, __c283, 3) as any as S.Schema<GetClusterHaGroupsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6492,8 +6903,8 @@ export const getClusterHaGroupsByGroup: API.OperationMethod<
   GetClusterHaGroupsByGroupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c274, 0) as any as S.Schema<GetClusterHaGroupsByGroupRequest>,
-  output: __S(2193, __c274, 1) as any as S.Schema<GetClusterHaGroupsByGroupResponse>,
+  input: __S(2272, __c284, 0) as any as S.Schema<GetClusterHaGroupsByGroupRequest>,
+  output: __S(2273, __c284, 1) as any as S.Schema<GetClusterHaGroupsByGroupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6509,8 +6920,8 @@ export const getClusterHaResources: API.OperationMethod<
   GetClusterHaResourcesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2200, __c275, 0) as any as S.Schema<GetClusterHaResourcesRequest>,
-  output: __S(2203, __c275, 3) as any as S.Schema<GetClusterHaResourcesResponse>,
+  input: __S(2280, __c285, 0) as any as S.Schema<GetClusterHaResourcesRequest>,
+  output: __S(2283, __c285, 3) as any as S.Schema<GetClusterHaResourcesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6526,8 +6937,8 @@ export const getClusterHaResourcesBySid: API.OperationMethod<
   GetClusterHaResourcesBySidError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c276, 0) as any as S.Schema<GetClusterHaResourcesBySidRequest>,
-  output: __S(2210, __c276, 2) as any as S.Schema<GetClusterHaResourcesBySidResponse>,
+  input: __S(2288, __c286, 0) as any as S.Schema<GetClusterHaResourcesBySidRequest>,
+  output: __S(2290, __c286, 2) as any as S.Schema<GetClusterHaResourcesBySidResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6543,8 +6954,8 @@ export const getClusterHaRules: API.OperationMethod<
   GetClusterHaRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2216, __c277, 0) as any as S.Schema<GetClusterHaRulesRequest>,
-  output: __S(2219, __c277, 3) as any as S.Schema<GetClusterHaRulesResponse>,
+  input: __S(2296, __c287, 0) as any as S.Schema<GetClusterHaRulesRequest>,
+  output: __S(2299, __c287, 3) as any as S.Schema<GetClusterHaRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6560,8 +6971,8 @@ export const getClusterHaRulesByRule: API.OperationMethod<
   GetClusterHaRulesByRuleError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c278, 0) as any as S.Schema<GetClusterHaRulesByRuleRequest>,
-  output: __S(2226, __c278, 2) as any as S.Schema<GetClusterHaRulesByRuleResponse>,
+  input: __S(2304, __c288, 0) as any as S.Schema<GetClusterHaRulesByRuleRequest>,
+  output: __S(2306, __c288, 2) as any as S.Schema<GetClusterHaRulesByRuleResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6577,8 +6988,8 @@ export const getClusterHaStatus: API.OperationMethod<
   GetClusterHaStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2232, __c279, 0) as any as S.Schema<GetClusterHaStatusRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterHaStatusResponse>,
+  input: __S(2320, __c290, 0) as any as S.Schema<GetClusterHaStatusRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterHaStatusResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6594,8 +7005,8 @@ export const getClusterHaStatusCurrent: API.OperationMethod<
   GetClusterHaStatusCurrentError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2248, __c281, 0) as any as S.Schema<GetClusterHaStatusCurrentRequest>,
-  output: __S(2251, __c281, 3) as any as S.Schema<GetClusterHaStatusCurrentResponse>,
+  input: __S(2328, __c291, 0) as any as S.Schema<GetClusterHaStatusCurrentRequest>,
+  output: __S(2331, __c291, 3) as any as S.Schema<GetClusterHaStatusCurrentResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6611,8 +7022,8 @@ export const getClusterHaStatusManagerStatus: API.OperationMethod<
   GetClusterHaStatusManagerStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c282, 0) as any as S.Schema<GetClusterHaStatusManagerStatusRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterHaStatusManagerStatusResponse>,
+  input: __S(2336, __c292, 0) as any as S.Schema<GetClusterHaStatusManagerStatusRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterHaStatusManagerStatusResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6628,8 +7039,8 @@ export const getClusterJobs: API.OperationMethod<
   GetClusterJobsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2264, __c283, 0) as any as S.Schema<GetClusterJobsRequest>,
-  output: __S(1866, __c233, 2) as any as S.Schema<GetClusterJobsResponse>,
+  input: __S(2344, __c293, 0) as any as S.Schema<GetClusterJobsRequest>,
+  output: __S(1946, __c243, 2) as any as S.Schema<GetClusterJobsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6645,8 +7056,8 @@ export const getClusterJobsRealmSync: API.OperationMethod<
   GetClusterJobsRealmSyncError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c284, 0) as any as S.Schema<GetClusterJobsRealmSyncRequest>,
-  output: __S(2275, __c284, 3) as any as S.Schema<GetClusterJobsRealmSyncResponse>,
+  input: __S(2352, __c294, 0) as any as S.Schema<GetClusterJobsRealmSyncRequest>,
+  output: __S(2355, __c294, 3) as any as S.Schema<GetClusterJobsRealmSyncResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6662,8 +7073,8 @@ export const getClusterJobsRealmSyncById: API.OperationMethod<
   GetClusterJobsRealmSyncByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2280, __c285, 0) as any as S.Schema<GetClusterJobsRealmSyncByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterJobsRealmSyncByIdResponse>,
+  input: __S(2360, __c295, 0) as any as S.Schema<GetClusterJobsRealmSyncByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterJobsRealmSyncByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6679,8 +7090,8 @@ export const getClusterJobsScheduleAnalyze: API.OperationMethod<
   GetClusterJobsScheduleAnalyzeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c286, 0) as any as S.Schema<GetClusterJobsScheduleAnalyzeRequest>,
-  output: __S(2291, __c286, 3) as any as S.Schema<GetClusterJobsScheduleAnalyzeResponse>,
+  input: __S(2368, __c296, 0) as any as S.Schema<GetClusterJobsScheduleAnalyzeRequest>,
+  output: __S(2371, __c296, 3) as any as S.Schema<GetClusterJobsScheduleAnalyzeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6696,8 +7107,8 @@ export const getClusterLog: API.OperationMethod<
   GetClusterLogError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2296, __c287, 0) as any as S.Schema<GetClusterLogRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterLogResponse>,
+  input: __S(2376, __c297, 0) as any as S.Schema<GetClusterLogRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterLogResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6713,8 +7124,8 @@ export const getClusterMapping: API.OperationMethod<
   GetClusterMappingError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c288, 0) as any as S.Schema<GetClusterMappingRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterMappingResponse>,
+  input: __S(2384, __c298, 0) as any as S.Schema<GetClusterMappingRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterMappingResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6730,8 +7141,8 @@ export const getClusterMappingDir: API.OperationMethod<
   GetClusterMappingDirError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2312, __c289, 0) as any as S.Schema<GetClusterMappingDirRequest>,
-  output: __S(2324, __c290, 4) as any as S.Schema<GetClusterMappingDirResponse>,
+  input: __S(2392, __c299, 0) as any as S.Schema<GetClusterMappingDirRequest>,
+  output: __S(2404, __c300, 4) as any as S.Schema<GetClusterMappingDirResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6747,8 +7158,8 @@ export const getClusterMappingDirById: API.OperationMethod<
   GetClusterMappingDirByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2328, __c291, 0) as any as S.Schema<GetClusterMappingDirByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterMappingDirByIdResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetClusterMappingDirByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterMappingDirByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6764,8 +7175,8 @@ export const getClusterMappingPci: API.OperationMethod<
   GetClusterMappingPciError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetClusterMappingPciRequest>,
-  output: __S(2324, __c290, 4) as any as S.Schema<GetClusterMappingPciResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetClusterMappingPciRequest>,
+  output: __S(2404, __c300, 4) as any as S.Schema<GetClusterMappingPciResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6781,8 +7192,8 @@ export const getClusterMappingPciById: API.OperationMethod<
   GetClusterMappingPciByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetClusterMappingPciByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterMappingPciByIdResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetClusterMappingPciByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterMappingPciByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6798,8 +7209,8 @@ export const getClusterMappingUsb: API.OperationMethod<
   GetClusterMappingUsbError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetClusterMappingUsbRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<GetClusterMappingUsbResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetClusterMappingUsbRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<GetClusterMappingUsbResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6815,8 +7226,8 @@ export const getClusterMappingUsbById: API.OperationMethod<
   GetClusterMappingUsbByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetClusterMappingUsbByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterMappingUsbByIdResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetClusterMappingUsbByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterMappingUsbByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6832,8 +7243,8 @@ export const getClusterMetrics: API.OperationMethod<
   GetClusterMetricsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetClusterMetricsRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterMetricsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetClusterMetricsRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterMetricsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6849,8 +7260,8 @@ export const getClusterMetricsExport: API.OperationMethod<
   GetClusterMetricsExportError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetClusterMetricsExportRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<GetClusterMetricsExportResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetClusterMetricsExportRequest>,
+  output: __S(92, __c11, 4) as any as S.Schema<GetClusterMetricsExportResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6866,8 +7277,8 @@ export const getClusterMetricsServer: API.OperationMethod<
   GetClusterMetricsServerError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetClusterMetricsServerRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<GetClusterMetricsServerResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetClusterMetricsServerRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<GetClusterMetricsServerResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6883,13 +7294,81 @@ export const getClusterMetricsServerById: API.OperationMethod<
   GetClusterMetricsServerByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetClusterMetricsServerByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterMetricsServerByIdResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetClusterMetricsServerByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterMetricsServerByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "GetClusterMetricsServerById",
+}));
+
+export type GetClusterMultipathError = ProxmoxOpError;
+/** GET /cluster/multipath */
+export const getClusterMultipath: API.OperationMethod<
+  GetClusterMultipathRequest,
+  GetClusterMultipathResponse,
+  GetClusterMultipathError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetClusterMultipathRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetClusterMultipathResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterMultipath",
+}));
+
+export type GetClusterMultipathOverridesError = ProxmoxOpError;
+/** GET /cluster/multipath/overrides */
+export const getClusterMultipathOverrides: API.OperationMethod<
+  GetClusterMultipathOverridesRequest,
+  GetClusterMultipathOverridesResponse,
+  GetClusterMultipathOverridesError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetClusterMultipathOverridesRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<GetClusterMultipathOverridesResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterMultipathOverrides",
+}));
+
+export type GetClusterMultipathWwidError = ProxmoxOpError;
+/** GET /cluster/multipath/wwid */
+export const getClusterMultipathWwid: API.OperationMethod<
+  GetClusterMultipathWwidRequest,
+  GetClusterMultipathWwidResponse,
+  GetClusterMultipathWwidError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c18, 0) as any as S.Schema<GetClusterMultipathWwidRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<GetClusterMultipathWwidResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterMultipathWwid",
+}));
+
+export type GetClusterMultipathWwidByWwidError = ProxmoxOpError;
+/** GET /cluster/multipath/wwid/{wwid} */
+export const getClusterMultipathWwidByWwid: API.OperationMethod<
+  GetClusterMultipathWwidByWwidRequest,
+  GetClusterMultipathWwidByWwidResponse,
+  GetClusterMultipathWwidByWwidError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(152, __c19, 0) as any as S.Schema<GetClusterMultipathWwidByWwidRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<GetClusterMultipathWwidByWwidResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterMultipathWwidByWwid",
 }));
 
 export type GetClusterNextidError = ProxmoxOpError;
@@ -6900,8 +7379,8 @@ export const getClusterNextid: API.OperationMethod<
   GetClusterNextidError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetClusterNextidRequest>,
-  output: __S(1976, __c247, 0) as any as S.Schema<GetClusterNextidResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetClusterNextidRequest>,
+  output: __S(2056, __c257, 0) as any as S.Schema<GetClusterNextidResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6917,8 +7396,8 @@ export const getClusterNotifications: API.OperationMethod<
   GetClusterNotificationsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetClusterNotificationsRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterNotificationsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetClusterNotificationsRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterNotificationsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6934,8 +7413,8 @@ export const getClusterNotificationsEndpoints: API.OperationMethod<
   GetClusterNotificationsEndpointsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetClusterNotificationsEndpointsRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterNotificationsEndpointsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetClusterNotificationsEndpointsRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterNotificationsEndpointsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6951,8 +7430,8 @@ export const getClusterNotificationsEndpointsGotify: API.OperationMethod<
   GetClusterNotificationsEndpointsGotifyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetClusterNotificationsEndpointsGotifyRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<GetClusterNotificationsEndpointsGotifyResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetClusterNotificationsEndpointsGotifyRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<GetClusterNotificationsEndpointsGotifyResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -6968,10 +7447,10 @@ export const getClusterNotificationsEndpointsGotifyByName: API.OperationMethod<
   GetClusterNotificationsEndpointsGotifyByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetClusterNotificationsEndpointsGotifyByNameRequest>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetClusterNotificationsEndpointsGotifyByNameRequest>,
   output: __S(
-    146,
-    __c18,
+    194,
+    __c24,
     2,
   ) as any as S.Schema<GetClusterNotificationsEndpointsGotifyByNameResponse>,
   errors: [],
@@ -6989,8 +7468,8 @@ export const getClusterNotificationsEndpointsSendmail: API.OperationMethod<
   GetClusterNotificationsEndpointsSendmailError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetClusterNotificationsEndpointsSendmailRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<GetClusterNotificationsEndpointsSendmailResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetClusterNotificationsEndpointsSendmailRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<GetClusterNotificationsEndpointsSendmailResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7007,13 +7486,13 @@ export const getClusterNotificationsEndpointsSendmailByName: API.OperationMethod
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    160,
-    __c20,
+    208,
+    __c26,
     0,
   ) as any as S.Schema<GetClusterNotificationsEndpointsSendmailByNameRequest>,
   output: __S(
-    162,
-    __c20,
+    210,
+    __c26,
     2,
   ) as any as S.Schema<GetClusterNotificationsEndpointsSendmailByNameResponse>,
   errors: [],
@@ -7031,8 +7510,8 @@ export const getClusterNotificationsEndpointsSmtp: API.OperationMethod<
   GetClusterNotificationsEndpointsSmtpError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetClusterNotificationsEndpointsSmtpRequest>,
-  output: __S(171, __c21, 3) as any as S.Schema<GetClusterNotificationsEndpointsSmtpResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<GetClusterNotificationsEndpointsSmtpRequest>,
+  output: __S(227, __c28, 3) as any as S.Schema<GetClusterNotificationsEndpointsSmtpResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7048,8 +7527,8 @@ export const getClusterNotificationsEndpointsSmtpByName: API.OperationMethod<
   GetClusterNotificationsEndpointsSmtpByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetClusterNotificationsEndpointsSmtpByNameRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<GetClusterNotificationsEndpointsSmtpByNameResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetClusterNotificationsEndpointsSmtpByNameRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<GetClusterNotificationsEndpointsSmtpByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7065,8 +7544,8 @@ export const getClusterNotificationsEndpointsWebhook: API.OperationMethod<
   GetClusterNotificationsEndpointsWebhookError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetClusterNotificationsEndpointsWebhookRequest>,
-  output: __S(187, __c23, 3) as any as S.Schema<GetClusterNotificationsEndpointsWebhookResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetClusterNotificationsEndpointsWebhookRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<GetClusterNotificationsEndpointsWebhookResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7083,13 +7562,13 @@ export const getClusterNotificationsEndpointsWebhookByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c24,
+    248,
+    __c31,
     0,
   ) as any as S.Schema<GetClusterNotificationsEndpointsWebhookByNameRequest>,
   output: __S(
-    194,
-    __c24,
+    250,
+    __c31,
     2,
   ) as any as S.Schema<GetClusterNotificationsEndpointsWebhookByNameResponse>,
   errors: [],
@@ -7107,8 +7586,8 @@ export const getClusterNotificationsMatcherFields: API.OperationMethod<
   GetClusterNotificationsMatcherFieldsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetClusterNotificationsMatcherFieldsRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<GetClusterNotificationsMatcherFieldsResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetClusterNotificationsMatcherFieldsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetClusterNotificationsMatcherFieldsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7124,8 +7603,8 @@ export const getClusterNotificationsMatcherFieldValues: API.OperationMethod<
   GetClusterNotificationsMatcherFieldValuesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetClusterNotificationsMatcherFieldValuesRequest>,
-  output: __S(219, __c27, 3) as any as S.Schema<GetClusterNotificationsMatcherFieldValuesResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetClusterNotificationsMatcherFieldValuesRequest>,
+  output: __S(267, __c33, 3) as any as S.Schema<GetClusterNotificationsMatcherFieldValuesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7141,8 +7620,8 @@ export const getClusterNotificationsMatchers: API.OperationMethod<
   GetClusterNotificationsMatchersError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetClusterNotificationsMatchersRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<GetClusterNotificationsMatchersResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetClusterNotificationsMatchersRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<GetClusterNotificationsMatchersResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7158,8 +7637,8 @@ export const getClusterNotificationsMatchersByName: API.OperationMethod<
   GetClusterNotificationsMatchersByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetClusterNotificationsMatchersByNameRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<GetClusterNotificationsMatchersByNameResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetClusterNotificationsMatchersByNameRequest>,
+  output: __S(282, __c35, 2) as any as S.Schema<GetClusterNotificationsMatchersByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7175,8 +7654,8 @@ export const getClusterNotificationsTargets: API.OperationMethod<
   GetClusterNotificationsTargetsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetClusterNotificationsTargetsRequest>,
-  output: __S(243, __c30, 3) as any as S.Schema<GetClusterNotificationsTargetsResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<GetClusterNotificationsTargetsRequest>,
+  output: __S(291, __c36, 3) as any as S.Schema<GetClusterNotificationsTargetsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7192,8 +7671,8 @@ export const getClusterOptions: API.OperationMethod<
   GetClusterOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetClusterOptionsRequest>,
-  output: __S(250, __c31, 2) as any as S.Schema<GetClusterOptionsResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetClusterOptionsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<GetClusterOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7209,8 +7688,8 @@ export const getClusterQemu: API.OperationMethod<
   GetClusterQemuError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetClusterQemuRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterQemuResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetClusterQemuRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterQemuResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7226,8 +7705,8 @@ export const getClusterQemuCpuFlags: API.OperationMethod<
   GetClusterQemuCpuFlagsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetClusterQemuCpuFlagsRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<GetClusterQemuCpuFlagsResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<GetClusterQemuCpuFlagsRequest>,
+  output: __S(323, __c40, 3) as any as S.Schema<GetClusterQemuCpuFlagsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7243,8 +7722,8 @@ export const getClusterQemuCustomCpuModels: API.OperationMethod<
   GetClusterQemuCustomCpuModelsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetClusterQemuCustomCpuModelsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<GetClusterQemuCustomCpuModelsResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetClusterQemuCustomCpuModelsRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<GetClusterQemuCustomCpuModelsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7260,8 +7739,8 @@ export const getClusterQemuCustomCpuModelsByCputype: API.OperationMethod<
   GetClusterQemuCustomCpuModelsByCputypeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetClusterQemuCustomCpuModelsByCputypeRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<GetClusterQemuCustomCpuModelsByCputypeResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetClusterQemuCustomCpuModelsByCputypeRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<GetClusterQemuCustomCpuModelsByCputypeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7277,8 +7756,8 @@ export const getClusterReplication: API.OperationMethod<
   GetClusterReplicationError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<GetClusterReplicationRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<GetClusterReplicationResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetClusterReplicationRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<GetClusterReplicationResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7294,8 +7773,8 @@ export const getClusterReplicationById: API.OperationMethod<
   GetClusterReplicationByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetClusterReplicationByIdRequest>,
-  output: __S(314, __c39, 2) as any as S.Schema<GetClusterReplicationByIdResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetClusterReplicationByIdRequest>,
+  output: __S(362, __c45, 2) as any as S.Schema<GetClusterReplicationByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7311,13 +7790,47 @@ export const getClusterResources: API.OperationMethod<
   GetClusterResourcesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetClusterResourcesRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<GetClusterResourcesResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetClusterResourcesRequest>,
+  output: __S(371, __c46, 3) as any as S.Schema<GetClusterResourcesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "GetClusterResources",
+}));
+
+export type GetClusterSanError = ProxmoxOpError;
+/** GET /cluster/san */
+export const getClusterSan: API.OperationMethod<
+  GetClusterSanRequest,
+  GetClusterSanResponse,
+  GetClusterSanError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(376, __c47, 0) as any as S.Schema<GetClusterSanRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GetClusterSanResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterSan",
+}));
+
+export type GetClusterSanStatusError = ProxmoxOpError;
+/** GET /cluster/san/status */
+export const getClusterSanStatus: API.OperationMethod<
+  GetClusterSanStatusRequest,
+  GetClusterSanStatusResponse,
+  GetClusterSanStatusError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c48, 0) as any as S.Schema<GetClusterSanStatusRequest>,
+  output: __S(388, __c48, 4) as any as S.Schema<GetClusterSanStatusResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetClusterSanStatus",
 }));
 
 export type GetClusterSdnError = ProxmoxOpError;
@@ -7328,8 +7841,8 @@ export const getClusterSdn: API.OperationMethod<
   GetClusterSdnError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetClusterSdnRequest>,
-  output: __S(2178, __c272, 2) as any as S.Schema<GetClusterSdnResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<GetClusterSdnRequest>,
+  output: __S(2258, __c282, 2) as any as S.Schema<GetClusterSdnResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7345,8 +7858,8 @@ export const getClusterSdnControllers: API.OperationMethod<
   GetClusterSdnControllersError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<GetClusterSdnControllersRequest>,
-  output: __S(338, __c42, 2) as any as S.Schema<GetClusterSdnControllersResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<GetClusterSdnControllersRequest>,
+  output: __S(410, __c51, 2) as any as S.Schema<GetClusterSdnControllersResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7362,8 +7875,8 @@ export const getClusterSdnControllersByController: API.OperationMethod<
   GetClusterSdnControllersByControllerError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetClusterSdnControllersByControllerRequest>,
-  output: __S(353, __c44, 1) as any as S.Schema<GetClusterSdnControllersByControllerResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<GetClusterSdnControllersByControllerRequest>,
+  output: __S(425, __c53, 1) as any as S.Schema<GetClusterSdnControllersByControllerResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7379,8 +7892,8 @@ export const getClusterSdnDns: API.OperationMethod<
   GetClusterSdnDnsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetClusterSdnDnsRequest>,
-  output: __S(363, __c45, 3) as any as S.Schema<GetClusterSdnDnsResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<GetClusterSdnDnsRequest>,
+  output: __S(435, __c54, 3) as any as S.Schema<GetClusterSdnDnsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7396,8 +7909,8 @@ export const getClusterSdnDnsByDns: API.OperationMethod<
   GetClusterSdnDnsByDnsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetClusterSdnDnsByDnsRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterSdnDnsByDnsResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<GetClusterSdnDnsByDnsRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterSdnDnsByDnsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7413,8 +7926,8 @@ export const getClusterSdnDryRun: API.OperationMethod<
   GetClusterSdnDryRunError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetClusterSdnDryRunRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<GetClusterSdnDryRunResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<GetClusterSdnDryRunRequest>,
+  output: __S(450, __c56, 2) as any as S.Schema<GetClusterSdnDryRunResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7430,8 +7943,8 @@ export const getClusterSdnFabrics: API.OperationMethod<
   GetClusterSdnFabricsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetClusterSdnFabricsRequest>,
-  output: __S(1866, __c233, 2) as any as S.Schema<GetClusterSdnFabricsResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<GetClusterSdnFabricsRequest>,
+  output: __S(1946, __c243, 2) as any as S.Schema<GetClusterSdnFabricsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7447,8 +7960,8 @@ export const getClusterSdnFabricsAll: API.OperationMethod<
   GetClusterSdnFabricsAllError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetClusterSdnFabricsAllRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<GetClusterSdnFabricsAllResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<GetClusterSdnFabricsAllRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<GetClusterSdnFabricsAllResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7464,8 +7977,8 @@ export const getClusterSdnFabricsFabric: API.OperationMethod<
   GetClusterSdnFabricsFabricError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<GetClusterSdnFabricsFabricRequest>,
-  output: __S(449, __c56, 1) as any as S.Schema<GetClusterSdnFabricsFabricResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<GetClusterSdnFabricsFabricRequest>,
+  output: __S(497, __c62, 1) as any as S.Schema<GetClusterSdnFabricsFabricResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7481,8 +7994,8 @@ export const getClusterSdnFabricsFabricById: API.OperationMethod<
   GetClusterSdnFabricsFabricByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<GetClusterSdnFabricsFabricByIdRequest>,
-  output: __S(457, __c57, 1) as any as S.Schema<GetClusterSdnFabricsFabricByIdResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<GetClusterSdnFabricsFabricByIdRequest>,
+  output: __S(506, __c63, 2) as any as S.Schema<GetClusterSdnFabricsFabricByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7498,8 +8011,8 @@ export const getClusterSdnFabricsNode: API.OperationMethod<
   GetClusterSdnFabricsNodeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<GetClusterSdnFabricsNodeRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<GetClusterSdnFabricsNodeResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<GetClusterSdnFabricsNodeRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<GetClusterSdnFabricsNodeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7515,8 +8028,8 @@ export const getClusterSdnFabricsNodeByFabricId: API.OperationMethod<
   GetClusterSdnFabricsNodeByFabricIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7532,8 +8045,8 @@ export const getClusterSdnFabricsNodeByFabricIdByNodeId: API.OperationMethod<
   GetClusterSdnFabricsNodeByFabricIdByNodeIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdByNodeIdRequest>,
-  output: __S(489, __c61, 1) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdByNodeIdResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdByNodeIdRequest>,
+  output: __S(546, __c68, 2) as any as S.Schema<GetClusterSdnFabricsNodeByFabricIdByNodeIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7549,8 +8062,8 @@ export const getClusterSdnIpams: API.OperationMethod<
   GetClusterSdnIpamsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<GetClusterSdnIpamsRequest>,
-  output: __S(499, __c62, 3) as any as S.Schema<GetClusterSdnIpamsResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<GetClusterSdnIpamsRequest>,
+  output: __S(555, __c69, 3) as any as S.Schema<GetClusterSdnIpamsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7566,8 +8079,8 @@ export const getClusterSdnIpamsByIpam: API.OperationMethod<
   GetClusterSdnIpamsByIpamError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<GetClusterSdnIpamsByIpamRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterSdnIpamsByIpamResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<GetClusterSdnIpamsByIpamRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterSdnIpamsByIpamResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7583,8 +8096,8 @@ export const getClusterSdnIpamsByIpamStatus: API.OperationMethod<
   GetClusterSdnIpamsByIpamStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<GetClusterSdnIpamsByIpamStatusRequest>,
-  output: __S(513, __c64, 1) as any as S.Schema<GetClusterSdnIpamsByIpamStatusResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<GetClusterSdnIpamsByIpamStatusRequest>,
+  output: __S(569, __c71, 1) as any as S.Schema<GetClusterSdnIpamsByIpamStatusResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7600,8 +8113,8 @@ export const getClusterSdnPrefixLists: API.OperationMethod<
   GetClusterSdnPrefixListsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<GetClusterSdnPrefixListsRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterSdnPrefixListsResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<GetClusterSdnPrefixListsRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterSdnPrefixListsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7617,8 +8130,8 @@ export const getClusterSdnPrefixListsById: API.OperationMethod<
   GetClusterSdnPrefixListsByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7634,8 +8147,8 @@ export const getClusterSdnPrefixListsByIdEntries: API.OperationMethod<
   GetClusterSdnPrefixListsByIdEntriesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7651,10 +8164,10 @@ export const getClusterSdnPrefixListsByIdEntriesByUrlSeq: API.OperationMethod<
   GetClusterSdnPrefixListsByIdEntriesByUrlSeqError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesByUrlSeqRequest>,
+  input: __S(600, __c75, 0) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesByUrlSeqRequest>,
   output: __S(
-    1952,
-    __c244,
+    2032,
+    __c254,
     0,
   ) as any as S.Schema<GetClusterSdnPrefixListsByIdEntriesByUrlSeqResponse>,
   errors: [],
@@ -7672,8 +8185,8 @@ export const getClusterSdnRouteMaps: API.OperationMethod<
   GetClusterSdnRouteMapsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<GetClusterSdnRouteMapsRequest>,
-  output: __S(2178, __c272, 2) as any as S.Schema<GetClusterSdnRouteMapsResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<GetClusterSdnRouteMapsRequest>,
+  output: __S(2258, __c282, 2) as any as S.Schema<GetClusterSdnRouteMapsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7689,8 +8202,8 @@ export const getClusterSdnRouteMapsEntries: API.OperationMethod<
   GetClusterSdnRouteMapsEntriesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<GetClusterSdnRouteMapsEntriesRequest>,
-  output: __S(577, __c72, 1) as any as S.Schema<GetClusterSdnRouteMapsEntriesResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<GetClusterSdnRouteMapsEntriesRequest>,
+  output: __S(633, __c79, 1) as any as S.Schema<GetClusterSdnRouteMapsEntriesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7706,8 +8219,8 @@ export const getClusterSdnRouteMapsEntriesByRouteMapId: API.OperationMethod<
   GetClusterSdnRouteMapsEntriesByRouteMapIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdRequest>,
-  output: __S(577, __c72, 1) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdRequest>,
+  output: __S(633, __c79, 1) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7724,13 +8237,13 @@ export const getClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrder: API.Operatio
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    600,
-    __c75,
+    656,
+    __c82,
     0,
   ) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest>,
   output: __S(
-    601,
-    __c75,
+    657,
+    __c82,
     1,
   ) as any as S.Schema<GetClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderResponse>,
   errors: [],
@@ -7748,8 +8261,8 @@ export const getClusterSdnVnets: API.OperationMethod<
   GetClusterSdnVnetsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<GetClusterSdnVnetsRequest>,
-  output: __S(610, __c76, 2) as any as S.Schema<GetClusterSdnVnetsResponse>,
+  input: __S(664, __c83, 0) as any as S.Schema<GetClusterSdnVnetsRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<GetClusterSdnVnetsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7765,8 +8278,8 @@ export const getClusterSdnVnetsByVnet: API.OperationMethod<
   GetClusterSdnVnetsByVnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<GetClusterSdnVnetsByVnetRequest>,
-  output: __S(625, __c78, 1) as any as S.Schema<GetClusterSdnVnetsByVnetResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<GetClusterSdnVnetsByVnetRequest>,
+  output: __S(681, __c85, 1) as any as S.Schema<GetClusterSdnVnetsByVnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7782,8 +8295,8 @@ export const getClusterSdnVnetsByVnetFirewall: API.OperationMethod<
   GetClusterSdnVnetsByVnetFirewallError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallResponse>,
+  input: __S(688, __c86, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7799,8 +8312,8 @@ export const getClusterSdnVnetsByVnetFirewallOptions: API.OperationMethod<
   GetClusterSdnVnetsByVnetFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallOptionsRequest>,
-  output: __S(642, __c80, 2) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallOptionsResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallOptionsRequest>,
+  output: __S(698, __c87, 2) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7816,8 +8329,8 @@ export const getClusterSdnVnetsByVnetFirewallRules: API.OperationMethod<
   GetClusterSdnVnetsByVnetFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesRequest>,
-  output: __S(2073, __c259, 1) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesResponse>,
+  input: __S(704, __c88, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesRequest>,
+  output: __S(2153, __c269, 1) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7833,10 +8346,10 @@ export const getClusterSdnVnetsByVnetFirewallRulesByPos: API.OperationMethod<
   GetClusterSdnVnetsByVnetFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesByPosRequest>,
+  input: __S(712, __c89, 0) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesByPosRequest>,
   output: __S(
-    2088,
-    __c261,
+    2168,
+    __c271,
     0,
   ) as any as S.Schema<GetClusterSdnVnetsByVnetFirewallRulesByPosResponse>,
   errors: [],
@@ -7854,8 +8367,8 @@ export const getClusterSdnVnetsByVnetSubnets: API.OperationMethod<
   GetClusterSdnVnetsByVnetSubnetsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsRequest>,
-  output: __S(1713, __c214, 1) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsRequest>,
+  output: __S(1801, __c225, 1) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7871,8 +8384,8 @@ export const getClusterSdnVnetsByVnetSubnetsBySubnet: API.OperationMethod<
   GetClusterSdnVnetsByVnetSubnetsBySubnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
-  output: __S(1952, __c244, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsBySubnetResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
+  output: __S(2032, __c254, 0) as any as S.Schema<GetClusterSdnVnetsByVnetSubnetsBySubnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7888,8 +8401,8 @@ export const getClusterSdnZones: API.OperationMethod<
   GetClusterSdnZonesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<GetClusterSdnZonesRequest>,
-  output: __S(690, __c86, 2) as any as S.Schema<GetClusterSdnZonesResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<GetClusterSdnZonesRequest>,
+  output: __S(746, __c93, 2) as any as S.Schema<GetClusterSdnZonesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7905,8 +8418,8 @@ export const getClusterSdnZonesByZone: API.OperationMethod<
   GetClusterSdnZonesByZoneError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<GetClusterSdnZonesByZoneRequest>,
-  output: __S(705, __c88, 1) as any as S.Schema<GetClusterSdnZonesByZoneResponse>,
+  input: __S(760, __c95, 0) as any as S.Schema<GetClusterSdnZonesByZoneRequest>,
+  output: __S(761, __c95, 1) as any as S.Schema<GetClusterSdnZonesByZoneResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7922,8 +8435,8 @@ export const getClusterStatus: API.OperationMethod<
   GetClusterStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<GetClusterStatusRequest>,
-  output: __S(715, __c89, 3) as any as S.Schema<GetClusterStatusResponse>,
+  input: __S(768, __c96, 0) as any as S.Schema<GetClusterStatusRequest>,
+  output: __S(771, __c96, 3) as any as S.Schema<GetClusterStatusResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7939,8 +8452,8 @@ export const getClusterTasks: API.OperationMethod<
   GetClusterTasksError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<GetClusterTasksRequest>,
-  output: __S(723, __c90, 3) as any as S.Schema<GetClusterTasksResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<GetClusterTasksRequest>,
+  output: __S(779, __c97, 3) as any as S.Schema<GetClusterTasksResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -7956,7 +8469,7 @@ export const postClusterAcmeAccount: API.OperationMethod<
   PostClusterAcmeAccountError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<PostClusterAcmeAccountRequest>,
+  input: __S(784, __c98, 0) as any as S.Schema<PostClusterAcmeAccountRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterAcmeAccountResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -7973,7 +8486,7 @@ export const postClusterAcmePlugins: API.OperationMethod<
   PostClusterAcmePluginsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<PostClusterAcmePluginsRequest>,
+  input: __S(792, __c99, 0) as any as S.Schema<PostClusterAcmePluginsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterAcmePluginsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -7990,7 +8503,7 @@ export const postClusterBackup: API.OperationMethod<
   PostClusterBackupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<PostClusterBackupRequest>,
+  input: __S(800, __c100, 0) as any as S.Schema<PostClusterBackupRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterBackupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8007,7 +8520,7 @@ export const postClusterBulkActionGuestMigrate: API.OperationMethod<
   PostClusterBulkActionGuestMigrateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<PostClusterBulkActionGuestMigrateRequest>,
+  input: __S(808, __c101, 0) as any as S.Schema<PostClusterBulkActionGuestMigrateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterBulkActionGuestMigrateResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8024,7 +8537,7 @@ export const postClusterBulkActionGuestShutdown: API.OperationMethod<
   PostClusterBulkActionGuestShutdownError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<PostClusterBulkActionGuestShutdownRequest>,
+  input: __S(824, __c103, 0) as any as S.Schema<PostClusterBulkActionGuestShutdownRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterBulkActionGuestShutdownResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8041,7 +8554,7 @@ export const postClusterBulkActionGuestStart: API.OperationMethod<
   PostClusterBulkActionGuestStartError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<PostClusterBulkActionGuestStartRequest>,
+  input: __S(840, __c105, 0) as any as S.Schema<PostClusterBulkActionGuestStartRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterBulkActionGuestStartResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8058,7 +8571,7 @@ export const postClusterBulkActionGuestSuspend: API.OperationMethod<
   PostClusterBulkActionGuestSuspendError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<PostClusterBulkActionGuestSuspendRequest>,
+  input: __S(848, __c106, 0) as any as S.Schema<PostClusterBulkActionGuestSuspendRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterBulkActionGuestSuspendResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8075,7 +8588,7 @@ export const postClusterCephRestartBulk: API.OperationMethod<
   PostClusterCephRestartBulkError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<PostClusterCephRestartBulkRequest>,
+  input: __S(856, __c107, 0) as any as S.Schema<PostClusterCephRestartBulkRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterCephRestartBulkResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8092,7 +8605,7 @@ export const postClusterConfig: API.OperationMethod<
   PostClusterConfigError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<PostClusterConfigRequest>,
+  input: __S(864, __c108, 0) as any as S.Schema<PostClusterConfigRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterConfigResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8109,7 +8622,7 @@ export const postClusterConfigJoin: API.OperationMethod<
   PostClusterConfigJoinError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<PostClusterConfigJoinRequest>,
+  input: __S(872, __c109, 0) as any as S.Schema<PostClusterConfigJoinRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterConfigJoinResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8126,8 +8639,8 @@ export const postClusterConfigNodesByNode: API.OperationMethod<
   PostClusterConfigNodesByNodeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<PostClusterConfigNodesByNodeRequest>,
-  output: __S(826, __c103, 2) as any as S.Schema<PostClusterConfigNodesByNodeResponse>,
+  input: __S(880, __c110, 0) as any as S.Schema<PostClusterConfigNodesByNodeRequest>,
+  output: __S(882, __c110, 2) as any as S.Schema<PostClusterConfigNodesByNodeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -8143,7 +8656,7 @@ export const postClusterFirewallAliases: API.OperationMethod<
   PostClusterFirewallAliasesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<PostClusterFirewallAliasesRequest>,
+  input: __S(888, __c111, 0) as any as S.Schema<PostClusterFirewallAliasesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallAliasesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8160,7 +8673,7 @@ export const postClusterFirewallGroups: API.OperationMethod<
   PostClusterFirewallGroupsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<PostClusterFirewallGroupsRequest>,
+  input: __S(896, __c112, 0) as any as S.Schema<PostClusterFirewallGroupsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallGroupsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8177,7 +8690,7 @@ export const postClusterFirewallGroupsByGroup: API.OperationMethod<
   PostClusterFirewallGroupsByGroupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<PostClusterFirewallGroupsByGroupRequest>,
+  input: __S(904, __c113, 0) as any as S.Schema<PostClusterFirewallGroupsByGroupRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallGroupsByGroupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8194,7 +8707,7 @@ export const postClusterFirewallIpset: API.OperationMethod<
   PostClusterFirewallIpsetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<PostClusterFirewallIpsetRequest>,
+  input: __S(912, __c114, 0) as any as S.Schema<PostClusterFirewallIpsetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallIpsetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8211,7 +8724,7 @@ export const postClusterFirewallIpsetByName: API.OperationMethod<
   PostClusterFirewallIpsetByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<PostClusterFirewallIpsetByNameRequest>,
+  input: __S(928, __c116, 0) as any as S.Schema<PostClusterFirewallIpsetByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallIpsetByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8228,7 +8741,7 @@ export const postClusterFirewallRules: API.OperationMethod<
   PostClusterFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<PostClusterFirewallRulesRequest>,
+  input: __S(936, __c117, 0) as any as S.Schema<PostClusterFirewallRulesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterFirewallRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8245,7 +8758,7 @@ export const postClusterHaGroups: API.OperationMethod<
   PostClusterHaGroupsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<PostClusterHaGroupsRequest>,
+  input: __S(944, __c118, 0) as any as S.Schema<PostClusterHaGroupsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterHaGroupsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8262,7 +8775,7 @@ export const postClusterHaResources: API.OperationMethod<
   PostClusterHaResourcesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<PostClusterHaResourcesRequest>,
+  input: __S(952, __c119, 0) as any as S.Schema<PostClusterHaResourcesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterHaResourcesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8279,8 +8792,8 @@ export const postClusterHaResourcesBySidMigrate: API.OperationMethod<
   PostClusterHaResourcesBySidMigrateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<PostClusterHaResourcesBySidMigrateRequest>,
-  output: __S(906, __c113, 2) as any as S.Schema<PostClusterHaResourcesBySidMigrateResponse>,
+  input: __S(960, __c120, 0) as any as S.Schema<PostClusterHaResourcesBySidMigrateRequest>,
+  output: __S(962, __c120, 2) as any as S.Schema<PostClusterHaResourcesBySidMigrateResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -8296,8 +8809,8 @@ export const postClusterHaResourcesBySidRelocate: API.OperationMethod<
   PostClusterHaResourcesBySidRelocateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<PostClusterHaResourcesBySidRelocateRequest>,
-  output: __S(922, __c115, 2) as any as S.Schema<PostClusterHaResourcesBySidRelocateResponse>,
+  input: __S(976, __c122, 0) as any as S.Schema<PostClusterHaResourcesBySidRelocateRequest>,
+  output: __S(978, __c122, 2) as any as S.Schema<PostClusterHaResourcesBySidRelocateResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -8313,7 +8826,7 @@ export const postClusterHaRules: API.OperationMethod<
   PostClusterHaRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<PostClusterHaRulesRequest>,
+  input: __S(984, __c123, 0) as any as S.Schema<PostClusterHaRulesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterHaRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8330,7 +8843,7 @@ export const postClusterHaStatusArmHa: API.OperationMethod<
   PostClusterHaStatusArmHaError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<PostClusterHaStatusArmHaRequest>,
+  input: __S(992, __c124, 0) as any as S.Schema<PostClusterHaStatusArmHaRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterHaStatusArmHaResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8347,7 +8860,7 @@ export const postClusterHaStatusDisarmHa: API.OperationMethod<
   PostClusterHaStatusDisarmHaError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<PostClusterHaStatusDisarmHaRequest>,
+  input: __S(1000, __c125, 0) as any as S.Schema<PostClusterHaStatusDisarmHaRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterHaStatusDisarmHaResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8364,7 +8877,7 @@ export const postClusterJobsRealmSyncById: API.OperationMethod<
   PostClusterJobsRealmSyncByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<PostClusterJobsRealmSyncByIdRequest>,
+  input: __S(1008, __c126, 0) as any as S.Schema<PostClusterJobsRealmSyncByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterJobsRealmSyncByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8381,7 +8894,7 @@ export const postClusterMappingDir: API.OperationMethod<
   PostClusterMappingDirError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<PostClusterMappingDirRequest>,
+  input: __S(1032, __c129, 0) as any as S.Schema<PostClusterMappingDirRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterMappingDirResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8398,7 +8911,7 @@ export const postClusterMappingPci: API.OperationMethod<
   PostClusterMappingPciError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<PostClusterMappingPciRequest>,
+  input: __S(1040, __c130, 0) as any as S.Schema<PostClusterMappingPciRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterMappingPciResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8415,7 +8928,7 @@ export const postClusterMappingUsb: API.OperationMethod<
   PostClusterMappingUsbError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<PostClusterMappingUsbRequest>,
+  input: __S(1048, __c131, 0) as any as S.Schema<PostClusterMappingUsbRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterMappingUsbResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8432,13 +8945,30 @@ export const postClusterMetricsServerById: API.OperationMethod<
   PostClusterMetricsServerByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<PostClusterMetricsServerByIdRequest>,
+  input: __S(1056, __c132, 0) as any as S.Schema<PostClusterMetricsServerByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterMetricsServerByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "PostClusterMetricsServerById",
+}));
+
+export type PostClusterMultipathWwidError = ProxmoxOpError;
+/** POST /cluster/multipath/wwid */
+export const postClusterMultipathWwid: API.OperationMethod<
+  PostClusterMultipathWwidRequest,
+  PostClusterMultipathWwidResponse,
+  PostClusterMultipathWwidError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1064, __c133, 0) as any as S.Schema<PostClusterMultipathWwidRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<PostClusterMultipathWwidResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "PostClusterMultipathWwid",
 }));
 
 export type PostClusterNotificationsEndpointsGotifyError = ProxmoxOpError;
@@ -8449,7 +8979,7 @@ export const postClusterNotificationsEndpointsGotify: API.OperationMethod<
   PostClusterNotificationsEndpointsGotifyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<PostClusterNotificationsEndpointsGotifyRequest>,
+  input: __S(1072, __c134, 0) as any as S.Schema<PostClusterNotificationsEndpointsGotifyRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsEndpointsGotifyResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8466,7 +8996,7 @@ export const postClusterNotificationsEndpointsSendmail: API.OperationMethod<
   PostClusterNotificationsEndpointsSendmailError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<PostClusterNotificationsEndpointsSendmailRequest>,
+  input: __S(1080, __c135, 0) as any as S.Schema<PostClusterNotificationsEndpointsSendmailRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsEndpointsSendmailResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8483,7 +9013,7 @@ export const postClusterNotificationsEndpointsSmtp: API.OperationMethod<
   PostClusterNotificationsEndpointsSmtpError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<PostClusterNotificationsEndpointsSmtpRequest>,
+  input: __S(1088, __c136, 0) as any as S.Schema<PostClusterNotificationsEndpointsSmtpRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsEndpointsSmtpResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8500,7 +9030,7 @@ export const postClusterNotificationsEndpointsWebhook: API.OperationMethod<
   PostClusterNotificationsEndpointsWebhookError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<PostClusterNotificationsEndpointsWebhookRequest>,
+  input: __S(1096, __c137, 0) as any as S.Schema<PostClusterNotificationsEndpointsWebhookRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsEndpointsWebhookResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8517,7 +9047,7 @@ export const postClusterNotificationsMatchers: API.OperationMethod<
   PostClusterNotificationsMatchersError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<PostClusterNotificationsMatchersRequest>,
+  input: __S(1104, __c138, 0) as any as S.Schema<PostClusterNotificationsMatchersRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsMatchersResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8534,7 +9064,7 @@ export const postClusterNotificationsTargetsByNameTest: API.OperationMethod<
   PostClusterNotificationsTargetsByNameTestError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<PostClusterNotificationsTargetsByNameTestRequest>,
+  input: __S(1120, __c140, 0) as any as S.Schema<PostClusterNotificationsTargetsByNameTestRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterNotificationsTargetsByNameTestResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8551,7 +9081,7 @@ export const postClusterQemuCustomCpuModels: API.OperationMethod<
   PostClusterQemuCustomCpuModelsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<PostClusterQemuCustomCpuModelsRequest>,
+  input: __S(1128, __c141, 0) as any as S.Schema<PostClusterQemuCustomCpuModelsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterQemuCustomCpuModelsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8568,7 +9098,7 @@ export const postClusterReplication: API.OperationMethod<
   PostClusterReplicationError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<PostClusterReplicationRequest>,
+  input: __S(1136, __c142, 0) as any as S.Schema<PostClusterReplicationRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterReplicationResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8585,7 +9115,7 @@ export const postClusterSdnControllers: API.OperationMethod<
   PostClusterSdnControllersError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<PostClusterSdnControllersRequest>,
+  input: __S(1144, __c143, 0) as any as S.Schema<PostClusterSdnControllersRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnControllersResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8602,7 +9132,7 @@ export const postClusterSdnDns: API.OperationMethod<
   PostClusterSdnDnsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<PostClusterSdnDnsRequest>,
+  input: __S(1152, __c144, 0) as any as S.Schema<PostClusterSdnDnsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnDnsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8619,7 +9149,7 @@ export const postClusterSdnFabricsFabric: API.OperationMethod<
   PostClusterSdnFabricsFabricError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<PostClusterSdnFabricsFabricRequest>,
+  input: __S(1160, __c145, 0) as any as S.Schema<PostClusterSdnFabricsFabricRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnFabricsFabricResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8636,7 +9166,7 @@ export const postClusterSdnFabricsNodeByFabricId: API.OperationMethod<
   PostClusterSdnFabricsNodeByFabricIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<PostClusterSdnFabricsNodeByFabricIdRequest>,
+  input: __S(1168, __c146, 0) as any as S.Schema<PostClusterSdnFabricsNodeByFabricIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnFabricsNodeByFabricIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8653,7 +9183,7 @@ export const postClusterSdnIpams: API.OperationMethod<
   PostClusterSdnIpamsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<PostClusterSdnIpamsRequest>,
+  input: __S(1176, __c147, 0) as any as S.Schema<PostClusterSdnIpamsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnIpamsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8670,7 +9200,7 @@ export const postClusterSdnLock: API.OperationMethod<
   PostClusterSdnLockError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<PostClusterSdnLockRequest>,
+  input: __S(1184, __c148, 0) as any as S.Schema<PostClusterSdnLockRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostClusterSdnLockResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8687,7 +9217,7 @@ export const postClusterSdnPrefixLists: API.OperationMethod<
   PostClusterSdnPrefixListsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<PostClusterSdnPrefixListsRequest>,
+  input: __S(1192, __c149, 0) as any as S.Schema<PostClusterSdnPrefixListsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnPrefixListsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8704,7 +9234,7 @@ export const postClusterSdnPrefixListsByIdEntries: API.OperationMethod<
   PostClusterSdnPrefixListsByIdEntriesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<PostClusterSdnPrefixListsByIdEntriesRequest>,
+  input: __S(1208, __c151, 0) as any as S.Schema<PostClusterSdnPrefixListsByIdEntriesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnPrefixListsByIdEntriesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8721,7 +9251,7 @@ export const postClusterSdnRollback: API.OperationMethod<
   PostClusterSdnRollbackError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<PostClusterSdnRollbackRequest>,
+  input: __S(1216, __c152, 0) as any as S.Schema<PostClusterSdnRollbackRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnRollbackResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8738,7 +9268,7 @@ export const postClusterSdnRouteMapsEntries: API.OperationMethod<
   PostClusterSdnRouteMapsEntriesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<PostClusterSdnRouteMapsEntriesRequest>,
+  input: __S(1224, __c153, 0) as any as S.Schema<PostClusterSdnRouteMapsEntriesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnRouteMapsEntriesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8755,7 +9285,7 @@ export const postClusterSdnVnets: API.OperationMethod<
   PostClusterSdnVnetsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<PostClusterSdnVnetsRequest>,
+  input: __S(1232, __c154, 0) as any as S.Schema<PostClusterSdnVnetsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnVnetsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8772,7 +9302,7 @@ export const postClusterSdnVnetsByVnetFirewallRules: API.OperationMethod<
   PostClusterSdnVnetsByVnetFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<PostClusterSdnVnetsByVnetFirewallRulesRequest>,
+  input: __S(1240, __c155, 0) as any as S.Schema<PostClusterSdnVnetsByVnetFirewallRulesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnVnetsByVnetFirewallRulesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8789,7 +9319,7 @@ export const postClusterSdnVnetsByVnetIps: API.OperationMethod<
   PostClusterSdnVnetsByVnetIpsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<PostClusterSdnVnetsByVnetIpsRequest>,
+  input: __S(1248, __c156, 0) as any as S.Schema<PostClusterSdnVnetsByVnetIpsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnVnetsByVnetIpsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8806,7 +9336,7 @@ export const postClusterSdnVnetsByVnetSubnets: API.OperationMethod<
   PostClusterSdnVnetsByVnetSubnetsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<PostClusterSdnVnetsByVnetSubnetsRequest>,
+  input: __S(1256, __c157, 0) as any as S.Schema<PostClusterSdnVnetsByVnetSubnetsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnVnetsByVnetSubnetsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8823,7 +9353,7 @@ export const postClusterSdnZones: API.OperationMethod<
   PostClusterSdnZonesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<PostClusterSdnZonesRequest>,
+  input: __S(1264, __c158, 0) as any as S.Schema<PostClusterSdnZonesRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PostClusterSdnZonesResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8840,7 +9370,7 @@ export const putClusterAcmeAccountByName: API.OperationMethod<
   PutClusterAcmeAccountByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<PutClusterAcmeAccountByNameRequest>,
+  input: __S(1272, __c159, 0) as any as S.Schema<PutClusterAcmeAccountByNameRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutClusterAcmeAccountByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8857,7 +9387,7 @@ export const putClusterAcmePluginsById: API.OperationMethod<
   PutClusterAcmePluginsByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<PutClusterAcmePluginsByIdRequest>,
+  input: __S(1280, __c160, 0) as any as S.Schema<PutClusterAcmePluginsByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterAcmePluginsByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8874,7 +9404,7 @@ export const putClusterBackupById: API.OperationMethod<
   PutClusterBackupByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<PutClusterBackupByIdRequest>,
+  input: __S(1296, __c162, 0) as any as S.Schema<PutClusterBackupByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterBackupByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8891,7 +9421,7 @@ export const putClusterCephFlags: API.OperationMethod<
   PutClusterCephFlagsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<PutClusterCephFlagsRequest>,
+  input: __S(1304, __c163, 0) as any as S.Schema<PutClusterCephFlagsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutClusterCephFlagsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8908,7 +9438,7 @@ export const putClusterCephFlagsByFlag: API.OperationMethod<
   PutClusterCephFlagsByFlagError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<PutClusterCephFlagsByFlagRequest>,
+  input: __S(1312, __c164, 0) as any as S.Schema<PutClusterCephFlagsByFlagRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterCephFlagsByFlagResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8925,7 +9455,7 @@ export const putClusterCephHealthMuteByCode: API.OperationMethod<
   PutClusterCephHealthMuteByCodeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<PutClusterCephHealthMuteByCodeRequest>,
+  input: __S(1320, __c165, 0) as any as S.Schema<PutClusterCephHealthMuteByCodeRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterCephHealthMuteByCodeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8942,7 +9472,7 @@ export const putClusterFirewallAliasesByName: API.OperationMethod<
   PutClusterFirewallAliasesByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<PutClusterFirewallAliasesByNameRequest>,
+  input: __S(1328, __c166, 0) as any as S.Schema<PutClusterFirewallAliasesByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterFirewallAliasesByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8959,7 +9489,7 @@ export const putClusterFirewallGroupsByGroupByPos: API.OperationMethod<
   PutClusterFirewallGroupsByGroupByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<PutClusterFirewallGroupsByGroupByPosRequest>,
+  input: __S(1336, __c167, 0) as any as S.Schema<PutClusterFirewallGroupsByGroupByPosRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterFirewallGroupsByGroupByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8976,7 +9506,7 @@ export const putClusterFirewallIpsetByNameByCidr: API.OperationMethod<
   PutClusterFirewallIpsetByNameByCidrError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<PutClusterFirewallIpsetByNameByCidrRequest>,
+  input: __S(1344, __c168, 0) as any as S.Schema<PutClusterFirewallIpsetByNameByCidrRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterFirewallIpsetByNameByCidrResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -8993,7 +9523,7 @@ export const putClusterFirewallOptions: API.OperationMethod<
   PutClusterFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1288, __c161, 0) as any as S.Schema<PutClusterFirewallOptionsRequest>,
+  input: __S(1352, __c169, 0) as any as S.Schema<PutClusterFirewallOptionsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterFirewallOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9010,7 +9540,7 @@ export const putClusterFirewallRulesByPos: API.OperationMethod<
   PutClusterFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<PutClusterFirewallRulesByPosRequest>,
+  input: __S(1360, __c170, 0) as any as S.Schema<PutClusterFirewallRulesByPosRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterFirewallRulesByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9027,7 +9557,7 @@ export const putClusterHaGroupsByGroup: API.OperationMethod<
   PutClusterHaGroupsByGroupError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<PutClusterHaGroupsByGroupRequest>,
+  input: __S(1368, __c171, 0) as any as S.Schema<PutClusterHaGroupsByGroupRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterHaGroupsByGroupResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9044,7 +9574,7 @@ export const putClusterHaResourcesBySid: API.OperationMethod<
   PutClusterHaResourcesBySidError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<PutClusterHaResourcesBySidRequest>,
+  input: __S(1384, __c173, 0) as any as S.Schema<PutClusterHaResourcesBySidRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterHaResourcesBySidResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9061,7 +9591,7 @@ export const putClusterHaRulesByRule: API.OperationMethod<
   PutClusterHaRulesByRuleError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c166, 0) as any as S.Schema<PutClusterHaRulesByRuleRequest>,
+  input: __S(1392, __c174, 0) as any as S.Schema<PutClusterHaRulesByRuleRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterHaRulesByRuleResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9078,7 +9608,7 @@ export const putClusterJobsRealmSyncById: API.OperationMethod<
   PutClusterJobsRealmSyncByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<PutClusterJobsRealmSyncByIdRequest>,
+  input: __S(1400, __c175, 0) as any as S.Schema<PutClusterJobsRealmSyncByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterJobsRealmSyncByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9095,7 +9625,7 @@ export const putClusterMappingDirById: API.OperationMethod<
   PutClusterMappingDirByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c168, 0) as any as S.Schema<PutClusterMappingDirByIdRequest>,
+  input: __S(1408, __c176, 0) as any as S.Schema<PutClusterMappingDirByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterMappingDirByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9112,7 +9642,7 @@ export const putClusterMappingPciById: API.OperationMethod<
   PutClusterMappingPciByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<PutClusterMappingPciByIdRequest>,
+  input: __S(1416, __c177, 0) as any as S.Schema<PutClusterMappingPciByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterMappingPciByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9129,7 +9659,7 @@ export const putClusterMappingUsbById: API.OperationMethod<
   PutClusterMappingUsbByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<PutClusterMappingUsbByIdRequest>,
+  input: __S(1424, __c178, 0) as any as S.Schema<PutClusterMappingUsbByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterMappingUsbByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9146,13 +9676,47 @@ export const putClusterMetricsServerById: API.OperationMethod<
   PutClusterMetricsServerByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1368, __c171, 0) as any as S.Schema<PutClusterMetricsServerByIdRequest>,
+  input: __S(1432, __c179, 0) as any as S.Schema<PutClusterMetricsServerByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterMetricsServerByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "PutClusterMetricsServerById",
+}));
+
+export type PutClusterMultipathOverridesError = ProxmoxOpError;
+/** PUT /cluster/multipath/overrides */
+export const putClusterMultipathOverrides: API.OperationMethod<
+  PutClusterMultipathOverridesRequest,
+  PutClusterMultipathOverridesResponse,
+  PutClusterMultipathOverridesError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c180, 0) as any as S.Schema<PutClusterMultipathOverridesRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<PutClusterMultipathOverridesResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "PutClusterMultipathOverrides",
+}));
+
+export type PutClusterMultipathWwidByWwidError = ProxmoxOpError;
+/** PUT /cluster/multipath/wwid/{wwid} */
+export const putClusterMultipathWwidByWwid: API.OperationMethod<
+  PutClusterMultipathWwidByWwidRequest,
+  PutClusterMultipathWwidByWwidResponse,
+  PutClusterMultipathWwidByWwidError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1448, __c181, 0) as any as S.Schema<PutClusterMultipathWwidByWwidRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<PutClusterMultipathWwidByWwidResponse>,
+  errors: [],
+  serviceErrors: ProxmoxServiceErrors,
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "PutClusterMultipathWwidByWwid",
 }));
 
 export type PutClusterNotificationsEndpointsGotifyByNameError = ProxmoxOpError;
@@ -9164,8 +9728,8 @@ export const putClusterNotificationsEndpointsGotifyByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c172,
+    1456,
+    __c182,
     0,
   ) as any as S.Schema<PutClusterNotificationsEndpointsGotifyByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterNotificationsEndpointsGotifyByNameResponse>,
@@ -9185,8 +9749,8 @@ export const putClusterNotificationsEndpointsSendmailByName: API.OperationMethod
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1392,
-    __c174,
+    1472,
+    __c184,
     0,
   ) as any as S.Schema<PutClusterNotificationsEndpointsSendmailByNameRequest>,
   output: __S(
@@ -9209,7 +9773,7 @@ export const putClusterNotificationsEndpointsSmtpByName: API.OperationMethod<
   PutClusterNotificationsEndpointsSmtpByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<PutClusterNotificationsEndpointsSmtpByNameRequest>,
+  input: __S(1480, __c185, 0) as any as S.Schema<PutClusterNotificationsEndpointsSmtpByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterNotificationsEndpointsSmtpByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9227,8 +9791,8 @@ export const putClusterNotificationsEndpointsWebhookByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c176,
+    1488,
+    __c186,
     0,
   ) as any as S.Schema<PutClusterNotificationsEndpointsWebhookByNameRequest>,
   output: __S(
@@ -9251,7 +9815,7 @@ export const putClusterNotificationsMatchersByName: API.OperationMethod<
   PutClusterNotificationsMatchersByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1416, __c177, 0) as any as S.Schema<PutClusterNotificationsMatchersByNameRequest>,
+  input: __S(1496, __c187, 0) as any as S.Schema<PutClusterNotificationsMatchersByNameRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterNotificationsMatchersByNameResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9268,7 +9832,7 @@ export const putClusterOptions: API.OperationMethod<
   PutClusterOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<PutClusterOptionsRequest>,
+  input: __S(1504, __c188, 0) as any as S.Schema<PutClusterOptionsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9285,7 +9849,7 @@ export const putClusterQemuCustomCpuModelsByCputype: API.OperationMethod<
   PutClusterQemuCustomCpuModelsByCputypeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1432, __c179, 0) as any as S.Schema<PutClusterQemuCustomCpuModelsByCputypeRequest>,
+  input: __S(1512, __c189, 0) as any as S.Schema<PutClusterQemuCustomCpuModelsByCputypeRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterQemuCustomCpuModelsByCputypeResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9302,7 +9866,7 @@ export const putClusterReplicationById: API.OperationMethod<
   PutClusterReplicationByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<PutClusterReplicationByIdRequest>,
+  input: __S(1520, __c190, 0) as any as S.Schema<PutClusterReplicationByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterReplicationByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9319,7 +9883,7 @@ export const putClusterSdn: API.OperationMethod<
   PutClusterSdnError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1448, __c181, 0) as any as S.Schema<PutClusterSdnRequest>,
+  input: __S(1528, __c191, 0) as any as S.Schema<PutClusterSdnRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutClusterSdnResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9336,7 +9900,7 @@ export const putClusterSdnControllersByController: API.OperationMethod<
   PutClusterSdnControllersByControllerError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<PutClusterSdnControllersByControllerRequest>,
+  input: __S(1536, __c192, 0) as any as S.Schema<PutClusterSdnControllersByControllerRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnControllersByControllerResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9353,7 +9917,7 @@ export const putClusterSdnDnsByDns: API.OperationMethod<
   PutClusterSdnDnsByDnsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<PutClusterSdnDnsByDnsRequest>,
+  input: __S(1544, __c193, 0) as any as S.Schema<PutClusterSdnDnsByDnsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnDnsByDnsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9370,7 +9934,7 @@ export const putClusterSdnFabricsFabricById: API.OperationMethod<
   PutClusterSdnFabricsFabricByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<PutClusterSdnFabricsFabricByIdRequest>,
+  input: __S(1560, __c195, 0) as any as S.Schema<PutClusterSdnFabricsFabricByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnFabricsFabricByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9387,7 +9951,7 @@ export const putClusterSdnFabricsNodeByFabricIdByNodeId: API.OperationMethod<
   PutClusterSdnFabricsNodeByFabricIdByNodeIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<PutClusterSdnFabricsNodeByFabricIdByNodeIdRequest>,
+  input: __S(1568, __c196, 0) as any as S.Schema<PutClusterSdnFabricsNodeByFabricIdByNodeIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnFabricsNodeByFabricIdByNodeIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9404,7 +9968,7 @@ export const putClusterSdnIpamsByIpam: API.OperationMethod<
   PutClusterSdnIpamsByIpamError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1496, __c187, 0) as any as S.Schema<PutClusterSdnIpamsByIpamRequest>,
+  input: __S(1576, __c197, 0) as any as S.Schema<PutClusterSdnIpamsByIpamRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnIpamsByIpamResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9421,7 +9985,7 @@ export const putClusterSdnPrefixListsById: API.OperationMethod<
   PutClusterSdnPrefixListsByIdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<PutClusterSdnPrefixListsByIdRequest>,
+  input: __S(1584, __c198, 0) as any as S.Schema<PutClusterSdnPrefixListsByIdRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnPrefixListsByIdResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9439,8 +10003,8 @@ export const putClusterSdnPrefixListsByIdEntriesByUrlSeq: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1520,
-    __c190,
+    1600,
+    __c200,
     0,
   ) as any as S.Schema<PutClusterSdnPrefixListsByIdEntriesByUrlSeqRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnPrefixListsByIdEntriesByUrlSeqResponse>,
@@ -9460,8 +10024,8 @@ export const putClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrder: API.Operatio
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1528,
-    __c191,
+    1608,
+    __c201,
     0,
   ) as any as S.Schema<PutClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest>,
   output: __S(
@@ -9484,7 +10048,7 @@ export const putClusterSdnVnetsByVnet: API.OperationMethod<
   PutClusterSdnVnetsByVnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<PutClusterSdnVnetsByVnetRequest>,
+  input: __S(1616, __c202, 0) as any as S.Schema<PutClusterSdnVnetsByVnetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnVnetsByVnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9501,7 +10065,7 @@ export const putClusterSdnVnetsByVnetFirewallOptions: API.OperationMethod<
   PutClusterSdnVnetsByVnetFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1544, __c193, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallOptionsRequest>,
+  input: __S(1624, __c203, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallOptionsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallOptionsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9518,7 +10082,7 @@ export const putClusterSdnVnetsByVnetFirewallRulesByPos: API.OperationMethod<
   PutClusterSdnVnetsByVnetFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallRulesByPosRequest>,
+  input: __S(1632, __c204, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallRulesByPosRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnVnetsByVnetFirewallRulesByPosResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9535,7 +10099,7 @@ export const putClusterSdnVnetsByVnetIps: API.OperationMethod<
   PutClusterSdnVnetsByVnetIpsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<PutClusterSdnVnetsByVnetIpsRequest>,
+  input: __S(1640, __c205, 0) as any as S.Schema<PutClusterSdnVnetsByVnetIpsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnVnetsByVnetIpsResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9552,7 +10116,7 @@ export const putClusterSdnVnetsByVnetSubnetsBySubnet: API.OperationMethod<
   PutClusterSdnVnetsByVnetSubnetsBySubnetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<PutClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
+  input: __S(1656, __c207, 0) as any as S.Schema<PutClusterSdnVnetsByVnetSubnetsBySubnetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnVnetsByVnetSubnetsBySubnetResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9569,7 +10133,7 @@ export const putClusterSdnZonesByZone: API.OperationMethod<
   PutClusterSdnZonesByZoneError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c198, 0) as any as S.Schema<PutClusterSdnZonesByZoneRequest>,
+  input: __S(1664, __c208, 0) as any as S.Schema<PutClusterSdnZonesByZoneRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PutClusterSdnZonesByZoneResponse>,
   errors: [],
   serviceErrors: ProxmoxServiceErrors,
@@ -9630,12 +10194,22 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cluster/mapping/dir/{id}", code: 200 })),
+      ).annotate({ identifier: "GetClusterMappingDirByIdRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           "check-node": S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/cluster/mapping/pci", code: 200 })),
       ).annotate({ identifier: "GetClusterMappingPciRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9645,7 +10219,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetClusterMappingPciByIdRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9659,18 +10233,18 @@ function __c7(j: number): any {
           description: S.String,
           error: S.Unknown,
           id: S.String,
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
         }),
       ).annotate({ identifier: "GetClusterMappingUsbResultItem" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
-      return S.suspend(() => __S(58, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(66, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterMappingUsbResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9680,7 +10254,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetClusterMappingUsbByIdRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9688,7 +10262,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetClusterMetricsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9710,20 +10284,20 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterMetricsExportResultDataItem" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(82, __c10, 2),
+          data: __S(90, __c11, 2),
         }),
       ).annotate({ identifier: "GetClusterMetricsExportResult" });
     case 4:
-      return S.suspend(() => __S(83, __c10, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(91, __c11, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterMetricsExportResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9740,14 +10314,14 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterMetricsServerResultItem" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
-      return S.suspend(() => __S(90, __c11, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(98, __c12, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterMetricsServerResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9757,25 +10331,31 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetClusterMetricsServerByIdRequest" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vmid: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/cluster/nextid", code: 200 })),
-      ).annotate({ identifier: "GetClusterNextidRequest" });
-  }
-}
 function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/notifications", code: 200 })),
-      ).annotate({ identifier: "GetClusterNotificationsRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/multipath", code: 200 })),
+      ).annotate({ identifier: "GetClusterMultipathRequest" });
   }
 }
 function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+        }),
+      ).annotate({ identifier: "GetClusterMultipathResultItem" });
+    case 1:
+      return S.Array(__S(120, __c15, 0));
+    case 2:
+      return S.suspend(() => __S(121, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterMultipathResponse",
+      });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9786,7 +10366,95 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteClusterHaResourcesBySidRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/cluster/multipath/overrides", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetClusterMultipathOverridesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String),
+          overrides: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterMultipathOverridesResult" });
+    case 2:
+      return S.suspend(() => __S(137, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterMultipathOverridesResponse",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/multipath/wwid", code: 200 })),
+      ).annotate({ identifier: "GetClusterMultipathWwidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(S.String),
+          "no-path-retry": S.optional(S.String),
+          nodes: S.optional(S.String),
+          "paths-expected": S.optional(S.Number),
+          wwid: S.String,
+        }),
+      ).annotate({ identifier: "GetClusterMultipathWwidResultItem" });
+    case 2:
+      return S.Array(__S(145, __c18, 1));
+    case 3:
+      return S.suspend(() => __S(146, __c18, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterMultipathWwidResponse",
+      });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          wwid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cluster/multipath/wwid/{wwid}", code: 200 })),
+      ).annotate({ identifier: "GetClusterMultipathWwidByWwidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(S.String),
+          digest: S.optional(S.String),
+          "no-path-retry": S.optional(S.String),
+          nodes: S.optional(S.String),
+          "paths-expected": S.optional(S.Number),
+          wwid: S.String,
+        }),
+      ).annotate({ identifier: "GetClusterMultipathWwidByWwidResult" });
+    case 2:
+      return S.suspend(() => __S(153, __c19, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterMultipathWwidByWwidResponse",
+      });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vmid: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/cluster/nextid", code: 200 })),
+      ).annotate({ identifier: "GetClusterNextidRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/notifications", code: 200 })),
+      ).annotate({ identifier: "GetClusterNotificationsRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9796,7 +10464,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetClusterNotificationsEndpointsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9815,14 +10483,14 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsGotifyResultItem" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
-      return S.suspend(() => __S(138, __c17, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(186, __c23, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsGotifyResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9847,12 +10515,12 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsGotifyByNameResult" });
     case 2:
-      return S.suspend(() => __S(145, __c18, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(193, __c24, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsGotifyByNameResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9867,21 +10535,21 @@ function __c19(j: number): any {
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.optional(S.String),
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           name: S.String,
           origin: S.String,
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsSendmailResultItem" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
-      return S.suspend(() => __S(154, __c19, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(202, __c25, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsSendmailResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9903,18 +10571,28 @@ function __c20(j: number): any {
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.optional(S.String),
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           name: S.String,
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsSendmailByNameResult" });
     case 2:
-      return S.suspend(() => __S(161, __c20, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(209, __c26, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsSendmailByNameResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rule: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/ha/rules/{rule}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterHaRulesByRuleRequest" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9929,8 +10607,8 @@ function __c21(j: number): any {
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.String,
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String,
           origin: S.String,
@@ -9940,14 +10618,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsSmtpResultItem" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(225, __c28, 1));
     case 3:
-      return S.suspend(() => __S(170, __c21, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(226, __c28, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsSmtpResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9965,8 +10643,8 @@ function __c22(j: number): any {
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.String,
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String,
           port: S.optional(S.Number),
@@ -9975,12 +10653,12 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsSmtpByNameResult" });
     case 2:
-      return S.suspend(() => __S(177, __c22, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(233, __c29, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsSmtpByNameResponse",
       });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9994,23 +10672,23 @@ function __c23(j: number): any {
           body: S.optional(S.String),
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          header: S.optional(__S(1776, __c222, 0)),
+          header: S.optional(__S(1856, __c232, 0)),
           method: S.String,
           name: S.String,
           origin: S.String,
-          secret: S.optional(__S(1776, __c222, 0)),
+          secret: S.optional(__S(1856, __c232, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsWebhookResultItem" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(241, __c30, 1));
     case 3:
-      return S.suspend(() => __S(186, __c23, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(242, __c30, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsWebhookResponse",
       });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10031,20 +10709,20 @@ function __c24(j: number): any {
           comment: S.optional(S.String),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          header: S.optional(__S(1776, __c222, 0)),
+          header: S.optional(__S(1856, __c232, 0)),
           method: S.String,
           name: S.String,
-          secret: S.optional(__S(1776, __c222, 0)),
+          secret: S.optional(__S(1856, __c232, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "GetClusterNotificationsEndpointsWebhookByNameResult" });
     case 2:
-      return S.suspend(() => __S(193, __c24, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(249, __c31, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsEndpointsWebhookByNameResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10052,31 +10730,9 @@ function __c25(j: number): any {
           T.Http({ method: "GET", uri: "/cluster/notifications/matcher-fields", code: 200 }),
         ),
       ).annotate({ identifier: "GetClusterNotificationsMatcherFieldsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-        }),
-      ).annotate({ identifier: "GetClusterNotificationsMatcherFieldsResultItem" });
-    case 2:
-      return S.Array(__S(201, __c25, 1));
-    case 3:
-      return S.suspend(() => __S(202, __c25, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetClusterNotificationsMatcherFieldsResponse",
-      });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rule: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/ha/rules/{rule}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterHaRulesByRuleRequest" });
-  }
-}
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10093,14 +10749,14 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsMatcherFieldValuesResultItem" });
     case 2:
-      return S.Array(__S(217, __c27, 1));
+      return S.Array(__S(265, __c33, 1));
     case 3:
-      return S.suspend(() => __S(218, __c27, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(266, __c33, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsMatcherFieldValuesResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10115,24 +10771,24 @@ function __c28(j: number): any {
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "match-calendar": S.optional(__S(1776, __c222, 0)),
-          "match-field": S.optional(__S(1776, __c222, 0)),
-          "match-severity": S.optional(__S(1776, __c222, 0)),
+          "match-calendar": S.optional(__S(1856, __c232, 0)),
+          "match-field": S.optional(__S(1856, __c232, 0)),
+          "match-severity": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String,
           origin: S.String,
-          target: S.optional(__S(1776, __c222, 0)),
+          target: S.optional(__S(1856, __c232, 0)),
         }),
       ).annotate({ identifier: "GetClusterNotificationsMatchersResultItem" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
-      return S.suspend(() => __S(226, __c28, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(274, __c34, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsMatchersResponse",
       });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10153,21 +10809,21 @@ function __c29(j: number): any {
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "match-calendar": S.optional(__S(1776, __c222, 0)),
-          "match-field": S.optional(__S(1776, __c222, 0)),
-          "match-severity": S.optional(__S(1776, __c222, 0)),
+          "match-calendar": S.optional(__S(1856, __c232, 0)),
+          "match-field": S.optional(__S(1856, __c232, 0)),
+          "match-severity": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String,
-          target: S.optional(__S(1776, __c222, 0)),
+          target: S.optional(__S(1856, __c232, 0)),
         }),
       ).annotate({ identifier: "GetClusterNotificationsMatchersByNameResult" });
     case 2:
-      return S.suspend(() => __S(233, __c29, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(281, __c35, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsMatchersByNameResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10186,14 +10842,14 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterNotificationsTargetsResultItem" });
     case 2:
-      return S.Array(__S(241, __c30, 1));
+      return S.Array(__S(289, __c36, 1));
     case 3:
-      return S.suspend(() => __S(242, __c30, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(290, __c36, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterNotificationsTargetsResponse",
       });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10202,7 +10858,7 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          "allowed-tags": __S(1776, __c222, 0),
+          "allowed-tags": __S(1856, __c232, 0),
           bwlimit: S.optional(S.String),
           "consent-text": S.optional(S.String),
           console: S.optional(S.String),
@@ -10224,18 +10880,29 @@ function __c31(j: number): any {
           "registered-tags": S.optional(S.String),
           replication: S.optional(S.String),
           "tag-style": S.optional(S.String),
+          "token-policy": S.optional(S.String),
           u2f: S.optional(S.String),
           "user-tag-access": S.optional(S.String),
           webauthn: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterOptionsResult" });
     case 2:
-      return S.suspend(() => __S(249, __c31, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(297, __c37, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterOptionsResponse",
       });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/jobs/realm-sync/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterJobsRealmSyncByIdRequest" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10243,7 +10910,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetClusterQemuRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10257,18 +10924,18 @@ function __c33(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           name: S.String,
-          "supported-on": S.optional(__S(1776, __c222, 0)),
+          "supported-on": S.optional(__S(1856, __c232, 0)),
         }),
       ).annotate({ identifier: "GetClusterQemuCpuFlagsResultItem" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(321, __c40, 1));
     case 3:
-      return S.suspend(() => __S(266, __c33, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(322, __c40, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterQemuCpuFlagsResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10277,14 +10944,14 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterQemuCustomCpuModelsRequest" });
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(336, __c42, 0));
     case 2:
-      return S.suspend(() => __S(273, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(329, __c41, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterQemuCustomCpuModelsResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10302,7 +10969,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetClusterQemuCustomCpuModelsResultItem" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10313,12 +10980,12 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterQemuCustomCpuModelsByCputypeRequest" });
     case 1:
-      return S.suspend(() => __S(280, __c35, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(336, __c42, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterQemuCustomCpuModelsByCputypeResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10342,24 +11009,14 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterReplicationResultItem" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
-      return S.suspend(() => __S(298, __c37, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(354, __c44, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterReplicationResponse",
       });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/jobs/realm-sync/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterJobsRealmSyncByIdRequest" });
-  }
-}
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10386,12 +11043,12 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterReplicationByIdResult" });
     case 2:
-      return S.suspend(() => __S(313, __c39, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(361, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterReplicationByIdResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10427,6 +11084,7 @@ function __c40(j: number): any {
           plugintype: S.optional(S.String),
           pool: S.optional(S.String),
           protocol: S.optional(S.String),
+          rtime: S.optional(S.Number),
           sdn: S.optional(S.String),
           shared: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           status: S.optional(S.String),
@@ -10434,20 +11092,64 @@ function __c40(j: number): any {
           tags: S.optional(S.String),
           template: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           type: S.String,
+          uid: S.optional(S.String),
           uptime: S.optional(S.Number),
           vmid: S.optional(S.Number),
           "zone-type": S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterResourcesResultItem" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(369, __c46, 1));
     case 3:
-      return S.suspend(() => __S(322, __c40, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(370, __c46, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterResourcesResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/san", code: 200 })),
+      ).annotate({ identifier: "GetClusterSanRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/san/status", code: 200 })),
+      ).annotate({ identifier: "GetClusterSanStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          explicit: S.Union([S.Boolean, S.Literals([0, 1])]),
+          "multipath-storage": S.optional(S.String),
+          name: S.optional(S.String),
+          native: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          nodes: __S(1792, __c224, 0),
+          size: S.optional(S.Number),
+          state: S.String,
+          "used-by-storage": S.optional(S.String),
+          wwid: S.String,
+        }),
+      ).annotate({ identifier: "GetClusterSanStatusResultLunsItem" });
+    case 2:
+      return S.Array(__S(385, __c48, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          luns: __S(386, __c48, 2),
+          nodes: __S(1792, __c224, 0),
+        }),
+      ).annotate({ identifier: "GetClusterSanStatusResult" });
+    case 4:
+      return S.suspend(() => __S(387, __c48, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterSanStatusResponse",
+      });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10455,7 +11157,17 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetClusterSdnRequest" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/dir/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterMappingDirByIdRequest" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10466,14 +11178,14 @@ function __c42(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/controllers", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnControllersRequest" });
     case 1:
-      return S.Array(__S(345, __c43, 1));
+      return S.Array(__S(417, __c52, 1));
     case 2:
-      return S.suspend(() => __S(337, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(409, __c51, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnControllersResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10511,14 +11223,14 @@ function __c43(j: number): any {
           nodes: S.optional(S.String),
           "peer-group-name": S.optional(S.String),
           peers: S.optional(S.String),
-          pending: S.optional(__S(344, __c43, 0)),
+          pending: S.optional(__S(416, __c52, 0)),
           state: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "GetClusterSdnControllersResultItem" });
   }
 }
-function __c44(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10529,12 +11241,12 @@ function __c44(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/controllers/{controller}", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnControllersByControllerRequest" });
     case 1:
-      return S.suspend(() => __S(345, __c43, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(417, __c52, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnControllersByControllerResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10550,14 +11262,14 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterSdnDnsResultItem" });
     case 2:
-      return S.Array(__S(361, __c45, 1));
+      return S.Array(__S(433, __c54, 1));
     case 3:
-      return S.suspend(() => __S(362, __c45, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(434, __c54, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnDnsResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10567,7 +11279,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetClusterSdnDnsByDnsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10583,12 +11295,12 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterSdnDryRunResult" });
     case 2:
-      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(449, __c56, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnDryRunResponse",
       });
   }
 }
-function __c48(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10596,7 +11308,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetClusterSdnFabricsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10608,25 +11320,128 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fabrics: __S(400, __c50, 0),
-          nodes: __S(424, __c53, 0),
+          fabrics: __S(474, __c59, 2),
+          nodes: __S(490, __c61, 2),
         }),
       ).annotate({ identifier: "GetClusterSdnFabricsAllResult" });
     case 2:
-      return S.suspend(() => __S(393, __c49, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnFabricsAllResponse",
       });
   }
 }
-function __c50(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(408, __c51, 0));
+      return S.suspend(() =>
+        S.Struct({
+          area: S.optional(S.String),
+          csnp_interval: S.optional(S.Number),
+          hello_interval: S.optional(S.Number),
+          id: S.optional(S.String),
+          ip6_prefix: S.optional(S.String),
+          ip_prefix: S.optional(S.String),
+          persistent_keepalive: S.optional(S.Number),
+          protocol: S.optional(S.String),
+          redistribute: S.optional(__S(480, __c60, 0)),
+          route_filter: S.optional(S.String),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterSdnFabricsAllResultFabricsItemPending" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          area: S.optional(S.String),
+          csnp_interval: S.optional(S.Number),
+          digest: S.optional(S.String),
+          hello_interval: S.optional(S.Number),
+          id: S.optional(S.String),
+          ip6_prefix: S.optional(S.String),
+          ip_prefix: S.optional(S.String),
+          pending: S.optional(__S(472, __c59, 0)),
+          persistent_keepalive: S.optional(S.Number),
+          protocol: S.optional(S.String),
+          redistribute: __S(480, __c60, 0),
+          route_filter: S.optional(S.String),
+          state: S.optional(S.String),
+          zone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterSdnFabricsAllResultFabricsItem" });
+    case 2:
+      return S.Array(__S(473, __c59, 1));
   }
 }
-function __c51(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowed_ips: S.optional(__S(1856, __c232, 0)),
+          endpoint: S.optional(S.String),
+          fabric_id: S.optional(S.String),
+          interfaces: S.optional(__S(480, __c60, 0)),
+          ip: S.optional(S.String),
+          ip6: S.optional(S.String),
+          node_id: S.optional(S.String),
+          peers: S.optional(__S(1856, __c232, 0)),
+          protocol: S.optional(S.String),
+          public_key: S.optional(S.String),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterSdnFabricsAllResultNodesItemPending" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          allowed_ips: S.optional(__S(1856, __c232, 0)),
+          digest: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          fabric_id: S.optional(S.String),
+          interfaces: __S(480, __c60, 0),
+          ip: S.optional(S.String),
+          ip6: S.optional(S.String),
+          node_id: S.optional(S.String),
+          peers: S.optional(__S(1856, __c232, 0)),
+          pending: S.optional(__S(488, __c61, 0)),
+          protocol: S.optional(S.String),
+          public_key: S.optional(S.String),
+          role: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterSdnFabricsAllResultNodesItem" });
+    case 2:
+      return S.Array(__S(489, __c61, 1));
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pending: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
+          running: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/fabrics/fabric", code: 200 })),
+      ).annotate({ identifier: "GetClusterSdnFabricsFabricRequest" });
+    case 1:
+      return S.suspend(() => __S(474, __c59, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterSdnFabricsFabricResponse",
+      });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/fabrics/fabric/{id}", code: 200 })),
+      ).annotate({ identifier: "GetClusterSdnFabricsFabricByIdRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           area: S.optional(S.String),
@@ -10639,86 +11454,18 @@ function __c51(j: number): any {
           "lock-token": S.optional(S.String),
           persistent_keepalive: S.optional(S.Number),
           protocol: S.String,
-          redistribute: __S(416, __c52, 0),
+          redistribute: __S(480, __c60, 0),
           route_filter: S.optional(S.String),
+          zone: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GetClusterSdnFabricsAllResultFabricsItem" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(432, __c54, 0));
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowed_ips: S.optional(__S(1776, __c222, 0)),
-          digest: S.optional(S.String),
-          endpoint: S.optional(S.String),
-          fabric_id: S.String,
-          interfaces: __S(416, __c52, 0),
-          ip: S.optional(S.String),
-          ip6: S.optional(S.String),
-          "lock-token": S.optional(S.String),
-          node_id: S.String,
-          peers: S.optional(__S(1776, __c222, 0)),
-          protocol: S.String,
-          public_key: S.optional(S.String),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetClusterSdnFabricsAllResultNodesItem" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/dir/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterMappingDirByIdRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pending: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
-          running: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/fabrics/fabric", code: 200 })),
-      ).annotate({ identifier: "GetClusterSdnFabricsFabricRequest" });
-    case 1:
-      return S.suspend(() => __S(400, __c50, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetClusterSdnFabricsFabricResponse",
-      });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/fabrics/fabric/{id}", code: 200 })),
-      ).annotate({ identifier: "GetClusterSdnFabricsFabricByIdRequest" });
-    case 1:
-      return S.suspend(() => __S(408, __c51, 0).pipe(T.RawResponseRoot())).annotate({
+      ).annotate({ identifier: "GetClusterSdnFabricsFabricByIdResult" });
+    case 2:
+      return S.suspend(() => __S(505, __c63, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnFabricsFabricByIdResponse",
       });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10729,15 +11476,25 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetClusterSdnFabricsNodeRequest" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(424, __c53, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(490, __c61, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnFabricsNodeResponse",
       });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/pci/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterMappingPciByIdRequest" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10749,7 +11506,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetClusterSdnFabricsNodeByFabricIdRequest" });
   }
 }
-function __c61(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10765,12 +11522,30 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterSdnFabricsNodeByFabricIdByNodeIdRequest" });
     case 1:
-      return S.suspend(() => __S(432, __c54, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() =>
+        S.Struct({
+          allowed_ips: S.optional(__S(1856, __c232, 0)),
+          digest: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          fabric_id: S.String,
+          interfaces: __S(480, __c60, 0),
+          ip: S.optional(S.String),
+          ip6: S.optional(S.String),
+          "lock-token": S.optional(S.String),
+          node_id: S.String,
+          peers: S.optional(__S(1856, __c232, 0)),
+          protocol: S.String,
+          public_key: S.optional(S.String),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetClusterSdnFabricsNodeByFabricIdByNodeIdResult" });
+    case 2:
+      return S.suspend(() => __S(545, __c68, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnFabricsNodeByFabricIdByNodeIdResponse",
       });
   }
 }
-function __c62(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10786,14 +11561,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterSdnIpamsResultItem" });
     case 2:
-      return S.Array(__S(497, __c62, 1));
+      return S.Array(__S(553, __c69, 1));
     case 3:
-      return S.suspend(() => __S(498, __c62, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(554, __c69, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnIpamsResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10803,7 +11578,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetClusterSdnIpamsByIpamRequest" });
   }
 }
-function __c64(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10812,12 +11587,12 @@ function __c64(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/ipams/{ipam}/status", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnIpamsByIpamStatusRequest" });
     case 1:
-      return S.suspend(() => __S(416, __c52, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(480, __c60, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnIpamsByIpamStatusResponse",
       });
   }
 }
-function __c65(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10829,7 +11604,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetClusterSdnPrefixListsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10839,17 +11614,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetClusterSdnPrefixListsByIdRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/pci/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterMappingPciByIdRequest" });
-  }
-}
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10861,7 +11626,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetClusterSdnPrefixListsByIdEntriesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10877,7 +11642,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetClusterSdnPrefixListsByIdEntriesByUrlSeqRequest" });
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10887,7 +11652,17 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetClusterSdnRouteMapsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/usb/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterMappingUsbByIdRequest" });
+  }
+}
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10898,17 +11673,17 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetClusterSdnRouteMapsEntriesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(584, __c73, 0));
+      return S.Array(__S(640, __c80, 0));
     case 1:
-      return S.suspend(() => __S(576, __c72, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(632, __c79, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnRouteMapsEntriesResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10917,15 +11692,15 @@ function __c73(j: number): any {
           call: S.optional(S.String),
           digest: S.optional(S.String),
           "exit-action": S.optional(S.String),
-          match: S.optional(__S(1776, __c222, 0)),
+          match: S.optional(__S(1856, __c232, 0)),
           order: S.Number,
           "route-map-id": S.String,
-          set: S.optional(__S(1776, __c222, 0)),
+          set: S.optional(__S(1856, __c232, 0)),
         }),
       ).annotate({ identifier: "GetClusterSdnRouteMapsEntriesResultItem" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10943,7 +11718,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetClusterSdnRouteMapsEntriesByRouteMapIdRequest" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10959,12 +11734,12 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "GetClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest" });
     case 1:
-      return S.suspend(() => __S(584, __c73, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(640, __c80, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10974,14 +11749,14 @@ function __c76(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/vnets", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnVnetsRequest" });
     case 1:
-      return S.Array(__S(617, __c77, 1));
+      return S.Array(__S(673, __c84, 1));
     case 2:
-      return S.suspend(() => __S(609, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(665, __c83, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnVnetsResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10999,7 +11774,7 @@ function __c77(j: number): any {
           alias: S.optional(S.String),
           digest: S.optional(S.String),
           "isolate-ports": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          pending: S.optional(__S(616, __c77, 0)),
+          pending: S.optional(__S(672, __c84, 0)),
           state: S.optional(S.String),
           tag: S.optional(S.Number),
           type: S.String,
@@ -11010,7 +11785,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsResultItem" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11021,12 +11796,12 @@ function __c78(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/vnets/{vnet}", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetRequest" });
     case 1:
-      return S.suspend(() => __S(617, __c77, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(673, __c84, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnVnetsByVnetResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11036,7 +11811,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetFirewallRequest" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11055,22 +11830,12 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetFirewallOptionsResult" });
     case 2:
-      return S.suspend(() => __S(641, __c80, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(697, __c87, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnVnetsByVnetFirewallOptionsResponse",
       });
   }
 }
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/mapping/usb/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterMappingUsbByIdRequest" });
-  }
-}
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11082,7 +11847,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetFirewallRulesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11099,7 +11864,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetFirewallRulesByPosRequest" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11111,7 +11876,17 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetSubnetsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/metrics/server/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterMetricsServerByIdRequest" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11126,7 +11901,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetClusterSdnVnetsByVnetSubnetsBySubnetRequest" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11137,14 +11912,14 @@ function __c86(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/zones", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnZonesRequest" });
     case 1:
-      return S.Array(__S(697, __c87, 1));
+      return S.Array(__S(753, __c94, 1));
     case 2:
-      return S.suspend(() => __S(689, __c86, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(745, __c93, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnZonesResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11153,6 +11928,8 @@ function __c87(j: number): any {
           bridge: S.optional(S.String),
           "bridge-disable-mac-learning": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           controller: S.optional(S.String),
+          "ct-zone": S.optional(S.Number),
+          "dedicated-vrf": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           dhcp: S.optional(S.String),
           "disable-arp-nd-suppression": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           dns: S.optional(S.String),
@@ -11166,8 +11943,9 @@ function __c87(j: number): any {
           nodes: S.optional(S.String),
           peers: S.optional(S.String),
           reversedns: S.optional(S.String),
+          route: S.optional(__S(1856, __c232, 0)),
           "rt-import": S.optional(S.String),
-          "secondary-controllers": S.optional(__S(1776, __c222, 0)),
+          "secondary-controllers": S.optional(__S(1856, __c232, 0)),
           tag: S.optional(S.Number),
           "vlan-protocol": S.optional(S.String),
           "vrf-vxlan": S.optional(S.Number),
@@ -11181,6 +11959,8 @@ function __c87(j: number): any {
           bridge: S.optional(S.String),
           "bridge-disable-mac-learning": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           controller: S.optional(S.String),
+          "ct-zone": S.optional(S.Number),
+          "dedicated-vrf": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           dhcp: S.optional(S.String),
           digest: S.optional(S.String),
           "disable-arp-nd-suppression": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -11194,10 +11974,11 @@ function __c87(j: number): any {
           mtu: S.optional(S.Number),
           nodes: S.optional(S.String),
           peers: S.optional(S.String),
-          pending: S.optional(__S(696, __c87, 0)),
+          pending: S.optional(__S(752, __c94, 0)),
           reversedns: S.optional(S.String),
+          route: S.optional(__S(1856, __c232, 0)),
           "rt-import": S.optional(S.String),
-          "secondary-controllers": S.optional(__S(1776, __c222, 0)),
+          "secondary-controllers": S.optional(__S(1856, __c232, 0)),
           state: S.optional(S.String),
           tag: S.optional(S.Number),
           type: S.String,
@@ -11209,7 +11990,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetClusterSdnZonesResultItem" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11220,12 +12001,12 @@ function __c88(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/sdn/zones/{zone}", code: 200 })),
       ).annotate({ identifier: "GetClusterSdnZonesByZoneRequest" });
     case 1:
-      return S.suspend(() => __S(697, __c87, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(753, __c94, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterSdnZonesByZoneResponse",
       });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11234,6 +12015,7 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          "cluster-id": S.optional(S.String),
           id: S.String,
           ip: S.optional(S.String),
           level: S.optional(S.String),
@@ -11248,14 +12030,14 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterStatusResultItem" });
     case 2:
-      return S.Array(__S(713, __c89, 1));
+      return S.Array(__S(769, __c96, 1));
     case 3:
-      return S.suspend(() => __S(714, __c89, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(770, __c96, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterStatusResponse",
       });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11268,14 +12050,14 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterTasksResultItem" });
     case 2:
-      return S.Array(__S(721, __c90, 1));
+      return S.Array(__S(777, __c97, 1));
     case 3:
-      return S.suspend(() => __S(722, __c90, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(778, __c97, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterTasksResponse",
       });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11290,7 +12072,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "PostClusterAcmeAccountRequest" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11306,17 +12088,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "PostClusterAcmePluginsRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/metrics/server/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterMetricsServerByIdRequest" });
-  }
-}
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11329,7 +12101,7 @@ function __c94(j: number): any {
           dumpdir: S.optional(S.String),
           enabled: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           exclude: S.optional(S.String),
-          "exclude-path": S.optional(__S(1776, __c222, 0)),
+          "exclude-path": S.optional(__S(1856, __c232, 0)),
           fleecing: S.optional(S.String),
           id: S.optional(S.String),
           ionice: S.optional(S.Number),
@@ -11363,7 +12135,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "PostClusterBackupRequest" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11372,19 +12144,19 @@ function __c95(j: number): any {
           maxworkers: S.optional(S.Number),
           online: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           target: S.String,
-          vms: S.optional(__S(768, __c96, 0)),
+          vms: S.optional(__S(816, __c102, 0)),
           "with-local-disks": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/bulk-action/guest/migrate", code: 200 })),
       ).annotate({ identifier: "PostClusterBulkActionGuestMigrateRequest" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11393,12 +12165,23 @@ function __c97(j: number): any {
           "max-workers": S.optional(S.Number),
           maxworkers: S.optional(S.Number),
           timeout: S.optional(S.Number),
-          vms: S.optional(__S(768, __c96, 0)),
+          vms: S.optional(__S(816, __c102, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/bulk-action/guest/shutdown", code: 200 })),
       ).annotate({ identifier: "PostClusterBulkActionGuestShutdownRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String.pipe(T.Query())),
+          wwid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/multipath/wwid/{wwid}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterMultipathWwidByWwidRequest" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11406,12 +12189,12 @@ function __c98(j: number): any {
           "max-workers": S.optional(S.Number),
           maxworkers: S.optional(S.Number),
           timeout: S.optional(S.Number),
-          vms: S.optional(__S(768, __c96, 0)),
+          vms: S.optional(__S(816, __c102, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/bulk-action/guest/start", code: 200 })),
       ).annotate({ identifier: "PostClusterBulkActionGuestStartRequest" });
   }
 }
-function __c99(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11420,12 +12203,12 @@ function __c99(j: number): any {
           maxworkers: S.optional(S.Number),
           statestorage: S.optional(S.String),
           "to-disk": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          vms: S.optional(__S(768, __c96, 0)),
+          vms: S.optional(__S(816, __c102, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/bulk-action/guest/suspend", code: 200 })),
       ).annotate({ identifier: "PostClusterBulkActionGuestSuspendRequest" });
   }
 }
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11439,7 +12222,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "PostClusterCephRestartBulkRequest" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11455,7 +12238,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "PostClusterConfigRequest" });
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11473,7 +12256,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "PostClusterConfigJoinRequest" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11494,16 +12277,16 @@ function __c103(j: number): any {
         S.Struct({
           corosync_authkey: S.String,
           corosync_conf: S.String,
-          warnings: __S(1776, __c222, 0),
+          warnings: __S(1856, __c232, 0),
         }),
       ).annotate({ identifier: "PostClusterConfigNodesByNodeResult" });
     case 2:
-      return S.suspend(() => __S(825, __c103, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(881, __c110, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostClusterConfigNodesByNodeResponse",
       });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11515,23 +12298,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallAliasesRequest" });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/cluster/notifications/endpoints/gotify/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteClusterNotificationsEndpointsGotifyByNameRequest" });
-  }
-}
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11544,7 +12311,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallGroupsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11569,7 +12336,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallGroupsByGroupRequest" });
   }
 }
-function __c108(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11582,7 +12349,23 @@ function __c108(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallIpsetRequest" });
   }
 }
-function __c109(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/cluster/notifications/endpoints/gotify/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteClusterNotificationsEndpointsGotifyByNameRequest" });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11595,7 +12378,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallIpsetByNameRequest" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11619,7 +12402,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "PostClusterFirewallRulesRequest" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11634,7 +12417,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "PostClusterHaGroupsRequest" });
   }
 }
-function __c112(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11652,31 +12435,30 @@ function __c112(j: number): any {
       ).annotate({ identifier: "PostClusterHaResourcesRequest" });
   }
 }
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          node: S.String,
-          sid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/cluster/ha/resources/{sid}/migrate", code: 200 })),
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/cluster/ha/resources/{sid}/migrate", code: 200 }),
+        ),
       ).annotate({ identifier: "PostClusterHaResourcesBySidMigrateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          "blocking-resources": S.optional(__S(913, __c114, 1)),
-          "comigrated-resources": S.optional(__S(416, __c52, 0)),
+          "blocking-resources": S.optional(__S(969, __c121, 1)),
+          "comigrated-resources": S.optional(__S(480, __c60, 0)),
           "requested-node": S.String,
           sid: S.String,
         }),
       ).annotate({ identifier: "PostClusterHaResourcesBySidMigrateResult" });
     case 2:
-      return S.suspend(() => __S(905, __c113, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(961, __c120, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostClusterHaResourcesBySidMigrateResponse",
       });
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11686,10 +12468,10 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "PostClusterHaResourcesBySidMigrateResultBlockingResourcesItem" });
     case 1:
-      return S.Array(__S(912, __c114, 0));
+      return S.Array(__S(968, __c121, 0));
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11701,19 +12483,19 @@ function __c115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          "blocking-resources": S.optional(__S(913, __c114, 1)),
-          "comigrated-resources": S.optional(__S(1776, __c222, 0)),
+          "blocking-resources": S.optional(__S(969, __c121, 1)),
+          "comigrated-resources": S.optional(__S(1856, __c232, 0)),
           "requested-node": S.String,
           sid: S.String,
         }),
       ).annotate({ identifier: "PostClusterHaResourcesBySidRelocateResult" });
     case 2:
-      return S.suspend(() => __S(921, __c115, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(977, __c122, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostClusterHaResourcesBySidRelocateResponse",
       });
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11721,23 +12503,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "PostClusterHaRulesRequest" });
   }
 }
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/cluster/notifications/endpoints/sendmail/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteClusterNotificationsEndpointsSendmailByNameRequest" });
-  }
-}
-function __c118(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11745,7 +12511,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "PostClusterHaStatusArmHaRequest" });
   }
 }
-function __c119(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11755,7 +12521,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "PostClusterHaStatusDisarmHaRequest" });
   }
 }
-function __c120(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11772,19 +12538,45 @@ function __c120(j: number): any {
       ).annotate({ identifier: "PostClusterJobsRealmSyncByIdRequest" });
   }
 }
-function __c121(j: number): any {
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/backup/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterBackupByIdRequest" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/cluster/notifications/endpoints/sendmail/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteClusterNotificationsEndpointsSendmailByNameRequest" });
+  }
+}
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           id: S.String,
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/mapping/dir", code: 200 })),
       ).annotate({ identifier: "PostClusterMappingDirRequest" });
   }
 }
-function __c122(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11792,25 +12584,25 @@ function __c122(j: number): any {
           description: S.optional(S.String),
           id: S.String,
           "live-migration-capable": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
           mdev: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/mapping/pci", code: 200 })),
       ).annotate({ identifier: "PostClusterMappingPciRequest" });
   }
 }
-function __c123(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           id: S.String,
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/mapping/usb", code: 200 })),
       ).annotate({ identifier: "PostClusterMappingUsbRequest" });
   }
 }
-function __c124(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11843,7 +12635,22 @@ function __c124(j: number): any {
       ).annotate({ identifier: "PostClusterMetricsServerByIdRequest" });
   }
 }
-function __c125(j: number): any {
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(S.String),
+          digest: S.optional(S.String),
+          "no-path-retry": S.optional(S.String),
+          nodes: S.optional(S.String),
+          "paths-expected": S.optional(S.Number),
+          wwid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cluster/multipath/wwid", code: 200 })),
+      ).annotate({ identifier: "PostClusterMultipathWwidRequest" });
+  }
+}
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11859,7 +12666,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "PostClusterNotificationsEndpointsGotifyRequest" });
   }
 }
-function __c126(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11868,8 +12675,8 @@ function __c126(j: number): any {
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.optional(S.String),
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           name: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/cluster/notifications/endpoints/sendmail", code: 200 }),
@@ -11877,7 +12684,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PostClusterNotificationsEndpointsSendmailRequest" });
   }
 }
-function __c127(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11886,8 +12693,8 @@ function __c127(j: number): any {
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.String,
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String,
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -11900,17 +12707,45 @@ function __c127(j: number): any {
       ).annotate({ identifier: "PostClusterNotificationsEndpointsSmtpRequest" });
   }
 }
-function __c128(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/backup/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterBackupByIdRequest" });
+          body: S.optional(S.String),
+          comment: S.optional(S.String),
+          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          header: S.optional(__S(1856, __c232, 0)),
+          method: S.String,
+          name: S.String,
+          secret: S.optional(__S(1856, __c232, 0)),
+          url: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/cluster/notifications/endpoints/webhook", code: 200 }),
+        ),
+      ).annotate({ identifier: "PostClusterNotificationsEndpointsWebhookRequest" });
   }
 }
-function __c129(j: number): any {
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          comment: S.optional(S.String),
+          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          expression: S.optional(S.String),
+          "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "match-calendar": S.optional(__S(1856, __c232, 0)),
+          "match-field": S.optional(__S(1856, __c232, 0)),
+          "match-severity": S.optional(__S(1856, __c232, 0)),
+          mode: S.optional(S.String),
+          name: S.String,
+          target: S.optional(__S(1856, __c232, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/cluster/notifications/matchers", code: 200 })),
+      ).annotate({ identifier: "PostClusterNotificationsMatchersRequest" });
+  }
+}
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11926,45 +12761,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteClusterNotificationsEndpointsSmtpByNameRequest" });
   }
 }
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.String),
-          comment: S.optional(S.String),
-          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          header: S.optional(__S(1776, __c222, 0)),
-          method: S.String,
-          name: S.String,
-          secret: S.optional(__S(1776, __c222, 0)),
-          url: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/cluster/notifications/endpoints/webhook", code: 200 }),
-        ),
-      ).annotate({ identifier: "PostClusterNotificationsEndpointsWebhookRequest" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          comment: S.optional(S.String),
-          disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          expression: S.optional(S.String),
-          "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "match-calendar": S.optional(__S(1776, __c222, 0)),
-          "match-field": S.optional(__S(1776, __c222, 0)),
-          "match-severity": S.optional(__S(1776, __c222, 0)),
-          mode: S.optional(S.String),
-          name: S.String,
-          target: S.optional(__S(1776, __c222, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/cluster/notifications/matchers", code: 200 })),
-      ).annotate({ identifier: "PostClusterNotificationsMatchersRequest" });
-  }
-}
-function __c132(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,7 +12773,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "PostClusterNotificationsTargetsByNameTestRequest" });
   }
 }
-function __c133(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11993,7 +12790,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "PostClusterQemuCustomCpuModelsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12012,7 +12809,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "PostClusterReplicationRequest" });
   }
 }
-function __c135(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12040,7 +12837,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PostClusterSdnControllersRequest" });
   }
 }
-function __c136(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12058,7 +12855,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PostClusterSdnDnsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12073,27 +12870,28 @@ function __c137(j: number): any {
           "lock-token": S.optional(S.String),
           persistent_keepalive: S.optional(S.Number),
           protocol: S.String,
-          redistribute: __S(416, __c52, 0),
+          redistribute: __S(480, __c60, 0),
           route_filter: S.optional(S.String),
+          zone: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/fabrics/fabric", code: 200 })),
       ).annotate({ identifier: "PostClusterSdnFabricsFabricRequest" });
   }
 }
-function __c138(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowed_ips: S.optional(__S(1776, __c222, 0)),
+          allowed_ips: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           endpoint: S.optional(S.String),
           fabric_id: S.String.pipe(T.Label()),
-          interfaces: __S(416, __c52, 0),
+          interfaces: __S(480, __c60, 0),
           ip: S.optional(S.String),
           ip6: S.optional(S.String),
           "lock-token": S.optional(S.String),
           node_id: S.String,
-          peers: S.optional(__S(1776, __c222, 0)),
+          peers: S.optional(__S(1856, __c232, 0)),
           protocol: S.String,
           public_key: S.optional(S.String),
           role: S.optional(S.String),
@@ -12103,7 +12901,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PostClusterSdnFabricsNodeByFabricIdRequest" });
   }
 }
-function __c139(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12119,7 +12917,30 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PostClusterSdnIpamsRequest" });
   }
 }
-function __c140(j: number): any {
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          "allow-pending": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+        }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/lock", code: 200 })),
+      ).annotate({ identifier: "PostClusterSdnLockRequest" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String),
+          entries: S.optional(__S(1856, __c232, 0)),
+          id: S.String,
+          "lock-token": S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/prefix-lists", code: 200 })),
+      ).annotate({ identifier: "PostClusterSdnPrefixListsRequest" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12135,30 +12956,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteClusterNotificationsEndpointsWebhookByNameRequest" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          "allow-pending": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-        }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/lock", code: 200 })),
-      ).annotate({ identifier: "PostClusterSdnLockRequest" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          digest: S.optional(S.String),
-          entries: S.optional(__S(1776, __c222, 0)),
-          id: S.String,
-          "lock-token": S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/prefix-lists", code: 200 })),
-      ).annotate({ identifier: "PostClusterSdnPrefixListsRequest" });
-  }
-}
-function __c143(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12176,7 +12974,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "PostClusterSdnPrefixListsByIdEntriesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12187,7 +12985,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "PostClusterSdnRollbackRequest" });
   }
 }
-function __c145(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12197,15 +12995,15 @@ function __c145(j: number): any {
           digest: S.optional(S.String),
           "exit-action": S.optional(S.String),
           "lock-token": S.optional(S.String),
-          match: S.optional(__S(1776, __c222, 0)),
+          match: S.optional(__S(1856, __c232, 0)),
           order: S.Number,
           "route-map-id": S.String,
-          set: S.optional(__S(1776, __c222, 0)),
+          set: S.optional(__S(1856, __c232, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/route-maps/entries", code: 200 })),
       ).annotate({ identifier: "PostClusterSdnRouteMapsEntriesRequest" });
   }
 }
-function __c146(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12222,7 +13020,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PostClusterSdnVnetsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12249,7 +13047,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "PostClusterSdnVnetsByVnetFirewallRulesRequest" });
   }
 }
-function __c148(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12262,13 +13060,13 @@ function __c148(j: number): any {
       ).annotate({ identifier: "PostClusterSdnVnetsByVnetIpsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           "dhcp-dns-server": S.optional(S.String),
-          "dhcp-range": S.optional(__S(1776, __c222, 0)),
+          "dhcp-range": S.optional(__S(1856, __c232, 0)),
           dnszoneprefix: S.optional(S.String),
           gateway: S.optional(S.String),
           "lock-token": S.optional(S.String),
@@ -12280,7 +13078,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "PostClusterSdnVnetsByVnetSubnetsRequest" });
   }
 }
-function __c150(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12289,6 +13087,8 @@ function __c150(j: number): any {
           bridge: S.optional(S.String),
           "bridge-disable-mac-learning": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           controller: S.optional(S.String),
+          "ct-zone": S.optional(S.Number),
+          "dedicated-vrf": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           dhcp: S.optional(S.String),
           "disable-arp-nd-suppression": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           dns: S.optional(S.String),
@@ -12305,8 +13105,9 @@ function __c150(j: number): any {
           nodes: S.optional(S.String),
           peers: S.optional(S.String),
           reversedns: S.optional(S.String),
+          route: S.optional(__S(1856, __c232, 0)),
           "rt-import": S.optional(S.String),
-          "secondary-controllers": S.optional(__S(1776, __c222, 0)),
+          "secondary-controllers": S.optional(__S(1856, __c232, 0)),
           tag: S.optional(S.Number),
           type: S.String,
           "vlan-protocol": S.optional(S.String),
@@ -12317,19 +13118,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "PostClusterSdnZonesRequest" });
   }
 }
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/cluster/notifications/matchers/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteClusterNotificationsMatchersByNameRequest" });
-  }
-}
-function __c152(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12340,7 +13129,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "PutClusterAcmeAccountByNameRequest" });
   }
 }
-function __c153(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12357,7 +13146,19 @@ function __c153(j: number): any {
       ).annotate({ identifier: "PutClusterAcmePluginsByIdRequest" });
   }
 }
-function __c154(j: number): any {
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/cluster/notifications/matchers/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteClusterNotificationsMatchersByNameRequest" });
+  }
+}
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12371,7 +13172,7 @@ function __c154(j: number): any {
           dumpdir: S.optional(S.String),
           enabled: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           exclude: S.optional(S.String),
-          "exclude-path": S.optional(__S(1776, __c222, 0)),
+          "exclude-path": S.optional(__S(1856, __c232, 0)),
           fleecing: S.optional(S.String),
           id: S.String.pipe(T.Label()),
           ionice: S.optional(S.Number),
@@ -12405,7 +13206,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "PutClusterBackupByIdRequest" });
   }
 }
-function __c155(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12426,7 +13227,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "PutClusterCephFlagsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12437,7 +13238,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "PutClusterCephFlagsByFlagRequest" });
   }
 }
-function __c157(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12450,7 +13251,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "PutClusterCephHealthMuteByCodeRequest" });
   }
 }
-function __c158(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12464,7 +13265,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "PutClusterFirewallAliasesByNameRequest" });
   }
 }
-function __c159(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12493,7 +13294,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "PutClusterFirewallGroupsByGroupByPosRequest" });
   }
 }
-function __c160(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12507,7 +13308,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "PutClusterFirewallIpsetByNameByCidrRequest" });
   }
 }
-function __c161(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12524,19 +13325,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "PutClusterFirewallOptionsRequest" });
   }
 }
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cputype: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/cluster/qemu/custom-cpu-models/{cputype}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteClusterQemuCustomCpuModelsByCputypeRequest" });
-  }
-}
-function __c163(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12562,7 +13351,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PutClusterFirewallRulesByPosRequest" });
   }
 }
-function __c164(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12578,7 +13367,19 @@ function __c164(j: number): any {
       ).annotate({ identifier: "PutClusterHaGroupsByGroupRequest" });
   }
 }
-function __c165(j: number): any {
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cputype: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/cluster/qemu/custom-cpu-models/{cputype}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteClusterQemuCustomCpuModelsByCputypeRequest" });
+  }
+}
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12597,7 +13398,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PutClusterHaResourcesBySidRequest" });
   }
 }
-function __c166(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12605,7 +13406,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "PutClusterHaRulesByRuleRequest" });
   }
 }
-function __c167(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12622,7 +13423,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "PutClusterJobsRealmSyncByIdRequest" });
   }
 }
-function __c168(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12631,12 +13432,12 @@ function __c168(j: number): any {
           description: S.optional(S.String),
           digest: S.optional(S.String),
           id: S.String.pipe(T.Label()),
-          map: S.optional(__S(1776, __c222, 0)),
+          map: S.optional(__S(1856, __c232, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/mapping/dir/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterMappingDirByIdRequest" });
   }
 }
-function __c169(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12646,13 +13447,13 @@ function __c169(j: number): any {
           digest: S.optional(S.String),
           id: S.String.pipe(T.Label()),
           "live-migration-capable": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          map: S.optional(__S(1776, __c222, 0)),
+          map: S.optional(__S(1856, __c232, 0)),
           mdev: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/mapping/pci/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterMappingPciByIdRequest" });
   }
 }
-function __c170(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12661,12 +13462,12 @@ function __c170(j: number): any {
           description: S.optional(S.String),
           digest: S.optional(S.String),
           id: S.String.pipe(T.Label()),
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/mapping/usb/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterMappingUsbByIdRequest" });
   }
 }
-function __c171(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12700,13 +13501,40 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PutClusterMetricsServerByIdRequest" });
   }
 }
-function __c172(j: number): any {
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String),
+          overrides: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/cluster/multipath/overrides", code: 200 })),
+      ).annotate({ identifier: "PutClusterMultipathOverridesRequest" });
+  }
+}
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.optional(S.String),
+          delete: S.optional(S.String),
+          digest: S.optional(S.String),
+          "no-path-retry": S.optional(S.String),
+          nodes: S.optional(S.String),
+          "paths-expected": S.optional(S.Number),
+          wwid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/cluster/multipath/wwid/{wwid}", code: 200 })),
+      ).annotate({ identifier: "PutClusterMultipathWwidByWwidRequest" });
+  }
+}
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          delete: S.optional(__S(1776, __c222, 0)),
+          delete: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           name: S.String.pipe(T.Label()),
@@ -12722,7 +13550,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "PutClusterNotificationsEndpointsGotifyByNameRequest" });
   }
 }
-function __c173(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12734,19 +13562,19 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DeleteClusterReplicationByIdRequest" });
   }
 }
-function __c174(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           author: S.optional(S.String),
           comment: S.optional(S.String),
-          delete: S.optional(__S(1776, __c222, 0)),
+          delete: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.optional(S.String),
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -12758,19 +13586,19 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PutClusterNotificationsEndpointsSendmailByNameRequest" });
   }
 }
-function __c175(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           author: S.optional(S.String),
           comment: S.optional(S.String),
-          delete: S.optional(__S(1776, __c222, 0)),
+          delete: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "from-address": S.optional(S.String),
-          mailto: S.optional(__S(1776, __c222, 0)),
-          "mailto-user": S.optional(__S(1776, __c222, 0)),
+          mailto: S.optional(__S(1856, __c232, 0)),
+          "mailto-user": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String.pipe(T.Label()),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -12783,20 +13611,20 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PutClusterNotificationsEndpointsSmtpByNameRequest" });
   }
 }
-function __c176(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           body: S.optional(S.String),
           comment: S.optional(S.String),
-          delete: S.optional(__S(1776, __c222, 0)),
+          delete: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          header: S.optional(__S(1776, __c222, 0)),
+          header: S.optional(__S(1856, __c232, 0)),
           method: S.optional(S.String),
           name: S.String.pipe(T.Label()),
-          secret: S.optional(__S(1776, __c222, 0)),
+          secret: S.optional(__S(1856, __c232, 0)),
           url: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -12808,30 +13636,30 @@ function __c176(j: number): any {
       ).annotate({ identifier: "PutClusterNotificationsEndpointsWebhookByNameRequest" });
   }
 }
-function __c177(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           comment: S.optional(S.String),
-          delete: S.optional(__S(1776, __c222, 0)),
+          delete: S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "match-calendar": S.optional(__S(1776, __c222, 0)),
-          "match-field": S.optional(__S(1776, __c222, 0)),
-          "match-severity": S.optional(__S(1776, __c222, 0)),
+          "match-calendar": S.optional(__S(1856, __c232, 0)),
+          "match-field": S.optional(__S(1856, __c232, 0)),
+          "match-severity": S.optional(__S(1856, __c232, 0)),
           mode: S.optional(S.String),
           name: S.String.pipe(T.Label()),
-          target: S.optional(__S(1776, __c222, 0)),
+          target: S.optional(__S(1856, __c232, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/cluster/notifications/matchers/{name}", code: 200 }),
         ),
       ).annotate({ identifier: "PutClusterNotificationsMatchersByNameRequest" });
   }
 }
-function __c178(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12858,6 +13686,7 @@ function __c178(j: number): any {
           "registered-tags": S.optional(S.String),
           replication: S.optional(S.String),
           "tag-style": S.optional(S.String),
+          "token-policy": S.optional(S.String),
           u2f: S.optional(S.String),
           "user-tag-access": S.optional(S.String),
           webauthn: S.optional(S.String),
@@ -12865,7 +13694,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PutClusterOptionsRequest" });
   }
 }
-function __c179(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12886,7 +13715,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "PutClusterQemuCustomCpuModelsByCputypeRequest" });
   }
 }
-function __c180(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12905,7 +13734,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "PutClusterReplicationByIdRequest" });
   }
 }
-function __c181(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12916,7 +13745,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "PutClusterSdnRequest" });
   }
 }
-function __c182(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12945,7 +13774,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "PutClusterSdnControllersByControllerRequest" });
   }
 }
-function __c183(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12963,7 +13792,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "PutClusterSdnDnsByDnsRequest" });
   }
 }
-function __c184(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12976,14 +13805,14 @@ function __c184(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnControllersByControllerRequest" });
   }
 }
-function __c185(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           area: S.optional(S.String),
           csnp_interval: S.optional(S.Number),
-          delete: __S(416, __c52, 0),
+          delete: __S(480, __c60, 0),
           digest: S.optional(S.String),
           hello_interval: S.optional(S.Number),
           id: S.String.pipe(T.Label()),
@@ -12992,28 +13821,29 @@ function __c185(j: number): any {
           "lock-token": S.optional(S.String),
           persistent_keepalive: S.optional(S.Number),
           protocol: S.String,
-          redistribute: __S(416, __c52, 0),
+          redistribute: __S(480, __c60, 0),
           route_filter: S.optional(S.String),
+          zone: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/sdn/fabrics/fabric/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterSdnFabricsFabricByIdRequest" });
   }
 }
-function __c186(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowed_ips: S.optional(__S(1776, __c222, 0)),
-          delete: __S(416, __c52, 0),
+          allowed_ips: S.optional(__S(1856, __c232, 0)),
+          delete: __S(480, __c60, 0),
           digest: S.optional(S.String),
           endpoint: S.optional(S.String),
           fabric_id: S.String.pipe(T.Label()),
-          interfaces: __S(416, __c52, 0),
+          interfaces: __S(480, __c60, 0),
           ip: S.optional(S.String),
           ip6: S.optional(S.String),
           "lock-token": S.optional(S.String),
           node_id: S.String.pipe(T.Label()),
-          peers: S.optional(__S(1776, __c222, 0)),
+          peers: S.optional(__S(1856, __c232, 0)),
           protocol: S.String,
           public_key: S.optional(S.String),
           role: S.optional(S.String),
@@ -13027,7 +13857,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "PutClusterSdnFabricsNodeByFabricIdByNodeIdRequest" });
   }
 }
-function __c187(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13044,33 +13874,33 @@ function __c187(j: number): any {
       ).annotate({ identifier: "PutClusterSdnIpamsByIpamRequest" });
   }
 }
-function __c188(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          delete: S.optional(__S(1512, __c189, 0)),
+          delete: S.optional(__S(1592, __c199, 0)),
           digest: S.optional(S.String),
-          entries: S.optional(__S(1776, __c222, 0)),
+          entries: S.optional(__S(1856, __c232, 0)),
           id: S.String.pipe(T.Label()),
           "lock-token": S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/sdn/prefix-lists/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterSdnPrefixListsByIdRequest" });
   }
 }
-function __c189(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c190(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
-          delete: S.optional(__S(1512, __c189, 0)),
+          delete: S.optional(__S(1592, __c199, 0)),
           digest: S.optional(S.String),
           ge: S.optional(S.Number),
           le: S.optional(S.Number),
@@ -13087,21 +13917,21 @@ function __c190(j: number): any {
       ).annotate({ identifier: "PutClusterSdnPrefixListsByIdEntriesByUrlSeqRequest" });
   }
 }
-function __c191(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
           call: S.optional(S.String),
-          delete: S.optional(__S(1512, __c189, 0)),
+          delete: S.optional(__S(1592, __c199, 0)),
           digest: S.optional(S.String),
           "exit-action": S.optional(S.String),
           "lock-token": S.optional(S.String),
-          match: S.optional(__S(1776, __c222, 0)),
+          match: S.optional(__S(1856, __c232, 0)),
           order: S.Number.pipe(T.Label()),
           "route-map-id": S.String.pipe(T.Label()),
-          set: S.optional(__S(1776, __c222, 0)),
+          set: S.optional(__S(1856, __c232, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13112,7 +13942,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "PutClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest" });
   }
 }
-function __c192(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13130,7 +13960,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetRequest" });
   }
 }
-function __c193(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13147,7 +13977,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetFirewallOptionsRequest" });
   }
 }
-function __c194(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13180,7 +14010,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetFirewallRulesByPosRequest" });
   }
 }
-function __c195(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13194,7 +14024,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetIpsRequest" });
   }
 }
-function __c196(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13205,14 +14035,14 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnDnsByDnsRequest" });
   }
 }
-function __c197(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           delete: S.optional(S.String),
           "dhcp-dns-server": S.optional(S.String),
-          "dhcp-range": S.optional(__S(1776, __c222, 0)),
+          "dhcp-range": S.optional(__S(1856, __c232, 0)),
           digest: S.optional(S.String),
           dnszoneprefix: S.optional(S.String),
           gateway: S.optional(S.String),
@@ -13226,7 +14056,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetSubnetsBySubnetRequest" });
   }
 }
-function __c198(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13235,6 +14065,8 @@ function __c198(j: number): any {
           bridge: S.optional(S.String),
           "bridge-disable-mac-learning": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           controller: S.optional(S.String),
+          "ct-zone": S.optional(S.Number),
+          "dedicated-vrf": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           delete: S.optional(S.String),
           dhcp: S.optional(S.String),
           digest: S.optional(S.String),
@@ -13253,8 +14085,9 @@ function __c198(j: number): any {
           nodes: S.optional(S.String),
           peers: S.optional(S.String),
           reversedns: S.optional(S.String),
+          route: S.optional(__S(1856, __c232, 0)),
           "rt-import": S.optional(S.String),
-          "secondary-controllers": S.optional(__S(1776, __c222, 0)),
+          "secondary-controllers": S.optional(__S(1856, __c232, 0)),
           tag: S.optional(S.Number),
           "vlan-protocol": S.optional(S.String),
           "vrf-vxlan": S.optional(S.Number),
@@ -13264,7 +14097,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "PutClusterSdnZonesByZoneRequest" });
   }
 }
-function __c199(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13274,7 +14107,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnFabricsFabricByIdRequest" });
   }
 }
-function __c200(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13291,7 +14124,17 @@ function __c200(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnFabricsNodeByFabricIdByNodeIdRequest" });
   }
 }
-function __c201(j: number): any {
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/config/nodes/{node}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterConfigNodesByNodeRequest" });
+  }
+}
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13302,17 +14145,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnIpamsByIpamRequest" });
   }
 }
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/config/nodes/{node}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterConfigNodesByNodeRequest" });
-  }
-}
-function __c203(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13323,7 +14156,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnLockRequest" });
   }
 }
-function __c204(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13334,7 +14167,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnPrefixListsByIdRequest" });
   }
 }
-function __c205(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13351,7 +14184,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnPrefixListsByIdEntriesByUrlSeqRequest" });
   }
 }
-function __c206(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13369,7 +14202,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnRouteMapsEntriesByRouteMapIdEntryByOrderRequest" });
   }
 }
-function __c207(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13380,7 +14213,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnVnetsByVnetRequest" });
   }
 }
-function __c208(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13398,7 +14231,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnVnetsByVnetFirewallRulesByPosRequest" });
   }
 }
-function __c209(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13411,7 +14244,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnVnetsByVnetIpsRequest" });
   }
 }
-function __c210(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13429,7 +14262,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnVnetsByVnetSubnetsBySubnetRequest" });
   }
 }
-function __c211(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13440,31 +14273,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeleteClusterSdnZonesByZoneRequest" });
   }
 }
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster", code: 200 })),
-      ).annotate({ identifier: "GetClusterRequest" });
-  }
-}
-function __c213(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1704, __c213, 0));
-    case 1:
-      return S.suspend(() => __S(1712, __c214, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetClusterResponse",
-      });
-  }
-}
-function __c215(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13475,7 +14284,31 @@ function __c215(j: number): any {
       ).annotate({ identifier: "DeleteClusterFirewallAliasesByNameRequest" });
   }
 }
-function __c216(j: number): any {
+function __c223(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster", code: 200 })),
+      ).annotate({ identifier: "GetClusterRequest" });
+  }
+}
+function __c224(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c225(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1792, __c224, 0));
+    case 1:
+      return S.suspend(() => __S(1800, __c225, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetClusterResponse",
+      });
+  }
+}
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13483,7 +14316,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetClusterAcmeRequest" });
   }
 }
-function __c217(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13491,7 +14324,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetClusterAcmeAccountRequest" });
   }
 }
-function __c218(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13502,19 +14335,19 @@ function __c218(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          account: S.optional(__S(1704, __c213, 0)),
+          account: S.optional(__S(1792, __c224, 0)),
           directory: S.optional(S.String),
           location: S.optional(S.String),
           tos: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterAcmeAccountByNameResult" });
     case 2:
-      return S.suspend(() => __S(1745, __c218, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1825, __c228, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmeAccountByNameResponse",
       });
   }
 }
-function __c219(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13527,19 +14360,19 @@ function __c219(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          schema: __S(1704, __c213, 0),
+          schema: __S(1792, __c224, 0),
           type: S.String,
         }),
       ).annotate({ identifier: "GetClusterAcmeChallengeSchemaResultItem" });
     case 2:
-      return S.Array(__S(1753, __c219, 1));
+      return S.Array(__S(1833, __c229, 1));
     case 3:
-      return S.suspend(() => __S(1754, __c219, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1834, __c229, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmeChallengeSchemaResponse",
       });
   }
 }
-function __c220(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13553,14 +14386,14 @@ function __c220(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterAcmeDirectoriesResultItem" });
     case 2:
-      return S.Array(__S(1761, __c220, 1));
+      return S.Array(__S(1841, __c230, 1));
     case 3:
-      return S.suspend(() => __S(1762, __c220, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1842, __c230, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmeDirectoriesResponse",
       });
   }
 }
-function __c221(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13571,25 +14404,25 @@ function __c221(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          caaIdentities: S.optional(__S(1776, __c222, 0)),
+          caaIdentities: S.optional(__S(1856, __c232, 0)),
           externalAccountRequired: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           termsOfService: S.optional(S.String),
           website: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetClusterAcmeMetaResult" });
     case 2:
-      return S.suspend(() => __S(1769, __c221, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1849, __c231, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmeMetaResponse",
       });
   }
 }
-function __c222(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c223(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13598,14 +14431,14 @@ function __c223(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/acme/plugins", code: 200 })),
       ).annotate({ identifier: "GetClusterAcmePluginsRequest" });
     case 1:
-      return S.Array(__S(1792, __c224, 0));
+      return S.Array(__S(1872, __c234, 0));
     case 2:
-      return S.suspend(() => __S(1785, __c223, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1865, __c233, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmePluginsResponse",
       });
   }
 }
-function __c224(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13622,7 +14455,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetClusterAcmePluginsResultItem" });
   }
 }
-function __c225(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13631,12 +14464,12 @@ function __c225(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/acme/plugins/{id}", code: 200 })),
       ).annotate({ identifier: "GetClusterAcmePluginsByIdRequest" });
     case 1:
-      return S.suspend(() => __S(1792, __c224, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1872, __c234, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterAcmePluginsByIdResponse",
       });
   }
 }
-function __c226(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13646,21 +14479,31 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetClusterAcmeTosRequest" });
   }
 }
-function __c227(j: number): any {
+function __c237(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/firewall/groups/{group}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterFirewallGroupsByGroupRequest" });
+  }
+}
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/backup", code: 200 })),
       ).annotate({ identifier: "GetClusterBackupRequest" });
     case 1:
-      return S.Array(__S(1827, __c228, 3));
+      return S.Array(__S(1915, __c239, 3));
     case 2:
-      return S.suspend(() => __S(1817, __c227, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1905, __c238, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterBackupResponse",
       });
   }
 }
-function __c228(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13698,8 +14541,8 @@ function __c228(j: number): any {
           dumpdir: S.optional(S.String),
           enabled: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           exclude: S.optional(S.String),
-          "exclude-path": S.optional(__S(1776, __c222, 0)),
-          fleecing: S.optional(__S(1824, __c228, 0)),
+          "exclude-path": S.optional(__S(1856, __c232, 0)),
+          fleecing: S.optional(__S(1912, __c239, 0)),
           id: S.String,
           ionice: S.optional(S.Number),
           lockwait: S.optional(S.Number),
@@ -13711,11 +14554,11 @@ function __c228(j: number): any {
           "notes-template": S.optional(S.String),
           "notification-mode": S.optional(S.String),
           "pbs-change-detection-mode": S.optional(S.String),
-          performance: S.optional(__S(1825, __c228, 1)),
+          performance: S.optional(__S(1913, __c239, 1)),
           pigz: S.optional(S.Number),
           pool: S.optional(S.String),
           protected: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          "prune-backups": S.optional(__S(1826, __c228, 2)),
+          "prune-backups": S.optional(__S(1914, __c239, 2)),
           quiet: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           remove: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "repeat-missed": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -13732,17 +14575,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetClusterBackupResultItem" });
   }
 }
-function __c229(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/firewall/groups/{group}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterFirewallGroupsByGroupRequest" });
-  }
-}
-function __c230(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13751,12 +14584,12 @@ function __c230(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cluster/backup/{id}", code: 200 })),
       ).annotate({ identifier: "GetClusterBackupByIdRequest" });
     case 1:
-      return S.suspend(() => __S(1827, __c228, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1915, __c239, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterBackupByIdResponse",
       });
   }
 }
-function __c231(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13776,31 +14609,31 @@ function __c231(j: number): any {
         identifier: "GetClusterBackupByIdIncludedVolumesResultChildrenItemChildrenItem",
       });
     case 2:
-      return S.Array(__S(1849, __c231, 1));
+      return S.Array(__S(1929, __c241, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          children: S.optional(__S(1850, __c231, 2)),
+          children: S.optional(__S(1930, __c241, 2)),
           id: S.Number,
           name: S.optional(S.String),
           type: S.String,
         }),
       ).annotate({ identifier: "GetClusterBackupByIdIncludedVolumesResultChildrenItem" });
     case 4:
-      return S.Array(__S(1851, __c231, 3));
+      return S.Array(__S(1931, __c241, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          children: __S(1852, __c231, 4),
+          children: __S(1932, __c241, 4),
         }),
       ).annotate({ identifier: "GetClusterBackupByIdIncludedVolumesResult" });
     case 6:
-      return S.suspend(() => __S(1853, __c231, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1933, __c241, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterBackupByIdIncludedVolumesResponse",
       });
   }
 }
-function __c232(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13808,7 +14641,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetClusterBackupInfoRequest" });
   }
 }
-function __c233(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13817,14 +14650,14 @@ function __c233(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterBackupInfoResultItem" });
     case 1:
-      return S.Array(__S(1864, __c233, 0));
+      return S.Array(__S(1944, __c243, 0));
     case 2:
-      return S.suspend(() => __S(1865, __c233, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1945, __c243, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterBackupInfoResponse",
       });
   }
 }
-function __c234(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13841,14 +14674,14 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterBackupInfoNotBackedUpResultItem" });
     case 2:
-      return S.Array(__S(1873, __c234, 1));
+      return S.Array(__S(1953, __c244, 1));
     case 3:
-      return S.suspend(() => __S(1874, __c234, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1954, __c244, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterBackupInfoNotBackedUpResponse",
       });
   }
 }
-function __c235(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13856,7 +14689,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetClusterBulkActionRequest" });
   }
 }
-function __c236(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13864,7 +14697,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetClusterBulkActionGuestRequest" });
   }
 }
-function __c237(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13872,7 +14705,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetClusterCephRequest" });
   }
 }
-function __c238(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13887,14 +14720,14 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterCephFlagsResultItem" });
     case 2:
-      return S.Array(__S(1905, __c238, 1));
+      return S.Array(__S(1985, __c248, 1));
     case 3:
-      return S.suspend(() => __S(1906, __c238, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1986, __c248, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterCephFlagsResponse",
       });
   }
 }
-function __c239(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13908,7 +14741,21 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetClusterCephFlagsByFlagResponse" });
   }
 }
-function __c240(j: number): any {
+function __c250(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String.pipe(T.Query())),
+          group: S.String.pipe(T.Label()),
+          pos: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/cluster/firewall/groups/{group}/{pos}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteClusterFirewallGroupsByGroupByPosRequest" });
+  }
+}
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13924,28 +14771,14 @@ function __c240(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterCephHealthMuteResultItem" });
     case 2:
-      return S.Array(__S(1921, __c240, 1));
+      return S.Array(__S(2009, __c251, 1));
     case 3:
-      return S.suspend(() => __S(1922, __c240, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2010, __c251, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterCephHealthMuteResponse",
       });
   }
 }
-function __c241(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          digest: S.optional(S.String.pipe(T.Query())),
-          group: S.String.pipe(T.Label()),
-          pos: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/cluster/firewall/groups/{group}/{pos}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteClusterFirewallGroupsByGroupByPosRequest" });
-  }
-}
-function __c242(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13973,24 +14806,24 @@ function __c242(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterCephMetadataResultOsdItem" });
     case 2:
-      return S.Array(__S(1937, __c242, 1));
+      return S.Array(__S(2017, __c252, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          mds: __S(1704, __c213, 0),
-          mgr: __S(1704, __c213, 0),
-          mon: __S(1704, __c213, 0),
-          node: __S(1704, __c213, 0),
-          osd: __S(1938, __c242, 2),
+          mds: __S(1792, __c224, 0),
+          mgr: __S(1792, __c224, 0),
+          mon: __S(1792, __c224, 0),
+          node: __S(1792, __c224, 0),
+          osd: __S(2018, __c252, 2),
         }),
       ).annotate({ identifier: "GetClusterCephMetadataResult" });
     case 4:
-      return S.suspend(() => __S(1939, __c242, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2019, __c252, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterCephMetadataResponse",
       });
   }
 }
-function __c243(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13998,15 +14831,15 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetClusterCephStatusRequest" });
   }
 }
-function __c244(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1704, __c213, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1792, __c224, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterCephStatusResponse",
       });
   }
 }
-function __c245(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14014,7 +14847,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetClusterConfigRequest" });
   }
 }
-function __c246(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14022,7 +14855,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetClusterConfigApiversionRequest" });
   }
 }
-function __c247(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Number.pipe(T.RawResponseRoot())).annotate({
@@ -14030,7 +14863,7 @@ function __c247(j: number): any {
       });
   }
 }
-function __c248(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14050,23 +14883,24 @@ function __c248(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterConfigJoinResultNodelistItem" });
     case 2:
-      return S.Array(__S(1985, __c248, 1));
+      return S.Array(__S(2065, __c258, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           config_digest: S.String,
-          nodelist: __S(1986, __c248, 2),
+          nodelist: __S(2066, __c258, 2),
           preferred_node: S.String,
-          totem: __S(1704, __c213, 0),
+          "pve-version": S.optional(S.String),
+          totem: __S(1792, __c224, 0),
         }),
       ).annotate({ identifier: "GetClusterConfigJoinResult" });
     case 4:
-      return S.suspend(() => __S(1987, __c248, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2067, __c258, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterConfigJoinResponse",
       });
   }
 }
-function __c249(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14079,14 +14913,14 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterConfigNodesResultItem" });
     case 2:
-      return S.Array(__S(1993, __c249, 1));
+      return S.Array(__S(2073, __c259, 1));
     case 3:
-      return S.suspend(() => __S(1994, __c249, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2074, __c259, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterConfigNodesResponse",
       });
   }
 }
-function __c250(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14094,7 +14928,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetClusterConfigQdeviceRequest" });
   }
 }
-function __c251(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14102,7 +14936,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetClusterConfigTotemRequest" });
   }
 }
-function __c252(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14110,7 +14944,18 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallRequest" });
   }
 }
-function __c253(j: number): any {
+function __c263(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/firewall/ipset/{name}", code: 200 })),
+      ).annotate({ identifier: "DeleteClusterFirewallIpsetByNameRequest" });
+  }
+}
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14126,25 +14971,14 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallAliasesResultItem" });
     case 2:
-      return S.Array(__S(2025, __c253, 1));
+      return S.Array(__S(2113, __c264, 1));
     case 3:
-      return S.suspend(() => __S(2026, __c253, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2114, __c264, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallAliasesResponse",
       });
   }
 }
-function __c254(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/cluster/firewall/ipset/{name}", code: 200 })),
-      ).annotate({ identifier: "DeleteClusterFirewallIpsetByNameRequest" });
-  }
-}
-function __c255(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14154,7 +14988,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallAliasesByNameRequest" });
   }
 }
-function __c256(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14169,14 +15003,14 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallGroupsResultItem" });
     case 2:
-      return S.Array(__S(2049, __c256, 1));
+      return S.Array(__S(2129, __c266, 1));
     case 3:
-      return S.suspend(() => __S(2050, __c256, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2130, __c266, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallGroupsResponse",
       });
   }
 }
-function __c257(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14186,7 +15020,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallGroupsByGroupRequest" });
   }
 }
-function __c258(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14210,17 +15044,17 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallGroupsByGroupResultItem" });
   }
 }
-function __c259(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2064, __c258, 0));
+      return S.Array(__S(2144, __c268, 0));
     case 1:
-      return S.suspend(() => __S(2072, __c259, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2152, __c269, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallGroupsByGroupResponse",
       });
   }
 }
-function __c260(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14233,15 +15067,15 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallGroupsByGroupByPosRequest" });
   }
 }
-function __c261(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2064, __c258, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2144, __c268, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallGroupsByGroupByPosResponse",
       });
   }
 }
-function __c262(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14256,14 +15090,14 @@ function __c262(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallIpsetResultItem" });
     case 2:
-      return S.Array(__S(2097, __c262, 1));
+      return S.Array(__S(2177, __c272, 1));
     case 3:
-      return S.suspend(() => __S(2098, __c262, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2178, __c272, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallIpsetResponse",
       });
   }
 }
-function __c263(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14281,14 +15115,14 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallIpsetByNameResultItem" });
     case 2:
-      return S.Array(__S(2105, __c263, 1));
+      return S.Array(__S(2185, __c273, 1));
     case 3:
-      return S.suspend(() => __S(2106, __c263, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2186, __c273, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallIpsetByNameResponse",
       });
   }
 }
-function __c264(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14299,7 +15133,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallIpsetByNameByCidrRequest" });
   }
 }
-function __c265(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14313,14 +15147,14 @@ function __c265(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallMacrosResultItem" });
     case 2:
-      return S.Array(__S(2121, __c265, 1));
+      return S.Array(__S(2201, __c275, 1));
     case 3:
-      return S.suspend(() => __S(2122, __c265, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2202, __c275, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallMacrosResponse",
       });
   }
 }
-function __c266(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14338,12 +15172,26 @@ function __c266(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallOptionsResult" });
     case 2:
-      return S.suspend(() => __S(2129, __c266, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2209, __c276, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallOptionsResponse",
       });
   }
 }
-function __c267(j: number): any {
+function __c277(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cidr: S.String.pipe(T.Label()),
+          digest: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/cluster/firewall/ipset/{name}/{cidr}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteClusterFirewallIpsetByNameByCidrRequest" });
+  }
+}
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14362,28 +15210,14 @@ function __c267(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterFirewallRefsResultItem" });
     case 2:
-      return S.Array(__S(2137, __c267, 1));
+      return S.Array(__S(2225, __c278, 1));
     case 3:
-      return S.suspend(() => __S(2138, __c267, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2226, __c278, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterFirewallRefsResponse",
       });
   }
 }
-function __c268(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidr: S.String.pipe(T.Label()),
-          digest: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/cluster/firewall/ipset/{name}/{cidr}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteClusterFirewallIpsetByNameByCidrRequest" });
-  }
-}
-function __c269(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14391,7 +15225,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallRulesRequest" });
   }
 }
-function __c270(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14401,7 +15235,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetClusterFirewallRulesByPosRequest" });
   }
 }
-function __c271(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14409,7 +15243,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetClusterHaRequest" });
   }
 }
-function __c272(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14418,14 +15252,14 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaResultItem" });
     case 1:
-      return S.Array(__S(2176, __c272, 0));
+      return S.Array(__S(2256, __c282, 0));
     case 2:
-      return S.suspend(() => __S(2177, __c272, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2257, __c282, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaResponse",
       });
   }
 }
-function __c273(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14438,14 +15272,14 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaGroupsResultItem" });
     case 2:
-      return S.Array(__S(2185, __c273, 1));
+      return S.Array(__S(2265, __c283, 1));
     case 3:
-      return S.suspend(() => __S(2186, __c273, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2266, __c283, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaGroupsResponse",
       });
   }
 }
-function __c274(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14459,7 +15293,7 @@ function __c274(j: number): any {
       });
   }
 }
-function __c275(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14474,14 +15308,14 @@ function __c275(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaResourcesResultItem" });
     case 2:
-      return S.Array(__S(2201, __c275, 1));
+      return S.Array(__S(2281, __c285, 1));
     case 3:
-      return S.suspend(() => __S(2202, __c275, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2282, __c285, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaResourcesResponse",
       });
   }
 }
-function __c276(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14505,12 +15339,12 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaResourcesBySidResult" });
     case 2:
-      return S.suspend(() => __S(2209, __c276, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2289, __c286, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaResourcesBySidResponse",
       });
   }
 }
-function __c277(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14526,14 +15360,14 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaRulesResultItem" });
     case 2:
-      return S.Array(__S(2217, __c277, 1));
+      return S.Array(__S(2297, __c287, 1));
     case 3:
-      return S.suspend(() => __S(2218, __c277, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2298, __c287, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaRulesResponse",
       });
   }
 }
-function __c278(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14549,20 +15383,12 @@ function __c278(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaRulesByRuleResult" });
     case 2:
-      return S.suspend(() => __S(2225, __c278, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2305, __c288, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaRulesByRuleResponse",
       });
   }
 }
-function __c279(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/ha/status", code: 200 })),
-      ).annotate({ identifier: "GetClusterHaStatusRequest" });
-  }
-}
-function __c280(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14573,7 +15399,15 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeleteClusterFirewallRulesByPosRequest" });
   }
 }
-function __c281(j: number): any {
+function __c290(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cluster/ha/status", code: 200 })),
+      ).annotate({ identifier: "GetClusterHaStatusRequest" });
+  }
+}
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14587,6 +15421,8 @@ function __c281(j: number): any {
           crm_state: S.optional(S.String),
           failback: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           id: S.String,
+          "maintenance-request-queued": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "maintenance-requested": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           max_relocate: S.optional(S.Number),
           max_restart: S.optional(S.Number),
           node: S.String,
@@ -14601,14 +15437,14 @@ function __c281(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterHaStatusCurrentResultItem" });
     case 2:
-      return S.Array(__S(2249, __c281, 1));
+      return S.Array(__S(2329, __c291, 1));
     case 3:
-      return S.suspend(() => __S(2250, __c281, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2330, __c291, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterHaStatusCurrentResponse",
       });
   }
 }
-function __c282(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14618,7 +15454,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetClusterHaStatusManagerStatusRequest" });
   }
 }
-function __c283(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14626,7 +15462,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetClusterJobsRequest" });
   }
 }
-function __c284(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14647,14 +15483,14 @@ function __c284(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterJobsRealmSyncResultItem" });
     case 2:
-      return S.Array(__S(2273, __c284, 1));
+      return S.Array(__S(2353, __c294, 1));
     case 3:
-      return S.suspend(() => __S(2274, __c284, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2354, __c294, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterJobsRealmSyncResponse",
       });
   }
 }
-function __c285(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14664,7 +15500,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetClusterJobsRealmSyncByIdRequest" });
   }
 }
-function __c286(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14682,14 +15518,14 @@ function __c286(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterJobsScheduleAnalyzeResultItem" });
     case 2:
-      return S.Array(__S(2289, __c286, 1));
+      return S.Array(__S(2369, __c296, 1));
     case 3:
-      return S.suspend(() => __S(2290, __c286, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2370, __c296, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterJobsScheduleAnalyzeResponse",
       });
   }
 }
-function __c287(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14699,7 +15535,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetClusterLogRequest" });
   }
 }
-function __c288(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14707,7 +15543,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetClusterMappingRequest" });
   }
 }
-function __c289(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14717,7 +15553,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "GetClusterMappingDirRequest" });
   }
 }
-function __c290(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14727,32 +15563,22 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "GetClusterMappingDirResultItemChecksItem" });
     case 1:
-      return S.Array(__S(2320, __c290, 0));
+      return S.Array(__S(2400, __c300, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          checks: S.optional(__S(2321, __c290, 1)),
+          checks: S.optional(__S(2401, __c300, 1)),
           description: S.String,
           id: S.String,
-          map: __S(1776, __c222, 0),
+          map: __S(1856, __c232, 0),
         }),
       ).annotate({ identifier: "GetClusterMappingDirResultItem" });
     case 3:
-      return S.Array(__S(2322, __c290, 2));
+      return S.Array(__S(2402, __c300, 2));
     case 4:
-      return S.suspend(() => __S(2323, __c290, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2403, __c300, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetClusterMappingDirResponse",
       });
-  }
-}
-function __c291(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/cluster/mapping/dir/{id}", code: 200 })),
-      ).annotate({ identifier: "GetClusterMappingDirByIdRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

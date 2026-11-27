@@ -187,10 +187,12 @@ export type SourceFilterString = string;
 export type LogsFilterString = string;
 export type DataSourceFilterString = string;
 export type EncryptedLogGroupStrategy = "ALLOW" | "SKIP" | (string & {});
+export type CentralizeWithDataProtection = "ENABLED" | "DISABLED" | (string & {});
 export interface SourceLogsConfiguration {
   LogGroupSelectionCriteria?: string | undefined;
   DataSourceSelectionCriteria?: string | undefined;
   EncryptedLogGroupStrategy: EncryptedLogGroupStrategy;
+  CentralizeWithDataProtection?: CentralizeWithDataProtection | undefined;
 }
 export type MetricsFilterString = string;
 export interface SourceMetricsConfiguration {
@@ -368,6 +370,8 @@ export type ResourceType =
   | "AWS::S3::Bucket"
   | "AWS::Bedrock::KnowledgeBase"
   | "AWS::XRay::TransactionSearchConfig"
+  | "AWS::CloudWatchOmni"
+  | "AWS::NetworkFirewall::Firewall"
   | (string & {});
 export type TelemetryType = "Logs" | "Metrics" | "Traces" | "Insights" | (string & {});
 export type TelemetrySourceType =
@@ -468,6 +472,9 @@ export type LogType =
   | "ALB_ACCESS_LOGS"
   | "ALB_CONNECTION_LOGS"
   | "ALB_HEALTH_CHECK_LOGS"
+  | "FLOW_LOGS"
+  | "ALERT_LOGS"
+  | "TLS_LOGS"
   | (string & {});
 export type LogTypes = LogType[];
 export interface LogDeliveryParameters {
@@ -5255,6 +5262,7 @@ function __c77(j: number): any {
           LogGroupSelectionCriteria: S.optional(S.String),
           DataSourceSelectionCriteria: S.optional(S.String),
           EncryptedLogGroupStrategy: S.String,
+          CentralizeWithDataProtection: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceLogsConfiguration" });
     case 1:

@@ -502,6 +502,7 @@ export interface ChatEvent {
   ServerId: string;
   Sender?: Sender | undefined;
   Receiver?: Receiver | undefined;
+  Cust?: CustList | undefined;
 }
 export interface ModifyRoleEvent {
   RoleNameAfter: string;
@@ -509,11 +510,13 @@ export interface ModifyRoleEvent {
   ServerId: string;
   UserInfo?: User | undefined;
   RoleInfo?: Role | undefined;
+  Cust?: CustList | undefined;
 }
 export interface AddFriendEvent {
   ServerId: string;
   Sender?: Sender | undefined;
   Receiver?: Receiver | undefined;
+  Cust?: CustList | undefined;
 }
 export interface Guild {
   GuildId: string;
@@ -528,6 +531,7 @@ export interface ModifyGuildEvent {
   ServerId: string;
   UserInfo?: User | undefined;
   Guild?: Guild | undefined;
+  Cust?: CustList | undefined;
 }
 export interface SearchEvent {
   SearchScene?: string | undefined;
@@ -603,7 +607,7 @@ export interface AssessRiskRequest {
   SessionId: string;
   DeviceToken: string | Redacted.Redacted<string>;
   UserIp: string;
-  EventDetail: EventDetail;
+  EventDetail?: EventDetail | undefined;
   UserId?: string | undefined;
   UserEmail?: string | undefined;
   UserPhone?: string | undefined;
@@ -637,7 +641,7 @@ export interface ReportEventRequest {
   SessionId: string;
   DeviceToken: string | Redacted.Redacted<string>;
   UserIp: string;
-  EventDetail: EventDetail;
+  EventDetail?: EventDetail | undefined;
   UserId?: string | undefined;
   UserEmail?: string | undefined;
   UserPhone?: string | undefined;
@@ -935,7 +939,7 @@ function __c7(j: number): any {
           SessionId: S.String,
           DeviceToken: S.String.pipe(T.SensitiveValue({})),
           UserIp: S.String,
-          EventDetail: __S(313, __c9, 25),
+          EventDetail: S.optional(__S(313, __c9, 25)),
           UserId: S.optional(S.String),
           UserEmail: S.optional(S.String),
           UserPhone: S.optional(S.String),
@@ -1489,6 +1493,7 @@ function __c9(j: number): any {
           ServerId: S.String,
           Sender: S.optional(__S(304, __c9, 16)),
           Receiver: S.optional(__S(305, __c9, 17)),
+          Cust: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "ChatEvent" });
     case 19:
@@ -1499,6 +1504,7 @@ function __c9(j: number): any {
           ServerId: S.String,
           UserInfo: S.optional(__S(257, __c8, 1)),
           RoleInfo: S.optional(__S(303, __c9, 15)),
+          Cust: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "ModifyRoleEvent" });
     case 20:
@@ -1507,6 +1513,7 @@ function __c9(j: number): any {
           ServerId: S.String,
           Sender: S.optional(__S(304, __c9, 16)),
           Receiver: S.optional(__S(305, __c9, 17)),
+          Cust: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "AddFriendEvent" });
     case 21:
@@ -1527,6 +1534,7 @@ function __c9(j: number): any {
           ServerId: S.String,
           UserInfo: S.optional(__S(257, __c8, 1)),
           Guild: S.optional(__S(309, __c9, 21)),
+          Cust: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "ModifyGuildEvent" });
     case 23:
@@ -1627,7 +1635,7 @@ function __c10(j: number): any {
           SessionId: S.String,
           DeviceToken: S.String.pipe(T.SensitiveValue({})),
           UserIp: S.String,
-          EventDetail: __S(313, __c9, 25),
+          EventDetail: S.optional(__S(313, __c9, 25)),
           UserId: S.optional(S.String),
           UserEmail: S.optional(S.String),
           UserPhone: S.optional(S.String),

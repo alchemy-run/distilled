@@ -83,6 +83,7 @@ export interface CreateAgentResponse {
 export interface CreateAgentSessionRequest {
   AgentId: string;
   VersionId?: string | undefined;
+  MetricEntry?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -203,10 +204,13 @@ export interface DeleteScheduledTaskResponse {
   RequestId?: string | undefined;
 }
 export interface DeleteSessionArtifactListRequest {
+  SessionId?: string | undefined;
+  ArtifactIds?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface DeleteSessionArtifactListResponse {
+  DeletedCount?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeAgentRequest {
@@ -675,17 +679,44 @@ export interface DescribeScheduledTaskLogListResponse {
   RequestId?: string | undefined;
 }
 export interface DescribeSessionArtifactDownloadUrlRequest {
+  ArtifactId: string;
+  ExpiredSeconds?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface DescribeSessionArtifactDownloadUrlResponse {
+  DownloadUrl?: string | undefined;
+  ExpiredTime?: string | undefined;
+  FileName?: string | undefined;
+  FileSizeBytes?: number | undefined;
+  FileSha256?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeSessionArtifactListRequest {
+  SessionId?: string | undefined;
+  Offset?: number | undefined;
+  Limit?: number | undefined;
+  Filters?: FilterList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface SessionArtifactDetail {
+  ArtifactId?: string | undefined;
+  SessionId?: string | undefined;
+  AgentId?: string | undefined;
+  FileName?: string | undefined;
+  FilePath?: string | undefined;
+  FileSizeBytes?: number | undefined;
+  FileSha256?: string | undefined;
+  Status?: string | undefined;
+  CreatedTime?: string | undefined;
+  UploadedTime?: string | undefined;
+  ExpiredTime?: string | undefined;
+}
+export type SessionArtifactDetailList = Array<SessionArtifactDetail>;
 export interface DescribeSessionArtifactListResponse {
+  TotalCount?: number | undefined;
+  ArtifactSet?: SessionArtifactDetailList | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeSkillListRequest {
@@ -724,6 +755,9 @@ export interface DescribeUserAccessTokenRequest {
   region?: string | undefined;
 }
 export interface DescribeUserAccessTokenResponse {
+  AccessToken?: string | Redacted.Redacted<string> | undefined;
+  TokenType?: string | undefined;
+  ExpiresIn?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface MigrateAgentSessionRequest {
@@ -1012,7 +1046,7 @@ export const deleteSessionArtifactList: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<DeleteSessionArtifactListRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<DeleteSessionArtifactListResponse>,
+  output: __S(377, __c47, 1) as any as S.Schema<DeleteSessionArtifactListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1301,7 +1335,7 @@ export const describeSessionArtifactDownloadUrl: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<DescribeSessionArtifactDownloadUrlRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<DescribeSessionArtifactDownloadUrlResponse>,
+  output: __S(201, __c25, 1) as any as S.Schema<DescribeSessionArtifactDownloadUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1318,7 +1352,7 @@ export const describeSessionArtifactList: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<DescribeSessionArtifactListRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<DescribeSessionArtifactListResponse>,
+  output: __S(211, __c26, 3) as any as S.Schema<DescribeSessionArtifactListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1352,7 +1386,7 @@ export const describeUserAccessToken: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DescribeUserAccessTokenRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<DescribeUserAccessTokenResponse>,
+  output: __S(225, __c28, 1) as any as S.Schema<DescribeUserAccessTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1661,7 +1695,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.NullOr(S.String)),
-          Values: S.optional(S.NullOr(__S(328, __c41, 0))),
+          Values: S.optional(S.NullOr(__S(344, __c43, 0))),
           ExactMatch: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "Filter" });
@@ -1860,13 +1894,13 @@ function __c11(j: number): any {
           SupportsToolCall: S.optional(S.NullOr(S.Boolean)),
           SupportsImages: S.optional(S.NullOr(S.Boolean)),
           SupportsThinking: S.optional(S.NullOr(S.Boolean)),
-          ThinkingLevels: S.optional(S.NullOr(__S(328, __c41, 0))),
+          ThinkingLevels: S.optional(S.NullOr(__S(344, __c43, 0))),
           DefaultThinkingLevel: S.optional(S.NullOr(S.String)),
           CanDisableThinking: S.optional(S.NullOr(S.Boolean)),
           DescriptionZh: S.optional(S.NullOr(S.String)),
           DescriptionEn: S.optional(S.NullOr(S.String)),
-          Tags: S.optional(S.NullOr(__S(328, __c41, 0))),
-          Clients: S.optional(S.NullOr(__S(328, __c41, 0))),
+          Tags: S.optional(S.NullOr(__S(344, __c43, 0))),
+          Clients: S.optional(S.NullOr(__S(344, __c43, 0))),
           ServiceEndpoint: S.optional(S.NullOr(S.String)),
           Status: S.optional(S.NullOr(S.String)),
           AgentCount: S.optional(S.NullOr(S.Number)),
@@ -1916,7 +1950,7 @@ function __c12(j: number): any {
           EnterpriseId: S.optional(S.String),
           Type: S.optional(S.String),
           ServiceUrl: S.optional(S.String),
-          AuthModes: S.optional(__S(328, __c41, 0)),
+          AuthModes: S.optional(__S(344, __c43, 0)),
           LatestVersionNo: S.optional(S.Number),
           Status: S.optional(S.String),
           CreatorId: S.optional(S.String),
@@ -2098,6 +2132,7 @@ function __c18(j: number): any {
         S.Struct({
           AgentId: S.String,
           VersionId: S.optional(S.String),
+          MetricEntry: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2236,10 +2271,10 @@ function __c21(j: number): any {
           NextRunTime: S.optional(S.NullOr(S.String)),
           CreatedTime: S.optional(S.NullOr(S.String)),
           ModifiedTime: S.optional(S.NullOr(S.String)),
-          AgentConfig: S.optional(S.NullOr(__S(336, __c42, 0))),
+          AgentConfig: S.optional(S.NullOr(__S(328, __c41, 0))),
           EffectiveStart: S.optional(S.String),
           EffectiveEnd: S.optional(S.String),
-          DeliveryTargetSet: S.optional(__S(348, __c43, 4)),
+          DeliveryTargetSet: S.optional(__S(340, __c42, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeScheduledTaskResponse" });
@@ -2274,7 +2309,7 @@ function __c22(j: number): any {
           LastRunTime: S.optional(S.NullOr(S.String)),
           NextRunTime: S.optional(S.NullOr(S.String)),
           CreatedTime: S.optional(S.NullOr(S.String)),
-          AgentConfig: S.optional(S.NullOr(__S(336, __c42, 0))),
+          AgentConfig: S.optional(S.NullOr(__S(328, __c41, 0))),
         }),
       ).annotate({ identifier: "ScheduledTaskSummary" });
     case 2:
@@ -2392,6 +2427,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ArtifactId: S.String,
+          ExpiredSeconds: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2401,6 +2438,17 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DescribeSessionArtifactDownloadUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DownloadUrl: S.optional(S.String),
+          ExpiredTime: S.optional(S.String),
+          FileName: S.optional(S.String),
+          FileSizeBytes: S.optional(S.Number),
+          FileSha256: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSessionArtifactDownloadUrlResponse" });
   }
 }
 function __c26(j: number): any {
@@ -2408,6 +2456,10 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SessionId: S.optional(S.String),
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
+          Filters: S.optional(__S(49, __c6, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2417,6 +2469,32 @@ function __c26(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DescribeSessionArtifactListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ArtifactId: S.optional(S.String),
+          SessionId: S.optional(S.String),
+          AgentId: S.optional(S.String),
+          FileName: S.optional(S.String),
+          FilePath: S.optional(S.String),
+          FileSizeBytes: S.optional(S.Number),
+          FileSha256: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreatedTime: S.optional(S.String),
+          UploadedTime: S.optional(S.String),
+          ExpiredTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SessionArtifactDetail" });
+    case 2:
+      return S.Array(__S(209, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          ArtifactSet: S.optional(__S(210, __c26, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSessionArtifactListResponse" });
   }
 }
 function __c27(j: number): any {
@@ -2482,6 +2560,15 @@ function __c28(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DescribeUserAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          TokenType: S.optional(S.String),
+          ExpiresIn: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeUserAccessTokenResponse" });
   }
 }
 function __c29(j: number): any {
@@ -2581,8 +2668,8 @@ function __c33(j: number): any {
           A2ASkillId: S.optional(S.NullOr(S.String)),
           Name: S.optional(S.NullOr(S.String)),
           Description: S.optional(S.NullOr(S.String)),
-          Tags: S.optional(S.NullOr(__S(328, __c41, 0))),
-          Examples: S.optional(S.NullOr(__S(328, __c41, 0))),
+          Tags: S.optional(S.NullOr(__S(344, __c43, 0))),
+          Examples: S.optional(S.NullOr(__S(344, __c43, 0))),
         }),
       ).annotate({ identifier: "A2ASkillInput" });
     case 1:
@@ -2668,12 +2755,12 @@ function __c36(j: number): any {
           TaskId: S.String,
           TaskName: S.optional(S.String),
           Description: S.optional(S.String),
-          AgentConfig: S.optional(__S(336, __c42, 0)),
+          AgentConfig: S.optional(__S(328, __c41, 0)),
           CronExpr: S.optional(S.String),
           Status: S.optional(S.String),
           EffectiveStart: S.optional(S.String),
           EffectiveEnd: S.optional(S.String),
-          DeliveryTargetSet: S.optional(__S(348, __c43, 4)),
+          DeliveryTargetSet: S.optional(__S(340, __c42, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2765,13 +2852,13 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TaskName: S.String,
-          AgentConfig: __S(336, __c42, 0),
+          AgentConfig: __S(328, __c41, 0),
           CronExpr: S.String,
           Description: S.optional(S.String),
           FrequencyType: S.optional(S.String),
           EffectiveStart: S.optional(S.String),
           EffectiveEnd: S.optional(S.String),
-          DeliveryTargetSet: S.optional(__S(348, __c43, 4)),
+          DeliveryTargetSet: S.optional(__S(340, __c42, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2796,12 +2883,6 @@ function __c40(j: number): any {
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           Prompt: S.optional(S.NullOr(S.String)),
@@ -2810,7 +2891,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AgentConfig" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2820,16 +2901,16 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "Header" });
     case 1:
-      return S.Array(__S(344, __c43, 0));
+      return S.Array(__S(336, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ChannelType: S.optional(S.NullOr(S.String)),
           ChannelId: S.optional(S.NullOr(S.String)),
           Url: S.optional(S.NullOr(S.String)),
-          Headers: S.optional(S.NullOr(__S(345, __c43, 1))),
+          Headers: S.optional(S.NullOr(__S(337, __c42, 1))),
           Secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          RecipientIdSet: S.optional(S.NullOr(__S(328, __c41, 0))),
+          RecipientIdSet: S.optional(S.NullOr(__S(344, __c43, 0))),
         }),
       ).annotate({ identifier: "TargetOptions" });
     case 3:
@@ -2837,11 +2918,17 @@ function __c43(j: number): any {
         S.Struct({
           Type: S.optional(S.NullOr(S.String)),
           Enabled: S.optional(S.NullOr(S.Boolean)),
-          Options: S.optional(S.NullOr(__S(346, __c43, 2))),
+          Options: S.optional(S.NullOr(__S(338, __c42, 2))),
         }),
       ).annotate({ identifier: "DeliveryTarget" });
     case 4:
-      return S.Array(__S(347, __c43, 3));
+      return S.Array(__S(339, __c42, 3));
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
   }
 }
 function __c44(j: number): any {
@@ -2893,6 +2980,8 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SessionId: S.optional(S.String),
+          ArtifactIds: S.optional(__S(344, __c43, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2902,6 +2991,13 @@ function __c47(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteSessionArtifactListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DeletedCount: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteSessionArtifactListResponse" });
   }
 }
 function __c48(j: number): any {

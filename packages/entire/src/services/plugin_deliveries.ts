@@ -106,6 +106,8 @@ export interface ListPluginDeliveriesRequest {
   cursor?: string | undefined;
 }
 export interface PluginDeliveryView {
+  /** A URL to the JSON Schema for this object. */
+  _schema?: string | undefined;
   /** Attempts claimed so far, including one in flight */
   attempt_count: number;
   /** When the delivery reached delivered or failed, UTC */
@@ -135,8 +137,16 @@ export interface ListPluginDeliveriesOutputBody {
   next_cursor?: string | undefined;
   [key: string]: unknown;
 }
+export interface RedeliverPluginDeliveryRequest {
+  /** Plugin slug */
+  plugin: string;
+  /** Delivery id */
+  id: string;
+  /** A repeat of this request with the same key returns the same delivery. */
+  idempotencyKey?: string | undefined;
+}
 export type GetPluginDeliveryError = EntireOpError;
-/** Get a plugin webhook delivery and its attempts The stored request and every recorded attempt with its response. Requires an account access token that holds project#manage on the plugin's owner project. Each cell holds the deliveries it sent, so this lists this cell's deliveries only. */
+/** Get a plugin webhook delivery and its attempts The stored request and every recorded attempt with its response. Requires an account access token that holds project#manage on the plugin's owner project. Each cell holds the deliveries it sent, so this reaches this cell's deliveries only. */
 export const getPluginDelivery: API.OperationMethod<
   GetPluginDeliveryRequest,
   PluginDeliveryDetailView,
@@ -154,7 +164,7 @@ export const getPluginDelivery: API.OperationMethod<
 }));
 
 export type ListPluginDeliveriesError = EntireOpError;
-/** List a plugin's webhook deliveries Recent event deliveries to the plugin's webhook URL, newest first. Requires an account access token that holds project#manage on the plugin's owner project. Each cell holds the deliveries it sent, so this lists this cell's deliveries only. */
+/** List a plugin's webhook deliveries Recent event deliveries to the plugin's webhook URL, newest first. Requires an account access token that holds project#manage on the plugin's owner project. Each cell holds the deliveries it sent, so this reaches this cell's deliveries only. */
 export const listPluginDeliveries: API.PaginatedOperationMethod<
   ListPluginDeliveriesRequest,
   ListPluginDeliveriesOutputBody,
@@ -164,7 +174,7 @@ export const listPluginDeliveries: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(8, __c1, 0) as any as S.Schema<ListPluginDeliveriesRequest>,
-    output: __S(11, __c1, 3) as any as S.Schema<ListPluginDeliveriesOutputBody>,
+    output: __S(10, __c1, 2) as any as S.Schema<ListPluginDeliveriesOutputBody>,
     errors: [],
     serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
@@ -180,6 +190,24 @@ export const listPluginDeliveries: API.PaginatedOperationMethod<
   }),
   paginateCursor,
 ) as any;
+
+export type RedeliverPluginDeliveryError = EntireOpError;
+/** Redeliver a plugin webhook delivery Sends a delivered or failed delivery's event again as a new delivery. The new delivery has its own delivery_id and the full retry schedule. Its event.id is the source's. A repeat with the same Idempotency-Key returns the same new delivery and sends nothing more. A pending or in_flight delivery is 409. Requires an account access token that holds project#manage on the plugin's owner project. Each cell holds the deliveries it sent, so this reaches this cell's deliveries only. */
+export const redeliverPluginDelivery: API.OperationMethod<
+  RedeliverPluginDeliveryRequest,
+  PluginDeliveryView,
+  RedeliverPluginDeliveryError,
+  EntireOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<RedeliverPluginDeliveryRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<PluginDeliveryView>,
+  errors: [],
+  serviceErrors: EntireServiceErrors,
+  protocol: EntireCellProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeliverPluginDelivery",
+}));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -261,9 +289,27 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListPluginDeliveriesRequest" });
     case 1:
+      return S.Array(__S(16, __c2, 0));
+    case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
+            deliveries: S.NullOr(__S(9, __c1, 1)),
+            next_cursor: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListPluginDeliveriesOutputBody" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
             attempt_count: S.Number,
             completed_at: S.optional(S.String),
             created_at: S.String,
@@ -277,19 +323,26 @@ function __c1(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PluginDeliveryView" });
-    case 2:
-      return S.Array(__S(9, __c1, 1));
-    case 3:
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            deliveries: S.NullOr(__S(10, __c1, 2)),
-            next_cursor: S.optional(S.String),
+        S.Struct({
+          plugin: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/ci/plugins/{plugin}/deliveries/{id}/redeliver",
+            code: 200,
           }),
-          [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "ListPluginDeliveriesOutputBody" });
+      ).annotate({ identifier: "RedeliverPluginDeliveryRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

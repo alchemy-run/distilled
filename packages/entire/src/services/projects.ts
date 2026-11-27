@@ -200,18 +200,22 @@ export interface Project {
   repositoryCount?: number | undefined;
   [key: string]: unknown;
 }
-export type GrantProjectAccessRequestGranteeType = "account";
+export type GrantProjectAccessRequestGranteeType = "account" | "team";
 export type GrantProjectAccessRequestRole = "reader" | "writer" | "admin";
 export interface GrantProjectAccessRequest {
   projectId: string;
   /** Entire account ULID to grant directly. Mutually exclusive with provider/providerUserId; the account must exist. */
   accountId?: string | undefined;
+  /** Set true to let the grant invite an account that is outside the parent scope. The grant then answers 202 with an invitation, unless the scope refuses invitations; the operation names those refusals. Without it, that grant answers 409 with type https://entire.com/errors/invitation/required and writes nothing. The platform-admin routes ignore it: they always grant directly. */
+  allow_invitation?: boolean | undefined;
   granteeType?: GrantProjectAccessRequestGranteeType | (string & {}) | undefined;
   /** Legacy identity selector; requires providerUserId and must not be combined with accountId. */
   provider?: string | undefined;
   /** Legacy provider user ID; requires provider and must not be combined with accountId. */
   providerUserId?: string | undefined;
   role: GrantProjectAccessRequestRole | (string & {});
+  /** Entire team ULID to grant. Required when granteeType is team, and refused otherwise. Must not be combined with accountId, provider/providerUserId or allow_invitation. The team must belong to the organization that owns the resource; any other team answers 404. */
+  team_id?: string | undefined;
 }
 export interface GrantProjectAccessOutputBody {
   /** A URL to the JSON Schema for this object. */
@@ -594,7 +598,7 @@ export const getProject: API.OperationMethod<
 }));
 
 export type GrantProjectAccessError = EntireOpError;
-/** Grant project access to an identity */
+/** Grant project access to an account, or invite the account The add is direct, and answers 201, when no invitation is needed. On /api/v1 the grant is direct for an active member of the owning organization, an account that already holds a grant on the project, and a service account. A team grant (granteeType team with team_id) is always direct: the team must belong to the organization that owns the project. Any other account is outside this project and joins only by an invitation that it accepts. Set allow_invitation to create that invitation: the add then answers 202 with invitation_id and expires_at, and the account holds no access until it accepts. Without allow_invitation, that add answers 409 with type https://entire.com/errors/invitation/required and writes nothing. The add checks allow_invitation before the refusals that apply only to an invitation. A retry with allow_invitation therefore invites the account. 201 never carries an invitation. A repeat add reuses an open invitation for the same role and sends no second mail; another role answers 409 with type https://entire.com/errors/invitation/role-mismatch until the invitation is revoked. Invitation mail to one account is limited: 429 carries Retry-After. The invitation is created on the project's home core: another core answers 421. */
 export const grantProjectAccess: API.OperationMethod<
   GrantProjectAccessRequest,
   GrantProjectAccessOutputBody,
@@ -1329,10 +1333,12 @@ function __c17(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           accountId: S.optional(S.String),
+          allow_invitation: S.optional(S.Boolean),
           granteeType: S.optional(S.String),
           provider: S.optional(S.String),
           providerUserId: S.optional(S.String),
           role: S.String,
+          team_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/projects/{projectId}/grants", code: 200 })),
       ).annotate({ identifier: "GrantProjectAccessRequest" });
     case 1:

@@ -327,9 +327,8 @@ export interface GetEdgeConfigSchemaRequest {
   slug?: string | undefined;
 }
 export type GetEdgeConfigSchemaResponse = unknown | null;
-export interface GetEdgeConfigTokenRequest {
+export interface GetEdgeConfigTokensRequest {
   edgeConfigId: string;
-  token: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
@@ -347,15 +346,26 @@ export interface GlobalConfigToken {
   /** Deprecated: the full, plaintext token. - Returned once by `POST /v1/edge-config/:edgeConfigId/token` (create). - Still returned by `GET /v1/edge-config/:edgeConfigId/token/:token` (detail) for backwards compatibility, but scheduled for removal. - **Not** returned by `GET /v1/edge-config/:edgeConfigId/tokens` (list); use `partialToken` for display and `id` to reference tokens. Do not rely on this field being present on read operations. Prefer `partialToken` for display and `id` for references. */
   token?: string | Redacted.Redacted<string> | undefined;
 }
-export interface GetEdgeConfigTokensRequest {
+export type GetEdgeConfigTokensResponseBodyList = Array<GlobalConfigToken>;
+export type GetEdgeConfigTokensResponse = GetEdgeConfigTokensResponseBodyList;
+export interface LookupEdgeConfigTokenRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
+  /** The Global Config token to look up. */
+  xVercelGlobalConfigToken: string | Redacted.Redacted<string>;
 }
-export type GetEdgeConfigTokensResponseBodyList = Array<GlobalConfigToken>;
-export type GetEdgeConfigTokensResponse = GetEdgeConfigTokensResponseBodyList;
+export interface GlobalConfigTokenMetadata {
+  createdAt: number;
+  edgeConfigId: string;
+  /** This is not the token itself, but rather an id to identify the token by */
+  id: string;
+  label: string;
+  /** A partially-masked representation of the token, safe to display in UIs. The format is the first 3 characters of the token followed by a fixed 8-character `*` mask (e.g. `550e8400-e29b-41d4-a716-446655440000` -> `550********`). The mask length is intentionally fixed (not proportional to the original token length) to avoid leaking the token length. Prefer this field for display/reference in UIs and logs. The full, plaintext token is only disclosed once at creation time via `POST /v1/edge-config/:edgeConfigId/token`; use `id` to reference a token in subsequent calls (e.g. when deleting). */
+  partialToken: string | Redacted.Redacted<string>;
+}
 export type PatchEdgeConfigItemsRequestItemsItemCase0Operation = "create";
 export interface PatchEdgeConfigItemsRequestItemsItemCase0 {
   operation: PatchEdgeConfigItemsRequestItemsItemCase0Operation;
@@ -447,8 +457,8 @@ export const createEdgeConfig: API.OperationMethod<
   CreateEdgeConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c16, 1) as any as S.Schema<CreateEdgeConfigRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<CreateEdgeConfigResponse>,
+  input: __S(121, __c15, 1) as any as S.Schema<CreateEdgeConfigRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<CreateEdgeConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -471,8 +481,8 @@ export const createEdgeConfigToken: API.OperationMethod<
   CreateEdgeConfigTokenError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<CreateEdgeConfigTokenRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<CreateEdgeConfigTokenResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<CreateEdgeConfigTokenRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<CreateEdgeConfigTokenResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -489,8 +499,8 @@ export const deleteEdgeConfig: API.OperationMethod<
   DeleteEdgeConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteEdgeConfigRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteEdgeConfigResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteEdgeConfigRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteEdgeConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -513,8 +523,8 @@ export const deleteEdgeConfigSchema: API.OperationMethod<
   DeleteEdgeConfigSchemaError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteEdgeConfigSchemaRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteEdgeConfigSchemaResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteEdgeConfigSchemaRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteEdgeConfigSchemaResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -537,8 +547,8 @@ export const deleteEdgeConfigTokens: API.OperationMethod<
   DeleteEdgeConfigTokensError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c22, 1) as any as S.Schema<DeleteEdgeConfigTokensRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteEdgeConfigTokensResponse>,
+  input: __S(169, __c21, 1) as any as S.Schema<DeleteEdgeConfigTokensRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteEdgeConfigTokensResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -556,7 +566,7 @@ export const getEdgeConfig: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetEdgeConfigRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GetEdgeConfigResponse>,
+  output: __S(128, __c16, 0) as any as S.Schema<GetEdgeConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -673,24 +683,6 @@ export const getEdgeConfigSchema: API.OperationMethod<
   span: "GetEdgeConfigSchema",
 }));
 
-export type GetEdgeConfigTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get Global Config token meta data Return meta data about a Global Config token. */
-export const getEdgeConfigToken: API.OperationMethod<
-  GetEdgeConfigTokenRequest,
-  GlobalConfigToken,
-  GetEdgeConfigTokenError,
-  VercelOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetEdgeConfigTokenRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<GlobalConfigToken>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: VercelServiceErrors,
-  protocol: VercelProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetEdgeConfigToken",
-}));
-
 export type GetEdgeConfigTokensError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Get all tokens of a Global Config Returns all tokens of a Global Config. */
 export const getEdgeConfigTokens: API.OperationMethod<
@@ -699,14 +691,32 @@ export const getEdgeConfigTokens: API.OperationMethod<
   GetEdgeConfigTokensError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetEdgeConfigTokensRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<GetEdgeConfigTokensResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetEdgeConfigTokensRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<GetEdgeConfigTokensResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEdgeConfigTokens",
+}));
+
+export type LookupEdgeConfigTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Look up a Global Config token Return metadata about a Global Config token, identified by the token itself. The token is sent in a header so it stays out of URLs. */
+export const lookupEdgeConfigToken: API.OperationMethod<
+  LookupEdgeConfigTokenRequest,
+  GlobalConfigTokenMetadata,
+  LookupEdgeConfigTokenError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c10, 0) as any as S.Schema<LookupEdgeConfigTokenRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<GlobalConfigTokenMetadata>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupEdgeConfigToken",
 }));
 
 export type PatchEdgeConfigItemsError =
@@ -723,8 +733,8 @@ export const patchEdgeConfigItems: API.OperationMethod<
   PatchEdgeConfigItemsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c12, 1) as any as S.Schema<PatchEdgeConfigItemsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<PatchEdgeConfigItemsResponse>,
+  input: __S(89, __c11, 1) as any as S.Schema<PatchEdgeConfigItemsRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<PatchEdgeConfigItemsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -747,7 +757,7 @@ export const patchEdgeConfigSchema: API.OperationMethod<
   PatchEdgeConfigSchemaError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<PatchEdgeConfigSchemaRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<PatchEdgeConfigSchemaRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<PatchEdgeConfigSchemaResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
@@ -771,8 +781,8 @@ export const restoreEdgeConfigBackup: API.OperationMethod<
   RestoreEdgeConfigBackupError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<RestoreEdgeConfigBackupRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<RestoreEdgeConfigBackupResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<RestoreEdgeConfigBackupRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<RestoreEdgeConfigBackupResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -795,8 +805,8 @@ export const updateEdgeConfig: API.OperationMethod<
   UpdateEdgeConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<UpdateEdgeConfigRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<UpdateEdgeConfigResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateEdgeConfigRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<UpdateEdgeConfigResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -955,7 +965,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/global-config", code: 200 })),
       ).annotate({ identifier: "GetEdgeConfigsRequest" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() => __S(49, __c6, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEdgeConfigsResponse",
@@ -990,22 +1000,13 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           edgeConfigId: S.String.pipe(T.Label()),
-          token: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/global-config/{edgeConfigId}/token/{token}",
-            code: 200,
-          }),
+          T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/tokens", code: 200 }),
         ),
-      ).annotate({ identifier: "GetEdgeConfigTokenRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "GetEdgeConfigTokensRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.Number,
@@ -1016,9 +1017,15 @@ function __c10(j: number): any {
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GlobalConfigToken" });
+    case 2:
+      return S.Array(__S(73, __c9, 1));
+    case 3:
+      return S.suspend(() => __S(74, __c9, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetEdgeConfigTokensResponse",
+      });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1026,19 +1033,27 @@ function __c11(j: number): any {
           edgeConfigId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
+          xVercelGlobalConfigToken: S.String.pipe(
+            T.Header("x-vercel-global-config-token"),
+            T.SensitiveValue({}),
+          ),
         }).pipe(
-          T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/tokens", code: 200 }),
+          T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/token", code: 200 }),
         ),
-      ).annotate({ identifier: "GetEdgeConfigTokensRequest" });
+      ).annotate({ identifier: "LookupEdgeConfigTokenRequest" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
-    case 2:
-      return S.suspend(() => __S(89, __c11, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetEdgeConfigTokensResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.Number,
+          edgeConfigId: S.String,
+          id: S.String,
+          label: S.String,
+          partialToken: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "GlobalConfigTokenMetadata" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -1048,7 +1063,7 @@ function __c12(j: number): any {
           edgeConfigId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          items: __S(96, __c12, 0),
+          items: __S(88, __c11, 0),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/v1/global-config/{edgeConfigId}/items", code: 200 }),
         ),
@@ -1061,7 +1076,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PatchEdgeConfigItemsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1077,7 +1092,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PatchEdgeConfigSchemaRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1105,7 +1120,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "RestoreEdgeConfigBackupResponse" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1117,7 +1132,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateEdgeConfigRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1126,12 +1141,12 @@ function __c16(j: number): any {
         S.Struct({
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          items: S.optional(__S(128, __c16, 0)),
+          items: S.optional(__S(120, __c15, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/global-config", code: 200 })),
       ).annotate({ identifier: "CreateEdgeConfigRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1149,7 +1164,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateEdgeConfigResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,7 +1186,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateEdgeConfigTokenResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1183,13 +1198,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteEdgeConfigRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteEdgeConfigResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1203,7 +1218,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteEdgeConfigSchemaRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1213,8 +1228,8 @@ function __c22(j: number): any {
           edgeConfigId: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          tokens: S.optional(__S(176, __c22, 0)),
-          ids: S.optional(__S(176, __c22, 0)),
+          tokens: S.optional(__S(168, __c21, 0)),
+          ids: S.optional(__S(168, __c21, 0)),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v1/global-config/{edgeConfigId}/tokens", code: 200 }),
         ),

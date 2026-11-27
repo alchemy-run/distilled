@@ -137,17 +137,19 @@ export interface OrganizationEventsRetentionDowngradeDeletionCountRequest {
   /** The period in months to count for, at most 1200. Only events older than this period are counted. */
   retention_months: number;
 }
+/** * `1` - 1 month * `3` - 3 months * `12` - 1 year * `24` - 2 years * `36` - 3 years * `60` - 5 years * `84` - 7 years */
+export type EventsRetentionMonthsEnum = 1 | 3 | 12 | 24 | 36 | 60 | 84;
 export interface UpdateEventsRetentionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The period in months, one of retention_months_choices. Older events are deleted at the next monthly cleanup and can't be restored. Null removes the period. */
-  retention_months: number | null;
+  /** The period in months. It also has to be between min_retention_months and max_retention_months. A shorter period deletes older events, and deleted events can't be restored. Null removes the period. * `1` - 1 month * `3` - 3 months * `12` - 1 year * `24` - 2 years * `36` - 3 years * `60` - 5 years * `84` - 7 years */
+  retention_months: EventsRetentionMonthsEnum | (number & {}) | null;
 }
 export interface UpdateOrganizationEventsRetentionRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  /** The period in months, one of retention_months_choices. Older events are deleted at the next monthly cleanup and can't be restored. Null removes the period. */
-  retention_months: number | null;
+  /** The period in months. It also has to be between min_retention_months and max_retention_months. A shorter period deletes older events, and deleted events can't be restored. Null removes the period. * `1` - 1 month * `3` - 3 months * `12` - 1 year * `24` - 2 years * `36` - 3 years * `60` - 5 years * `84` - 7 years */
+  retention_months: EventsRetentionMonthsEnum | (number & {}) | null;
 }
 export type EventsRetentionDeletionCountError = Forbidden | PosthogOpError;
 /** Count the events a project's period would delete Counts the project's events that the next monthly cleanup deletes if the project keeps events for retention_months. Organization admins only. */

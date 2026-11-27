@@ -64,7 +64,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(320, __c20, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(368, __c23, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -81,18 +81,23 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(529, __c33, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(609, __c38, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(610, __c38, 2)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(530, __c33, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(611, __c38, 3)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(531, __c33, 3)),
+          /*@__PURE__*/ S.suspend(() => __S(612, __c38, 4)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(532, __c33, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(613, __c38, 5)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(533, __c33, 5)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(615, __c38, 7)),
+          /*@__PURE__*/ S.suspend(() => __S(614, __c38, 6)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(616, __c38, 8)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           S.String,
@@ -105,19 +110,24 @@ export class NotFound
 {
   declare readonly body?:
     | LocationNotFoundErrorEncoded
-    | Error404Body14
+    | MachineNotFoundErrorEncoded
+    | Error404Body15
     | PtyNotFoundErrorEncoded
-    | Error404Body18
+    | Error404Body20
     | SessionNotFoundErrorEncoded
-    | Error404Body19
-    | ScheduleNotFoundErrorEncoded
     | Error404Body21
+    | AutomationNotFoundErrorEncoded
+    | Error404Body23
     | Error404Body9
+    | Error404Body10
     | Error404Body6
+    | Error404Body18
+    | BlobNotFoundErrorEncoded
     | FileNotFoundErrorEncoded
     | Error404Body3
-    | Error404Body20
-    | Error404Body16
+    | PushDeviceNotFoundErrorEncoded
+    | Error404Body22
+    | Error404Body17
     | string;
 }
 
@@ -127,7 +137,7 @@ export class UnprocessableEntity
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(736, __c46, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(816, __c51, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -138,13 +148,41 @@ export class UnprocessableEntity
 }
 
 export interface AddExperimentalIntegrationWellknownRequestLocation {
+  /** Absolute path of the directory. */
   directory?: string | null | undefined;
 }
 export interface AddExperimentalIntegrationWellknownRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   url: string;
 }
 export interface AddExperimentalIntegrationWellknownResponse {}
+export type MachineReachType = "url";
+export interface MachineReach {
+  type: MachineReachType;
+  url: string;
+}
+export type AddExperimentalMachineRequestReachList = Array<MachineReach>;
+export interface AddExperimentalMachineRequest {
+  name: string;
+  reach: AddExperimentalMachineRequestReachList;
+  replace?: boolean | null | undefined;
+}
+export type MachineInviteReachItemCase1Type = "iroh";
+export interface MachineInviteReachItemCase1 {
+  type: MachineInviteReachItemCase1Type;
+}
+export type MachineInviteReachItem = MachineReach | MachineInviteReachItemCase1;
+export type MachineInviteReachList = Array<MachineInviteReachItem>;
+export interface MachineInvite {
+  name: string;
+  join: string;
+  expires: number;
+  reach: MachineInviteReachList;
+}
+export interface AddExperimentalMachineResponse {
+  data: MachineInvite;
+}
 export type AddExperimentalMcpRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export type McpLocalConfigEncodedType = "local";
 export type McpLocalConfigEncodedCommandList = Array<string>;
@@ -154,7 +192,7 @@ export interface McpLocalConfigEncodedTimeout {
   catalog?: number | undefined;
   execution?: number | undefined;
 }
-/** MCP protocol negotiation. "legacy" (default) opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "auto" probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "2026-07-28" requires that revision and fails otherwise. */
+/** MCP protocol negotiation. "auto" (default) probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "legacy" opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "2026-07-28" requires that revision and fails otherwise. */
 export type McpProtocol = "legacy" | "auto" | "2026-07-28";
 export interface McpLocalConfigEncoded {
   type: McpLocalConfigEncodedType;
@@ -193,24 +231,35 @@ export interface McpRemoteConfigEncoded {
 export type AddExperimentalMcpRequestConfig = McpLocalConfigEncoded | McpRemoteConfigEncoded;
 export interface AddExperimentalMcpRequest {
   server: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   config: AddExperimentalMcpRequestConfig;
 }
 export interface AddExperimentalMcpResponse {}
+export interface CancelExperimentalJobRequest {
+  id: string;
+}
+export interface CancelExperimentalJobResponse {}
 export type ConnectExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ConnectExperimentalMcpRequest {
   server: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ConnectExperimentalMcpResponse {}
 export interface ConnectExperimentalPersistentPtyRequest {
   ptyID: string;
-  cursor?: string | undefined;
-  role?: string | undefined;
   attachment_id?: string | undefined;
+  /** Output offset to replay from. Defaults to 0. */
+  cursor?: string | undefined;
+  /** Attach as controller (the default) or observer. */
+  role?: string | undefined;
+  /** Set to true to take over control of the terminal. */
   takeover?: string | undefined;
+  /** Set to 1 to send framed input messages instead of raw terminal input. */
   input_protocol?: string | undefined;
+  /** Single-use ticket from experimental.persistentPty.connectToken, which authorizes the connection without the usual credentials. */
   ticket?: string | undefined;
 }
 export type ConnectExperimentalPersistentPtyResponse = boolean;
@@ -218,6 +267,7 @@ export type CreateExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export type CreateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
 export interface CreateExperimentalArtifactRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   title: string;
   files: CreateExperimentalArtifactRequestFilesMap;
@@ -244,6 +294,133 @@ export interface ArtifactInfo {
 export interface CreateExperimentalArtifactResponse {
   location: LocationPublicRef;
   data: ArtifactInfo;
+}
+export type AutomationTriggerAtType = "at";
+export interface AutomationTriggerAt {
+  type: AutomationTriggerAtType;
+  /** An instant with an offset, a wall-clock time in tz such as "2026-10-27T09:00", or "in 10 minutes". */
+  at: string;
+  tz?: string | undefined;
+}
+export type AutomationTriggerEveryType = "every";
+export interface AutomationTriggerEvery {
+  type: AutomationTriggerEveryType;
+  every: string;
+  tz?: string | undefined;
+}
+export type AutomationTriggerCronType = "cron";
+export interface AutomationTriggerCron {
+  type: AutomationTriggerCronType;
+  cron: string;
+  tz?: string | undefined;
+}
+export type AutomationTriggerEventType = "event";
+export interface AutomationTriggerEvent {
+  type: AutomationTriggerEventType;
+  server: string;
+  event: string;
+  args?: unknown | undefined;
+}
+/** When it runs: { type: "at", at: "in 20 minutes" | "2026-10-27T09:00" }, { type: "every", every: "1 hour" } or { type: "cron", cron: "0 9 * * 1-5" }, each with an optional tz. Or { type: "event", server, event, args? } for a connected MCP server advertising push delivery. */
+export type AutomationTrigger =
+  | AutomationTriggerAt
+  | AutomationTriggerEvery
+  | AutomationTriggerCron
+  | AutomationTriggerEvent;
+export type AutomationPromptActionInputType = "prompt";
+export interface AutomationTargetCase0 {
+  session: string;
+  subagent?: unknown | undefined;
+}
+export interface AutomationTargetCase1 {
+  subagent: string;
+  session?: unknown | undefined;
+}
+export type AutomationTarget = AutomationTargetCase0 | AutomationTargetCase1;
+export interface AutomationPromptActionInput {
+  type: AutomationPromptActionInputType;
+  /** The message the target Session receives, with enough context to act on it without this conversation. */
+  prompt: string;
+  to?: AutomationTarget | undefined;
+}
+export type AutomationCodeActionInputType = "code";
+export interface AutomationCodeActionInput {
+  type: AutomationCodeActionInputType;
+  /** Code Mode JavaScript run on each trigger with no model (32 KB output cap). Call tools statically as tools.<ns>.<tool>(...) or tools["ns-name"].tool(...); each is authorized once at creation to run unattended. A shell command still running at its timeout is stopped and the call throws; it never moves to the background. Receives input = { state, now, runs, args } (also globals): state starts null, now is epoch ms, runs counts earlier runs. Event triggers also receive input.event = { id, timestamp, data }; data follows the event type's payloadSchema. Return nothing, or { state?, done?, send? }. JSON state is kept for the next run; done: true stops. lastOutput shows the delivery target and any logs. Return at most one send per run. { send: { prompt } } steers the creating session; { send: { prompt, to: { subagent } } } starts a permitted child that does not report back. No session IDs. Omit send to stay quiet. A rejected send commits neither state nor done. Example code string: if (runs < 2) return; return { done: true, send: { prompt: "Three checks elapsed. Review the build." } } */
+  code: string;
+  args?: unknown | undefined;
+}
+export type AutomationShellActionInputType = "shell";
+export interface AutomationShellActionInput {
+  type: AutomationShellActionInputType;
+  /** The fixed shell command to run on each trigger without a model. */
+  command: string;
+}
+/** What it does: { type: "prompt", prompt, to? } sends a prompt; { type: "code", code, args? } runs Code Mode; { type: "shell", command } runs a fixed shell command. */
+export type AutomationActionInput =
+  | AutomationPromptActionInput
+  | AutomationCodeActionInput
+  | AutomationShellActionInput;
+export interface CreateExperimentalAutomationRequest {
+  sessionID?: string | undefined;
+  /** Where it runs when there is no Session. Defaults to the server user's home folder. */
+  directory?: string | undefined;
+  /** A short label shown in lists. */
+  name: string;
+  trigger: AutomationTrigger;
+  action: AutomationActionInput;
+  expires?: string | undefined;
+}
+export type AutomationTrigger1 =
+  | AutomationTriggerAt
+  | AutomationTriggerEvery
+  | AutomationTriggerCron
+  | AutomationTriggerEvent;
+export type AutomationActionPromptType = "prompt";
+export interface AutomationActionPrompt {
+  type: AutomationActionPromptType;
+  prompt: string;
+  to: AutomationTarget;
+}
+export type AutomationActionCodeType = "code";
+export interface AutomationActionCode {
+  type: AutomationActionCodeType;
+  code: string;
+  args?: unknown | undefined;
+}
+export type AutomationActionShellType = "shell";
+export interface AutomationActionShell {
+  type: AutomationActionShellType;
+  command: string;
+}
+export type AutomationAction =
+  | AutomationActionPrompt
+  | AutomationActionCode
+  | AutomationActionShell;
+export type AutomationStatus = "active" | "paused" | "done";
+export type AutomationOutcome = "fired" | "late" | "skipped" | "disabled" | "failed" | "expired";
+export type AutomationInfoTime = ArtifactTime;
+export interface AutomationInfo {
+  id: string;
+  name: string;
+  projectID: string;
+  sessionID?: string | undefined;
+  directory: string;
+  trigger: AutomationTrigger1;
+  tz: string;
+  action: AutomationAction;
+  expires?: number | undefined;
+  status: AutomationStatus;
+  nextDueAt?: number | undefined;
+  runCount: number;
+  lastRunAt?: number | undefined;
+  lastOutcome?: AutomationOutcome | undefined;
+  lastOutput?: string | undefined;
+  state?: unknown | undefined;
+  time: ArtifactTime;
+}
+export interface CreateExperimentalAutomationResponse {
+  data: AutomationInfo;
 }
 export type CreateExperimentalPersistentPtyRequestArgsList = Array<string>;
 export type CreateExperimentalPersistentPtyRequestEnvMap = { [key: string]: string | undefined };
@@ -285,168 +462,30 @@ export interface PersistentPtyInfo {
 export interface CreateExperimentalPersistentPtyResponse {
   data: PersistentPtyInfo;
 }
-export interface ScheduleWhenInputCase0 {
-  in: string;
-  at?: unknown | undefined;
-  every?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase1 {
-  at: string;
-  in?: unknown | undefined;
-  every?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase2 {
-  every: string;
-  in?: unknown | undefined;
-  at?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase3 {
-  cron: string;
-  in?: unknown | undefined;
-  at?: unknown | undefined;
-  every?: unknown | undefined;
-  tz?: string | undefined;
-}
-export type ScheduleWhenInput =
-  | ScheduleWhenInputCase0
-  | ScheduleWhenInputCase1
-  | ScheduleWhenInputCase2
-  | ScheduleWhenInputCase3;
-export interface ScheduleConditionInputCase0 {
-  /** Shell command to run in the Session's directory. Alone, exit 0 wakes and stdout is appended. */
-  run: string;
-  is?: string | undefined;
-  matches?: string | undefined;
-  changes?: boolean | undefined;
-  code?: unknown | undefined;
-}
-export interface ScheduleConditionInputCase1 {
-  /** Code Mode JavaScript check (no fetch; 30s, 20 tool calls, 32 KB output cap). Call tools statically as tools.<ns>.<tool>(...) or tools["ns-name"].tool(...); each is authorized once at creation to run unattended. Runs once at creation with state = null (if baselines state without waking; until matches immediately if true), with globals state, now (epoch ms) and runs. Return a boolean or { wake, state?, message? } (message is appended to prompt on wake), e.g.: const t = await tools.slack.read_thread({ id }); return { wake: state !== null && t.count > state.count, state: { count: t.count }, message: "New reply" } */
-  code: string;
-  run?: unknown | undefined;
-  is?: unknown | undefined;
-  matches?: unknown | undefined;
-  changes?: unknown | undefined;
-}
-export type ScheduleConditionInput = ScheduleConditionInputCase0 | ScheduleConditionInputCase1;
-export interface ScheduleEnds {
-  after?: string | undefined;
-  at?: string | undefined;
-  times?: number | undefined;
-}
-export interface CreateExperimentalScheduleRequest {
-  sessionID: string;
-  name?: string | undefined;
-  when?: ScheduleWhenInput | undefined;
-  if?: ScheduleConditionInput | undefined;
-  until?: ScheduleConditionInput | undefined;
-  ends?: ScheduleEnds | undefined;
-  /** The message the Session receives when the schedule wakes. */
-  prompt: string;
-}
-export type ScheduleWhenInType = "in";
-export interface ScheduleWhenIn {
-  type: ScheduleWhenInType;
-  in: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenAtType = "at";
-export interface ScheduleWhenAt {
-  type: ScheduleWhenAtType;
-  at: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenEveryType = "every";
-export interface ScheduleWhenEvery {
-  type: ScheduleWhenEveryType;
-  every: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenCronType = "cron";
-export interface ScheduleWhenCron {
-  type: ScheduleWhenCronType;
-  cron: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhen = ScheduleWhenIn | ScheduleWhenAt | ScheduleWhenEvery | ScheduleWhenCron;
-export type ScheduleConditionShellType = "shell";
-export interface ScheduleConditionShell {
-  type: ScheduleConditionShellType;
-  run: string;
-  is?: string | undefined;
-  matches?: string | undefined;
-  changes?: boolean | undefined;
-}
-export type ScheduleConditionCodeType = "code";
-export interface ScheduleConditionCode {
-  type: ScheduleConditionCodeType;
-  code: string;
-}
-export type ScheduleCondition = ScheduleConditionShell | ScheduleConditionCode;
-export type ScheduleActionPromptType = "prompt";
-export interface ScheduleActionPrompt {
-  type: ScheduleActionPromptType;
-  prompt: string;
-}
-export type ScheduleStatus = "active" | "paused" | "done";
-export type ScheduleOutcome =
-  | "fired"
-  | "late"
-  | "checked"
-  | "expired"
-  | "skipped"
-  | "disabled"
-  | "failed";
-export type ScheduleInfoTime = ArtifactTime;
-export interface ScheduleInfo {
-  id: string;
-  sessionID?: string | undefined;
-  name?: string | undefined;
-  when: ScheduleWhen;
-  tz: string;
-  if?: ScheduleCondition | undefined;
-  until?: ScheduleCondition | undefined;
-  action: ScheduleActionPrompt;
-  status: ScheduleStatus;
-  nextDueAt?: number | undefined;
-  endsAt?: number | undefined;
-  remainingRuns?: number | undefined;
-  runCount: number;
-  lastFiredAt?: number | undefined;
-  lastOutcome?: ScheduleOutcome | undefined;
-  lastOutput?: string | undefined;
-  time: ArtifactTime;
-}
-export interface CreateExperimentalScheduleResponse {
-  data: ScheduleInfo;
-}
 export type DeleteExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface DeleteExperimentalArtifactRequest {
   artifactID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface DeleteExperimentalArtifactResponse {}
-export interface DeleteExperimentalScheduleRequest {
-  scheduleID: string;
+export interface DeleteExperimentalAutomationRequest {
+  automationID: string;
 }
-export interface DeleteExperimentalScheduleResponse {}
+export interface DeleteExperimentalAutomationResponse {}
 export type DisconnectExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface DisconnectExperimentalMcpRequest {
   server: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface DisconnectExperimentalMcpResponse {}
 export type ExperimentalArtifactsProvidersRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalArtifactsProvidersRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ArtifactCapability = "static" | "server-code" | "sqlite" | "durable-objects";
@@ -466,12 +505,16 @@ export type ExperimentalArtifactsViewRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalArtifactsViewRequest {
   artifactID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ExperimentalArtifactsViewResponse {}
+export interface ExperimentalBrowserTunnelRequest {}
+export type ExperimentalBrowserTunnelResponse = boolean;
 export type ExperimentalFsUnwatchRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalFsUnwatchRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   /** A file path relative to the requested location. */
   path: string;
@@ -479,7 +522,9 @@ export interface ExperimentalFsUnwatchRequest {
 export interface ExperimentalFsUnwatchResponse {}
 export type ExperimentalFsWriteRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalFsWriteRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** An absolute path or a path relative to the requested location. Missing parent directories are created. */
   path: string;
 }
 export interface FileSystemWrite {
@@ -518,12 +563,17 @@ export type GenerateDecisionPart =
 /** The evidence every question is asked about, in order */
 export type ExperimentalGenerateDecisionsRequestInputList = Array<GenerateDecisionPart>;
 export type GeneratePredicateQuestionType = "predicate";
+export interface GeneratePredicateQuestionCriteria {
+  true?: string | undefined;
+  false?: string | undefined;
+}
 /** The probability that a statement is true */
 export interface GeneratePredicateQuestion {
   type: GeneratePredicateQuestionType;
   /** Unique within the request; echoed on the matching answer */
   name: string;
   instructions: string;
+  criteria?: GeneratePredicateQuestionCriteria | undefined;
 }
 export type GenerateChoiceQuestionType = "choice";
 /** Choice values are typed: true and "true" are different values */
@@ -677,18 +727,81 @@ export interface GenerateTextResponseData {
 export interface GenerateTextResponse {
   data: GenerateTextResponseData;
 }
+export type GenerateImageFile = GenerateFile;
+export type ExperimentalGenerateVideoCreateRequestReferencesList = Array<GenerateFile>;
+export type GenerateVideoAspectCase1 = "auto";
+/** Aspect ratio as width:height, or auto to follow the start image */
+export type GenerateVideoAspect = string | GenerateVideoAspectCase1;
+export type GenerateVideoResolutionCase0 = "480p" | "720p" | "1080p" | "4k";
+export type GenerateVideoResolution = GenerateVideoResolutionCase0 | string;
+export interface ExperimentalGenerateVideoCreateRequest {
+  model: ModelRef;
+  prompt: string;
+  start?: GenerateFile | undefined;
+  end?: GenerateFile | undefined;
+  references?: ExperimentalGenerateVideoCreateRequestReferencesList | undefined;
+  duration?: number | undefined;
+  aspect?: GenerateVideoAspect | undefined;
+  resolution?: GenerateVideoResolution | undefined;
+  sound?: boolean | undefined;
+}
+export type GenerateVideoRunningStatus = "running";
+export interface GenerateVideoRunning {
+  id: string;
+  status: GenerateVideoRunningStatus;
+}
+export interface GenerateVideoCreateResponse {
+  data: GenerateVideoRunning;
+}
+export interface ExperimentalGenerateVideoGetRequest {
+  id: string;
+}
+export type GenerateVideoCompletedStatus = "completed";
+export interface BlobInfo {
+  id: string;
+  mime: string;
+  bytes: number;
+}
+/** The finished videos, usually one. Read each with GET /api/experimental/blob/:id */
+export type GenerateVideoCompletedBlobsList = Array<BlobInfo>;
+export interface GenerateVideoCompleted {
+  id: string;
+  status: GenerateVideoCompletedStatus;
+  /** The finished videos, usually one. Read each with GET /api/experimental/blob/:id */
+  blobs: GenerateVideoCompletedBlobsList;
+}
+export type GenerateVideoErrorStatus = "error";
+/** failed: the provider failed the job. cancelled: the provider cancelled it. expired: the provider expired it. unknown: the provider gave no result in time */
+export type GenerateVideoErrorReason = "failed" | "cancelled" | "expired" | "unknown";
+export interface GenerateVideoError {
+  id: string;
+  status: GenerateVideoErrorStatus;
+  error: string;
+  reason: GenerateVideoErrorReason;
+}
+export type GenerateVideoJob = GenerateVideoRunning | GenerateVideoCompleted | GenerateVideoError;
+export interface GenerateVideoGetResponse {
+  data: GenerateVideoJob;
+}
+export interface ExperimentalMachineLinkRequest {}
+export type ExperimentalMachineLinkResponse = boolean;
 export type ExperimentalMcpClientRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalMcpClientRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Name of the MCP server the client hosts. */
   name: string;
+  /** Single-use ticket from experimental.mcp.client.token, which authorizes the connection without the usual credentials. */
   ticket?: string | undefined;
 }
 export type ExperimentalMcpClientResponse = boolean;
 export type ExperimentalMcpClientTokenRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalMcpClientTokenRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Name of the MCP server the client hosts. */
   name: string;
 }
 export interface PtyTicketConnectToken {
@@ -762,7 +875,9 @@ export interface ExperimentalPersistentPtySnapshotResponse {
 }
 export interface ExperimentalSessionLogRequest {
   sessionID: string;
+  /** Only return events after this sequence number. */
   after?: string | undefined;
+  /** Set to true to keep the stream open and send live events after the stored ones. */
   follow?: boolean | undefined;
 }
 export interface ExperimentalSessionLogResponse {}
@@ -774,10 +889,14 @@ export interface ExperimentalSessionSkillRequest {
 export interface ExperimentalSessionSkillResponse {}
 export type ExperimentalSessionStatsRequestTools = "none" | "summary" | "detail";
 export interface ExperimentalSessionStatsRequest {
+  /** Start of the range in Unix milliseconds, inclusive. Defaults to the earliest recorded message. */
   from?: string | undefined;
+  /** End of the range in Unix milliseconds, exclusive. Defaults to now. */
   to?: string | undefined;
   project?: string | undefined;
+  /** IANA time zone used to group activity by day. Defaults to UTC. */
   timezone?: string | undefined;
+  /** How much tool usage to report: none, summary totals, or per-tool detail. Defaults to summary. */
   tools?: ExperimentalSessionStatsRequestTools | (string & {}) | undefined;
 }
 export interface SessionStatsInfoRange {
@@ -857,9 +976,18 @@ export interface SessionStatsInfo {
 export interface ExperimentalSessionStatsResponse {
   data: SessionStatsInfo;
 }
+export type ExperimentalSkillFileRequestLocation =
+  AddExperimentalIntegrationWellknownRequestLocation;
+export interface ExperimentalSkillFileRequest {
+  skillID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+}
+export interface ExperimentalSkillFileResponse {}
 export type ExperimentalUsageLimitsRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalUsageLimitsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface UsageLimitsInfoWorkspace {
@@ -919,6 +1047,8 @@ export type VoiceTransportType = "webrtc" | "websocket";
 export type VoiceModelTransportsList = Array<VoiceTransportType>;
 export interface VoiceModel {
   model: string;
+  name: string;
+  engine: string;
   provider: string;
   transports: VoiceModelTransportsList;
   available: boolean;
@@ -972,6 +1102,7 @@ export interface VoiceSessionResponse {
 }
 export interface ExportExperimentalSessionRequest {
   sessionID: string;
+  /** Set to true to redact titles, message text, file data, paths and metadata from the export. */
   sanitize?: boolean | undefined;
 }
 export type SessionForkBoundaryCase0Type = "before";
@@ -1103,6 +1234,7 @@ export interface PromptFileAttachment {
   mention?: PromptMention | undefined;
 }
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
+/** An agent @-mentioned in the prompt, such as @explore, to suggest the model use it. Only the @name in text reaches the model; this records which agent it names and doesn't change the session's own agent. */
 export interface PromptAgentAttachment {
   name: string;
   mention?: PromptMention | undefined;
@@ -1184,6 +1316,7 @@ export interface SessionMessageShell {
 }
 export interface SessionMessageAssistantTime {
   created: number;
+  firstToken?: number | undefined;
   streamed?: number | undefined;
   completed?: number | undefined;
 }
@@ -1397,6 +1530,7 @@ export type GetExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetExperimentalArtifactRequest {
   artifactID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ArtifactContentFilesMap = { [key: string]: string | undefined };
@@ -1408,6 +1542,26 @@ export interface GetExperimentalArtifactResponse {
   location: LocationPublicRef;
   data: ArtifactContent;
 }
+export interface GetExperimentalAutomationRequest {
+  automationID: string;
+}
+export interface GetExperimentalAutomationResponse {
+  data: AutomationInfo;
+}
+export interface GetExperimentalBlobRequest {
+  id: string;
+}
+export interface GetExperimentalBlobResponse {}
+export type GetExperimentalFlagRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export interface GetExperimentalFlagRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+}
+export type GetExperimentalFlagResponseDataMap = { [key: string]: boolean | undefined };
+export interface GetExperimentalFlagResponse {
+  location: LocationPublicRef;
+  data: GetExperimentalFlagResponseDataMap;
+}
 export interface GetExperimentalMediaRequest {
   hash: string;
 }
@@ -1418,11 +1572,49 @@ export interface GetExperimentalPersistentPtyRequest {
 export interface GetExperimentalPersistentPtyResponse {
   data: PersistentPtyInfo;
 }
-export interface GetExperimentalScheduleRequest {
-  scheduleID: string;
+export interface GetExperimentalPushRequest {}
+export interface PushSettings {
+  paused: boolean;
+  /** Milliseconds since the Unix epoch */
+  until?: number | undefined;
 }
-export interface GetExperimentalScheduleResponse {
-  data: ScheduleInfo;
+export type PushPlatform = "android" | "ios";
+export type PushLevel = "all" | "attention" | "none";
+export interface PushDeviceSettings {
+  default: PushLevel | (string & {});
+}
+export interface PushBell {
+  level: PushLevel;
+  /** Milliseconds since the Unix epoch */
+  until?: number | undefined;
+}
+export type PushDeviceSessionsMap = { [key: string]: PushBell | undefined };
+export interface PushDeviceTime {
+  /** Milliseconds since the Unix epoch */
+  created: number;
+  /** Milliseconds since the Unix epoch */
+  updated: number;
+}
+export interface PushDevice {
+  id: string;
+  name: string;
+  platform: PushPlatform;
+  /** Milliseconds since the Unix epoch */
+  expiresAt: number;
+  settings: PushDeviceSettings;
+  paused: boolean;
+  sessions: PushDeviceSessionsMap;
+  time: PushDeviceTime;
+}
+export type PushInfoDevicesList = Array<PushDevice>;
+export type PushInfoSessionsMap = { [key: string]: PushBell | undefined };
+export interface PushInfo {
+  settings: PushSettings;
+  devices: PushInfoDevicesList;
+  sessions: PushInfoSessionsMap;
+}
+export interface GetExperimentalPushResponse {
+  data: PushInfo;
 }
 export type ImportExperimentalSessionRequestMessagesList = Array<unknown>;
 export interface ImportExperimentalSessionRequest {
@@ -1436,6 +1628,7 @@ export interface ImportExperimentalSessionResponse {
 export type ListExperimentalArtifactsRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListExperimentalArtifactsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   sessionID?: string | undefined;
   provider?: string | undefined;
@@ -1445,12 +1638,26 @@ export interface ListExperimentalArtifactsResponse {
   location: LocationPublicRef;
   data: ListExperimentalArtifactsResponseDataList;
 }
-export type JobKind = "shell" | "subagent" | "image";
+export interface ListExperimentalAutomationRequest {
+  /** Only automations created by this Session. */
+  sessionID?: string | undefined;
+  /** Only automations in the project that owns this directory. */
+  directory?: string | undefined;
+}
+export type ListExperimentalAutomationResponseDataList = Array<AutomationInfo>;
+export interface ListExperimentalAutomationResponse {
+  data: ListExperimentalAutomationResponseDataList;
+}
+export type JobKind = "shell" | "subagent" | "image" | "video" | "codemode";
 export type JobStatus = "running" | "completed" | "error" | "cancelled";
 export interface ListExperimentalJobRequest {
+  /** Filter to background jobs owned by this session. */
   sessionID?: string | undefined;
+  /** Filter by background job kind. */
   kind?: JobKind | (string & {}) | undefined;
+  /** Filter by job status (running, completed, error, or cancelled). */
   status?: JobStatus | (string & {}) | undefined;
+  /** When sessionID is set, also include background jobs owned by child and nested subagent sessions. */
   descendants?: boolean | undefined;
 }
 export type JobShellKind = "shell";
@@ -1492,10 +1699,51 @@ export interface JobImage {
   path: string;
   model: string;
 }
-export type JobInfo = JobShell | JobSubagent | JobImage;
+export type JobVideoKind = "video";
+export interface JobVideo {
+  kind: JobVideoKind;
+  id: string;
+  sessionID: string;
+  status: JobStatus;
+  title?: string | undefined;
+  time: JobTime;
+  path: string;
+}
+export type JobCodeModeKind = "codemode";
+export interface JobCodeMode {
+  kind: JobCodeModeKind;
+  id: string;
+  sessionID: string;
+  status: JobStatus;
+  title?: string | undefined;
+  time: JobTime;
+}
+export type JobInfo = JobShell | JobSubagent | JobImage | JobVideo | JobCodeMode;
 export type ListExperimentalJobResponseDataList = Array<JobInfo>;
 export interface ListExperimentalJobResponse {
   data: ListExperimentalJobResponseDataList;
+}
+export interface ListExperimentalMachineRequest {}
+export type MachineInfoConnectionKind = "websocket" | "iroh";
+export type MachineInfoConnectionPath = "direct" | "relayed";
+export type MachineInfoConnectionRttCase1 = "Infinity" | "-Infinity" | "NaN";
+export type MachineInfoConnectionRtt = number | MachineInfoConnectionRttCase1;
+export interface MachineInfoConnection {
+  kind: MachineInfoConnectionKind;
+  path?: MachineInfoConnectionPath | undefined;
+  rtt?: MachineInfoConnectionRtt | undefined;
+}
+export interface MachineInfo {
+  id: string;
+  online: boolean;
+  paired: boolean;
+  os?: string | undefined;
+  arch?: string | undefined;
+  connection?: MachineInfoConnection | undefined;
+}
+export type ListExperimentalMachineResponseDataList = Array<MachineInfo>;
+export interface ListExperimentalMachineResponse {
+  data: ListExperimentalMachineResponseDataList;
 }
 export interface ListExperimentalPersistentPtyRequest {
   sessionID: string;
@@ -1503,13 +1751,6 @@ export interface ListExperimentalPersistentPtyRequest {
 export type ListExperimentalPersistentPtyResponseDataList = Array<PersistentPtyInfo>;
 export interface ListExperimentalPersistentPtyResponse {
   data: ListExperimentalPersistentPtyResponseDataList;
-}
-export interface ListExperimentalScheduleRequest {
-  sessionID: string;
-}
-export type ListExperimentalScheduleResponseDataList = Array<ScheduleInfo>;
-export interface ListExperimentalScheduleResponse {
-  data: ListExperimentalScheduleResponseDataList;
 }
 export interface ListExperimentalSessionInstructionsEntryRequest {
   sessionID: string;
@@ -1523,11 +1764,11 @@ export type ListExperimentalSessionInstructionsEntryResponseDataList = Array<Ins
 export interface ListExperimentalSessionInstructionsEntryResponse {
   data: ListExperimentalSessionInstructionsEntryResponseDataList;
 }
-export interface PauseExperimentalScheduleRequest {
-  scheduleID: string;
+export interface PauseExperimentalAutomationRequest {
+  automationID: string;
 }
-export interface PauseExperimentalScheduleResponse {
-  data: ScheduleInfo;
+export interface PauseExperimentalAutomationResponse {
+  data: AutomationInfo;
 }
 export interface PutExperimentalSessionInstructionsEntryRequest {
   sessionID: string;
@@ -1537,6 +1778,7 @@ export interface PutExperimentalSessionInstructionsEntryRequest {
 export interface PutExperimentalSessionInstructionsEntryResponse {}
 export interface ReadExperimentalPersistentPtyRequest {
   sessionID: string;
+  /** Number of trailing rows to read, up to 65535. Defaults to the live terminal height; larger counts include retained history. */
   lines?: string | undefined;
 }
 export type PersistentPtyReadResultScreenCursor = PersistentPtySnapshotCursor;
@@ -1556,10 +1798,31 @@ export interface PersistentPtyReadResult {
 export interface ReadExperimentalPersistentPtyResponse {
   data: PersistentPtyReadResult | null;
 }
+export interface RegisterExperimentalPushDeviceRequest {
+  deviceID: string;
+  callbackURL: string;
+  /** Milliseconds since the Unix epoch */
+  expiresAt: number;
+  publicKey: string;
+  platform: PushPlatform | (string & {});
+  name: string;
+  settings?: PushDeviceSettings | undefined;
+}
+export interface PushRegistered {
+  publicKey: string;
+}
+export interface RegisterExperimentalPushDeviceResponse {
+  data: PushRegistered;
+}
+export interface RemoveExperimentalMachineRequest {
+  name: string;
+}
+export interface RemoveExperimentalMachineResponse {}
 export type RemoveExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface RemoveExperimentalMcpRequest {
   server: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface RemoveExperimentalMcpResponse {}
@@ -1567,22 +1830,63 @@ export interface RemoveExperimentalPersistentPtyRequest {
   ptyID: string;
 }
 export interface RemoveExperimentalPersistentPtyResponse {}
+export interface RemoveExperimentalPushDeviceRequest {
+  deviceID: string;
+}
+export interface RemoveExperimentalPushDeviceResponse {}
+export interface RemoveExperimentalPushDeviceSessionRequest {
+  deviceID: string;
+  sessionID: string;
+}
+export interface RemoveExperimentalPushDeviceSessionResponse {}
+export interface RemoveExperimentalPushSessionRequest {
+  sessionID: string;
+}
+export interface RemoveExperimentalPushSessionResponse {}
 export interface RemoveExperimentalSessionInstructionsEntryRequest {
   sessionID: string;
   key: string;
 }
 export interface RemoveExperimentalSessionInstructionsEntryResponse {}
-export interface ResumeExperimentalScheduleRequest {
-  scheduleID: string;
+export interface ResumeExperimentalAutomationRequest {
+  automationID: string;
 }
-export interface ResumeExperimentalScheduleResponse {
-  data: ScheduleInfo;
+export interface ResumeExperimentalAutomationResponse {
+  data: AutomationInfo;
+}
+export interface SetExperimentalPushDeviceSessionRequest {
+  deviceID: string;
+  sessionID: string;
+  level: PushLevel | (string & {});
+  /** Milliseconds since the Unix epoch */
+  until?: number | undefined;
+}
+export interface SetExperimentalPushDeviceSessionResponse {
+  data: PushBell;
+}
+export interface SetExperimentalPushSessionRequest {
+  sessionID: string;
+  level: PushLevel | (string & {});
+  /** Milliseconds since the Unix epoch */
+  until?: number | undefined;
+}
+export interface SetExperimentalPushSessionResponse {
+  data: PushBell;
+}
+export interface SetExperimentalPushSettingsRequest {
+  paused: boolean;
+  /** Milliseconds since the Unix epoch */
+  until?: number | undefined;
+}
+export interface SetExperimentalPushSettingsResponse {
+  data: PushSettings;
 }
 export type UpdateExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export type UpdateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
 export interface UpdateExperimentalArtifactRequest {
   artifactID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   title?: string | undefined;
   files: UpdateExperimentalArtifactRequestFilesMap;
@@ -1607,12 +1911,21 @@ export interface UpdateExperimentalPersistentPtyRequest {
 export interface UpdateExperimentalPersistentPtyResponse {
   data: PersistentPtyInfo;
 }
+export interface UpdateExperimentalPushDeviceRequest {
+  deviceID: string;
+  paused?: boolean | undefined;
+  settings?: PushDeviceSettings | undefined;
+}
+export interface UpdateExperimentalPushDeviceResponse {
+  data: PushDevice;
+}
 export interface WaitExperimentalSessionRequest {
   sessionID: string;
 }
 export interface WaitExperimentalSessionResponse {}
 export type WatchExperimentalFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface WatchExperimentalFsRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
   location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   /** A file path relative to the requested location. */
   path: string;
@@ -1642,13 +1955,19 @@ export interface LocationNotFoundErrorEncoded {
   location: LocationPublicRef;
   message: string;
 }
+export type MachineNotFoundErrorEncodedTag = "MachineNotFoundError";
+export interface MachineNotFoundErrorEncoded {
+  _tag: MachineNotFoundErrorEncodedTag;
+  machine: string;
+  message: string;
+}
 export type McpServerNotFoundErrorEncodedTag = "McpServerNotFoundError";
 export interface McpServerNotFoundErrorEncoded {
   _tag: McpServerNotFoundErrorEncodedTag;
   server: string;
   message: string;
 }
-export type Error404Body14 = McpServerNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body15 = McpServerNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type PtyNotFoundErrorEncodedTag = "PtyNotFoundError";
 export interface PtyNotFoundErrorEncoded {
   _tag: PtyNotFoundErrorEncodedTag;
@@ -1667,7 +1986,7 @@ export interface SessionNotFoundErrorEncoded {
   sessionID: string;
   message: string;
 }
-export type Error404Body18 =
+export type Error404Body20 =
   | ProviderNotFoundErrorEncoded
   | SessionNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -1677,11 +1996,11 @@ export interface ArtifactNotFoundErrorEncoded {
   artifactID: string;
   message: string;
 }
-export type Error404Body19 = ArtifactNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type ScheduleNotFoundErrorEncodedTag = "ScheduleNotFoundError";
-export interface ScheduleNotFoundErrorEncoded {
-  _tag: ScheduleNotFoundErrorEncodedTag;
-  scheduleID: string;
+export type Error404Body21 = ArtifactNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type AutomationNotFoundErrorEncodedTag = "AutomationNotFoundError";
+export interface AutomationNotFoundErrorEncoded {
+  _tag: AutomationNotFoundErrorEncodedTag;
+  automationID: string;
   message: string;
 }
 export type FileNotFoundErrorEncodedTag = "FileNotFoundError";
@@ -1690,7 +2009,7 @@ export interface FileNotFoundErrorEncoded {
   path: string;
   message: string;
 }
-export type Error404Body21 =
+export type Error404Body23 =
   | FileNotFoundErrorEncoded
   | ArtifactNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -1705,6 +2024,13 @@ export type Error404Body9 =
   | ProviderNotFoundErrorEncoded
   | ModelNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
+export type VideoNotFoundErrorEncodedTag = "VideoNotFoundError";
+export interface VideoNotFoundErrorEncoded {
+  _tag: VideoNotFoundErrorEncodedTag;
+  videoID: string;
+  message: string;
+}
+export type Error404Body10 = VideoNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type SkillNotFoundErrorEncodedTag = "SkillNotFoundError";
 export interface SkillNotFoundErrorEncoded {
   _tag: SkillNotFoundErrorEncodedTag;
@@ -1715,12 +2041,28 @@ export type Error404Body6 =
   | SessionNotFoundErrorEncoded
   | SkillNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
+export type Error404Body18 =
+  | SkillNotFoundErrorEncoded
+  | FileNotFoundErrorEncoded
+  | LocationNotFoundErrorEncoded;
+export type BlobNotFoundErrorEncodedTag = "BlobNotFoundError";
+export interface BlobNotFoundErrorEncoded {
+  _tag: BlobNotFoundErrorEncodedTag;
+  blobID: string;
+  message: string;
+}
 export type Error404Body3 = SessionNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type Error404Body20 =
+export type PushDeviceNotFoundErrorEncodedTag = "PushDeviceNotFoundError";
+export interface PushDeviceNotFoundErrorEncoded {
+  _tag: PushDeviceNotFoundErrorEncodedTag;
+  deviceID: string;
+  message: string;
+}
+export type Error404Body22 =
   | SessionNotFoundErrorEncoded
   | ArtifactNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
-export type Error404Body16 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body17 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type UnsupportedModelErrorEncodedTag = "UnsupportedModelError";
 export interface UnsupportedModelErrorEncoded {
   _tag: UnsupportedModelErrorEncodedTag;
@@ -1737,14 +2079,37 @@ export const addExperimentalIntegrationWellknown: API.OperationMethod<
   AddExperimentalIntegrationWellknownError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<AddExperimentalIntegrationWellknownRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<AddExperimentalIntegrationWellknownResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<AddExperimentalIntegrationWellknownRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<AddExperimentalIntegrationWellknownResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddExperimentalIntegrationWellknown",
+}));
+
+export type AddExperimentalMachineError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | OpencodeOpError;
+/** Add or invite a machine Add a machine by name if it does not exist, then create a single-use join string carrying the given reach addresses. Behind the machines flag. Experimental: may change without compatibility guarantees. */
+export const addExperimentalMachine: API.OperationMethod<
+  AddExperimentalMachineRequest,
+  AddExperimentalMachineResponse,
+  AddExperimentalMachineError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1282, __c80, 2) as any as S.Schema<AddExperimentalMachineRequest>,
+  output: __S(1285, __c80, 5) as any as S.Schema<AddExperimentalMachineResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddExperimentalMachine",
 }));
 
 export type AddExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -1755,14 +2120,32 @@ export const addExperimentalMcp: API.OperationMethod<
   AddExperimentalMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<AddExperimentalMcpRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<AddExperimentalMcpResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<AddExperimentalMcpRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<AddExperimentalMcpResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddExperimentalMcp",
+}));
+
+export type CancelExperimentalJobError = BadRequest | OpencodeOpError;
+/** Cancel background job Cancel a running background job, interrupting the work it started. Cancelling a job that already finished does nothing. Experimental: may change without compatibility guarantees. */
+export const cancelExperimentalJob: API.OperationMethod<
+  CancelExperimentalJobRequest,
+  CancelExperimentalJobResponse,
+  CancelExperimentalJobError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1616, __c101, 0) as any as S.Schema<CancelExperimentalJobRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<CancelExperimentalJobResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelExperimentalJob",
 }));
 
 export type ConnectExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -1773,8 +2156,8 @@ export const connectExperimentalMcp: API.OperationMethod<
   ConnectExperimentalMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ConnectExperimentalMcpRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ConnectExperimentalMcpResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ConnectExperimentalMcpRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ConnectExperimentalMcpResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1795,8 +2178,8 @@ export const connectExperimentalPersistentPty: API.OperationMethod<
   ConnectExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ConnectExperimentalPersistentPtyRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<ConnectExperimentalPersistentPtyResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ConnectExperimentalPersistentPtyRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ConnectExperimentalPersistentPtyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1813,14 +2196,32 @@ export const createExperimentalArtifact: API.OperationMethod<
   CreateExperimentalArtifactError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateExperimentalArtifactRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<CreateExperimentalArtifactResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateExperimentalArtifactRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<CreateExperimentalArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExperimentalArtifact",
+}));
+
+export type CreateExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Create automation Create an automation that sends a prompt, runs a Code Mode program, or runs a shell command at a time, every interval, or on a cron. Creating an MCP event watch requires the automation_create tool in a local session; a session ID over HTTP is not a watch authorization. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const createExperimentalAutomation: API.OperationMethod<
+  CreateExperimentalAutomationRequest,
+  CreateExperimentalAutomationResponse,
+  CreateExperimentalAutomationError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<CreateExperimentalAutomationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<CreateExperimentalAutomationResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentalAutomation",
 }));
 
 export type CreateExperimentalPersistentPtyError = BadRequest | OpencodeOpError;
@@ -1830,32 +2231,14 @@ export const createExperimentalPersistentPty: API.OperationMethod<
   CreateExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateExperimentalPersistentPtyRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateExperimentalPersistentPtyResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateExperimentalPersistentPtyRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<CreateExperimentalPersistentPtyResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExperimentalPersistentPty",
-}));
-
-export type CreateExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Create schedule Schedule a prompt that wakes the Session once after a delay, at a time, every interval, or on a cron. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const createExperimentalSchedule: API.OperationMethod<
-  CreateExperimentalScheduleRequest,
-  CreateExperimentalScheduleResponse,
-  CreateExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<CreateExperimentalScheduleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<CreateExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: OpencodeServiceErrors,
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateExperimentalSchedule",
 }));
 
 export type DeleteExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -1866,8 +2249,8 @@ export const deleteExperimentalArtifact: API.OperationMethod<
   DeleteExperimentalArtifactError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteExperimentalArtifactRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<DeleteExperimentalArtifactResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DeleteExperimentalArtifactRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<DeleteExperimentalArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1876,22 +2259,22 @@ export const deleteExperimentalArtifact: API.OperationMethod<
   span: "DeleteExperimentalArtifact",
 }));
 
-export type DeleteExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Delete schedule Delete a schedule. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const deleteExperimentalSchedule: API.OperationMethod<
-  DeleteExperimentalScheduleRequest,
-  DeleteExperimentalScheduleResponse,
-  DeleteExperimentalScheduleError,
+export type DeleteExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Delete automation Delete an automation. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const deleteExperimentalAutomation: API.OperationMethod<
+  DeleteExperimentalAutomationRequest,
+  DeleteExperimentalAutomationResponse,
+  DeleteExperimentalAutomationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteExperimentalScheduleRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<DeleteExperimentalScheduleResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteExperimentalAutomationRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<DeleteExperimentalAutomationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DeleteExperimentalSchedule",
+  span: "DeleteExperimentalAutomation",
 }));
 
 export type DisconnectExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -1902,8 +2285,8 @@ export const disconnectExperimentalMcp: API.OperationMethod<
   DisconnectExperimentalMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DisconnectExperimentalMcpRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<DisconnectExperimentalMcpResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DisconnectExperimentalMcpRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<DisconnectExperimentalMcpResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1924,8 +2307,8 @@ export const experimentalArtifactsProviders: API.OperationMethod<
   ExperimentalArtifactsProvidersError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ExperimentalArtifactsProvidersRequest>,
-  output: __S(195, __c12, 3) as any as S.Schema<ExperimentalArtifactsProvidersResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ExperimentalArtifactsProvidersRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<ExperimentalArtifactsProvidersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1942,14 +2325,32 @@ export const experimentalArtifactsView: API.OperationMethod<
   ExperimentalArtifactsViewError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ExperimentalArtifactsViewRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExperimentalArtifactsViewResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ExperimentalArtifactsViewRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalArtifactsViewResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExperimentalArtifactsView",
+}));
+
+export type ExperimentalBrowserTunnelError = BadRequest | Forbidden | OpencodeOpError;
+/** Open a browser attachment binary stream tunnel Upgrade to a binary WebSocket carrying multiplexed TCP streams for one live desktop browser attachment. Requires a short-lived, single-use attachment-bound ticket in the x-opencode-browser-ticket header minted through authenticated browser RPC. Never accepts a session ID or browser cookie alone. Experimental: may change without compatibility guarantees. */
+export const experimentalBrowserTunnel: API.OperationMethod<
+  ExperimentalBrowserTunnelRequest,
+  ExperimentalBrowserTunnelResponse,
+  ExperimentalBrowserTunnelError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<ExperimentalBrowserTunnelRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ExperimentalBrowserTunnelResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalBrowserTunnel",
 }));
 
 export type ExperimentalFsUnwatchError = BadRequest | NotFound | OpencodeOpError;
@@ -1960,8 +2361,8 @@ export const experimentalFsUnwatch: API.OperationMethod<
   ExperimentalFsUnwatchError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ExperimentalFsUnwatchRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExperimentalFsUnwatchResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ExperimentalFsUnwatchRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalFsUnwatchResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -1978,8 +2379,8 @@ export const experimentalFsWrite: API.OperationMethod<
   ExperimentalFsWriteError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ExperimentalFsWriteRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ExperimentalFsWriteResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ExperimentalFsWriteRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<ExperimentalFsWriteResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2000,8 +2401,8 @@ export const experimentalGenerateDecisions: API.OperationMethod<
   ExperimentalGenerateDecisionsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(274, __c17, 2) as any as S.Schema<ExperimentalGenerateDecisionsRequest>,
-  output: __S(277, __c17, 5) as any as S.Schema<GenerateDecisionsResponse>,
+  input: __S(418, __c26, 2) as any as S.Schema<ExperimentalGenerateDecisionsRequest>,
+  output: __S(421, __c26, 5) as any as S.Schema<GenerateDecisionsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2022,8 +2423,8 @@ export const experimentalGenerateImage: API.OperationMethod<
   ExperimentalGenerateImageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(339, __c21, 3) as any as S.Schema<ExperimentalGenerateImageRequest>,
-  output: __S(342, __c21, 6) as any as S.Schema<GenerateImageResponse>,
+  input: __S(465, __c29, 1) as any as S.Schema<ExperimentalGenerateImageRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<GenerateImageResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2044,14 +2445,72 @@ export const experimentalGenerateText: API.OperationMethod<
   ExperimentalGenerateTextError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ExperimentalGenerateTextRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<GenerateTextResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ExperimentalGenerateTextRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<GenerateTextResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExperimentalGenerateText",
+}));
+
+export type ExperimentalGenerateVideoCreateError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | OpencodeOpError;
+/** Create a video generation Submit a video job to a video model using the server's base configuration and return its ID once the provider accepted it. The server polls the job and stores the finished videos as blobs; read the job with GET /api/experimental/generate/video/:id and the video with GET /api/experimental/blob/:id. Experimental: may change without compatibility guarantees. */
+export const experimentalGenerateVideoCreate: API.OperationMethod<
+  ExperimentalGenerateVideoCreateRequest,
+  GenerateVideoCreateResponse,
+  ExperimentalGenerateVideoCreateError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c32, 0) as any as S.Schema<ExperimentalGenerateVideoCreateRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<GenerateVideoCreateResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalGenerateVideoCreate",
+}));
+
+export type ExperimentalGenerateVideoGetError = BadRequest | NotFound | OpencodeOpError;
+/** Read a video generation Read a video job: running, completed with its videos' blobs, or error with a reason. Jobs survive a server restart, which resumes polling running ones. A job is not found 24 hours after it finished, or once none of its blobs remain. Experimental: may change without compatibility guarantees. */
+export const experimentalGenerateVideoGet: API.OperationMethod<
+  ExperimentalGenerateVideoGetRequest,
+  GenerateVideoGetResponse,
+  ExperimentalGenerateVideoGetError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c33, 0) as any as S.Schema<ExperimentalGenerateVideoGetRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GenerateVideoGetResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalGenerateVideoGet",
+}));
+
+export type ExperimentalMachineLinkError = BadRequest | OpencodeOpError;
+/** Connect a machine Upgrade to a WebSocket that carries a machine's link to this server: binary messages only, each at most 65,535 bytes. It takes no server password. The link's own handshake, which starts with the machine's first message, is the only way in: it admits a key this server has paired or a valid join string, and closes the socket on anything else without saying why. Behind the machines flag; without it the route does not exist. Experimental: may change without compatibility guarantees. */
+export const experimentalMachineLink: API.OperationMethod<
+  ExperimentalMachineLinkRequest,
+  ExperimentalMachineLinkResponse,
+  ExperimentalMachineLinkError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<ExperimentalMachineLinkRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ExperimentalMachineLinkResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalMachineLink",
 }));
 
 export type ExperimentalMcpClientError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -2062,8 +2521,8 @@ export const experimentalMcpClient: API.OperationMethod<
   ExperimentalMcpClientError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ExperimentalMcpClientRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<ExperimentalMcpClientResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ExperimentalMcpClientRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<ExperimentalMcpClientResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2080,8 +2539,8 @@ export const experimentalMcpClientToken: API.OperationMethod<
   ExperimentalMcpClientTokenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ExperimentalMcpClientTokenRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ExperimentalMcpClientTokenResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ExperimentalMcpClientTokenRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<ExperimentalMcpClientTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2098,8 +2557,8 @@ export const experimentalMigrationV1Status: API.OperationMethod<
   ExperimentalMigrationV1StatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ExperimentalMigrationV1StatusRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ExperimentalMigrationV1StatusResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ExperimentalMigrationV1StatusRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ExperimentalMigrationV1StatusResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2119,8 +2578,8 @@ export const experimentalPersistentPtyConnectToken: API.OperationMethod<
   ExperimentalPersistentPtyConnectTokenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ExperimentalPersistentPtyConnectTokenRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<ExperimentalPersistentPtyConnectTokenResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ExperimentalPersistentPtyConnectTokenRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<ExperimentalPersistentPtyConnectTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2136,8 +2595,8 @@ export const experimentalPersistentPtyHandoff: API.OperationMethod<
   ExperimentalPersistentPtyHandoffError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ExperimentalPersistentPtyHandoffRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ExperimentalPersistentPtyHandoffResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ExperimentalPersistentPtyHandoffRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ExperimentalPersistentPtyHandoffResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2153,8 +2612,8 @@ export const experimentalPersistentPtyShutdown: API.OperationMethod<
   ExperimentalPersistentPtyShutdownError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2170,8 +2629,8 @@ export const experimentalPersistentPtySnapshot: API.OperationMethod<
   ExperimentalPersistentPtySnapshotError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ExperimentalPersistentPtySnapshotRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<ExperimentalPersistentPtySnapshotResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ExperimentalPersistentPtySnapshotRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ExperimentalPersistentPtySnapshotResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2188,8 +2647,8 @@ export const experimentalSessionLog: API.OperationMethod<
   ExperimentalSessionLogError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ExperimentalSessionLogRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExperimentalSessionLogResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ExperimentalSessionLogRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalSessionLogResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2199,15 +2658,15 @@ export const experimentalSessionLog: API.OperationMethod<
 }));
 
 export type ExperimentalSessionSkillError = BadRequest | NotFound | OpencodeOpError;
-/** Activate skill Activate a skill for a session by appending a skill message and resuming execution. */
+/** Activate skill Activate a skill for a session by appending a skill message and resuming execution. An archived session is unarchived. */
 export const experimentalSessionSkill: API.OperationMethod<
   ExperimentalSessionSkillRequest,
   ExperimentalSessionSkillResponse,
   ExperimentalSessionSkillError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ExperimentalSessionSkillRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ExperimentalSessionSkillResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ExperimentalSessionSkillRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalSessionSkillResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2224,14 +2683,32 @@ export const experimentalSessionStats: API.OperationMethod<
   ExperimentalSessionStatsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ExperimentalSessionStatsRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<ExperimentalSessionStatsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ExperimentalSessionStatsRequest>,
+  output: __S(759, __c47, 7) as any as S.Schema<ExperimentalSessionStatsResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExperimentalSessionStats",
+}));
+
+export type ExperimentalSkillFileError = BadRequest | NotFound | OpencodeOpError;
+/** Read skill file Read one file of a skill, loading it when the skill serves it on demand. SKILL.md returns the body without frontmatter. Experimental: may change without compatibility guarantees. */
+export const experimentalSkillFile: API.OperationMethod<
+  ExperimentalSkillFileRequest,
+  ExperimentalSkillFileResponse,
+  ExperimentalSkillFileError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<ExperimentalSkillFileRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ExperimentalSkillFileResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentalSkillFile",
 }));
 
 export type ExperimentalUsageLimitsError = BadRequest | NotFound | OpencodeOpError;
@@ -2242,8 +2719,8 @@ export const experimentalUsageLimits: API.OperationMethod<
   ExperimentalUsageLimitsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ExperimentalUsageLimitsRequest>,
-  output: __S(601, __c37, 9) as any as S.Schema<ExperimentalUsageLimitsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ExperimentalUsageLimitsRequest>,
+  output: __S(809, __c50, 9) as any as S.Schema<ExperimentalUsageLimitsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2260,8 +2737,8 @@ export const experimentalVoiceModels: API.OperationMethod<
   ExperimentalVoiceModelsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ExperimentalVoiceModelsRequest>,
-  output: __S(612, __c38, 4) as any as S.Schema<VoiceModelsResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<ExperimentalVoiceModelsRequest>,
+  output: __S(836, __c52, 4) as any as S.Schema<VoiceModelsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2278,8 +2755,8 @@ export const experimentalVoiceSession: API.OperationMethod<
   ExperimentalVoiceSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ExperimentalVoiceSessionRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<VoiceSessionResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ExperimentalVoiceSessionRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<VoiceSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2296,8 +2773,8 @@ export const exportExperimentalSession: API.OperationMethod<
   ExportExperimentalSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ExportExperimentalSessionRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<ExportExperimentalSessionResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ExportExperimentalSessionRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<ExportExperimentalSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2314,14 +2791,68 @@ export const getExperimentalArtifact: API.OperationMethod<
   GetExperimentalArtifactError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetExperimentalArtifactRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<GetExperimentalArtifactResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetExperimentalArtifactRequest>,
+  output: __S(898, __c56, 2) as any as S.Schema<GetExperimentalArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExperimentalArtifact",
+}));
+
+export type GetExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Get automation Read one automation. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const getExperimentalAutomation: API.OperationMethod<
+  GetExperimentalAutomationRequest,
+  GetExperimentalAutomationResponse,
+  GetExperimentalAutomationError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(912, __c57, 0) as any as S.Schema<GetExperimentalAutomationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<GetExperimentalAutomationResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentalAutomation",
+}));
+
+export type GetExperimentalBlobError = BadRequest | NotFound | OpencodeOpError;
+/** Read a blob Stream a stored blob's bytes, such as a generated video, with single byte Range, ETag and 304 Not Modified support. A blob is deleted a week after it was stored. Experimental: may change without compatibility guarantees. */
+export const getExperimentalBlob: API.OperationMethod<
+  GetExperimentalBlobRequest,
+  GetExperimentalBlobResponse,
+  GetExperimentalBlobError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(928, __c58, 0) as any as S.Schema<GetExperimentalBlobRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<GetExperimentalBlobResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentalBlob",
+}));
+
+export type GetExperimentalFlagError = BadRequest | NotFound | OpencodeOpError;
+/** Get feature flags Experimental. Return the resolved feature flags the location's clients may act on, keyed by flag name. Flags not listed are off. */
+export const getExperimentalFlag: API.OperationMethod<
+  GetExperimentalFlagRequest,
+  GetExperimentalFlagResponse,
+  GetExperimentalFlagError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(944, __c59, 0) as any as S.Schema<GetExperimentalFlagRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<GetExperimentalFlagResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentalFlag",
 }));
 
 export type GetExperimentalMediaError = BadRequest | NotFound | OpencodeOpError;
@@ -2332,8 +2863,8 @@ export const getExperimentalMedia: API.OperationMethod<
   GetExperimentalMediaError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetExperimentalMediaRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<GetExperimentalMediaResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetExperimentalMediaRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<GetExperimentalMediaResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2349,8 +2880,8 @@ export const getExperimentalPersistentPty: API.OperationMethod<
   GetExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetExperimentalPersistentPtyRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<GetExperimentalPersistentPtyResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetExperimentalPersistentPtyRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<GetExperimentalPersistentPtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2359,22 +2890,22 @@ export const getExperimentalPersistentPty: API.OperationMethod<
   span: "GetExperimentalPersistentPty",
 }));
 
-export type GetExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Get schedule Read one schedule. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const getExperimentalSchedule: API.OperationMethod<
-  GetExperimentalScheduleRequest,
-  GetExperimentalScheduleResponse,
-  GetExperimentalScheduleError,
+export type GetExperimentalPushError = BadRequest | OpencodeOpError;
+/** Get push settings List the registered phones with their choices, bells and pauses, the server-wide pause and the shared session bells. Never returns callback URLs or keys. Experimental: may change without compatibility guarantees. */
+export const getExperimentalPush: API.OperationMethod<
+  GetExperimentalPushRequest,
+  GetExperimentalPushResponse,
+  GetExperimentalPushError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetExperimentalScheduleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<GetExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(992, __c62, 0) as any as S.Schema<GetExperimentalPushRequest>,
+  output: __S(995, __c62, 3) as any as S.Schema<GetExperimentalPushResponse>,
+  errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "GetExperimentalSchedule",
+  span: "GetExperimentalPush",
 }));
 
 export type ImportExperimentalSessionError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -2385,8 +2916,8 @@ export const importExperimentalSession: API.OperationMethod<
   ImportExperimentalSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(753, __c47, 1) as any as S.Schema<ImportExperimentalSessionRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<ImportExperimentalSessionResponse>,
+  input: __S(1121, __c70, 1) as any as S.Schema<ImportExperimentalSessionRequest>,
+  output: __S(1122, __c70, 2) as any as S.Schema<ImportExperimentalSessionResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2403,14 +2934,32 @@ export const listExperimentalArtifacts: API.OperationMethod<
   ListExperimentalArtifactsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListExperimentalArtifactsRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<ListExperimentalArtifactsResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListExperimentalArtifactsRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ListExperimentalArtifactsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentalArtifacts",
+}));
+
+export type ListExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** List automations List automations, oldest first. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const listExperimentalAutomation: API.OperationMethod<
+  ListExperimentalAutomationRequest,
+  ListExperimentalAutomationResponse,
+  ListExperimentalAutomationError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1152, __c72, 0) as any as S.Schema<ListExperimentalAutomationRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<ListExperimentalAutomationResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalAutomation",
 }));
 
 export type ListExperimentalJobError = BadRequest | NotFound | OpencodeOpError;
@@ -2421,14 +2970,32 @@ export const listExperimentalJob: API.OperationMethod<
   ListExperimentalJobError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ListExperimentalJobRequest>,
-  output: __S(786, __c49, 2) as any as S.Schema<ListExperimentalJobResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListExperimentalJobRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<ListExperimentalJobResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentalJob",
+}));
+
+export type ListExperimentalMachineError = BadRequest | Forbidden | OpencodeOpError;
+/** List machines List known machines and whether each is paired and online. Behind the machines flag. Experimental: may change without compatibility guarantees. */
+export const listExperimentalMachine: API.OperationMethod<
+  ListExperimentalMachineRequest,
+  ListExperimentalMachineResponse,
+  ListExperimentalMachineError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1184, __c74, 0) as any as S.Schema<ListExperimentalMachineRequest>,
+  output: __S(1188, __c74, 4) as any as S.Schema<ListExperimentalMachineResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentalMachine",
 }));
 
 export type ListExperimentalPersistentPtyError = BadRequest | OpencodeOpError;
@@ -2438,32 +3005,14 @@ export const listExperimentalPersistentPty: API.OperationMethod<
   ListExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListExperimentalPersistentPtyRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<ListExperimentalPersistentPtyResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<ListExperimentalPersistentPtyRequest>,
+  output: __S(1202, __c75, 2) as any as S.Schema<ListExperimentalPersistentPtyResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExperimentalPersistentPty",
-}));
-
-export type ListExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** List schedules List a Session's schedules, oldest first. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const listExperimentalSchedule: API.OperationMethod<
-  ListExperimentalScheduleRequest,
-  ListExperimentalScheduleResponse,
-  ListExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListExperimentalScheduleRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<ListExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: OpencodeServiceErrors,
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalSchedule",
 }));
 
 export type ListExperimentalSessionInstructionsEntryError = BadRequest | NotFound | OpencodeOpError;
@@ -2474,8 +3023,8 @@ export const listExperimentalSessionInstructionsEntry: API.OperationMethod<
   ListExperimentalSessionInstructionsEntryError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListExperimentalSessionInstructionsEntryRequest>,
-  output: __S(835, __c52, 3) as any as S.Schema<ListExperimentalSessionInstructionsEntryResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ListExperimentalSessionInstructionsEntryRequest>,
+  output: __S(1219, __c76, 3) as any as S.Schema<ListExperimentalSessionInstructionsEntryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2484,22 +3033,22 @@ export const listExperimentalSessionInstructionsEntry: API.OperationMethod<
   span: "ListExperimentalSessionInstructionsEntry",
 }));
 
-export type PauseExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Pause schedule Stop a schedule from firing until it is resumed. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const pauseExperimentalSchedule: API.OperationMethod<
-  PauseExperimentalScheduleRequest,
-  PauseExperimentalScheduleResponse,
-  PauseExperimentalScheduleError,
+export type PauseExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Pause automation Stop an automation from running until it is resumed. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const pauseExperimentalAutomation: API.OperationMethod<
+  PauseExperimentalAutomationRequest,
+  PauseExperimentalAutomationResponse,
+  PauseExperimentalAutomationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<PauseExperimentalScheduleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<PauseExperimentalScheduleResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<PauseExperimentalAutomationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<PauseExperimentalAutomationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "PauseExperimentalSchedule",
+  span: "PauseExperimentalAutomation",
 }));
 
 export type PutExperimentalSessionInstructionsEntryError = BadRequest | NotFound | OpencodeOpError;
@@ -2510,8 +3059,8 @@ export const putExperimentalSessionInstructionsEntry: API.OperationMethod<
   PutExperimentalSessionInstructionsEntryError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2528,14 +3077,50 @@ export const readExperimentalPersistentPty: API.OperationMethod<
   ReadExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ReadExperimentalPersistentPtyRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<ReadExperimentalPersistentPtyResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ReadExperimentalPersistentPtyRequest>,
+  output: __S(1267, __c79, 3) as any as S.Schema<ReadExperimentalPersistentPtyResponse>,
   errors: [BadRequest],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadExperimentalPersistentPty",
+}));
+
+export type RegisterExperimentalPushDeviceError = BadRequest | OpencodeOpError;
+/** Register a phone Register or renew a phone's relay callback URL and public key, and answer with the server's public key for it. Keeps the phone's pause, session bells and, unless given, its level. Experimental: may change without compatibility guarantees. */
+export const registerExperimentalPushDevice: API.OperationMethod<
+  RegisterExperimentalPushDeviceRequest,
+  RegisterExperimentalPushDeviceResponse,
+  RegisterExperimentalPushDeviceError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1296, __c81, 0) as any as S.Schema<RegisterExperimentalPushDeviceRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<RegisterExperimentalPushDeviceResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterExperimentalPushDevice",
+}));
+
+export type RemoveExperimentalMachineError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Remove a machine Forget a machine by name, closing any live link and revoking its key. Behind the machines flag. Experimental: may change without compatibility guarantees. */
+export const removeExperimentalMachine: API.OperationMethod<
+  RemoveExperimentalMachineRequest,
+  RemoveExperimentalMachineResponse,
+  RemoveExperimentalMachineError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1312, __c82, 0) as any as S.Schema<RemoveExperimentalMachineRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalMachineResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExperimentalMachine",
 }));
 
 export type RemoveExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
@@ -2546,8 +3131,8 @@ export const removeExperimentalMcp: API.OperationMethod<
   RemoveExperimentalMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<RemoveExperimentalMcpRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<RemoveExperimentalMcpResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<RemoveExperimentalMcpRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalMcpResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2563,14 +3148,68 @@ export const removeExperimentalPersistentPty: API.OperationMethod<
   RemoveExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<RemoveExperimentalPersistentPtyRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<RemoveExperimentalPersistentPtyResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<RemoveExperimentalPersistentPtyRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalPersistentPtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveExperimentalPersistentPty",
+}));
+
+export type RemoveExperimentalPushDeviceError = BadRequest | OpencodeOpError;
+/** Remove a phone Stop sending notifications to a phone. Experimental: may change without compatibility guarantees. */
+export const removeExperimentalPushDevice: API.OperationMethod<
+  RemoveExperimentalPushDeviceRequest,
+  RemoveExperimentalPushDeviceResponse,
+  RemoveExperimentalPushDeviceError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1360, __c85, 0) as any as S.Schema<RemoveExperimentalPushDeviceRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalPushDeviceResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExperimentalPushDevice",
+}));
+
+export type RemoveExperimentalPushDeviceSessionError = BadRequest | NotFound | OpencodeOpError;
+/** Clear a phone's session bell Let one phone follow the shared bell or its default for one session again. Experimental: may change without compatibility guarantees. */
+export const removeExperimentalPushDeviceSession: API.OperationMethod<
+  RemoveExperimentalPushDeviceSessionRequest,
+  RemoveExperimentalPushDeviceSessionResponse,
+  RemoveExperimentalPushDeviceSessionError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c86, 0) as any as S.Schema<RemoveExperimentalPushDeviceSessionRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalPushDeviceSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExperimentalPushDeviceSession",
+}));
+
+export type RemoveExperimentalPushSessionError = BadRequest | OpencodeOpError;
+/** Clear a session bell Let every phone follow its default for one session again. Experimental: may change without compatibility guarantees. */
+export const removeExperimentalPushSession: API.OperationMethod<
+  RemoveExperimentalPushSessionRequest,
+  RemoveExperimentalPushSessionResponse,
+  RemoveExperimentalPushSessionError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1392, __c87, 0) as any as S.Schema<RemoveExperimentalPushSessionRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<RemoveExperimentalPushSessionResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExperimentalPushSession",
 }));
 
 export type RemoveExperimentalSessionInstructionsEntryError =
@@ -2584,8 +3223,12 @@ export const removeExperimentalSessionInstructionsEntry: API.OperationMethod<
   RemoveExperimentalSessionInstructionsEntryError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryRequest>,
+  output: __S(
+    1088,
+    __c68,
+    0,
+  ) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2594,22 +3237,76 @@ export const removeExperimentalSessionInstructionsEntry: API.OperationMethod<
   span: "RemoveExperimentalSessionInstructionsEntry",
 }));
 
-export type ResumeExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Resume schedule Resume a paused schedule. A one-shot that fell due while paused fires once; a repeating schedule resumes at its next slot. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const resumeExperimentalSchedule: API.OperationMethod<
-  ResumeExperimentalScheduleRequest,
-  ResumeExperimentalScheduleResponse,
-  ResumeExperimentalScheduleError,
+export type ResumeExperimentalAutomationError = BadRequest | Forbidden | NotFound | OpencodeOpError;
+/** Resume automation Resume a paused automation. A missed `at` runs once; repeating timers resume at their next slot. Event watches request replay from their saved cursor. Experimental: may change without compatibility guarantees. Set automations to false in the directory's config to disable access. */
+export const resumeExperimentalAutomation: API.OperationMethod<
+  ResumeExperimentalAutomationRequest,
+  ResumeExperimentalAutomationResponse,
+  ResumeExperimentalAutomationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ResumeExperimentalScheduleRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<ResumeExperimentalScheduleResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ResumeExperimentalAutomationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<ResumeExperimentalAutomationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ResumeExperimentalSchedule",
+  span: "ResumeExperimentalAutomation",
+}));
+
+export type SetExperimentalPushDeviceSessionError = BadRequest | NotFound | OpencodeOpError;
+/** Set a phone's session bell Choose what one phone gets for one session. Experimental: may change without compatibility guarantees. */
+export const setExperimentalPushDeviceSession: API.OperationMethod<
+  SetExperimentalPushDeviceSessionRequest,
+  SetExperimentalPushDeviceSessionResponse,
+  SetExperimentalPushDeviceSessionError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c90, 0) as any as S.Schema<SetExperimentalPushDeviceSessionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SetExperimentalPushDeviceSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetExperimentalPushDeviceSession",
+}));
+
+export type SetExperimentalPushSessionError = BadRequest | OpencodeOpError;
+/** Set a session bell Choose what every phone gets for one session. Experimental: may change without compatibility guarantees. */
+export const setExperimentalPushSession: API.OperationMethod<
+  SetExperimentalPushSessionRequest,
+  SetExperimentalPushSessionResponse,
+  SetExperimentalPushSessionError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1488, __c93, 0) as any as S.Schema<SetExperimentalPushSessionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<SetExperimentalPushSessionResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetExperimentalPushSession",
+}));
+
+export type SetExperimentalPushSettingsError = BadRequest | OpencodeOpError;
+/** Pause all notifications Pause or resume notifications to every phone. Experimental: may change without compatibility guarantees. */
+export const setExperimentalPushSettings: API.OperationMethod<
+  SetExperimentalPushSettingsRequest,
+  SetExperimentalPushSettingsResponse,
+  SetExperimentalPushSettingsError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1504, __c94, 0) as any as S.Schema<SetExperimentalPushSettingsRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<SetExperimentalPushSettingsResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetExperimentalPushSettings",
 }));
 
 export type UpdateExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
@@ -2620,8 +3317,8 @@ export const updateExperimentalArtifact: API.OperationMethod<
   UpdateExperimentalArtifactError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UpdateExperimentalArtifactRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<UpdateExperimentalArtifactResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateExperimentalArtifactRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<UpdateExperimentalArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2638,8 +3335,8 @@ export const updateExperimentalConfig: API.OperationMethod<
   UpdateExperimentalConfigError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UpdateExperimentalConfigRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateExperimentalConfigRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2656,8 +3353,8 @@ export const updateExperimentalPersistentPty: API.OperationMethod<
   UpdateExperimentalPersistentPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UpdateExperimentalPersistentPtyRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<UpdateExperimentalPersistentPtyResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<UpdateExperimentalPersistentPtyRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<UpdateExperimentalPersistentPtyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2666,16 +3363,34 @@ export const updateExperimentalPersistentPty: API.OperationMethod<
   span: "UpdateExperimentalPersistentPty",
 }));
 
+export type UpdateExperimentalPushDeviceError = BadRequest | NotFound | OpencodeOpError;
+/** Update a phone Pause or resume notifications to one phone, or change the level it gets by default. Experimental: may change without compatibility guarantees. */
+export const updateExperimentalPushDevice: API.OperationMethod<
+  UpdateExperimentalPushDeviceRequest,
+  UpdateExperimentalPushDeviceResponse,
+  UpdateExperimentalPushDeviceError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c98, 0) as any as S.Schema<UpdateExperimentalPushDeviceRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<UpdateExperimentalPushDeviceResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentalPushDevice",
+}));
+
 export type WaitExperimentalSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Wait for session Wait for a session agent loop to become idle. */
+/** Wait for session Wait until the session's agent stops running in this server process. Returns at once when idle. Experimental: may change without compatibility guarantees. */
 export const waitExperimentalSession: API.OperationMethod<
   WaitExperimentalSessionRequest,
   WaitExperimentalSessionResponse,
   WaitExperimentalSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<WaitExperimentalSessionRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<WaitExperimentalSessionResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<WaitExperimentalSessionRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<WaitExperimentalSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2692,8 +3407,8 @@ export const watchExperimentalFs: API.OperationMethod<
   WatchExperimentalFsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<WatchExperimentalFsRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<WatchExperimentalFsResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<WatchExperimentalFsRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<WatchExperimentalFsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
@@ -2733,13 +3448,153 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ptyID: S.String.pipe(T.Label()),
+          attachment_id: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          role: S.optional(S.String.pipe(T.Query())),
+          takeover: S.optional(S.String.pipe(T.Query())),
+          input_protocol: S.optional(S.String.pipe(T.Query())),
+          ticket: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/experimental/persistent-pty/{ptyID}/connect",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectExperimentalPersistentPtyRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ConnectExperimentalPersistentPtyResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+          title: S.String,
+          files: __S(96, __c6, 0),
+          entry: S.optional(S.String),
+          provider: S.optional(S.String),
+          sessionID: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/artifacts", code: 200 })),
+      ).annotate({ identifier: "CreateExperimentalArtifactRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Number,
+          updated: S.Number,
+        }),
+      ).annotate({ identifier: "ArtifactTime" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          provider: S.String,
+          sessionID: S.optional(S.String),
+          title: S.String,
+          entry: S.String,
+          url: S.String,
+          time: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "ArtifactInfo" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(608, __c38, 0),
+          data: __S(112, __c7, 0),
+        }),
+      ).annotate({ identifier: "CreateExperimentalArtifactResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.optional(S.String),
+          directory: S.optional(S.String),
+          name: S.String,
+          trigger: S.Unknown,
+          action: S.Unknown,
+          expires: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/automation", code: 200 })),
+      ).annotate({ identifier: "CreateExperimentalAutomationRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          projectID: S.String,
+          sessionID: S.optional(S.String),
+          directory: S.String,
+          trigger: S.Unknown,
+          tz: S.String,
+          action: S.Unknown,
+          expires: S.optional(S.Number),
+          status: S.String,
+          nextDueAt: S.optional(S.Number),
+          runCount: S.Number,
+          lastRunAt: S.optional(S.Number),
+          lastOutcome: S.optional(S.String),
+          lastOutput: S.optional(S.String),
+          state: S.optional(S.Unknown),
+          time: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "AutomationInfo" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(160, __c10, 0),
+        }),
+      ).annotate({ identifier: "CreateExperimentalAutomationResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           sessionID: S.String.pipe(T.Label()),
           command: S.optional(S.String),
-          args: __S(48, __c3, 0),
+          args: __S(208, __c13, 0),
           cwd: S.optional(S.String),
           title: S.String,
-          env: __S(1168, __c73, 0),
-          size: S.optional(__S(64, __c4, 0)),
+          env: __S(96, __c6, 0),
+          size: S.optional(__S(224, __c14, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2750,13 +3605,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateExperimentalPersistentPtyRequest" });
   }
 }
-function __c3(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2778,7 +3633,7 @@ function __c4(j: number): any {
           id: S.String,
           title: S.String,
           command: S.String,
-          args: __S(48, __c3, 0),
+          args: __S(208, __c13, 0),
           cwd: S.String,
           status: S.String,
           pid: S.Number,
@@ -2786,133 +3641,70 @@ function __c4(j: number): any {
           sessionID: S.String,
           userTitle: S.NullOr(S.String),
           foregroundProcess: S.NullOr(S.String),
-          size: __S(64, __c4, 0),
-          output: __S(65, __c4, 1),
+          size: __S(224, __c14, 0),
+          output: __S(225, __c14, 1),
         }),
       ).annotate({ identifier: "PersistentPtyInfo" });
   }
 }
-function __c5(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(66, __c4, 2),
+          data: __S(226, __c14, 2),
         }),
       ).annotate({ identifier: "CreateExperimentalPersistentPtyResponse" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.String),
-          at: S.optional(S.String),
-          times: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ScheduleEnds" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String,
-          name: S.optional(S.String),
-          when: S.optional(S.Unknown),
-          if: S.optional(S.Unknown),
-          until: S.optional(S.Unknown),
-          ends: S.optional(__S(96, __c6, 0)),
-          prompt: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/schedule", code: 200 })),
-      ).annotate({ identifier: "CreateExperimentalScheduleRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          prompt: S.String,
-        }),
-      ).annotate({ identifier: "ScheduleActionPrompt" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.optional(S.String),
-          name: S.optional(S.String),
-          when: S.Unknown,
-          tz: S.String,
-          if: S.optional(S.Unknown),
-          until: S.optional(S.Unknown),
-          action: __S(112, __c7, 0),
-          status: S.String,
-          nextDueAt: S.optional(S.Number),
-          endsAt: S.optional(S.Number),
-          remainingRuns: S.optional(S.Number),
-          runCount: S.Number,
-          lastFiredAt: S.optional(S.Number),
-          lastOutcome: S.optional(S.String),
-          lastOutput: S.optional(S.String),
-          time: __S(1184, __c74, 0),
-        }),
-      ).annotate({ identifier: "ScheduleInfo" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(113, __c7, 1),
-        }),
-      ).annotate({ identifier: "CreateExperimentalScheduleResponse" });
-  }
-}
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/experimental/artifacts/{artifactID}", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteExperimentalArtifactRequest" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
+          automationID: S.String.pipe(T.Label()),
         }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/experimental/schedule/{scheduleID}", code: 200 }),
+          T.Http({
+            method: "DELETE",
+            uri: "/api/experimental/automation/{automationID}",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "DeleteExperimentalScheduleRequest" });
+      ).annotate({ identifier: "DeleteExperimentalAutomationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/experimental/mcp/{server}/disconnect", code: 200 }),
         ),
       ).annotate({ identifier: "DisconnectExperimentalMcpRequest" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/experimental/artifacts/providers", code: 200 })),
       ).annotate({ identifier: "ExperimentalArtifactsProvidersRequest" });
     case 1:
@@ -2920,34 +3712,34 @@ function __c12(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          capabilities: __S(208, __c13, 0),
+          capabilities: __S(320, __c20, 0),
           default: S.Boolean,
         }),
       ).annotate({ identifier: "ArtifactProvider" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(194, __c12, 2),
+          location: __S(608, __c38, 0),
+          data: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "ExperimentalArtifactsProvidersResponse" });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2958,23 +3750,44 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ExperimentalArtifactsViewRequest" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/experimental/browser/tunnel", code: 200 }),
+        ),
+      ).annotate({ identifier: "ExperimentalBrowserTunnelRequest" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          _tag: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ForbiddenErrorEncoded" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           path: S.String,
         }).pipe(T.Http({ method: "DELETE", uri: "/api/experimental/fs/watch", code: 200 })),
       ).annotate({ identifier: "ExperimentalFsUnwatchRequest" });
   }
 }
-function __c16(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           path: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/fs/write", code: 200 })),
       ).annotate({ identifier: "ExperimentalFsWriteRequest" });
@@ -2987,13 +3800,13 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(257, __c16, 1),
+          location: __S(608, __c38, 0),
+          data: __S(401, __c25, 1),
         }),
       ).annotate({ identifier: "ExperimentalFsWriteResponse" });
   }
 }
-function __c17(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -3002,9 +3815,9 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          model: __S(304, __c19, 0),
-          input: __S(272, __c17, 0),
-          questions: __S(273, __c17, 1),
+          model: __S(448, __c28, 0),
+          input: __S(416, __c26, 0),
+          questions: __S(417, __c26, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/decisions", code: 200 })),
       ).annotate({ identifier: "ExperimentalGenerateDecisionsRequest" });
     case 3:
@@ -3012,21 +3825,21 @@ function __c17(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          answers: __S(275, __c17, 3),
+          answers: __S(419, __c26, 3),
           cost: S.optional(S.Number),
-          tokens: S.optional(__S(288, __c18, 0)),
+          tokens: S.optional(__S(432, __c27, 0)),
           native: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GenerateDecisionResult" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(276, __c17, 4),
+          data: __S(420, __c26, 4),
         }),
       ).annotate({ identifier: "GenerateDecisionsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3037,7 +3850,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GenerateUsage" });
   }
 }
-function __c19(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3049,18 +3862,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ModelRef" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ForbiddenErrorEncoded" });
-  }
-}
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3074,50 +3876,54 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.String,
-          mime: S.String,
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenerateFile" });
-    case 2:
-      return S.Array(__S(337, __c21, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          model: __S(304, __c19, 0),
+          model: __S(448, __c28, 0),
           prompt: S.String,
-          images: S.optional(__S(338, __c21, 2)),
+          images: S.optional(__S(481, __c30, 1)),
           n: S.optional(S.Number),
           aspect: S.optional(S.String),
           resolution: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/image", code: 200 })),
       ).annotate({ identifier: "ExperimentalGenerateImageRequest" });
-    case 4:
-      return S.Array(__S(336, __c21, 0));
-    case 5:
+    case 2:
+      return S.Array(__S(464, __c29, 0));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          images: __S(340, __c21, 4),
+          images: __S(466, __c29, 2),
           cost: S.optional(S.Number),
-          tokens: S.optional(__S(288, __c18, 0)),
+          tokens: S.optional(__S(432, __c27, 0)),
           native: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "GenerateImageResult" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(341, __c21, 5),
+          data: __S(467, __c29, 3),
         }),
       ).annotate({ identifier: "GenerateImageResponse" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.String,
+          mime: S.String,
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenerateFile" });
+    case 1:
+      return S.Array(__S(480, __c30, 0));
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prompt: S.String,
-          model: S.optional(S.NullOr(__S(304, __c19, 0))),
+          model: S.optional(S.NullOr(__S(448, __c28, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/text", code: 200 })),
       ).annotate({ identifier: "ExperimentalGenerateTextRequest" });
     case 1:
@@ -3129,42 +3935,99 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(353, __c22, 1),
+          data: __S(497, __c31, 1),
         }),
       ).annotate({ identifier: "GenerateTextResponse" });
   }
 }
-function __c23(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          model: __S(448, __c28, 0),
+          prompt: S.String,
+          start: S.optional(__S(480, __c30, 0)),
+          end: S.optional(__S(480, __c30, 0)),
+          references: S.optional(__S(481, __c30, 1)),
+          duration: S.optional(S.Number),
+          aspect: S.optional(S.Unknown),
+          resolution: S.optional(S.Unknown),
+          sound: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/video", code: 200 })),
+      ).annotate({ identifier: "ExperimentalGenerateVideoCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "GenerateVideoRunning" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(513, __c32, 1),
+        }),
+      ).annotate({ identifier: "GenerateVideoCreateResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/generate/video/{id}", code: 200 })),
+      ).annotate({ identifier: "ExperimentalGenerateVideoGetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "GenerateVideoGetResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/experimental/machine/link", code: 200 }),
+        ),
+      ).annotate({ identifier: "ExperimentalMachineLinkRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           name: S.String.pipe(T.Query()),
           ticket: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/experimental/client-mcp", code: 200 })),
       ).annotate({ identifier: "ExperimentalMcpClientRequest" });
   }
 }
-function __c24(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           name: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/client-mcp/token", code: 200 })),
       ).annotate({ identifier: "ExperimentalMcpClientTokenRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(400, __c25, 0),
+          location: __S(608, __c38, 0),
+          data: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "ExperimentalMcpClientTokenResponse" });
   }
 }
-function __c25(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3175,7 +4038,81 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PtyTicketConnectToken" });
   }
 }
-function __c26(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.String,
+        }),
+      ).annotate({ identifier: "LocationPublicRef" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          location: __S(608, __c38, 0),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "LocationNotFoundErrorEncoded" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          machine: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "MachineNotFoundErrorEncoded" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          ptyID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "PtyNotFoundErrorEncoded" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          sessionID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "SessionNotFoundErrorEncoded" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          automationID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "AutomationNotFoundErrorEncoded" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          path: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "FileNotFoundErrorEncoded" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          blobID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "BlobNotFoundErrorEncoded" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          deviceID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "PushDeviceNotFoundErrorEncoded" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3189,7 +4126,7 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3206,12 +4143,12 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(400, __c25, 0),
+          data: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "ExperimentalPersistentPtyConnectTokenResponse" });
   }
 }
-function __c28(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3231,12 +4168,12 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          handoff: S.NullOr(__S(449, __c28, 1)),
+          handoff: S.NullOr(__S(657, __c41, 1)),
         }),
       ).annotate({ identifier: "ExperimentalPersistentPtyHandoffResponse" });
   }
 }
-function __c29(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3246,7 +4183,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ExperimentalPersistentPtyShutdownRequest" });
   }
 }
-function __c30(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3263,21 +4200,21 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: __S(66, __c4, 2),
+          info: __S(226, __c14, 2),
           text: S.String,
           checkpoint: S.String,
-          cursor: __S(496, __c31, 0),
+          cursor: __S(704, __c44, 0),
         }),
       ).annotate({ identifier: "PersistentPtySnapshot" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(481, __c30, 1),
+          data: __S(689, __c43, 1),
         }),
       ).annotate({ identifier: "ExperimentalPersistentPtySnapshotResponse" });
   }
 }
-function __c31(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +4225,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PersistentPtySnapshotCursor" });
   }
 }
-function __c32(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3302,57 +4239,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ExperimentalSessionLogRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.String,
-        }),
-      ).annotate({ identifier: "LocationPublicRef" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          location: __S(528, __c33, 0),
-          message: S.String,
-        }),
-      ).annotate({ identifier: "LocationNotFoundErrorEncoded" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          ptyID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "PtyNotFoundErrorEncoded" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          sessionID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "SessionNotFoundErrorEncoded" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          scheduleID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ScheduleNotFoundErrorEncoded" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          path: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "FileNotFoundErrorEncoded" });
-  }
-}
-function __c34(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3366,7 +4253,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ExperimentalSessionSkillRequest" });
   }
 }
-function __c35(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3393,44 +4280,44 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SessionStatsActivity" });
     case 3:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(754, __c47, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          model: __S(304, __c19, 0),
+          model: __S(448, __c28, 0),
           steps: S.Number,
-          tokens: __S(577, __c36, 1),
+          tokens: __S(769, __c48, 1),
           cost: S.Number,
         }),
       ).annotate({ identifier: "SessionStatsModelUsage" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(756, __c47, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          range: __S(561, __c35, 1),
+          range: __S(753, __c47, 1),
           sessions: S.Number,
           subagents: S.Number,
           prompts: S.Number,
           steps: S.Number,
-          tokens: __S(577, __c36, 1),
+          tokens: __S(769, __c48, 1),
           cost: S.Number,
           tools: S.Unknown,
           activeDays: S.Number,
           streak: S.Number,
-          activity: __S(563, __c35, 3),
-          models: __S(565, __c35, 5),
+          activity: __S(755, __c47, 3),
+          models: __S(757, __c47, 5),
         }),
       ).annotate({ identifier: "SessionStatsInfo" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(566, __c35, 6),
+          data: __S(758, __c47, 6),
         }),
       ).annotate({ identifier: "ExperimentalSessionStatsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3445,17 +4332,30 @@ function __c36(j: number): any {
           input: S.Number,
           output: S.Number,
           reasoning: S.Number,
-          cache: __S(576, __c36, 0),
+          cache: __S(768, __c48, 0),
         }),
       ).annotate({ identifier: "TokenUsageInfo" });
   }
 }
-function __c37(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          skillID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/experimental/skill/{skillID}/file/*", code: 200 }),
+        ),
+      ).annotate({ identifier: "ExperimentalSkillFileRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/experimental/usage/limits", code: 200 })),
       ).annotate({ identifier: "ExperimentalUsageLimitsRequest" });
     case 1:
@@ -3477,9 +4377,9 @@ function __c37(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rolling: __S(594, __c37, 2),
-          weekly: __S(594, __c37, 2),
-          monthly: __S(594, __c37, 2),
+          rolling: __S(802, __c50, 2),
+          weekly: __S(802, __c50, 2),
+          monthly: __S(802, __c50, 2),
         }),
       ).annotate({ identifier: "UsageLimitsGo" });
     case 4:
@@ -3492,7 +4392,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "UsageLimitsBudgetModel" });
     case 5:
-      return S.Array(__S(596, __c37, 4));
+      return S.Array(__S(804, __c50, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3502,8 +4402,8 @@ function __c37(j: number): any {
           scope: S.String,
           per: S.String,
           coverage: S.String,
-          models: __S(597, __c37, 5),
-          vendors: __S(48, __c3, 0),
+          models: __S(805, __c50, 5),
+          vendors: __S(208, __c13, 0),
           inputPriceAtLeast: S.optional(S.Number),
           picked: S.Boolean,
           shared: S.Boolean,
@@ -3511,25 +4411,39 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "UsageLimitsBudget" });
     case 7:
-      return S.Array(__S(598, __c37, 6));
+      return S.Array(__S(806, __c50, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          workspace: __S(593, __c37, 1),
-          go: S.optional(__S(595, __c37, 3)),
-          budgets: __S(599, __c37, 7),
+          workspace: __S(801, __c50, 1),
+          go: S.optional(__S(803, __c50, 3)),
+          budgets: __S(807, __c50, 7),
         }),
       ).annotate({ identifier: "UsageLimitsInfo" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: S.NullOr(__S(600, __c37, 8)),
+          location: __S(608, __c38, 0),
+          data: S.NullOr(__S(808, __c50, 8)),
         }),
       ).annotate({ identifier: "ExperimentalUsageLimitsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          providerID: S.String,
+          modelID: S.String,
+          capability: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "UnsupportedModelErrorEncoded" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3541,29 +4455,31 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.String,
+          name: S.String,
+          engine: S.String,
           provider: S.String,
-          transports: __S(208, __c13, 0),
+          transports: __S(320, __c20, 0),
           available: S.Boolean,
         }),
       ).annotate({ identifier: "VoiceModel" });
     case 2:
-      return S.Array(__S(609, __c38, 1));
+      return S.Array(__S(833, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          models: __S(610, __c38, 2),
+          models: __S(834, __c52, 2),
           default: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "VoiceModelsResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(611, __c38, 3),
+          data: __S(835, __c52, 3),
         }),
       ).annotate({ identifier: "VoiceModelsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3582,12 +4498,12 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(625, __c39, 1),
+          data: __S(849, __c53, 1),
         }),
       ).annotate({ identifier: "VoiceSessionResponse" });
   }
 }
-function __c40(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3603,19 +4519,19 @@ function __c40(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          info: __S(663, __c41, 7),
-          messages: __S(641, __c40, 1),
+          info: __S(887, __c55, 7),
+          messages: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "SessionTransferData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(642, __c40, 2),
+          data: __S(866, __c54, 2),
         }),
       ).annotate({ identifier: "ExportExperimentalSessionResponse" });
   }
 }
-function __c41(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3644,7 +4560,7 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "PermissionRule" });
     case 3:
-      return S.Array(__S(658, __c41, 2));
+      return S.Array(__S(882, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3657,14 +4573,14 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "FileDiffInfo" });
     case 5:
-      return S.Array(__S(660, __c41, 4));
+      return S.Array(__S(884, __c55, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           messageID: S.String,
           partID: S.optional(S.String),
           snapshot: S.optional(S.String),
-          files: S.optional(__S(661, __c41, 5)),
+          files: S.optional(__S(885, __c55, 5)),
         }),
       ).annotate({ identifier: "SessionRevert" });
     case 7:
@@ -3672,31 +4588,31 @@ function __c41(j: number): any {
         S.Struct({
           id: S.String,
           parentID: S.optional(S.String),
-          fork: S.optional(__S(656, __c41, 0)),
+          fork: S.optional(__S(880, __c55, 0)),
           projectID: S.String,
           agent: S.optional(S.String),
-          model: S.optional(__S(304, __c19, 0)),
+          model: S.optional(__S(448, __c28, 0)),
           cost: S.Number,
-          tokens: __S(577, __c36, 1),
+          tokens: __S(769, __c48, 1),
           outcome: S.optional(S.String),
-          time: __S(657, __c41, 1),
+          time: __S(881, __c55, 1),
           title: S.optional(S.String),
           subpath: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          permissions: S.optional(__S(659, __c41, 3)),
-          revert: S.optional(__S(662, __c41, 6)),
-          location: __S(528, __c33, 0),
+          permissions: S.optional(__S(883, __c55, 3)),
+          revert: S.optional(__S(886, __c55, 6)),
+          location: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "SessionInfo" });
   }
 }
-function __c42(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/experimental/artifacts/{artifactID}", code: 200 }),
         ),
@@ -3704,20 +4620,61 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: __S(1200, __c75, 0),
-          files: __S(1168, __c73, 0),
+          info: __S(112, __c7, 0),
+          files: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "ArtifactContent" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(673, __c42, 1),
+          location: __S(608, __c38, 0),
+          data: __S(897, __c56, 1),
         }),
       ).annotate({ identifier: "GetExperimentalArtifactResponse" });
   }
 }
-function __c43(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          automationID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/experimental/automation/{automationID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetExperimentalAutomationRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/blob/{id}", code: 200 })),
+      ).annotate({ identifier: "GetExperimentalBlobRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/flag", code: 200 })),
+      ).annotate({ identifier: "GetExperimentalFlagRequest" });
+    case 1:
+      return S.Record(S.String, S.Boolean);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(608, __c38, 0),
+          data: __S(945, __c59, 1),
+        }),
+      ).annotate({ identifier: "GetExperimentalFlagResponse" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3727,7 +4684,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetExperimentalMediaRequest" });
   }
 }
-function __c44(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3739,74 +4696,173 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetExperimentalPersistentPtyRequest" });
   }
 }
-function __c45(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/schedule/{scheduleID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetExperimentalScheduleRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/experimental/push", code: 200 })),
+      ).annotate({ identifier: "GetExperimentalPushRequest" });
+    case 1:
+      return S.Array(__S(1057, __c66, 1));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          _tag: S.String,
-          providerID: S.String,
-          modelID: S.String,
-          capability: S.String,
-          message: S.String,
+          settings: __S(1040, __c65, 0),
+          devices: __S(993, __c62, 1),
+          sessions: __S(1056, __c66, 0),
         }),
-      ).annotate({ identifier: "UnsupportedModelErrorEncoded" });
+      ).annotate({ identifier: "PushInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(994, __c62, 2),
+        }),
+      ).annotate({ identifier: "GetExperimentalPushResponse" });
   }
 }
-function __c47(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.String,
+        }),
+      ).annotate({ identifier: "PushDeviceSettings" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          level: S.String,
+          until: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PushBell" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paused: S.Boolean,
+          until: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PushSettings" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(1024, __c64, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          platform: S.String,
+          expiresAt: S.Number,
+          settings: __S(1008, __c63, 0),
+          paused: S.Boolean,
+          sessions: __S(1056, __c66, 0),
+          time: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "PushDevice" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+          url: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/experimental/integration/wellknown", code: 200 }),
+        ),
+      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AddExperimentalIntegrationWellknownResponse",
+      });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequestLocation" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: __S(663, __c41, 7),
-          messages: __S(752, __c47, 0),
-          location: S.optional(S.NullOr(__S(528, __c33, 0))),
+          info: __S(887, __c55, 7),
+          messages: __S(1120, __c70, 0),
+          location: S.optional(S.NullOr(__S(608, __c38, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/session/import", code: 200 })),
       ).annotate({ identifier: "ImportExperimentalSessionRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(663, __c41, 7),
+          data: __S(887, __c55, 7),
         }),
       ).annotate({ identifier: "ImportExperimentalSessionResponse" });
   }
 }
-function __c48(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           sessionID: S.optional(S.String.pipe(T.Query())),
           provider: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/experimental/artifacts", code: 200 })),
       ).annotate({ identifier: "ListExperimentalArtifactsRequest" });
     case 1:
-      return S.Array(__S(1200, __c75, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(769, __c48, 1),
+          location: __S(608, __c38, 0),
+          data: __S(1137, __c71, 1),
         }),
       ).annotate({ identifier: "ListExperimentalArtifactsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.optional(S.String.pipe(T.Query())),
+          directory: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/automation", code: 200 })),
+      ).annotate({ identifier: "ListExperimentalAutomationRequest" });
+    case 1:
+      return S.Array(__S(160, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1153, __c72, 1),
+        }),
+      ).annotate({ identifier: "ListExperimentalAutomationResponse" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3822,12 +4878,47 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(785, __c49, 1),
+          data: __S(1169, __c73, 1),
         }),
       ).annotate({ identifier: "ListExperimentalJobResponse" });
   }
 }
-function __c50(j: number): any {
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/experimental/machine", code: 200 })),
+      ).annotate({ identifier: "ListExperimentalMachineRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          path: S.optional(S.String),
+          rtt: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "MachineInfoConnection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          online: S.Boolean,
+          paired: S.Boolean,
+          os: S.optional(S.String),
+          arch: S.optional(S.String),
+          connection: S.optional(__S(1185, __c74, 1)),
+        }),
+      ).annotate({ identifier: "MachineInfo" });
+    case 3:
+      return S.Array(__S(1186, __c74, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1187, __c74, 3),
+        }),
+      ).annotate({ identifier: "ListExperimentalMachineResponse" });
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3842,34 +4933,16 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListExperimentalPersistentPtyRequest" });
     case 1:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(226, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(801, __c50, 1),
+          data: __S(1201, __c75, 1),
         }),
       ).annotate({ identifier: "ListExperimentalPersistentPtyResponse" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/schedule", code: 200 })),
-      ).annotate({ identifier: "ListExperimentalScheduleRequest" });
-    case 1:
-      return S.Array(__S(113, __c7, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(817, __c51, 1),
-        }),
-      ).annotate({ identifier: "ListExperimentalScheduleResponse" });
-  }
-}
-function __c52(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,32 +4964,32 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "InstructionEntryInfo" });
     case 2:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(834, __c52, 2),
+          data: __S(1218, __c76, 2),
         }),
       ).annotate({ identifier: "ListExperimentalSessionInstructionsEntryResponse" });
   }
 }
-function __c53(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
+          automationID: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/experimental/schedule/{scheduleID}/pause",
+            uri: "/api/experimental/automation/{automationID}/pause",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "PauseExperimentalScheduleRequest" });
+      ).annotate({ identifier: "PauseExperimentalAutomationRequest" });
   }
 }
-function __c54(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3934,7 +5007,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PutExperimentalSessionInstructionsEntryRequest" });
   }
 }
-function __c55(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3955,7 +5028,7 @@ function __c55(j: number): any {
           text: S.String,
           cols: S.Number,
           rows: S.Number,
-          cursor: __S(496, __c31, 0),
+          cursor: __S(704, __c44, 0),
         }),
       ).annotate({ identifier: "PersistentPtyReadResultScreen" });
     case 2:
@@ -3965,60 +5038,107 @@ function __c55(j: number): any {
           title: S.String,
           cwd: S.String,
           foregroundProcess: S.NullOr(S.String),
-          screen: __S(881, __c55, 1),
+          screen: __S(1265, __c79, 1),
         }),
       ).annotate({ identifier: "PersistentPtyReadResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.NullOr(__S(882, __c55, 2)),
+          data: S.NullOr(__S(1266, __c79, 2)),
         }),
       ).annotate({ identifier: "ReadExperimentalPersistentPtyResponse" });
   }
 }
-function __c56(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "MachineReach" });
+    case 1:
+      return S.Array(__S(1280, __c80, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          reach: __S(1281, __c80, 1),
+          replace: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/machine", code: 200 })),
+      ).annotate({ identifier: "AddExperimentalMachineRequest" });
+    case 3:
+      return S.Array(S.Unknown);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          join: S.String,
+          expires: S.Number,
+          reach: __S(1283, __c80, 3),
+        }),
+      ).annotate({ identifier: "MachineInvite" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1284, __c80, 4),
+        }),
+      ).annotate({ identifier: "AddExperimentalMachineResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceID: S.String.pipe(T.Label()),
+          callbackURL: S.String,
+          expiresAt: S.Number,
+          publicKey: S.String,
+          platform: S.String,
+          name: S.String,
+          settings: S.optional(__S(1008, __c63, 0)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/experimental/push/device/{deviceID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RegisterExperimentalPushDeviceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          publicKey: S.String,
+        }),
+      ).annotate({ identifier: "PushRegistered" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1297, __c81, 1),
+        }),
+      ).annotate({ identifier: "RegisterExperimentalPushDeviceResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/experimental/machine/{name}", code: 200 })),
+      ).annotate({ identifier: "RemoveExperimentalMachineRequest" });
+  }
+}
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/experimental/mcp/{server}", code: 200 })),
       ).annotate({ identifier: "RemoveExperimentalMcpRequest" });
   }
 }
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
-          url: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/integration/wellknown", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddExperimentalIntegrationWellknownResponse",
-      });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequestLocation" });
-  }
-}
-function __c60(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4030,7 +5150,52 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RemoveExperimentalPersistentPtyRequest" });
   }
 }
-function __c61(j: number): any {
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/experimental/push/device/{deviceID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RemoveExperimentalPushDeviceRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceID: S.String.pipe(T.Label()),
+          sessionID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/experimental/push/device/{deviceID}/session/{sessionID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveExperimentalPushDeviceSessionRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/experimental/push/session/{sessionID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveExperimentalPushSessionRequest" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4047,31 +5212,103 @@ function __c61(j: number): any {
       ).annotate({ identifier: "RemoveExperimentalSessionInstructionsEntryRequest" });
   }
 }
-function __c62(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
+          automationID: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/experimental/schedule/{scheduleID}/resume",
+            uri: "/api/experimental/automation/{automationID}/resume",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ResumeExperimentalScheduleRequest" });
+      ).annotate({ identifier: "ResumeExperimentalAutomationRequest" });
   }
 }
-function __c63(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceID: S.String.pipe(T.Label()),
+          sessionID: S.String.pipe(T.Label()),
+          level: S.String,
+          until: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/experimental/push/device/{deviceID}/session/{sessionID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetExperimentalPushDeviceSessionRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1024, __c64, 0),
+        }),
+      ).annotate({ identifier: "SetExperimentalPushDeviceSessionResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server: S.String.pipe(T.Label()),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
+          config: S.Unknown,
+        }).pipe(T.Http({ method: "PUT", uri: "/api/experimental/mcp/{server}", code: 200 })),
+      ).annotate({ identifier: "AddExperimentalMcpRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          level: S.String,
+          until: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/experimental/push/session/{sessionID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetExperimentalPushSessionRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paused: S.Boolean,
+          until: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/experimental/push/settings", code: 200 })),
+      ).annotate({ identifier: "SetExperimentalPushSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1040, __c65, 0),
+        }),
+      ).annotate({ identifier: "SetExperimentalPushSettingsResponse" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           title: S.optional(S.String),
-          files: __S(1168, __c73, 0),
+          files: __S(96, __c6, 0),
           entry: S.optional(S.String),
           sessionID: S.optional(S.String),
         }).pipe(
@@ -4080,7 +5317,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UpdateExperimentalArtifactRequest" });
   }
 }
-function __c64(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4090,14 +5327,14 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UpdateExperimentalConfigRequest" });
   }
 }
-function __c65(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
           attachmentID: S.optional(S.String),
-          size: S.optional(__S(64, __c4, 0)),
+          size: S.optional(__S(224, __c14, 0)),
           title: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/experimental/persistent-pty/{ptyID}", code: 200 }),
@@ -4105,7 +5342,27 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UpdateExperimentalPersistentPtyRequest" });
   }
 }
-function __c66(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceID: S.String.pipe(T.Label()),
+          paused: S.optional(S.Boolean),
+          settings: S.optional(__S(1008, __c63, 0)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/experimental/push/device/{deviceID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateExperimentalPushDeviceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1057, __c66, 1),
+        }),
+      ).annotate({ identifier: "UpdateExperimentalPushDeviceResponse" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4117,129 +5374,38 @@ function __c66(j: number): any {
       ).annotate({ identifier: "WaitExperimentalSessionRequest" });
   }
 }
-function __c67(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
           path: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/experimental/fs/watch", code: 200 })),
       ).annotate({ identifier: "WatchExperimentalFsRequest" });
   }
 }
-function __c68(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          server: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
-          config: S.Unknown,
-        }).pipe(T.Http({ method: "PUT", uri: "/api/experimental/mcp/{server}", code: 200 })),
-      ).annotate({ identifier: "AddExperimentalMcpRequest" });
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/job/{id}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelExperimentalJobRequest" });
   }
 }
-function __c69(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server: S.String.pipe(T.Label()),
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
+          location: S.optional(__S(1104, __c69, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/experimental/mcp/{server}/connect", code: 200 }),
         ),
       ).annotate({ identifier: "ConnectExperimentalMcpRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          role: S.optional(S.String.pipe(T.Query())),
-          attachment_id: S.optional(S.String.pipe(T.Query())),
-          takeover: S.optional(S.String.pipe(T.Query())),
-          input_protocol: S.optional(S.String.pipe(T.Query())),
-          ticket: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/persistent-pty/{ptyID}/connect",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectExperimentalPersistentPtyRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
-        identifier: "ConnectExperimentalPersistentPtyResponse",
-      });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(944, __c59, 0).pipe(T.Query())),
-          title: S.String,
-          files: __S(1168, __c73, 0),
-          entry: S.optional(S.String),
-          provider: S.optional(S.String),
-          sessionID: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/artifacts", code: 200 })),
-      ).annotate({ identifier: "CreateExperimentalArtifactRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Number,
-          updated: S.Number,
-        }),
-      ).annotate({ identifier: "ArtifactTime" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          provider: S.String,
-          sessionID: S.optional(S.String),
-          title: S.String,
-          entry: S.String,
-          url: S.String,
-          time: __S(1184, __c74, 0),
-        }),
-      ).annotate({ identifier: "ArtifactInfo" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(528, __c33, 0),
-          data: __S(1200, __c75, 0),
-        }),
-      ).annotate({ identifier: "CreateExperimentalArtifactResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

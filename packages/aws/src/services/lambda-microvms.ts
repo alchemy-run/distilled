@@ -281,6 +281,7 @@ export type EnvironmentVariableValue = string | redacted.Redacted<string>;
 export type EnvironmentVariableMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
+export type KmsKeyIdentifier = string;
 export type ImageName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -300,6 +301,7 @@ export interface CreateMicrovmImageRequest {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   name: string;
   tags?: { [key: string]: string | undefined } | undefined;
   clientToken?: string | undefined;
@@ -336,6 +338,7 @@ export interface CreateMicrovmImageResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   updatedAt?: Date | undefined;
   imageVersion: string;
@@ -402,6 +405,7 @@ export interface GetMicrovmResponse {
   startedAt: Date;
   terminatedAt?: Date | undefined;
   stateReason?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   ingressNetworkConnectors?: string[] | undefined;
   egressNetworkConnectors?: string[] | undefined;
 }
@@ -462,6 +466,7 @@ export interface GetMicrovmImageVersionOutput {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -571,6 +576,7 @@ export interface MicrovmImageVersionSummary {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -623,6 +629,7 @@ export interface RunMicrovmRequest {
   executionRoleArn?: string | undefined;
   idlePolicy?: IdlePolicy | undefined;
   logging?: Logging | undefined;
+  kmsKeyIdentifier?: string | undefined;
   runHookPayload?: string | redacted.Redacted<string> | undefined;
   maximumDurationInSeconds?: number | undefined;
   clientToken?: string | undefined;
@@ -639,6 +646,7 @@ export interface RunMicrovmResponse {
   startedAt: Date;
   terminatedAt?: Date | undefined;
   stateReason?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   ingressNetworkConnectors?: string[] | undefined;
   egressNetworkConnectors?: string[] | undefined;
 }
@@ -676,6 +684,7 @@ export interface UpdateMicrovmImageRequest {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageIdentifier: string;
   clientToken?: string | undefined;
 }
@@ -700,6 +709,7 @@ export interface UpdateMicrovmImageResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   updatedAt: Date;
   imageVersion: string;
 }
@@ -723,6 +733,7 @@ export interface UpdateMicrovmImageVersionResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -1653,6 +1664,7 @@ function __c3(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           name: S.String,
           tags: S.optional(__S(40, __c5, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -1688,6 +1700,7 @@ function __c3(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           tags: S.optional(__S(40, __c5, 0)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           imageVersion: S.String,
@@ -1892,6 +1905,7 @@ function __c14(j: number): any {
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           terminatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           stateReason: S.optional(S.String),
+          kmsKeyIdentifier: S.optional(S.String),
           ingressNetworkConnectors: S.optional(__S(32, __c4, 0)),
           egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
         }),
@@ -2015,6 +2029,7 @@ function __c18(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           imageArn: S.String,
           imageVersion: S.String,
           state: S.String,
@@ -2303,6 +2318,7 @@ function __c27(j: number): any {
           executionRoleArn: S.optional(S.String),
           idlePolicy: S.optional(__S(112, __c14, 0)),
           logging: S.optional(__S(65, __c8, 1)),
+          kmsKeyIdentifier: S.optional(S.String),
           runHookPayload: S.optional(SensitiveString),
           maximumDurationInSeconds: S.optional(S.Number),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -2409,6 +2425,7 @@ function __c32(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           imageIdentifier: S.String.pipe(T.HttpLabel("imageIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -2443,6 +2460,7 @@ function __c32(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           imageVersion: S.String,
         }),

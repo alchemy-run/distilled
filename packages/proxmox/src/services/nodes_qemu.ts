@@ -343,6 +343,7 @@ export type GetNodesByNodeQemuByVmidConfigResultLock =
   | "backup"
   | "clone"
   | "create"
+  | "import"
   | "migrate"
   | "rollback"
   | "snapshot"
@@ -708,24 +709,9 @@ export type GetNodesByNodeQemuByVmidMigrateResultMappedResourceInfo = {
   [key: string]: unknown | undefined;
 };
 export type GetNodesByNodeQemuByVmidMigrateResultMappedResources = Array<string>;
-export type GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItemCause =
-  | "node-affinity"
-  | "resource-affinity";
-export interface GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem {
-  cause: GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItemCause;
-  sid: string;
-}
-export type GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResources =
-  Array<GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem>;
-export type GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesUnavailableStorages = Array<string>;
-export interface GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodes {
-  "blocking-ha-resources"?:
-    | GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResources
-    | undefined;
-  unavailable_storages?:
-    | GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesUnavailableStorages
-    | undefined;
-}
+export type GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodes = {
+  [key: string]: unknown | undefined;
+};
 export interface GetNodesByNodeQemuByVmidMigrateResult {
   allowed_nodes?: GetNodesByNodeQemuByVmidMigrateResultAllowedNodes | undefined;
   "dependent-ha-resources"?: GetNodesByNodeQemuByVmidMigrateResultDependentHaResources | undefined;
@@ -874,6 +860,7 @@ export interface GetNodesByNodeQemuByVmidStatusCurrentResult {
   status: GetNodesByNodeQemuByVmidStatusCurrentResultStatus;
   tags?: string | undefined;
   template?: boolean | 0 | 1 | undefined;
+  uid?: string | undefined;
   uptime?: number | undefined;
   vmid: number;
 }
@@ -924,6 +911,7 @@ export type PostNodesByNodeQemuRequestLock =
   | "backup"
   | "clone"
   | "create"
+  | "import"
   | "migrate"
   | "rollback"
   | "snapshot"
@@ -955,6 +943,7 @@ export interface PostNodesByNodeQemuRequest {
   acpi?: boolean | 0 | 1 | undefined;
   affinity?: string | undefined;
   agent?: string | undefined;
+  "allow-identity-mismatch"?: boolean | 0 | 1 | undefined;
   "allow-ksm"?: boolean | 0 | 1 | undefined;
   "amd-sev"?: string | undefined;
   arch?: PostNodesByNodeQemuRequestArch | (string & {}) | undefined;
@@ -1235,6 +1224,7 @@ export type PostNodesByNodeQemuByVmidConfigRequestLock =
   | "backup"
   | "clone"
   | "create"
+  | "import"
   | "migrate"
   | "rollback"
   | "snapshot"
@@ -1427,6 +1417,7 @@ export interface PostNodesByNodeQemuByVmidMigrateRequest {
   migration_type?: PostNodesByNodeQemuByVmidMigrateRequestMigrationType | (string & {}) | undefined;
   node: string;
   online?: boolean | 0 | 1 | undefined;
+  "skip-config-check"?: boolean | 0 | 1 | undefined;
   target: string;
   targetstorage?: string | undefined;
   vmid: number;
@@ -2100,6 +2091,7 @@ export interface PostNodesByNodeQemuByVmidMtunnelResult {
 }
 export type PostNodesByNodeQemuByVmidMtunnelResponse = PostNodesByNodeQemuByVmidMtunnelResult;
 export interface PostNodesByNodeQemuByVmidRemoteMigrateRequest {
+  "allow-new-uid"?: boolean | 0 | 1 | undefined;
   bwlimit?: number | undefined;
   delete?: boolean | 0 | 1 | undefined;
   node: string;
@@ -2123,6 +2115,7 @@ export interface PostNodesByNodeQemuByVmidSnapshotBySnapnameRollbackRequest {
   node: string;
   snapname: string;
   start?: boolean | 0 | 1 | undefined;
+  "sync-time-on-resume"?: boolean | 0 | 1 | undefined;
   vmid: number;
 }
 export type PostNodesByNodeQemuByVmidSnapshotBySnapnameRollbackResponse = string;
@@ -2155,6 +2148,7 @@ export interface PostNodesByNodeQemuByVmidStatusResumeRequest {
   nocheck?: boolean | 0 | 1 | undefined;
   node: string;
   skiplock?: boolean | 0 | 1 | undefined;
+  "sync-time-on-resume"?: boolean | 0 | 1 | undefined;
   vmid: number;
 }
 export type PostNodesByNodeQemuByVmidStatusResumeResponse = string;
@@ -2181,6 +2175,7 @@ export interface PostNodesByNodeQemuByVmidStatusStartRequest {
   node: string;
   skiplock?: boolean | 0 | 1 | undefined;
   stateuri?: string | undefined;
+  "sync-time-on-resume"?: boolean | 0 | 1 | undefined;
   targetstorage?: string | undefined;
   timeout?: number | undefined;
   vmid: number;
@@ -2342,6 +2337,7 @@ export type PutNodesByNodeQemuByVmidConfigRequestLock =
   | "backup"
   | "clone"
   | "create"
+  | "import"
   | "migrate"
   | "rollback"
   | "snapshot"
@@ -3432,7 +3428,7 @@ export const getNodesByNodeQemuByVmidMigrate: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateRequest>,
-  output: __S(359, __c44, 7) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateResponse>,
+  output: __S(356, __c44, 4) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateResponse>,
   errors: [GuestNotFound],
   serviceErrors: ProxmoxServiceErrors,
   protocol: ProxmoxProtocol,
@@ -5405,24 +5401,6 @@ function __c44(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cause: S.String,
-          sid: S.String,
-        }),
-      ).annotate({
-        identifier: "GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem",
-      });
-    case 4:
-      return S.Array(__S(355, __c44, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          "blocking-ha-resources": S.optional(__S(356, __c44, 4)),
-          unavailable_storages: S.optional(__S(240, __c30, 0)),
-        }),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodes" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           allowed_nodes: S.optional(__S(240, __c30, 0)),
           "dependent-ha-resources": S.optional(__S(240, __c30, 0)),
           "has-dbus-vmstate": S.Union([S.Boolean, S.Literals([0, 1])]),
@@ -5430,12 +5408,12 @@ function __c44(j: number): any {
           local_resources: __S(240, __c30, 0),
           "mapped-resource-info": __S(784, __c98, 0),
           "mapped-resources": __S(240, __c30, 0),
-          not_allowed_nodes: S.optional(__S(357, __c44, 5)),
+          not_allowed_nodes: S.optional(__S(784, __c98, 0)),
           running: S.Union([S.Boolean, S.Literals([0, 1])]),
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidMigrateResult" });
-    case 7:
-      return S.suspend(() => __S(358, __c44, 6).pipe(T.RawResponseRoot())).annotate({
+    case 4:
+      return S.suspend(() => __S(355, __c44, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidMigrateResponse",
       });
   }
@@ -5651,6 +5629,7 @@ function __c54(j: number): any {
           status: S.String,
           tags: S.optional(S.String),
           template: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          uid: S.optional(S.String),
           uptime: S.optional(S.Number),
           vmid: S.Number,
         }),
@@ -5695,6 +5674,7 @@ function __c56(j: number): any {
             acpi: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             affinity: S.optional(S.String),
             agent: S.optional(S.String),
+            "allow-identity-mismatch": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             "allow-ksm": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
             "amd-sev": S.optional(S.String),
             arch: S.optional(S.String),
@@ -6298,6 +6278,7 @@ function __c79(j: number): any {
           migration_type: S.optional(S.String),
           node: S.String.pipe(T.Label()),
           online: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "skip-config-check": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           target: S.String,
           targetstorage: S.optional(S.String),
           vmid: S.Number.pipe(T.Label()),
@@ -6369,6 +6350,7 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "allow-new-uid": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           bwlimit: S.optional(S.Number),
           delete: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           node: S.String.pipe(T.Label()),
@@ -6433,6 +6415,7 @@ function __c87(j: number): any {
           node: S.String.pipe(T.Label()),
           snapname: S.String.pipe(T.Label()),
           start: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "sync-time-on-resume": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6506,6 +6489,7 @@ function __c91(j: number): any {
           nocheck: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           node: S.String.pipe(T.Label()),
           skiplock: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          "sync-time-on-resume": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           vmid: S.Number.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/status/resume", code: 200 }),
@@ -6544,6 +6528,7 @@ function __c93(j: number): any {
           node: S.String.pipe(T.Label()),
           skiplock: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           stateuri: S.optional(S.String),
+          "sync-time-on-resume": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           targetstorage: S.optional(S.String),
           timeout: S.optional(S.Number),
           vmid: S.Number.pipe(T.Label()),

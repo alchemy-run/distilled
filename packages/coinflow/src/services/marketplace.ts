@@ -45,10 +45,6 @@ export class VerificationRequired
     [{ status: 451 }],
   ) {}
 
-export interface AddUsdcWithdrawRecipientRequest {
-  recipient: string;
-}
-export interface AddUsdcWithdrawRecipientResponse {}
 export interface KybInformationBusiness {
   /** Main business country */
   country: string;
@@ -227,27 +223,10 @@ export interface GetVerifyTransactionRequest {
   authBlockchain: Blockchain | (string & {});
 }
 export type GetVerifyTransactionResponse = string;
-export interface GetWalletAddressByEmailRequest {
-  email: string;
-}
-export interface MarketplaceGetWalletAddressByEmailResponse200 {
-  blockchain: string;
-  wallet: string;
-}
 export interface RemoveUsdcWithdrawRecipientRequest {
   recipient: string;
 }
 export interface RemoveUsdcWithdrawRecipientResponse {}
-export interface Cents {
-  cents: number;
-}
-export interface SellerUsdcWithdrawRequest {
-  destination: string;
-  amount: Cents;
-}
-export interface SellerUsdcWithdrawResponse {
-  transaction: string;
-}
 export type VerificationStatus =
   | "pending"
   | "partial-approval"
@@ -298,24 +277,6 @@ export interface VerificationRequiredResponse {
   /** List of reasons as to why the verification was rejected. */
   rejectionReasons?: VerificationRequiredResponseRejectionReasonsList | undefined;
 }
-export type AddUsdcWithdrawRecipientError = VerificationRequired | CoinflowOpError;
-/** Adds a USDC recipient. Registers a solana address that can receive USDC from the merchant's Coinflow Balance */
-export const addUsdcWithdrawRecipient: API.OperationMethod<
-  AddUsdcWithdrawRecipientRequest,
-  AddUsdcWithdrawRecipientResponse,
-  AddUsdcWithdrawRecipientError,
-  CoinflowOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddUsdcWithdrawRecipientRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<AddUsdcWithdrawRecipientResponse>,
-  errors: [VerificationRequired],
-  serviceErrors: CoinflowServiceErrors,
-  protocol: CoinflowProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "AddUsdcWithdrawRecipient",
-}));
-
 export type CreateSellerError = VerificationRequired | CoinflowOpError;
 /** Create Seller Given the verification information, register a seller to a marketplace. When the seller must complete additional verification the API responds with a 451 containing a `verificationLink`. Send the seller there; once they finish, they are returned to `body.redirectUrl` when supplied, and otherwise to the marketplace's Coinflow seller login page. */
 export const createSeller: API.OperationMethod<
@@ -324,8 +285,8 @@ export const createSeller: API.OperationMethod<
   CreateSellerError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateSellerRequest2>,
-  output: __S(4, __c1, 0) as any as S.Schema<CreateSellerResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateSellerRequest2>,
+  output: __S(2, __c1, 0) as any as S.Schema<CreateSellerResponse>,
   errors: [VerificationRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -342,8 +303,8 @@ export const downloadKyc: API.OperationMethod<
   DownloadKycError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DownloadKycRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DownloadKycResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<DownloadKycRequest>,
+  output: __S(2, __c1, 0) as any as S.Schema<DownloadKycResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -360,8 +321,8 @@ export const getSellerLoginLink: API.OperationMethod<
   GetSellerLoginLinkError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetSellerLoginLinkRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<GetSellerLoginLinkRequest>,
+  output: __S(8, __c4, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -378,8 +339,8 @@ export const getSellerRegisterLink: API.OperationMethod<
   GetSellerRegisterLinkError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetSellerRegisterLinkRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<GetSellerRegisterLinkRequest>,
+  output: __S(8, __c4, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -396,32 +357,14 @@ export const getVerifyTransaction: API.OperationMethod<
   GetVerifyTransactionError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetVerifyTransactionRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<GetVerifyTransactionResponse>,
+  input: __S(12, __c6, 0) as any as S.Schema<GetVerifyTransactionRequest>,
+  output: __S(13, __c6, 1) as any as S.Schema<GetVerifyTransactionResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVerifyTransaction",
-}));
-
-export type GetWalletAddressByEmailError = CoinflowOpError;
-/** Get wallet by email Given an email address returns the MPC wallet address for the user. Can be used to pass into the SDK, query the API, and check balances. */
-export const getWalletAddressByEmail: API.OperationMethod<
-  GetWalletAddressByEmailRequest,
-  MarketplaceGetWalletAddressByEmailResponse200,
-  GetWalletAddressByEmailError,
-  CoinflowOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetWalletAddressByEmailRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<MarketplaceGetWalletAddressByEmailResponse200>,
-  errors: [],
-  serviceErrors: CoinflowServiceErrors,
-  protocol: CoinflowProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetWalletAddressByEmail",
 }));
 
 export type RemoveUsdcWithdrawRecipientError = CoinflowOpError;
@@ -432,8 +375,8 @@ export const removeUsdcWithdrawRecipient: API.OperationMethod<
   RemoveUsdcWithdrawRecipientError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientResponse>,
+  input: __S(14, __c7, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientRequest>,
+  output: __S(2, __c1, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -442,44 +385,8 @@ export const removeUsdcWithdrawRecipient: API.OperationMethod<
   span: "RemoveUsdcWithdrawRecipient",
 }));
 
-export type SellerUsdcWithdrawError = VerificationRequired | CoinflowOpError;
-/** Creates a USDC withdrawal transaction for a merchant using the Coinflow Balance Creates a usdc withdrawal transaction for merchants using their Coinflow Balance, so they can withdraw USDC from it. */
-export const sellerUsdcWithdraw: API.OperationMethod<
-  SellerUsdcWithdrawRequest,
-  SellerUsdcWithdrawResponse,
-  SellerUsdcWithdrawError,
-  CoinflowOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c10, 1) as any as S.Schema<SellerUsdcWithdrawRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<SellerUsdcWithdrawResponse>,
-  errors: [VerificationRequired],
-  serviceErrors: CoinflowServiceErrors,
-  protocol: CoinflowProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "SellerUsdcWithdraw",
-}));
-
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          recipient: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/seller/usdc-withdraw/recipient", code: 200 })),
-      ).annotate({ identifier: "AddUsdcWithdrawRecipientRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddUsdcWithdrawRecipientResponse",
-      });
-  }
-}
-function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -489,7 +396,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateSellerRequest2" });
   }
 }
-function __c3(j: number): any {
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateSellerResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -501,7 +414,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DownloadKycRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -511,7 +424,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetSellerLoginLinkRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -521,7 +434,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetMarketplaceLinkResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -536,7 +449,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetSellerRegisterLinkRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -552,24 +465,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/marketplace/wallet", code: 200 })),
-      ).annotate({ identifier: "GetWalletAddressByEmailRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          blockchain: S.String,
-          wallet: S.String,
-        }),
-      ).annotate({ identifier: "MarketplaceGetWalletAddressByEmailResponse200" });
-  }
-}
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -577,29 +473,6 @@ function __c9(j: number): any {
           recipient: S.String,
         }).pipe(T.Http({ method: "DELETE", uri: "/seller/usdc-withdraw/recipient", code: 200 })),
       ).annotate({ identifier: "RemoveUsdcWithdrawRecipientRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cents: S.Number,
-        }),
-      ).annotate({ identifier: "Cents" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          destination: S.String,
-          amount: __S(40, __c10, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/seller/usdc-withdraw", code: 200 })),
-      ).annotate({ identifier: "SellerUsdcWithdrawRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          transaction: S.String,
-        }),
-      ).annotate({ identifier: "SellerUsdcWithdrawResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

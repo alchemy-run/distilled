@@ -94,12 +94,12 @@ export interface BatchGetAmpUrlsRequest {
 export interface BatchGetAmpUrlsRequest_ extends BatchGetAmpUrlsRequest {}
 /** AMP URL response for a requested URL. */
 export interface AmpUrl {
+  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
+  cdnAmpUrl?: string | undefined;
   /** The original non-AMP URL. */
   originalUrl?: string | undefined;
   /** The AMP URL pointing to the publisher's web server. */
   ampUrl?: string | undefined;
-  /** The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache. */
-  cdnAmpUrl?: string | undefined;
 }
 export type AmpUrlList = Array<AmpUrl>;
 export type AmpUrlErrorErrorCodeEnum =
@@ -111,10 +111,10 @@ export type AmpUrlErrorErrorCodeEnum =
   | "URL_IS_INVALID_AMP";
 /** AMP URL Error resource for a requested URL that couldn't be found. */
 export interface AmpUrlError {
-  /** The original non-AMP URL. */
-  originalUrl?: string | undefined;
   /** The error code of an API call. */
   errorCode?: AmpUrlErrorErrorCodeEnum | undefined;
+  /** The original non-AMP URL. */
+  originalUrl?: string | undefined;
   /** An optional descriptive error message. */
   errorMessage?: string | undefined;
 }
@@ -169,9 +169,9 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          cdnAmpUrl: S.optional(S.String),
           originalUrl: S.optional(S.String),
           ampUrl: S.optional(S.String),
-          cdnAmpUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpUrl" });
     case 4:
@@ -179,8 +179,8 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          originalUrl: S.optional(S.String),
           errorCode: S.optional(S.String),
+          originalUrl: S.optional(S.String),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpUrlError" });

@@ -193,6 +193,7 @@ export interface CreateClipRequest {
   watermark?: ClipCreateRequestWatermark | undefined;
 }
 export type ClipCreateResponseAllowedOriginsList = Array<string>;
+export type ClipCreateResponseEncodingMode = "default" | "previewFirst";
 export interface ClipCreateResponseInput {
   /** The video height in pixels. A value of `-1` means the height is unknown. The value becomes available after the upload and before the video is ready. */
   height?: number | null | undefined;
@@ -205,6 +206,18 @@ export interface ClipCreateResponsePlayback {
   /** The HLS manifest for the video. */
   hls?: string | null | undefined;
 }
+export type ClipCreateResponsePreviewStatus =
+  | "pending"
+  | "ready"
+  | "error"
+  | "not-eligible-container"
+  | "not-eligible-video-codec"
+  | "not-eligible-audio-codec"
+  | "not-eligible-resolution"
+  | "not-eligible-bitrate"
+  | "not-eligible-gop"
+  | "not-eligible-pixel-format"
+  | "not-eligible-edit-list";
 export interface ClipCreateResponsePublicDetails {
   channelLink?: string | null | undefined;
   logo?: string | null | undefined;
@@ -266,6 +279,8 @@ export interface CreateClipResponse {
   creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number | null | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: ClipCreateResponseEncodingMode | null | undefined;
   input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string | null | undefined;
@@ -280,6 +295,8 @@ export interface CreateClipResponse {
   playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string | null | undefined;
+  /** Reports the current status of preview generation. This value is `null` when `encodingMode` is `default`. */
+  previewStatus?: ClipCreateResponsePreviewStatus | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
   publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -307,6 +324,7 @@ export interface CreateClipResponse {
   watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export type CopyCreateRequestAllowedOriginsList = Array<string>;
+export type CopyCreateRequestEncodingMode = "default" | "previewFirst";
 export type CopyCreateRequestWatermark = ClipCreateRequestWatermark;
 export interface CreateCopyRequest {
   /** The account identifier tag. */
@@ -315,6 +333,8 @@ export interface CreateCopyRequest {
   allowedOrigins?: CopyCreateRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
   creator?: string | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: CopyCreateRequestEncodingMode | (string & {}) | undefined;
   /** A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This is the preferred field over `url`. */
   input?: string | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
@@ -334,8 +354,21 @@ export interface CreateCopyRequest {
   uploadCreator?: string | undefined;
 }
 export type CopyCreateResponseAllowedOriginsList = Array<string>;
+export type CopyCreateResponseEncodingMode = "default" | "previewFirst";
 export type CopyCreateResponseInput = ClipCreateResponseInput;
 export type CopyCreateResponsePlayback = ClipCreateResponsePlayback;
+export type CopyCreateResponsePreviewStatus =
+  | "pending"
+  | "ready"
+  | "error"
+  | "not-eligible-container"
+  | "not-eligible-video-codec"
+  | "not-eligible-audio-codec"
+  | "not-eligible-resolution"
+  | "not-eligible-bitrate"
+  | "not-eligible-gop"
+  | "not-eligible-pixel-format"
+  | "not-eligible-edit-list";
 export type CopyCreateResponsePublicDetails = ClipCreateResponsePublicDetails;
 export type CopyCreateResponseStatusState =
   | "pendingupload"
@@ -368,6 +401,8 @@ export interface CreateCopyResponse {
   creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number | null | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: CopyCreateResponseEncodingMode | null | undefined;
   input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string | null | undefined;
@@ -382,6 +417,8 @@ export interface CreateCopyResponse {
   playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string | null | undefined;
+  /** Reports the current status of preview generation. This value is `null` when `encodingMode` is `default`. */
+  previewStatus?: CopyCreateResponsePreviewStatus | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
   publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -409,6 +446,7 @@ export interface CreateCopyResponse {
   watermark?: ClipCreateResponseWatermark | null | undefined;
 }
 export type DirectUploadCreateRequestAllowedOriginsList = Array<string>;
+export type DirectUploadCreateRequestEncodingMode = "default" | "previewFirst";
 export type DirectUploadCreateRequestWatermark = ClipCreateRequestWatermark;
 export interface CreateDirectUploadRequest {
   /** The account identifier tag. */
@@ -419,6 +457,8 @@ export interface CreateDirectUploadRequest {
   allowedOrigins?: DirectUploadCreateRequestAllowedOriginsList | undefined;
   /** A user-defined identifier for the media creator. */
   creator?: string | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: DirectUploadCreateRequestEncodingMode | (string & {}) | undefined;
   /** The date and time after upload when videos will not be accepted. */
   expiry?: string | undefined;
   /** A user modifiable key-value store used to reference other systems of record for managing videos. */
@@ -658,7 +698,7 @@ export interface CreateStreamRequest {
   uploadLength: number;
   /** A user-defined identifier for the media creator. */
   uploadCreator?: string | undefined;
-  /** Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`. */
+  /** Comma-separated key-value pairs following the TUS protocol specification. Values are Base-64 encoded. Supported keys: `name`, `requiresignedurls`, `allowedorigins`, `thumbnailtimestamppct`, `watermark`, `scheduleddeletion`, `maxdurationseconds`, `encodingmode`. `encodingmode` accepts `default` or `previewFirst`. */
   uploadMetadata?: string | undefined;
 }
 export interface CreateStreamResponse {}
@@ -848,8 +888,21 @@ export interface EditStreamRequest {
   uploadExpiry?: string | undefined;
 }
 export type EditResponseAllowedOriginsList = Array<string>;
+export type EditResponseEncodingMode = "default" | "previewFirst";
 export type EditResponseInput = ClipCreateResponseInput;
 export type EditResponsePlayback = ClipCreateResponsePlayback;
+export type EditResponsePreviewStatus =
+  | "pending"
+  | "ready"
+  | "error"
+  | "not-eligible-container"
+  | "not-eligible-video-codec"
+  | "not-eligible-audio-codec"
+  | "not-eligible-resolution"
+  | "not-eligible-bitrate"
+  | "not-eligible-gop"
+  | "not-eligible-pixel-format"
+  | "not-eligible-edit-list";
 export type EditResponsePublicDetails = ClipCreateResponsePublicDetails;
 export type EditResponseStatusState =
   | "pendingupload"
@@ -882,6 +935,8 @@ export interface EditStreamResponse {
   creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number | null | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: EditResponseEncodingMode | null | undefined;
   input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string | null | undefined;
@@ -896,6 +951,8 @@ export interface EditStreamResponse {
   playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string | null | undefined;
+  /** Reports the current status of preview generation. This value is `null` when `encodingMode` is `default`. */
+  previewStatus?: EditResponsePreviewStatus | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
   publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -1135,8 +1192,21 @@ export interface GetStreamRequest {
   identifier: string;
 }
 export type GetResponseAllowedOriginsList = Array<string>;
+export type GetResponseEncodingMode = "default" | "previewFirst";
 export type GetResponseInput = ClipCreateResponseInput;
 export type GetResponsePlayback = ClipCreateResponsePlayback;
+export type GetResponsePreviewStatus =
+  | "pending"
+  | "ready"
+  | "error"
+  | "not-eligible-container"
+  | "not-eligible-video-codec"
+  | "not-eligible-audio-codec"
+  | "not-eligible-resolution"
+  | "not-eligible-bitrate"
+  | "not-eligible-gop"
+  | "not-eligible-pixel-format"
+  | "not-eligible-edit-list";
 export type GetResponsePublicDetails = ClipCreateResponsePublicDetails;
 export type GetResponseStatusState =
   | "pendingupload"
@@ -1169,6 +1239,8 @@ export interface GetStreamResponse {
   creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number | null | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: GetResponseEncodingMode | null | undefined;
   input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string | null | undefined;
@@ -1183,6 +1255,8 @@ export interface GetStreamResponse {
   playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string | null | undefined;
+  /** Reports the current status of preview generation. This value is `null` when `encodingMode` is `default`. */
+  previewStatus?: GetResponsePreviewStatus | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
   publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -1342,8 +1416,21 @@ export interface ListStreamsRequest {
   videoName?: string | undefined;
 }
 export type ListResultItemAllowedOriginsList = Array<string>;
+export type ListResultItemEncodingMode = "default" | "previewFirst";
 export type ListResultItemInput = ClipCreateResponseInput;
 export type ListResultItemPlayback = ClipCreateResponsePlayback;
+export type ListResultItemPreviewStatus =
+  | "pending"
+  | "ready"
+  | "error"
+  | "not-eligible-container"
+  | "not-eligible-video-codec"
+  | "not-eligible-audio-codec"
+  | "not-eligible-resolution"
+  | "not-eligible-bitrate"
+  | "not-eligible-gop"
+  | "not-eligible-pixel-format"
+  | "not-eligible-edit-list";
 export type ListResultItemPublicDetails = ClipCreateResponsePublicDetails;
 export type ListResultItemStatusState =
   | "pendingupload"
@@ -1375,6 +1462,8 @@ export interface ListResultItem {
   creator?: string | null | undefined;
   /** The duration of the video in seconds. A value of `-1` means the duration is unknown. The duration becomes available after the upload and before the video is ready. */
   duration?: number | null | undefined;
+  /** Specifies whether to generate a preview rendition before the standard encoding ladder. `default` generates only the standard encoding ladder. `previewFirst` generates a preview rendition first. */
+  encodingMode?: ListResultItemEncodingMode | null | undefined;
   input?: ClipCreateResponseInput | null | undefined;
   /** The live input ID used to upload a video with Stream Live. */
   liveInput?: string | null | undefined;
@@ -1389,6 +1478,8 @@ export interface ListResultItem {
   playback?: ClipCreateResponsePlayback | null | undefined;
   /** The video's preview page URI. This field is omitted until encoding is complete. */
   preview?: string | null | undefined;
+  /** Reports the current status of preview generation. This value is `null` when `encodingMode` is `default`. */
+  previewStatus?: ListResultItemPreviewStatus | null | undefined;
   /** Public details for the video including title, share link, channel link, and logo. */
   publicDetails?: ClipCreateResponsePublicDetails | null | undefined;
   /** Indicates whether the video is playable. The field is empty if the video is not ready for viewing or the live stream is still in progress. */
@@ -1705,7 +1796,7 @@ export const createCopy: API.OperationMethod<
 }));
 
 export type CreateDirectUploadError = CloudflareOpError;
-/** Creates a direct upload endpoint that allows an end-user to upload a video without an API key. */
+/** Creates a direct upload endpoint that allows an end-user to upload a video without an API key. `encodingMode` is fixed when the upload URL is created and cannot be changed when the generated URL is used. */
 export const createDirectUpload: API.OperationMethod<
   CreateDirectUploadRequest,
   CreateDirectUploadResponse,
@@ -2440,6 +2531,7 @@ function __c0(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           allowedOrigins: S.optional(__S(432, __c54, 0)),
           creator: S.optional(S.String),
+          encodingMode: S.optional(S.String),
           input: S.optional(S.String),
           meta: S.optional(S.Unknown),
           name: S.optional(S.String),
@@ -2464,6 +2556,7 @@ function __c1(j: number): any {
           maxDurationSeconds: S.Number,
           allowedOrigins: S.optional(__S(432, __c54, 0)),
           creator: S.optional(S.String),
+          encodingMode: S.optional(S.String),
           expiry: S.optional(S.String),
           meta: S.optional(S.Unknown),
           requireSignedURLs: S.optional(S.Boolean),
@@ -3375,6 +3468,7 @@ function __c40(j: number): any {
           created: S.optional(S.NullOr(S.String)),
           creator: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.NullOr(S.Number)),
+          encodingMode: S.optional(S.NullOr(S.String)),
           input: S.optional(S.NullOr(__S(456, __c57, 0))),
           liveInput: S.optional(S.NullOr(S.String)),
           maxDurationSeconds: S.optional(S.NullOr(S.Number)),
@@ -3383,6 +3477,7 @@ function __c40(j: number): any {
           modified: S.optional(S.NullOr(S.String)),
           playback: S.optional(S.NullOr(__S(457, __c57, 1))),
           preview: S.optional(S.NullOr(S.String)),
+          previewStatus: S.optional(S.NullOr(S.String)),
           publicDetails: S.optional(S.NullOr(__S(458, __c57, 2))),
           readyToStream: S.optional(S.NullOr(S.Boolean)),
           readyToStreamAt: S.optional(S.NullOr(S.String)),
@@ -3700,6 +3795,7 @@ function __c56(j: number): any {
           created: S.optional(S.NullOr(S.String)),
           creator: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.NullOr(S.Number)),
+          encodingMode: S.optional(S.NullOr(S.String)),
           input: S.optional(S.NullOr(__S(456, __c57, 0))),
           liveInput: S.optional(S.NullOr(S.String)),
           maxDurationSeconds: S.optional(S.NullOr(S.Number)),
@@ -3708,6 +3804,7 @@ function __c56(j: number): any {
           modified: S.optional(S.NullOr(S.String)),
           playback: S.optional(S.NullOr(__S(457, __c57, 1))),
           preview: S.optional(S.NullOr(S.String)),
+          previewStatus: S.optional(S.NullOr(S.String)),
           publicDetails: S.optional(S.NullOr(__S(458, __c57, 2))),
           readyToStream: S.optional(S.NullOr(S.Boolean)),
           readyToStreamAt: S.optional(S.NullOr(S.String)),

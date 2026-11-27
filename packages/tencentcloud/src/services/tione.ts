@@ -129,6 +129,7 @@ export interface CreateDataSourceRequest {
   StorageId?: string | undefined;
   MountConfigure?: MountConfigureInfo | undefined;
   Tags?: TagList | undefined;
+  ContainerPath?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -563,6 +564,7 @@ export interface GooseFS {
   Path?: string | null | undefined;
   NameSpace?: string | null | undefined;
   MountOptions?: string | undefined;
+  FuseOptions?: string | undefined;
 }
 export interface CFSTurbo {
   Id?: string | null | undefined;
@@ -650,6 +652,7 @@ export interface CreateNotebookImageRequest {
   TiProjectId?: string | undefined;
   Kernels?: StringList | undefined;
   RegisterToImageCenter?: boolean | undefined;
+  IgnoreUnfreezableProcesses?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1296,6 +1299,7 @@ export interface DataSourceInfo {
   LimitMount?: boolean | undefined;
   Tags?: TagList | undefined;
   ExtraConf?: StorageExtraConf | null | undefined;
+  ContainerPath?: string | undefined;
 }
 export interface DescribeDataSourceResponse {
   DataSourceInfo?: DataSourceInfo | undefined;
@@ -1915,6 +1919,7 @@ export interface NotebookSetItem {
   ExposePortConfig?: ExposePortConfig | undefined;
   Description?: string | null | undefined;
   LatestOperatorInfo?: OperatorInfo | undefined;
+  ResourceGroupInstanceId?: string | undefined;
 }
 export type NotebookSetItemList = Array<NotebookSetItem>;
 export interface DescribeNotebooksResponse {
@@ -2638,6 +2643,20 @@ export interface ModifyServiceGroupWeightsResponse {
   ServiceGroup?: ServiceGroup | null | undefined;
   RequestId?: string | undefined;
 }
+export interface SchedulePolicy {
+  PriorityClass?: string | null | undefined;
+}
+export interface ModifyTrainingTaskSchedulingPolicyRequest {
+  TrainingTaskId: string;
+  TiProjectId?: string | undefined;
+  CrossResourceGroupScheduling?: boolean | undefined;
+  SchedulePolicy?: SchedulePolicy | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface ModifyTrainingTaskSchedulingPolicyResponse {
+  RequestId?: string | undefined;
+}
 export interface ModifyUserGrantRequest {
   TiProjectId?: string | undefined;
   SubUins?: StringList | undefined;
@@ -2731,6 +2750,7 @@ export interface UpdateDataSourceRequest {
   Name?: string | undefined;
   Permission?: string | undefined;
   MountConfigure?: MountConfigureInfo | undefined;
+  ContainerPath?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4146,6 +4166,23 @@ export const modifyServiceGroupWeights: API.OperationMethod<
   span: "ModifyServiceGroupWeights",
 }));
 
+export type ModifyTrainingTaskSchedulingPolicyError = TencentCloudOpError;
+export const modifyTrainingTaskSchedulingPolicy: API.OperationMethod<
+  ModifyTrainingTaskSchedulingPolicyRequest,
+  ModifyTrainingTaskSchedulingPolicyResponse,
+  ModifyTrainingTaskSchedulingPolicyError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3969, __c124, 1) as any as S.Schema<ModifyTrainingTaskSchedulingPolicyRequest>,
+  output: __S(2560, __c80, 0) as any as S.Schema<ModifyTrainingTaskSchedulingPolicyResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyTrainingTaskSchedulingPolicy",
+}));
+
 export type ModifyUserGrantError = TencentCloudOpError;
 export const modifyUserGrant: API.OperationMethod<
   ModifyUserGrantRequest,
@@ -4153,7 +4190,7 @@ export const modifyUserGrant: API.OperationMethod<
   ModifyUserGrantError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ModifyUserGrantRequest>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ModifyUserGrantRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<ModifyUserGrantResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4170,7 +4207,7 @@ export const modifyWorkspaceMembers: API.OperationMethod<
   ModifyWorkspaceMembersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ModifyWorkspaceMembersRequest>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ModifyWorkspaceMembersRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<ModifyWorkspaceMembersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4187,7 +4224,7 @@ export const pushTrainingMetrics: API.OperationMethod<
   PushTrainingMetricsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4034, __c126, 2) as any as S.Schema<PushTrainingMetricsRequest>,
+  input: __S(4066, __c127, 2) as any as S.Schema<PushTrainingMetricsRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<PushTrainingMetricsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4204,7 +4241,7 @@ export const startNotebook: API.OperationMethod<
   StartNotebookError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<StartNotebookRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<StartNotebookRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<StartNotebookResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4221,7 +4258,7 @@ export const startTrainingTask: API.OperationMethod<
   StartTrainingTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<StartTrainingTaskRequest>,
+  input: __S(4128, __c129, 0) as any as S.Schema<StartTrainingTaskRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<StartTrainingTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4238,8 +4275,8 @@ export const stopModelAccelerateTask: API.OperationMethod<
   StopModelAccelerateTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<StopModelAccelerateTaskRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<StopModelAccelerateTaskResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<StopModelAccelerateTaskRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<StopModelAccelerateTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4255,7 +4292,7 @@ export const stopNotebook: API.OperationMethod<
   StopNotebookError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<StopNotebookRequest>,
+  input: __S(4192, __c131, 0) as any as S.Schema<StopNotebookRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<StopNotebookResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4272,7 +4309,7 @@ export const stopTrainingTask: API.OperationMethod<
   StopTrainingTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<StopTrainingTaskRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<StopTrainingTaskRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<StopTrainingTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4289,7 +4326,7 @@ export const updateDataSource: API.OperationMethod<
   UpdateDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<UpdateDataSourceRequest>,
+  input: __S(4288, __c134, 0) as any as S.Schema<UpdateDataSourceRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UpdateDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4306,7 +4343,7 @@ export const updateMountLimit: API.OperationMethod<
   UpdateMountLimitError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<UpdateMountLimitRequest>,
+  input: __S(4320, __c135, 0) as any as S.Schema<UpdateMountLimitRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UpdateMountLimitResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4323,7 +4360,7 @@ export const updateSubAccountLinuxUserInfo: API.OperationMethod<
   UpdateSubAccountLinuxUserInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<UpdateSubAccountLinuxUserInfoRequest>,
+  input: __S(4352, __c136, 0) as any as S.Schema<UpdateSubAccountLinuxUserInfoRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UpdateSubAccountLinuxUserInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4800,6 +4837,7 @@ function __c20(j: number): any {
           StorageId: S.optional(S.String),
           MountConfigure: S.optional(__S(672, __c21, 0)),
           Tags: S.optional(__S(65, __c2, 1)),
+          ContainerPath: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "tione", version: "2021-11-11", action: "CreateDataSource" })),
       ).annotate({ identifier: "CreateDataSourceRequest" });
@@ -5546,6 +5584,7 @@ function __c45(j: number): any {
           LimitMount: S.optional(S.Boolean),
           Tags: S.optional(__S(65, __c2, 1)),
           ExtraConf: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          ContainerPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSourceInfo" });
   }
@@ -7078,6 +7117,7 @@ function __c84(j: number): any {
           ExposePortConfig: S.optional(__S(288, __c9, 0)),
           Description: S.optional(S.NullOr(S.String)),
           LatestOperatorInfo: S.optional(__S(2656, __c83, 0)),
+          ResourceGroupInstanceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotebookSetItem" });
     case 2:
@@ -7989,6 +8029,7 @@ function __c109(j: number): any {
           Path: S.optional(S.NullOr(S.String)),
           NameSpace: S.optional(S.NullOr(S.String)),
           MountOptions: S.optional(S.String),
+          FuseOptions: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooseFS" });
     case 1:
@@ -8337,6 +8378,7 @@ function __c122(j: number): any {
           TiProjectId: S.optional(S.String),
           Kernels: S.optional(__S(160, __c5, 0)),
           RegisterToImageCenter: S.optional(S.Boolean),
+          IgnoreUnfreezableProcesses: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tione", version: "2021-11-11", action: "CreateNotebookImage" }),
@@ -8377,6 +8419,32 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          PriorityClass: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SchedulePolicy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TrainingTaskId: S.String,
+          TiProjectId: S.optional(S.String),
+          CrossResourceGroupScheduling: S.optional(S.Boolean),
+          SchedulePolicy: S.optional(__S(3968, __c124, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "tione",
+            version: "2021-11-11",
+            action: "ModifyTrainingTaskSchedulingPolicy",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyTrainingTaskSchedulingPolicyRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           TiProjectId: S.optional(S.String),
           SubUins: S.optional(__S(160, __c5, 0)),
           RoleIds: S.optional(__S(160, __c5, 0)),
@@ -8386,7 +8454,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ModifyUserGrantRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8399,7 +8467,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ModifyWorkspaceMembersRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8414,12 +8482,12 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "MetricData" });
     case 1:
-      return S.Array(__S(4032, __c126, 0));
+      return S.Array(__S(4064, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TiProjectId: S.optional(S.String),
-          Data: S.optional(__S(4033, __c126, 1)),
+          Data: S.optional(__S(4065, __c127, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "tione", version: "2021-11-11", action: "PushTrainingMetrics" }),
@@ -8427,7 +8495,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PushTrainingMetricsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8439,7 +8507,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "StartNotebookRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8451,7 +8519,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "StartTrainingTaskRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8473,7 +8541,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "StopModelAccelerateTaskResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8485,7 +8553,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "StopNotebookRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8495,21 +8563,6 @@ function __c131(j: number): any {
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "tione", version: "2021-11-11", action: "StopTrainingTask" })),
       ).annotate({ identifier: "StopTrainingTaskRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TiProjectId: S.optional(S.String),
-          Id: S.optional(S.String),
-          Name: S.optional(S.String),
-          Permission: S.optional(S.String),
-          MountConfigure: S.optional(__S(672, __c21, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "tione", version: "2021-11-11", action: "UpdateDataSource" })),
-      ).annotate({ identifier: "UpdateDataSourceRequest" });
   }
 }
 function __c133(j: number): any {
@@ -8542,6 +8595,22 @@ function __c134(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          TiProjectId: S.optional(S.String),
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Permission: S.optional(S.String),
+          MountConfigure: S.optional(__S(672, __c21, 0)),
+          ContainerPath: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "tione", version: "2021-11-11", action: "UpdateDataSource" })),
+      ).annotate({ identifier: "UpdateDataSourceRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Type: S.String,
           StorageId: S.String,
           LimitMount: S.Boolean,
@@ -8551,7 +8620,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateMountLimitRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -108,10 +108,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.integrations#GitHubReposRefreshResponse/members/installation_status/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectApplyUrlCreateRequest/members/kind/traits"
     }
   ]
 }

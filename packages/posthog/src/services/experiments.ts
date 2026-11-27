@@ -654,7 +654,7 @@ export interface ExperimentMetricOutlierHandling {
 }
 export type StepOrderValue = "strict" | "unordered" | "ordered";
 export type ExperimentMetricGoal = "increase" | "decrease";
-export type ExperimentMetricType = "funnel" | "mean" | "ratio" | "retention";
+export type ExperimentMetricType = "funnel" | "mean" | "ratio" | "retention" | "quantile";
 export type ExperimentApiMetricSeriesList = Array<ExperimentApiEventSource>;
 export type Kind3 = "EventsNode" | "ActionsNode" | "ExperimentExposureNode";
 export type ExperimentApiRetentionStartPropertiesList = Array<EventPropertyFilter>;
@@ -677,6 +677,15 @@ export interface ExperimentApiRetentionStart {
   properties?: ExperimentApiRetentionStartPropertiesList | null | undefined;
 }
 export type StartHandling = "first_seen" | "last_seen";
+export type ExperimentMetricValueFormatType =
+  | "currency"
+  | "duration"
+  | "duration_ms"
+  | "percentage"
+  | "percentage_scaled";
+export interface ExperimentMetricValueFormat {
+  type: ExperimentMetricValueFormatType | (string & {});
+}
 export interface ExperimentApiMetric {
   /** For funnel metrics with breakdowns: which step the breakdown value is read from. 'all_events' is not supported for experiment funnels. */
   breakdownAttributionType?:
@@ -714,12 +723,14 @@ export interface ExperimentApiMetric {
   numerator?: ExperimentApiEventSource | null | undefined;
   /** For ratio metrics: winsorization applied to the numerator aggregate, independently of the denominator and each with its own percentile thresholds. */
   numerator_outlier_handling?: ExperimentMetricOutlierHandling | null | undefined;
+  /** For quantile metrics: the quantile level, for example 0.9 for p90. The metric takes this quantile of `source.math_property` over all qualifying events of a variant. */
+  quantile?: number | null | undefined;
   retention_window_end?: number | null | undefined;
   retention_window_start?: number | null | undefined;
   retention_window_unit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
   /** For funnel metrics: array of EventsNode/ActionsNode steps. */
   series?: ExperimentApiMetricSeriesList | null | undefined;
-  /** For mean metrics: event source. */
+  /** For mean and quantile metrics: event source. Quantile metrics need `math_property`. */
   source?: ExperimentApiEventSource | null | undefined;
   /** For retention metrics: start event. Pass {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event; a conversion window or 'last_seen' start_handling is rejected then, because the start is always the user's first exposure. */
   start_event?: ExperimentApiRetentionStart | null | undefined;
@@ -730,6 +741,8 @@ export interface ExperimentApiMetric {
   upper_bound_percentile?: number | null | undefined;
   /** Unique identifier. Auto-generated if omitted. */
   uuid?: string | null | undefined;
+  /** For mean metrics without a threshold, ratio metrics and quantile metrics: what the metric's value is, so that results show it in a readable format. Set `type` to 'currency' for an amount in the project's base currency, 'duration' for seconds, 'duration_ms' for milliseconds, 'percentage' for a percent on a 0-100 scale, or 'percentage_scaled' for a fraction on a 0-1 scale. Omit it to show a plain number. It only changes how results show the value, and a change to it does not recalculate results. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
 }
 /** List wrapper for OpenAPI schema generation -- the field stores an array of metrics. */
 export type ExperimentApiMetricsList = Array<ExperimentApiMetric>;
@@ -756,6 +769,8 @@ export interface CreateExperimentRequest {
   feature_flag_key: string;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
   feature_flag?: ExperimentFeatureFlagInput | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -775,7 +790,7 @@ export interface CreateExperimentRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -1596,6 +1611,8 @@ export interface ExperimentMeanMetric {
   /** Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). */
   upper_bound_percentile?: number | null | undefined;
   uuid?: string | null | undefined;
+  /** How results show the value of the metric. Metrics that report a share of users (funnel, retention, mean with a threshold) ignore it. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1625,6 +1642,8 @@ export interface ExperimentFunnelMetric {
   series: ExperimentFunnelMetricSeriesList;
   sharedMetricId?: number | null | undefined;
   uuid?: string | null | undefined;
+  /** How results show the value of the metric. Metrics that report a share of users (funnel, retention, mean with a threshold) ignore it. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1656,6 +1675,8 @@ export interface ExperimentRatioMetric {
   response?: ExperimentRatioMetricResponseMap | null | undefined;
   sharedMetricId?: number | null | undefined;
   uuid?: string | null | undefined;
+  /** How results show the value of the metric. Metrics that report a share of users (funnel, retention, mean with a threshold) ignore it. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1695,6 +1716,33 @@ export interface ExperimentRetentionMetric {
   start_event: ExperimentRetentionMetricStartEvent;
   start_handling: StartHandling;
   uuid?: string | null | undefined;
+  /** How results show the value of the metric. Metrics that report a share of users (funnel, retention, mean with a threshold) ignore it. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
+  /** version of the node, used for schema migrations */
+  version?: number | null | undefined;
+}
+export type ExperimentQuantileMetricResponseMap = { [key: string]: unknown | undefined };
+/** Must set `math_property`, the numeric property to take the quantile of. `math` is ignored. */
+export type ExperimentQuantileMetricSource = EventsNode | ActionsNode;
+export interface ExperimentQuantileMetric {
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  conversion_window?: number | null | undefined;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | null | undefined;
+  fingerprint?: string | null | undefined;
+  goal?: ExperimentMetricGoal | null | undefined;
+  isSharedMetric?: boolean | null | undefined;
+  kind?: string | undefined;
+  metric_type?: string | undefined;
+  name?: string | null | undefined;
+  /** Quantile level, for example 0.9 for p90. */
+  quantile: number;
+  response?: ExperimentQuantileMetricResponseMap | null | undefined;
+  sharedMetricId?: number | null | undefined;
+  /** Must set `math_property`, the numeric property to take the quantile of. `math` is ignored. */
+  source: ExperimentQuantileMetricSource;
+  uuid?: string | null | undefined;
+  /** How results show the value of the metric. Metrics that report a share of users (funnel, retention, mean with a threshold) ignore it. */
+  value_format?: ExperimentMetricValueFormat | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1702,7 +1750,8 @@ export type ExperimentMetric =
   | ExperimentMeanMetric
   | ExperimentFunnelMetric
   | ExperimentRatioMetric
-  | ExperimentRetentionMetric;
+  | ExperimentRetentionMetric
+  | ExperimentQuantileMetric;
 /** A shared metric's link to one experiment, as the experiment API returns it. */
 export interface ExperimentToSavedMetric {
   id?: number | undefined;
@@ -1723,7 +1772,7 @@ export type ExperimentOutputPrimaryMetricsOrderedUuidsList = Array<string>;
 /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
 export type ExperimentOutputSecondaryMetricsOrderedUuidsList = Array<string>;
 export type ExperimentStatusEnum = "draft" | "running" | "paused" | "exposure_frozen" | "stopped";
-/** * `flag_off_while_running` - Flag Off While Running * `variant_shipped_while_running` - Variant Shipped While Running * `flag_live_after_end` - Flag Live After End * `flag_live_before_launch` - Flag Live Before Launch * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filter_on_dynamic_cohort` - Exposure Filter On Dynamic Cohort * `srm` - Sample Ratio Mismatch * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `forced_variant_release_condition` - Forced Variant Release Condition * `flag_variants_mismatch` - Flag Variants Mismatch * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `new_flag_no_traffic` - New Flag No Traffic * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `flag_shared` - Flag Shared */
+/** * `flag_off_while_running` - Flag Off While Running * `variant_shipped_while_running` - Variant Shipped While Running * `flag_live_after_end` - Flag Live After End * `flag_live_before_launch` - Flag Live Before Launch * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filter_on_dynamic_cohort` - Exposure Filter On Dynamic Cohort * `srm` - Sample Ratio Mismatch * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `unserved_variant_exposures` - Unserved Variant Exposures * `events_billing_limit` - Events Billing Limit * `feature_flags_billing_limit` - Feature Flags Billing Limit * `forced_variant_release_condition` - Forced Variant Release Condition * `flag_variants_mismatch` - Flag Variants Mismatch * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `new_flag_no_traffic` - New Flag No Traffic * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `flag_shared` - Flag Shared * `stale_experiment` - Stale Experiment */
 export type ExperimentHealthFindingCodeEnum =
   | "flag_off_while_running"
   | "variant_shipped_while_running"
@@ -1741,6 +1790,9 @@ export type ExperimentHealthFindingCodeEnum =
   | "srm"
   | "zero_exposures"
   | "test_account_filter_removes_exposures"
+  | "unserved_variant_exposures"
+  | "events_billing_limit"
+  | "feature_flags_billing_limit"
   | "forced_variant_release_condition"
   | "flag_variants_mismatch"
   | "split_changed_mid_run"
@@ -1749,7 +1801,8 @@ export type ExperimentHealthFindingCodeEnum =
   | "new_flag_no_traffic"
   | "early_significance"
   | "metrics_not_matured"
-  | "flag_shared";
+  | "flag_shared"
+  | "stale_experiment";
 /** * `critical` - Critical severity * `warning` - Warning severity * `info` - Info severity */
 export type ExperimentHealthFindingSeverityEnum = "critical" | "warning" | "info";
 export type ExperimentHealthFindingEvidenceValue = string | number | boolean;
@@ -1757,7 +1810,7 @@ export type ExperimentHealthFindingEvidenceValue = string | number | boolean;
 export type ExperimentHealthFindingEvidenceMap = {
   [key: string]: ExperimentHealthFindingEvidenceValue | null | undefined;
 };
-/** * `open_feature_flag` - Open Feature Flag * `open_feature_flag_history` - Open Feature Flag History * `adjust_distribution` - Adjust Distribution * `use_first_seen_variant` - Use First Seen Variant * `add_primary_metric` - Add Primary Metric * `add_secondary_metric` - Add Secondary Metric * `edit_exposure_criteria` - Edit Exposure Criteria * `edit_release_conditions` - Edit Release Conditions */
+/** * `open_feature_flag` - Open Feature Flag * `open_feature_flag_history` - Open Feature Flag History * `adjust_distribution` - Adjust Distribution * `use_first_seen_variant` - Use First Seen Variant * `add_primary_metric` - Add Primary Metric * `add_secondary_metric` - Add Secondary Metric * `edit_exposure_criteria` - Edit Exposure Criteria * `edit_release_conditions` - Edit Release Conditions * `end_experiment` - End Experiment * `freeze_exposure` - Freeze Exposure * `move_start_date` - Move Start Date */
 export type ExperimentHealthFindingActionKindEnum =
   | "open_feature_flag"
   | "open_feature_flag_history"
@@ -1766,10 +1819,13 @@ export type ExperimentHealthFindingActionKindEnum =
   | "add_primary_metric"
   | "add_secondary_metric"
   | "edit_exposure_criteria"
-  | "edit_release_conditions";
+  | "edit_release_conditions"
+  | "end_experiment"
+  | "freeze_exposure"
+  | "move_start_date";
 /** The actions that fix the problem, in order of preference, for example 'open_feature_flag' or 'add_primary_metric'. */
 export type ExperimentHealthFindingActionsList = Array<ExperimentHealthFindingActionKindEnum>;
-/** * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share */
+/** * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `stale_experiment` - Stale Experiment * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `unserved_variant_exposures` - Unserved Variant Exposures * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `events_billing_limit` - Events Billing Limit * `feature_flags_billing_limit` - Feature Flags Billing Limit */
 export type ExperimentHealthCheckKeyEnum =
   | "flag_state"
   | "flag_shared"
@@ -1789,13 +1845,17 @@ export type ExperimentHealthCheckKeyEnum =
   | "exposure_filters"
   | "early_significance"
   | "metrics_not_matured"
+  | "stale_experiment"
   | "zero_exposures"
   | "test_account_filter_removes_exposures"
   | "srm"
+  | "unserved_variant_exposures"
   | "bias_risk_multiple_excluded"
-  | "multiple_variants_share";
+  | "multiple_variants_share"
+  | "events_billing_limit"
+  | "feature_flags_billing_limit";
 export interface ExperimentHealthFinding {
-  /** Stable identifier of the problem. Each code has one meaning across every surface that reports it. * `flag_off_while_running` - Flag Off While Running * `variant_shipped_while_running` - Variant Shipped While Running * `flag_live_after_end` - Flag Live After End * `flag_live_before_launch` - Flag Live Before Launch * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filter_on_dynamic_cohort` - Exposure Filter On Dynamic Cohort * `srm` - Sample Ratio Mismatch * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `forced_variant_release_condition` - Forced Variant Release Condition * `flag_variants_mismatch` - Flag Variants Mismatch * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `new_flag_no_traffic` - New Flag No Traffic * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `flag_shared` - Flag Shared */
+  /** Stable identifier of the problem. Each code has one meaning across every surface that reports it. * `flag_off_while_running` - Flag Off While Running * `variant_shipped_while_running` - Variant Shipped While Running * `flag_live_after_end` - Flag Live After End * `flag_live_before_launch` - Flag Live Before Launch * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filter_on_dynamic_cohort` - Exposure Filter On Dynamic Cohort * `srm` - Sample Ratio Mismatch * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `unserved_variant_exposures` - Unserved Variant Exposures * `events_billing_limit` - Events Billing Limit * `feature_flags_billing_limit` - Feature Flags Billing Limit * `forced_variant_release_condition` - Forced Variant Release Condition * `flag_variants_mismatch` - Flag Variants Mismatch * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `new_flag_no_traffic` - New Flag No Traffic * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `flag_shared` - Flag Shared * `stale_experiment` - Stale Experiment */
   code: ExperimentHealthFindingCodeEnum;
   /** The case within the code, when a code covers several, for example 'running_but_no_rollout' within 'flag_off_while_running'. Null when the code has one case. */
   subcode: string | null;
@@ -1813,7 +1873,7 @@ export interface ExperimentHealthFinding {
   actions: ExperimentHealthFindingActionsList;
   /** The id of the matching diagnostic in the diagnosing-experiment-health skill, for example 'A5'. Null when the skill has none. */
   diagnostic_ref: string | null;
-  /** The key of the check in `checks` that reported the finding. A check can report several codes, so the code doesn't name the check. * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share */
+  /** The key of the check in `checks` that reported the finding. A check can report several codes, so the code doesn't name the check. * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `stale_experiment` - Stale Experiment * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `unserved_variant_exposures` - Unserved Variant Exposures * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `events_billing_limit` - Events Billing Limit * `feature_flags_billing_limit` - Feature Flags Billing Limit */
   check: ExperimentHealthCheckKeyEnum;
 }
 /** Problems that the health checks found in the experiment's configuration and its feature flag. Empty when no check found a problem. An empty list does not mean that every check ran: read `checks`. */
@@ -1829,7 +1889,7 @@ export type ExperimentHealthCheckResultValuesValue = string | number | boolean;
 export type ExperimentHealthCheckResultValuesMap = {
   [key: string]: ExperimentHealthCheckResultValuesValue | null | undefined;
 };
-/** * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics that the calculation computes * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one */
+/** * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `unserved_exposed_count` - Users or groups first exposed after the day of the feature flag's last save, in a variant that the flag doesn't serve since that save * `unserved_exposed_percentage` - unserved_exposed_count as a share of the users or groups first exposed after that day * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics of the experiment * `secondary_metric_count` - Secondary metrics of the experiment * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one * `flag_last_called_at` - When PostHog last recorded a call of the feature flag * `flag_called` - Whether PostHog has recorded a call of the feature flag * `since_start_hours` - Hours since the experiment's start date, which can be earlier than the launch * `daily_calculation_ends_at` - When the daily calculation stops covering the experiment, a fixed number of days after its start date * `events_billing_limit_reached` - Whether the organization reached its billing limit for product analytics, so that PostHog drops the project's product analytics events * `events_billing_limit_ends_at` - When PostHog stops dropping the project's product analytics events, unless the limit lifts earlier * `feature_flags_billing_limit_reached` - Whether the organization reached its billing limit for feature flags, so that PostHog returns no flags to the project's flag requests * `feature_flags_billing_limit_ends_at` - When PostHog returns flags to the project's flag requests again, unless the limit lifts earlier * `metric_name` - The name of a metric * `metric_role` - Whether a metric is primary or secondary * `ratio_side` - The side of a ratio metric, numerator or denominator, or null for the other metric types * `sample_count` - Users or groups in a metric's results, across the variants * `planned_sample_count` - Users or groups that the running time estimate needs to detect its minimum detectable effect * `data_hours` - Hours of data that a metric's latest calculation holds since launch, within the metric's conversion window * `variant` - The key of a variant * `difference_percentage` - A variant's difference from the control on the primary metric, relative to the control, with its sign * `detectable_difference_percentage` - The smallest difference from the control that the variant's sample can reliably detect, relative to the control * `significant` - Whether a variant's difference from the control is significant * `forced_condition_count` - Release conditions of the feature flag that serve a fixed variant through a variant override * `matched_count` - Users or groups that a release condition served since traffic_since_at, without those forced to a variant that has 0% in the split * `variant_matched_count` - Of matched_count, the users or groups who got the variant. Estimated from the split for those assigned at random * `forced_count` - Users or groups that a release condition with a variant override served * `forced_percentage` - forced_count as a share of variant_matched_count * `traffic_since_at` - The start of the window that matched_count counts: 7 days ago, or the launch or the flag's last save if later * `history_since_at` - The start of the feature flag's history that the check reads: the experiment's start date, which can be earlier than the launch * `change_count` - Changes of the feature flag since history_since_at of the kind that the check looks for, such as split changes * `changed_at` - When a change of the feature flag was saved * `before_exposure` - Whether a change of the feature flag was saved before anyone was exposed, so it moved nobody. Null when unknown * `changed_setting` - The flag setting that a change of the bucketing changed, as the flag page names it * `before` - What a change of the feature flag changed, as it was before the change, in words * `after` - What a change of the feature flag changed, as it was after the change, in words * `before_filters` - The feature flag's release conditions before a change, as the flag stores them: an object with the groups and the aggregation_group_type_index of its filters. Null when they don't fit the size limit of the check's rows. The flag's history shows them in full * `after_filters` - The feature flag's release conditions after a change, as the flag stores them, like before_filters * `flag_service_call_percentage` - Of the feature flag's calls since traffic_since_at that returned a variant, the share that the flag service evaluated. Only these calls name the release condition that served them, so local evaluation and bootstrapped values count in no condition * `cohort_count` - Cohorts that the exposure criteria filter on * `dynamic_cohort_count` - Of cohort_count, the dynamic cohorts, whose members the results read at the time of the calculation * `event` - The name of an event that the check looked up * `event_received` - Whether the project has received the event. Null when PostHog keeps no record of the event name * `invalid_metric_count` - Metrics whose query doesn't compile, so every calculation fails * `unchecked_metric_count` - Metrics whose query the check couldn't compile, because they read data that the reader can't query or the compile failed for a reason other than the metric * `flag_split` - The feature flag's variants with their rollout percentages, in words * `baseline_variant` - The key of the variant that the analysis compares the others with, or null when the analysis picks one * `other_running_experiment_count` - Other experiments that run on the same feature flag and are not archived * `assigned_outside_count` - Users or groups who got a variant from a call that the flag service didn't evaluate and that is no local evaluation, such as a bootstrapped value. Read only while a running experiment's feature flag has a 0% rollout * `other_draft_experiment_count` - Other draft experiments on the same feature flag that are not archived * `filters_test_accounts` - Whether the counts leave out internal and test users, because the experiment applies the test account filters */
 export type ExperimentHealthValueKeyEnum =
   | "exposed_count"
   | "compared_count"
@@ -1840,8 +1900,11 @@ export type ExperimentHealthValueKeyEnum =
   | "since_launch_hours"
   | "exposed_without_test_account_filter_count"
   | "kept_by_test_account_filter_percentage"
+  | "unserved_exposed_count"
+  | "unserved_exposed_percentage"
   | "only_count_matured_users"
   | "primary_metric_count"
+  | "secondary_metric_count"
   | "waiting_metric_count"
   | "metric_count"
   | "completed_metric_count"
@@ -1850,19 +1913,65 @@ export type ExperimentHealthValueKeyEnum =
   | "flag_active"
   | "flag_deleted"
   | "flag_rolled_out"
-  | "shipped_variant";
+  | "shipped_variant"
+  | "flag_last_called_at"
+  | "flag_called"
+  | "since_start_hours"
+  | "daily_calculation_ends_at"
+  | "events_billing_limit_reached"
+  | "events_billing_limit_ends_at"
+  | "feature_flags_billing_limit_reached"
+  | "feature_flags_billing_limit_ends_at"
+  | "metric_name"
+  | "metric_role"
+  | "ratio_side"
+  | "sample_count"
+  | "planned_sample_count"
+  | "data_hours"
+  | "variant"
+  | "difference_percentage"
+  | "detectable_difference_percentage"
+  | "significant"
+  | "forced_condition_count"
+  | "matched_count"
+  | "variant_matched_count"
+  | "forced_count"
+  | "forced_percentage"
+  | "traffic_since_at"
+  | "history_since_at"
+  | "change_count"
+  | "changed_at"
+  | "before_exposure"
+  | "changed_setting"
+  | "before"
+  | "after"
+  | "before_filters"
+  | "after_filters"
+  | "flag_service_call_percentage"
+  | "cohort_count"
+  | "dynamic_cohort_count"
+  | "event"
+  | "event_received"
+  | "invalid_metric_count"
+  | "unchecked_metric_count"
+  | "flag_split"
+  | "baseline_variant"
+  | "other_running_experiment_count"
+  | "assigned_outside_count"
+  | "other_draft_experiment_count"
+  | "filters_test_accounts";
 /** * `above` - Finding above the threshold * `below` - Finding below the threshold */
 export type ExperimentHealthRuleSideEnum = "above" | "below";
 /** * `chi_squared` - Chi-squared goodness-of-fit test */
 export type ExperimentHealthRuleTestEnum = "chi_squared";
 export interface ExperimentHealthRuleMinimum {
-  /** The key in `values` that must reach the threshold before the check judges. * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics that the calculation computes * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one */
+  /** The key in `values` that must reach the threshold before the check judges. * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `unserved_exposed_count` - Users or groups first exposed after the day of the feature flag's last save, in a variant that the flag doesn't serve since that save * `unserved_exposed_percentage` - unserved_exposed_count as a share of the users or groups first exposed after that day * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics of the experiment * `secondary_metric_count` - Secondary metrics of the experiment * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one * `flag_last_called_at` - When PostHog last recorded a call of the feature flag * `flag_called` - Whether PostHog has recorded a call of the feature flag * `since_start_hours` - Hours since the experiment's start date, which can be earlier than the launch * `daily_calculation_ends_at` - When the daily calculation stops covering the experiment, a fixed number of days after its start date * `events_billing_limit_reached` - Whether the organization reached its billing limit for product analytics, so that PostHog drops the project's product analytics events * `events_billing_limit_ends_at` - When PostHog stops dropping the project's product analytics events, unless the limit lifts earlier * `feature_flags_billing_limit_reached` - Whether the organization reached its billing limit for feature flags, so that PostHog returns no flags to the project's flag requests * `feature_flags_billing_limit_ends_at` - When PostHog returns flags to the project's flag requests again, unless the limit lifts earlier * `metric_name` - The name of a metric * `metric_role` - Whether a metric is primary or secondary * `ratio_side` - The side of a ratio metric, numerator or denominator, or null for the other metric types * `sample_count` - Users or groups in a metric's results, across the variants * `planned_sample_count` - Users or groups that the running time estimate needs to detect its minimum detectable effect * `data_hours` - Hours of data that a metric's latest calculation holds since launch, within the metric's conversion window * `variant` - The key of a variant * `difference_percentage` - A variant's difference from the control on the primary metric, relative to the control, with its sign * `detectable_difference_percentage` - The smallest difference from the control that the variant's sample can reliably detect, relative to the control * `significant` - Whether a variant's difference from the control is significant * `forced_condition_count` - Release conditions of the feature flag that serve a fixed variant through a variant override * `matched_count` - Users or groups that a release condition served since traffic_since_at, without those forced to a variant that has 0% in the split * `variant_matched_count` - Of matched_count, the users or groups who got the variant. Estimated from the split for those assigned at random * `forced_count` - Users or groups that a release condition with a variant override served * `forced_percentage` - forced_count as a share of variant_matched_count * `traffic_since_at` - The start of the window that matched_count counts: 7 days ago, or the launch or the flag's last save if later * `history_since_at` - The start of the feature flag's history that the check reads: the experiment's start date, which can be earlier than the launch * `change_count` - Changes of the feature flag since history_since_at of the kind that the check looks for, such as split changes * `changed_at` - When a change of the feature flag was saved * `before_exposure` - Whether a change of the feature flag was saved before anyone was exposed, so it moved nobody. Null when unknown * `changed_setting` - The flag setting that a change of the bucketing changed, as the flag page names it * `before` - What a change of the feature flag changed, as it was before the change, in words * `after` - What a change of the feature flag changed, as it was after the change, in words * `before_filters` - The feature flag's release conditions before a change, as the flag stores them: an object with the groups and the aggregation_group_type_index of its filters. Null when they don't fit the size limit of the check's rows. The flag's history shows them in full * `after_filters` - The feature flag's release conditions after a change, as the flag stores them, like before_filters * `flag_service_call_percentage` - Of the feature flag's calls since traffic_since_at that returned a variant, the share that the flag service evaluated. Only these calls name the release condition that served them, so local evaluation and bootstrapped values count in no condition * `cohort_count` - Cohorts that the exposure criteria filter on * `dynamic_cohort_count` - Of cohort_count, the dynamic cohorts, whose members the results read at the time of the calculation * `event` - The name of an event that the check looked up * `event_received` - Whether the project has received the event. Null when PostHog keeps no record of the event name * `invalid_metric_count` - Metrics whose query doesn't compile, so every calculation fails * `unchecked_metric_count` - Metrics whose query the check couldn't compile, because they read data that the reader can't query or the compile failed for a reason other than the metric * `flag_split` - The feature flag's variants with their rollout percentages, in words * `baseline_variant` - The key of the variant that the analysis compares the others with, or null when the analysis picks one * `other_running_experiment_count` - Other experiments that run on the same feature flag and are not archived * `assigned_outside_count` - Users or groups who got a variant from a call that the flag service didn't evaluate and that is no local evaluation, such as a bootstrapped value. Read only while a running experiment's feature flag has a 0% rollout * `other_draft_experiment_count` - Other draft experiments on the same feature flag that are not archived * `filters_test_accounts` - Whether the counts leave out internal and test users, because the experiment applies the test account filters */
   value: ExperimentHealthValueKeyEnum;
   /** The value that the key must reach. Below it, the check reports no finding. */
   threshold: number;
 }
 export interface ExperimentHealthCheckRule {
-  /** The key in `values` that the check compares with the threshold. * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics that the calculation computes * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one */
+  /** The key in `values` that the check compares with the threshold. * `exposed_count` - Users or groups exposed since launch, as the exposure criteria count them, including those exposed to multiple variants * `compared_count` - Exposed users or groups in the variants that the sample ratio test compares, without those exposed to multiple variants * `multiple_variant_count` - Users or groups exposed to more than one variant * `multiple_variant_percentage` - multiple_variant_count as a share of exposed_count * `multiple_variant_handling` - What the results do with users exposed to more than one variant: exclude or first_seen * `p_value` - P-value of the sample ratio test * `since_launch_hours` - Hours since launch * `exposed_without_test_account_filter_count` - Users or groups that the exposure criteria count without the test account filters * `kept_by_test_account_filter_percentage` - exposed_count as a share of exposed_without_test_account_filter_count * `unserved_exposed_count` - Users or groups first exposed after the day of the feature flag's last save, in a variant that the flag doesn't serve since that save * `unserved_exposed_percentage` - unserved_exposed_count as a share of the users or groups first exposed after that day * `only_count_matured_users` - Whether "Require completed conversion or retention window" is on * `primary_metric_count` - Primary metrics of the experiment * `secondary_metric_count` - Secondary metrics of the experiment * `waiting_metric_count` - Of the primary metrics, those whose conversion or retention window hasn't passed for any user yet * `metric_count` - Metrics that the calculation computes * `completed_metric_count` - Metrics whose result of the latest calculation the page shows * `failed_metric_count` - Metrics whose latest calculation failed * `calculated_at` - When the latest calculation of the metrics finished * `flag_active` - Whether the feature flag is enabled * `flag_deleted` - Whether the feature flag is deleted * `flag_rolled_out` - Whether a release condition of the feature flag rolls out to more than 0% * `shipped_variant` - The key of the variant that the feature flag serves to everyone, or null when it serves more than one * `flag_last_called_at` - When PostHog last recorded a call of the feature flag * `flag_called` - Whether PostHog has recorded a call of the feature flag * `since_start_hours` - Hours since the experiment's start date, which can be earlier than the launch * `daily_calculation_ends_at` - When the daily calculation stops covering the experiment, a fixed number of days after its start date * `events_billing_limit_reached` - Whether the organization reached its billing limit for product analytics, so that PostHog drops the project's product analytics events * `events_billing_limit_ends_at` - When PostHog stops dropping the project's product analytics events, unless the limit lifts earlier * `feature_flags_billing_limit_reached` - Whether the organization reached its billing limit for feature flags, so that PostHog returns no flags to the project's flag requests * `feature_flags_billing_limit_ends_at` - When PostHog returns flags to the project's flag requests again, unless the limit lifts earlier * `metric_name` - The name of a metric * `metric_role` - Whether a metric is primary or secondary * `ratio_side` - The side of a ratio metric, numerator or denominator, or null for the other metric types * `sample_count` - Users or groups in a metric's results, across the variants * `planned_sample_count` - Users or groups that the running time estimate needs to detect its minimum detectable effect * `data_hours` - Hours of data that a metric's latest calculation holds since launch, within the metric's conversion window * `variant` - The key of a variant * `difference_percentage` - A variant's difference from the control on the primary metric, relative to the control, with its sign * `detectable_difference_percentage` - The smallest difference from the control that the variant's sample can reliably detect, relative to the control * `significant` - Whether a variant's difference from the control is significant * `forced_condition_count` - Release conditions of the feature flag that serve a fixed variant through a variant override * `matched_count` - Users or groups that a release condition served since traffic_since_at, without those forced to a variant that has 0% in the split * `variant_matched_count` - Of matched_count, the users or groups who got the variant. Estimated from the split for those assigned at random * `forced_count` - Users or groups that a release condition with a variant override served * `forced_percentage` - forced_count as a share of variant_matched_count * `traffic_since_at` - The start of the window that matched_count counts: 7 days ago, or the launch or the flag's last save if later * `history_since_at` - The start of the feature flag's history that the check reads: the experiment's start date, which can be earlier than the launch * `change_count` - Changes of the feature flag since history_since_at of the kind that the check looks for, such as split changes * `changed_at` - When a change of the feature flag was saved * `before_exposure` - Whether a change of the feature flag was saved before anyone was exposed, so it moved nobody. Null when unknown * `changed_setting` - The flag setting that a change of the bucketing changed, as the flag page names it * `before` - What a change of the feature flag changed, as it was before the change, in words * `after` - What a change of the feature flag changed, as it was after the change, in words * `before_filters` - The feature flag's release conditions before a change, as the flag stores them: an object with the groups and the aggregation_group_type_index of its filters. Null when they don't fit the size limit of the check's rows. The flag's history shows them in full * `after_filters` - The feature flag's release conditions after a change, as the flag stores them, like before_filters * `flag_service_call_percentage` - Of the feature flag's calls since traffic_since_at that returned a variant, the share that the flag service evaluated. Only these calls name the release condition that served them, so local evaluation and bootstrapped values count in no condition * `cohort_count` - Cohorts that the exposure criteria filter on * `dynamic_cohort_count` - Of cohort_count, the dynamic cohorts, whose members the results read at the time of the calculation * `event` - The name of an event that the check looked up * `event_received` - Whether the project has received the event. Null when PostHog keeps no record of the event name * `invalid_metric_count` - Metrics whose query doesn't compile, so every calculation fails * `unchecked_metric_count` - Metrics whose query the check couldn't compile, because they read data that the reader can't query or the compile failed for a reason other than the metric * `flag_split` - The feature flag's variants with their rollout percentages, in words * `baseline_variant` - The key of the variant that the analysis compares the others with, or null when the analysis picks one * `other_running_experiment_count` - Other experiments that run on the same feature flag and are not archived * `assigned_outside_count` - Users or groups who got a variant from a call that the flag service didn't evaluate and that is no local evaluation, such as a bootstrapped value. Read only while a running experiment's feature flag has a 0% rollout * `other_draft_experiment_count` - Other draft experiments on the same feature flag that are not archived * `filters_test_accounts` - Whether the counts leave out internal and test users, because the experiment applies the test account filters */
   value: ExperimentHealthValueKeyEnum;
   /** The threshold, in the unit that the suffix of the key gives. */
   threshold: number;
@@ -1873,8 +1982,28 @@ export interface ExperimentHealthCheckRule {
   /** What the check needs before it judges. Null when the check judges from the first value. */
   minimum: ExperimentHealthRuleMinimum | null;
 }
+export type ExperimentHealthCheckResultRowsItemValueCase3GroupsItemMap = {
+  [key: string]: unknown | undefined;
+};
+export type ExperimentHealthCheckResultRowsItemValueCase3GroupsList =
+  Array<ExperimentHealthCheckResultRowsItemValueCase3GroupsItemMap>;
+/** A feature flag's release conditions as the flag stores them, in before_filters and after_filters. */
+export interface ExperimentHealthCheckResultRowsItemValueCase3 {
+  groups: ExperimentHealthCheckResultRowsItemValueCase3GroupsList;
+  aggregation_group_type_index: number | null;
+}
+export type ExperimentHealthCheckResultRowsItemValue =
+  | string
+  | number
+  | boolean
+  | ExperimentHealthCheckResultRowsItemValueCase3;
+export type ExperimentHealthCheckResultRowsItemMap = {
+  [key: string]: ExperimentHealthCheckResultRowsItemValue | null | undefined;
+};
+/** What the check read per variant, metric or feature flag change, one object each, with the keys and units of `values`. For example, the significance check gives each variant's difference and the smallest difference its sample can detect. A release condition change also gives the conditions as the flag stores them, in before_filters and after_filters. Empty when the check reads no such list. */
+export type ExperimentHealthCheckResultRowsList = Array<ExperimentHealthCheckResultRowsItemMap>;
 export interface ExperimentHealthCheckResult {
-  /** Stable identifier of the check. A check can report several finding codes, so the key is not a finding code. * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share */
+  /** Stable identifier of the check. A check can report several finding codes, so the key is not a finding code. * `flag_state` - Flag State * `flag_shared` - Flag Shared * `flag_history` - Flag History * `split_changed_mid_run` - Split Changed Mid Run * `bucketing_changed_mid_run` - Bucketing Changed Mid Run * `release_conditions_changed_mid_run` - Release Conditions Changed Mid Run * `flag_variants_mismatch` - Flag Variants Mismatch * `forced_variant_release_condition` - Forced Variant Release Condition * `new_flag_no_traffic` - New Flag No Traffic * `no_metric` - No Metric * `metric_event_not_ingested` - Metric Event Not Ingested * `metric_cannot_compile` - Metric Cannot Compile * `metric_calculation_failed` - Metric Calculation Failed * `metric_all_zero` - Metric All Zero * `exposure_criteria_cannot_match` - Exposure Criteria Cannot Match * `exposure_filters` - Exposure Filters * `early_significance` - Early Significance * `metrics_not_matured` - Metrics Not Matured * `stale_experiment` - Stale Experiment * `zero_exposures` - Zero Exposures * `test_account_filter_removes_exposures` - Test Account Filter Removes Exposures * `srm` - Srm * `unserved_variant_exposures` - Unserved Variant Exposures * `bias_risk_multiple_excluded` - Bias Risk Multiple Excluded * `multiple_variants_share` - Multiple Variants Share * `events_billing_limit` - Events Billing Limit * `feature_flags_billing_limit` - Feature Flags Billing Limit */
   key: ExperimentHealthCheckKeyEnum;
   /** The problem the check looks for, for example 'Metrics not set up'. */
   name: string;
@@ -1888,6 +2017,8 @@ export interface ExperimentHealthCheckResult {
   values: ExperimentHealthCheckResultValuesMap;
   /** How the check decides. The same for every experiment and every status. Null for a check without a numeric rule. */
   rule: ExperimentHealthCheckRule | null;
+  /** What the check read per variant, metric or feature flag change, one object each, with the keys and units of `values`. For example, the significance check gives each variant's difference and the smallest difference its sample can detect. A release condition change also gives the conditions as the flag stores them, in before_filters and after_filters. Empty when the check reads no such list. */
+  rows: ExperimentHealthCheckResultRowsList;
 }
 /** The result of each health check, in the order the checks run. The checks that read the exposure counts are not here: the exposure query returns them as `health_checks`. */
 export type ExperimentHealthChecksList = Array<ExperimentHealthCheckResult>;
@@ -1898,11 +2029,63 @@ export interface ExperimentHealthReleaseCondition {
   property_count: number;
   /** The group type the condition set assigns variants by: its own, or the flag's when it sets none. Null when it assigns them by user. */
   aggregation_group_type_index: number | null;
+  /** The key of the variant that the condition set serves to every user it matches, its variant override. Null when the flag's split picks the variant, or when the override names no variant of the flag, which the flag service ignores. */
+  variant: string | null;
+  /** Whether the condition set can serve anyone. False when its rollout is 0%, or when an earlier set without filters ends the flag's evaluation before it, so its rollout and variant override apply to nobody. Null when the flag buckets by device ID, because a request without a device ID skips the earlier sets that need the bucketing hash and can reach this set anyway. */
+  reachable: boolean | null;
 }
 /** The flag's condition sets as stored, in the order the flag evaluates them. Whether a set can serve a request depends on the sets before it and on `early_exit`. */
 export type ExperimentHealthSetupReleaseConditionsList = Array<ExperimentHealthReleaseCondition>;
 /** The names of the flag's evaluation contexts. When PostHog evaluates the flag, an SDK that sends evaluation contexts gets it only when it sends one of these, and an SDK that sends none gets it. Empty when the flag has none. */
 export type ExperimentHealthSetupEvaluationContextsList = Array<string>;
+export interface ExperimentHealthExposureSetup {
+  /** The event that the exposure criteria count. Null when they count the flag's calls or an action. */
+  event: string | null;
+  /** The name of the action that the exposure criteria count. Null when they count an event. */
+  action: string | null;
+  /** The event, or the name of the action, that has to follow a user's flag call before the user counts as exposed. Null without one. */
+  activation: string | null;
+}
+/** * `bayesian` - Bayesian * `frequentist` - Frequentist */
+export type StatsMethodEnum = "bayesian" | "frequentist";
+/** The names of the calculated metrics that CUPED doesn't apply to, because CUPED doesn't support their metric type. Empty when CUPED is off. */
+export type ExperimentHealthAnalysisSetupMetricsWithoutCupedSupportList = Array<string>;
+/** * `exclude` - Exclude from analysis * `first_seen` - Use first seen variant */
+export type ExperimentHealthMultipleVariantHandlingEnum = "exclude" | "first_seen";
+/** The variants that the results leave out. */
+export type ExperimentHealthAnalysisSetupExcludedVariantsList = Array<string>;
+export interface ExperimentHealthAnalysisSetup {
+  /** The statistical method of the results. * `bayesian` - Bayesian * `frequentist` - Frequentist */
+  stats_method: StatsMethodEnum;
+  /** The Bayesian credible interval, or 1 - alpha for the frequentist test, as a fraction such as 0.95. */
+  confidence_level: number;
+  /** Whether the frequentist test uses sequential testing. Null for the Bayesian method. */
+  sequential_testing: boolean | null;
+  /** Whether the experiment leaves sequential testing unset, so the project's default applies. */
+  sequential_testing_from_project_default: boolean;
+  /** Whether the results apply CUPED variance reduction to the metrics that support it. */
+  cuped: boolean;
+  /** The days before exposure that CUPED reads. Null when CUPED is off. */
+  cuped_lookback_days: number | null;
+  /** Whether the experiment leaves CUPED unset, so the project's default applies. */
+  cuped_from_project_default: boolean;
+  /** Whether CUPED is on and the experiment leaves its lookback unset, so the project's default applies. */
+  cuped_lookback_days_from_project_default: boolean;
+  /** The names of the calculated metrics that CUPED doesn't apply to, because CUPED doesn't support their metric type. Empty when CUPED is off. */
+  metrics_without_cuped_support: ExperimentHealthAnalysisSetupMetricsWithoutCupedSupportList;
+  /** Whether the results leave out internal and test users with the project's test account filters. Null when the exposure criteria can't be read, or the exposures come from a data warehouse table. */
+  filters_test_accounts: boolean | null;
+  /** How many of the project's test account filters the results apply. 0 when they count test accounts. */
+  test_account_filter_count: number;
+  /** What the results do with users exposed to more than one variant. Null when the exposure criteria can't be read. * `exclude` - Exclude from analysis * `first_seen` - Use first seen variant */
+  multiple_variant_handling: ExperimentHealthMultipleVariantHandlingEnum | null;
+  /** Whether a user counts only after their conversion or retention window is complete. */
+  only_count_matured_users: boolean;
+  /** The variant that the others are compared against. */
+  baseline_variant: string;
+  /** The variants that the results leave out. */
+  excluded_variants: ExperimentHealthAnalysisSetupExcludedVariantsList;
+}
 export interface ExperimentHealthSetup {
   /** The flag's condition sets as stored, in the order the flag evaluates them. Whether a set can serve a request depends on the sets before it and on `early_exit`. */
   release_conditions: ExperimentHealthSetupReleaseConditionsList;
@@ -1918,6 +2101,10 @@ export interface ExperimentHealthSetup {
   evaluation_contexts: ExperimentHealthSetupEvaluationContextsList;
   /** The flag's 'Persist flag across authentication steps' setting. */
   ensure_experience_continuity: boolean;
+  /** What the exposure criteria count as an exposure. Null when they can't be read, or when the exposures come from a data warehouse table. */
+  exposure: ExperimentHealthExposureSetup | null;
+  /** What the results calculation reads besides the metrics, with the project's defaults applied. */
+  analysis: ExperimentHealthAnalysisSetup;
 }
 export interface ExperimentHealth {
   /** Problems that the health checks found in the experiment's configuration and its feature flag. Empty when no check found a problem. An empty list does not mean that every check ran: read `checks`. */
@@ -1941,6 +2128,8 @@ export interface ExperimentOutput {
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key?: string | undefined;
   feature_flag?: MinimalFeatureFlag | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   holdout?: ExperimentHoldout | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
@@ -1966,7 +2155,7 @@ export interface ExperimentOutput {
   type?: ExperimentTypeEnum | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -2112,9 +2301,9 @@ export interface ExperimentMetricsRecalculationJob {
   status: MetricsRecalculationStatusEnum;
   /** Total number of metrics to recalculate */
   total_metrics: number;
-  /** Number of metrics with a COMPLETED result row in this run (derived, not stored) */
+  /** Number of metrics with a COMPLETED result row that did not fail in this run (derived, not stored) */
   completed_metrics: number;
-  /** Number of failed metrics in this run (derived): FAILED result rows plus discovery-step failures that never made it to a result row */
+  /** Number of failed metrics in this run (derived): metrics with a FAILED result row or a metric_errors entry. A metric that fails keeps its earlier completed result, so it can count here and still have a completed row in results. The error of a rejected run counts only for a metric without a row */
   failed_metrics: number;
   /** Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp, exposures_path}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first. exposures_path is where the query read the exposures, and is missing when the query failed before it was built */
   metric_errors: unknown;
@@ -2164,6 +2353,8 @@ export interface CreateExperimentsRecalculateTimeseriesRequest {
   end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key?: string | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -2189,7 +2380,7 @@ export interface CreateExperimentsRecalculateTimeseriesRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -2736,14 +2927,14 @@ export type ExperimentSetupStoredPropertyFilterListItem =
 /** Property filters as an experiment stored them. Any filter type can appear, cohorts included. */
 export type ExperimentSetupStoredPropertyFilterList =
   Array<ExperimentSetupStoredPropertyFilterListItem>;
-/** metric_type of each primary metric, for example 'mean', 'funnel', 'ratio' or 'retention'. */
+/** metric_type of each primary metric, for example 'mean', 'funnel', 'ratio', 'retention' or 'quantile'. */
 export type ExperimentSetupPreviousExperimentPrimaryMetricTypesList = Array<string>;
 /** Event names the primary metrics count. */
 export type ExperimentSetupPreviousExperimentPrimaryMetricEventsList = Array<string>;
 /** Actions the primary metrics count. */
 export type ExperimentSetupPreviousExperimentPrimaryMetricActionIdsList = Array<number>;
 export interface ExperimentSetupOutcome {
-  /** metric_type of the metric this outcome describes: 'funnel', 'mean', 'ratio' or 'retention'. */
+  /** metric_type of the metric this outcome describes: 'funnel', 'mean', 'ratio', 'retention' or 'quantile'. */
   metric_type: string;
   /** Units the result counted across all variants. What a unit is depends on metric_type, so read analyzed_exposures where you need exposures. Null when the result stores no sample counts. */
   metric_samples: number | null;
@@ -2813,7 +3004,7 @@ export interface ExperimentSetupPreviousExperiment {
   secondary_metric_count: number;
   /** Shared metrics attached to the experiment. */
   shared_metric_count: number;
-  /** metric_type of each primary metric, for example 'mean', 'funnel', 'ratio' or 'retention'. */
+  /** metric_type of each primary metric, for example 'mean', 'funnel', 'ratio', 'retention' or 'quantile'. */
   primary_metric_types: ExperimentSetupPreviousExperimentPrimaryMetricTypesList;
   /** Event names the primary metrics count. */
   primary_metric_events: ExperimentSetupPreviousExperimentPrimaryMetricEventsList;
@@ -2875,14 +3066,14 @@ export interface ExperimentSetupPreviousExperimentsSection {
 export type ExperimentSetupSharedMetricEventsList = Array<string>;
 /** Actions the metric counts. */
 export type ExperimentSetupSharedMetricActionIdsList = Array<number>;
-/** Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed. */
+/** Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'quantile_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed. */
 export type ExperimentSetupSharedMetricMetricEventRolesList = Array<string>;
 export interface ExperimentSetupSharedMetric {
   /** Shared metric id, to attach it instead of creating an inline metric. */
   id: number;
   /** Shared metric name. */
   name: string;
-  /** 'mean', 'funnel', 'ratio' or 'retention', or null for older metrics. */
+  /** 'mean', 'funnel', 'ratio', 'retention' or 'quantile', or null for older metrics. */
   metric_type: string | null;
   /** Event names the metric counts. */
   events: ExperimentSetupSharedMetricEventsList;
@@ -2896,7 +3087,7 @@ export interface ExperimentSetupSharedMetric {
   last_used_at: string | null;
   /** Whether the metric counts metric_event, directly or through an action. Null when no metric_event was passed. */
   matches_metric_event: boolean | null;
-  /** Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed. */
+  /** Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'quantile_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed. */
   metric_event_roles: ExperimentSetupSharedMetricMetricEventRolesList | null;
 }
 /** Metrics that match metric_event first, then most reused. A use counts when it is on an experiment you can open and that is not deleted, so the counts follow your access. */
@@ -3038,6 +3229,8 @@ export interface ExperimentsCreateExposureCohortForExperimentCreateRequest {
   end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key?: string | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -3063,7 +3256,7 @@ export interface ExperimentsCreateExposureCohortForExperimentCreateRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -3160,6 +3353,8 @@ export interface ExperimentsDuplicateCreateRequest {
   end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key?: string | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -3179,7 +3374,7 @@ export interface ExperimentsDuplicateCreateRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -3360,314 +3555,6 @@ export interface GetExperimentsHealthRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
 }
-export interface GetExperimentsHealthInputRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A unique integer value identifying this experiment. */
-  id: number;
-}
-/** The variants the analysis leaves out of the results. The forced-variant check ignores pins to them. */
-export type ExperimentHealthInputsExcludedVariantKeysList = Array<string>;
-export interface ExperimentHealthInputsReleaseCondition {
-  /** The condition's position in the flag, from 1, as the flag page labels it ('Set 2'). */
-  number: number;
-  /** The condition's rollout, in percent. Null when the flag stores no number. */
-  rollout_percentage: number | null;
-  /** The number of property filters. Null when the flag stores no list. */
-  property_count: number | null;
-  /** Whether the condition can serve a request. A condition after one that matches everyone never does. */
-  reachable: boolean;
-  /** The variant that the condition's override serves. Null when the condition is not reachable, has no override, or its override names no variant of the flag. */
-  pinned_variant: string | null;
-}
-/** The flag's release conditions, in evaluation order. */
-export type ExperimentHealthInputsFlagReleaseConditionsList =
-  Array<ExperimentHealthInputsReleaseCondition>;
-export interface ExperimentHealthInputsVariant {
-  /** The variant key. Null when the flag stores no string key. */
-  key: string | null;
-  /** The variant's share of the split, in percent. Null when the flag stores no number. */
-  rollout_percentage: number | null;
-}
-/** The flag's variants and their split. */
-export type ExperimentHealthInputsFlagVariantsList = Array<ExperimentHealthInputsVariant>;
-export interface ExperimentHealthInputsFlag {
-  /** Whether the flag is enabled. */
-  active: boolean;
-  /** Whether the flag is deleted. */
-  deleted: boolean;
-  /** The flag's release conditions, in evaluation order. */
-  release_conditions: ExperimentHealthInputsFlagReleaseConditionsList;
-  /** The flag's variants and their split. */
-  variants: ExperimentHealthInputsFlagVariantsList;
-  /** The split as text, in the form of a change's before and after, such as 'control 50%, test 50%'. */
-  split_text: string;
-}
-export interface ExperimentHealthInputsExposureEvents {
-  /** The event the exposure criteria count in place of the flag calls. Null for flag calls or an action. */
-  custom_event: string | null;
-  /** The flag key the exposure query requires on the flag call events. Null for a custom event or an action. */
-  required_flag_key: string | null;
-  /** The event property that holds the variant. */
-  variant_property: string;
-  /** The event, or the action's name, that has to follow a user's flag call before the user counts. Null without an activation. */
-  activation: string | null;
-}
-/** Whether the project has received each event that the metrics and the exposure criteria name, by event name. A name that ingestion keeps no record of is absent. */
-export type ExperimentHealthInputsEventsReceivedMap = { [key: string]: boolean | undefined };
-/** * `rejected` - Rejected * `syntax` - Syntax * `query` - Query * `definition` - Definition */
-export type ExperimentHealthMetricCompileErrorKindEnum =
-  | "rejected"
-  | "syntax"
-  | "query"
-  | "definition";
-export interface ExperimentHealthInputsMetricCompileFailure {
-  /** The metric's name as the experiment shows it. */
-  name: string;
-  /** 'primary' or 'secondary'. */
-  role: string;
-  /** Who rejected the query: 'rejected' is a validation of the query builder, 'syntax' and 'query' come from HogQL, 'definition' means the stored definition doesn't parse into a metric. * `rejected` - Rejected * `syntax` - Syntax * `query` - Query * `definition` - Definition */
-  kind: ExperimentHealthMetricCompileErrorKindEnum;
-  /** The compiler's message, without the list of a scope's fields. Null when it can hold the evaluation rules that the AI evaluation markers keep out of the browser. */
-  message: string | null;
-}
-/** The metrics whose query doesn't compile, with the compiler's message. */
-export type ExperimentHealthInputsMetricCompilesFailuresList =
-  Array<ExperimentHealthInputsMetricCompileFailure>;
-export interface ExperimentHealthInputsMetricCompiles {
-  /** The metrics that the experiment calculates, one per uuid. */
-  metric_count: number;
-  /** The metrics whose compile raised an error that names no problem of the metric, such as a defect. */
-  unknown_count: number;
-  /** The metrics that read a warehouse table or view that the reader may not query, so they aren't checked. */
-  no_access_count: number;
-  /** Whether the exposure query alone doesn't compile. Every metric then fails for that reason, so no failure is listed. */
-  exposure_query_fails: boolean;
-  /** The metrics whose query doesn't compile, with the compiler's message. */
-  failures: ExperimentHealthInputsMetricCompilesFailuresList;
-}
-export interface ExperimentHealthInputsMetricCalculationFailure {
-  /** The metric's name as the experiment shows it. */
-  name: string;
-  /** 'primary' or 'secondary'. */
-  role: string;
-  /** The class that the calculation stored for the error, such as 'timeout' or 'rate_limited'. Null for a failure stored without a class. */
-  error_type: string | null;
-  /** The step of the calculation that failed, such as 'calculation'. Null when the failure names none. */
-  step: string | null;
-  /** Whether the results page shows a button to try the metric again, which it does for a retriable error. */
-  retriable: boolean;
-  /** The stored message as the results page shows it, without the names that HogQL suggests and the list of a scope's fields. Null when it can hold evaluation rules that the AI evaluation markers keep out of the browser. */
-  message: string | null;
-}
-/** The metrics whose latest calculation failed, with the error that the results page shows. */
-export type ExperimentHealthInputsLatestCalculationFailuresList =
-  Array<ExperimentHealthInputsMetricCalculationFailure>;
-/** The events of the metric that the project last received before launch. */
-export type ExperimentHealthInputsZeroMetricStoppedEventsList = Array<string>;
-export interface ExperimentHealthInputsZeroMetric {
-  /** The name of the metric, as the results page shows it. */
-  name: string;
-  /** Whether the metric is a primary or a secondary metric of the experiment. */
-  role: string;
-  /** The persons or groups of the result, across the variants. */
-  exposures: number;
-  /** The side of a ratio that reads zero. Each side that reads zero has its own entry. Null for the other metric types. */
-  ratio_side: string | null;
-  /** The events of the metric that the project last received before launch. */
-  stopped_events: ExperimentHealthInputsZeroMetricStoppedEventsList;
-}
-/** The metrics that read zero in every variant in this calculation. */
-export type ExperimentHealthInputsLatestCalculationZeroMetricsList =
-  Array<ExperimentHealthInputsZeroMetric>;
-export interface ExperimentHealthInputsLatestCalculation {
-  /** When the latest calculation that the results page shows finished. Null when none has finished. */
-  finished_at: string | null;
-  /** The metrics whose latest calculation failed, with the error that the results page shows. */
-  failures: ExperimentHealthInputsLatestCalculationFailuresList;
-  /** The hours from launch to the end of the data of this calculation. Null when none has finished. */
-  hours_of_data: number | null;
-  /** The metrics that read zero in every variant in this calculation. */
-  zero_metrics: ExperimentHealthInputsLatestCalculationZeroMetricsList;
-}
-/** * `split` - Split * `bucketing` - Bucketing * `release_conditions` - Release-condition */
-export type ExperimentHealthFlagChangeKindEnum = "split" | "bucketing" | "release_conditions";
-export interface ExperimentHealthInputsFlagChange {
-  /** The kind of change. A bucketing change is a change of a setting that decides the variant draw. * `split` - Split * `bucketing` - Bucketing * `release_conditions` - Release-condition */
-  kind: ExperimentHealthFlagChangeKindEnum;
-  /** When the flag changed. */
-  changed_at: string;
-  /** What changed, as the staff view names it, such as 'Split' or 'Key'. */
-  changed: string;
-  /** The value before the change as text, such as 'control 50%, test 50%' or 'device_id'. 'none' when unset. */
-  before: string;
-  /** The value after the change, in the same form. */
-  after: string;
-  /** Whether the checks count this change: every change counts from the first change, of any kind, with an exposure before it, or an unknown answer. False for every change when not checked. */
-  counted: boolean;
-}
-/** Every change since launch that can move exposed people, of every kind, in time order. A bucketing change is one per setting and save. A rollout change alone is no release-condition change. Empty for 'no_history_access', which does not read them. */
-export type ExperimentHealthInputsFlagHistoryChangesList = Array<ExperimentHealthInputsFlagChange>;
-export interface ExperimentHealthInputsExposedBetween {
-  /** The kind of change. A bucketing change is a change of a setting that decides the variant draw. * `split` - Split * `bucketing` - Bucketing * `release_conditions` - Release-condition */
-  kind: ExperimentHealthFlagChangeKindEnum;
-  /** What was asked, as the staff view names it. */
-  question: string;
-  /** Whether anyone was exposed between the first and the last counted change of this kind. Asked only when the last sets back what the first changed. Null when not asked or unknown. */
-  exposed: boolean | null;
-}
-/** One entry for each kind of change with a counted change, in the order of the kinds. */
-export type ExperimentHealthInputsFlagHistoryExposedBetweenList =
-  Array<ExperimentHealthInputsExposedBetween>;
-export interface ExperimentHealthInputsFlagHistory {
-  /** Whether the changes were compared with the exposures. False when not_checked_reason is set. */
-  checked: boolean;
-  /** Why the changes were not compared with the exposures: 'no_history_access', 'no_query_access', 'exposure_filters', 'exposure_action' or 'exposure_criteria'. Null when they were. */
-  not_checked_reason: string | null;
-  /** The experiment's start date. The flag history counts changes from it, as the results count exposures from it. */
-  start_date: string;
-  /** The project's time zone, which the findings use for times. */
-  team_timezone: string;
-  /** Every change since launch that can move exposed people, of every kind, in time order. A bucketing change is one per setting and save. A rollout change alone is no release-condition change. Empty for 'no_history_access', which does not read them. */
-  changes: ExperimentHealthInputsFlagHistoryChangesList;
-  /** Whether anyone was exposed before the first counted change. Null when unknown or not checked. */
-  exposed_before_first: boolean | null;
-  /** One entry for each kind of change with a counted change, in the order of the kinds. */
-  exposed_between: ExperimentHealthInputsFlagHistoryExposedBetweenList;
-}
-/** * `read` - Read * `not_needed` - Not Needed * `no_query_access` - No Query Access * `denied_properties` - Denied Properties * `no_flag_version` - No Flag Version * `unknown` - Unknown */
-export type ExperimentHealthInputsTrafficStatusEnum =
-  | "read"
-  | "not_needed"
-  | "no_query_access"
-  | "denied_properties"
-  | "no_flag_version"
-  | "unknown";
-export interface ExperimentHealthInputsConditionSetPeople {
-  /** The number of the release condition, from 1. */
-  condition_set: number;
-  /** The people whose latest call this condition served. */
-  people: number;
-}
-/** People by the release condition that served their latest call of the flag's version. */
-export type ExperimentHealthInputsConditionSetTrafficPeopleBySetList =
-  Array<ExperimentHealthInputsConditionSetPeople>;
-export interface ExperimentHealthInputsConditionSetTraffic {
-  /** The start of the window: the latest of launch, the flag's last save and 7 days ago. */
-  since: string;
-  /** The project's time zone, which the finding uses for times. */
-  team_timezone: string;
-  /** People by the release condition that served their latest call of the flag's version. */
-  people_by_set: ExperimentHealthInputsConditionSetTrafficPeopleBySetList;
-  /** The flag's calls in the window, of any flag version. */
-  calls: number;
-  /** The calls that the flag service evaluated. Only those name a condition set. Local evaluation in a server SDK and a bootstrapped value name none. */
-  remotely_evaluated_calls: number;
-  /** The people who got a variant from a call without a flag version that is no local evaluation in a server SDK, from an hour after the start of the window: a bootstrap or the caller's own assignment. With a 0% rollout, 10 or more of them turn `running_but_no_rollout` into `assigned_outside_flag_service`. */
-  people_assigned_outside: number;
-}
-/** Event properties the reader is denied. The forced-variant and release-condition checks skip their scan when one of them is a flag call property it reads. */
-export type ExperimentHealthInputsReaderAccessDeniedEventPropertiesList = Array<string>;
-export interface ExperimentHealthInputsReaderAccess {
-  /** Whether the reader may read the flag's history, which the flag-change checks need. */
-  can_read_flag_history: boolean;
-  /** Whether the reader may query events, which the flag-change and forced-variant checks need. */
-  can_query_events: boolean;
-  /** Event properties the reader is denied. The forced-variant and release-condition checks skip their scan when one of them is a flag call property it reads. */
-  denied_event_properties: ExperimentHealthInputsReaderAccessDeniedEventPropertiesList;
-}
-/** * `ready` - Ready * `stale` - Stale * `calculating` - Calculating * `not_launched` - Not Launched * `no_query_access` - No Query Access * `failed` - Failed */
-export type HealthExposureInputsStatusEnum =
-  | "ready"
-  | "stale"
-  | "calculating"
-  | "not_launched"
-  | "no_query_access"
-  | "failed";
-/** Exposed people by variant. '$multiple' counts the people exposed to more than one variant. */
-export type ExperimentHealthInputsExposureTotalsTotalExposuresMap = {
-  [key: string]: number | undefined;
-};
-export interface ExperimentHealthInputsExposureTotals {
-  /** Exposed people by variant. '$multiple' counts the people exposed to more than one variant. */
-  total_exposures: ExperimentHealthInputsExposureTotalsTotalExposuresMap;
-  /** How the analysis treats people in several variants: 'exclude' or 'first_seen'. */
-  multiple_variant_handling: string;
-  /** The p-value of the sample ratio test. Null when there was too little data. */
-  sample_ratio_mismatch_p_value: number | null;
-  /** Hours from launch to the computation of the answer, as the checks read them. */
-  hours_since_launch: number | null;
-}
-/** The findings of the exposure checks on this answer: zero exposures, SRM and bias risk. */
-export type ExperimentHealthInputsExposuresFindingsList = Array<ExperimentHealthFinding>;
-export interface ExperimentHealthInputsExposures {
-  /** Whether a cached answer was read. 'calculating' means no answer is cached and a calculation runs in the background, so a later request reads a fresh answer. 'stale' means the cached answer is past its age: a recalculation runs in the background, or the last one failed and 'error' says why. After a failed calculation, no new one starts for 20 minutes. * `ready` - Ready * `stale` - Stale * `calculating` - Calculating * `not_launched` - Not Launched * `no_query_access` - No Query Access * `failed` - Failed */
-  status: HealthExposureInputsStatusEnum;
-  /** When the answer was computed. */
-  computed_at: string | null;
-  /** What the exposure checks read. Null without an answer. */
-  totals: ExperimentHealthInputsExposureTotals | null;
-  /** The findings of the exposure checks on this answer: zero exposures, SRM and bias risk. */
-  findings: ExperimentHealthInputsExposuresFindingsList;
-  /** Why the query or its last background calculation failed. Set for 'failed', and for 'stale' when the recalculation failed. */
-  error: string | null;
-}
-export interface ExperimentHealthInputsProject {
-  /** The project's experiment defaults. */
-  team_defaults: ExperimentSetupTeamDefaultsSection;
-  /** Which SDKs call feature flags and where flags are evaluated, across the whole project. Skipped for a reader who may not query events. */
-  sdk_profile: ExperimentSetupSdkProfileSection;
-}
-export interface ExperimentHealthInputs {
-  /** Whether the experiment has a start date. */
-  is_launched: boolean;
-  /** Whether the experiment is launched and not ended. */
-  is_running: boolean;
-  /** Whether the experiment has an end date. */
-  has_ended: boolean;
-  /** Whether the experiment is paused. */
-  is_paused: boolean;
-  /** Whether the experiment is archived. */
-  archived: boolean;
-  /** The baseline set in the experiment's settings. Null when unset. */
-  baseline_variant_key: string | null;
-  /** The variants the analysis leaves out of the results. The forced-variant check ignores pins to them. */
-  excluded_variant_keys: ExperimentHealthInputsExcludedVariantKeysList;
-  /** Single-use primary metrics plus shared metrics linked as primary. */
-  primary_metric_count: number;
-  /** Single-use secondary metrics plus shared metrics linked as secondary. */
-  secondary_metric_count: number;
-  /** The experiment's feature flag. Null when it has none. */
-  flag: ExperimentHealthInputsFlag | null;
-  /** The flag's latest recorded call, which a periodic sync of the flag call events sets. Null when the experiment has no flag, or the flag has no recorded call. */
-  flag_last_called_at: string | null;
-  /** Whether PostHog has recorded any call of the flag. The flag traffic check reads it on a draft. Null when the experiment has no flag, or the organization's flag calls are stored where the checks can't read them. */
-  flag_called: boolean | null;
-  /** Whether PostHog has recorded a call of the flag between launch and the end, or until now. The zero exposures check reads it to say whether the flag is called. Null before launch, after a latest call that came after the end, or when the organization's flag calls can't be read. */
-  flag_called_during_run: boolean | null;
-  /** Whether PostHog has recorded a call of the flag after the end and within the last 3 days. The flag state check reads it on an ended experiment whose flag is still active with multiple variants. False only once 3 days have passed since the end. Null before the end, before those 3 days are over without a call, or when the organization's flag calls can't be read. */
-  flag_called_after_end: boolean | null;
-  /** The events the exposure criteria count. Null when the stored exposure criteria don't parse. */
-  exposure_events: ExperimentHealthInputsExposureEvents | null;
-  /** Whether the project has received each event that the metrics and the exposure criteria name, by event name. A name that ingestion keeps no record of is absent. */
-  events_received: ExperimentHealthInputsEventsReceivedMap;
-  /** The compile of each metric's query without running it, as the reader, which the 'Invalid metric definitions' check reads. A metric that compiles is cached per reader for a day, and a failing metric compiles again on every request. Null when the compile itself failed. */
-  metric_compiles: ExperimentHealthInputsMetricCompiles | null;
-  /** The latest finished calculation of the metrics, which the metric results check reads. Null before launch, on an archived experiment, or when the read failed. */
-  latest_calculation: ExperimentHealthInputsLatestCalculation | null;
-  /** The changes of the flag since launch that can move exposed people. Null when the experiment is not running, is archived, its flag is missing or deleted, or the read failed. */
-  flag_history: ExperimentHealthInputsFlagHistory | null;
-  /** Whether the condition-set traffic was read, or why not. The forced-variant check needs it when the experiment is launched and some but not all release conditions pin a variant that has a share of the split and is not excluded from the analysis. The release-condition check needs it when such an override was removed after launch. * `read` - Read * `not_needed` - Not Needed * `no_query_access` - No Query Access * `denied_properties` - Denied Properties * `no_flag_version` - No Flag Version * `unknown` - Unknown */
-  condition_set_traffic_status: ExperimentHealthInputsTrafficStatusEnum;
-  /** The flag's recent calls by condition set. Null unless condition_set_traffic_status is 'read'. */
-  condition_set_traffic: ExperimentHealthInputsConditionSetTraffic | null;
-  /** What the reader may read, which decides what the checks can load. */
-  reader_access: ExperimentHealthInputsReaderAccess;
-  /** The exposure query's answer that the exposure checks read, from the cache. */
-  exposures: ExperimentHealthInputsExposures;
-  /** Facts about the project that no check reads yet, from the same providers as the setup context. */
-  project: ExperimentHealthInputsProject;
-}
 export interface GetExperimentsInSessionExposureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -3704,6 +3591,8 @@ export interface GetExperimentsMatchingIdsRequest {
   excluded_tags?: string | undefined;
   /** Filter to experiments linked to the given feature flag ID. */
   feature_flag_id?: number | undefined;
+  /** Comma-separated feature flag IDs, at most 200. Returns experiments linked to any of them. */
+  feature_flag_ids?: string | undefined;
   /** Field to order by. Prefix with '-' for descending. Allowlisted fields include name, created_at, updated_at, start_date, end_date, duration, and status. */
   order?: string | undefined;
   /** Filter to experiments created from an LLM prompt with this name. Matches experiments whose parameters.prompt_metadata.name equals the given value. */
@@ -3731,10 +3620,14 @@ export interface GetExperimentsMetricsRecalculationRequest {
   /** UUID of the recalculation run to fetch. This is the run's own id, not the experiment id. */
   recalculation_id: string;
 }
+/** * `current` - Current settings * `previous` - Earlier settings * `unknown` - Settings not recorded */
+export type ExperimentResultConfigurationStatusEnum = "current" | "previous" | "unknown";
 /** * `pending` - pending * `completed` - completed * `failed` - failed */
 export type MetricRecalculationResultStatusEnum = "pending" | "completed" | "failed";
 /** One metric's recalculated result row, read back from ExperimentMetricResult. */
 export interface MetricRecalculationResult {
+  /** Whether this result uses current settings, earlier settings, or settings that were not recorded. * `current` - Current settings * `previous` - Earlier settings * `unknown` - Settings not recorded */
+  configuration_status: ExperimentResultConfigurationStatusEnum;
   /** UUID of the metric this result belongs to */
   metric_uuid: string;
   /** Status of this metric's calculation in the run * `pending` - pending * `completed` - completed * `failed` - failed */
@@ -3744,7 +3637,7 @@ export interface MetricRecalculationResult {
   /** Error message when status is failed; otherwise null */
   error_message: string | null;
 }
-/** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
+/** Per-metric results of this run, scoped by the run's recalc fingerprint. When a metric fails, its earlier completed result at the same window stays here and the failure is in metric_errors */
 export type ExperimentMetricsRecalculationRunResultsList = Array<MetricRecalculationResult>;
 /** GET by id: one run with its per-metric results, retry state and live query progress. */
 export interface ExperimentMetricsRecalculationRun {
@@ -3756,9 +3649,9 @@ export interface ExperimentMetricsRecalculationRun {
   status: MetricsRecalculationStatusEnum;
   /** Total number of metrics to recalculate */
   total_metrics: number;
-  /** Number of metrics with a COMPLETED result row in this run (derived, not stored) */
+  /** Number of metrics with a COMPLETED result row that did not fail in this run (derived, not stored) */
   completed_metrics: number;
-  /** Number of failed metrics in this run (derived): FAILED result rows plus discovery-step failures that never made it to a result row */
+  /** Number of failed metrics in this run (derived): metrics with a FAILED result row or a metric_errors entry. A metric that fails keeps its earlier completed result, so it can count here and still have a completed row in results. The error of a rejected run counts only for a metric without a row */
   failed_metrics: number;
   /** Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp, exposures_path}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first. exposures_path is where the query read the exposures, and is missing when the query failed before it was built */
   metric_errors: unknown;
@@ -3772,7 +3665,7 @@ export interface ExperimentMetricsRecalculationRun {
   query_to: string | null;
   /** Transient retry state per metric_uuid: {attempt, max_attempts, error_type, message, next_retry_at}. message is a user-safe description of the error that triggered the retry. Present only while a metric is between failed attempts; cleared when it succeeds or fails terminally, so treat entries for metrics that already have a result as stale. */
   metric_retries: unknown;
-  /** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
+  /** Per-metric results of this run, scoped by the run's recalc fingerprint. When a metric fails, its earlier completed result at the same window stays here and the failure is in metric_errors */
   results: ExperimentMetricsRecalculationRunResultsList;
   /** Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal */
   rows_read?: number | null | undefined;
@@ -3785,7 +3678,7 @@ export interface GetExperimentsMetricsRecalculationLatestRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
 }
-/** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
+/** Per-metric results of this run, scoped by the run's recalc fingerprint. When a metric fails, its earlier completed result at the same window stays here and the failure is in metric_errors */
 export type ExperimentMetricsRecalculationLatestResultsList = Array<MetricRecalculationResult>;
 /** Pointer to a recalculation run that is still executing, surfaced alongside the latest terminal results. */
 export interface ActiveRecalculationRun {
@@ -3806,9 +3699,9 @@ export interface ExperimentMetricsRecalculationLatest {
   status: MetricsRecalculationStatusEnum;
   /** Total number of metrics to recalculate */
   total_metrics: number;
-  /** Number of metrics with a COMPLETED result row in this run (derived, not stored) */
+  /** Number of metrics with a COMPLETED result row that did not fail in this run (derived, not stored) */
   completed_metrics: number;
-  /** Number of failed metrics in this run (derived): FAILED result rows plus discovery-step failures that never made it to a result row */
+  /** Number of failed metrics in this run (derived): metrics with a FAILED result row or a metric_errors entry. A metric that fails keeps its earlier completed result, so it can count here and still have a completed row in results. The error of a rejected run counts only for a metric without a row */
   failed_metrics: number;
   /** Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp, exposures_path}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first. exposures_path is where the query read the exposures, and is missing when the query failed before it was built */
   metric_errors: unknown;
@@ -3822,7 +3715,7 @@ export interface ExperimentMetricsRecalculationLatest {
   query_to: string | null;
   /** Transient retry state per metric_uuid: {attempt, max_attempts, error_type, message, next_retry_at}. message is a user-safe description of the error that triggered the retry. Present only while a metric is between failed attempts; cleared when it succeeds or fails terminally, so treat entries for metrics that already have a result as stale. */
   metric_retries: unknown;
-  /** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
+  /** Per-metric results of this run, scoped by the run's recalc fingerprint. When a metric fails, its earlier completed result at the same window stays here and the failure is in metric_errors */
   results: ExperimentMetricsRecalculationLatestResultsList;
   /** Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal */
   rows_read?: number | null | undefined;
@@ -3832,6 +3725,8 @@ export interface ExperimentMetricsRecalculationLatest {
   active_run: ActiveRecalculationRun | null;
   /** Where these results came from: 'recalculation' for a real metrics-recalculation run, 'timeseries_fallback' for a cold-start placeholder built from the latest daily timeseries data. * `recalculation` - recalculation * `timeseries_fallback` - timeseries_fallback */
   result_source: ResultSourceEnum;
+  /** True when the experiment started too long ago for its metrics to be recalculated. A recalculation request then returns a rejected run with the recalculation_window_too_long error, and the saved results stay as they are */
+  exceeds_recalculation_age_limit: boolean;
 }
 export interface GetExperimentsPromptTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3907,7 +3802,45 @@ export interface GetExperimentsTimeseriesResultRequest {
   /** UUID of the metric to fetch timeseries for. Available on each metric in the experiment's metrics array. */
   metric_uuid: string;
 }
-export interface GetExperimentsTimeseriesResultResponse {}
+/** * `pending` - Pending * `completed` - Completed * `partial` - Partial * `failed` - Failed */
+export type ExperimentTimeseriesResultsStatusEnum = "pending" | "completed" | "partial" | "failed";
+/** Result per day (YYYY-MM-DD, project timezone) in the ExperimentQueryResponse shape, from the start date to the end date or today. Null for a day without a completed result. */
+export type ExperimentTimeseriesResultsTimeseriesMap = { [key: string]: unknown | undefined };
+/** * `current` - Current settings * `previous` - Earlier settings * `unknown` - Settings not recorded */
+export type ExperimentTimeseriesResultsConfigurationByDayValue = "current" | "previous" | "unknown";
+/** Configuration provenance for each stored day: current, previous, or unknown. */
+export type ExperimentTimeseriesResultsConfigurationByDayMap = {
+  [key: string]: ExperimentTimeseriesResultsConfigurationByDayValue | undefined;
+};
+/** Error message per day (YYYY-MM-DD) whose calculation failed, or null when none failed. */
+export type ExperimentTimeseriesResultsErrorsMap = { [key: string]: string | undefined };
+/** Day-by-day results of one metric under the experiment's current settings. */
+export interface ExperimentTimeseriesResults {
+  /** Experiment id. */
+  experiment_id: number;
+  /** UUID of the metric the series belongs to. */
+  metric_uuid: string;
+  /** 'completed' when every day has a result, 'partial' when some do, 'failed' when no day has a result and some failed, 'pending' when no day was calculated yet. * `pending` - Pending * `completed` - Completed * `partial` - Partial * `failed` - Failed */
+  status: ExperimentTimeseriesResultsStatusEnum;
+  /** Result per day (YYYY-MM-DD, project timezone) in the ExperimentQueryResponse shape, from the start date to the end date or today. Null for a day without a completed result. */
+  timeseries: ExperimentTimeseriesResultsTimeseriesMap;
+  /** Configuration provenance for each stored day: current, previous, or unknown. */
+  configuration_by_day: ExperimentTimeseriesResultsConfigurationByDayMap;
+  /** When the most recent day's result was computed, or null. */
+  computed_at: string | null;
+  /** When the oldest stored day was written. */
+  created_at: string;
+  /** When the newest stored day was last written. */
+  updated_at: string;
+  /** 'pending' or 'in_progress' while a backfill of this series runs, otherwise null. */
+  recalculation_status: string | null;
+  /** When the running backfill was requested, or null. */
+  recalculation_created_at: string | null;
+  /** The series as a compact text table, one row per day, for language model consumers. */
+  formatted_results: string;
+  /** Error message per day (YYYY-MM-DD) whose calculation failed, or null when none failed. */
+  errors: ExperimentTimeseriesResultsErrorsMap | null;
+}
 export type ListExperimentsRequestStatus =
   | "all"
   | "complete"
@@ -3929,6 +3862,8 @@ export interface ListExperimentsRequest {
   excluded_tags?: string | undefined;
   /** Filter to experiments linked to the given feature flag ID. */
   feature_flag_id?: number | undefined;
+  /** Comma-separated feature flag IDs, at most 200. Returns experiments linked to any of them. */
+  feature_flag_ids?: string | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
@@ -4023,6 +3958,8 @@ export interface UpdateExperimentRequest {
   feature_flag_key: string;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
   feature_flag?: ExperimentFeatureFlagInput | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -4042,7 +3979,7 @@ export interface UpdateExperimentRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -4106,6 +4043,8 @@ export interface UpdateExperimentsPartialRequest {
   feature_flag_key?: string | undefined;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
   feature_flag?: ExperimentFeatureFlagInput | undefined;
+  /** The experiment rule that this experiment runs on, when its feature flag has rules. Null for every other experiment. Set it only on create, together with the feature_flag_key of an existing flag with rules. When that flag has one experiment rule, it can be left out. The experiment then counts exposures on the $experiment_exposure events of this rule, and never changes the flag. */
+  feature_flag_rule_id?: string | null | undefined;
   /** ID of a holdout group to exclude from the experiment. */
   holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
@@ -4125,7 +4064,7 @@ export interface UpdateExperimentsPartialRequest {
   type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
   exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
-  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
+  /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), 'quantile' (set source to an EventsNode or ActionsNode with math_property, the numeric property to measure, and quantile, the level in [0.01, 0.99], for example 0.9 for p90), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
   metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
   metrics_secondary?: ExperimentApiMetricsList | null | undefined;
@@ -4168,8 +4107,8 @@ export const createExperiment: API.OperationMethod<
   CreateExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateExperimentRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4186,8 +4125,8 @@ export const createExperimentsCalculateRunningTime: API.OperationMethod<
   CreateExperimentsCalculateRunningTimeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<CreateExperimentsCalculateRunningTimeRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<RunningTimeCalculationResult>,
+  input: __S(1345, __c42, 1) as any as S.Schema<CreateExperimentsCalculateRunningTimeRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<RunningTimeCalculationResult>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4204,8 +4143,8 @@ export const createExperimentsEnd: API.OperationMethod<
   CreateExperimentsEndError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<CreateExperimentsEndRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateExperimentsEndRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4222,8 +4161,8 @@ export const createExperimentsFreezeExposure: API.OperationMethod<
   CreateExperimentsFreezeExposureError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateExperimentsFreezeExposureRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1600, __c50, 0) as any as S.Schema<CreateExperimentsFreezeExposureRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4240,8 +4179,8 @@ export const createExperimentsLaunch: API.OperationMethod<
   CreateExperimentsLaunchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateExperimentsLaunchRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateExperimentsLaunchRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4258,8 +4197,8 @@ export const createExperimentsMetricsRecalculation: API.OperationMethod<
   CreateExperimentsMetricsRecalculationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateExperimentsMetricsRecalculationRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<ExperimentMetricsRecalculationJob>,
+  input: __S(1664, __c52, 0) as any as S.Schema<CreateExperimentsMetricsRecalculationRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<ExperimentMetricsRecalculationJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4276,8 +4215,8 @@ export const createExperimentsPause: API.OperationMethod<
   CreateExperimentsPauseError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreateExperimentsPauseRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateExperimentsPauseRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4371,7 +4310,7 @@ export const createExperimentsSetupContext: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c6, 1) as any as S.Schema<CreateExperimentsSetupContextRequest>,
-  output: __S(213, __c6, 21) as any as S.Schema<ExperimentSetupContextResponse>,
+  output: __S(221, __c6, 29) as any as S.Schema<ExperimentSetupContextResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4388,8 +4327,8 @@ export const createExperimentsShipVariant: API.OperationMethod<
   CreateExperimentsShipVariantError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateExperimentsShipVariantRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateExperimentsShipVariantRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4406,8 +4345,8 @@ export const createExperimentsUnfreezeExposure: API.OperationMethod<
   CreateExperimentsUnfreezeExposureError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateExperimentsUnfreezeExposureRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateExperimentsUnfreezeExposureRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4424,8 +4363,8 @@ export const experimentsArchiveCreate: API.OperationMethod<
   ExperimentsArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ExperimentsArchiveCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(288, __c9, 0) as any as S.Schema<ExperimentsArchiveCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4442,8 +4381,8 @@ export const experimentsBulkUpdateTagsCreate: API.OperationMethod<
   ExperimentsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ExperimentsBulkUpdateTagsCreateRequest>,
-  output: __S(357, __c11, 5) as any as S.Schema<BulkUpdateTagsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ExperimentsBulkUpdateTagsCreateRequest>,
+  output: __S(325, __c10, 5) as any as S.Schema<BulkUpdateTagsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4464,8 +4403,8 @@ export const experimentsCopyToProjectCreate: API.OperationMethod<
   ExperimentsCopyToProjectCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ExperimentsCopyToProjectCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(352, __c11, 0) as any as S.Schema<ExperimentsCopyToProjectCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4487,8 +4426,8 @@ export const experimentsCreateExposureCohortForExperimentCreate: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c13,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<ExperimentsCreateExposureCohortForExperimentCreateRequest>,
   output: __S(
@@ -4512,8 +4451,8 @@ export const experimentsCreateFromPromptCreate: API.OperationMethod<
   ExperimentsCreateFromPromptCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ExperimentsCreateFromPromptCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(416, __c13, 0) as any as S.Schema<ExperimentsCreateFromPromptCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4530,7 +4469,7 @@ export const experimentsDestroy: API.OperationMethod<
   ExperimentsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ExperimentsDestroyRequest>,
+  input: __S(448, __c14, 0) as any as S.Schema<ExperimentsDestroyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ExperimentsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -4548,7 +4487,7 @@ export const experimentsDuplicateCreate: API.OperationMethod<
   ExperimentsDuplicateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ExperimentsDuplicateCreateRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<ExperimentsDuplicateCreateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ExperimentsDuplicateCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -4566,8 +4505,8 @@ export const experimentsMigrateCreate: API.OperationMethod<
   ExperimentsMigrateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ExperimentsMigrateCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(512, __c16, 0) as any as S.Schema<ExperimentsMigrateCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4584,8 +4523,8 @@ export const experimentsResetCreate: API.OperationMethod<
   ExperimentsResetCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ExperimentsResetCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(544, __c17, 0) as any as S.Schema<ExperimentsResetCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4602,8 +4541,8 @@ export const experimentsResumeCreate: API.OperationMethod<
   ExperimentsResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ExperimentsResumeCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<ExperimentsResumeCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4620,8 +4559,8 @@ export const experimentsUnarchiveCreate: API.OperationMethod<
   ExperimentsUnarchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ExperimentsUnarchiveCreateRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(608, __c19, 0) as any as S.Schema<ExperimentsUnarchiveCreateRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4638,8 +4577,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4656,8 +4595,8 @@ export const getExperimentsActivity: API.OperationMethod<
   GetExperimentsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetExperimentsActivityRequest>,
-  output: __S(712, __c22, 8) as any as S.Schema<ActivityLogPaginatedResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetExperimentsActivityRequest>,
+  output: __S(680, __c21, 8) as any as S.Schema<ActivityLogPaginatedResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4674,8 +4613,8 @@ export const getExperimentsFlagCleanupTarget: API.OperationMethod<
   GetExperimentsFlagCleanupTargetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetExperimentsFlagCleanupTargetRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<ExperimentFlagCleanupTarget>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetExperimentsFlagCleanupTargetRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<ExperimentFlagCleanupTarget>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4692,8 +4631,8 @@ export const getExperimentsFlagCleanupTask: API.OperationMethod<
   GetExperimentsFlagCleanupTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetExperimentsFlagCleanupTaskRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ExperimentFlagCleanupTask>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetExperimentsFlagCleanupTaskRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<ExperimentFlagCleanupTask>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4703,39 +4642,21 @@ export const getExperimentsFlagCleanupTask: API.OperationMethod<
 }));
 
 export type GetExperimentsHealthError = PosthogOpError;
-/** Health check findings for this experiment: problems in its configuration and its feature flag that keep it from producing trustworthy results, each with a fix. `checks` gives the result of each check, so a check that found no problem can be told from one that did not apply or could not read an input. The checks here read the experiment, its flag, its linked metrics, the project's event and property definitions, the cohorts of the exposure criteria, and the changes of the flag's variant split since launch. The checks that read exposure counts come with the exposure query. The split-change check compares the split changes with the exposures only for exposure criteria that name an event without property filters. When the split changed after launch and the criteria have filters or an action, or an API key lacks `query:read`, it returns an info finding with the subcode `not_checked` and the cause in `reason`. A caller who can't view the linked flag's history (viewer access to the flag and, with an API key, `activity_log:read`) gets that finding for every running experiment, because the changes are not read. Two checks read whether the project received an event from its event definitions: a definition without `last_seen_at`, such as one Wizard wrote for a planned event, counts as not received. A name whose definition was deleted since launch, or in the last day for a draft, is not checked, because ingestion writes the definition again only when the event arrives. No missing definition is checked when ingestion saw none of the experiment's events in the last day, because ingestion can be set to skip a team. `metric_event_not_ingested` names each metric that reads an event the project never received, in the `evidence` keys `metric_N`, `metric_N_role` and `metric_N_events`. `exposure_criteria_cannot_match` reports a custom exposure event the project never received (`exposure_event_not_ingested`), a `$feature_flag` filter on the flag call events that requires another flag (`filter_on_another_flag`), and a filter on an event or person property that the project has no definition of, with an operator that a missing property fails (`filter_on_property_not_ingested`, the keys in `evidence.properties`). A property whose definition was ever deleted is not checked, and neither is an event property filter on an action or on `$groupidentify`, whose properties ingestion keeps no definitions of. An event or property not received is info before launch, in the first 24 hours after launch, and when only secondary metrics read it, and a warning otherwise. `filter_on_another_flag` is a warning in every state, `filter_on_property_not_ingested` also reports after the end, and the other findings stop at the end. `exposure_filters` reads the cohort filters of the exposure criteria and of the activation, not the test account filters. `exposure_filter_on_dynamic_cohort` is a warning in every state: the results use the members of a dynamic cohort at the calculation, not at exposure. Its subcode is `cohort_forces_variant` when a release condition of the flag that matches the cohort's members gives one variant, `cohort_in_release_conditions` when the release conditions match its members otherwise, and `evidence.cohort_ids` names the cohorts. Both subcodes need the exposure criteria to keep the members too, not to leave them out. `metric_cannot_compile` builds and compiles the query of each metric without running it, as the caller, so a metric that every calculation fails on shows before launch. A metric that reads a warehouse table or view the caller may not query is not checked for them. The finding names each failing metric in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_error` (the error class, which is also the subcode of the first metric) and `metric_N_message` (the compiler's message). It is a warning when a primary metric fails, also after the end, because the calculation after the fix reads the events up to the end. It is info otherwise. A failure inside ClickHouse, such as a type that the data holds, isn't found. A failing metric compiles again on every request. A metric that compiles is cached per caller for a day, so a cohort or table that is deleted after a compile can take up to a day to show. `metric_calculation_failed` reports each metric whose latest calculation failed, from the latest finished calculation that the results page shows. It leaves out a metric that `metric_cannot_compile` reports. The subcode is the kind of the first failure: `busy`, `query_limit` (the query reached the read, memory, time or length limit), `settings` (a setting of the metric or the experiment), `not_enough_data`, `experiment_too_old` (the experiment started too long ago to calculate again) or `unexpected_error`. Each metric is in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_failure` (the kind), `metric_N_error` (the limit, or the family of a setting) and `metric_N_message` (only a message that PostHog wrote for users), and `calculated_at` is when the calculation finished. It is a warning when a primary metric fails for a kind that a change fixes (`query_limit`, `settings`, `experiment_too_old`), also after the end, because the calculation after the fix reads the events up to the end. It is info otherwise. When the first failure reached the read, memory or time limit, `reason` names the cause that the calculation shows: `metric` when another metric of the same calculation completed the same read of the exposures, or `exposure_criteria` when every metric reached a limit and an exposure or test account filter makes each query read all the properties of an event, person or group. `evidence.properties` then names the filters. A query that read precomputed exposures doesn't apply those filters, so it can't get `exposure_criteria`. It is null otherwise. `metric_all_zero` reports a metric that reads zero in every variant, from the same latest finished calculation, so the results page shows "Not enough data yet" at any sample size. Each side of a ratio that is zero in every variant counts on its own. It reads the stored result and the project's event definitions, and no events. A primary metric needs 1,000 exposures in the result and 72 hours of data, because most zeros before that are outcomes that take time. A retention metric counts those hours from the start of its retention window. The subcode is the cause of the first metric: `blank_event` (an event with an empty name), `event_stopped` (the project last received the event before launch, while ingestion still records the project), `outlier_bound` (an upper outlier bound that is 0 while some exposures have a value) or null when none shows a cause. `blank_event` and `outlier_bound` also report a secondary metric, and need only 100 exposures and 12 hours of data, because they read 0 at any traffic. A bound on the largest value of the exposures can't be 0 while one has a value, so it is no cause. Neither is a bound on a metric with breakdowns, which gets one bound per breakdown group. Until the end, the check leaves out a metric that uses an event `metric_event_not_ingested` reports. Each metric, or side of a ratio, is in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_side`, `metric_N_exposures` and `metric_N_cause`. It is a warning for a primary metric. After the end it stays a warning only for a cause that a setting fixes, because the calculation after the fix reads the events up to the end. It is info otherwise. The severity of the `some_conditions_pinned` finding follows the largest share that the users of the pinned release conditions make up among the users who got one variant from the flag, in the last 7 days, or since launch or the flag's last save if later. It reads the flag's calls that name the matched condition, not the experiment's exposure criteria: info up to 5%, warning above, and no finding under 1% when at least half of the calls that returned a variant name a condition. The finding is info when the share is unknown, and `reason` says why: `not_measured` (for example an API key without `query:read`, or a caller denied a flag call property), `too_few_people` (under 100), or `evaluated_outside_flag_service` (most calls come from local evaluation, a bootstrap or the caller's own assignment). A pin to a variant with 0% in the split adds an info, because that variant's results show only the pinned users, unless the experiment excludes the variant from the analysis. Two findings say that the variants are assigned outside PostHog, as info. A running experiment whose flag has a 0% rollout gets `assigned_outside_flag_service` instead of `running_but_no_rollout` when 10 or more people got a variant from flag calls without a flag version that are no local evaluation, from an hour after the window starts. When every condition that includes users pins the variant whose key one property holds, `assigned_by_property` replaces `all_conditions_pinned`. When none of them includes everyone, so that every other user gets no variant, `closed_to_matched_users` replaces it, as a warning. A condition without filters, or with only filters that leave users out, includes everyone. A draft whose flag has no recorded call gets the info `new_flag_no_traffic`. The record is the flag's `last_called_at`, which a periodic task updates, so it trails a call. The check reports `not_checked` when the organization's flag calls skip the events table, and when the project has no active flag, because the web SDK then requests no flags. A running experiment whose flag is disabled gets `paused_from_experiment`, as info, when its latest pause or resume since launch is a pause of the experiment. Otherwise it gets `running_but_flag_disabled`, as a warning. A caller who can't view the linked flag's history gets the warning, because the pause is not read. A draft whose flag is already active with multiple variants gets `not_started_but_multiple_variants_rolled_out` as info. An ended experiment whose flag is still active with multiple variants gets no finding when another experiment on the flag is running or launched after the end. Otherwise it gets `ended_flag_shared_with_draft` as info when a draft experiment uses the flag, `ended_but_multiple_variants_rolled_out` as a warning when the flag's `last_called_at` is after the end and within the last 3 days, and `ended_flag_not_called` as info when it is not, from 3 days and an hour after the end, because `last_called_at` trails a call. Until then without such a call, or when the organization's flag calls can't be read, it gets `ended_flag_calls_unknown` as info. A running experiment whose first primary metric is a funnel gets the info `early_significance` (subcode `below_detectable_effect`) when a significant variant's difference is smaller than the smallest difference its sample can detect, while that sample is below the one the running time estimate plans for the minimum detectable effect. It reads the metric's current stored result, the one the results page shows after its last calculation, and the running time calculator's formula. A running experiment with `only_count_matured_users` on gets the info `metrics_not_matured` while it is younger than the conversion or retention window of every primary metric, because no user can count for those metrics until a window passes. */
+/** Health check findings for this experiment: problems in its configuration and its feature flag that keep it from producing trustworthy results, each with a fix. `checks` gives the result of each check, so a check that found no problem can be told from one that did not apply or could not read an input. The checks here read the experiment, its flag, its linked metrics, the project's event and property definitions, the cohorts of the exposure criteria, and the changes of the flag's variant split since launch. The checks that read exposure counts come with the exposure query. The split-change check compares the split changes with the exposures only for exposure criteria that name an event without property filters. When the split changed after launch and the criteria have filters or an action, or an API key lacks `query:read`, it returns an info finding with the subcode `not_checked` and the cause in `reason`. A caller who can't view the linked flag's history (viewer access to the flag and, with an API key, `activity_log:read`) gets that finding for every running experiment, because the changes are not read. A finding that tells the reader to move the start date offers `move_start_date`, and `evidence.suggested_start_date` holds that date in UTC: set the experiment's `start_date` to it. When one variant was set to 100% of the split, the finding offers `end_experiment` instead. Two checks read whether the project received an event from its event definitions: a definition without `last_seen_at`, such as one Wizard wrote for a planned event, counts as not received. A name whose definition was deleted since launch, or in the last day for a draft, is not checked, because ingestion writes the definition again only when the event arrives. No missing definition is checked when ingestion saw none of the experiment's events in the last day, because ingestion can be set to skip a team. `metric_event_not_ingested` names each metric that reads an event the project never received, in the `evidence` keys `metric_N`, `metric_N_role` and `metric_N_events`. `exposure_criteria_cannot_match` reports a custom exposure event the project never received (`exposure_event_not_ingested`), a `$feature_flag` filter on the flag call events that requires another flag (`filter_on_another_flag`), and a filter on an event or person property that the project has no definition of, with an operator that a missing property fails (`filter_on_property_not_ingested`, the keys in `evidence.properties`). A property whose definition was ever deleted is not checked, and neither is an event property filter on an action or on `$groupidentify`, whose properties ingestion keeps no definitions of. An event or property not received is info before launch, in the first 24 hours after launch, and when only secondary metrics read it, and a warning otherwise. `filter_on_another_flag` is a warning in every state, `filter_on_property_not_ingested` also reports after the end, and the other findings stop at the end. `exposure_filters` reads the cohort filters of the exposure criteria and of the activation, not the test account filters. `exposure_filter_on_dynamic_cohort` is a warning in every state: the results use the members of a dynamic cohort at the calculation, not at exposure. Its subcode is `cohort_forces_variant` when a release condition of the flag that matches the cohort's members gives one variant, `cohort_in_release_conditions` when the release conditions match its members otherwise, and `evidence.cohort_ids` names the cohorts. Both subcodes need the exposure criteria to keep the members too, not to leave them out. `metric_cannot_compile` builds and compiles the query of each metric without running it, as the caller, so a metric that every calculation fails on shows before launch. A metric that reads a warehouse table or view the caller may not query is not checked for them. The finding names each failing metric in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_error` (the error class, which is also the subcode of the first metric) and `metric_N_message` (the compiler's message). It is a warning when a primary metric fails, also after the end, because the calculation after the fix reads the events up to the end. It is info otherwise. A failure inside ClickHouse, such as a type that the data holds, isn't found. A failing metric compiles again on every request. A metric that compiles is cached per caller for a day, so a cohort or table that is deleted after a compile can take up to a day to show. `metric_calculation_failed` reports each metric whose latest calculation failed, from the latest finished calculation that the results page shows. It leaves out a metric that `metric_cannot_compile` reports. The subcode is the kind of the first failure: `busy`, `query_limit` (the query reached the read, memory, time or length limit), `settings` (a setting of the metric or the experiment), `not_enough_data`, `experiment_too_old` (the experiment started too long ago to calculate again) or `unexpected_error`. Each metric is in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_failure` (the kind), `metric_N_error` (the limit, or the family of a setting) and `metric_N_message` (only a message that PostHog wrote for users), and `calculated_at` is when the calculation finished. It is a warning when a primary metric fails for a kind that a change fixes (`query_limit`, `settings`, `experiment_too_old`), also after the end, because the calculation after the fix reads the events up to the end. It is info otherwise. When the first failure reached the read, memory or time limit, `reason` names the cause that the calculation shows: `metric` when another metric of the same calculation completed the same read of the exposures, or `exposure_criteria` when every metric reached a limit and an exposure or test account filter makes each query read all the properties of an event, person or group. `evidence.properties` then names the filters. A query that read precomputed exposures doesn't apply those filters, so it can't get `exposure_criteria`. It is null otherwise. `metric_all_zero` reports a metric that reads zero in every variant, from the same latest finished calculation, so the results page shows "Not enough data yet" at any sample size. Each side of a ratio that is zero in every variant counts on its own. It reads the stored result and the project's event definitions, and no events. A primary metric needs 1,000 exposures in the result and 72 hours of data, because most zeros before that are outcomes that take time. A retention metric counts those hours from the start of its retention window. The subcode is the cause of the first metric: `blank_event` (an event with an empty name), `event_stopped` (the project last received the event before launch, while ingestion still records the project), `outlier_bound` (an upper outlier bound that is 0 while some exposures have a value) or null when none shows a cause. `blank_event` and `outlier_bound` also report a secondary metric, and need only 100 exposures and 12 hours of data, because they read 0 at any traffic. A bound on the largest value of the exposures can't be 0 while one has a value, so it is no cause. Neither is a bound on a metric with breakdowns, which gets one bound per breakdown group. Until the end, the check leaves out a metric that uses an event `metric_event_not_ingested` reports. Each metric, or side of a ratio, is in the `evidence` keys `metric_N`, `metric_N_role`, `metric_N_side`, `metric_N_exposures` and `metric_N_cause`. It is a warning for a primary metric. After the end it stays a warning only for a cause that a setting fixes, because the calculation after the fix reads the events up to the end. It is info otherwise. A launched experiment that has not ended gets the info `stale_experiment` more than 60 days after its start date, when the daily calculation leaves it out, with `days_running` from the start date in `evidence`. It offers `freeze_exposure` next to `end_experiment` when the experiment can freeze exposure. The severity of the `some_conditions_pinned` finding follows the largest share that the users of the pinned release conditions make up among the users who got one variant from the flag, in the last 7 days, or since launch or the flag's last save if later. It reads the flag's calls that name the matched condition, not the experiment's exposure criteria. When the experiment applies the filter for internal and test users, the counts leave out the calls that the filter excludes, so pinned users that the filter excludes add nothing. The severity is info up to 5%, warning above, and no finding under 1% when at least half of the calls that returned a variant name a condition. The finding is info when the share is unknown, and `reason` says why: `not_measured` (for example an API key without `query:read`, or a caller denied a flag call property), `too_few_people` (under 100), or `evaluated_outside_flag_service` (most calls come from local evaluation, a bootstrap or the caller's own assignment). A pin to a variant with 0% in the split adds an info, because that variant's results show only the pinned users, unless the experiment excludes the variant from the analysis. Two findings say that the variants are assigned outside PostHog, as info. A running experiment whose flag has a 0% rollout gets `assigned_outside_flag_service` instead of `running_but_no_rollout` when 10 or more people got a variant from flag calls without a flag version that are no local evaluation, from an hour after the window starts. The count leaves out the calls that the filter for internal and test users excludes, when the experiment applies it. When every condition that includes users pins the variant whose key one property holds, `assigned_by_property` replaces `all_conditions_pinned`. When none of them includes everyone, so that every other user gets no variant, `closed_to_matched_users` replaces it, as a warning. A condition without filters, or with only filters that leave users out, includes everyone. A draft whose flag has no recorded call gets the info `new_flag_no_traffic`. The record is the flag's `last_called_at`, which a periodic task updates, so it trails a call. The check reports `not_checked` when the organization's flag calls skip the events table, and when the project has no active flag, because the web SDK then requests no flags. A running experiment whose flag is disabled gets `paused_from_experiment`, as info, when its latest pause or resume since launch is a pause of the experiment. Otherwise it gets `running_but_flag_disabled`, as a warning. A caller who can't view the linked flag's history gets the warning, because the pause is not read. A draft whose flag is already active with multiple variants gets `not_started_but_multiple_variants_rolled_out` as info. An ended experiment whose flag is still active with multiple variants gets no finding when another experiment on the flag is running or launched after the end. Otherwise it gets `ended_flag_shared_with_draft` as info when a draft experiment uses the flag, `ended_but_multiple_variants_rolled_out` as a warning when the flag's `last_called_at` is after the end and within the last 3 days, and `ended_flag_not_called` as info when it is not, from 3 days and an hour after the end, because `last_called_at` trails a call. Until then without such a call, or when the organization's flag calls can't be read, it gets `ended_flag_calls_unknown` as info. A running experiment whose first primary metric is a funnel gets the info `early_significance` (subcode `below_detectable_effect`) when a significant variant's difference is smaller than the smallest difference its sample can detect, while that sample is below the one the running time estimate plans for the minimum detectable effect. It reads the metric's current stored result, the one the results page shows after its last calculation, and the running time calculator's formula. A running experiment with `only_count_matured_users` on gets the info `metrics_not_matured` while it is younger than the conversion or retention window of every primary metric, because no user can count for those metrics until a window passes. */
 export const getExperimentsHealth: API.OperationMethod<
   GetExperimentsHealthRequest,
   ExperimentHealth,
   GetExperimentsHealthError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetExperimentsHealthRequest>,
-  output: __S(936, __c29, 8) as any as S.Schema<ExperimentHealth>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetExperimentsHealthRequest>,
+  output: __S(912, __c28, 16) as any as S.Schema<ExperimentHealth>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExperimentsHealth",
-}));
-
-export type GetExperimentsHealthInputError = PosthogOpError;
-/** Staff only. The inputs that the health checks read for this reader, to debug why a finding shows or not: the context of the checks in `health`, the exposure query's answer that the exposure checks read, and facts about the project from the setup context's providers (the team's experiment defaults and which SDKs call flags). The exposure answer comes from the cache. When it is missing or stale, a calculation starts in the background and `exposures.status` says so. */
-export const getExperimentsHealthInput: API.OperationMethod<
-  GetExperimentsHealthInputRequest,
-  ExperimentHealthInputs,
-  GetExperimentsHealthInputError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetExperimentsHealthInputRequest>,
-  output: __S(1149, __c35, 29) as any as S.Schema<ExperimentHealthInputs>,
-  errors: [],
-  serviceErrors: PosthogServiceErrors,
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperimentsHealthInput",
 }));
 
 export type GetExperimentsInSessionExposureError = PosthogOpError;
@@ -4746,8 +4667,8 @@ export const getExperimentsInSessionExposure: API.OperationMethod<
   GetExperimentsInSessionExposureError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetExperimentsInSessionExposureRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<ExperimentInSessionExposure>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetExperimentsInSessionExposureRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<ExperimentInSessionExposure>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4764,8 +4685,8 @@ export const getExperimentsMatchingIds: API.OperationMethod<
   GetExperimentsMatchingIdsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetExperimentsMatchingIdsRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<ExperimentMatchingIdsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetExperimentsMatchingIdsRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<ExperimentMatchingIdsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4782,8 +4703,8 @@ export const getExperimentsMetricsRecalculation: API.OperationMethod<
   GetExperimentsMetricsRecalculationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetExperimentsMetricsRecalculationRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ExperimentMetricsRecalculationRun>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetExperimentsMetricsRecalculationRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<ExperimentMetricsRecalculationRun>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4800,8 +4721,8 @@ export const getExperimentsMetricsRecalculationLatest: API.OperationMethod<
   GetExperimentsMetricsRecalculationLatestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetExperimentsMetricsRecalculationLatestRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<ExperimentMetricsRecalculationLatest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetExperimentsMetricsRecalculationLatestRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<ExperimentMetricsRecalculationLatest>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4818,8 +4739,8 @@ export const getExperimentsPromptTemplate: API.OperationMethod<
   GetExperimentsPromptTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetExperimentsPromptTemplateRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<GetExperimentsPromptTemplateResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetExperimentsPromptTemplateRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<GetExperimentsPromptTemplateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4836,8 +4757,8 @@ export const getExperimentsRunningTimeTarget: API.OperationMethod<
   GetExperimentsRunningTimeTargetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetExperimentsRunningTimeTargetRequest>,
-  output: __S(1348, __c42, 4) as any as S.Schema<RunningTimeTarget>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetExperimentsRunningTimeTargetRequest>,
+  output: __S(1284, __c40, 4) as any as S.Schema<RunningTimeTarget>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4854,7 +4775,7 @@ export const getExperimentsSessionContext: API.OperationMethod<
   GetExperimentsSessionContextError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetExperimentsSessionContextRequest>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetExperimentsSessionContextRequest>,
   output: __S(134, __c4, 6) as any as S.Schema<ExperimentSessionContextResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -4872,7 +4793,7 @@ export const getExperimentsStat: API.OperationMethod<
   GetExperimentsStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetExperimentsStatRequest>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetExperimentsStatRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetExperimentsStatResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -4890,12 +4811,12 @@ export type GetExperimentsTimeseriesResultError =
 /** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const getExperimentsTimeseriesResult: API.OperationMethod<
   GetExperimentsTimeseriesResultRequest,
-  GetExperimentsTimeseriesResultResponse,
+  ExperimentTimeseriesResults,
   GetExperimentsTimeseriesResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetExperimentsTimeseriesResultRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<GetExperimentsTimeseriesResultResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetExperimentsTimeseriesResultRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<ExperimentTimeseriesResults>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4912,8 +4833,8 @@ export const listExperiments: API.OperationMethod<
   ListExperimentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListExperimentsRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<PaginatedExperimentBasicList>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListExperimentsRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<PaginatedExperimentBasicList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4930,8 +4851,8 @@ export const updateExperiment: API.OperationMethod<
   UpdateExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdateExperimentRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4948,8 +4869,8 @@ export const updateExperimentsPartial: API.OperationMethod<
   UpdateExperimentsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateExperimentsPartialRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<ExperimentOutput>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateExperimentsPartialRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<ExperimentOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4971,10 +4892,11 @@ function __c0(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.optional(S.String),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -4982,8 +4904,8 @@ function __c0(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -4991,13 +4913,13 @@ function __c0(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5024,7 +4946,7 @@ function __c2(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
           bucket: S.String,
-          metric_uuids: S.optional(__S(800, __c25, 0)),
+          metric_uuids: S.optional(__S(768, __c24, 0)),
           variant: S.optional(S.NullOr(S.String)),
           limit: S.optional(S.Number),
         }).pipe(
@@ -5057,7 +4979,7 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          session_ids: __S(800, __c25, 0),
+          session_ids: __S(768, __c24, 0),
           truncated: S.Boolean,
           considered_metrics: __S(66, __c2, 2),
           excluded_metrics: __S(68, __c2, 4),
@@ -5075,7 +4997,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          session_ids: __S(800, __c25, 0),
+          session_ids: __S(768, __c24, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5105,7 +5027,7 @@ function __c4(j: number): any {
           source_total: S.Number,
           event_count: S.Number,
           first_timestamp: S.String,
-          timestamps: __S(800, __c25, 0),
+          timestamps: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "ExperimentSessionMetricSourceHit" });
     case 1:
@@ -5117,7 +5039,7 @@ function __c4(j: number): any {
           metric_name: S.String,
           event_count: S.Number,
           first_timestamp: S.String,
-          timestamps: __S(800, __c25, 0),
+          timestamps: __S(768, __c24, 0),
           sources: __S(129, __c4, 1),
         }),
       ).annotate({ identifier: "ExperimentSessionMetricHit" });
@@ -5130,7 +5052,7 @@ function __c4(j: number): any {
           experiment_name: S.String,
           flag_key: S.String,
           variant: S.String,
-          variants_seen: __S(800, __c25, 0),
+          variants_seen: __S(768, __c24, 0),
           multiple_variants: S.Boolean,
           first_exposure_timestamp: S.NullOr(S.String),
           experiment_start_date: S.NullOr(S.String),
@@ -5182,7 +5104,7 @@ function __c5(j: number): any {
           strength: S.NullOr(S.String),
           metric_name: S.NullOr(S.String),
           recording_count: S.Number,
-          session_ids: __S(800, __c25, 0),
+          session_ids: __S(768, __c24, 0),
           highlights: __S(162, __c5, 2),
         }),
       ).annotate({ identifier: "ExperimentWatchCard" });
@@ -5205,7 +5127,7 @@ function __c5(j: number): any {
           variants: __S(166, __c5, 6),
           multiple_variant_persons: S.Number,
           multiple_variant_handling: S.String,
-          metric_events: __S(800, __c25, 0),
+          metric_events: __S(768, __c24, 0),
           date_from: S.String,
           date_to: S.String,
           filter_test_accounts: S.Boolean,
@@ -5247,6 +5169,78 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          stats_method: S.NullOr(S.String),
+          confidence_level: S.NullOr(S.Number),
+          minimum_detectable_effect: S.NullOr(S.Number),
+          product_default_minimum_detectable_effect: S.Number,
+          product_default_stats_method: S.String,
+          product_default_confidence_level: S.Number,
+          only_count_matured_users: S.Boolean,
+          cuped_enabled: S.Boolean,
+          sequential_testing_enabled: S.Boolean,
+          flags_persistence_default: S.Boolean,
+          test_account_filter_count: S.Number,
+          new_experiments_filter_test_accounts: S.Boolean,
+          default_exposure_event: S.String,
+        }),
+      ).annotate({ identifier: "ExperimentSetupTeamDefaults" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: S.NullOr(__S(194, __c6, 2)),
+        }),
+      ).annotate({ identifier: "ExperimentSetupTeamDefaultsSection" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          lib: S.NullOr(S.String),
+          category: S.String,
+          calls: S.Number,
+          distinct_ids: S.Number,
+          device_id_share: S.Number,
+          locally_evaluated_share: S.NullOr(S.Number),
+          anonymous_share: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ExperimentSetupSdkLib" });
+    case 5:
+      return S.Array(__S(196, __c6, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          lib: S.NullOr(S.String),
+          category: S.String,
+          events: S.Number,
+          distinct_ids: S.Number,
+        }),
+      ).annotate({ identifier: "ExperimentSetupLibActivity" });
+    case 7:
+      return S.Array(__S(198, __c6, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          window_days: S.Number,
+          source_event: S.String,
+          computed_at: S.String,
+          libs: __S(197, __c6, 5),
+          libs_truncated: S.Boolean,
+          flags_seen: S.Number,
+          flags_evaluated_on_server_and_web: S.Number,
+          evaluated_on_server_and_web: S.Boolean,
+          libs_on_any_event: S.NullOr(__S(199, __c6, 7)),
+          libs_on_any_event_truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "ExperimentSetupSdkProfile" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: S.NullOr(__S(200, __c6, 8)),
+        }),
+      ).annotate({ identifier: "ExperimentSetupSdkProfileSection" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           lib: S.NullOr(S.String),
           category: S.String,
           unique_persons: S.Number,
@@ -5254,9 +5248,9 @@ function __c6(j: number): any {
           device_id_share: S.Number,
         }),
       ).annotate({ identifier: "ExperimentSetupLibReach" });
-    case 3:
-      return S.Array(__S(194, __c6, 2));
-    case 4:
+    case 11:
+      return S.Array(__S(202, __c6, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
@@ -5267,28 +5261,28 @@ function __c6(j: number): any {
           test_accounts_filtered: S.Boolean,
           unique_persons: S.Number,
           exposures_per_day_estimate: S.Number,
-          libs: __S(195, __c6, 3),
+          libs: __S(203, __c6, 11),
           libs_truncated: S.Boolean,
           anonymous_share: S.NullOr(S.Number),
           device_id_share: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ExperimentSetupTargetSurface" });
-    case 5:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: S.NullOr(__S(196, __c6, 4)),
+          data: S.NullOr(__S(204, __c6, 12)),
         }),
       ).annotate({ identifier: "ExperimentSetupTargetSurfaceSection" });
-    case 6:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           number_of_samples: S.Number,
           sum: S.Number,
-          step_counts: __S(1408, __c44, 0),
+          step_counts: __S(1376, __c43, 0),
         }),
       ).annotate({ identifier: "ExperimentSetupFunnelBaseline" });
-    case 7:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           number_of_samples: S.Number,
@@ -5296,7 +5290,7 @@ function __c6(j: number): any {
           sum_squares: S.Number,
         }),
       ).annotate({ identifier: "ExperimentSetupMeanCountBaseline" });
-    case 8:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
@@ -5308,23 +5302,23 @@ function __c6(j: number): any {
           persons_reached: S.NullOr(S.Number),
           persons_converted: S.NullOr(S.Number),
           conversion_rate: S.NullOr(S.Number),
-          funnel_baseline_stats: S.NullOr(__S(198, __c6, 6)),
-          mean_count_baseline_stats: S.NullOr(__S(199, __c6, 7)),
+          funnel_baseline_stats: S.NullOr(__S(206, __c6, 14)),
+          mean_count_baseline_stats: S.NullOr(__S(207, __c6, 15)),
           note: S.NullOr(S.String),
           event_volume: S.NullOr(S.Number),
           unique_persons: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ExperimentSetupCandidateMetric" });
-    case 9:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: S.NullOr(__S(200, __c6, 8)),
+          data: S.NullOr(__S(208, __c6, 16)),
         }),
       ).annotate({ identifier: "ExperimentSetupCandidateMetricSection" });
-    case 10:
+    case 18:
       return S.Array(S.Unknown);
-    case 11:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           metric_type: S.String,
@@ -5336,7 +5330,7 @@ function __c6(j: number): any {
           result_data_through: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ExperimentSetupOutcome" });
-    case 12:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
@@ -5359,25 +5353,25 @@ function __c6(j: number): any {
           group_aggregation: S.Boolean,
           custom_exposure_event: S.NullOr(S.String),
           custom_exposure_action_id: S.NullOr(S.Number),
-          exposure_property_filters: __S(202, __c6, 10),
+          exposure_property_filters: __S(210, __c6, 18),
           activation_event: S.NullOr(S.String),
           activation_action_id: S.NullOr(S.Number),
           filter_test_accounts: S.Boolean,
           primary_metric_count: S.Number,
           secondary_metric_count: S.Number,
           shared_metric_count: S.Number,
-          primary_metric_types: __S(800, __c25, 0),
-          primary_metric_events: __S(800, __c25, 0),
-          primary_metric_action_ids: __S(1408, __c44, 0),
+          primary_metric_types: __S(768, __c24, 0),
+          primary_metric_events: __S(768, __c24, 0),
+          primary_metric_action_ids: __S(1376, __c43, 0),
           minimum_detectable_effect: S.NullOr(S.Number),
           stats_method: S.String,
           has_holdout: S.Boolean,
-          outcome: S.NullOr(__S(203, __c6, 11)),
+          outcome: S.NullOr(__S(211, __c6, 19)),
         }),
       ).annotate({ identifier: "ExperimentSetupPreviousExperiment" });
-    case 13:
-      return S.Array(__S(204, __c6, 12));
-    case 14:
+    case 21:
+      return S.Array(__S(212, __c6, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -5395,142 +5389,66 @@ function __c6(j: number): any {
           serving_single_variant: S.Number,
         }),
       ).annotate({ identifier: "ExperimentSetupPreviousExperimentsSummary" });
-    case 15:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          experiments: __S(205, __c6, 13),
-          summary: __S(206, __c6, 14),
+          experiments: __S(213, __c6, 21),
+          summary: __S(214, __c6, 22),
         }),
       ).annotate({ identifier: "ExperimentSetupPreviousExperiments" });
-    case 16:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: S.NullOr(__S(207, __c6, 15)),
+          data: S.NullOr(__S(215, __c6, 23)),
         }),
       ).annotate({ identifier: "ExperimentSetupPreviousExperimentsSection" });
-    case 17:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           name: S.String,
           metric_type: S.NullOr(S.String),
-          events: __S(800, __c25, 0),
-          action_ids: __S(1408, __c44, 0),
+          events: __S(768, __c24, 0),
+          action_ids: __S(1376, __c43, 0),
           used_as_primary: S.Number,
           used_as_secondary: S.Number,
           last_used_at: S.NullOr(S.String),
           matches_metric_event: S.NullOr(S.Boolean),
-          metric_event_roles: S.NullOr(__S(800, __c25, 0)),
+          metric_event_roles: S.NullOr(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "ExperimentSetupSharedMetric" });
-    case 18:
-      return S.Array(__S(209, __c6, 17));
-    case 19:
+    case 26:
+      return S.Array(__S(217, __c6, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           metric_event: S.NullOr(S.String),
           metric_event_match_truncated: S.Boolean,
-          metrics: __S(210, __c6, 18),
+          metrics: __S(218, __c6, 26),
         }),
       ).annotate({ identifier: "ExperimentSetupSharedMetrics" });
-    case 20:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: S.NullOr(__S(211, __c6, 19)),
+          data: S.NullOr(__S(219, __c6, 27)),
         }),
       ).annotate({ identifier: "ExperimentSetupSharedMetricsSection" });
-    case 21:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          team_defaults: __S(225, __c7, 1),
-          sdk_profile: __S(231, __c7, 7),
-          target_surface: __S(197, __c6, 5),
-          candidate_metric: __S(201, __c6, 9),
-          previous_experiments: __S(208, __c6, 16),
-          shared_metrics: __S(212, __c6, 20),
+          team_defaults: __S(195, __c6, 3),
+          sdk_profile: __S(201, __c6, 9),
+          target_surface: __S(205, __c6, 13),
+          candidate_metric: __S(209, __c6, 17),
+          previous_experiments: __S(216, __c6, 24),
+          shared_metrics: __S(220, __c6, 28),
         }),
       ).annotate({ identifier: "ExperimentSetupContextResponse" });
   }
 }
 function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stats_method: S.NullOr(S.String),
-          confidence_level: S.NullOr(S.Number),
-          minimum_detectable_effect: S.NullOr(S.Number),
-          product_default_minimum_detectable_effect: S.Number,
-          product_default_stats_method: S.String,
-          product_default_confidence_level: S.Number,
-          only_count_matured_users: S.Boolean,
-          cuped_enabled: S.Boolean,
-          sequential_testing_enabled: S.Boolean,
-          flags_persistence_default: S.Boolean,
-          test_account_filter_count: S.Number,
-          new_experiments_filter_test_accounts: S.Boolean,
-          default_exposure_event: S.String,
-        }),
-      ).annotate({ identifier: "ExperimentSetupTeamDefaults" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          data: S.NullOr(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "ExperimentSetupTeamDefaultsSection" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          lib: S.NullOr(S.String),
-          category: S.String,
-          calls: S.Number,
-          distinct_ids: S.Number,
-          device_id_share: S.Number,
-          locally_evaluated_share: S.NullOr(S.Number),
-          anonymous_share: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "ExperimentSetupSdkLib" });
-    case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          lib: S.NullOr(S.String),
-          category: S.String,
-          events: S.Number,
-          distinct_ids: S.Number,
-        }),
-      ).annotate({ identifier: "ExperimentSetupLibActivity" });
-    case 5:
-      return S.Array(__S(228, __c7, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          window_days: S.Number,
-          source_event: S.String,
-          computed_at: S.String,
-          libs: __S(227, __c7, 3),
-          libs_truncated: S.Boolean,
-          flags_seen: S.Number,
-          flags_evaluated_on_server_and_web: S.Number,
-          evaluated_on_server_and_web: S.Boolean,
-          libs_on_any_event: S.NullOr(__S(229, __c7, 5)),
-          libs_on_any_event_truncated: S.Boolean,
-        }),
-      ).annotate({ identifier: "ExperimentSetupSdkProfile" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          data: S.NullOr(__S(230, __c7, 6)),
-        }),
-      ).annotate({ identifier: "ExperimentSetupSdkProfileSection" });
-  }
-}
-function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5554,7 +5472,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateExperimentsShipVariantRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5571,7 +5489,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateExperimentsUnfreezeExposureRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5589,15 +5507,15 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ExperimentsArchiveCreateRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: S.optional(__S(1408, __c44, 0)),
+          ids: S.optional(__S(1376, __c43, 0)),
           action: S.optional(S.String),
-          tags: S.optional(__S(800, __c25, 0)),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5610,11 +5528,11 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          tags: S.optional(__S(800, __c25, 0)),
+          tags: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsItem" });
     case 2:
-      return S.Array(__S(353, __c11, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5623,17 +5541,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateTagsError" });
     case 4:
-      return S.Array(__S(355, __c11, 3));
+      return S.Array(__S(323, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          updated: S.optional(__S(354, __c11, 2)),
-          skipped: S.optional(__S(356, __c11, 4)),
+          updated: S.optional(__S(322, __c10, 2)),
+          skipped: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5653,7 +5571,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExperimentsCopyToProjectCreateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5665,10 +5583,11 @@ function __c13(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.optional(S.String),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -5676,8 +5595,8 @@ function __c13(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -5685,13 +5604,13 @@ function __c13(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5702,14 +5621,14 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ExperimentsCreateExposureCohortForExperimentCreateRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           prompt_name: S.String,
-          versions: __S(1408, __c44, 0),
+          versions: __S(1376, __c43, 0),
           templates: __S(897, __c28, 1),
           name: S.optional(S.String),
           feature_flag_key: S.optional(S.String),
@@ -5724,7 +5643,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ExperimentsCreateFromPromptCreateRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5741,7 +5660,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ExperimentsDestroyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5753,10 +5672,11 @@ function __c16(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.optional(S.String),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -5764,8 +5684,8 @@ function __c16(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -5773,13 +5693,13 @@ function __c16(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5790,7 +5710,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ExperimentsDuplicateCreateRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5807,7 +5727,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ExperimentsMigrateCreateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5824,7 +5744,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ExperimentsResetCreateRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5841,7 +5761,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ExperimentsResumeCreateRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5858,7 +5778,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ExperimentsUnarchiveCreateRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5871,7 +5791,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5899,7 +5819,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "Change" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5920,9 +5840,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          changes: S.optional(__S(706, __c22, 2)),
-          merge: S.optional(__S(707, __c22, 3)),
-          trigger: S.optional(__S(708, __c22, 4)),
+          changes: S.optional(__S(674, __c21, 2)),
+          merge: S.optional(__S(675, __c21, 3)),
+          trigger: S.optional(__S(676, __c21, 4)),
           name: S.optional(S.String),
           short_id: S.optional(S.String),
           type: S.optional(S.String),
@@ -5936,7 +5856,7 @@ function __c22(j: number): any {
           activity: S.optional(S.String),
           scope: S.optional(S.String),
           item_id: S.optional(S.String),
-          detail: S.optional(__S(709, __c22, 5)),
+          detail: S.optional(__S(677, __c21, 5)),
           created_at: S.optional(S.String),
           is_system: S.optional(S.Boolean),
           was_impersonated: S.optional(S.Boolean),
@@ -5944,11 +5864,11 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ActivityLogEntry" });
     case 7:
-      return S.Array(__S(710, __c22, 6));
+      return S.Array(__S(678, __c21, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(711, __c22, 7)),
+          results: S.optional(__S(679, __c21, 7)),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
           total_count: S.optional(S.Number),
@@ -5956,7 +5876,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ActivityLogPaginatedResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5967,11 +5887,12 @@ function __c23(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.String,
-          feature_flag: S.optional(__S(774, __c24, 6)),
+          feature_flag: S.optional(__S(742, __c23, 6)),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -5979,8 +5900,8 @@ function __c23(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -5988,20 +5909,20 @@ function __c23(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/experiments/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateExperimentRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6011,7 +5932,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentFlagRolloutGroup" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6021,49 +5942,55 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentFlagVariant" });
     case 3:
-      return S.Array(__S(770, __c24, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          variants: __S(771, __c24, 3),
+          variants: __S(739, __c23, 3),
         }),
       ).annotate({ identifier: "ExperimentFlagMultivariate" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(769, __c24, 1)),
-          multivariate: S.optional(S.NullOr(__S(772, __c24, 4))),
+          groups: S.optional(__S(737, __c23, 1)),
+          multivariate: S.optional(S.NullOr(__S(740, __c23, 4))),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
-          payloads: S.optional(__S(832, __c26, 0)),
+          payloads: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "ExperimentFeatureFlagFilters" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(773, __c24, 5)),
+          filters: S.optional(__S(741, __c23, 5)),
           ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "ExperimentFeatureFlagInput" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           minimum_detectable_effect: S.optional(S.NullOr(S.Number)),
-          variant_notes: S.optional(S.NullOr(__S(832, __c26, 0))),
+          variant_notes: S.optional(S.NullOr(__S(800, __c25, 0))),
         }),
       ).annotate({ identifier: "ExperimentParameters" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           conversionRateInputType: S.String,
@@ -6072,17 +5999,15 @@ function __c26(j: number): any {
           manualMetricType: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ExperimentExposureEstimateConfig" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          exposure_estimate_config: S.optional(S.NullOr(__S(834, __c26, 2))),
+          exposure_estimate_config: S.optional(S.NullOr(__S(833, __c26, 1))),
           minimum_detectable_effect: S.optional(S.NullOr(S.Number)),
           recommended_running_time: S.optional(S.NullOr(S.Number)),
           recommended_sample_size: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ExperimentRunningTimeCalculation" });
-    case 4:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c27(j: number): any {
@@ -6169,6 +6094,12 @@ function __c27(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+        }),
+      ).annotate({ identifier: "ExperimentMetricValueFormat" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           breakdownAttributionType: S.optional(S.NullOr(S.String)),
           breakdownAttributionValue: S.optional(S.NullOr(S.Number)),
           breakdownFilter: S.optional(S.NullOr(__S(870, __c27, 6))),
@@ -6186,6 +6117,7 @@ function __c27(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           numerator: S.optional(S.NullOr(__S(872, __c27, 8))),
           numerator_outlier_handling: S.optional(S.NullOr(__S(873, __c27, 9))),
+          quantile: S.optional(S.NullOr(S.Number)),
           retention_window_end: S.optional(S.NullOr(S.Number)),
           retention_window_start: S.optional(S.NullOr(S.Number)),
           retention_window_unit: S.optional(S.NullOr(S.String)),
@@ -6196,10 +6128,11 @@ function __c27(j: number): any {
           threshold: S.optional(S.NullOr(S.Number)),
           upper_bound_percentile: S.optional(S.NullOr(S.Number)),
           uuid: S.optional(S.NullOr(S.String)),
+          value_format: S.optional(S.NullOr(__S(876, __c27, 12))),
         }),
       ).annotate({ identifier: "ExperimentApiMetric" });
-    case 13:
-      return S.Array(__S(876, __c27, 12));
+    case 14:
+      return S.Array(__S(877, __c27, 13));
   }
 }
 function __c28(j: number): any {
@@ -6225,30 +6158,30 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ExperimentHealthFinding" });
     case 3:
       return S.Array(__S(898, __c28, 2));
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
+    case 4:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           value: S.String,
           threshold: S.Number,
         }),
       ).annotate({ identifier: "ExperimentHealthRuleMinimum" });
-    case 2:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           value: S.String,
           threshold: S.Number,
           warns: S.String,
           test: S.NullOr(S.String),
-          minimum: S.NullOr(__S(929, __c29, 1)),
+          minimum: S.NullOr(__S(901, __c28, 5)),
         }),
       ).annotate({ identifier: "ExperimentHealthCheckRule" });
-    case 3:
+    case 7:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 8:
+      return S.Array(__S(903, __c28, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -6256,45 +6189,78 @@ function __c29(j: number): any {
           description: S.String,
           status: S.String,
           reason: S.NullOr(S.String),
-          values: __S(928, __c29, 0),
-          rule: S.NullOr(__S(930, __c29, 2)),
+          values: __S(900, __c28, 4),
+          rule: S.NullOr(__S(902, __c28, 6)),
+          rows: __S(904, __c28, 8),
         }),
       ).annotate({ identifier: "ExperimentHealthCheckResult" });
-    case 4:
-      return S.Array(__S(931, __c29, 3));
-    case 5:
+    case 10:
+      return S.Array(__S(905, __c28, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           rollout_percentage: S.Number,
           property_count: S.Number,
           aggregation_group_type_index: S.NullOr(S.Number),
+          variant: S.NullOr(S.String),
+          reachable: S.NullOr(S.Boolean),
         }),
       ).annotate({ identifier: "ExperimentHealthReleaseCondition" });
-    case 6:
-      return S.Array(__S(933, __c29, 5));
-    case 7:
+    case 12:
+      return S.Array(__S(907, __c28, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          release_conditions: __S(934, __c29, 6),
+          event: S.NullOr(S.String),
+          action: S.NullOr(S.String),
+          activation: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentHealthExposureSetup" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          stats_method: S.String,
+          confidence_level: S.Number,
+          sequential_testing: S.NullOr(S.Boolean),
+          sequential_testing_from_project_default: S.Boolean,
+          cuped: S.Boolean,
+          cuped_lookback_days: S.NullOr(S.Number),
+          cuped_from_project_default: S.Boolean,
+          cuped_lookback_days_from_project_default: S.Boolean,
+          metrics_without_cuped_support: __S(768, __c24, 0),
+          filters_test_accounts: S.NullOr(S.Boolean),
+          test_account_filter_count: S.Number,
+          multiple_variant_handling: S.NullOr(S.String),
+          only_count_matured_users: S.Boolean,
+          baseline_variant: S.String,
+          excluded_variants: __S(768, __c24, 0),
+        }),
+      ).annotate({ identifier: "ExperimentHealthAnalysisSetup" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          release_conditions: __S(908, __c28, 12),
           early_exit: S.Boolean,
           bucketing_identifier: S.String,
           aggregation_group_type_index: S.NullOr(S.Number),
           evaluation_runtime: S.String,
-          evaluation_contexts: __S(800, __c25, 0),
+          evaluation_contexts: __S(768, __c24, 0),
           ensure_experience_continuity: S.Boolean,
+          exposure: S.NullOr(__S(909, __c28, 13)),
+          analysis: __S(910, __c28, 14),
         }),
       ).annotate({ identifier: "ExperimentHealthSetup" });
-    case 8:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           findings: __S(899, __c28, 3),
-          checks: __S(932, __c29, 4),
-          setup: S.optional(S.NullOr(__S(935, __c29, 7))),
+          checks: __S(906, __c28, 10),
+          setup: S.optional(S.NullOr(__S(911, __c28, 15))),
         }),
       ).annotate({ identifier: "ExperimentHealth" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6303,14 +6269,14 @@ function __c30(j: number): any {
           team_id: S.optional(S.Number),
           name: S.optional(S.String),
           key: S.optional(S.String),
-          filters: S.optional(__S(836, __c26, 4)),
+          filters: S.optional(__S(801, __c25, 1)),
           deleted: S.optional(S.Boolean),
           active: S.optional(S.Boolean),
           ensure_experience_continuity: S.optional(S.NullOr(S.Boolean)),
           version: S.optional(S.NullOr(S.Number)),
           evaluation_runtime: S.optional(S.NullOr(S.Unknown)),
           bucketing_identifier: S.optional(S.NullOr(S.Unknown)),
-          evaluation_contexts: S.optional(__S(800, __c25, 0)),
+          evaluation_contexts: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "MinimalFeatureFlag" });
     case 1:
@@ -6318,14 +6284,14 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(961, __c30, 1)),
+          properties: S.optional(__S(929, __c29, 1)),
           rollout_percentage: S.optional(S.Number),
           variant: S.optional(S.NullOr(S.String)),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
     case 3:
-      return S.Array(__S(962, __c30, 2));
+      return S.Array(__S(930, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6336,7 +6302,7 @@ function __c30(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(836, __c26, 4))),
+          hedgehog_config: S.optional(S.NullOr(__S(801, __c25, 1))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -6346,8 +6312,8 @@ function __c30(j: number): any {
           id: S.optional(S.Number),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          filters: S.optional(__S(963, __c30, 3)),
-          created_by: S.optional(S.NullOr(__S(964, __c30, 4))),
+          filters: S.optional(__S(931, __c29, 3)),
+          created_by: S.optional(S.NullOr(__S(932, __c29, 4))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           user_access_level: S.optional(S.NullOr(S.String)),
@@ -6355,7 +6321,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ExperimentHoldout" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6371,7 +6337,7 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentToSavedMetric" });
     case 1:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6381,48 +6347,49 @@ function __c31(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.optional(S.String),
-          feature_flag: S.optional(__S(960, __c30, 0)),
-          holdout: S.optional(__S(965, __c30, 5)),
+          feature_flag: S.optional(__S(928, __c29, 0)),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
+          holdout: S.optional(__S(933, __c29, 5)),
           holdout_id: S.optional(S.NullOr(S.Number)),
           exposure_cohort: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
-          saved_metrics: S.optional(__S(993, __c31, 1)),
+          saved_metrics: S.optional(__S(961, __c30, 1)),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
           archived: S.optional(S.Boolean),
           deleted: S.optional(S.NullOr(S.Boolean)),
-          created_by: S.optional(S.NullOr(__S(964, __c30, 4))),
+          created_by: S.optional(S.NullOr(__S(932, __c29, 4))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           flag_cleanup_task_id: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
           status: S.optional(S.String),
           is_legacy: S.optional(S.Boolean),
           can_freeze_exposure: S.optional(S.Boolean),
           resolved_exposure_event: S.optional(S.String),
-          health: S.NullOr(__S(936, __c29, 8)),
+          health: S.NullOr(__S(912, __c28, 16)),
           user_access_level: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(800, __c25, 0)),
+          tags: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "ExperimentOutput" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6442,12 +6409,12 @@ function __c32(j: number): any {
         S.Struct({
           repository: S.NullOr(S.String),
           source: S.String,
-          candidates: __S(800, __c25, 0),
+          candidates: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "ExperimentFlagCleanupTarget" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6474,7 +6441,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ExperimentFlagCleanupTask" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6491,241 +6458,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetExperimentsHealthRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/experiments/{id}/health_inputs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetExperimentsHealthInputRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          number: S.Number,
-          rollout_percentage: S.NullOr(S.Number),
-          property_count: S.NullOr(S.Number),
-          reachable: S.Boolean,
-          pinned_variant: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsReleaseCondition" });
-    case 2:
-      return S.Array(__S(1121, __c35, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.NullOr(S.String),
-          rollout_percentage: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsVariant" });
-    case 4:
-      return S.Array(__S(1123, __c35, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Boolean,
-          deleted: S.Boolean,
-          release_conditions: __S(1122, __c35, 2),
-          variants: __S(1124, __c35, 4),
-          split_text: S.String,
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsFlag" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          custom_event: S.NullOr(S.String),
-          required_flag_key: S.NullOr(S.String),
-          variant_property: S.String,
-          activation: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsExposureEvents" });
-    case 7:
-      return S.Record(S.String, S.Boolean);
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          role: S.String,
-          kind: S.String,
-          message: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsMetricCompileFailure" });
-    case 9:
-      return S.Array(__S(1128, __c35, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          metric_count: S.Number,
-          unknown_count: S.Number,
-          no_access_count: S.Number,
-          exposure_query_fails: S.Boolean,
-          failures: __S(1129, __c35, 9),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsMetricCompiles" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          role: S.String,
-          error_type: S.NullOr(S.String),
-          step: S.NullOr(S.String),
-          retriable: S.Boolean,
-          message: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsMetricCalculationFailure" });
-    case 12:
-      return S.Array(__S(1131, __c35, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          role: S.String,
-          exposures: S.Number,
-          ratio_side: S.NullOr(S.String),
-          stopped_events: __S(800, __c25, 0),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsZeroMetric" });
-    case 14:
-      return S.Array(__S(1133, __c35, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          finished_at: S.NullOr(S.String),
-          failures: __S(1132, __c35, 12),
-          hours_of_data: S.NullOr(S.Number),
-          zero_metrics: __S(1134, __c35, 14),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsLatestCalculation" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          changed_at: S.String,
-          changed: S.String,
-          before: S.String,
-          after: S.String,
-          counted: S.Boolean,
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsFlagChange" });
-    case 17:
-      return S.Array(__S(1136, __c35, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          question: S.String,
-          exposed: S.NullOr(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsExposedBetween" });
-    case 19:
-      return S.Array(__S(1138, __c35, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          checked: S.Boolean,
-          not_checked_reason: S.NullOr(S.String),
-          start_date: S.String,
-          team_timezone: S.String,
-          changes: __S(1137, __c35, 17),
-          exposed_before_first: S.NullOr(S.Boolean),
-          exposed_between: __S(1139, __c35, 19),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsFlagHistory" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          condition_set: S.Number,
-          people: S.Number,
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsConditionSetPeople" });
-    case 22:
-      return S.Array(__S(1141, __c35, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          since: S.String,
-          team_timezone: S.String,
-          people_by_set: __S(1142, __c35, 22),
-          calls: S.Number,
-          remotely_evaluated_calls: S.Number,
-          people_assigned_outside: S.Number,
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsConditionSetTraffic" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          can_read_flag_history: S.Boolean,
-          can_query_events: S.Boolean,
-          denied_event_properties: __S(800, __c25, 0),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsReaderAccess" });
-    case 25:
-      return S.Record(S.String, S.Number);
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          total_exposures: __S(1145, __c35, 25),
-          multiple_variant_handling: S.String,
-          sample_ratio_mismatch_p_value: S.NullOr(S.Number),
-          hours_since_launch: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsExposureTotals" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          computed_at: S.NullOr(S.String),
-          totals: S.NullOr(__S(1146, __c35, 26)),
-          findings: __S(899, __c28, 3),
-          error: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsExposures" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          team_defaults: __S(225, __c7, 1),
-          sdk_profile: __S(231, __c7, 7),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputsProject" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          is_launched: S.Boolean,
-          is_running: S.Boolean,
-          has_ended: S.Boolean,
-          is_paused: S.Boolean,
-          archived: S.Boolean,
-          baseline_variant_key: S.NullOr(S.String),
-          excluded_variant_keys: __S(800, __c25, 0),
-          primary_metric_count: S.Number,
-          secondary_metric_count: S.Number,
-          flag: S.NullOr(__S(1125, __c35, 5)),
-          flag_last_called_at: S.NullOr(S.String),
-          flag_called: S.NullOr(S.Boolean),
-          flag_called_during_run: S.NullOr(S.Boolean),
-          flag_called_after_end: S.NullOr(S.Boolean),
-          exposure_events: S.NullOr(__S(1126, __c35, 6)),
-          events_received: __S(1127, __c35, 7),
-          metric_compiles: S.NullOr(__S(1130, __c35, 10)),
-          latest_calculation: S.NullOr(__S(1135, __c35, 15)),
-          flag_history: S.NullOr(__S(1140, __c35, 20)),
-          condition_set_traffic_status: S.String,
-          condition_set_traffic: S.NullOr(__S(1143, __c35, 23)),
-          reader_access: __S(1144, __c35, 24),
-          exposures: __S(1147, __c35, 27),
-          project: __S(1148, __c35, 28),
-        }),
-      ).annotate({ identifier: "ExperimentHealthInputs" });
-  }
-}
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6750,7 +6483,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ExperimentInSessionExposure" });
   }
 }
-function __c37(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6761,6 +6494,7 @@ function __c37(j: number): any {
           event: S.optional(S.String.pipe(T.Query())),
           excluded_tags: S.optional(S.String.pipe(T.Query())),
           feature_flag_id: S.optional(S.Number.pipe(T.Query())),
+          feature_flag_ids: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           prompt_name: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -6777,13 +6511,13 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ids: __S(1408, __c44, 0),
+          ids: __S(1376, __c43, 0),
           total: S.Number,
         }),
       ).annotate({ identifier: "ExperimentMatchingIdsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6814,18 +6548,19 @@ function __c38(j: number): any {
           completed_at: S.NullOr(S.String),
           query_to: S.NullOr(S.String),
           metric_retries: S.Unknown,
-          results: __S(1249, __c39, 1),
+          results: __S(1185, __c37, 1),
           rows_read: S.optional(S.NullOr(S.Number)),
           estimated_rows_total: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ExperimentMetricsRecalculationRun" });
   }
 }
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          configuration_status: S.String,
           metric_uuid: S.String,
           status: S.String,
           result: S.Unknown,
@@ -6833,10 +6568,10 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "MetricRecalculationResult" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1184, __c37, 0));
   }
 }
-function __c40(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6873,16 +6608,17 @@ function __c40(j: number): any {
           completed_at: S.NullOr(S.String),
           query_to: S.NullOr(S.String),
           metric_retries: S.Unknown,
-          results: __S(1249, __c39, 1),
+          results: __S(1185, __c37, 1),
           rows_read: S.optional(S.NullOr(S.Number)),
           estimated_rows_total: S.optional(S.NullOr(S.Number)),
-          active_run: S.NullOr(__S(1281, __c40, 1)),
+          active_run: S.NullOr(__S(1217, __c38, 1)),
           result_source: S.String,
+          exceeds_recalculation_age_limit: S.Boolean,
         }),
       ).annotate({ identifier: "ExperimentMetricsRecalculationLatest" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6905,14 +6641,14 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "GetExperimentsPromptTemplateResponseBodyItem" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
-      return S.suspend(() => __S(1314, __c41, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1250, __c39, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetExperimentsPromptTemplateResponse",
       });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6936,14 +6672,14 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "DetectableEffectCheckpoint" });
     case 2:
-      return S.Array(__S(1345, __c42, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           days_since_launch: S.Number,
           exposures_per_day: S.Number,
           detectable_effect_now: S.Number,
-          upcoming_checkpoints: __S(1346, __c42, 2),
+          upcoming_checkpoints: __S(1282, __c40, 2),
           reachable_effect: S.Number,
         }),
       ).annotate({ identifier: "RunningTimeOutlook" });
@@ -6953,12 +6689,29 @@ function __c42(j: number): any {
           minimum_detectable_effect: S.Number,
           recommended_sample_size: S.NullOr(S.Number),
           current_sample_size: S.NullOr(S.Number),
-          outlook: S.NullOr(__S(1347, __c42, 3)),
+          outlook: S.NullOr(__S(1283, __c40, 3)),
         }),
       ).annotate({ identifier: "RunningTimeTarget" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          session_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/experiments/session_context/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetExperimentsSessionContextRequest" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6969,7 +6722,7 @@ function __c43(j: number): any {
           denominator_sum: S.optional(S.NullOr(S.Number)),
           denominator_sum_squares: S.optional(S.NullOr(S.Number)),
           numerator_denominator_sum_product: S.optional(S.NullOr(S.Number)),
-          step_counts: S.optional(__S(1408, __c44, 0)),
+          step_counts: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "RunningTimeBaselineStats" });
     case 1:
@@ -6982,7 +6735,7 @@ function __c43(j: number): any {
           exposure_rate_per_day: S.optional(S.NullOr(S.Number)),
           baseline_value: S.optional(S.NullOr(S.Number)),
           variance: S.optional(S.NullOr(S.Number)),
-          baseline_stats: S.optional(S.NullOr(__S(1376, __c43, 0))),
+          baseline_stats: S.optional(S.NullOr(__S(1344, __c42, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7002,30 +6755,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "RunningTimeCalculationResult" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          session_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/experiments/session_context/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetExperimentsSessionContextRequest" });
-  }
-}
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7041,7 +6777,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetExperimentsStatRequest" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7058,9 +6794,28 @@ function __c47(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetExperimentsTimeseriesResultRequest" });
+    case 1:
+      return S.Record(S.String, S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          experiment_id: S.Number,
+          metric_uuid: S.String,
+          status: S.String,
+          timeseries: __S(801, __c25, 1),
+          configuration_by_day: __S(1441, __c45, 1),
+          computed_at: S.NullOr(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+          recalculation_status: S.NullOr(S.String),
+          recalculation_created_at: S.NullOr(S.String),
+          formatted_results: S.String,
+          errors: S.NullOr(__S(800, __c25, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentTimeseriesResults" });
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7071,6 +6826,7 @@ function __c48(j: number): any {
           event: S.optional(S.String.pipe(T.Query())),
           excluded_tags: S.optional(S.String.pipe(T.Query())),
           feature_flag_id: S.optional(S.Number.pipe(T.Query())),
+          feature_flag_ids: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
@@ -7091,15 +6847,15 @@ function __c48(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.String,
-          feature_flag: __S(960, __c30, 0),
-          holdout: __S(965, __c30, 5),
+          feature_flag: __S(928, __c29, 0),
+          holdout: __S(933, __c29, 5),
           exposure_cohort: S.NullOr(S.Number),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           archived: S.optional(S.Boolean),
           deleted: S.optional(S.NullOr(S.Boolean)),
-          created_by: __S(964, __c30, 4),
+          created_by: __S(932, __c29, 4),
           created_at: S.String,
           updated_at: S.String,
           type: S.optional(S.NullOr(S.String)),
@@ -7108,23 +6864,23 @@ function __c48(j: number): any {
           status: S.String,
           is_legacy: S.Boolean,
           user_access_level: S.NullOr(S.String),
-          tags: S.optional(__S(800, __c25, 0)),
+          tags: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "ExperimentBasic" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(1538, __c48, 2),
+          results: __S(1474, __c46, 2),
         }),
       ).annotate({ identifier: "PaginatedExperimentBasicList" });
   }
 }
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7136,11 +6892,12 @@ function __c49(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.String,
-          feature_flag: S.optional(__S(774, __c24, 6)),
+          feature_flag: S.optional(__S(742, __c23, 6)),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -7148,8 +6905,8 @@ function __c49(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -7157,20 +6914,20 @@ function __c49(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/projects/{project_id}/experiments/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateExperimentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7182,11 +6939,12 @@ function __c50(j: number): any {
           start_date: S.optional(S.NullOr(S.String)),
           end_date: S.optional(S.NullOr(S.String)),
           feature_flag_key: S.optional(S.String),
-          feature_flag: S.optional(__S(774, __c24, 6)),
+          feature_flag: S.optional(__S(742, __c23, 6)),
+          feature_flag_rule_id: S.optional(S.NullOr(S.String)),
           holdout_id: S.optional(S.NullOr(S.Number)),
-          parameters: S.optional(S.NullOr(__S(833, __c26, 1))),
-          running_time_calculation: S.optional(S.NullOr(__S(835, __c26, 3))),
-          excluded_variants: S.optional(S.NullOr(__S(800, __c25, 0))),
+          parameters: S.optional(S.NullOr(__S(832, __c26, 0))),
+          running_time_calculation: S.optional(S.NullOr(__S(834, __c26, 2))),
+          excluded_variants: S.optional(S.NullOr(__S(768, __c24, 0))),
           secondary_metrics: S.optional(S.Unknown),
           saved_metrics_ids: S.optional(S.NullOr(__S(864, __c27, 0))),
           filters: S.optional(S.Unknown),
@@ -7194,8 +6952,8 @@ function __c50(j: number): any {
           deleted: S.optional(S.NullOr(S.Boolean)),
           type: S.optional(S.NullOr(S.String)),
           exposure_criteria: S.optional(S.NullOr(__S(868, __c27, 4))),
-          metrics: S.optional(S.NullOr(__S(877, __c27, 13))),
-          metrics_secondary: S.optional(S.NullOr(__S(877, __c27, 13))),
+          metrics: S.optional(S.NullOr(__S(878, __c27, 14))),
+          metrics_secondary: S.optional(S.NullOr(__S(878, __c27, 14))),
           stats_config: S.optional(S.Unknown),
           scheduling_config: S.optional(S.Unknown),
           allow_unknown_events: S.optional(S.Boolean),
@@ -7203,13 +6961,13 @@ function __c50(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           conclusion_comment: S.optional(S.NullOr(S.String)),
           repository: S.optional(S.NullOr(S.String)),
-          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
-          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(800, __c25, 0))),
+          primary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
+          secondary_metrics_ordered_uuids: S.optional(S.NullOr(__S(768, __c24, 0))),
           only_count_matured_users: S.optional(S.Boolean),
           update_feature_flag_params: S.optional(S.Boolean),
           version: S.optional(S.NullOr(S.Number)),
-          original_experiment: S.optional(S.NullOr(__S(836, __c26, 4))),
-          tags: S.optional(__S(800, __c25, 0)),
+          original_experiment: S.optional(S.NullOr(__S(801, __c25, 1))),
+          tags: S.optional(__S(768, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7220,7 +6978,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateExperimentsPartialRequest" });
   }
 }
-function __c51(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7242,7 +7000,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateExperimentsEndRequest" });
   }
 }
-function __c52(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7259,7 +7017,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateExperimentsFreezeExposureRequest" });
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7276,7 +7034,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateExperimentsLaunchRequest" });
   }
 }
-function __c54(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7311,7 +7069,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ExperimentMetricsRecalculationJob" });
   }
 }
-function __c55(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

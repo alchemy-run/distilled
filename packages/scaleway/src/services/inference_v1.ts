@@ -135,8 +135,6 @@ export interface Deployment {
   region?: string | undefined;
   /** SRN of the deployment. */
   srn?: string | undefined;
-  /** Zone of the deployment. */
-  zone?: string | undefined;
 }
 export type CreateEndpointRequestRegion = "fr-par";
 export interface CreateEndpointRequest {
@@ -221,8 +219,6 @@ export interface Model {
   size_bytes?: number | undefined;
   /** SRN of the model. */
   srn?: string | undefined;
-  /** Zone of the model. */
-  zone?: string | undefined;
 }
 export type DeleteDeploymentRequestRegion = "fr-par";
 export interface DeleteDeploymentRequest {
@@ -888,7 +884,6 @@ function __c4(j: number): any {
           updated_at: S.optional(S.NullOr(S.String)),
           region: S.optional(S.String),
           srn: S.optional(S.String),
-          zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deployment" });
   }
@@ -1177,7 +1172,6 @@ function __c15(j: number): any {
           parameter_size_bits: S.optional(S.Number),
           size_bytes: S.optional(S.Number),
           srn: S.optional(S.String),
-          zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "Model" });
   }

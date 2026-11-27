@@ -594,7 +594,7 @@ export interface DeleteAddressMapZoneRequest {
   /** Identifier of an Address Map. */
   addressMapId: string;
   /** Identifier of a zone. */
-  zoneId: string;
+  memberZoneId: string;
 }
 export interface DeleteAddressMapZoneResponse {}
 export interface DeletePrefixRequest {
@@ -1239,7 +1239,7 @@ export interface PutAddressMapZoneRequest {
   /** Identifier of an Address Map. */
   addressMapId: string;
   /** Identifier of a zone. */
-  zoneId: string;
+  memberZoneId: string;
 }
 export interface PutAddressMapZoneResponse {}
 export interface ValidatePrefixRequest {
@@ -2577,12 +2577,12 @@ function __c18(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           addressMapId: S.String.pipe(T.Label("address_map_id")),
-          zoneId: S.String.pipe(T.Label("zone_id")),
+          memberZoneId: S.String.pipe(T.Label("member_zone_id")),
         })
           .pipe(
             T.Http({
               method: "DELETE",
-              uri: "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}",
+              uri: "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}",
               code: 200,
             }),
           )
@@ -3332,12 +3332,12 @@ function __c47(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           addressMapId: S.String.pipe(T.Label("address_map_id")),
-          zoneId: S.String.pipe(T.Label("zone_id")),
+          memberZoneId: S.String.pipe(T.Label("member_zone_id")),
         })
           .pipe(
             T.Http({
               method: "PUT",
-              uri: "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}",
+              uri: "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}",
               code: 200,
             }),
           )

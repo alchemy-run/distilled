@@ -157,6 +157,7 @@ export * as live from "./live.ts";
 export * as lke from "./lke.ts";
 export * as lkeap from "./lkeap.ts";
 export * as lowcode from "./lowcode.ts";
+export * as makers from "./makers.ts";
 export * as mall from "./mall.ts";
 export * as mariadb from "./mariadb.ts";
 export * as market from "./market.ts";

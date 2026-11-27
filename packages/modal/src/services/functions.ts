@@ -289,7 +289,7 @@ export interface TaskTemplate {
   resources?: Resources | undefined;
   targetConcurrentInputs?: number | undefined;
   maxConcurrentInputs?: number | undefined;
-  /** TODO(irfansharif): Just move this into a column in the task table instead? Deprecate all above fields and get rid of this message altogether */
+  /** TODO(colin, was irfansharif): Just move this into a column in the task table instead? Deprecate all above fields and get rid of this message altogether */
   index?: number | undefined;
 }
 export type TaskTemplateList = Array<TaskTemplate>;
@@ -367,6 +367,17 @@ export interface HTTPConfig {
   unauthenticated?: boolean | undefined;
   liftAndShiftConfig?: LiftAndShiftConfig | undefined;
 }
+export type NetworkAccessNetworkAccessType = "UNSPECIFIED" | "OPEN" | "BLOCKED" | "ALLOWLIST";
+export interface NetworkAccess {
+  networkAccessType?: NetworkAccessNetworkAccessType | (string & {}) | undefined;
+  allowedCidrs?: StringList | undefined;
+  allowedDomains?: StringList | undefined;
+}
+export interface LocalizedConfig {
+  targetLocation?: string | undefined;
+  preferredDistance?: string | undefined;
+  maxDistance?: string | undefined;
+}
 export interface Function {
   moduleName?: string | undefined;
   functionName?: string | undefined;
@@ -432,7 +443,7 @@ export interface Function {
   i6pnEnabled?: boolean | undefined;
   ExperimentalConcurrentCancellations?: boolean | undefined;
   targetConcurrentInputs?: number | undefined;
-  /** TODO(irfansharif): Remove, once https://github.com/modal-labs/modal/pull/15645 lands. */
+  /** TODO(colin, was irfansharif): Remove, once https://github.com/modal-labs/modal/pull/15645 lands. */
   ExperimentalTaskTemplatesEnabled?: boolean | undefined;
   /** for fallback options, where the first/most-preferred "template" is derived from fields above */
   ExperimentalTaskTemplates?: TaskTemplateList | undefined;
@@ -484,6 +495,11 @@ export interface Function {
   routingRegion?: string | undefined;
   /** True when the function is a Sessioned Server. Only valid together with is_server. */
   isSessioned?: boolean | undefined;
+  /** Outbound network access of the Function's containers. Takes precedence over block_network. */
+  networkAccess?: NetworkAccess | undefined;
+  localizedConfig?: LocalizedConfig | undefined;
+  /** Whether the Function's containers may pickle or unpickle data, e.g. for modal.Dict and modal.Queue values or when calling other Functions. Unset means pickle is allowed. */
+  allowPickle?: boolean | undefined;
 }
 export interface FunctionDataRankedFunction {
   rank?: number | undefined;
@@ -545,6 +561,7 @@ export interface FunctionData {
   routingRegion?: string | undefined;
   /** True when the function is a Sessioned Server. Only valid together with is_server. */
   isSessioned?: boolean | undefined;
+  localizedConfig?: LocalizedConfig | undefined;
 }
 export interface CreateFunctionRequest {
   function?: Function | undefined;
@@ -1946,7 +1963,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          function: S.optional(__S(947, __c29, 19)),
+          function: S.optional(__S(949, __c29, 21)),
           handleMetadata: S.optional(__S(1096, __c34, 8)),
         }),
       ).annotate({ identifier: "FunctionGetByIdResponse" });
@@ -2561,11 +2578,11 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          function: S.optional(__S(944, __c29, 16)),
+          function: S.optional(__S(946, __c29, 18)),
           appId: S.optional(S.String),
           schedule: S.optional(__S(941, __c29, 13)),
           existingFunctionId: S.optional(S.String),
-          functionData: S.optional(__S(947, __c29, 19)),
+          functionData: S.optional(__S(949, __c29, 21)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCreate", code: 200 }),
         ),
@@ -2575,10 +2592,10 @@ function __c26(j: number): any {
         S.Struct({
           functionId: S.String,
           DeprecatedWebUrl: S.String,
-          function: S.optional(__S(944, __c29, 16)),
+          function: S.optional(__S(946, __c29, 18)),
           handleMetadata: S.optional(__S(1096, __c34, 8)),
           serverWarnings: __S(961, __c30, 1),
-          functionData: S.optional(__S(947, __c29, 19)),
+          functionData: S.optional(__S(949, __c29, 21)),
         }),
       ).annotate({ identifier: "CreateFunctionResponse" });
   }
@@ -2781,6 +2798,22 @@ function __c29(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
+          networkAccessType: S.optional(S.String),
+          allowedCidrs: S.optional(__S(992, __c31, 0)),
+          allowedDomains: S.optional(__S(992, __c31, 0)),
+        }),
+      ).annotate({ identifier: "NetworkAccess" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          targetLocation: S.optional(S.String),
+          preferredDistance: S.optional(S.String),
+          maxDistance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LocalizedConfig" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
           moduleName: S.optional(S.String),
           functionName: S.optional(S.String),
           mountIds: S.optional(__S(992, __c31, 0)),
@@ -2860,18 +2893,21 @@ function __c29(j: number): any {
           isServer: S.optional(S.Boolean),
           routingRegion: S.optional(S.String),
           isSessioned: S.optional(S.Boolean),
+          networkAccess: S.optional(__S(944, __c29, 16)),
+          localizedConfig: S.optional(__S(945, __c29, 17)),
+          allowPickle: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Function" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           rank: S.optional(S.Number),
-          function: S.optional(__S(944, __c29, 16)),
+          function: S.optional(__S(946, __c29, 18)),
         }),
       ).annotate({ identifier: "FunctionDataRankedFunction" });
-    case 18:
-      return S.Array(__S(945, __c29, 17));
-    case 19:
+    case 20:
+      return S.Array(__S(947, __c29, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           moduleName: S.optional(S.String),
@@ -2896,7 +2932,7 @@ function __c29(j: number): any {
           isClass: S.optional(S.Boolean),
           classParameterInfo: S.optional(__S(1092, __c34, 4)),
           isMethod: S.optional(S.Boolean),
-          rankedFunctions: S.optional(__S(946, __c29, 18)),
+          rankedFunctions: S.optional(__S(948, __c29, 20)),
           schedule: S.optional(__S(941, __c29, 13)),
           untrusted: S.optional(S.Boolean),
           snapshotDebug: S.optional(S.Boolean),
@@ -2914,6 +2950,7 @@ function __c29(j: number): any {
           isServer: S.optional(S.Boolean),
           routingRegion: S.optional(S.String),
           isSessioned: S.optional(S.Boolean),
+          localizedConfig: S.optional(__S(945, __c29, 17)),
         }),
       ).annotate({ identifier: "FunctionData" });
   }
@@ -3109,7 +3146,7 @@ function __c35(j: number): any {
           functionId: S.String,
           handleMetadata: S.optional(__S(1096, __c34, 8)),
           serverWarnings: __S(961, __c30, 1),
-          function: S.optional(__S(947, __c29, 19)),
+          function: S.optional(__S(949, __c29, 21)),
         }),
       ).annotate({ identifier: "GetFunctionResponse" });
   }

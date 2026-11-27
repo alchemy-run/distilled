@@ -1921,6 +1921,35 @@ export interface DescribeDeviceBindGatewayResponse {
   GatewayProductOwnerUin?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface DescribeDeviceCloudStoragePackagesRequest {
+  ProductId: string;
+  DeviceName: string;
+  ChannelId?: number | undefined;
+  MediaType?: string | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface NewCloudStoragePackage {
+  ResourceId?: string | undefined;
+  MediaType?: string | undefined;
+  RetentionDays?: number | undefined;
+  RecordingMode?: string | undefined;
+  Bitrate?: string | undefined;
+  StartTime?: number | undefined;
+  ExpireTime?: number | undefined;
+  Status?: string | undefined;
+  ReportEnabled?: number | undefined;
+  OrderId?: string | undefined;
+  BigDealId?: string | undefined;
+  ValidityPeriod?: string | undefined;
+  ImageCapacity?: string | undefined;
+}
+export type NewCloudStoragePackageList = Array<NewCloudStoragePackage>;
+export interface DescribeDeviceCloudStoragePackagesResponse {
+  Packages?: NewCloudStoragePackageList | undefined;
+  TotalCount?: number | undefined;
+  RequestId?: string | undefined;
+}
 export interface DescribeDeviceDataRequest {
   ProductId: string;
   DeviceName: string;
@@ -4583,8 +4612,8 @@ export const batchCreateTWeSeeRecognitionTask: API.OperationMethod<
   BatchCreateTWeSeeRecognitionTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<BatchCreateTWeSeeRecognitionTaskRequest>,
-  output: __S(2195, __c137, 3) as any as S.Schema<BatchCreateTWeSeeRecognitionTaskResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<BatchCreateTWeSeeRecognitionTaskRequest>,
+  output: __S(2211, __c138, 3) as any as S.Schema<BatchCreateTWeSeeRecognitionTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4600,8 +4629,8 @@ export const batchCreateTWeSeeSubscription: API.OperationMethod<
   BatchCreateTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3442, __c215, 2) as any as S.Schema<BatchCreateTWeSeeSubscriptionRequest>,
-  output: __S(3458, __c216, 2) as any as S.Schema<BatchCreateTWeSeeSubscriptionResponse>,
+  input: __S(3474, __c217, 2) as any as S.Schema<BatchCreateTWeSeeSubscriptionRequest>,
+  output: __S(3490, __c218, 2) as any as S.Schema<BatchCreateTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4617,8 +4646,8 @@ export const batchDescribeTWeSeeOrders: API.OperationMethod<
   BatchDescribeTWeSeeOrdersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3746, __c234, 2) as any as S.Schema<BatchDescribeTWeSeeOrdersRequest>,
-  output: __S(3749, __c234, 5) as any as S.Schema<BatchDescribeTWeSeeOrdersResponse>,
+  input: __S(3778, __c236, 2) as any as S.Schema<BatchDescribeTWeSeeOrdersRequest>,
+  output: __S(3781, __c236, 5) as any as S.Schema<BatchDescribeTWeSeeOrdersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4634,8 +4663,8 @@ export const batchInvokeTWeSeeRecognitionTask: API.OperationMethod<
   BatchInvokeTWeSeeRecognitionTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c252, 0) as any as S.Schema<BatchInvokeTWeSeeRecognitionTaskRequest>,
-  output: __S(4035, __c252, 3) as any as S.Schema<BatchInvokeTWeSeeRecognitionTaskResponse>,
+  input: __S(4064, __c254, 0) as any as S.Schema<BatchInvokeTWeSeeRecognitionTaskRequest>,
+  output: __S(4067, __c254, 3) as any as S.Schema<BatchInvokeTWeSeeRecognitionTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4651,8 +4680,8 @@ export const batchPublishMessage: API.OperationMethod<
   BatchPublishMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4304, __c269, 0) as any as S.Schema<BatchPublishMessageRequest>,
-  output: __S(4307, __c269, 3) as any as S.Schema<BatchPublishMessageResponse>,
+  input: __S(4336, __c271, 0) as any as S.Schema<BatchPublishMessageRequest>,
+  output: __S(4339, __c271, 3) as any as S.Schema<BatchPublishMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4668,8 +4697,8 @@ export const batchRenewTWeSeeSubscription: API.OperationMethod<
   BatchRenewTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4482, __c280, 2) as any as S.Schema<BatchRenewTWeSeeSubscriptionRequest>,
-  output: __S(3458, __c216, 2) as any as S.Schema<BatchRenewTWeSeeSubscriptionResponse>,
+  input: __S(4514, __c282, 2) as any as S.Schema<BatchRenewTWeSeeSubscriptionRequest>,
+  output: __S(3490, __c218, 2) as any as S.Schema<BatchRenewTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4685,8 +4714,8 @@ export const batchUpdateFirmware: API.OperationMethod<
   BatchUpdateFirmwareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c296, 0) as any as S.Schema<BatchUpdateFirmwareRequest>,
-  output: __S(4752, __c297, 0) as any as S.Schema<BatchUpdateFirmwareResponse>,
+  input: __S(4768, __c298, 0) as any as S.Schema<BatchUpdateFirmwareRequest>,
+  output: __S(4784, __c299, 0) as any as S.Schema<BatchUpdateFirmwareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4702,8 +4731,8 @@ export const bindCloudStorageUser: API.OperationMethod<
   BindCloudStorageUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5008, __c313, 0) as any as S.Schema<BindCloudStorageUserRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<BindCloudStorageUserResponse>,
+  input: __S(5040, __c315, 0) as any as S.Schema<BindCloudStorageUserRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<BindCloudStorageUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4720,7 +4749,7 @@ export const bindDevices: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<BindDevicesRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<BindDevicesResponse>,
+  output: __S(5056, __c316, 0) as any as S.Schema<BindDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4737,7 +4766,7 @@ export const bindProducts: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<BindProductsRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<BindProductsResponse>,
+  output: __S(5056, __c316, 0) as any as S.Schema<BindProductsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4753,8 +4782,8 @@ export const bindTWeTalkAgent: API.OperationMethod<
   BindTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<BindTWeTalkAgentRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<BindTWeTalkAgentResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<BindTWeTalkAgentRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<BindTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4804,8 +4833,8 @@ export const callDeviceActionSync: API.OperationMethod<
   CallDeviceActionSyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CallDeviceActionSyncRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<CallDeviceActionSyncResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<CallDeviceActionSyncRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<CallDeviceActionSyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4821,8 +4850,8 @@ export const callDeviceRRPCSync: API.OperationMethod<
   CallDeviceRRPCSyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CallDeviceRRPCSyncRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<CallDeviceRRPCSyncResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CallDeviceRRPCSyncRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<CallDeviceRRPCSyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4839,7 +4868,7 @@ export const changeP2PRoute: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ChangeP2PRouteRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ChangeP2PRouteResponse>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ChangeP2PRouteResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4855,8 +4884,8 @@ export const checkFirmwareUpdate: API.OperationMethod<
   CheckFirmwareUpdateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CheckFirmwareUpdateRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<CheckFirmwareUpdateResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CheckFirmwareUpdateRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<CheckFirmwareUpdateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4872,8 +4901,8 @@ export const controlDeviceData: API.OperationMethod<
   ControlDeviceDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ControlDeviceDataRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<ControlDeviceDataResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ControlDeviceDataRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<ControlDeviceDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4889,8 +4918,8 @@ export const createAISearchTaskAsync: API.OperationMethod<
   CreateAISearchTaskAsyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<CreateAISearchTaskAsyncRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<CreateAISearchTaskAsyncResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<CreateAISearchTaskAsyncRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<CreateAISearchTaskAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4906,8 +4935,8 @@ export const createBatchProduction: API.OperationMethod<
   CreateBatchProductionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<CreateBatchProductionRequest>,
-  output: __S(2465, __c154, 1) as any as S.Schema<CreateBatchProductionResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<CreateBatchProductionRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<CreateBatchProductionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4923,8 +4952,8 @@ export const createCloudStorageAIService: API.OperationMethod<
   CreateCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<CreateCloudStorageAIServiceRequest>,
-  output: __S(2641, __c165, 1) as any as S.Schema<CreateCloudStorageAIServiceResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<CreateCloudStorageAIServiceRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<CreateCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4940,8 +4969,8 @@ export const createCloudStorageAIServiceTask: API.OperationMethod<
   CreateCloudStorageAIServiceTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<CreateCloudStorageAIServiceTaskRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<CreateCloudStorageAIServiceTaskResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<CreateCloudStorageAIServiceTaskRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<CreateCloudStorageAIServiceTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4957,8 +4986,8 @@ export const createDevice: API.OperationMethod<
   CreateDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<CreateDeviceRequest>,
-  output: __S(2994, __c187, 2) as any as S.Schema<CreateDeviceResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<CreateDeviceRequest>,
+  output: __S(3010, __c188, 2) as any as S.Schema<CreateDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4974,8 +5003,8 @@ export const createDeviceChannel: API.OperationMethod<
   CreateDeviceChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<CreateDeviceChannelRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateDeviceChannelResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<CreateDeviceChannelRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateDeviceChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4991,8 +5020,8 @@ export const createDevicePublishSDPAnswer: API.OperationMethod<
   CreateDevicePublishSDPAnswerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<CreateDevicePublishSDPAnswerRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<CreateDevicePublishSDPAnswerResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<CreateDevicePublishSDPAnswerRequest>,
+  output: __S(3392, __c212, 0) as any as S.Schema<CreateDevicePublishSDPAnswerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5008,8 +5037,8 @@ export const createDeviceSDPAnswer: API.OperationMethod<
   CreateDeviceSDPAnswerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<CreateDeviceSDPAnswerRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<CreateDeviceSDPAnswerResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<CreateDeviceSDPAnswerRequest>,
+  output: __S(3392, __c212, 0) as any as S.Schema<CreateDeviceSDPAnswerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5025,8 +5054,8 @@ export const createExternalSourceAIServiceTask: API.OperationMethod<
   CreateExternalSourceAIServiceTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<CreateExternalSourceAIServiceTaskRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<CreateExternalSourceAIServiceTaskResponse>,
+  input: __S(3424, __c214, 0) as any as S.Schema<CreateExternalSourceAIServiceTaskRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<CreateExternalSourceAIServiceTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5042,8 +5071,8 @@ export const createFenceBind: API.OperationMethod<
   CreateFenceBindError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<CreateFenceBindRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateFenceBindResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<CreateFenceBindRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateFenceBindResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5059,8 +5088,8 @@ export const createFreeCloudStorage: API.OperationMethod<
   CreateFreeCloudStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<CreateFreeCloudStorageRequest>,
-  output: __S(3488, __c218, 0) as any as S.Schema<CreateFreeCloudStorageResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<CreateFreeCloudStorageRequest>,
+  output: __S(3520, __c220, 0) as any as S.Schema<CreateFreeCloudStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5076,8 +5105,8 @@ export const createIotVideoCloudStorage: API.OperationMethod<
   CreateIotVideoCloudStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<CreateIotVideoCloudStorageRequest>,
-  output: __S(3488, __c218, 0) as any as S.Schema<CreateIotVideoCloudStorageResponse>,
+  input: __S(3536, __c221, 0) as any as S.Schema<CreateIotVideoCloudStorageRequest>,
+  output: __S(3520, __c220, 0) as any as S.Schema<CreateIotVideoCloudStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5093,8 +5122,8 @@ export const createLoRaFrequency: API.OperationMethod<
   CreateLoRaFrequencyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<CreateLoRaFrequencyRequest>,
-  output: __S(3537, __c221, 1) as any as S.Schema<CreateLoRaFrequencyResponse>,
+  input: __S(3552, __c222, 0) as any as S.Schema<CreateLoRaFrequencyRequest>,
+  output: __S(3569, __c223, 1) as any as S.Schema<CreateLoRaFrequencyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5110,8 +5139,8 @@ export const createLoRaGateway: API.OperationMethod<
   CreateLoRaGatewayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<CreateLoRaGatewayRequest>,
-  output: __S(3584, __c224, 0) as any as S.Schema<CreateLoRaGatewayResponse>,
+  input: __S(3584, __c224, 0) as any as S.Schema<CreateLoRaGatewayRequest>,
+  output: __S(3616, __c226, 0) as any as S.Schema<CreateLoRaGatewayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5127,8 +5156,8 @@ export const createOtaModule: API.OperationMethod<
   CreateOtaModuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<CreateOtaModuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateOtaModuleResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<CreateOtaModuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateOtaModuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5144,8 +5173,8 @@ export const createPositionFence: API.OperationMethod<
   CreatePositionFenceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<CreatePositionFenceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreatePositionFenceResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<CreatePositionFenceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreatePositionFenceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5161,8 +5190,8 @@ export const createPositionSpace: API.OperationMethod<
   CreatePositionSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<CreatePositionSpaceRequest>,
-  output: __S(3633, __c227, 1) as any as S.Schema<CreatePositionSpaceResponse>,
+  input: __S(3664, __c229, 0) as any as S.Schema<CreatePositionSpaceRequest>,
+  output: __S(3665, __c229, 1) as any as S.Schema<CreatePositionSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5178,8 +5207,8 @@ export const createPrivateCA: API.OperationMethod<
   CreatePrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Schema<CreatePrivateCARequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreatePrivateCAResponse>,
+  input: __S(3680, __c230, 0) as any as S.Schema<CreatePrivateCARequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreatePrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5195,8 +5224,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(3681, __c230, 1) as any as S.Schema<CreateProjectResponse>,
+  input: __S(3696, __c231, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(3713, __c232, 1) as any as S.Schema<CreateProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5212,8 +5241,8 @@ export const createStudioProduct: API.OperationMethod<
   CreateStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<CreateStudioProductRequest>,
-  output: __S(3728, __c233, 0) as any as S.Schema<CreateStudioProductResponse>,
+  input: __S(3728, __c233, 0) as any as S.Schema<CreateStudioProductRequest>,
+  output: __S(3760, __c235, 0) as any as S.Schema<CreateStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5229,8 +5258,8 @@ export const createTopicPolicy: API.OperationMethod<
   CreateTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<CreateTopicPolicyRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateTopicPolicyResponse>,
+  input: __S(3792, __c237, 0) as any as S.Schema<CreateTopicPolicyRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5246,8 +5275,8 @@ export const createTopicRule: API.OperationMethod<
   CreateTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<CreateTopicRuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateTopicRuleResponse>,
+  input: __S(3808, __c238, 0) as any as S.Schema<CreateTopicRuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5263,8 +5292,8 @@ export const createTRTCSignaturesWithRoomId: API.OperationMethod<
   CreateTRTCSignaturesWithRoomIdError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c238, 0) as any as S.Schema<CreateTRTCSignaturesWithRoomIdRequest>,
-  output: __S(3811, __c238, 3) as any as S.Schema<CreateTRTCSignaturesWithRoomIdResponse>,
+  input: __S(3840, __c240, 0) as any as S.Schema<CreateTRTCSignaturesWithRoomIdRequest>,
+  output: __S(3843, __c240, 3) as any as S.Schema<CreateTRTCSignaturesWithRoomIdResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5280,8 +5309,8 @@ export const createTWeSeeCallback: API.OperationMethod<
   CreateTWeSeeCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3824, __c239, 0) as any as S.Schema<CreateTWeSeeCallbackRequest>,
-  output: __S(3825, __c239, 1) as any as S.Schema<CreateTWeSeeCallbackResponse>,
+  input: __S(3856, __c241, 0) as any as S.Schema<CreateTWeSeeCallbackRequest>,
+  output: __S(3857, __c241, 1) as any as S.Schema<CreateTWeSeeCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5297,8 +5326,8 @@ export const createTWeSeeDirectUploadCredential: API.OperationMethod<
   CreateTWeSeeDirectUploadCredentialError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3856, __c241, 0) as any as S.Schema<CreateTWeSeeDirectUploadCredentialRequest>,
-  output: __S(3857, __c241, 1) as any as S.Schema<CreateTWeSeeDirectUploadCredentialResponse>,
+  input: __S(3888, __c243, 0) as any as S.Schema<CreateTWeSeeDirectUploadCredentialRequest>,
+  output: __S(3889, __c243, 1) as any as S.Schema<CreateTWeSeeDirectUploadCredentialResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5314,8 +5343,8 @@ export const createTWeSeePerson: API.OperationMethod<
   CreateTWeSeePersonError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<CreateTWeSeePersonRequest>,
-  output: __S(3920, __c245, 0) as any as S.Schema<CreateTWeSeePersonResponse>,
+  input: __S(3920, __c245, 0) as any as S.Schema<CreateTWeSeePersonRequest>,
+  output: __S(3952, __c247, 0) as any as S.Schema<CreateTWeSeePersonResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5331,8 +5360,8 @@ export const createTWeSeePostPaidService: API.OperationMethod<
   CreateTWeSeePostPaidServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<CreateTWeSeePostPaidServiceRequest>,
-  output: __S(3969, __c248, 1) as any as S.Schema<CreateTWeSeePostPaidServiceResponse>,
+  input: __S(4000, __c250, 0) as any as S.Schema<CreateTWeSeePostPaidServiceRequest>,
+  output: __S(4001, __c250, 1) as any as S.Schema<CreateTWeSeePostPaidServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5348,8 +5377,8 @@ export const createTWeSeeRecognitionTask: API.OperationMethod<
   CreateTWeSeeRecognitionTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskResponse>,
+  input: __S(4016, __c251, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5365,8 +5394,8 @@ export const createTWeSeeRecognitionTaskWithFile: API.OperationMethod<
   CreateTWeSeeRecognitionTaskWithFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskWithFileRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskWithFileResponse>,
+  input: __S(4032, __c252, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskWithFileRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<CreateTWeSeeRecognitionTaskWithFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5382,8 +5411,8 @@ export const createTWeSeeService: API.OperationMethod<
   CreateTWeSeeServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<CreateTWeSeeServiceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<CreateTWeSeeServiceResponse>,
+  input: __S(4048, __c253, 0) as any as S.Schema<CreateTWeSeeServiceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<CreateTWeSeeServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5399,8 +5428,8 @@ export const createTWeSeeSubscription: API.OperationMethod<
   CreateTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4080, __c255, 0) as any as S.Schema<CreateTWeSeeSubscriptionRequest>,
-  output: __S(4096, __c256, 0) as any as S.Schema<CreateTWeSeeSubscriptionResponse>,
+  input: __S(4112, __c257, 0) as any as S.Schema<CreateTWeSeeSubscriptionRequest>,
+  output: __S(4128, __c258, 0) as any as S.Schema<CreateTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5416,8 +5445,8 @@ export const createTWeTalkAgent: API.OperationMethod<
   CreateTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<CreateTWeTalkAgentRequest>,
-  output: __S(4113, __c257, 1) as any as S.Schema<CreateTWeTalkAgentResponse>,
+  input: __S(4144, __c259, 0) as any as S.Schema<CreateTWeTalkAgentRequest>,
+  output: __S(4145, __c259, 1) as any as S.Schema<CreateTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5433,8 +5462,8 @@ export const deleteCloudStorageEvent: API.OperationMethod<
   DeleteCloudStorageEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<DeleteCloudStorageEventRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteCloudStorageEventResponse>,
+  input: __S(4176, __c261, 0) as any as S.Schema<DeleteCloudStorageEventRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteCloudStorageEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5450,8 +5479,8 @@ export const deleteDevice: API.OperationMethod<
   DeleteDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c260, 0) as any as S.Schema<DeleteDeviceRequest>,
-  output: __S(4176, __c261, 0) as any as S.Schema<DeleteDeviceResponse>,
+  input: __S(4192, __c262, 0) as any as S.Schema<DeleteDeviceRequest>,
+  output: __S(4208, __c263, 0) as any as S.Schema<DeleteDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5467,8 +5496,8 @@ export const deleteDevices: API.OperationMethod<
   DeleteDevicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c262, 0) as any as S.Schema<DeleteDevicesRequest>,
-  output: __S(4176, __c261, 0) as any as S.Schema<DeleteDevicesResponse>,
+  input: __S(4224, __c264, 0) as any as S.Schema<DeleteDevicesRequest>,
+  output: __S(4208, __c263, 0) as any as S.Schema<DeleteDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5484,8 +5513,8 @@ export const deleteDeviceSDP: API.OperationMethod<
   DeleteDeviceSDPError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c264, 0) as any as S.Schema<DeleteDeviceSDPRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteDeviceSDPResponse>,
+  input: __S(4256, __c266, 0) as any as S.Schema<DeleteDeviceSDPRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteDeviceSDPResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5501,8 +5530,8 @@ export const deleteFenceBind: API.OperationMethod<
   DeleteFenceBindError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4240, __c265, 0) as any as S.Schema<DeleteFenceBindRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteFenceBindResponse>,
+  input: __S(4272, __c267, 0) as any as S.Schema<DeleteFenceBindRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteFenceBindResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5518,8 +5547,8 @@ export const deleteLoRaFrequency: API.OperationMethod<
   DeleteLoRaFrequencyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<DeleteLoRaFrequencyRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteLoRaFrequencyResponse>,
+  input: __S(4288, __c268, 0) as any as S.Schema<DeleteLoRaFrequencyRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteLoRaFrequencyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5535,8 +5564,8 @@ export const deleteLoRaGateway: API.OperationMethod<
   DeleteLoRaGatewayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4272, __c267, 0) as any as S.Schema<DeleteLoRaGatewayRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteLoRaGatewayResponse>,
+  input: __S(4304, __c269, 0) as any as S.Schema<DeleteLoRaGatewayRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteLoRaGatewayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5552,8 +5581,8 @@ export const deleteOtaModule: API.OperationMethod<
   DeleteOtaModuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c268, 0) as any as S.Schema<DeleteOtaModuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteOtaModuleResponse>,
+  input: __S(4320, __c270, 0) as any as S.Schema<DeleteOtaModuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteOtaModuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5569,8 +5598,8 @@ export const deletePositionFence: API.OperationMethod<
   DeletePositionFenceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c270, 0) as any as S.Schema<DeletePositionFenceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeletePositionFenceResponse>,
+  input: __S(4352, __c272, 0) as any as S.Schema<DeletePositionFenceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeletePositionFenceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5586,8 +5615,8 @@ export const deletePositionSpace: API.OperationMethod<
   DeletePositionSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4336, __c271, 0) as any as S.Schema<DeletePositionSpaceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeletePositionSpaceResponse>,
+  input: __S(4368, __c273, 0) as any as S.Schema<DeletePositionSpaceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeletePositionSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5603,8 +5632,8 @@ export const deletePrivateCA: API.OperationMethod<
   DeletePrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<DeletePrivateCARequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeletePrivateCAResponse>,
+  input: __S(4384, __c274, 0) as any as S.Schema<DeletePrivateCARequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeletePrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5620,8 +5649,8 @@ export const deleteProductPrivateCA: API.OperationMethod<
   DeleteProductPrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4368, __c273, 0) as any as S.Schema<DeleteProductPrivateCARequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteProductPrivateCAResponse>,
+  input: __S(4400, __c275, 0) as any as S.Schema<DeleteProductPrivateCARequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteProductPrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5637,8 +5666,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c274, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(4416, __c276, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5654,8 +5683,8 @@ export const deleteStudioProduct: API.OperationMethod<
   DeleteStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4400, __c275, 0) as any as S.Schema<DeleteStudioProductRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteStudioProductResponse>,
+  input: __S(4432, __c277, 0) as any as S.Schema<DeleteStudioProductRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5671,8 +5700,8 @@ export const deleteTopicPolicy: API.OperationMethod<
   DeleteTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c276, 0) as any as S.Schema<DeleteTopicPolicyRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTopicPolicyResponse>,
+  input: __S(4448, __c278, 0) as any as S.Schema<DeleteTopicPolicyRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5688,8 +5717,8 @@ export const deleteTopicRule: API.OperationMethod<
   DeleteTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4432, __c277, 0) as any as S.Schema<DeleteTopicRuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTopicRuleResponse>,
+  input: __S(4464, __c279, 0) as any as S.Schema<DeleteTopicRuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5705,8 +5734,8 @@ export const deleteTWeSeeCallback: API.OperationMethod<
   DeleteTWeSeeCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c278, 0) as any as S.Schema<DeleteTWeSeeCallbackRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTWeSeeCallbackResponse>,
+  input: __S(4480, __c280, 0) as any as S.Schema<DeleteTWeSeeCallbackRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTWeSeeCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5722,8 +5751,8 @@ export const deleteTWeSeeFace: API.OperationMethod<
   DeleteTWeSeeFaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<DeleteTWeSeeFaceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTWeSeeFaceResponse>,
+  input: __S(4496, __c281, 0) as any as S.Schema<DeleteTWeSeeFaceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTWeSeeFaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5739,8 +5768,8 @@ export const deleteTWeSeePerson: API.OperationMethod<
   DeleteTWeSeePersonError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4496, __c281, 0) as any as S.Schema<DeleteTWeSeePersonRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTWeSeePersonResponse>,
+  input: __S(4528, __c283, 0) as any as S.Schema<DeleteTWeSeePersonRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTWeSeePersonResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5756,8 +5785,8 @@ export const deleteTWeSeeTasksByCondition: API.OperationMethod<
   DeleteTWeSeeTasksByConditionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4514, __c282, 2) as any as S.Schema<DeleteTWeSeeTasksByConditionRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTWeSeeTasksByConditionResponse>,
+  input: __S(4546, __c284, 2) as any as S.Schema<DeleteTWeSeeTasksByConditionRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTWeSeeTasksByConditionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5773,8 +5802,8 @@ export const deleteTWeTalkAgent: API.OperationMethod<
   DeleteTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<DeleteTWeTalkAgentRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DeleteTWeTalkAgentResponse>,
+  input: __S(4560, __c285, 0) as any as S.Schema<DeleteTWeTalkAgentRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DeleteTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5790,8 +5819,8 @@ export const describeActivateDevice: API.OperationMethod<
   DescribeActivateDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c284, 0) as any as S.Schema<DescribeActivateDeviceRequest>,
-  output: __S(4549, __c284, 5) as any as S.Schema<DescribeActivateDeviceResponse>,
+  input: __S(4576, __c286, 0) as any as S.Schema<DescribeActivateDeviceRequest>,
+  output: __S(4581, __c286, 5) as any as S.Schema<DescribeActivateDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5807,8 +5836,8 @@ export const describeActivateLicenseService: API.OperationMethod<
   DescribeActivateLicenseServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<DescribeActivateLicenseServiceRequest>,
-  output: __S(4565, __c285, 5) as any as S.Schema<DescribeActivateLicenseServiceResponse>,
+  input: __S(4592, __c287, 0) as any as S.Schema<DescribeActivateLicenseServiceRequest>,
+  output: __S(4597, __c287, 5) as any as S.Schema<DescribeActivateLicenseServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5824,8 +5853,8 @@ export const describeAISearchTaskAsync: API.OperationMethod<
   DescribeAISearchTaskAsyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<DescribeAISearchTaskAsyncRequest>,
-  output: __S(4578, __c286, 2) as any as S.Schema<DescribeAISearchTaskAsyncResponse>,
+  input: __S(4608, __c288, 0) as any as S.Schema<DescribeAISearchTaskAsyncRequest>,
+  output: __S(4610, __c288, 2) as any as S.Schema<DescribeAISearchTaskAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5841,8 +5870,8 @@ export const describeBatchProduction: API.OperationMethod<
   DescribeBatchProductionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4656, __c291, 0) as any as S.Schema<DescribeBatchProductionRequest>,
-  output: __S(4657, __c291, 1) as any as S.Schema<DescribeBatchProductionResponse>,
+  input: __S(4688, __c293, 0) as any as S.Schema<DescribeBatchProductionRequest>,
+  output: __S(4689, __c293, 1) as any as S.Schema<DescribeBatchProductionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5858,8 +5887,8 @@ export const describeBindedProducts: API.OperationMethod<
   DescribeBindedProductsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c292, 0) as any as S.Schema<DescribeBindedProductsRequest>,
-  output: __S(4690, __c293, 2) as any as S.Schema<DescribeBindedProductsResponse>,
+  input: __S(4704, __c294, 0) as any as S.Schema<DescribeBindedProductsRequest>,
+  output: __S(4722, __c295, 2) as any as S.Schema<DescribeBindedProductsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5875,8 +5904,8 @@ export const describeCloudStorage: API.OperationMethod<
   DescribeCloudStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c294, 0) as any as S.Schema<DescribeCloudStorageRequest>,
-  output: __S(4705, __c294, 1) as any as S.Schema<DescribeCloudStorageResponse>,
+  input: __S(4736, __c296, 0) as any as S.Schema<DescribeCloudStorageRequest>,
+  output: __S(4737, __c296, 1) as any as S.Schema<DescribeCloudStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5892,8 +5921,8 @@ export const describeCloudStorageAIService: API.OperationMethod<
   DescribeCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4720, __c295, 0) as any as S.Schema<DescribeCloudStorageAIServiceRequest>,
-  output: __S(4721, __c295, 1) as any as S.Schema<DescribeCloudStorageAIServiceResponse>,
+  input: __S(4752, __c297, 0) as any as S.Schema<DescribeCloudStorageAIServiceRequest>,
+  output: __S(4753, __c297, 1) as any as S.Schema<DescribeCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5909,8 +5938,8 @@ export const describeCloudStorageAIServiceCallback: API.OperationMethod<
   DescribeCloudStorageAIServiceCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c298, 0) as any as S.Schema<DescribeCloudStorageAIServiceCallbackRequest>,
-  output: __S(4769, __c298, 1) as any as S.Schema<DescribeCloudStorageAIServiceCallbackResponse>,
+  input: __S(4800, __c300, 0) as any as S.Schema<DescribeCloudStorageAIServiceCallbackRequest>,
+  output: __S(4801, __c300, 1) as any as S.Schema<DescribeCloudStorageAIServiceCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5926,8 +5955,8 @@ export const describeCloudStorageAIServiceTask: API.OperationMethod<
   DescribeCloudStorageAIServiceTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4784, __c299, 0) as any as S.Schema<DescribeCloudStorageAIServiceTaskRequest>,
-  output: __S(4785, __c299, 1) as any as S.Schema<DescribeCloudStorageAIServiceTaskResponse>,
+  input: __S(4816, __c301, 0) as any as S.Schema<DescribeCloudStorageAIServiceTaskRequest>,
+  output: __S(4817, __c301, 1) as any as S.Schema<DescribeCloudStorageAIServiceTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5943,8 +5972,8 @@ export const describeCloudStorageAIServiceTasks: API.OperationMethod<
   DescribeCloudStorageAIServiceTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4816, __c301, 0) as any as S.Schema<DescribeCloudStorageAIServiceTasksRequest>,
-  output: __S(4817, __c301, 1) as any as S.Schema<DescribeCloudStorageAIServiceTasksResponse>,
+  input: __S(4848, __c303, 0) as any as S.Schema<DescribeCloudStorageAIServiceTasksRequest>,
+  output: __S(4849, __c303, 1) as any as S.Schema<DescribeCloudStorageAIServiceTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5960,8 +5989,8 @@ export const describeCloudStorageDate: API.OperationMethod<
   DescribeCloudStorageDateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4848, __c303, 0) as any as S.Schema<DescribeCloudStorageDateRequest>,
-  output: __S(4864, __c304, 0) as any as S.Schema<DescribeCloudStorageDateResponse>,
+  input: __S(4880, __c305, 0) as any as S.Schema<DescribeCloudStorageDateRequest>,
+  output: __S(4896, __c306, 0) as any as S.Schema<DescribeCloudStorageDateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5977,8 +6006,8 @@ export const describeCloudStorageEvents: API.OperationMethod<
   DescribeCloudStorageEventsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4880, __c305, 0) as any as S.Schema<DescribeCloudStorageEventsRequest>,
-  output: __S(4883, __c305, 3) as any as S.Schema<DescribeCloudStorageEventsResponse>,
+  input: __S(4912, __c307, 0) as any as S.Schema<DescribeCloudStorageEventsRequest>,
+  output: __S(4915, __c307, 3) as any as S.Schema<DescribeCloudStorageEventsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5994,8 +6023,8 @@ export const describeCloudStorageEventsByTWeSeePerson: API.OperationMethod<
   DescribeCloudStorageEventsByTWeSeePersonError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c306, 0) as any as S.Schema<DescribeCloudStorageEventsByTWeSeePersonRequest>,
-  output: __S(4897, __c306, 1) as any as S.Schema<DescribeCloudStorageEventsByTWeSeePersonResponse>,
+  input: __S(4928, __c308, 0) as any as S.Schema<DescribeCloudStorageEventsByTWeSeePersonRequest>,
+  output: __S(4929, __c308, 1) as any as S.Schema<DescribeCloudStorageEventsByTWeSeePersonResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6011,8 +6040,8 @@ export const describeCloudStorageEventsWithAITasks: API.OperationMethod<
   DescribeCloudStorageEventsWithAITasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c308, 0) as any as S.Schema<DescribeCloudStorageEventsWithAITasksRequest>,
-  output: __S(4929, __c308, 1) as any as S.Schema<DescribeCloudStorageEventsWithAITasksResponse>,
+  input: __S(4960, __c310, 0) as any as S.Schema<DescribeCloudStorageEventsWithAITasksRequest>,
+  output: __S(4961, __c310, 1) as any as S.Schema<DescribeCloudStorageEventsWithAITasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6028,8 +6057,8 @@ export const describeCloudStorageMultiThumbnail: API.OperationMethod<
   DescribeCloudStorageMultiThumbnailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4944, __c309, 0) as any as S.Schema<DescribeCloudStorageMultiThumbnailRequest>,
-  output: __S(4962, __c310, 2) as any as S.Schema<DescribeCloudStorageMultiThumbnailResponse>,
+  input: __S(4976, __c311, 0) as any as S.Schema<DescribeCloudStorageMultiThumbnailRequest>,
+  output: __S(4994, __c312, 2) as any as S.Schema<DescribeCloudStorageMultiThumbnailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6045,8 +6074,8 @@ export const describeCloudStorageOrder: API.OperationMethod<
   DescribeCloudStorageOrderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4976, __c311, 0) as any as S.Schema<DescribeCloudStorageOrderRequest>,
-  output: __S(4977, __c311, 1) as any as S.Schema<DescribeCloudStorageOrderResponse>,
+  input: __S(5008, __c313, 0) as any as S.Schema<DescribeCloudStorageOrderRequest>,
+  output: __S(5009, __c313, 1) as any as S.Schema<DescribeCloudStorageOrderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6062,10 +6091,10 @@ export const describeCloudStoragePackageConsumeDetails: API.OperationMethod<
   DescribeCloudStoragePackageConsumeDetailsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c312, 0) as any as S.Schema<DescribeCloudStoragePackageConsumeDetailsRequest>,
+  input: __S(5024, __c314, 0) as any as S.Schema<DescribeCloudStoragePackageConsumeDetailsRequest>,
   output: __S(
-    5024,
-    __c314,
+    5056,
+    __c316,
     0,
   ) as any as S.Schema<DescribeCloudStoragePackageConsumeDetailsResponse>,
   errors: [],
@@ -6083,8 +6112,8 @@ export const describeCloudStoragePackageConsumeStats: API.OperationMethod<
   DescribeCloudStoragePackageConsumeStatsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5040, __c315, 0) as any as S.Schema<DescribeCloudStoragePackageConsumeStatsRequest>,
-  output: __S(5043, __c315, 3) as any as S.Schema<DescribeCloudStoragePackageConsumeStatsResponse>,
+  input: __S(5072, __c317, 0) as any as S.Schema<DescribeCloudStoragePackageConsumeStatsRequest>,
+  output: __S(5075, __c317, 3) as any as S.Schema<DescribeCloudStoragePackageConsumeStatsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6100,8 +6129,8 @@ export const describeCloudStorageStreamData: API.OperationMethod<
   DescribeCloudStorageStreamDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c316, 0) as any as S.Schema<DescribeCloudStorageStreamDataRequest>,
-  output: __S(5057, __c316, 1) as any as S.Schema<DescribeCloudStorageStreamDataResponse>,
+  input: __S(5088, __c318, 0) as any as S.Schema<DescribeCloudStorageStreamDataRequest>,
+  output: __S(5089, __c318, 1) as any as S.Schema<DescribeCloudStorageStreamDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6117,8 +6146,8 @@ export const describeCloudStorageThumbnail: API.OperationMethod<
   DescribeCloudStorageThumbnailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5072, __c317, 0) as any as S.Schema<DescribeCloudStorageThumbnailRequest>,
-  output: __S(5073, __c317, 1) as any as S.Schema<DescribeCloudStorageThumbnailResponse>,
+  input: __S(5104, __c319, 0) as any as S.Schema<DescribeCloudStorageThumbnailRequest>,
+  output: __S(5105, __c319, 1) as any as S.Schema<DescribeCloudStorageThumbnailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6134,8 +6163,8 @@ export const describeCloudStorageThumbnailList: API.OperationMethod<
   DescribeCloudStorageThumbnailListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c318, 0) as any as S.Schema<DescribeCloudStorageThumbnailListRequest>,
-  output: __S(4962, __c310, 2) as any as S.Schema<DescribeCloudStorageThumbnailListResponse>,
+  input: __S(5120, __c320, 0) as any as S.Schema<DescribeCloudStorageThumbnailListRequest>,
+  output: __S(4994, __c312, 2) as any as S.Schema<DescribeCloudStorageThumbnailListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6151,8 +6180,8 @@ export const describeCloudStorageTime: API.OperationMethod<
   DescribeCloudStorageTimeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5104, __c319, 0) as any as S.Schema<DescribeCloudStorageTimeRequest>,
-  output: __S(5108, __c319, 4) as any as S.Schema<DescribeCloudStorageTimeResponse>,
+  input: __S(5136, __c321, 0) as any as S.Schema<DescribeCloudStorageTimeRequest>,
+  output: __S(5140, __c321, 4) as any as S.Schema<DescribeCloudStorageTimeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6168,8 +6197,8 @@ export const describeCloudStorageUsers: API.OperationMethod<
   DescribeCloudStorageUsersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c320, 0) as any as S.Schema<DescribeCloudStorageUsersRequest>,
-  output: __S(5123, __c320, 3) as any as S.Schema<DescribeCloudStorageUsersResponse>,
+  input: __S(5152, __c322, 0) as any as S.Schema<DescribeCloudStorageUsersRequest>,
+  output: __S(5155, __c322, 3) as any as S.Schema<DescribeCloudStorageUsersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6185,8 +6214,8 @@ export const describeCsReportCountDataInfo: API.OperationMethod<
   DescribeCsReportCountDataInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5136, __c321, 0) as any as S.Schema<DescribeCsReportCountDataInfoRequest>,
-  output: __S(5138, __c321, 2) as any as S.Schema<DescribeCsReportCountDataInfoResponse>,
+  input: __S(5168, __c323, 0) as any as S.Schema<DescribeCsReportCountDataInfoRequest>,
+  output: __S(5170, __c323, 2) as any as S.Schema<DescribeCsReportCountDataInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6202,8 +6231,8 @@ export const describeDevice: API.OperationMethod<
   DescribeDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c322, 0) as any as S.Schema<DescribeDeviceRequest>,
-  output: __S(5153, __c322, 1) as any as S.Schema<DescribeDeviceResponse>,
+  input: __S(5184, __c324, 0) as any as S.Schema<DescribeDeviceRequest>,
+  output: __S(5185, __c324, 1) as any as S.Schema<DescribeDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6219,14 +6248,31 @@ export const describeDeviceBindGateway: API.OperationMethod<
   DescribeDeviceBindGatewayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c324, 0) as any as S.Schema<DescribeDeviceBindGatewayRequest>,
-  output: __S(5185, __c324, 1) as any as S.Schema<DescribeDeviceBindGatewayResponse>,
+  input: __S(5216, __c326, 0) as any as S.Schema<DescribeDeviceBindGatewayRequest>,
+  output: __S(5217, __c326, 1) as any as S.Schema<DescribeDeviceBindGatewayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeDeviceBindGateway",
+}));
+
+export type DescribeDeviceCloudStoragePackagesError = TencentCloudOpError;
+export const describeDeviceCloudStoragePackages: API.OperationMethod<
+  DescribeDeviceCloudStoragePackagesRequest,
+  DescribeDeviceCloudStoragePackagesResponse,
+  DescribeDeviceCloudStoragePackagesError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5232, __c327, 0) as any as S.Schema<DescribeDeviceCloudStoragePackagesRequest>,
+  output: __S(5235, __c327, 3) as any as S.Schema<DescribeDeviceCloudStoragePackagesResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeDeviceCloudStoragePackages",
 }));
 
 export type DescribeDeviceDataError = TencentCloudOpError;
@@ -6236,8 +6282,8 @@ export const describeDeviceData: API.OperationMethod<
   DescribeDeviceDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5200, __c325, 0) as any as S.Schema<DescribeDeviceDataRequest>,
-  output: __S(5216, __c326, 0) as any as S.Schema<DescribeDeviceDataResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DescribeDeviceDataRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<DescribeDeviceDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6253,8 +6299,8 @@ export const describeDeviceDataHistory: API.OperationMethod<
   DescribeDeviceDataHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DescribeDeviceDataHistoryRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<DescribeDeviceDataHistoryResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DescribeDeviceDataHistoryRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<DescribeDeviceDataHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6270,8 +6316,8 @@ export const describeDeviceFirmWare: API.OperationMethod<
   DescribeDeviceFirmWareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DescribeDeviceFirmWareRequest>,
-  output: __S(5216, __c326, 0) as any as S.Schema<DescribeDeviceFirmWareResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DescribeDeviceFirmWareRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<DescribeDeviceFirmWareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6287,8 +6333,8 @@ export const describeDeviceFirmwares: API.OperationMethod<
   DescribeDeviceFirmwaresError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DescribeDeviceFirmwaresRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<DescribeDeviceFirmwaresResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeDeviceFirmwaresRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<DescribeDeviceFirmwaresResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6304,8 +6350,8 @@ export const describeDevicePackages: API.OperationMethod<
   DescribeDevicePackagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DescribeDevicePackagesRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<DescribeDevicePackagesResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribeDevicePackagesRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<DescribeDevicePackagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6321,8 +6367,8 @@ export const describeDevicePositionList: API.OperationMethod<
   DescribeDevicePositionListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DescribeDevicePositionListRequest>,
-  output: __S(149, __c9, 5) as any as S.Schema<DescribeDevicePositionListResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DescribeDevicePositionListRequest>,
+  output: __S(181, __c11, 5) as any as S.Schema<DescribeDevicePositionListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6338,8 +6384,8 @@ export const describeFenceBindList: API.OperationMethod<
   DescribeFenceBindListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DescribeFenceBindListRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<DescribeFenceBindListResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeFenceBindListRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<DescribeFenceBindListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6355,8 +6401,8 @@ export const describeFenceEventList: API.OperationMethod<
   DescribeFenceEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DescribeFenceEventListRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DescribeFenceEventListResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DescribeFenceEventListRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DescribeFenceEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6372,8 +6418,8 @@ export const describeFirmware: API.OperationMethod<
   DescribeFirmwareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DescribeFirmwareRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<DescribeFirmwareResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DescribeFirmwareRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<DescribeFirmwareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6389,8 +6435,8 @@ export const describeFirmwareTask: API.OperationMethod<
   DescribeFirmwareTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DescribeFirmwareTaskRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<DescribeFirmwareTaskResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeFirmwareTaskRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<DescribeFirmwareTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6406,8 +6452,8 @@ export const describeFirmwareTaskDevices: API.OperationMethod<
   DescribeFirmwareTaskDevicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DescribeFirmwareTaskDevicesRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<DescribeFirmwareTaskDevicesResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DescribeFirmwareTaskDevicesRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<DescribeFirmwareTaskDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6423,8 +6469,8 @@ export const describeFirmwareTasks: API.OperationMethod<
   DescribeFirmwareTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DescribeFirmwareTasksRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<DescribeFirmwareTasksResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DescribeFirmwareTasksRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<DescribeFirmwareTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6440,8 +6486,8 @@ export const describeFirmwareUpdateStatus: API.OperationMethod<
   DescribeFirmwareUpdateStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DescribeFirmwareUpdateStatusRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<DescribeFirmwareUpdateStatusResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DescribeFirmwareUpdateStatusRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<DescribeFirmwareUpdateStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6457,8 +6503,8 @@ export const describeFreeCloudStorageNum: API.OperationMethod<
   DescribeFreeCloudStorageNumError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DescribeFreeCloudStorageNumRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<DescribeFreeCloudStorageNumResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DescribeFreeCloudStorageNumRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<DescribeFreeCloudStorageNumResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6474,8 +6520,8 @@ export const describeGatewayBindDevices: API.OperationMethod<
   DescribeGatewayBindDevicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DescribeGatewayBindDevicesRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<DescribeGatewayBindDevicesResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DescribeGatewayBindDevicesRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<DescribeGatewayBindDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6491,8 +6537,8 @@ export const describeGatewaySubDeviceList: API.OperationMethod<
   DescribeGatewaySubDeviceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DescribeGatewaySubDeviceListRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<DescribeGatewaySubDeviceListResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DescribeGatewaySubDeviceListRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<DescribeGatewaySubDeviceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6508,8 +6554,8 @@ export const describeGatewaySubProducts: API.OperationMethod<
   DescribeGatewaySubProductsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DescribeGatewaySubProductsRequest>,
-  output: __S(4690, __c293, 2) as any as S.Schema<DescribeGatewaySubProductsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DescribeGatewaySubProductsRequest>,
+  output: __S(4722, __c295, 2) as any as S.Schema<DescribeGatewaySubProductsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6525,8 +6571,8 @@ export const describeInstance: API.OperationMethod<
   DescribeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DescribeInstanceRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<DescribeInstanceResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DescribeInstanceRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<DescribeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6542,8 +6588,8 @@ export const describeLicenseOverview: API.OperationMethod<
   DescribeLicenseOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DescribeLicenseOverviewRequest>,
-  output: __S(437, __c27, 5) as any as S.Schema<DescribeLicenseOverviewResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DescribeLicenseOverviewRequest>,
+  output: __S(469, __c29, 5) as any as S.Schema<DescribeLicenseOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6559,8 +6605,8 @@ export const describeLoRaFrequency: API.OperationMethod<
   DescribeLoRaFrequencyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DescribeLoRaFrequencyRequest>,
-  output: __S(3537, __c221, 1) as any as S.Schema<DescribeLoRaFrequencyResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DescribeLoRaFrequencyRequest>,
+  output: __S(3569, __c223, 1) as any as S.Schema<DescribeLoRaFrequencyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6576,8 +6622,8 @@ export const describeModelDefinition: API.OperationMethod<
   DescribeModelDefinitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DescribeModelDefinitionRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<DescribeModelDefinitionResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<DescribeModelDefinitionRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<DescribeModelDefinitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6593,8 +6639,8 @@ export const describeP2PRoute: API.OperationMethod<
   DescribeP2PRouteError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DescribeP2PRouteRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<DescribeP2PRouteResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DescribeP2PRouteRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<DescribeP2PRouteResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6610,8 +6656,8 @@ export const describePackageConsumeTask: API.OperationMethod<
   DescribePackageConsumeTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DescribePackageConsumeTaskRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<DescribePackageConsumeTaskResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DescribePackageConsumeTaskRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<DescribePackageConsumeTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6627,8 +6673,8 @@ export const describePackageConsumeTasks: API.OperationMethod<
   DescribePackageConsumeTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DescribePackageConsumeTasksRequest>,
-  output: __S(531, __c33, 3) as any as S.Schema<DescribePackageConsumeTasksResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<DescribePackageConsumeTasksRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<DescribePackageConsumeTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6644,8 +6690,8 @@ export const describePositionFenceList: API.OperationMethod<
   DescribePositionFenceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DescribePositionFenceListRequest>,
-  output: __S(548, __c34, 4) as any as S.Schema<DescribePositionFenceListResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<DescribePositionFenceListRequest>,
+  output: __S(580, __c36, 4) as any as S.Schema<DescribePositionFenceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6661,8 +6707,8 @@ export const describePrivateCA: API.OperationMethod<
   DescribePrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DescribePrivateCARequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<DescribePrivateCAResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<DescribePrivateCARequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<DescribePrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6678,8 +6724,8 @@ export const describePrivateCABindedProducts: API.OperationMethod<
   DescribePrivateCABindedProductsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DescribePrivateCABindedProductsRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<DescribePrivateCABindedProductsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<DescribePrivateCABindedProductsRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<DescribePrivateCABindedProductsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6695,8 +6741,8 @@ export const describePrivateCAs: API.OperationMethod<
   DescribePrivateCAsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DescribePrivateCAsRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<DescribePrivateCAsResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<DescribePrivateCAsRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<DescribePrivateCAsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6712,8 +6758,8 @@ export const describeProductCA: API.OperationMethod<
   DescribeProductCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DescribeProductCARequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<DescribeProductCAResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<DescribeProductCARequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<DescribeProductCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6729,8 +6775,8 @@ export const describeProductCloudStorageAIService: API.OperationMethod<
   DescribeProductCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DescribeProductCloudStorageAIServiceRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<DescribeProductCloudStorageAIServiceResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<DescribeProductCloudStorageAIServiceRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<DescribeProductCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6746,8 +6792,8 @@ export const describeProductDynamicRegister: API.OperationMethod<
   DescribeProductDynamicRegisterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DescribeProductDynamicRegisterRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<DescribeProductDynamicRegisterResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<DescribeProductDynamicRegisterRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<DescribeProductDynamicRegisterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6763,8 +6809,8 @@ export const describeProject: API.OperationMethod<
   DescribeProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DescribeProjectRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<DescribeProjectResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<DescribeProjectRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<DescribeProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6780,8 +6826,8 @@ export const describeSpaceFenceEventList: API.OperationMethod<
   DescribeSpaceFenceEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<DescribeSpaceFenceEventListRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<DescribeSpaceFenceEventListResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<DescribeSpaceFenceEventListRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<DescribeSpaceFenceEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6797,8 +6843,8 @@ export const describeStudioProduct: API.OperationMethod<
   DescribeStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DescribeStudioProductRequest>,
-  output: __S(3728, __c233, 0) as any as S.Schema<DescribeStudioProductResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<DescribeStudioProductRequest>,
+  output: __S(3760, __c235, 0) as any as S.Schema<DescribeStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6814,8 +6860,8 @@ export const describeSubscribedTopicPolicy: API.OperationMethod<
   DescribeSubscribedTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DescribeSubscribedTopicPolicyRequest>,
-  output: __S(787, __c49, 3) as any as S.Schema<DescribeSubscribedTopicPolicyResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DescribeSubscribedTopicPolicyRequest>,
+  output: __S(819, __c51, 3) as any as S.Schema<DescribeSubscribedTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6831,8 +6877,8 @@ export const describeTopicPolicy: API.OperationMethod<
   DescribeTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DescribeTopicPolicyRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<DescribeTopicPolicyResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DescribeTopicPolicyRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<DescribeTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6848,8 +6894,8 @@ export const describeTopicRule: API.OperationMethod<
   DescribeTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<DescribeTopicRuleRequest>,
-  output: __S(820, __c51, 4) as any as S.Schema<DescribeTopicRuleResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<DescribeTopicRuleRequest>,
+  output: __S(852, __c53, 4) as any as S.Schema<DescribeTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6865,8 +6911,8 @@ export const describeTWeSeeCallback: API.OperationMethod<
   DescribeTWeSeeCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DescribeTWeSeeCallbackRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<DescribeTWeSeeCallbackResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<DescribeTWeSeeCallbackRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<DescribeTWeSeeCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6882,8 +6928,8 @@ export const describeTWeSeeConfig: API.OperationMethod<
   DescribeTWeSeeConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<DescribeTWeSeeConfigRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<DescribeTWeSeeConfigResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<DescribeTWeSeeConfigRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<DescribeTWeSeeConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6899,8 +6945,8 @@ export const describeTWeSeeDirectUploadInfo: API.OperationMethod<
   DescribeTWeSeeDirectUploadInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<DescribeTWeSeeDirectUploadInfoRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<DescribeTWeSeeDirectUploadInfoResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<DescribeTWeSeeDirectUploadInfoRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<DescribeTWeSeeDirectUploadInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6916,8 +6962,8 @@ export const describeTWeSeeFace: API.OperationMethod<
   DescribeTWeSeeFaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<DescribeTWeSeeFaceRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<DescribeTWeSeeFaceResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<DescribeTWeSeeFaceRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DescribeTWeSeeFaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6933,8 +6979,8 @@ export const describeTWeSeePerson: API.OperationMethod<
   DescribeTWeSeePersonError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DescribeTWeSeePersonRequest>,
-  output: __S(3920, __c245, 0) as any as S.Schema<DescribeTWeSeePersonResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<DescribeTWeSeePersonRequest>,
+  output: __S(3952, __c247, 0) as any as S.Schema<DescribeTWeSeePersonResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6950,8 +6996,8 @@ export const describeTWeSeePostPaidService: API.OperationMethod<
   DescribeTWeSeePostPaidServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DescribeTWeSeePostPaidServiceRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<DescribeTWeSeePostPaidServiceResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DescribeTWeSeePostPaidServiceRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<DescribeTWeSeePostPaidServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6967,8 +7013,8 @@ export const describeTWeSeeRecognitionTask: API.OperationMethod<
   DescribeTWeSeeRecognitionTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DescribeTWeSeeRecognitionTaskRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<DescribeTWeSeeRecognitionTaskResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<DescribeTWeSeeRecognitionTaskRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<DescribeTWeSeeRecognitionTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6984,8 +7030,8 @@ export const describeTWeSeeSubscription: API.OperationMethod<
   DescribeTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<DescribeTWeSeeSubscriptionRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<DescribeTWeSeeSubscriptionResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DescribeTWeSeeSubscriptionRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<DescribeTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7001,8 +7047,8 @@ export const describeTWeSeeTask: API.OperationMethod<
   DescribeTWeSeeTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<DescribeTWeSeeTaskRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<DescribeTWeSeeTaskResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DescribeTWeSeeTaskRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<DescribeTWeSeeTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7018,8 +7064,8 @@ export const describeTWeSeeTaskStatistics: API.OperationMethod<
   DescribeTWeSeeTaskStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<DescribeTWeSeeTaskStatisticsRequest>,
-  output: __S(1059, __c66, 3) as any as S.Schema<DescribeTWeSeeTaskStatisticsResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<DescribeTWeSeeTaskStatisticsRequest>,
+  output: __S(1091, __c68, 3) as any as S.Schema<DescribeTWeSeeTaskStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7035,8 +7081,8 @@ export const describeTWeTalkAgent: API.OperationMethod<
   DescribeTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<DescribeTWeTalkAgentRequest>,
-  output: __S(1073, __c67, 1) as any as S.Schema<DescribeTWeTalkAgentResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<DescribeTWeTalkAgentRequest>,
+  output: __S(1105, __c69, 1) as any as S.Schema<DescribeTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7052,8 +7098,8 @@ export const describeTWeTalkAgentBinding: API.OperationMethod<
   DescribeTWeTalkAgentBindingError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<DescribeTWeTalkAgentBindingRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<DescribeTWeTalkAgentBindingResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<DescribeTWeTalkAgentBindingRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<DescribeTWeTalkAgentBindingResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7069,8 +7115,8 @@ export const describeTWeTalkAgentList: API.OperationMethod<
   DescribeTWeTalkAgentListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DescribeTWeTalkAgentListRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<DescribeTWeTalkAgentListResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<DescribeTWeTalkAgentListRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<DescribeTWeTalkAgentListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7086,8 +7132,8 @@ export const describeUnbindedDevices: API.OperationMethod<
   DescribeUnbindedDevicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<DescribeUnbindedDevicesRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<DescribeUnbindedDevicesResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DescribeUnbindedDevicesRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<DescribeUnbindedDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7103,8 +7149,8 @@ export const describeVideoLicense: API.OperationMethod<
   DescribeVideoLicenseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DescribeVideoLicenseRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<DescribeVideoLicenseResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<DescribeVideoLicenseRequest>,
+  output: __S(1219, __c76, 3) as any as S.Schema<DescribeVideoLicenseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7120,8 +7166,8 @@ export const describeVodCloudStorageDate: API.OperationMethod<
   DescribeVodCloudStorageDateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<DescribeVodCloudStorageDateRequest>,
-  output: __S(4864, __c304, 0) as any as S.Schema<DescribeVodCloudStorageDateResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<DescribeVodCloudStorageDateRequest>,
+  output: __S(4896, __c306, 0) as any as S.Schema<DescribeVodCloudStorageDateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7137,8 +7183,8 @@ export const destroyTWeSeeSubscription: API.OperationMethod<
   DestroyTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<DestroyTWeSeeSubscriptionRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DestroyTWeSeeSubscriptionResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DestroyTWeSeeSubscriptionRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DestroyTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7154,8 +7200,8 @@ export const directBindDeviceInFamily: API.OperationMethod<
   DirectBindDeviceInFamilyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<DirectBindDeviceInFamilyRequest>,
-  output: __S(1234, __c77, 2) as any as S.Schema<DirectBindDeviceInFamilyResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DirectBindDeviceInFamilyRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<DirectBindDeviceInFamilyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7171,8 +7217,8 @@ export const disableTopicRule: API.OperationMethod<
   DisableTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DisableTopicRuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DisableTopicRuleResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DisableTopicRuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DisableTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7188,8 +7234,8 @@ export const dismissRoomByStrRoomIdFromTRTC: API.OperationMethod<
   DismissRoomByStrRoomIdFromTRTCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DismissRoomByStrRoomIdFromTRTCRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<DismissRoomByStrRoomIdFromTRTCResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<DismissRoomByStrRoomIdFromTRTCRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<DismissRoomByStrRoomIdFromTRTCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7205,8 +7251,8 @@ export const enableTopicRule: API.OperationMethod<
   EnableTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<EnableTopicRuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<EnableTopicRuleResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<EnableTopicRuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<EnableTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7222,8 +7268,8 @@ export const generateCloudStorageAIServiceTaskFileURL: API.OperationMethod<
   GenerateCloudStorageAIServiceTaskFileURLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<GenerateCloudStorageAIServiceTaskFileURLRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<GenerateCloudStorageAIServiceTaskFileURLResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<GenerateCloudStorageAIServiceTaskFileURLRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<GenerateCloudStorageAIServiceTaskFileURLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7239,8 +7285,8 @@ export const generateSignedVideoURL: API.OperationMethod<
   GenerateSignedVideoURLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<GenerateSignedVideoURLRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<GenerateSignedVideoURLResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GenerateSignedVideoURLRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<GenerateSignedVideoURLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7256,8 +7302,8 @@ export const genSingleDeviceSignatureOfPublic: API.OperationMethod<
   GenSingleDeviceSignatureOfPublicError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GenSingleDeviceSignatureOfPublicRequest>,
-  output: __S(1330, __c83, 2) as any as S.Schema<GenSingleDeviceSignatureOfPublicResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<GenSingleDeviceSignatureOfPublicRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<GenSingleDeviceSignatureOfPublicResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7273,8 +7319,8 @@ export const getAuthMiniProgramAppList: API.OperationMethod<
   GetAuthMiniProgramAppListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetAuthMiniProgramAppListRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<GetAuthMiniProgramAppListResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetAuthMiniProgramAppListRequest>,
+  output: __S(1395, __c87, 3) as any as S.Schema<GetAuthMiniProgramAppListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7290,8 +7336,8 @@ export const getBatchProductionsList: API.OperationMethod<
   GetBatchProductionsListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetBatchProductionsListRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<GetBatchProductionsListResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetBatchProductionsListRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<GetBatchProductionsListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7307,8 +7353,8 @@ export const getCOSURL: API.OperationMethod<
   GetCOSURLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetCOSURLRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<GetCOSURLResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetCOSURLRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<GetCOSURLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7324,8 +7370,8 @@ export const getDeviceList: API.OperationMethod<
   GetDeviceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetDeviceListRequest>,
-  output: __S(1410, __c88, 2) as any as S.Schema<GetDeviceListResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetDeviceListRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<GetDeviceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7341,8 +7387,8 @@ export const getDeviceLocationHistory: API.OperationMethod<
   GetDeviceLocationHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetDeviceLocationHistoryRequest>,
-  output: __S(1443, __c90, 3) as any as S.Schema<GetDeviceLocationHistoryResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetDeviceLocationHistoryRequest>,
+  output: __S(1475, __c92, 3) as any as S.Schema<GetDeviceLocationHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7358,8 +7404,8 @@ export const getDeviceSumStatistics: API.OperationMethod<
   GetDeviceSumStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetDeviceSumStatisticsRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<GetDeviceSumStatisticsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetDeviceSumStatisticsRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<GetDeviceSumStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7375,8 +7421,8 @@ export const getFamilyDeviceUserList: API.OperationMethod<
   GetFamilyDeviceUserListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetFamilyDeviceUserListRequest>,
-  output: __S(1475, __c92, 3) as any as S.Schema<GetFamilyDeviceUserListResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetFamilyDeviceUserListRequest>,
+  output: __S(1507, __c94, 3) as any as S.Schema<GetFamilyDeviceUserListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7392,8 +7438,8 @@ export const getGatewaySubDeviceList: API.OperationMethod<
   GetGatewaySubDeviceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<GetGatewaySubDeviceListRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<GetGatewaySubDeviceListResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<GetGatewaySubDeviceListRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<GetGatewaySubDeviceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7409,8 +7455,8 @@ export const getLoRaGatewayList: API.OperationMethod<
   GetLoRaGatewayListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetLoRaGatewayListRequest>,
-  output: __S(1506, __c94, 2) as any as S.Schema<GetLoRaGatewayListResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<GetLoRaGatewayListRequest>,
+  output: __S(1538, __c96, 2) as any as S.Schema<GetLoRaGatewayListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7426,8 +7472,8 @@ export const getPositionSpaceList: API.OperationMethod<
   GetPositionSpaceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<GetPositionSpaceListRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<GetPositionSpaceListResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<GetPositionSpaceListRequest>,
+  output: __S(1586, __c99, 2) as any as S.Schema<GetPositionSpaceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7443,8 +7489,8 @@ export const getProjectList: API.OperationMethod<
   GetProjectListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<GetProjectListRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<GetProjectListResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<GetProjectListRequest>,
+  output: __S(1602, __c100, 2) as any as S.Schema<GetProjectListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7460,8 +7506,8 @@ export const getStudioProductList: API.OperationMethod<
   GetStudioProductListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<GetStudioProductListRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<GetStudioProductListResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<GetStudioProductListRequest>,
+  output: __S(1633, __c102, 1) as any as S.Schema<GetStudioProductListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7477,8 +7523,8 @@ export const getTopicRuleList: API.OperationMethod<
   GetTopicRuleListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetTopicRuleListRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<GetTopicRuleListResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<GetTopicRuleListRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<GetTopicRuleListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7494,8 +7540,8 @@ export const getTWeCallActiveStatus: API.OperationMethod<
   GetTWeCallActiveStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<GetTWeCallActiveStatusRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<GetTWeCallActiveStatusResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetTWeCallActiveStatusRequest>,
+  output: __S(1683, __c105, 3) as any as S.Schema<GetTWeCallActiveStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7511,8 +7557,8 @@ export const getTWeTalkActiveRecordList: API.OperationMethod<
   GetTWeTalkActiveRecordListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<GetTWeTalkActiveRecordListRequest>,
-  output: __S(1667, __c104, 3) as any as S.Schema<GetTWeTalkActiveRecordListResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetTWeTalkActiveRecordListRequest>,
+  output: __S(1699, __c106, 3) as any as S.Schema<GetTWeTalkActiveRecordListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7528,8 +7574,8 @@ export const getTWeTalkActiveStatus: API.OperationMethod<
   GetTWeTalkActiveStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<GetTWeTalkActiveStatusRequest>,
-  output: __S(1683, __c105, 3) as any as S.Schema<GetTWeTalkActiveStatusResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<GetTWeTalkActiveStatusRequest>,
+  output: __S(1715, __c107, 3) as any as S.Schema<GetTWeTalkActiveStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7545,8 +7591,8 @@ export const getVodCloudStorageEventList: API.OperationMethod<
   GetVodCloudStorageEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetVodCloudStorageEventListRequest>,
-  output: __S(1699, __c106, 3) as any as S.Schema<GetVodCloudStorageEventListResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<GetVodCloudStorageEventListRequest>,
+  output: __S(1731, __c108, 3) as any as S.Schema<GetVodCloudStorageEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7562,8 +7608,8 @@ export const getVodCloudStorageVideoList: API.OperationMethod<
   GetVodCloudStorageVideoListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetVodCloudStorageVideoListRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<GetVodCloudStorageVideoListResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<GetVodCloudStorageVideoListRequest>,
+  output: __S(1761, __c110, 1) as any as S.Schema<GetVodCloudStorageVideoListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7579,8 +7625,8 @@ export const getWechatDeviceTicket: API.OperationMethod<
   GetWechatDeviceTicketError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetWechatDeviceTicketRequest>,
-  output: __S(1747, __c109, 3) as any as S.Schema<GetWechatDeviceTicketResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<GetWechatDeviceTicketRequest>,
+  output: __S(1779, __c111, 3) as any as S.Schema<GetWechatDeviceTicketResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7596,8 +7642,8 @@ export const importTWeSeeFaces: API.OperationMethod<
   ImportTWeSeeFacesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ImportTWeSeeFacesRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<ImportTWeSeeFacesResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ImportTWeSeeFacesRequest>,
+  output: __S(1809, __c113, 1) as any as S.Schema<ImportTWeSeeFacesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7613,8 +7659,8 @@ export const inheritCloudStorageUser: API.OperationMethod<
   InheritCloudStorageUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<InheritCloudStorageUserRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<InheritCloudStorageUserResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<InheritCloudStorageUserRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<InheritCloudStorageUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7630,8 +7676,8 @@ export const inquireTWeSeeSubscriptionCreatePrice: API.OperationMethod<
   InquireTWeSeeSubscriptionCreatePriceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<InquireTWeSeeSubscriptionCreatePriceRequest>,
-  output: __S(1824, __c114, 0) as any as S.Schema<InquireTWeSeeSubscriptionCreatePriceResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<InquireTWeSeeSubscriptionCreatePriceRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<InquireTWeSeeSubscriptionCreatePriceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7647,8 +7693,8 @@ export const inquireTWeSeeSubscriptionRenewPrice: API.OperationMethod<
   InquireTWeSeeSubscriptionRenewPriceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<InquireTWeSeeSubscriptionRenewPriceRequest>,
-  output: __S(1824, __c114, 0) as any as S.Schema<InquireTWeSeeSubscriptionRenewPriceResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<InquireTWeSeeSubscriptionRenewPriceRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<InquireTWeSeeSubscriptionRenewPriceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7664,8 +7710,8 @@ export const invokeAISearchService: API.OperationMethod<
   InvokeAISearchServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<InvokeAISearchServiceRequest>,
-  output: __S(1857, __c116, 1) as any as S.Schema<InvokeAISearchServiceResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<InvokeAISearchServiceRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<InvokeAISearchServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7681,8 +7727,8 @@ export const invokeCloudStorageAIServiceTask: API.OperationMethod<
   InvokeCloudStorageAIServiceTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<InvokeCloudStorageAIServiceTaskRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<InvokeCloudStorageAIServiceTaskResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<InvokeCloudStorageAIServiceTaskRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<InvokeCloudStorageAIServiceTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7698,8 +7744,8 @@ export const invokeExternalSourceAIServiceTask: API.OperationMethod<
   InvokeExternalSourceAIServiceTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<InvokeExternalSourceAIServiceTaskRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<InvokeExternalSourceAIServiceTaskResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<InvokeExternalSourceAIServiceTaskRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<InvokeExternalSourceAIServiceTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7715,8 +7761,8 @@ export const invokeTWeSeeComprehension: API.OperationMethod<
   InvokeTWeSeeComprehensionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<InvokeTWeSeeComprehensionRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<InvokeTWeSeeComprehensionResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<InvokeTWeSeeComprehensionRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<InvokeTWeSeeComprehensionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7732,8 +7778,8 @@ export const invokeTWeSeeRecognitionTask: API.OperationMethod<
   InvokeTWeSeeRecognitionTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7749,8 +7795,8 @@ export const invokeTWeSeeRecognitionTaskWithFile: API.OperationMethod<
   InvokeTWeSeeRecognitionTaskWithFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskWithFileRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskWithFileResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskWithFileRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<InvokeTWeSeeRecognitionTaskWithFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7766,8 +7812,8 @@ export const invokeVideosKeywordsAnalyzer: API.OperationMethod<
   InvokeVideosKeywordsAnalyzerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<InvokeVideosKeywordsAnalyzerRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<InvokeVideosKeywordsAnalyzerResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<InvokeVideosKeywordsAnalyzerRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<InvokeVideosKeywordsAnalyzerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7783,8 +7829,8 @@ export const listEventHistory: API.OperationMethod<
   ListEventHistoryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListEventHistoryRequest>,
-  output: __S(2019, __c126, 3) as any as S.Schema<ListEventHistoryResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListEventHistoryRequest>,
+  output: __S(2051, __c128, 3) as any as S.Schema<ListEventHistoryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7800,8 +7846,8 @@ export const listFirmwares: API.OperationMethod<
   ListFirmwaresError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListFirmwaresRequest>,
-  output: __S(2035, __c127, 3) as any as S.Schema<ListFirmwaresResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListFirmwaresRequest>,
+  output: __S(2067, __c129, 3) as any as S.Schema<ListFirmwaresResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7817,8 +7863,8 @@ export const listOtaModules: API.OperationMethod<
   ListOtaModulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListOtaModulesRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<ListOtaModulesResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListOtaModulesRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<ListOtaModulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7834,8 +7880,8 @@ export const listProductOtaModules: API.OperationMethod<
   ListProductOtaModulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListProductOtaModulesRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<ListProductOtaModulesResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListProductOtaModulesRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<ListProductOtaModulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7851,8 +7897,8 @@ export const listTopicPolicy: API.OperationMethod<
   ListTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListTopicPolicyRequest>,
-  output: __S(2099, __c131, 3) as any as S.Schema<ListTopicPolicyResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListTopicPolicyRequest>,
+  output: __S(2131, __c133, 3) as any as S.Schema<ListTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7868,8 +7914,8 @@ export const listTWeSeeCallback: API.OperationMethod<
   ListTWeSeeCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListTWeSeeCallbackRequest>,
-  output: __S(2114, __c132, 2) as any as S.Schema<ListTWeSeeCallbackResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ListTWeSeeCallbackRequest>,
+  output: __S(2146, __c134, 2) as any as S.Schema<ListTWeSeeCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7885,8 +7931,8 @@ export const listTWeSeePersons: API.OperationMethod<
   ListTWeSeePersonsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListTWeSeePersonsRequest>,
-  output: __S(2130, __c133, 2) as any as S.Schema<ListTWeSeePersonsResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<ListTWeSeePersonsRequest>,
+  output: __S(2162, __c135, 2) as any as S.Schema<ListTWeSeePersonsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7902,8 +7948,8 @@ export const listTWeSeeTasks: API.OperationMethod<
   ListTWeSeeTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2146, __c134, 2) as any as S.Schema<ListTWeSeeTasksRequest>,
-  output: __S(2148, __c134, 4) as any as S.Schema<ListTWeSeeTasksResponse>,
+  input: __S(2178, __c136, 2) as any as S.Schema<ListTWeSeeTasksRequest>,
+  output: __S(2180, __c136, 4) as any as S.Schema<ListTWeSeeTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7919,8 +7965,8 @@ export const modifyApplication: API.OperationMethod<
   ModifyApplicationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ModifyApplicationRequest>,
-  output: __S(2162, __c135, 2) as any as S.Schema<ModifyApplicationResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ModifyApplicationRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<ModifyApplicationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7936,8 +7982,8 @@ export const modifyCloudStorageAIService: API.OperationMethod<
   ModifyCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2177, __c136, 1) as any as S.Schema<ModifyCloudStorageAIServiceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyCloudStorageAIServiceResponse>,
+  input: __S(2321, __c145, 1) as any as S.Schema<ModifyCloudStorageAIServiceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7953,8 +7999,8 @@ export const modifyCloudStorageAIServiceCallback: API.OperationMethod<
   ModifyCloudStorageAIServiceCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<ModifyCloudStorageAIServiceCallbackRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyCloudStorageAIServiceCallbackResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ModifyCloudStorageAIServiceCallbackRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyCloudStorageAIServiceCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7970,8 +8016,8 @@ export const modifyFenceBind: API.OperationMethod<
   ModifyFenceBindError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ModifyFenceBindRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyFenceBindResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<ModifyFenceBindRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyFenceBindResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7987,8 +8033,8 @@ export const modifyLoRaFrequency: API.OperationMethod<
   ModifyLoRaFrequencyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<ModifyLoRaFrequencyRequest>,
-  output: __S(3537, __c221, 1) as any as S.Schema<ModifyLoRaFrequencyResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<ModifyLoRaFrequencyRequest>,
+  output: __S(3569, __c223, 1) as any as S.Schema<ModifyLoRaFrequencyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8004,8 +8050,8 @@ export const modifyLoRaGateway: API.OperationMethod<
   ModifyLoRaGatewayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<ModifyLoRaGatewayRequest>,
-  output: __S(3584, __c224, 0) as any as S.Schema<ModifyLoRaGatewayResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ModifyLoRaGatewayRequest>,
+  output: __S(3616, __c226, 0) as any as S.Schema<ModifyLoRaGatewayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8021,8 +8067,8 @@ export const modifyModelDefinition: API.OperationMethod<
   ModifyModelDefinitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ModifyModelDefinitionRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyModelDefinitionResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<ModifyModelDefinitionRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyModelDefinitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8038,8 +8084,8 @@ export const modifyPositionFence: API.OperationMethod<
   ModifyPositionFenceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<ModifyPositionFenceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyPositionFenceResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<ModifyPositionFenceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyPositionFenceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8055,8 +8101,8 @@ export const modifyPositionSpace: API.OperationMethod<
   ModifyPositionSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<ModifyPositionSpaceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyPositionSpaceResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<ModifyPositionSpaceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyPositionSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8072,8 +8118,8 @@ export const modifyProductCloudStorageAIService: API.OperationMethod<
   ModifyProductCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<ModifyProductCloudStorageAIServiceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyProductCloudStorageAIServiceResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<ModifyProductCloudStorageAIServiceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyProductCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8089,8 +8135,8 @@ export const modifyProductDynamicRegister: API.OperationMethod<
   ModifyProductDynamicRegisterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<ModifyProductDynamicRegisterRequest>,
-  output: __S(688, __c43, 0) as any as S.Schema<ModifyProductDynamicRegisterResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<ModifyProductDynamicRegisterRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<ModifyProductDynamicRegisterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8106,8 +8152,8 @@ export const modifyProject: API.OperationMethod<
   ModifyProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<ModifyProjectRequest>,
-  output: __S(3681, __c230, 1) as any as S.Schema<ModifyProjectResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<ModifyProjectRequest>,
+  output: __S(3713, __c232, 1) as any as S.Schema<ModifyProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8123,8 +8169,8 @@ export const modifySpaceProperty: API.OperationMethod<
   ModifySpacePropertyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<ModifySpacePropertyRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifySpacePropertyResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<ModifySpacePropertyRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifySpacePropertyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8140,8 +8186,8 @@ export const modifyStudioProduct: API.OperationMethod<
   ModifyStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ModifyStudioProductRequest>,
-  output: __S(3728, __c233, 0) as any as S.Schema<ModifyStudioProductResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<ModifyStudioProductRequest>,
+  output: __S(3760, __c235, 0) as any as S.Schema<ModifyStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8157,8 +8203,8 @@ export const modifyTopicPolicy: API.OperationMethod<
   ModifyTopicPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ModifyTopicPolicyRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTopicPolicyResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<ModifyTopicPolicyRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTopicPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8174,8 +8220,8 @@ export const modifyTopicRule: API.OperationMethod<
   ModifyTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ModifyTopicRuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTopicRuleResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ModifyTopicRuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8191,8 +8237,8 @@ export const modifyTWeSeeCallback: API.OperationMethod<
   ModifyTWeSeeCallbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ModifyTWeSeeCallbackRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeSeeCallbackResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<ModifyTWeSeeCallbackRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeSeeCallbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8208,8 +8254,8 @@ export const modifyTWeSeeConfig: API.OperationMethod<
   ModifyTWeSeeConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ModifyTWeSeeConfigRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeSeeConfigResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<ModifyTWeSeeConfigRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeSeeConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8225,8 +8271,8 @@ export const modifyTWeSeeFace: API.OperationMethod<
   ModifyTWeSeeFaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ModifyTWeSeeFaceRequest>,
-  output: __S(928, __c58, 0) as any as S.Schema<ModifyTWeSeeFaceResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<ModifyTWeSeeFaceRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<ModifyTWeSeeFaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8242,8 +8288,8 @@ export const modifyTWeSeePerson: API.OperationMethod<
   ModifyTWeSeePersonError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<ModifyTWeSeePersonRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeSeePersonResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ModifyTWeSeePersonRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeSeePersonResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8259,8 +8305,8 @@ export const modifyTWeSeeSubscription: API.OperationMethod<
   ModifyTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeSeeSubscriptionResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8276,8 +8322,8 @@ export const modifyTWeSeeSubscriptionRenewFlag: API.OperationMethod<
   ModifyTWeSeeSubscriptionRenewFlagError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRenewFlagRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRenewFlagResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRenewFlagRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeSeeSubscriptionRenewFlagResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8293,8 +8339,8 @@ export const modifyTWeTalkAgent: API.OperationMethod<
   ModifyTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<ModifyTWeTalkAgentRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ModifyTWeTalkAgentResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<ModifyTWeTalkAgentRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ModifyTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8310,8 +8356,8 @@ export const operateTWeSeeDirectUploadObject: API.OperationMethod<
   OperateTWeSeeDirectUploadObjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2673, __c167, 1) as any as S.Schema<OperateTWeSeeDirectUploadObjectRequest>,
-  output: __S(2680, __c167, 8) as any as S.Schema<OperateTWeSeeDirectUploadObjectResponse>,
+  input: __S(2705, __c169, 1) as any as S.Schema<OperateTWeSeeDirectUploadObjectRequest>,
+  output: __S(2712, __c169, 8) as any as S.Schema<OperateTWeSeeDirectUploadObjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8327,8 +8373,8 @@ export const pauseTWeCallDevice: API.OperationMethod<
   PauseTWeCallDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<PauseTWeCallDeviceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<PauseTWeCallDeviceResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<PauseTWeCallDeviceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<PauseTWeCallDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8344,8 +8390,8 @@ export const publishBroadcastMessage: API.OperationMethod<
   PublishBroadcastMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<PublishBroadcastMessageRequest>,
-  output: __S(4752, __c297, 0) as any as S.Schema<PublishBroadcastMessageResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<PublishBroadcastMessageRequest>,
+  output: __S(4784, __c299, 0) as any as S.Schema<PublishBroadcastMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8361,8 +8407,8 @@ export const publishFirmwareUpdateMessage: API.OperationMethod<
   PublishFirmwareUpdateMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<PublishFirmwareUpdateMessageRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<PublishFirmwareUpdateMessageResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<PublishFirmwareUpdateMessageRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<PublishFirmwareUpdateMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8378,8 +8424,8 @@ export const publishMessage: API.OperationMethod<
   PublishMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<PublishMessageRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<PublishMessageResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<PublishMessageRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<PublishMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8395,8 +8441,8 @@ export const publishRRPCMessage: API.OperationMethod<
   PublishRRPCMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<PublishRRPCMessageRequest>,
-  output: __S(2753, __c172, 1) as any as S.Schema<PublishRRPCMessageResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<PublishRRPCMessageRequest>,
+  output: __S(2785, __c174, 1) as any as S.Schema<PublishRRPCMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8412,8 +8458,8 @@ export const purchaseImagePackage: API.OperationMethod<
   PurchaseImagePackageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<PurchaseImagePackageRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<PurchaseImagePackageResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<PurchaseImagePackageRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<PurchaseImagePackageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8429,8 +8475,8 @@ export const purchaseVideoPackage: API.OperationMethod<
   PurchaseVideoPackageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<PurchaseVideoPackageRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<PurchaseVideoPackageResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<PurchaseVideoPackageRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<PurchaseVideoPackageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8446,8 +8492,8 @@ export const releaseStudioProduct: API.OperationMethod<
   ReleaseStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<ReleaseStudioProductRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ReleaseStudioProductResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<ReleaseStudioProductRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ReleaseStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8463,8 +8509,8 @@ export const removeUserByRoomIdFromTRTC: API.OperationMethod<
   RemoveUserByRoomIdFromTRTCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<RemoveUserByRoomIdFromTRTCRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<RemoveUserByRoomIdFromTRTCResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<RemoveUserByRoomIdFromTRTCRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<RemoveUserByRoomIdFromTRTCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8480,8 +8526,8 @@ export const renewTWeSeeSubscription: API.OperationMethod<
   RenewTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<RenewTWeSeeSubscriptionRequest>,
-  output: __S(4096, __c256, 0) as any as S.Schema<RenewTWeSeeSubscriptionResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<RenewTWeSeeSubscriptionRequest>,
+  output: __S(4128, __c258, 0) as any as S.Schema<RenewTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8497,8 +8543,8 @@ export const resetCloudStorage: API.OperationMethod<
   ResetCloudStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<ResetCloudStorageRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ResetCloudStorageResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<ResetCloudStorageRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ResetCloudStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8514,8 +8560,8 @@ export const resetCloudStorageAIService: API.OperationMethod<
   ResetCloudStorageAIServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ResetCloudStorageAIServiceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ResetCloudStorageAIServiceResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<ResetCloudStorageAIServiceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ResetCloudStorageAIServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8531,8 +8577,8 @@ export const resetCloudStorageEvent: API.OperationMethod<
   ResetCloudStorageEventError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<ResetCloudStorageEventRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ResetCloudStorageEventResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<ResetCloudStorageEventRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ResetCloudStorageEventResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8548,8 +8594,8 @@ export const resetTWeCallDevice: API.OperationMethod<
   ResetTWeCallDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<ResetTWeCallDeviceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ResetTWeCallDeviceResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<ResetTWeCallDeviceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ResetTWeCallDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8565,8 +8611,8 @@ export const resumeWeCallDevice: API.OperationMethod<
   ResumeWeCallDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<ResumeWeCallDeviceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<ResumeWeCallDeviceResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<ResumeWeCallDeviceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<ResumeWeCallDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8582,8 +8628,8 @@ export const revokeBindUserDevice: API.OperationMethod<
   RevokeBindUserDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<RevokeBindUserDeviceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<RevokeBindUserDeviceResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<RevokeBindUserDeviceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<RevokeBindUserDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8599,8 +8645,8 @@ export const revokeShareDeviceFromUser: API.OperationMethod<
   RevokeShareDeviceFromUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<RevokeShareDeviceFromUserRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<RevokeShareDeviceFromUserResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<RevokeShareDeviceFromUserRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<RevokeShareDeviceFromUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8616,8 +8662,8 @@ export const searchPositionSpace: API.OperationMethod<
   SearchPositionSpaceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<SearchPositionSpaceRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<SearchPositionSpaceResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<SearchPositionSpaceRequest>,
+  output: __S(1586, __c99, 2) as any as S.Schema<SearchPositionSpaceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8633,8 +8679,8 @@ export const searchStudioProduct: API.OperationMethod<
   SearchStudioProductError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<SearchStudioProductRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<SearchStudioProductResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<SearchStudioProductRequest>,
+  output: __S(1633, __c102, 1) as any as S.Schema<SearchStudioProductResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8650,8 +8696,8 @@ export const searchTopicRule: API.OperationMethod<
   SearchTopicRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<SearchTopicRuleRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<SearchTopicRuleResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<SearchTopicRuleRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<SearchTopicRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8667,8 +8713,8 @@ export const shareDeviceToUser: API.OperationMethod<
   ShareDeviceToUserError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<ShareDeviceToUserRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<ShareDeviceToUserResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<ShareDeviceToUserRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<ShareDeviceToUserResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8684,8 +8730,8 @@ export const startPackageUsageReport: API.OperationMethod<
   StartPackageUsageReportError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<StartPackageUsageReportRequest>,
-  output: __S(3072, __c192, 0) as any as S.Schema<StartPackageUsageReportResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<StartPackageUsageReportRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<StartPackageUsageReportResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8701,8 +8747,8 @@ export const stopPackageUsageReport: API.OperationMethod<
   StopPackageUsageReportError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<StopPackageUsageReportRequest>,
-  output: __S(3072, __c192, 0) as any as S.Schema<StopPackageUsageReportResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<StopPackageUsageReportRequest>,
+  output: __S(3104, __c194, 0) as any as S.Schema<StopPackageUsageReportResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8718,8 +8764,8 @@ export const terminateTWeSeeSubscription: API.OperationMethod<
   TerminateTWeSeeSubscriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<TerminateTWeSeeSubscriptionRequest>,
-  output: __S(3105, __c194, 1) as any as S.Schema<TerminateTWeSeeSubscriptionResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<TerminateTWeSeeSubscriptionRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<TerminateTWeSeeSubscriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8735,8 +8781,8 @@ export const transferCloudStorage: API.OperationMethod<
   TransferCloudStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<TransferCloudStorageRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<TransferCloudStorageResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<TransferCloudStorageRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<TransferCloudStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8752,8 +8798,8 @@ export const transferTWeCallDevice: API.OperationMethod<
   TransferTWeCallDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<TransferTWeCallDeviceRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<TransferTWeCallDeviceResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<TransferTWeCallDeviceRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<TransferTWeCallDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8769,8 +8815,8 @@ export const unbindDevices: API.OperationMethod<
   UnbindDevicesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<UnbindDevicesRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UnbindDevicesResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<UnbindDevicesRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UnbindDevicesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8786,8 +8832,8 @@ export const unbindProducts: API.OperationMethod<
   UnbindProductsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<UnbindProductsRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<UnbindProductsResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<UnbindProductsRequest>,
+  output: __S(3217, __c201, 1) as any as S.Schema<UnbindProductsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8803,8 +8849,8 @@ export const unbindTWeTalkAgent: API.OperationMethod<
   UnbindTWeTalkAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<UnbindTWeTalkAgentRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UnbindTWeTalkAgentResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<UnbindTWeTalkAgentRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UnbindTWeTalkAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8820,8 +8866,8 @@ export const updateDevicesEnableState: API.OperationMethod<
   UpdateDevicesEnableStateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<UpdateDevicesEnableStateRequest>,
-  output: __S(4176, __c261, 0) as any as S.Schema<UpdateDevicesEnableStateResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<UpdateDevicesEnableStateRequest>,
+  output: __S(4208, __c263, 0) as any as S.Schema<UpdateDevicesEnableStateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8837,8 +8883,8 @@ export const updateDeviceTWeCallAuthorizeStatus: API.OperationMethod<
   UpdateDeviceTWeCallAuthorizeStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<UpdateDeviceTWeCallAuthorizeStatusRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdateDeviceTWeCallAuthorizeStatusResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<UpdateDeviceTWeCallAuthorizeStatusRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdateDeviceTWeCallAuthorizeStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8854,8 +8900,8 @@ export const updateFirmware: API.OperationMethod<
   UpdateFirmwareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<UpdateFirmwareRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdateFirmwareResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<UpdateFirmwareRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdateFirmwareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8871,8 +8917,8 @@ export const updateOtaModule: API.OperationMethod<
   UpdateOtaModuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<UpdateOtaModuleRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdateOtaModuleResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<UpdateOtaModuleRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdateOtaModuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8888,8 +8934,8 @@ export const updateOtaTaskStatus: API.OperationMethod<
   UpdateOtaTaskStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<UpdateOtaTaskStatusRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdateOtaTaskStatusResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<UpdateOtaTaskStatusRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdateOtaTaskStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8905,8 +8951,8 @@ export const updatePrivateCA: API.OperationMethod<
   UpdatePrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<UpdatePrivateCARequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdatePrivateCAResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<UpdatePrivateCARequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdatePrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8922,8 +8968,8 @@ export const updateProductPrivateCA: API.OperationMethod<
   UpdateProductPrivateCAError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<UpdateProductPrivateCARequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UpdateProductPrivateCAResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<UpdateProductPrivateCARequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UpdateProductPrivateCAResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8939,8 +8985,8 @@ export const uploadFirmware: API.OperationMethod<
   UploadFirmwareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<UploadFirmwareRequest>,
-  output: __S(5024, __c314, 0) as any as S.Schema<UploadFirmwareResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<UploadFirmwareRequest>,
+  output: __S(5056, __c316, 0) as any as S.Schema<UploadFirmwareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9057,6 +9103,32 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          DeviceId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DescribeDeviceData" }),
+        ),
+      ).annotate({ identifier: "DescribeDeviceDataRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeDeviceDataResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           MinTime: S.Number,
           MaxTime: S.Number,
           ProductId: S.String,
@@ -9081,20 +9153,20 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "DeviceDataHistoryItem" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(113, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           FieldName: S.optional(S.String),
           Listover: S.optional(S.Boolean),
           Context: S.optional(S.String),
-          Results: S.optional(__S(82, __c5, 2)),
+          Results: S.optional(__S(114, __c7, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeviceDataHistoryResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9112,7 +9184,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DescribeDeviceFirmWareRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9137,17 +9209,17 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "DeviceFirmwareInfo" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Firmwares: S.optional(__S(114, __c7, 2)),
+          Firmwares: S.optional(__S(146, __c9, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeviceFirmwaresResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9183,18 +9255,18 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "PackageInfo" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Packages: S.optional(S.NullOr(__S(130, __c8, 2))),
+          Packages: S.optional(S.NullOr(__S(162, __c10, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDevicePackagesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9222,28 +9294,28 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "DevicePositionItem" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(146, __c9, 2)),
+          Items: S.optional(__S(178, __c11, 2)),
           ProductId: S.optional(S.String),
           Total: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ProductDevicesPositionItem" });
     case 4:
-      return S.Array(__S(147, __c9, 3));
+      return S.Array(__S(179, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Positions: S.optional(__S(148, __c9, 4)),
+          Positions: S.optional(__S(180, __c11, 4)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDevicePositionListResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9263,14 +9335,14 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(__S(3427, __c214, 3)),
+          List: S.optional(__S(3459, __c216, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFenceBindListResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9294,14 +9366,14 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(__S(194, __c12, 2)),
+          List: S.optional(__S(226, __c14, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFenceEventListResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9318,14 +9390,14 @@ function __c12(j: number): any {
           DeviceName: S.optional(S.String),
           FenceId: S.optional(S.Number),
           AlertType: S.optional(S.String),
-          Data: S.optional(__S(192, __c12, 0)),
+          Data: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "FenceEventItem" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(225, __c14, 1));
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9355,7 +9427,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DescribeFirmwareResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9401,14 +9473,28 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DescribeFirmwareTaskResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayProductId: S.String,
+          ProductIds: __S(48, __c3, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "BindProducts" }),
+        ),
+      ).annotate({ identifier: "BindProductsRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ProductID: S.String,
           FirmwareVersion: S.String,
-          Filters: S.optional(__S(257, __c16, 1)),
+          Filters: S.optional(__S(305, __c19, 1)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           FwType: S.optional(S.String),
@@ -9438,18 +9524,18 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "DeviceUpdateStatus" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.NullOr(S.Number)),
-          Devices: S.optional(S.NullOr(__S(242, __c15, 2))),
+          Devices: S.optional(S.NullOr(__S(290, __c18, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFirmwareTaskDevicesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9459,24 +9545,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "SearchKeyword" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(304, __c19, 0));
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GatewayProductId: S.String,
-          ProductIds: __S(48, __c3, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "BindProducts" }),
-        ),
-      ).annotate({ identifier: "BindProductsRequest" });
-  }
-}
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9485,7 +9557,7 @@ function __c18(j: number): any {
           FirmwareVersion: S.String,
           Offset: S.Number,
           Limit: S.Number,
-          Filters: S.optional(__S(257, __c16, 1)),
+          Filters: S.optional(__S(305, __c19, 1)),
           FwType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9510,18 +9582,18 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "FirmwareTaskInfo" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TaskInfos: S.optional(S.NullOr(__S(290, __c18, 2))),
+          TaskInfos: S.optional(S.NullOr(__S(322, __c20, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFirmwareTasksResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9549,7 +9621,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DescribeFirmwareUpdateStatusResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9573,17 +9645,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "CloudStoragePackageInfo" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PackageInfos: S.optional(__S(322, __c20, 2)),
+          PackageInfos: S.optional(__S(354, __c22, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFreeCloudStorageNumResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9605,7 +9677,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Devices: S.optional(__S(353, __c22, 1)),
+          Devices: S.optional(__S(385, __c24, 1)),
           Total: S.optional(S.Number),
           ProductName: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -9613,7 +9685,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DescribeGatewayBindDevicesResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9623,10 +9695,10 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "BindDeviceInfo" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(384, __c24, 0));
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9645,18 +9717,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "DescribeGatewaySubDeviceListRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          DeviceList: S.optional(__S(369, __c23, 1)),
+          DeviceList: S.optional(__S(401, __c25, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGatewaySubDeviceListResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9675,7 +9747,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "FamilySubDevice" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9696,7 +9768,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DescribeGatewaySubProductsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9741,13 +9813,13 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(417, __c26, 1)),
+          Data: S.optional(__S(449, __c28, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9772,26 +9844,26 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "ActivationLicense" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ActivationLicense: S.optional(__S(434, __c27, 2)),
+          ActivationLicense: S.optional(__S(466, __c29, 2)),
           LicenseType: S.optional(S.String),
         }),
       ).annotate({ identifier: "LicenseOverview" });
     case 4:
-      return S.Array(__S(435, __c27, 3));
+      return S.Array(__S(467, __c29, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(436, __c27, 4))),
+          Data: S.optional(S.NullOr(__S(468, __c29, 4))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLicenseOverviewResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9808,7 +9880,24 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DescribeLoRaFrequencyRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          AgentId: S.String,
+          BindingScope: S.String,
+          DeviceName: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "BindTWeTalkAgent" }),
+        ),
+      ).annotate({ identifier: "BindTWeTalkAgentRequest" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9837,30 +9926,13 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Model: S.optional(__S(465, __c29, 1)),
+          Model: S.optional(__S(513, __c32, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeModelDefinitionResponse" });
   }
 }
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          AgentId: S.String,
-          BindingScope: S.String,
-          DeviceName: S.optional(S.String),
-          Priority: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "BindTWeTalkAgent" }),
-        ),
-      ).annotate({ identifier: "BindTWeTalkAgentRequest" });
-  }
-}
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9881,7 +9953,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DescribeP2PRouteResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9905,7 +9977,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DescribePackageConsumeTaskResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9930,18 +10002,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "PackageConsumeTask" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          List: S.optional(__S(530, __c33, 2)),
+          List: S.optional(__S(562, __c35, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePackageConsumeTasksResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9971,24 +10043,24 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          GeoFence: S.optional(__S(545, __c34, 1)),
+          GeoFence: S.optional(__S(577, __c36, 1)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PositionFenceInfo" });
     case 3:
-      return S.Array(__S(546, __c34, 2));
+      return S.Array(__S(578, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(__S(547, __c34, 3)),
+          List: S.optional(__S(579, __c36, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePositionFenceListResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10002,13 +10074,13 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CA: S.optional(__S(576, __c36, 0)),
+          CA: S.optional(__S(608, __c38, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrivateCAResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10025,7 +10097,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CertInfo" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10051,17 +10123,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "PrivateCABindProductInfo" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Products: S.optional(__S(594, __c37, 2)),
+          Products: S.optional(__S(626, __c39, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrivateCABindedProductsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10073,20 +10145,20 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DescribePrivateCAsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(608, __c38, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CAs: S.optional(__S(624, __c39, 0)),
+          CAs: S.optional(__S(656, __c41, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrivateCAsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10099,7 +10171,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DescribeProductCARequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10122,36 +10194,6 @@ function __c41(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProductCloudStorageAIServiceResponse" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "DescribeProductDynamicRegister",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeProductDynamicRegisterRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RegisterType: S.optional(S.Number),
-          ProductSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          RegisterLimit: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeProductDynamicRegisterResponse" });
   }
 }
 function __c44(j: number): any {
@@ -10186,6 +10228,36 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ProductId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "DescribeProductDynamicRegister",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeProductDynamicRegisterRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RegisterType: S.optional(S.Number),
+          ProductSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          RegisterLimit: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeProductDynamicRegisterResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ProjectId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10195,13 +10267,13 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Project: S.optional(__S(736, __c46, 0)),
+          Project: S.optional(__S(768, __c48, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProjectResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10222,7 +10294,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ProjectEntryEx" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10244,14 +10316,14 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(S.NullOr(__S(194, __c12, 2))),
+          List: S.optional(S.NullOr(__S(226, __c14, 2))),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSpaceFenceEventListResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10268,7 +10340,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DescribeStudioProductRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10291,17 +10363,17 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "SubscribedTopicItem" });
     case 2:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(817, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Topics: S.optional(__S(786, __c49, 2)),
+          Topics: S.optional(__S(818, __c51, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSubscribedTopicPolicyResponse" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10328,7 +10400,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DescribeTopicPolicyResponse" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10357,18 +10429,18 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CamTag" });
     case 3:
-      return S.Array(__S(818, __c51, 2));
+      return S.Array(__S(850, __c53, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Rule: S.optional(__S(817, __c51, 1)),
-          CamTag: S.optional(__S(819, __c51, 3)),
+          Rule: S.optional(__S(849, __c53, 1)),
+          CamTag: S.optional(__S(851, __c53, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTopicRuleResponse" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10386,13 +10458,13 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CallbackInfo: S.optional(__S(848, __c53, 0)),
+          CallbackInfo: S.optional(__S(880, __c55, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeCallbackResponse" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10401,14 +10473,14 @@ function __c53(j: number): any {
           Type: S.optional(S.String),
           CallbackUrl: S.optional(S.String),
           CallbackToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          CallbackCKafka: S.optional(__S(3840, __c240, 0)),
+          CallbackCKafka: S.optional(__S(3872, __c242, 0)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SeeCallbackInfo" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10432,14 +10504,14 @@ function __c54(j: number): any {
           EnableSummary: S.optional(S.Boolean),
           EnableSearch: S.optional(S.Boolean),
           Config: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
-          EventIdFilterConfig: S.optional(__S(880, __c55, 0)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
+          EventIdFilterConfig: S.optional(__S(912, __c57, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeConfigResponse" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10451,7 +10523,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "SeeEventIdFilterConfig" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10481,33 +10553,6 @@ function __c56(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeDirectUploadInfoResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          FaceId: S.String,
-          ChannelId: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DescribeTWeSeeFace" }),
-        ),
-      ).annotate({ identifier: "DescribeTWeSeeFaceRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Face: S.optional(__S(3904, __c244, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeTWeSeeFaceResponse" });
   }
 }
 function __c59(j: number): any {
@@ -10543,6 +10588,33 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          FaceId: S.String,
+          ChannelId: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DescribeTWeSeeFace" }),
+        ),
+      ).annotate({ identifier: "DescribeTWeSeeFaceRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Face: S.optional(__S(3936, __c246, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeTWeSeeFaceResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           DeviceName: S.String,
           PersonId: S.String,
           ProductId: S.String,
@@ -10559,7 +10631,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DescribeTWeSeePersonRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10584,7 +10656,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DescribeTWeSeePostPaidServiceResponse" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10612,24 +10684,24 @@ function __c62(j: number): any {
           EndTime: S.optional(S.Number),
           EndTimeMs: S.optional(S.Number),
           Status: S.optional(S.Number),
-          Result: S.optional(__S(4050, __c253, 2)),
+          Result: S.optional(__S(4082, __c255, 2)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           CustomId: S.optional(S.String),
           Files: S.optional(__S(48, __c3, 0)),
-          FilesInfo: S.optional(__S(4644, __c290, 4)),
+          FilesInfo: S.optional(__S(4676, __c292, 4)),
         }),
       ).annotate({ identifier: "VisionRecognitionTask" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TaskInfo: S.optional(__S(993, __c62, 1)),
+          TaskInfo: S.optional(__S(1025, __c64, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeRecognitionTaskResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10655,10 +10727,10 @@ function __c63(j: number): any {
           ExpireTime: S.optional(S.Number),
           Enabled: S.optional(S.Boolean),
           Status: S.optional(S.String),
-          ComprehensionConfig: S.optional(__S(3874, __c242, 2)),
-          CompHighlightConfig: S.optional(__S(1024, __c64, 0)),
-          EventIdFilterConfig: S.optional(__S(880, __c55, 0)),
-          SummarizeConfig: S.optional(__S(1025, __c64, 1)),
+          ComprehensionConfig: S.optional(__S(3906, __c244, 2)),
+          CompHighlightConfig: S.optional(__S(1056, __c66, 0)),
+          EventIdFilterConfig: S.optional(__S(912, __c57, 0)),
+          SummarizeConfig: S.optional(__S(1057, __c66, 1)),
           CreditsQuota: S.optional(S.Number),
           CreditsUsed: S.optional(S.Number),
           QuotaRefreshTime: S.optional(S.Number),
@@ -10671,7 +10743,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DescribeTWeSeeSubscriptionResponse" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10692,7 +10764,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SeeSummarizeConfig" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10707,13 +10779,13 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskInfo: S.optional(__S(4615, __c288, 7)),
+          TaskInfo: S.optional(__S(4647, __c290, 7)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeTaskResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10743,17 +10815,17 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "SeeStatItem" });
     case 2:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(1089, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StatData: S.optional(__S(1058, __c66, 2)),
+          StatData: S.optional(__S(1090, __c68, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeSeeTaskStatisticsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10771,13 +10843,13 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(1104, __c69, 0)),
+          Data: S.optional(__S(1136, __c71, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeTalkAgentResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10792,10 +10864,10 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "TalkAgentBinding" });
     case 1:
-      return S.Array(__S(1088, __c68, 0));
+      return S.Array(__S(1120, __c70, 0));
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10806,23 +10878,23 @@ function __c69(j: number): any {
           AgentId: S.optional(S.String),
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          STTConfig: S.optional(__S(4129, __c258, 1)),
-          LLMConfig: S.optional(__S(4131, __c258, 3)),
-          TTSConfig: S.optional(__S(4133, __c258, 5)),
-          ConversationConfig: S.optional(__S(4134, __c258, 6)),
-          MemoryConfig: S.optional(__S(4135, __c258, 7)),
-          IOTTools: S.optional(__S(4137, __c258, 9)),
-          WebhookTools: S.optional(__S(4141, __c258, 13)),
+          STTConfig: S.optional(__S(4161, __c260, 1)),
+          LLMConfig: S.optional(__S(4163, __c260, 3)),
+          TTSConfig: S.optional(__S(4165, __c260, 5)),
+          ConversationConfig: S.optional(__S(4166, __c260, 6)),
+          MemoryConfig: S.optional(__S(4167, __c260, 7)),
+          IOTTools: S.optional(__S(4169, __c260, 9)),
+          WebhookTools: S.optional(__S(4173, __c260, 13)),
           Metadata: S.optional(S.String),
-          Bindings: S.optional(__S(1089, __c68, 1)),
+          Bindings: S.optional(__S(1121, __c70, 1)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
-          EventCallbackConfig: S.optional(__S(4142, __c258, 14)),
+          EventCallbackConfig: S.optional(__S(4174, __c260, 14)),
         }),
       ).annotate({ identifier: "TalkAgentInfo" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10846,13 +10918,13 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Bindings: S.optional(__S(1089, __c68, 1)),
+          Bindings: S.optional(__S(1121, __c70, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeTalkAgentBindingResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10875,45 +10947,18 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "DescribeTWeTalkAgentListRequest" });
     case 1:
-      return S.Array(__S(1104, __c69, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Data: S.optional(__S(1137, __c71, 1)),
+          Data: S.optional(__S(1169, __c73, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTWeTalkAgentListResponse" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          Offset: S.Number,
-          Limit: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "DescribeUnbindedDevices",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeUnbindedDevicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          UnbindedDevices: S.optional(__S(353, __c22, 1)),
-          Total: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeUnbindedDevicesResponse" });
-  }
-}
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10942,7 +10987,34 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CallDeviceActionSyncResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          Offset: S.Number,
+          Limit: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "DescribeUnbindedDevices",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeUnbindedDevicesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UnbindedDevices: S.optional(__S(385, __c24, 1)),
+          Total: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeUnbindedDevicesResponse" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10967,17 +11039,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "VideoLicenseEntity" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          License: S.optional(__S(1186, __c74, 2)),
+          License: S.optional(__S(1218, __c76, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeVideoLicenseResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10998,7 +11070,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DescribeVodCloudStorageDateRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11018,7 +11090,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DestroyTWeSeeSubscriptionRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11056,13 +11128,13 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AppDeviceInfo: S.optional(__S(1233, __c77, 1)),
+          AppDeviceInfo: S.optional(__S(1265, __c79, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectBindDeviceInFamilyResponse" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11075,7 +11147,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DisableTopicRuleRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11092,7 +11164,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DismissRoomByStrRoomIdFromTRTCRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11105,7 +11177,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "EnableTopicRuleRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11132,7 +11204,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GenerateCloudStorageAIServiceTaskFileURLResponse" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11158,40 +11230,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GenerateSignedVideoURLResponse" });
   }
 }
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          Expire: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "GenSingleDeviceSignatureOfPublic",
-          }),
-        ),
-      ).annotate({ identifier: "GenSingleDeviceSignatureOfPublicRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          DeviceName: S.optional(S.String),
-          DeviceSignature: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeviceSignatureInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          DeviceSignature: S.optional(__S(1329, __c83, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenSingleDeviceSignatureOfPublicResponse" });
-  }
-}
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11220,7 +11259,40 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CallDeviceRRPCSyncResponse" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          Expire: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "GenSingleDeviceSignatureOfPublic",
+          }),
+        ),
+      ).annotate({ identifier: "GenSingleDeviceSignatureOfPublicRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DeviceName: S.optional(S.String),
+          DeviceSignature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceSignatureInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DeviceSignature: S.optional(__S(1377, __c86, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenSingleDeviceSignatureOfPublicResponse" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11249,18 +11321,18 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "AuthMiniProgramAppInfo" });
     case 2:
-      return S.Array(__S(1361, __c85, 1));
+      return S.Array(__S(1393, __c87, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MiniProgramList: S.optional(__S(1362, __c85, 2)),
+          MiniProgramList: S.optional(__S(1394, __c87, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAuthMiniProgramAppListResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11288,18 +11360,18 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "BatchProductionInfo" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          BatchProductions: S.optional(S.NullOr(__S(1378, __c86, 2))),
+          BatchProductions: S.optional(S.NullOr(__S(1410, __c88, 2))),
           TotalCnt: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBatchProductionsListResponse" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11320,7 +11392,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetCOSURLResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11332,25 +11404,25 @@ function __c88(j: number): any {
           FwType: S.optional(S.String),
           DeviceName: S.optional(S.String),
           ProjectId: S.optional(S.String),
-          Filters: S.optional(__S(1425, __c89, 1)),
+          Filters: S.optional(__S(1457, __c91, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "GetDeviceList" }),
         ),
       ).annotate({ identifier: "GetDeviceListRequest" });
     case 1:
-      return S.Array(__S(5168, __c323, 0));
+      return S.Array(__S(5200, __c325, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Devices: S.optional(__S(1409, __c88, 1)),
+          Devices: S.optional(__S(1441, __c90, 1)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDeviceListResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11360,10 +11432,10 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(1424, __c89, 0));
+      return S.Array(__S(1456, __c91, 0));
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11393,17 +11465,17 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "PositionItem" });
     case 2:
-      return S.Array(__S(1441, __c90, 1));
+      return S.Array(__S(1473, __c92, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Positions: S.optional(__S(1442, __c90, 2)),
+          Positions: S.optional(__S(1474, __c92, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDeviceLocationHistoryResponse" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11435,7 +11507,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetDeviceSumStatisticsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11461,17 +11533,17 @@ function __c92(j: number): any {
         }),
       ).annotate({ identifier: "DeviceUser" });
     case 2:
-      return S.Array(__S(1473, __c92, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UserList: S.optional(__S(1474, __c92, 2)),
+          UserList: S.optional(__S(1506, __c94, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetFamilyDeviceUserListResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11493,13 +11565,13 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          DeviceList: S.optional(__S(384, __c24, 0)),
+          DeviceList: S.optional(__S(416, __c26, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetGatewaySubDeviceListResponse" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11513,63 +11585,15 @@ function __c94(j: number): any {
         ),
       ).annotate({ identifier: "GetLoRaGatewayListRequest" });
     case 1:
-      return S.Array(__S(3569, __c223, 1));
+      return S.Array(__S(3601, __c225, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Gateways: S.optional(__S(1505, __c94, 1)),
+          Gateways: S.optional(__S(1537, __c96, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLoRaGatewayListResponse" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProjectId: S.String,
-          Offset: S.Number,
-          Limit: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "GetPositionSpaceList",
-          }),
-        ),
-      ).annotate({ identifier: "GetPositionSpaceListRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProjectId: S.optional(S.String),
-          SpaceId: S.optional(S.String),
-          SpaceName: S.optional(S.String),
-          AuthorizeType: S.optional(S.Number),
-          Description: S.optional(S.String),
-          ProductIdList: S.optional(__S(48, __c3, 0)),
-          Icon: S.optional(S.String),
-          CreateTime: S.optional(S.Number),
-          UpdateTime: S.optional(S.Number),
-          Zoom: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "PositionSpaceInfo" });
-    case 1:
-      return S.Array(__S(1536, __c96, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          List: S.optional(__S(1537, __c96, 1)),
-          Total: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetPositionSpaceListResponse" });
   }
 }
 function __c97(j: number): any {
@@ -11592,6 +11616,54 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ProjectId: S.String,
+          Offset: S.Number,
+          Limit: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "GetPositionSpaceList",
+          }),
+        ),
+      ).annotate({ identifier: "GetPositionSpaceListRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectId: S.optional(S.String),
+          SpaceId: S.optional(S.String),
+          SpaceName: S.optional(S.String),
+          AuthorizeType: S.optional(S.Number),
+          Description: S.optional(S.String),
+          ProductIdList: S.optional(__S(48, __c3, 0)),
+          Icon: S.optional(S.String),
+          CreateTime: S.optional(S.Number),
+          UpdateTime: S.optional(S.Number),
+          Zoom: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PositionSpaceInfo" });
+    case 1:
+      return S.Array(__S(1584, __c99, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          List: S.optional(__S(1585, __c99, 1)),
+          Total: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetPositionSpaceListResponse" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           InstanceId: S.optional(S.String),
@@ -11605,18 +11677,18 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "GetProjectListRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Projects: S.optional(__S(1569, __c98, 1)),
+          Projects: S.optional(__S(1601, __c100, 1)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectListResponse" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11636,21 +11708,21 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetStudioProductListRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3712, __c232, 0));
+      return S.Array(__S(3744, __c234, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Products: S.optional(__S(1600, __c100, 0)),
+          Products: S.optional(__S(1632, __c102, 0)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetStudioProductListResponse" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11664,7 +11736,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetTopicRuleListRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11676,18 +11748,18 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "TopicRuleInfo" });
     case 1:
-      return S.Array(__S(1632, __c102, 0));
+      return S.Array(__S(1664, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCnt: S.optional(S.Number),
-          Rules: S.optional(__S(1633, __c102, 1)),
+          Rules: S.optional(__S(1665, __c104, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTopicRuleListResponse" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11711,17 +11783,17 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "TWeCallActiveInfo" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1681, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TWeCallActiveInfos: S.optional(__S(1650, __c103, 2)),
+          TWeCallActiveInfos: S.optional(__S(1682, __c105, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTWeCallActiveStatusResponse" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11732,7 +11804,7 @@ function __c104(j: number): any {
           Limit: S.optional(S.Number),
           ProductId: S.optional(S.String),
           DeviceName: S.optional(S.String),
-          ServiceType: S.optional(__S(4064, __c254, 0)),
+          ServiceType: S.optional(__S(4096, __c256, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11755,18 +11827,18 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "TalkActivateRecordLogInfo" });
     case 2:
-      return S.Array(__S(1665, __c104, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ActiveRecords: S.optional(__S(1666, __c104, 2)),
+          ActiveRecords: S.optional(__S(1698, __c106, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTWeTalkActiveRecordListResponse" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11790,17 +11862,17 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "TalkActivationStatusInfo" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1713, __c107, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TalkActivationRecords: S.optional(__S(1682, __c105, 2)),
+          TalkActivationRecords: S.optional(__S(1714, __c107, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTWeTalkActiveStatusResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11831,16 +11903,16 @@ function __c106(j: number): any {
           ThumbnailUrl: S.optional(S.String),
           EventStartTime: S.optional(S.Number),
           EventEndTime: S.optional(S.Number),
-          VideoList: S.optional(__S(1713, __c107, 1)),
+          VideoList: S.optional(__S(1745, __c109, 1)),
           IsStaticEvent: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VodCloudStorageEvent" });
     case 2:
-      return S.Array(__S(1697, __c106, 1));
+      return S.Array(__S(1729, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(__S(1698, __c106, 2)),
+          Events: S.optional(__S(1730, __c108, 2)),
           Listover: S.optional(S.Boolean),
           Context: S.optional(S.String),
           Total: S.optional(S.Number),
@@ -11850,7 +11922,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetVodCloudStorageEventListResponse" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11864,10 +11936,10 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "VideoList" });
     case 1:
-      return S.Array(__S(1712, __c107, 0));
+      return S.Array(__S(1744, __c109, 0));
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11897,7 +11969,7 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VodAppId: S.optional(S.String),
-          VideoList: S.optional(__S(1713, __c107, 1)),
+          VideoList: S.optional(__S(1745, __c109, 1)),
           Listover: S.optional(S.Boolean),
           Context: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -11905,7 +11977,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetVodCloudStorageVideoListResponse" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11936,43 +12008,19 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DeviceId: S.optional(S.String),
-          WXIoTDeviceInfo: S.optional(__S(1745, __c109, 1)),
+          WXIoTDeviceInfo: S.optional(__S(1777, __c111, 1)),
         }),
       ).annotate({ identifier: "WXDeviceInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WXDeviceInfo: S.optional(__S(1746, __c109, 2)),
+          WXDeviceInfo: S.optional(__S(1778, __c111, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWechatDeviceTicketResponse" });
   }
 }
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          ImageURL: S.String,
-          ChannelId: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ImportTWeSeeFaces" }),
-        ),
-      ).annotate({ identifier: "ImportTWeSeeFacesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Faces: S.optional(__S(3936, __c246, 0)),
-          TaskId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportTWeSeeFacesResponse" });
-  }
-}
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11998,7 +12046,31 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CheckFirmwareUpdateResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          ImageURL: S.String,
+          ChannelId: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ImportTWeSeeFaces" }),
+        ),
+      ).annotate({ identifier: "ImportTWeSeeFacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Faces: S.optional(__S(3968, __c248, 0)),
+          TaskId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportTWeSeeFacesResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12018,7 +12090,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "InheritCloudStorageUserRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12037,7 +12109,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "InquireTWeSeeSubscriptionCreatePriceRequest" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12050,7 +12122,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "InquireTWeSeeSubscriptionCreatePriceResponse" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12071,7 +12143,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "InquireTWeSeeSubscriptionRenewPriceRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12104,14 +12176,14 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Summary: S.optional(S.String),
-          Targets: S.optional(__S(4625, __c289, 1)),
+          Targets: S.optional(__S(4657, __c291, 1)),
           VideoURL: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InvokeAISearchServiceResponse" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12137,20 +12209,20 @@ function __c117(j: number): any {
       ).annotate({ identifier: "InvokeCloudStorageAIServiceTaskRequest" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Completed: S.optional(S.Boolean),
           TaskId: S.optional(S.String),
-          TaskInfo: S.optional(__S(4800, __c300, 0)),
+          TaskInfo: S.optional(__S(4832, __c302, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InvokeCloudStorageAIServiceTaskResponse" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12172,15 +12244,15 @@ function __c119(j: number): any {
       ).annotate({ identifier: "InvokeExternalSourceAIServiceTaskRequest" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InputURL: S.String,
           ServiceType: S.String,
-          Metadata: S.optional(__S(4592, __c287, 0)),
-          ComprehensionConfig: S.optional(__S(3874, __c242, 2)),
+          Metadata: S.optional(__S(4624, __c289, 0)),
+          ComprehensionConfig: S.optional(__S(3906, __c244, 2)),
           WaitResultTimeout: S.optional(S.Number),
           WaitResultFields: S.optional(__S(48, __c3, 0)),
           CallbackId: S.optional(S.String),
@@ -12198,7 +12270,7 @@ function __c120(j: number): any {
         S.Struct({
           TaskId: S.optional(S.String),
           Status: S.optional(S.Number),
-          ComprehensionResult: S.optional(__S(4595, __c287, 3)),
+          ComprehensionResult: S.optional(__S(4627, __c289, 3)),
           CostBasic: S.optional(S.Number),
           CostAdvanced: S.optional(S.Number),
           CostCredits: S.optional(S.Number),
@@ -12207,7 +12279,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "InvokeTWeSeeComprehensionResponse" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12223,9 +12295,9 @@ function __c121(j: number): any {
           IsCustomDevice: S.optional(S.Boolean),
           InputType: S.optional(S.String),
           SummaryQOS: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
           ServiceType: S.optional(S.String),
-          ObjectDetectConfig: S.optional(__S(2256, __c141, 0)),
+          ObjectDetectConfig: S.optional(__S(2272, __c142, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12237,20 +12309,20 @@ function __c121(j: number): any {
       ).annotate({ identifier: "InvokeTWeSeeRecognitionTaskRequest" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TaskId: S.optional(S.String),
           Completed: S.optional(S.Boolean),
-          Result: S.optional(__S(4050, __c253, 2)),
+          Result: S.optional(__S(4082, __c255, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InvokeTWeSeeRecognitionTaskResponse" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12267,9 +12339,9 @@ function __c123(j: number): any {
           IsCustomDevice: S.optional(S.Boolean),
           InputType: S.optional(S.String),
           SummaryQOS: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
           ServiceType: S.optional(S.String),
-          ObjectDetectConfig: S.optional(__S(2256, __c141, 0)),
+          ObjectDetectConfig: S.optional(__S(2272, __c142, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12281,7 +12353,33 @@ function __c123(j: number): any {
       ).annotate({ identifier: "InvokeTWeSeeRecognitionTaskWithFileRequest" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          Data: S.String,
+          Method: S.optional(S.String),
+          DeviceId: S.optional(S.String),
+          DataTimestamp: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ControlDeviceData" }),
+        ),
+      ).annotate({ identifier: "ControlDeviceDataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(S.String),
+          Result: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ControlDeviceDataResponse" });
+  }
+}
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12310,33 +12408,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "InvokeVideosKeywordsAnalyzerResponse" });
   }
 }
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          Data: S.String,
-          Method: S.optional(S.String),
-          DeviceId: S.optional(S.String),
-          DataTimestamp: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ControlDeviceData" }),
-        ),
-      ).annotate({ identifier: "ControlDeviceDataRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Data: S.optional(S.String),
-          Result: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ControlDeviceDataResponse" });
-  }
-}
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12366,20 +12438,20 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "EventHistoryItem" });
     case 2:
-      return S.Array(__S(2017, __c126, 1));
+      return S.Array(__S(2049, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Context: S.optional(S.String),
           Total: S.optional(S.Number),
           Listover: S.optional(S.Boolean),
-          EventHistory: S.optional(__S(2018, __c126, 2)),
+          EventHistory: S.optional(__S(2050, __c128, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEventHistoryResponse" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12387,7 +12459,7 @@ function __c127(j: number): any {
           PageNum: S.Number,
           PageSize: S.Number,
           ProductID: S.optional(S.String),
-          Filters: S.optional(__S(257, __c16, 1)),
+          Filters: S.optional(__S(305, __c19, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ListFirmwares" }),
@@ -12410,25 +12482,25 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "FirmwareInfo" });
     case 2:
-      return S.Array(__S(2033, __c127, 1));
+      return S.Array(__S(2065, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Firmwares: S.optional(__S(2034, __c127, 2)),
+          Firmwares: S.optional(__S(2066, __c129, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFirmwaresResponse" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PageNum: S.Number,
           PageSize: S.Number,
-          Filters: S.optional(__S(257, __c16, 1)),
+          Filters: S.optional(__S(305, __c19, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ListOtaModules" }),
@@ -12438,13 +12510,13 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Modules: S.optional(__S(2065, __c129, 1)),
+          Modules: S.optional(__S(2097, __c131, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOtaModulesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12459,10 +12531,10 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "OtaModuleInfo" });
     case 1:
-      return S.Array(__S(2064, __c129, 0));
+      return S.Array(__S(2096, __c131, 0));
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12480,13 +12552,13 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Modules: S.optional(__S(2065, __c129, 1)),
+          Modules: S.optional(__S(2097, __c131, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductOtaModulesResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12505,17 +12577,17 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "TopicItem" });
     case 2:
-      return S.Array(__S(2097, __c131, 1));
+      return S.Array(__S(2129, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Topics: S.optional(__S(2098, __c131, 2)),
+          Topics: S.optional(__S(2130, __c133, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTopicPolicyResponse" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12528,18 +12600,18 @@ function __c132(j: number): any {
         ),
       ).annotate({ identifier: "ListTWeSeeCallbackRequest" });
     case 1:
-      return S.Array(__S(848, __c53, 0));
+      return S.Array(__S(880, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(__S(2113, __c132, 1)),
+          List: S.optional(__S(2145, __c134, 1)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTWeSeeCallbackResponse" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12557,20 +12629,20 @@ function __c133(j: number): any {
         ),
       ).annotate({ identifier: "ListTWeSeePersonsRequest" });
     case 1:
-      return S.Array(__S(3952, __c247, 0));
+      return S.Array(__S(3984, __c249, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          Persons: S.optional(__S(2129, __c133, 1)),
+          Persons: S.optional(__S(2161, __c135, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTWeSeePersonsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12580,7 +12652,7 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "VisionRecognitionTaskFilter" });
     case 1:
-      return S.Array(__S(2144, __c134, 0));
+      return S.Array(__S(2176, __c136, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12591,7 +12663,7 @@ function __c134(j: number): any {
           ChannelId: S.optional(S.Number),
           EndTimeMs: S.optional(S.Number),
           FileURLExpireTime: S.optional(S.Number),
-          Filters: S.optional(__S(2145, __c134, 1)),
+          Filters: S.optional(__S(2177, __c136, 1)),
           Offset: S.optional(S.Number),
           ServiceTypes: S.optional(__S(48, __c3, 0)),
           StartTimeMs: S.optional(S.Number),
@@ -12602,18 +12674,18 @@ function __c134(j: number): any {
         ),
       ).annotate({ identifier: "ListTWeSeeTasksRequest" });
     case 3:
-      return S.Array(__S(4615, __c288, 7));
+      return S.Array(__S(4647, __c290, 7));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Tasks: S.optional(__S(2147, __c134, 3)),
+          Tasks: S.optional(__S(2179, __c136, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTWeSeeTasksResponse" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12675,50 +12747,18 @@ function __c135(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Application: S.optional(__S(2161, __c135, 1)),
+          Application: S.optional(__S(2193, __c137, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyApplicationResponse" });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StartOffset: S.optional(S.Number),
-          PlaySpeed: S.optional(S.Number),
-          MiniExtract: S.optional(S.Number),
-          OutDuration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DiarySHLConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          ServiceType: S.String,
-          Enabled: S.optional(S.Boolean),
-          ROI: S.optional(S.String),
-          Config: S.optional(S.String),
-          SHLConfig: S.optional(__S(2176, __c136, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "ModifyCloudStorageAIService",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyCloudStorageAIServiceRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Inputs: __S(2209, __c138, 1),
+          Inputs: __S(2225, __c139, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12738,17 +12778,17 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "CreateVisionRecognitionTaskOutput" });
     case 2:
-      return S.Array(__S(2193, __c137, 1));
+      return S.Array(__S(2209, __c138, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Outputs: S.optional(__S(2194, __c137, 2)),
+          Outputs: S.optional(__S(2210, __c138, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateTWeSeeRecognitionTaskResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12766,16 +12806,16 @@ function __c138(j: number): any {
           IsCustomDevice: S.optional(S.Boolean),
           InputType: S.optional(S.String),
           SummaryQOS: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
           ServiceType: S.optional(S.String),
-          ObjectDetectConfig: S.optional(__S(2256, __c141, 0)),
+          ObjectDetectConfig: S.optional(__S(2272, __c142, 0)),
         }),
       ).annotate({ identifier: "CreateVisionRecognitionTaskInput" });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(2224, __c139, 0));
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12785,10 +12825,10 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "VisionCustomDetectQuery" });
     case 1:
-      return S.Array(__S(2224, __c139, 0));
+      return S.Array(__S(2240, __c140, 0));
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12800,7 +12840,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "SeeDetectContinuousConfig" });
     case 1:
-      return S.Array(__S(2240, __c140, 0));
+      return S.Array(__S(2256, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12808,14 +12848,14 @@ function __c140(j: number): any {
           AlternativeOutputLang: S.optional(S.String),
           MultiCameraLayout: S.optional(S.String),
           DetectTypes: S.optional(__S(48, __c3, 0)),
-          CustomDetectQueries: S.optional(__S(2225, __c139, 1)),
-          DetectContinuous: S.optional(__S(2241, __c140, 1)),
+          CustomDetectQueries: S.optional(__S(2241, __c140, 1)),
+          DetectContinuous: S.optional(__S(2257, __c141, 1)),
           SummaryPrompt: S.optional(S.String),
         }),
       ).annotate({ identifier: "VisionSummaryConfig" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12825,7 +12865,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "VisionObjectDetectConfig" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12846,7 +12886,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "CreateAISearchTaskAsyncRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12857,7 +12897,39 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreateAISearchTaskAsyncResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartOffset: S.optional(S.Number),
+          PlaySpeed: S.optional(S.Number),
+          MiniExtract: S.optional(S.Number),
+          OutDuration: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DiarySHLConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          ServiceType: S.String,
+          Enabled: S.optional(S.Boolean),
+          ROI: S.optional(S.String),
+          Config: S.optional(S.String),
+          SHLConfig: S.optional(__S(2320, __c145, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "ModifyCloudStorageAIService",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyCloudStorageAIServiceRequest" });
+  }
+}
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12877,13 +12949,13 @@ function __c144(j: number): any {
       ).annotate({ identifier: "ModifyCloudStorageAIServiceCallbackRequest" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FenceId: S.Number,
-          Items: __S(3427, __c214, 3),
+          Items: __S(3459, __c216, 3),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyFenceBind" }),
@@ -12891,7 +12963,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "ModifyFenceBindRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12899,12 +12971,12 @@ function __c146(j: number): any {
           FreqId: S.optional(S.String),
           FreqName: S.optional(S.String),
           Description: S.optional(S.String),
-          ChannelsDataUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX2: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX2: S.optional(__S(4064, __c254, 0)),
+          ChannelsDataUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX2: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX2: S.optional(__S(4096, __c256, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12916,14 +12988,14 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ModifyLoRaFrequencyRequest" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.String,
           GatewayId: S.String,
-          Location: __S(3568, __c223, 0),
+          Location: __S(3600, __c225, 0),
           Name: S.String,
           IsPublic: S.optional(S.Boolean),
           Position: S.optional(S.String),
@@ -12936,7 +13008,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ModifyLoRaGatewayRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12954,7 +13026,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ModifyModelDefinitionRequest" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12970,7 +13042,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "ModifyPositionFenceRequest" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12992,7 +13064,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ModifyPositionSpaceRequest" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13010,7 +13082,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ModifyProductCloudStorageAIServiceRequest" });
   }
 }
-function __c152(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13029,22 +13101,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "ModifyProductDynamicRegisterRequest" });
   }
 }
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProjectId: S.String,
-          ProjectName: S.String,
-          ProjectDesc: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyProject" }),
-        ),
-      ).annotate({ identifier: "ModifyProjectRequest" });
-  }
-}
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13076,7 +13133,22 @@ function __c154(j: number): any {
       ).annotate({ identifier: "CreateBatchProductionResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectId: S.String,
+          ProjectName: S.String,
+          ProjectDesc: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyProject" }),
+        ),
+      ).annotate({ identifier: "ModifyProjectRequest" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13095,7 +13167,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ModifySpacePropertyRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13117,7 +13189,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ModifyStudioProductRequest" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13133,13 +13205,13 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ModifyTopicPolicyRequest" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleName: S.String,
-          TopicRulePayload: __S(3792, __c237, 0),
+          TopicRulePayload: __S(3824, __c239, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyTopicRule" }),
@@ -13147,7 +13219,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ModifyTopicRuleRequest" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13156,7 +13228,7 @@ function __c159(j: number): any {
           Type: S.String,
           CallbackUrl: S.optional(S.String),
           CallbackToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          CallbackCKafka: S.optional(__S(3840, __c240, 0)),
+          CallbackCKafka: S.optional(__S(3872, __c242, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13168,7 +13240,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ModifyTWeSeeCallbackRequest" });
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13180,8 +13252,8 @@ function __c160(j: number): any {
           EnableSummary: S.optional(S.Boolean),
           EnableSearch: S.optional(S.Boolean),
           Config: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
-          EventIdFilterConfig: S.optional(__S(880, __c55, 0)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
+          EventIdFilterConfig: S.optional(__S(912, __c57, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyTWeSeeConfig" }),
@@ -13189,7 +13261,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ModifyTWeSeeConfigRequest" });
   }
 }
-function __c161(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13207,7 +13279,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ModifyTWeSeeFaceRequest" });
   }
 }
-function __c162(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13225,7 +13297,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ModifyTWeSeePersonRequest" });
   }
 }
-function __c163(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13233,10 +13305,10 @@ function __c163(j: number): any {
           ProductId: S.String,
           DeviceName: S.String,
           ServiceType: S.String,
-          ComprehensionConfig: S.optional(__S(3874, __c242, 2)),
-          CompHighlightConfig: S.optional(__S(1024, __c64, 0)),
-          SummarizeConfig: S.optional(__S(1025, __c64, 1)),
-          EventIdFilterConfig: S.optional(__S(880, __c55, 0)),
+          ComprehensionConfig: S.optional(__S(3906, __c244, 2)),
+          CompHighlightConfig: S.optional(__S(1056, __c66, 0)),
+          SummarizeConfig: S.optional(__S(1057, __c66, 1)),
+          EventIdFilterConfig: S.optional(__S(912, __c57, 0)),
           ChannelId: S.optional(S.Number),
           Enabled: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -13250,28 +13322,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ModifyTWeSeeSubscriptionRequest" });
   }
 }
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          ServiceType: S.String,
-          RenewFlag: S.String,
-          ChannelId: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "ModifyTWeSeeSubscriptionRenewFlag",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyTWeSeeSubscriptionRenewFlagRequest" });
-  }
-}
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13299,7 +13350,28 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreateCloudStorageAIServiceResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          ServiceType: S.String,
+          RenewFlag: S.String,
+          ChannelId: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "ModifyTWeSeeSubscriptionRenewFlag",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyTWeSeeSubscriptionRenewFlagRequest" });
+  }
+}
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13307,15 +13379,15 @@ function __c166(j: number): any {
           AgentId: S.String,
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          STTConfig: S.optional(__S(4129, __c258, 1)),
-          LLMConfig: S.optional(__S(4131, __c258, 3)),
-          TTSConfig: S.optional(__S(4133, __c258, 5)),
-          ConversationConfig: S.optional(__S(4134, __c258, 6)),
-          MemoryConfig: S.optional(__S(4135, __c258, 7)),
-          IOTTools: S.optional(__S(4137, __c258, 9)),
-          WebhookTools: S.optional(__S(4141, __c258, 13)),
+          STTConfig: S.optional(__S(4161, __c260, 1)),
+          LLMConfig: S.optional(__S(4163, __c260, 3)),
+          TTSConfig: S.optional(__S(4165, __c260, 5)),
+          ConversationConfig: S.optional(__S(4166, __c260, 6)),
+          MemoryConfig: S.optional(__S(4167, __c260, 7)),
+          IOTTools: S.optional(__S(4169, __c260, 9)),
+          WebhookTools: S.optional(__S(4173, __c260, 13)),
           Metadata: S.optional(S.String),
-          EventCallbackConfig: S.optional(__S(4142, __c258, 14)),
+          EventCallbackConfig: S.optional(__S(4174, __c260, 14)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "ModifyTWeTalkAgent" }),
@@ -13323,7 +13395,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ModifyTWeTalkAgentRequest" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13338,7 +13410,7 @@ function __c167(j: number): any {
         S.Struct({
           COSURI: S.String,
           Operation: S.String,
-          ListOptions: S.optional(__S(2672, __c167, 0)),
+          ListOptions: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13359,11 +13431,11 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "SeeObjectSummary" });
     case 3:
-      return S.Array(__S(2674, __c167, 2));
+      return S.Array(__S(2706, __c169, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Contents: S.optional(__S(2675, __c167, 3)),
+          Contents: S.optional(__S(2707, __c169, 3)),
           CommonPrefixes: S.optional(__S(48, __c3, 0)),
           Delimiter: S.optional(S.String),
           IsTruncated: S.optional(S.Boolean),
@@ -13381,7 +13453,7 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "SeeObjectMetadataEntry" });
     case 6:
-      return S.Array(__S(2677, __c167, 5));
+      return S.Array(__S(2709, __c169, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13391,21 +13463,21 @@ function __c167(j: number): any {
           Size: S.optional(S.Number),
           ETag: S.optional(S.String),
           LastModified: S.optional(S.Number),
-          Metadata: S.optional(__S(2678, __c167, 6)),
+          Metadata: S.optional(__S(2710, __c169, 6)),
         }),
       ).annotate({ identifier: "SeeObjectMetadata" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ListingResponse: S.optional(__S(2676, __c167, 4)),
-          ObjectResponse: S.optional(__S(2679, __c167, 7)),
+          ListingResponse: S.optional(__S(2708, __c169, 4)),
+          ObjectResponse: S.optional(__S(2711, __c169, 7)),
           Status: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperateTWeSeeDirectUploadObjectResponse" });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13418,7 +13490,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "PauseTWeCallDeviceRequest" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13438,7 +13510,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "PublishBroadcastMessageRequest" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13464,7 +13536,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "PublishFirmwareUpdateMessageResponse" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13482,7 +13554,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PublishMessageRequest" });
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13505,7 +13577,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "PublishRRPCMessageResponse" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13531,7 +13603,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "PurchaseImagePackageRequest" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13559,25 +13631,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PurchaseVideoPackageRequest" });
   }
 }
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DevStatus: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "ReleaseStudioProduct",
-          }),
-        ),
-      ).annotate({ identifier: "ReleaseStudioProductRequest" });
-  }
-}
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13603,7 +13657,25 @@ function __c176(j: number): any {
       ).annotate({ identifier: "CreateCloudStorageAIServiceTaskRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DevStatus: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "ReleaseStudioProduct",
+          }),
+        ),
+      ).annotate({ identifier: "ReleaseStudioProductRequest" });
+  }
+}
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13621,7 +13693,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "RemoveUserByRoomIdFromTRTCRequest" });
   }
 }
-function __c178(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13643,7 +13715,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "RenewTWeSeeSubscriptionRequest" });
   }
 }
-function __c179(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13660,7 +13732,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ResetCloudStorageRequest" });
   }
 }
-function __c180(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13681,7 +13753,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ResetCloudStorageAIServiceRequest" });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13701,7 +13773,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ResetCloudStorageEventRequest" });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13714,7 +13786,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ResetTWeCallDeviceRequest" });
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13727,7 +13799,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ResumeWeCallDeviceRequest" });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13748,7 +13820,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "RevokeBindUserDeviceRequest" });
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13769,27 +13841,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "RevokeShareDeviceFromUserRequest" });
   }
 }
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProjectId: S.String,
-          SpaceName: S.String,
-          Offset: S.Number,
-          Limit: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "SearchPositionSpace",
-          }),
-        ),
-      ).annotate({ identifier: "SearchPositionSpaceRequest" });
-  }
-}
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13820,13 +13872,33 @@ function __c187(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2993, __c187, 1)),
+          Data: S.optional(__S(3009, __c188, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDeviceResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectId: S.String,
+          SpaceName: S.String,
+          Offset: S.Number,
+          Limit: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "SearchPositionSpace",
+          }),
+        ),
+      ).annotate({ identifier: "SearchPositionSpaceRequest" });
+  }
+}
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13837,7 +13909,7 @@ function __c188(j: number): any {
           Offset: S.optional(S.Number),
           DevStatus: S.optional(S.String),
           ProductId: S.optional(S.String),
-          Filters: S.optional(__S(1425, __c89, 1)),
+          Filters: S.optional(__S(1457, __c91, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13849,7 +13921,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "SearchStudioProductRequest" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13862,7 +13934,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "SearchTopicRuleRequest" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13888,7 +13960,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "ShareDeviceToUserResponse" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13910,7 +13982,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "StartPackageUsageReportRequest" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13921,7 +13993,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "StartPackageUsageReportResponse" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13943,7 +14015,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "StopPackageUsageReportRequest" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13973,7 +14045,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "TerminateTWeSeeSubscriptionResponse" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13995,7 +14067,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "TransferCloudStorageRequest" });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14013,7 +14085,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "TransferTWeCallDeviceRequest" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14029,7 +14101,26 @@ function __c197(j: number): any {
       ).annotate({ identifier: "UnbindDevicesRequest" });
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductId: S.String,
+          DeviceName: S.String,
+          ChannelId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "CreateDeviceChannel",
+          }),
+        ),
+      ).annotate({ identifier: "CreateDeviceChannelRequest" });
+  }
+}
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14050,26 +14141,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "UnbindProductsResponse" });
   }
 }
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ProductId: S.String,
-          DeviceName: S.String,
-          ChannelId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "iotexplorer",
-            version: "2019-04-23",
-            action: "CreateDeviceChannel",
-          }),
-        ),
-      ).annotate({ identifier: "CreateDeviceChannelRequest" });
-  }
-}
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14085,12 +14157,12 @@ function __c200(j: number): any {
       ).annotate({ identifier: "UnbindTWeTalkAgentRequest" });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DevicesItems: __S(4209, __c263, 1),
+          DevicesItems: __S(4241, __c265, 1),
           Status: S.Number,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14103,7 +14175,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "UpdateDevicesEnableStateRequest" });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14123,7 +14195,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "UpdateDeviceTWeCallAuthorizeStatusRequest" });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14140,7 +14212,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "UpdateFirmwareRequest" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14156,7 +14228,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "UpdateOtaModuleRequest" });
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14175,7 +14247,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "UpdateOtaTaskStatusRequest" });
   }
 }
-function __c206(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14190,7 +14262,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "UpdatePrivateCARequest" });
   }
 }
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14208,7 +14280,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "UpdateProductPrivateCARequest" });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14228,7 +14300,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UploadFirmwareRequest" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14247,7 +14319,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "CreateDevicePublishSDPAnswerRequest" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14258,7 +14330,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CreateDevicePublishSDPAnswerResponse" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14279,7 +14351,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "CreateDeviceSDPAnswerRequest" });
   }
 }
-function __c212(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14301,13 +14373,13 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CreateExternalSourceAIServiceTaskRequest" });
   }
 }
-function __c213(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FenceId: S.Number,
-          Items: __S(3427, __c214, 3),
+          Items: __S(3459, __c216, 3),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "CreateFenceBind" }),
@@ -14315,7 +14387,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateFenceBindRequest" });
   }
 }
-function __c214(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14327,19 +14399,19 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "FenceBindDeviceItem" });
     case 1:
-      return S.Array(__S(3424, __c214, 0));
+      return S.Array(__S(3456, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Devices: __S(3425, __c214, 1),
+          Devices: __S(3457, __c216, 1),
           ProductId: S.String,
         }),
       ).annotate({ identifier: "FenceBindProductItem" });
     case 3:
-      return S.Array(__S(3426, __c214, 2));
+      return S.Array(__S(3458, __c216, 2));
   }
 }
-function __c215(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14355,11 +14427,11 @@ function __c215(j: number): any {
         }),
       ).annotate({ identifier: "SeeCreateSubscriptionEntry" });
     case 1:
-      return S.Array(__S(3440, __c215, 0));
+      return S.Array(__S(3472, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Entries: __S(3441, __c215, 1),
+          Entries: __S(3473, __c217, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -14371,7 +14443,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "BatchCreateTWeSeeSubscriptionRequest" });
   }
 }
-function __c216(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14382,17 +14454,17 @@ function __c216(j: number): any {
         }),
       ).annotate({ identifier: "SeeCreateSubscriptionResult" });
     case 1:
-      return S.Array(__S(3456, __c216, 0));
+      return S.Array(__S(3488, __c218, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Results: S.optional(__S(3457, __c216, 1)),
+          Results: S.optional(__S(3489, __c218, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateTWeSeeSubscriptionResponse" });
   }
 }
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14416,7 +14488,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateFreeCloudStorageRequest" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14428,7 +14500,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "CreateFreeCloudStorageResponse" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14452,18 +14524,18 @@ function __c219(j: number): any {
       ).annotate({ identifier: "CreateIotVideoCloudStorageRequest" });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FreqName: S.optional(S.String),
-          ChannelsDataUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX2: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX2: S.optional(__S(4064, __c254, 0)),
+          ChannelsDataUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX2: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX2: S.optional(__S(4096, __c256, 0)),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14476,7 +14548,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "CreateLoRaFrequencyRequest" });
   }
 }
-function __c221(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14484,25 +14556,25 @@ function __c221(j: number): any {
           FreqId: S.optional(S.String),
           FreqName: S.optional(S.String),
           Description: S.optional(S.String),
-          ChannelsDataUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsDataRX2: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinUp: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX1: S.optional(__S(4064, __c254, 0)),
-          ChannelsJoinRX2: S.optional(__S(4064, __c254, 0)),
+          ChannelsDataUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsDataRX2: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinUp: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX1: S.optional(__S(4096, __c256, 0)),
+          ChannelsJoinRX2: S.optional(__S(4096, __c256, 0)),
           CreateTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LoRaFrequencyEntry" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3536, __c221, 0)),
+          Data: S.optional(__S(3568, __c223, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateLoRaFrequencyResponse" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14510,7 +14582,7 @@ function __c222(j: number): any {
           GatewayId: S.String,
           Name: S.String,
           Description: S.String,
-          Location: __S(3568, __c223, 0),
+          Location: __S(3600, __c225, 0),
           Position: S.optional(S.String),
           PositionDetails: S.optional(S.String),
           IsPublic: S.optional(S.Boolean),
@@ -14522,7 +14594,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "CreateLoRaGatewayRequest" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14542,7 +14614,7 @@ function __c223(j: number): any {
           Name: S.optional(S.String),
           Position: S.optional(S.String),
           PositionDetails: S.optional(S.String),
-          Location: S.optional(__S(3568, __c223, 0)),
+          Location: S.optional(__S(3600, __c225, 0)),
           UpdatedAt: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           LastSeenAt: S.optional(S.String),
@@ -14551,18 +14623,18 @@ function __c223(j: number): any {
       ).annotate({ identifier: "LoRaGatewayItem" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Gateway: S.optional(__S(3569, __c223, 1)),
+          Gateway: S.optional(__S(3601, __c225, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateLoRaGatewayResponse" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14578,7 +14650,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateOtaModuleRequest" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14598,7 +14670,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CreatePositionFenceRequest" });
   }
 }
-function __c227(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14627,7 +14699,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "CreatePositionSpaceResponse" });
   }
 }
-function __c228(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14642,7 +14714,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "CreatePrivateCARequest" });
   }
 }
-function __c229(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14657,7 +14729,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c230(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14672,13 +14744,13 @@ function __c230(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Project: S.optional(__S(3680, __c230, 0)),
+          Project: S.optional(__S(3712, __c232, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c231(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14705,7 +14777,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateStudioProductRequest" });
   }
 }
-function __c232(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14747,18 +14819,18 @@ function __c232(j: number): any {
       ).annotate({ identifier: "ProductEntry" });
   }
 }
-function __c233(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Product: S.optional(__S(3712, __c232, 0)),
+          Product: S.optional(__S(3744, __c234, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateStudioProductResponse" });
   }
 }
-function __c234(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14768,11 +14840,11 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "BatchDescribeTWeSeeOrdersEntry" });
     case 1:
-      return S.Array(__S(3744, __c234, 0));
+      return S.Array(__S(3776, __c236, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Entries: __S(3745, __c234, 1),
+          Entries: __S(3777, __c236, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -14796,17 +14868,17 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "BatchDescribeTWeSeeOrdersResult" });
     case 4:
-      return S.Array(__S(3747, __c234, 3));
+      return S.Array(__S(3779, __c236, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Results: S.optional(__S(3748, __c234, 4)),
+          Results: S.optional(__S(3780, __c236, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchDescribeTWeSeeOrdersResponse" });
   }
 }
-function __c235(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14821,13 +14893,13 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CreateTopicPolicyRequest" });
   }
 }
-function __c236(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RuleName: S.String,
-          TopicRulePayload: __S(3792, __c237, 0),
+          TopicRulePayload: __S(3824, __c239, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "CreateTopicRule" }),
@@ -14835,7 +14907,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateTopicRuleRequest" });
   }
 }
-function __c237(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14848,7 +14920,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "TopicRulePayload" });
   }
 }
-function __c238(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14875,17 +14947,17 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "TRTCParams" });
     case 2:
-      return S.Array(__S(3809, __c238, 1));
+      return S.Array(__S(3841, __c240, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TRTCParamList: S.optional(__S(3810, __c238, 2)),
+          TRTCParamList: S.optional(__S(3842, __c240, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTRTCSignaturesWithRoomIdResponse" });
   }
 }
-function __c239(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14893,7 +14965,7 @@ function __c239(j: number): any {
           Type: S.String,
           CallbackUrl: S.optional(S.String),
           CallbackToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          CallbackCKafka: S.optional(__S(3840, __c240, 0)),
+          CallbackCKafka: S.optional(__S(3872, __c242, 0)),
           ProductId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14913,7 +14985,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeCallbackResponse" });
   }
 }
-function __c240(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14925,7 +14997,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "SeeCallbackCKafkaConfig" });
   }
 }
-function __c241(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14935,7 +15007,7 @@ function __c241(j: number): any {
           ServiceType: S.String,
           ChannelId: S.optional(S.Number),
           CallbackId: S.optional(S.String),
-          ComprehensionConfig: S.optional(__S(3874, __c242, 2)),
+          ComprehensionConfig: S.optional(__S(3906, __c244, 2)),
           CustomId: S.optional(S.String),
           DurationSeconds: S.optional(S.Number),
           MaxInvokeCount: S.optional(S.Number),
@@ -14966,7 +15038,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeDirectUploadCredentialResponse" });
   }
 }
-function __c242(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14976,7 +15048,7 @@ function __c242(j: number): any {
         }),
       ).annotate({ identifier: "SeeExtendedOutputPrompt" });
     case 1:
-      return S.Array(__S(3872, __c242, 0));
+      return S.Array(__S(3904, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14985,19 +15057,19 @@ function __c242(j: number): any {
           OutputLang: S.optional(S.String),
           AlternativeOutputLang: S.optional(S.String),
           MultiCameraLayout: S.optional(S.String),
-          CustomDetectQueries: S.optional(__S(2225, __c139, 1)),
+          CustomDetectQueries: S.optional(__S(2241, __c140, 1)),
           MaxDuration: S.optional(S.Number),
           EnableKeywords: S.optional(S.Boolean),
           SummaryPrompt: S.optional(S.String),
           EnableFaceDetection: S.optional(S.Boolean),
           InputRotateDegree: S.optional(S.Number),
           EnableExtendedOutput: S.optional(S.Boolean),
-          ExtendedOutputPrompts: S.optional(__S(3873, __c242, 1)),
+          ExtendedOutputPrompts: S.optional(__S(3905, __c244, 1)),
         }),
       ).annotate({ identifier: "SeeComprehensionConfig" });
   }
 }
-function __c243(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15014,12 +15086,12 @@ function __c243(j: number): any {
       ).annotate({ identifier: "CreateTWeSeePersonRequest" });
   }
 }
-function __c244(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BoundingBox: S.optional(__S(4064, __c254, 0)),
+          BoundingBox: S.optional(__S(4096, __c256, 0)),
           FaceId: S.optional(S.String),
           CropImageURL: S.optional(S.String),
           IsPrototype: S.optional(S.Boolean),
@@ -15030,29 +15102,29 @@ function __c244(j: number): any {
       ).annotate({ identifier: "SeeFaceInfo" });
   }
 }
-function __c245(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Person: S.optional(__S(3952, __c247, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateTWeSeePersonResponse" });
-  }
-}
-function __c246(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3904, __c244, 0));
-  }
-}
 function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Faces: S.optional(__S(3936, __c246, 0)),
+          Person: S.optional(__S(3984, __c249, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateTWeSeePersonResponse" });
+  }
+}
+function __c248(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(3936, __c246, 0));
+  }
+}
+function __c249(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Faces: S.optional(__S(3968, __c248, 0)),
           IsRemembered: S.optional(S.Boolean),
           Name: S.optional(S.String),
           PersonId: S.optional(S.String),
@@ -15061,7 +15133,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "SeePersonInfo" });
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15087,7 +15159,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "CreateTWeSeePostPaidServiceResponse" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15104,9 +15176,9 @@ function __c249(j: number): any {
           IsCustomDevice: S.optional(S.Boolean),
           InputType: S.optional(S.String),
           SummaryQOS: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
           ServiceType: S.optional(S.String),
-          ObjectDetectConfig: S.optional(__S(2256, __c141, 0)),
+          ObjectDetectConfig: S.optional(__S(2272, __c142, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15118,7 +15190,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeRecognitionTaskRequest" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15135,9 +15207,9 @@ function __c250(j: number): any {
           IsCustomDevice: S.optional(S.Boolean),
           InputType: S.optional(S.String),
           SummaryQOS: S.optional(S.String),
-          SummaryConfig: S.optional(__S(2242, __c140, 2)),
+          SummaryConfig: S.optional(__S(2258, __c141, 2)),
           ServiceType: S.optional(S.String),
-          ObjectDetectConfig: S.optional(__S(2256, __c141, 0)),
+          ObjectDetectConfig: S.optional(__S(2272, __c142, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15149,7 +15221,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeRecognitionTaskWithFileRequest" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15166,12 +15238,12 @@ function __c251(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeServiceRequest" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Inputs: __S(2209, __c138, 1),
+          Inputs: __S(2225, __c139, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15188,33 +15260,33 @@ function __c252(j: number): any {
           TaskId: S.optional(S.String),
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
-          Result: S.optional(__S(4050, __c253, 2)),
+          Result: S.optional(__S(4082, __c255, 2)),
         }),
       ).annotate({ identifier: "InvokeVisionRecognitionTaskOutput" });
     case 2:
-      return S.Array(__S(4033, __c252, 1));
+      return S.Array(__S(4065, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Outputs: S.optional(__S(4034, __c252, 2)),
+          Outputs: S.optional(__S(4066, __c254, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchInvokeTWeSeeRecognitionTaskResponse" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Time: S.optional(S.Number),
           ClassName: S.optional(S.String),
-          BoundingBox: S.optional(__S(4064, __c254, 0)),
+          BoundingBox: S.optional(__S(4096, __c256, 0)),
           Confidence: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VisionDetectedObject" });
     case 1:
-      return S.Array(__S(4048, __c253, 0));
+      return S.Array(__S(4080, __c255, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15223,18 +15295,18 @@ function __c253(j: number): any {
           Summary: S.optional(S.String),
           AlternativeSummary: S.optional(S.String),
           ErrorCode: S.optional(S.String),
-          DetectedObjects: S.optional(__S(4049, __c253, 1)),
+          DetectedObjects: S.optional(__S(4081, __c255, 1)),
         }),
       ).annotate({ identifier: "VisionRecognitionResult" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15258,7 +15330,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeSubscriptionRequest" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15274,23 +15346,23 @@ function __c256(j: number): any {
       ).annotate({ identifier: "CreateTWeSeeSubscriptionResponse" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          STTConfig: __S(4129, __c258, 1),
-          LLMConfig: __S(4131, __c258, 3),
-          TTSConfig: __S(4133, __c258, 5),
+          STTConfig: __S(4161, __c260, 1),
+          LLMConfig: __S(4163, __c260, 3),
+          TTSConfig: __S(4165, __c260, 5),
           Name: S.optional(S.String),
           InstanceId: S.optional(S.String),
           Description: S.optional(S.String),
-          ConversationConfig: S.optional(__S(4134, __c258, 6)),
-          MemoryConfig: S.optional(__S(4135, __c258, 7)),
-          IOTTools: S.optional(__S(4137, __c258, 9)),
-          WebhookTools: S.optional(__S(4141, __c258, 13)),
+          ConversationConfig: S.optional(__S(4166, __c260, 6)),
+          MemoryConfig: S.optional(__S(4167, __c260, 7)),
+          IOTTools: S.optional(__S(4169, __c260, 9)),
+          WebhookTools: S.optional(__S(4173, __c260, 13)),
           Metadata: S.optional(S.String),
-          EventCallbackConfig: S.optional(__S(4142, __c258, 14)),
+          EventCallbackConfig: S.optional(__S(4174, __c260, 14)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "CreateTWeTalkAgent" }),
@@ -15305,7 +15377,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "CreateTWeTalkAgentResponse" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15319,7 +15391,7 @@ function __c258(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          TRTC: S.optional(__S(4128, __c258, 0)),
+          TRTC: S.optional(__S(4160, __c260, 0)),
         }),
       ).annotate({ identifier: "TalkSTTConfig" });
     case 2:
@@ -15340,7 +15412,7 @@ function __c258(j: number): any {
           Model: S.optional(S.String),
           ApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           ExtraBody: S.optional(S.String),
-          ADP: S.optional(__S(4130, __c258, 2)),
+          ADP: S.optional(__S(4162, __c260, 2)),
         }),
       ).annotate({ identifier: "TalkLLMConfig" });
     case 4:
@@ -15354,7 +15426,7 @@ function __c258(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          Flow: S.optional(__S(4132, __c258, 4)),
+          Flow: S.optional(__S(4164, __c260, 4)),
         }),
       ).annotate({ identifier: "TalkTTSConfig" });
     case 6:
@@ -15382,7 +15454,7 @@ function __c258(j: number): any {
         }),
       ).annotate({ identifier: "TalkIOTTool" });
     case 9:
-      return S.Array(__S(4136, __c258, 8));
+      return S.Array(__S(4168, __c260, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -15405,13 +15477,13 @@ function __c258(j: number): any {
           Name: S.String,
           Description: S.String,
           Parameters: S.String,
-          Endpoint: __S(4138, __c258, 10),
+          Endpoint: __S(4170, __c260, 10),
           Required: S.optional(__S(48, __c3, 0)),
-          Auth: S.optional(__S(4139, __c258, 11)),
+          Auth: S.optional(__S(4171, __c260, 11)),
         }),
       ).annotate({ identifier: "TalkWebhookTool" });
     case 13:
-      return S.Array(__S(4140, __c258, 12));
+      return S.Array(__S(4172, __c260, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -15421,7 +15493,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "TalkEventCallbackConfig" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15444,7 +15516,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeleteCloudStorageEventRequest" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15459,7 +15531,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteDeviceRequest" });
   }
 }
-function __c261(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15471,12 +15543,12 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeleteDeviceResponse" });
   }
 }
-function __c262(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DevicesItems: __S(4209, __c263, 1),
+          DevicesItems: __S(4241, __c265, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DeleteDevices" }),
@@ -15484,7 +15556,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteDevicesRequest" });
   }
 }
-function __c263(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15494,10 +15566,10 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "DevicesItem" });
     case 1:
-      return S.Array(__S(4208, __c263, 0));
+      return S.Array(__S(4240, __c265, 0));
   }
 }
-function __c264(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15511,13 +15583,13 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteDeviceSDPRequest" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FenceId: S.Number,
-          Items: __S(3427, __c214, 3),
+          Items: __S(3459, __c216, 3),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DeleteFenceBind" }),
@@ -15525,7 +15597,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeleteFenceBindRequest" });
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15542,7 +15614,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteLoRaFrequencyRequest" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15555,7 +15627,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DeleteLoRaGatewayRequest" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15569,7 +15641,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteOtaModuleRequest" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15599,19 +15671,19 @@ function __c269(j: number): any {
         }),
       ).annotate({ identifier: "DeviceResult" });
     case 2:
-      return S.Array(__S(4305, __c269, 1));
+      return S.Array(__S(4337, __c271, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
           SuccessCount: S.optional(S.Number),
-          Failures: S.optional(__S(4306, __c269, 2)),
+          Failures: S.optional(__S(4338, __c271, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchPublishMessageResponse" });
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15629,7 +15701,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "DeletePositionFenceRequest" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15646,7 +15718,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeletePositionSpaceRequest" });
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15659,7 +15731,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "DeletePrivateCARequest" });
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15676,7 +15748,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteProductPrivateCARequest" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15689,7 +15761,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15706,7 +15778,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "DeleteStudioProductRequest" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15720,7 +15792,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "DeleteTopicPolicyRequest" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15733,7 +15805,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteTopicRuleRequest" });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15750,7 +15822,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DeleteTWeSeeCallbackRequest" });
   }
 }
-function __c279(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15766,7 +15838,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteTWeSeeFaceRequest" });
   }
 }
-function __c280(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15780,11 +15852,11 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "SeeRenewSubscriptionEntry" });
     case 1:
-      return S.Array(__S(4480, __c280, 0));
+      return S.Array(__S(4512, __c282, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Entries: __S(4481, __c280, 1),
+          Entries: __S(4513, __c282, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15796,7 +15868,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "BatchRenewTWeSeeSubscriptionRequest" });
   }
 }
-function __c281(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15813,7 +15885,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeleteTWeSeePersonRequest" });
   }
 }
-function __c282(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15823,14 +15895,14 @@ function __c282(j: number): any {
         }),
       ).annotate({ identifier: "SeeDeleteTaskCondition" });
     case 1:
-      return S.Array(__S(4512, __c282, 0));
+      return S.Array(__S(4544, __c284, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProductId: S.String,
           DeviceName: S.String,
           ServiceCategory: S.String,
-          Conditions: __S(4513, __c282, 1),
+          Conditions: __S(4545, __c284, 1),
           ChannelId: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -15843,7 +15915,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeleteTWeSeeTasksByConditionRequest" });
   }
 }
-function __c283(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15856,7 +15928,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeleteTWeTalkAgentRequest" });
   }
 }
-function __c284(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15905,21 +15977,21 @@ function __c284(j: number): any {
         S.Struct({
           InstanceId: S.optional(S.String),
           InstanceType: S.optional(S.Number),
-          DeviceActivationDetails: S.optional(__S(4545, __c284, 1)),
-          RegisteredDeviceType: S.optional(__S(4546, __c284, 2)),
-          RegisteredDeviceNetType: S.optional(__S(4547, __c284, 3)),
+          DeviceActivationDetails: S.optional(__S(4577, __c286, 1)),
+          RegisteredDeviceType: S.optional(__S(4578, __c286, 2)),
+          RegisteredDeviceNetType: S.optional(__S(4579, __c286, 3)),
         }),
       ).annotate({ identifier: "ActivateDeviceInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4548, __c284, 4)),
+          Data: S.optional(__S(4580, __c286, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeActivateDeviceResponse" });
   }
 }
-function __c285(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15944,28 +16016,28 @@ function __c285(j: number): any {
         }),
       ).annotate({ identifier: "TWeCallLicenseInfo" });
     case 2:
-      return S.Array(__S(4561, __c285, 1));
+      return S.Array(__S(4593, __c287, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           LicenseType: S.optional(S.String),
           TotalNum: S.optional(S.Number),
           UsedNum: S.optional(S.Number),
-          TWeCallLicense: S.optional(__S(4562, __c285, 2)),
+          TWeCallLicense: S.optional(__S(4594, __c287, 2)),
         }),
       ).annotate({ identifier: "LicenseServiceNumInfo" });
     case 4:
-      return S.Array(__S(4563, __c285, 3));
+      return S.Array(__S(4595, __c287, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4564, __c285, 4)),
+          Data: S.optional(__S(4596, __c287, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeActivateLicenseServiceResponse" });
   }
 }
-function __c286(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15984,7 +16056,7 @@ function __c286(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Summary: S.optional(S.String),
-          Targets: S.optional(__S(4625, __c289, 1)),
+          Targets: S.optional(__S(4657, __c291, 1)),
           VideoURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "AISearchInfo" });
@@ -15992,13 +16064,13 @@ function __c286(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.Number),
-          Data: S.optional(__S(4577, __c286, 1)),
+          Data: S.optional(__S(4609, __c288, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAISearchTaskAsyncResponse" });
   }
 }
-function __c287(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16019,7 +16091,7 @@ function __c287(j: number): any {
         }),
       ).annotate({ identifier: "SeeExtendedOutput" });
     case 2:
-      return S.Array(__S(4593, __c287, 1));
+      return S.Array(__S(4625, __c289, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16029,12 +16101,12 @@ function __c287(j: number): any {
           ErrorCode: S.optional(S.String),
           ErrorMsg: S.optional(S.String),
           Keywords: S.optional(__S(48, __c3, 0)),
-          ExtendedOutput: S.optional(__S(4594, __c287, 2)),
+          ExtendedOutput: S.optional(__S(4626, __c289, 2)),
         }),
       ).annotate({ identifier: "SeeComprehensionResult" });
   }
 }
-function __c288(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16058,11 +16130,11 @@ function __c288(j: number): any {
         }),
       ).annotate({ identifier: "SeeTaskFaceInfo" });
     case 3:
-      return S.Array(__S(4610, __c288, 2));
+      return S.Array(__S(4642, __c290, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Faces: S.optional(__S(4611, __c288, 3)),
+          Faces: S.optional(__S(4643, __c290, 3)),
           IsRemembered: S.optional(S.Boolean),
           Name: S.optional(S.String),
           PersonId: S.optional(S.String),
@@ -16070,11 +16142,11 @@ function __c288(j: number): any {
         }),
       ).annotate({ identifier: "SeeTaskPersonInfo" });
     case 5:
-      return S.Array(__S(4612, __c288, 4));
+      return S.Array(__S(4644, __c290, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Persons: S.optional(__S(4613, __c288, 5)),
+          Persons: S.optional(__S(4645, __c290, 5)),
         }),
       ).annotate({ identifier: "SeeFaceRecognitionResult" });
     case 7:
@@ -16082,20 +16154,20 @@ function __c288(j: number): any {
         S.Struct({
           TaskId: S.optional(S.String),
           Status: S.optional(S.Number),
-          Metadata: S.optional(__S(4592, __c287, 0)),
+          Metadata: S.optional(__S(4624, __c289, 0)),
           ServiceCategory: S.optional(S.String),
           ServiceType: S.optional(S.String),
           ServiceTier: S.optional(S.String),
-          ComprehensionResult: S.optional(__S(4595, __c287, 3)),
-          CompHighlightResult: S.optional(__S(4608, __c288, 0)),
-          DetectContinuousResult: S.optional(__S(4609, __c288, 1)),
-          FaceRecognitionResult: S.optional(__S(4614, __c288, 6)),
-          SummarizeResult: S.optional(__S(4608, __c288, 0)),
+          ComprehensionResult: S.optional(__S(4627, __c289, 3)),
+          CompHighlightResult: S.optional(__S(4640, __c290, 0)),
+          DetectContinuousResult: S.optional(__S(4641, __c290, 1)),
+          FaceRecognitionResult: S.optional(__S(4646, __c290, 6)),
+          SummarizeResult: S.optional(__S(4640, __c290, 0)),
           CostBasic: S.optional(S.Number),
           CostAdvanced: S.optional(S.Number),
           CostCredits: S.optional(S.Number),
           Files: S.optional(__S(48, __c3, 0)),
-          FilesInfo: S.optional(__S(4644, __c290, 4)),
+          FilesInfo: S.optional(__S(4676, __c292, 4)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           COSURI: S.optional(S.String),
@@ -16104,7 +16176,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "SeeTaskInfo" });
   }
 }
-function __c289(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16119,14 +16191,14 @@ function __c289(j: number): any {
           ChannelId: S.optional(S.Number),
           Thumbnail: S.optional(S.String),
           Confidence: S.optional(S.String),
-          TaskInfo: S.optional(__S(4615, __c288, 7)),
+          TaskInfo: S.optional(__S(4647, __c290, 7)),
         }),
       ).annotate({ identifier: "TargetInfo" });
     case 1:
-      return S.Array(__S(4624, __c289, 0));
+      return S.Array(__S(4656, __c291, 0));
   }
 }
-function __c290(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16143,7 +16215,7 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageAIServiceTaskFileLabel" });
     case 2:
-      return S.Array(__S(4641, __c290, 1));
+      return S.Array(__S(4673, __c292, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16151,15 +16223,15 @@ function __c290(j: number): any {
           FileSize: S.optional(S.Number),
           DownloadURL: S.optional(S.String),
           MimeType: S.optional(S.String),
-          VideoMetaInfo: S.optional(__S(4640, __c290, 0)),
-          Labels: S.optional(__S(4642, __c290, 2)),
+          VideoMetaInfo: S.optional(__S(4672, __c292, 0)),
+          Labels: S.optional(__S(4674, __c292, 2)),
         }),
       ).annotate({ identifier: "CloudStorageAIServiceTaskFileInfo" });
     case 4:
-      return S.Array(__S(4643, __c290, 3));
+      return S.Array(__S(4675, __c292, 3));
   }
 }
-function __c291(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16192,7 +16264,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DescribeBatchProductionResponse" });
   }
 }
-function __c292(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16212,7 +16284,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "DescribeBindedProductsRequest" });
   }
 }
-function __c293(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16229,18 +16301,18 @@ function __c293(j: number): any {
         }),
       ).annotate({ identifier: "BindProductInfo" });
     case 1:
-      return S.Array(__S(4688, __c293, 0));
+      return S.Array(__S(4720, __c295, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Products: S.optional(__S(4689, __c293, 1)),
+          Products: S.optional(__S(4721, __c295, 1)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBindedProductsResponse" });
   }
 }
-function __c294(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16271,7 +16343,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageResponse" });
   }
 }
-function __c295(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16306,7 +16378,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageAIServiceResponse" });
   }
 }
-function __c296(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16341,7 +16413,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "BatchUpdateFirmwareRequest" });
   }
 }
-function __c297(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16352,7 +16424,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "BatchUpdateFirmwareResponse" });
   }
 }
-function __c298(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16378,7 +16450,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageAIServiceCallbackResponse" });
   }
 }
-function __c299(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16397,13 +16469,13 @@ function __c299(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TaskInfo: S.optional(__S(4800, __c300, 0)),
+          TaskInfo: S.optional(__S(4832, __c302, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStorageAIServiceTaskResponse" });
   }
 }
-function __c300(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16420,7 +16492,7 @@ function __c300(j: number): any {
           Status: S.optional(S.Number),
           Result: S.optional(S.String),
           Files: S.optional(__S(48, __c3, 0)),
-          FilesInfo: S.optional(__S(4644, __c290, 4)),
+          FilesInfo: S.optional(__S(4676, __c292, 4)),
           CreateTime: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           CustomId: S.optional(S.String),
@@ -16428,7 +16500,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CloudStorageAIServiceTask" });
   }
 }
-function __c301(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16457,20 +16529,20 @@ function __c301(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tasks: S.optional(__S(4832, __c302, 0)),
+          Tasks: S.optional(__S(4864, __c304, 0)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStorageAIServiceTasksResponse" });
   }
 }
-function __c302(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4800, __c300, 0));
+      return S.Array(__S(4832, __c302, 0));
   }
 }
-function __c303(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16490,7 +16562,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageDateRequest" });
   }
 }
-function __c304(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16501,7 +16573,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageDateResponse" });
   }
 }
-function __c305(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16536,11 +16608,11 @@ function __c305(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageEvent" });
     case 2:
-      return S.Array(__S(4881, __c305, 1));
+      return S.Array(__S(4913, __c307, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(__S(4882, __c305, 2)),
+          Events: S.optional(__S(4914, __c307, 2)),
           Context: S.optional(S.String),
           Listover: S.optional(S.Boolean),
           Total: S.optional(S.Number),
@@ -16550,7 +16622,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageEventsResponse" });
   }
 }
-function __c306(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16575,7 +16647,7 @@ function __c306(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(__S(4913, __c307, 1)),
+          Events: S.optional(__S(4945, __c309, 1)),
           Total: S.optional(S.Number),
           VideoURL: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -16583,7 +16655,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageEventsByTWeSeePersonResponse" });
   }
 }
-function __c307(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16594,14 +16666,14 @@ function __c307(j: number): any {
           EventId: S.optional(S.String),
           UploadStatus: S.optional(S.String),
           Data: S.optional(S.String),
-          AITasks: S.optional(__S(4832, __c302, 0)),
+          AITasks: S.optional(__S(4864, __c304, 0)),
         }),
       ).annotate({ identifier: "CloudStorageEventWithAITasks" });
     case 1:
-      return S.Array(__S(4912, __c307, 0));
+      return S.Array(__S(4944, __c309, 0));
   }
 }
-function __c308(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16628,7 +16700,7 @@ function __c308(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(__S(4913, __c307, 1)),
+          Events: S.optional(__S(4945, __c309, 1)),
           Context: S.optional(S.String),
           Listover: S.optional(S.Boolean),
           Total: S.optional(S.Number),
@@ -16638,7 +16710,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageEventsWithAITasksResponse" });
   }
 }
-function __c309(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16657,7 +16729,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageMultiThumbnailRequest" });
   }
 }
-function __c310(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16667,17 +16739,17 @@ function __c310(j: number): any {
         }),
       ).annotate({ identifier: "ThumbnailURLInfoList" });
     case 1:
-      return S.Array(__S(4960, __c310, 0));
+      return S.Array(__S(4992, __c312, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ThumbnailURLInfoList: S.optional(__S(4961, __c310, 1)),
+          ThumbnailURLInfoList: S.optional(__S(4993, __c312, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStorageMultiThumbnailResponse" });
   }
 }
-function __c311(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16707,7 +16779,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageOrderResponse" });
   }
 }
-function __c312(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16725,7 +16797,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DescribeCloudStoragePackageConsumeDetailsRequest" });
   }
 }
-function __c313(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16744,7 +16816,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "BindCloudStorageUserRequest" });
   }
 }
-function __c314(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16754,7 +16826,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "BindCloudStorageUserResponse" });
   }
 }
-function __c315(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16781,17 +16853,17 @@ function __c315(j: number): any {
         }),
       ).annotate({ identifier: "PackageConsumeStat" });
     case 2:
-      return S.Array(__S(5041, __c315, 1));
+      return S.Array(__S(5073, __c317, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Stats: S.optional(__S(5042, __c315, 2)),
+          Stats: S.optional(__S(5074, __c317, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStoragePackageConsumeStatsResponse" });
   }
 }
-function __c316(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16818,7 +16890,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageStreamDataResponse" });
   }
 }
-function __c317(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16845,7 +16917,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageThumbnailResponse" });
   }
 }
-function __c318(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16864,7 +16936,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "DescribeCloudStorageThumbnailListRequest" });
   }
 }
-function __c319(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16893,24 +16965,24 @@ function __c319(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageTimeInfo" });
     case 2:
-      return S.Array(__S(5105, __c319, 1));
+      return S.Array(__S(5137, __c321, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TimeList: S.optional(__S(5106, __c319, 2)),
+          TimeList: S.optional(__S(5138, __c321, 2)),
           VideoURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageTimeData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(5107, __c319, 3)),
+          Data: S.optional(__S(5139, __c321, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStorageTimeResponse" });
   }
 }
-function __c320(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16935,18 +17007,18 @@ function __c320(j: number): any {
         }),
       ).annotate({ identifier: "CloudStorageUserInfo" });
     case 2:
-      return S.Array(__S(5121, __c320, 1));
+      return S.Array(__S(5153, __c322, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Users: S.optional(__S(5122, __c320, 2)),
+          Users: S.optional(__S(5154, __c322, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCloudStorageUsersResponse" });
   }
 }
-function __c321(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16979,13 +17051,13 @@ function __c321(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(5137, __c321, 1)),
+          Data: S.optional(__S(5169, __c323, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCsReportCountDataInfoResponse" });
   }
 }
-function __c322(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17001,13 +17073,13 @@ function __c322(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Device: S.optional(__S(5168, __c323, 0)),
+          Device: S.optional(__S(5200, __c325, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDeviceResponse" });
   }
 }
-function __c323(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17037,7 +17109,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "DeviceInfo" });
   }
 }
-function __c324(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17066,30 +17138,52 @@ function __c324(j: number): any {
       ).annotate({ identifier: "DescribeDeviceBindGatewayResponse" });
   }
 }
-function __c325(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ProductId: S.String,
           DeviceName: S.String,
-          DeviceId: S.optional(S.String),
+          ChannelId: S.optional(S.Number),
+          MediaType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({ service: "iotexplorer", version: "2019-04-23", action: "DescribeDeviceData" }),
+          T.Action({
+            service: "iotexplorer",
+            version: "2019-04-23",
+            action: "DescribeDeviceCloudStoragePackages",
+          }),
         ),
-      ).annotate({ identifier: "DescribeDeviceDataRequest" });
-  }
-}
-function __c326(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "DescribeDeviceCloudStoragePackagesRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          MediaType: S.optional(S.String),
+          RetentionDays: S.optional(S.Number),
+          RecordingMode: S.optional(S.String),
+          Bitrate: S.optional(S.String),
+          StartTime: S.optional(S.Number),
+          ExpireTime: S.optional(S.Number),
+          Status: S.optional(S.String),
+          ReportEnabled: S.optional(S.Number),
+          OrderId: S.optional(S.String),
+          BigDealId: S.optional(S.String),
+          ValidityPeriod: S.optional(S.String),
+          ImageCapacity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NewCloudStoragePackage" });
+    case 2:
+      return S.Array(__S(5233, __c327, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Packages: S.optional(__S(5234, __c327, 2)),
+          TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DescribeDeviceDataResponse" });
+      ).annotate({ identifier: "DescribeDeviceCloudStoragePackagesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -849,7 +849,7 @@ export type OpenOrderStatus =
 export type OpenOrderSide = "BUY" | "SELL";
 /** Order type */
 export type OpenOrderOrderType = "GTC" | "FOK" | "GTD" | "FAK";
-/** Array of associated trade IDs */
+/** Deprecated and may be omitted. Use size_matched for cumulative filled quantity, or GET /data/trades and match taker_order_id or maker_orders[].order_id to the order ID for individual fills. Absence or an empty array does not mean the order has no fills. */
 export type OpenOrderAssociateTradesList = Array<string>;
 export interface OpenOrder {
   /** Order ID (order hash) */
@@ -878,7 +878,7 @@ export interface OpenOrder {
   expiration: string;
   /** Order type */
   order_type: OpenOrderOrderType;
-  /** Array of associated trade IDs */
+  /** Deprecated and may be omitted. Use size_matched for cumulative filled quantity, or GET /data/trades and match taker_order_id or maker_orders[].order_id to the order ID for individual fills. Absence or an empty array does not mean the order has no fills. */
   associate_trades?: OpenOrderAssociateTradesList | undefined;
   /** Unix timestamp when the order was created */
   created_at: number;
@@ -886,9 +886,9 @@ export interface OpenOrder {
 export interface GetOrdersRequest {
   /** Order ID (hash) to filter by specific order */
   id?: string | undefined;
-  /** Market (condition ID) to filter orders */
+  /** Market condition ID to filter orders. Required when asset_id is supplied. */
   market?: string | undefined;
-  /** Asset ID (token ID) to filter orders */
+  /** Outcome identifier (CTF token ID or Polymarket V2 position ID) to filter orders. Also supply market. */
   asset_id?: string | undefined;
   /** Cursor for pagination (base64 encoded offset) */
   next_cursor?: string | undefined;
@@ -2254,7 +2254,7 @@ export const getOrder: API.OperationMethod<
 }));
 
 export type GetOrdersError = PolymarketOpError;
-/** Get user orders Retrieves live orders for the authenticated user. Returns paginated results. Filtering by id returns that order regardless of status, including canceled or fully matched orders. Builder-authenticated clients can also use this endpoint to retrieve orders attributed to their builder account. */
+/** Get user orders Retrieves live orders for the authenticated user. Returns paginated results. When filtering by asset_id, also include the market condition ID in market. From December 14, 2026, asset-only requests return HTTP 400 (asset_id requires market). Unfiltered and market-only queries remain supported. Filtering by id returns that order regardless of status, including canceled or fully matched orders. Builder-authenticated clients can also use this endpoint to retrieve orders attributed to their builder account. */
 export const getOrders: API.OperationMethod<
   GetOrdersRequest,
   OrdersResponse,

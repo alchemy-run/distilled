@@ -6,6 +6,7 @@ export * as autoscalingV1alpha2 from "./autoscaling_v1alpha2.ts";
 export * as billingFinOpsV2beta1 from "./billing_fin_ops_v2beta1.ts";
 export * as billingV2beta1 from "./billing_v2beta1.ts";
 export * as blockV1alpha1 from "./block_v1alpha1.ts";
+export * as dataOrchestratorV1alpha2 from "./data_orchestrator_v1alpha2.ts";
 export * as datalabV1beta1 from "./datalab_v1beta1.ts";
 export * as datavizV1alpha1 from "./dataviz_v1alpha1.ts";
 export * as datawarehouseV1beta1 from "./datawarehouse_v1beta1.ts";

@@ -521,6 +521,8 @@ export interface BackupGroup {
   AccountUin?: string | null | undefined;
   SubAccountUin?: string | null | undefined;
   AutoBackupPolicyId?: string | null | undefined;
+  StartTime?: string | null | undefined;
+  EndTime?: string | null | undefined;
 }
 export type BackupGroupList = Array<BackupGroup>;
 export interface DescribeBackupGroupsResponse {
@@ -609,6 +611,8 @@ export interface ProtectedResourceOverview {
   CFS?: ResourceProtectStat | undefined;
   CFSAgent?: ResourceProtectStat | null | undefined;
   COSAgent?: ResourceProtectStat | null | undefined;
+  LocalCVMAgent?: ResourceProtectStat | null | undefined;
+  LocalCFSAgent?: ResourceProtectStat | null | undefined;
 }
 export interface DescribeBackupOverviewGeneralResponse {
   InstanceBackupOverview?: InstanceBackupOverview | undefined;
@@ -618,6 +622,8 @@ export interface DescribeBackupOverviewGeneralResponse {
   ProtectedResourceOverview?: ProtectedResourceOverview | undefined;
   CFSAgentBackupOverview?: InstanceBackupOverview | undefined;
   COSAgentBackupOverview?: InstanceBackupOverview | undefined;
+  LocalCVMAgentBackupOverview?: InstanceBackupOverview | null | undefined;
+  LocalCFSAgentBackupOverview?: InstanceBackupOverview | null | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeBackupPlansRequest {
@@ -1231,6 +1237,8 @@ export interface BackupInfo {
   EnableObjectTags?: boolean | null | undefined;
   CloudResourceId?: string | null | undefined;
   ProductType?: string | null | undefined;
+  BackupCompletedSize?: number | null | undefined;
+  BackupCompletedSizeFormatted?: string | null | undefined;
 }
 export type BackupInfoList = Array<BackupInfo>;
 export interface DescribeFileBackupsResponse {
@@ -1283,6 +1291,9 @@ export interface RestoreTask {
   CreatedTime?: string | undefined;
   FailReason?: string | undefined;
   ConflictStrategy?: string | undefined;
+  IsOriginalPath?: boolean | null | undefined;
+  CloudResourceId?: string | null | undefined;
+  TargetCloudResourceId?: string | null | undefined;
 }
 export type RestoreTaskList = Array<RestoreTask>;
 export interface DescribeFileRestoreTasksResponse {
@@ -3565,6 +3576,8 @@ function __c30(j: number): any {
           AccountUin: S.optional(S.NullOr(S.String)),
           SubAccountUin: S.optional(S.NullOr(S.String)),
           AutoBackupPolicyId: S.optional(S.NullOr(S.String)),
+          StartTime: S.optional(S.NullOr(S.String)),
+          EndTime: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BackupGroup" });
     case 2:
@@ -3745,6 +3758,8 @@ function __c35(j: number): any {
           CFS: S.optional(__S(564, __c35, 4)),
           CFSAgent: S.optional(S.NullOr(__S(564, __c35, 4))),
           COSAgent: S.optional(S.NullOr(__S(564, __c35, 4))),
+          LocalCVMAgent: S.optional(S.NullOr(__S(564, __c35, 4))),
+          LocalCFSAgent: S.optional(S.NullOr(__S(564, __c35, 4))),
         }),
       ).annotate({ identifier: "ProtectedResourceOverview" });
     case 6:
@@ -3757,6 +3772,8 @@ function __c35(j: number): any {
           ProtectedResourceOverview: S.optional(__S(565, __c35, 5)),
           CFSAgentBackupOverview: S.optional(__S(561, __c35, 1)),
           COSAgentBackupOverview: S.optional(__S(561, __c35, 1)),
+          LocalCVMAgentBackupOverview: S.optional(S.NullOr(__S(561, __c35, 1))),
+          LocalCFSAgentBackupOverview: S.optional(S.NullOr(__S(561, __c35, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupOverviewGeneralResponse" });
@@ -4733,6 +4750,8 @@ function __c55(j: number): any {
           EnableObjectTags: S.optional(S.NullOr(S.Boolean)),
           CloudResourceId: S.optional(S.NullOr(S.String)),
           ProductType: S.optional(S.NullOr(S.String)),
+          BackupCompletedSize: S.optional(S.NullOr(S.Number)),
+          BackupCompletedSizeFormatted: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BackupInfo" });
     case 2:
@@ -4847,6 +4866,9 @@ function __c58(j: number): any {
           CreatedTime: S.optional(S.String),
           FailReason: S.optional(S.String),
           ConflictStrategy: S.optional(S.String),
+          IsOriginalPath: S.optional(S.NullOr(S.Boolean)),
+          CloudResourceId: S.optional(S.NullOr(S.String)),
+          TargetCloudResourceId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RestoreTask" });
     case 2:

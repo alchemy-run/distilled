@@ -90,6 +90,50 @@ export interface ArithmeticOCRResponse {
   Angle?: number | undefined;
   RequestId?: string | undefined;
 }
+export type StringList = Array<string>;
+export interface AuditMaterialAgentRequest {
+  AgentType: string;
+  ImageUrl?: string | undefined;
+  ImageBase64?: string | undefined;
+  NeedSceneType?: boolean | undefined;
+  StoreInfoHint?: string | undefined;
+  IgnoreWatermarkCategories?: StringList | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export type Rect = ItemCoord;
+export interface StoreInfo {
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Rect?: ItemCoord | undefined;
+}
+export type StoreInfoList = Array<StoreInfo>;
+export interface Polygon {
+  LeftTop?: Coord | undefined;
+  RightTop?: Coord | undefined;
+  RightBottom?: Coord | undefined;
+  LeftBottom?: Coord | undefined;
+}
+export type PolygonList = Array<Polygon>;
+export interface SceneWarnInfo {
+  IsWarn?: boolean | undefined;
+  RiskConfidence?: number | undefined;
+  Polygon?: PolygonList | undefined;
+}
+export interface AuditMaterialAgentResponse {
+  StoreLabel?: StringList | undefined;
+  SceneType?: string | undefined;
+  StoreInfo?: StoreInfoList | undefined;
+  Angle?: number | undefined;
+  Tamper?: SceneWarnInfo | undefined;
+  Synthesis?: SceneWarnInfo | undefined;
+  RemakeScreen?: SceneWarnInfo | undefined;
+  Screenshot?: SceneWarnInfo | undefined;
+  TextWatermark?: SceneWarnInfo | undefined;
+  WatermarkContent?: string | undefined;
+  Template?: SceneWarnInfo | undefined;
+  RequestId?: string | undefined;
+}
 export interface BankCardOCRRequest {
   ImageBase64?: string | undefined;
   ImageUrl?: string | undefined;
@@ -124,13 +168,8 @@ export interface BankSlipOCRRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export type Rect = ItemCoord;
-export interface BankSlipInfo {
-  Name?: string | undefined;
-  Value?: string | undefined;
-  Rect?: ItemCoord | undefined;
-}
-export type BankSlipInfoList = Array<BankSlipInfo>;
+export type BankSlipInfo = StoreInfo;
+export type BankSlipInfoList = Array<StoreInfo>;
 export interface BankSlipOCRResponse {
   BankSlipInfos?: BankSlipInfoList | undefined;
   Angle?: number | undefined;
@@ -145,9 +184,8 @@ export interface BizLicenseOCRRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export type StringList = Array<string>;
-export type BusinessCertificateInfo = BankSlipInfo;
-export type BusinessCertificateInfoList = Array<BankSlipInfo>;
+export type BusinessCertificateInfo = StoreInfo;
+export type BusinessCertificateInfoList = Array<StoreInfo>;
 export interface BizLicenseOCRResponse {
   RegNum?: string | undefined;
   Name?: string | undefined;
@@ -201,12 +239,6 @@ export interface CarInvoiceOCRRequest {
   PdfPageNumber?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
-}
-export interface Polygon {
-  LeftTop?: Coord | undefined;
-  RightTop?: Coord | undefined;
-  RightBottom?: Coord | undefined;
-  LeftBottom?: Coord | undefined;
 }
 export interface CarInvoiceInfo {
   Name?: string | undefined;
@@ -327,12 +359,60 @@ export interface MarkEssaySuggestions {
   Positions?: PositionsList | undefined;
 }
 export type MarkEssaySuggestionsList = Array<MarkEssaySuggestions>;
+export interface AnswerElement {
+  IsCorrect?: boolean | undefined;
+  AnswerAnalysis?: string | undefined;
+  RightAnswer?: string | undefined;
+}
+export interface Element {
+  Text?: string | undefined;
+  Coord?: Polygon | undefined;
+  GroupType?: string | undefined;
+  ResultList?: ResultListList | null | undefined;
+  Index?: number | undefined;
+  PageIndex?: number | undefined;
+  AnswerElement?: AnswerElement | undefined;
+}
+export type ElementList = Array<Element>;
+export interface ResultList {
+  Question?: ElementList | null | undefined;
+  Option?: ElementList | null | undefined;
+  Figure?: ElementList | null | undefined;
+  Table?: ElementList | null | undefined;
+  Answer?: ElementList | null | undefined;
+  Parse?: ElementList | undefined;
+  Coord?: PolygonList | null | undefined;
+  CoordPageIndex?: LongList | undefined;
+  RightAnswer?: string | undefined;
+  Subject?: string | undefined;
+  KnowledgePoints?: StringList | undefined;
+  AnswerAnalysis?: string | undefined;
+  Grade?: string | undefined;
+  Confidence?: number | undefined;
+}
+export type ResultListList = Array<ResultList>;
+export interface QuestionInfo {
+  Angle?: number | undefined;
+  Height?: number | undefined;
+  Width?: number | undefined;
+  ResultList?: ResultListList | null | undefined;
+  OrgHeight?: number | undefined;
+  OrgWidth?: number | undefined;
+  ImageBase64?: string | undefined;
+  ReturnImageUrl?: string | undefined;
+  ClassName?: string | undefined;
+  PageIndex?: number | undefined;
+}
+export type QuestionInfoList = Array<QuestionInfo>;
 export interface DescribeMarkEssayAgentJobResponse {
   Angle?: number | undefined;
   SentenceSuggests?: MarkEssaySuggestionsList | undefined;
   ErrorCode?: string | undefined;
   ErrorMessage?: string | undefined;
   JobStatus?: string | undefined;
+  QuestionInfo?: QuestionInfoList | undefined;
+  AgentResultJson?: string | undefined;
+  ThoughtContent?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeMultimodalDocParseJobRequest {
@@ -359,73 +439,11 @@ export interface DescribeQuestionMarkAgentJobRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export interface AnswerInfo {
-  HandwriteInfo?: string | undefined;
-  IsCorrect?: boolean | undefined;
-  AnswerAnalysis?: string | undefined;
-  HandwriteInfoPositions?: LongList | null | undefined;
-  RightAnswer?: string | undefined;
-  KnowledgePoints?: StringList | null | undefined;
-}
-export type AnswerInfoList = Array<AnswerInfo>;
-export interface MarkInfo {
-  MarkItemTitle?: string | undefined;
-  AnswerInfos?: AnswerInfoList | undefined;
-  MarkInfos?: MarkInfoList | undefined;
-  QuestionPositions?: LongList | undefined;
-  QuestionImagePositions?: PositionsList | undefined;
-  RightAnswer?: string | undefined;
-  Subject?: string | undefined;
-  QuestionType?: string | undefined;
-}
-export type MarkInfoList = Array<MarkInfo>;
-export interface AnswerElement {
-  IsCorrect?: boolean | undefined;
-  AnswerAnalysis?: string | undefined;
-  RightAnswer?: string | undefined;
-}
-export interface Element {
-  Text?: string | undefined;
-  Coord?: Polygon | undefined;
-  GroupType?: string | undefined;
-  ResultList?: ResultListList | null | undefined;
-  Index?: number | undefined;
-  PageIndex?: number | undefined;
-  AnswerElement?: AnswerElement | undefined;
-}
-export type ElementList = Array<Element>;
-export type PolygonList = Array<Polygon>;
-export interface ResultList {
-  Question?: ElementList | null | undefined;
-  Option?: ElementList | null | undefined;
-  Figure?: ElementList | null | undefined;
-  Table?: ElementList | null | undefined;
-  Answer?: ElementList | null | undefined;
-  Parse?: ElementList | undefined;
-  Coord?: PolygonList | null | undefined;
-  CoordPageIndex?: LongList | undefined;
-  RightAnswer?: string | undefined;
-  Subject?: string | undefined;
-  KnowledgePoints?: StringList | undefined;
-}
-export type ResultListList = Array<ResultList>;
-export interface QuestionInfo {
-  Angle?: number | undefined;
-  Height?: number | undefined;
-  Width?: number | undefined;
-  ResultList?: ResultListList | null | undefined;
-  OrgHeight?: number | undefined;
-  OrgWidth?: number | undefined;
-  ImageBase64?: string | undefined;
-  ReturnImageUrl?: string | undefined;
-}
-export type QuestionInfoList = Array<QuestionInfo>;
 export interface DescribeQuestionMarkAgentJobResponse {
   ErrorCode?: string | undefined;
   ErrorMessage?: string | undefined;
   JobStatus?: string | undefined;
   Angle?: number | undefined;
-  MarkInfos?: MarkInfoList | undefined;
   QuestionInfo?: QuestionInfoList | undefined;
   RequestId?: string | undefined;
 }
@@ -1101,6 +1119,7 @@ export interface MultimodalDocParseRequest {
   EnableSubImg?: boolean | undefined;
   PageRange?: string | undefined;
   TaskType?: number | undefined;
+  EnableTableCellCoord?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1377,24 +1396,20 @@ export interface RecognizeGeneralCardWarnRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export interface GeneralCardWarnInfo {
-  IsWarn?: boolean | undefined;
-  RiskConfidence?: number | undefined;
-  Polygon?: PolygonList | undefined;
-}
+export type GeneralCardWarnInfo = SceneWarnInfo;
 export interface RecognizeGeneralCardWarnResponse {
   CardType?: string | undefined;
-  Blur?: GeneralCardWarnInfo | undefined;
-  BorderIncomplete?: GeneralCardWarnInfo | undefined;
-  Copy?: GeneralCardWarnInfo | undefined;
-  Ps?: GeneralCardWarnInfo | undefined;
-  Reflection?: GeneralCardWarnInfo | undefined;
-  Reprint?: GeneralCardWarnInfo | undefined;
-  Screenshot?: GeneralCardWarnInfo | undefined;
-  Cover?: GeneralCardWarnInfo | undefined;
-  Overlap?: GeneralCardWarnInfo | undefined;
-  Watermark?: GeneralCardWarnInfo | undefined;
-  Electron?: GeneralCardWarnInfo | undefined;
+  Blur?: SceneWarnInfo | undefined;
+  BorderIncomplete?: SceneWarnInfo | undefined;
+  Copy?: SceneWarnInfo | undefined;
+  Ps?: SceneWarnInfo | undefined;
+  Reflection?: SceneWarnInfo | undefined;
+  Reprint?: SceneWarnInfo | undefined;
+  Screenshot?: SceneWarnInfo | undefined;
+  Cover?: SceneWarnInfo | undefined;
+  Overlap?: SceneWarnInfo | undefined;
+  Watermark?: SceneWarnInfo | undefined;
+  Electron?: SceneWarnInfo | undefined;
   RequestId?: string | undefined;
 }
 export interface RecognizeGeneralInvoiceRequest {
@@ -2127,8 +2142,6 @@ export interface RecognizeStoreNameRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export type StoreInfo = BankSlipInfo;
-export type StoreInfoList = Array<BankSlipInfo>;
 export interface RecognizeStoreNameResponse {
   StoreInfo?: StoreInfoList | undefined;
   Angle?: number | undefined;
@@ -2463,6 +2476,7 @@ export interface SubmitExtractDocAgentJobRequest {
   FileEndPageNumber?: number | undefined;
   ModelConfig?: string | undefined;
   AgentType?: number | undefined;
+  QuestionConfigMap?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2473,8 +2487,9 @@ export interface SubmitExtractDocAgentJobResponse {
 export interface SubmitMarkEssayAgentJobRequest {
   ImageBase64List?: StringList | undefined;
   ImageUrlList?: StringList | undefined;
-  PdfPageNumber?: number | undefined;
   QuestionConfigMap?: string | undefined;
+  AgentType?: number | undefined;
+  PageRange?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2491,6 +2506,7 @@ export interface SubmitMultimodalDocParseJobRequest {
   FileStartPageNumber?: number | undefined;
   FileEndPageNumber?: number | undefined;
   TaskType?: number | undefined;
+  EnableTableCellCoord?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2503,20 +2519,17 @@ export interface SubmitQuestionMarkAgentJobRequest {
   ImageUrl?: string | undefined;
   PdfPageNumber?: number | undefined;
   QuestionConfigMap?: string | undefined;
-  ReferenceAnswer?: string | undefined;
   ImageBase64List?: StringList | undefined;
   ImageUrlList?: StringList | undefined;
   AssistMarkType?: number | undefined;
   AnswerAssistMap?: string | undefined;
   EnableImageCrop?: boolean | undefined;
+  ModelType?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
 export interface SubmitQuestionMarkAgentJobResponse {
   JobId?: string | undefined;
-  QuestionInfo?: QuestionInfoList | undefined;
-  QuestionCount?: string | undefined;
-  OriginalImageUrl?: string | undefined;
   RequestId?: string | undefined;
 }
 export interface SubmitQuestionSplitJobRequest {
@@ -3014,19 +3027,19 @@ export interface ReasoningResult {
   RenderedPrompt?: string | undefined;
 }
 export interface VerifyGeneralCardWarnResponse {
-  Tamper?: GeneralCardWarnInfo | undefined;
-  Synthesis?: GeneralCardWarnInfo | undefined;
-  Template?: GeneralCardWarnInfo | undefined;
-  RemakeScreen?: GeneralCardWarnInfo | undefined;
-  Screenshot?: GeneralCardWarnInfo | undefined;
-  Blur?: GeneralCardWarnInfo | undefined;
-  BorderIncomplete?: GeneralCardWarnInfo | undefined;
-  Copy?: GeneralCardWarnInfo | undefined;
-  Reflection?: GeneralCardWarnInfo | undefined;
-  Cover?: GeneralCardWarnInfo | undefined;
-  Overlap?: GeneralCardWarnInfo | undefined;
-  Electron?: GeneralCardWarnInfo | undefined;
-  TextWatermark?: GeneralCardWarnInfo | undefined;
+  Tamper?: SceneWarnInfo | undefined;
+  Synthesis?: SceneWarnInfo | undefined;
+  Template?: SceneWarnInfo | undefined;
+  RemakeScreen?: SceneWarnInfo | undefined;
+  Screenshot?: SceneWarnInfo | undefined;
+  Blur?: SceneWarnInfo | undefined;
+  BorderIncomplete?: SceneWarnInfo | undefined;
+  Copy?: SceneWarnInfo | undefined;
+  Reflection?: SceneWarnInfo | undefined;
+  Cover?: SceneWarnInfo | undefined;
+  Overlap?: SceneWarnInfo | undefined;
+  Electron?: SceneWarnInfo | undefined;
+  TextWatermark?: SceneWarnInfo | undefined;
   WatermarkContent?: string | undefined;
   ReasoningResult?: ReasoningResult | undefined;
   IsKeyFieldTamper?: string | undefined;
@@ -3161,15 +3174,14 @@ export interface VerifyScenePhotoRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
-export type SceneWarnInfo = GeneralCardWarnInfo;
 export interface VerifyScenePhotoResponse {
-  Tamper?: GeneralCardWarnInfo | undefined;
-  Synthesis?: GeneralCardWarnInfo | undefined;
-  RemakeScreen?: GeneralCardWarnInfo | undefined;
-  Screenshot?: GeneralCardWarnInfo | undefined;
-  TextWatermark?: GeneralCardWarnInfo | undefined;
+  Tamper?: SceneWarnInfo | undefined;
+  Synthesis?: SceneWarnInfo | undefined;
+  RemakeScreen?: SceneWarnInfo | undefined;
+  Screenshot?: SceneWarnInfo | undefined;
+  TextWatermark?: SceneWarnInfo | undefined;
   WatermarkContent?: string | undefined;
-  Template?: GeneralCardWarnInfo | undefined;
+  Template?: SceneWarnInfo | undefined;
   ReasoningResult?: ReasoningResult | undefined;
   RequestId?: string | undefined;
 }
@@ -3243,6 +3255,23 @@ export const arithmeticOCR: API.OperationMethod<
   span: "ArithmeticOCR",
 }));
 
+export type AuditMaterialAgentError = TencentCloudOpError;
+export const auditMaterialAgent: API.OperationMethod<
+  AuditMaterialAgentRequest,
+  AuditMaterialAgentResponse,
+  AuditMaterialAgentError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<AuditMaterialAgentRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<AuditMaterialAgentResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditMaterialAgent",
+}));
+
 export type BankCardOCRError = TencentCloudOpError;
 export const bankCardOCR: API.OperationMethod<
   BankCardOCRRequest,
@@ -3250,8 +3279,8 @@ export const bankCardOCR: API.OperationMethod<
   BankCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<BankCardOCRRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<BankCardOCRResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<BankCardOCRRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<BankCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3267,8 +3296,8 @@ export const bankSlipOCR: API.OperationMethod<
   BankSlipOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<BankSlipOCRRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<BankSlipOCRResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<BankSlipOCRRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<BankSlipOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3284,8 +3313,8 @@ export const bizLicenseOCR: API.OperationMethod<
   BizLicenseOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<BizLicenseOCRRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<BizLicenseOCRResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<BizLicenseOCRRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<BizLicenseOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3301,8 +3330,8 @@ export const businessCardOCR: API.OperationMethod<
   BusinessCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<BusinessCardOCRRequest>,
-  output: __S(2147, __c67, 3) as any as S.Schema<BusinessCardOCRResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<BusinessCardOCRRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<BusinessCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3318,8 +3347,8 @@ export const carInvoiceOCR: API.OperationMethod<
   CarInvoiceOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<CarInvoiceOCRRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<CarInvoiceOCRResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CarInvoiceOCRRequest>,
+  output: __S(2947, __c92, 3) as any as S.Schema<CarInvoiceOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3335,8 +3364,8 @@ export const classifyDetectOCR: API.OperationMethod<
   ClassifyDetectOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ClassifyDetectOCRRequest>,
-  output: __S(2947, __c92, 3) as any as S.Schema<ClassifyDetectOCRResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ClassifyDetectOCRRequest>,
+  output: __S(3331, __c104, 3) as any as S.Schema<ClassifyDetectOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3352,8 +3381,8 @@ export const classifyStoreName: API.OperationMethod<
   ClassifyStoreNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ClassifyStoreNameRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<ClassifyStoreNameResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ClassifyStoreNameRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<ClassifyStoreNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3369,8 +3398,8 @@ export const cropEnhanceImageOCR: API.OperationMethod<
   CropEnhanceImageOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<CropEnhanceImageOCRRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<CropEnhanceImageOCRResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<CropEnhanceImageOCRRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<CropEnhanceImageOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3386,8 +3415,8 @@ export const describeExtractDocAgentJob: API.OperationMethod<
   DescribeExtractDocAgentJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DescribeExtractDocAgentJobRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<DescribeExtractDocAgentJobResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeExtractDocAgentJobRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<DescribeExtractDocAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3403,8 +3432,8 @@ export const describeMarkEssayAgentJob: API.OperationMethod<
   DescribeMarkEssayAgentJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DescribeMarkEssayAgentJobRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<DescribeMarkEssayAgentJobResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DescribeMarkEssayAgentJobRequest>,
+  output: __S(261, __c8, 5) as any as S.Schema<DescribeMarkEssayAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3420,8 +3449,8 @@ export const describeMultimodalDocParseJob: API.OperationMethod<
   DescribeMultimodalDocParseJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DescribeMultimodalDocParseJobRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<DescribeMultimodalDocParseJobResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DescribeMultimodalDocParseJobRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<DescribeMultimodalDocParseJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3437,8 +3466,8 @@ export const describeQuestionMarkAgentJob: API.OperationMethod<
   DescribeQuestionMarkAgentJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DescribeQuestionMarkAgentJobRequest>,
-  output: __S(325, __c10, 5) as any as S.Schema<DescribeQuestionMarkAgentJobResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DescribeQuestionMarkAgentJobRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<DescribeQuestionMarkAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3454,8 +3483,8 @@ export const describeQuestionSplitJob: API.OperationMethod<
   DescribeQuestionSplitJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DescribeQuestionSplitJobRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<DescribeQuestionSplitJobResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DescribeQuestionSplitJobRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<DescribeQuestionSplitJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3471,8 +3500,8 @@ export const driverLicenseOCR: API.OperationMethod<
   DriverLicenseOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DriverLicenseOCRRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<DriverLicenseOCRResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DriverLicenseOCRRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<DriverLicenseOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3488,8 +3517,8 @@ export const englishOCR: API.OperationMethod<
   EnglishOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<EnglishOCRRequest>,
-  output: __S(485, __c15, 5) as any as S.Schema<EnglishOCRResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<EnglishOCRRequest>,
+  output: __S(453, __c14, 5) as any as S.Schema<EnglishOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3505,8 +3534,8 @@ export const enterpriseLicenseOCR: API.OperationMethod<
   EnterpriseLicenseOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<EnterpriseLicenseOCRRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<EnterpriseLicenseOCRResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<EnterpriseLicenseOCRRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<EnterpriseLicenseOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3522,8 +3551,8 @@ export const eraseHandwrittenImageOCR: API.OperationMethod<
   EraseHandwrittenImageOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<EraseHandwrittenImageOCRRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<EraseHandwrittenImageOCRResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<EraseHandwrittenImageOCRRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<EraseHandwrittenImageOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3539,8 +3568,8 @@ export const estateCertOCR: API.OperationMethod<
   EstateCertOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<EstateCertOCRRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<EstateCertOCRResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<EstateCertOCRRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<EstateCertOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3556,8 +3585,8 @@ export const extractDocAgent: API.OperationMethod<
   ExtractDocAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ExtractDocAgentRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<ExtractDocAgentResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ExtractDocAgentRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<ExtractDocAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3573,8 +3602,8 @@ export const extractDocBasic: API.OperationMethod<
   ExtractDocBasicError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ExtractDocBasicRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<ExtractDocBasicResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ExtractDocBasicRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ExtractDocBasicResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3590,8 +3619,8 @@ export const extractDocMulti: API.OperationMethod<
   ExtractDocMultiError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c29, 1) as any as S.Schema<ExtractDocMultiRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<ExtractDocMultiResponse>,
+  input: __S(1025, __c32, 1) as any as S.Schema<ExtractDocMultiRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<ExtractDocMultiResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3607,8 +3636,8 @@ export const generalAccurateOCR: API.OperationMethod<
   GeneralAccurateOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GeneralAccurateOCRRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<GeneralAccurateOCRResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GeneralAccurateOCRRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GeneralAccurateOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3624,8 +3653,8 @@ export const generalBasicOCR: API.OperationMethod<
   GeneralBasicOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GeneralBasicOCRRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<GeneralBasicOCRResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GeneralBasicOCRRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<GeneralBasicOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3641,8 +3670,8 @@ export const generalEfficientOCR: API.OperationMethod<
   GeneralEfficientOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GeneralEfficientOCRRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<GeneralEfficientOCRResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GeneralEfficientOCRRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GeneralEfficientOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3658,8 +3687,8 @@ export const generalFastOCR: API.OperationMethod<
   GeneralFastOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GeneralFastOCRRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<GeneralFastOCRResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GeneralFastOCRRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<GeneralFastOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3675,8 +3704,8 @@ export const generalHandwritingOCR: API.OperationMethod<
   GeneralHandwritingOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GeneralHandwritingOCRRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<GeneralHandwritingOCRResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GeneralHandwritingOCRRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<GeneralHandwritingOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3692,8 +3721,8 @@ export const generateTextEmbedding: API.OperationMethod<
   GenerateTextEmbeddingError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GenerateTextEmbeddingRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<GenerateTextEmbeddingResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GenerateTextEmbeddingRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<GenerateTextEmbeddingResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3709,8 +3738,8 @@ export const generateVLEmbedding: API.OperationMethod<
   GenerateVLEmbeddingError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GenerateVLEmbeddingRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<GenerateVLEmbeddingResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GenerateVLEmbeddingRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<GenerateVLEmbeddingResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3726,8 +3755,8 @@ export const getOCRResult: API.OperationMethod<
   GetOCRResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetOCRResultRequest>,
-  output: __S(1350, __c42, 6) as any as S.Schema<GetOCRResultResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetOCRResultRequest>,
+  output: __S(1446, __c45, 6) as any as S.Schema<GetOCRResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3743,8 +3772,8 @@ export const getOCRToken: API.OperationMethod<
   GetOCRTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<GetOCRTokenRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<GetOCRTokenResponse>,
+  input: __S(1473, __c46, 1) as any as S.Schema<GetOCRTokenRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<GetOCRTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3760,8 +3789,8 @@ export const handwritingEssayOCR: API.OperationMethod<
   HandwritingEssayOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<HandwritingEssayOCRRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<HandwritingEssayOCRResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<HandwritingEssayOCRRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<HandwritingEssayOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3777,8 +3806,8 @@ export const hKIDCardOCR: API.OperationMethod<
   HKIDCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<HKIDCardOCRRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<HKIDCardOCRResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<HKIDCardOCRRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<HKIDCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3794,8 +3823,8 @@ export const iDCardOCR: API.OperationMethod<
   IDCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<IDCardOCRRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<IDCardOCRResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<IDCardOCRRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<IDCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3811,8 +3840,8 @@ export const imageEnhancement: API.OperationMethod<
   ImageEnhancementError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ImageEnhancementRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<ImageEnhancementResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ImageEnhancementRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<ImageEnhancementResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3828,8 +3857,8 @@ export const licensePlateOCR: API.OperationMethod<
   LicensePlateOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<LicensePlateOCRRequest>,
-  output: __S(1571, __c49, 3) as any as S.Schema<LicensePlateOCRResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<LicensePlateOCRRequest>,
+  output: __S(1667, __c52, 3) as any as S.Schema<LicensePlateOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3845,8 +3874,8 @@ export const mainlandPermitOCR: API.OperationMethod<
   MainlandPermitOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<MainlandPermitOCRRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<MainlandPermitOCRResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<MainlandPermitOCRRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<MainlandPermitOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3862,8 +3891,8 @@ export const mixedInvoiceDetect: API.OperationMethod<
   MixedInvoiceDetectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<MixedInvoiceDetectRequest>,
-  output: __S(1635, __c51, 3) as any as S.Schema<MixedInvoiceDetectResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<MixedInvoiceDetectRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<MixedInvoiceDetectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3879,8 +3908,8 @@ export const mixedInvoiceOCR: API.OperationMethod<
   MixedInvoiceOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<MixedInvoiceOCRRequest>,
-  output: __S(1667, __c52, 3) as any as S.Schema<MixedInvoiceOCRResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<MixedInvoiceOCRRequest>,
+  output: __S(1795, __c56, 3) as any as S.Schema<MixedInvoiceOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3896,8 +3925,8 @@ export const mLIDCardOCR: API.OperationMethod<
   MLIDCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<MLIDCardOCRRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<MLIDCardOCRResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<MLIDCardOCRRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<MLIDCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3913,8 +3942,8 @@ export const mLIDPassportOCR: API.OperationMethod<
   MLIDPassportOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<MLIDPassportOCRRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<MLIDPassportOCRResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<MLIDPassportOCRRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<MLIDPassportOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3930,8 +3959,8 @@ export const multimodalDocParse: API.OperationMethod<
   MultimodalDocParseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<MultimodalDocParseRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<MultimodalDocParseResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<MultimodalDocParseRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<MultimodalDocParseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3947,8 +3976,8 @@ export const passportOCR: API.OperationMethod<
   PassportOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<PassportOCRRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<PassportOCRResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<PassportOCRRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<PassportOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3964,8 +3993,8 @@ export const permitOCR: API.OperationMethod<
   PermitOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<PermitOCRRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<PermitOCRResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<PermitOCRRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<PermitOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3981,8 +4010,8 @@ export const qrcodeOCR: API.OperationMethod<
   QrcodeOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<QrcodeOCRRequest>,
-  output: __S(1956, __c61, 4) as any as S.Schema<QrcodeOCRResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<QrcodeOCRRequest>,
+  output: __S(2020, __c63, 4) as any as S.Schema<QrcodeOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3998,8 +4027,8 @@ export const queryEnterpriseBasicInfo: API.OperationMethod<
   QueryEnterpriseBasicInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<QueryEnterpriseBasicInfoRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<QueryEnterpriseBasicInfoResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<QueryEnterpriseBasicInfoRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<QueryEnterpriseBasicInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4015,8 +4044,8 @@ export const questionOCR: API.OperationMethod<
   QuestionOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<QuestionOCRRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<QuestionOCRResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<QuestionOCRRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<QuestionOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4032,8 +4061,8 @@ export const questionSplitLayoutOCR: API.OperationMethod<
   QuestionSplitLayoutOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<QuestionSplitLayoutOCRRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<QuestionSplitLayoutOCRResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<QuestionSplitLayoutOCRRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<QuestionSplitLayoutOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4049,8 +4078,8 @@ export const questionSplitOCR: API.OperationMethod<
   QuestionSplitOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<QuestionSplitOCRRequest>,
-  output: __S(2048, __c64, 0) as any as S.Schema<QuestionSplitOCRResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<QuestionSplitOCRRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<QuestionSplitOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4066,8 +4095,8 @@ export const recognizeAgent: API.OperationMethod<
   RecognizeAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2178, __c68, 2) as any as S.Schema<RecognizeAgentRequest>,
-  output: __S(2186, __c68, 10) as any as S.Schema<RecognizeAgentResponse>,
+  input: __S(2242, __c70, 2) as any as S.Schema<RecognizeAgentRequest>,
+  output: __S(2250, __c70, 10) as any as S.Schema<RecognizeAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4083,8 +4112,8 @@ export const recognizeEncryptedIDCardOCR: API.OperationMethod<
   RecognizeEncryptedIDCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2209, __c69, 1) as any as S.Schema<RecognizeEncryptedIDCardOCRRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<RecognizeEncryptedIDCardOCRResponse>,
+  input: __S(2273, __c71, 1) as any as S.Schema<RecognizeEncryptedIDCardOCRRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<RecognizeEncryptedIDCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4100,8 +4129,8 @@ export const recognizeFormulaOCR: API.OperationMethod<
   RecognizeFormulaOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<RecognizeFormulaOCRRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<RecognizeFormulaOCRResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<RecognizeFormulaOCRRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<RecognizeFormulaOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4117,8 +4146,8 @@ export const recognizeGeneralCardWarn: API.OperationMethod<
   RecognizeGeneralCardWarnError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<RecognizeGeneralCardWarnRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<RecognizeGeneralCardWarnResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<RecognizeGeneralCardWarnRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<RecognizeGeneralCardWarnResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4134,8 +4163,8 @@ export const recognizeGeneralInvoice: API.OperationMethod<
   RecognizeGeneralInvoiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<RecognizeGeneralInvoiceRequest>,
-  output: __S(2385, __c74, 17) as any as S.Schema<RecognizeGeneralInvoiceResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<RecognizeGeneralInvoiceRequest>,
+  output: __S(2417, __c75, 17) as any as S.Schema<RecognizeGeneralInvoiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4151,8 +4180,8 @@ export const recognizeMedicalInvoiceOCR: API.OperationMethod<
   RecognizeMedicalInvoiceOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<RecognizeMedicalInvoiceOCRRequest>,
-  output: __S(2405, __c75, 5) as any as S.Schema<RecognizeMedicalInvoiceOCRResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<RecognizeMedicalInvoiceOCRRequest>,
+  output: __S(2437, __c76, 5) as any as S.Schema<RecognizeMedicalInvoiceOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4168,8 +4197,8 @@ export const recognizeStoreName: API.OperationMethod<
   RecognizeStoreNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<RecognizeStoreNameRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<RecognizeStoreNameResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<RecognizeStoreNameRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<RecognizeStoreNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4185,8 +4214,8 @@ export const recognizeTableAccurateOCR: API.OperationMethod<
   RecognizeTableAccurateOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<RecognizeTableAccurateOCRRequest>,
-  output: __S(2469, __c77, 5) as any as S.Schema<RecognizeTableAccurateOCRResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<RecognizeTableAccurateOCRRequest>,
+  output: __S(2501, __c78, 5) as any as S.Schema<RecognizeTableAccurateOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4202,8 +4231,8 @@ export const recognizeTableOCR: API.OperationMethod<
   RecognizeTableOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<RecognizeTableOCRRequest>,
-  output: __S(2505, __c78, 9) as any as S.Schema<RecognizeTableOCRResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<RecognizeTableOCRRequest>,
+  output: __S(2537, __c79, 9) as any as S.Schema<RecognizeTableOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4219,8 +4248,8 @@ export const recognizeThaiIDCardOCR: API.OperationMethod<
   RecognizeThaiIDCardOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<RecognizeThaiIDCardOCRRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<RecognizeThaiIDCardOCRResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<RecognizeThaiIDCardOCRRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<RecognizeThaiIDCardOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4356,7 +4385,7 @@ export const submitExtractDocAgentJob: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<SubmitExtractDocAgentJobRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<SubmitExtractDocAgentJobResponse>,
+  output: __S(2880, __c90, 0) as any as S.Schema<SubmitExtractDocAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4372,8 +4401,8 @@ export const submitMarkEssayAgentJob: API.OperationMethod<
   SubmitMarkEssayAgentJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<SubmitMarkEssayAgentJobRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<SubmitMarkEssayAgentJobResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<SubmitMarkEssayAgentJobRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<SubmitMarkEssayAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4389,8 +4418,8 @@ export const submitMultimodalDocParseJob: API.OperationMethod<
   SubmitMultimodalDocParseJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SubmitMultimodalDocParseJobRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<SubmitMultimodalDocParseJobResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<SubmitMultimodalDocParseJobRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<SubmitMultimodalDocParseJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4406,8 +4435,8 @@ export const submitQuestionMarkAgentJob: API.OperationMethod<
   SubmitQuestionMarkAgentJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<SubmitQuestionMarkAgentJobRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<SubmitQuestionMarkAgentJobResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<SubmitQuestionMarkAgentJobRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<SubmitQuestionMarkAgentJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4423,8 +4452,8 @@ export const submitQuestionSplitJob: API.OperationMethod<
   SubmitQuestionSplitJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<SubmitQuestionSplitJobRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<SubmitQuestionSplitJobResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<SubmitQuestionSplitJobRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<SubmitQuestionSplitJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4440,8 +4469,8 @@ export const tableOCR: API.OperationMethod<
   TableOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<TableOCRRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<TableOCRResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<TableOCRRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<TableOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4457,8 +4486,8 @@ export const textDetect: API.OperationMethod<
   TextDetectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<TextDetectRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<TextDetectResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<TextDetectRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<TextDetectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4474,8 +4503,8 @@ export const trainTicketOCR: API.OperationMethod<
   TrainTicketOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<TrainTicketOCRRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<TrainTicketOCRResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<TrainTicketOCRRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<TrainTicketOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4491,8 +4520,8 @@ export const vatInvoiceOCR: API.OperationMethod<
   VatInvoiceOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<VatInvoiceOCRRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<VatInvoiceOCRResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<VatInvoiceOCRRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<VatInvoiceOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4508,8 +4537,8 @@ export const vatInvoiceVerifyNew: API.OperationMethod<
   VatInvoiceVerifyNewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<VatInvoiceVerifyNewRequest>,
-  output: __S(3215, __c100, 15) as any as S.Schema<VatInvoiceVerifyNewResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<VatInvoiceVerifyNewRequest>,
+  output: __S(3247, __c101, 15) as any as S.Schema<VatInvoiceVerifyNewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4525,8 +4554,8 @@ export const vehicleLicenseOCR: API.OperationMethod<
   VehicleLicenseOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<VehicleLicenseOCRRequest>,
-  output: __S(3236, __c101, 4) as any as S.Schema<VehicleLicenseOCRResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<VehicleLicenseOCRRequest>,
+  output: __S(3268, __c102, 4) as any as S.Schema<VehicleLicenseOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4542,8 +4571,8 @@ export const vehicleRegCertOCR: API.OperationMethod<
   VehicleRegCertOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<VehicleRegCertOCRRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<VehicleRegCertOCRResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<VehicleRegCertOCRRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<VehicleRegCertOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4559,8 +4588,8 @@ export const verifyBizLicenseEnterprise3: API.OperationMethod<
   VerifyBizLicenseEnterprise3Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<VerifyBizLicenseEnterprise3Request>,
-  output: __S(3297, __c103, 1) as any as S.Schema<VerifyBizLicenseEnterprise3Response>,
+  input: __S(3360, __c105, 0) as any as S.Schema<VerifyBizLicenseEnterprise3Request>,
+  output: __S(3361, __c105, 1) as any as S.Schema<VerifyBizLicenseEnterprise3Response>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4576,8 +4605,8 @@ export const verifyBizLicenseEnterprise4: API.OperationMethod<
   VerifyBizLicenseEnterprise4Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<VerifyBizLicenseEnterprise4Request>,
-  output: __S(3361, __c105, 1) as any as S.Schema<VerifyBizLicenseEnterprise4Response>,
+  input: __S(3392, __c106, 0) as any as S.Schema<VerifyBizLicenseEnterprise4Request>,
+  output: __S(3393, __c106, 1) as any as S.Schema<VerifyBizLicenseEnterprise4Response>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4593,8 +4622,8 @@ export const verifyGeneralCardWarn: API.OperationMethod<
   VerifyGeneralCardWarnError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<VerifyGeneralCardWarnRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<VerifyGeneralCardWarnResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<VerifyGeneralCardWarnRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<VerifyGeneralCardWarnResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4610,8 +4639,8 @@ export const verifyOfdVatInvoiceOCR: API.OperationMethod<
   VerifyOfdVatInvoiceOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<VerifyOfdVatInvoiceOCRRequest>,
-  output: __S(3464, __c108, 8) as any as S.Schema<VerifyOfdVatInvoiceOCRResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<VerifyOfdVatInvoiceOCRRequest>,
+  output: __S(3496, __c109, 8) as any as S.Schema<VerifyOfdVatInvoiceOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4627,8 +4656,8 @@ export const verifyScenePhoto: API.OperationMethod<
   VerifyScenePhotoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<VerifyScenePhotoRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<VerifyScenePhotoResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<VerifyScenePhotoRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<VerifyScenePhotoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4644,8 +4673,8 @@ export const vinOCR: API.OperationMethod<
   VinOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<VinOCRRequest>,
-  output: __S(3521, __c110, 1) as any as S.Schema<VinOCRResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<VinOCRRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<VinOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4661,8 +4690,8 @@ export const waybillOCR: API.OperationMethod<
   WaybillOCRError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<WaybillOCRRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<WaybillOCRResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<WaybillOCRRequest>,
+  output: __S(3587, __c112, 3) as any as S.Schema<WaybillOCRResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4786,6 +4815,36 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          PdfPageNumber: S.optional(S.Number),
+          Crop: S.optional(S.Number),
+          Deskew: S.optional(S.Number),
+          OnlyPosition: S.optional(S.Number),
+          EnhanceType: S.optional(S.Number),
+          AdjustOrientation: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "CropEnhanceImageOCR" })),
+      ).annotate({ identifier: "CropEnhanceImageOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CroppedWidth: S.optional(S.Number),
+          CroppedHeight: S.optional(S.Number),
+          CroppedImage: S.optional(S.String),
+          CroppedImageUrl: S.optional(S.String),
+          Position: S.optional(__S(1376, __c43, 0)),
+          Angle: S.optional(S.NullOr(S.Number)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CropEnhanceImageOCRResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           JobId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -4796,7 +4855,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Angle: S.optional(S.Number),
-          StructuralList: S.optional(__S(199, __c6, 7)),
+          StructuralList: S.optional(__S(231, __c7, 7)),
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
           JobStatus: S.optional(S.String),
@@ -4807,7 +4866,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DescribeExtractDocAgentJobResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4820,39 +4879,39 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoContent: S.optional(S.String),
-          Coord: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          Coord: S.optional(S.NullOr(__S(768, __c24, 0))),
           PageIndex: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Value" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Key: S.optional(S.NullOr(__S(192, __c6, 0))),
-          Value: S.optional(S.NullOr(__S(193, __c6, 1))),
+          Key: S.optional(S.NullOr(__S(224, __c7, 0))),
+          Value: S.optional(S.NullOr(__S(225, __c7, 1))),
           AuditResult: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ItemInfo" });
     case 3:
-      return S.Array(__S(194, __c6, 2));
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Lines: S.optional(__S(195, __c6, 3)),
+          Lines: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "LineInfo" });
     case 5:
-      return S.Array(__S(196, __c6, 4));
+      return S.Array(__S(228, __c7, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(197, __c6, 5)),
+          Groups: S.optional(__S(229, __c7, 5)),
         }),
       ).annotate({ identifier: "GroupInfo" });
     case 7:
-      return S.Array(__S(198, __c6, 6));
+      return S.Array(__S(230, __c7, 6));
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4866,43 +4925,106 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          Position: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "Positions" });
+    case 2:
+      return S.Array(__S(257, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           ID: S.optional(S.Number),
           Type: S.optional(S.String),
           SubType: S.optional(S.String),
           Origin: S.optional(S.String),
           Replace: S.optional(S.String),
           Message: S.optional(S.String),
-          Positions: S.optional(__S(257, __c8, 1)),
+          Positions: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "MarkEssaySuggestions" });
-    case 2:
-      return S.Array(__S(225, __c7, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(259, __c8, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           Angle: S.optional(S.Number),
-          SentenceSuggests: S.optional(__S(226, __c7, 2)),
+          SentenceSuggests: S.optional(__S(260, __c8, 4)),
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
           JobStatus: S.optional(S.String),
+          QuestionInfo: S.optional(__S(294, __c9, 6)),
+          AgentResultJson: S.optional(S.String),
+          ThoughtContent: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMarkEssayAgentJobResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Position: S.optional(__S(704, __c22, 0)),
+          IsCorrect: S.optional(S.Boolean),
+          AnswerAnalysis: S.optional(S.String),
+          RightAnswer: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Positions" });
+      ).annotate({ identifier: "AnswerElement" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.suspend(() =>
+        S.Struct({
+          Text: S.optional(S.String),
+          Coord: S.optional(__S(768, __c24, 0)),
+          GroupType: S.optional(S.String),
+          ResultList: S.optional(S.NullOr(S.suspend(() => __S(292, __c9, 4)))),
+          Index: S.optional(S.Number),
+          PageIndex: S.optional(S.Number),
+          AnswerElement: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "Element" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Question: S.optional(S.NullOr(__S(290, __c9, 2))),
+          Option: S.optional(S.NullOr(__S(290, __c9, 2))),
+          Figure: S.optional(S.NullOr(__S(290, __c9, 2))),
+          Table: S.optional(S.NullOr(__S(290, __c9, 2))),
+          Answer: S.optional(S.NullOr(__S(290, __c9, 2))),
+          Parse: S.optional(__S(290, __c9, 2)),
+          Coord: S.optional(S.NullOr(__S(640, __c20, 0))),
+          CoordPageIndex: S.optional(__S(1376, __c43, 0)),
+          RightAnswer: S.optional(S.String),
+          Subject: S.optional(S.String),
+          KnowledgePoints: S.optional(__S(704, __c22, 0)),
+          AnswerAnalysis: S.optional(S.String),
+          Grade: S.optional(S.String),
+          Confidence: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResultList" });
+    case 4:
+      return S.Array(__S(291, __c9, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Angle: S.optional(S.Number),
+          Height: S.optional(S.Number),
+          Width: S.optional(S.Number),
+          ResultList: S.optional(S.NullOr(__S(292, __c9, 4))),
+          OrgHeight: S.optional(S.Number),
+          OrgWidth: S.optional(S.Number),
+          ImageBase64: S.optional(S.String),
+          ReturnImageUrl: S.optional(S.String),
+          ClassName: S.optional(S.String),
+          PageIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QuestionInfo" });
+    case 6:
+      return S.Array(__S(293, __c9, 5));
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4924,7 +5046,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ReconstructDocumentFailedPage" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(321, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4932,7 +5054,7 @@ function __c9(j: number): any {
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
           ResultUrl: S.optional(S.String),
-          FailedPages: S.optional(__S(290, __c9, 2)),
+          FailedPages: S.optional(__S(322, __c10, 2)),
           SuccessPageNum: S.optional(S.Number),
           FailPageNum: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -4940,7 +5062,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DescribeMultimodalDocParseJobResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4958,111 +5080,17 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          HandwriteInfo: S.optional(S.String),
-          IsCorrect: S.optional(S.Boolean),
-          AnswerAnalysis: S.optional(S.String),
-          HandwriteInfoPositions: S.optional(S.NullOr(__S(704, __c22, 0))),
-          RightAnswer: S.optional(S.String),
-          KnowledgePoints: S.optional(S.NullOr(__S(1760, __c55, 0))),
-        }),
-      ).annotate({ identifier: "AnswerInfo" });
-    case 2:
-      return S.Array(__S(321, __c10, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          MarkItemTitle: S.optional(S.String),
-          AnswerInfos: S.optional(__S(322, __c10, 2)),
-          MarkInfos: S.optional(S.suspend(() => __S(324, __c10, 4))),
-          QuestionPositions: S.optional(__S(704, __c22, 0)),
-          QuestionImagePositions: S.optional(__S(257, __c8, 1)),
-          RightAnswer: S.optional(S.String),
-          Subject: S.optional(S.String),
-          QuestionType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MarkInfo" });
-    case 4:
-      return S.Array(__S(323, __c10, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
           JobStatus: S.optional(S.String),
           Angle: S.optional(S.Number),
-          MarkInfos: S.optional(__S(324, __c10, 4)),
-          QuestionInfo: S.optional(__S(390, __c12, 6)),
+          QuestionInfo: S.optional(__S(294, __c9, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeQuestionMarkAgentJobResponse" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2592, __c81, 0));
-  }
-}
 function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          IsCorrect: S.optional(S.Boolean),
-          AnswerAnalysis: S.optional(S.String),
-          RightAnswer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AnswerElement" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Text: S.optional(S.String),
-          Coord: S.optional(__S(2592, __c81, 0)),
-          GroupType: S.optional(S.String),
-          ResultList: S.optional(S.NullOr(S.suspend(() => __S(388, __c12, 4)))),
-          Index: S.optional(S.Number),
-          PageIndex: S.optional(S.Number),
-          AnswerElement: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "Element" });
-    case 2:
-      return S.Array(__S(385, __c12, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Question: S.optional(S.NullOr(__S(386, __c12, 2))),
-          Option: S.optional(S.NullOr(__S(386, __c12, 2))),
-          Figure: S.optional(S.NullOr(__S(386, __c12, 2))),
-          Table: S.optional(S.NullOr(__S(386, __c12, 2))),
-          Answer: S.optional(S.NullOr(__S(386, __c12, 2))),
-          Parse: S.optional(__S(386, __c12, 2)),
-          Coord: S.optional(S.NullOr(__S(352, __c11, 0))),
-          CoordPageIndex: S.optional(__S(704, __c22, 0)),
-          RightAnswer: S.optional(S.String),
-          Subject: S.optional(S.String),
-          KnowledgePoints: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "ResultList" });
-    case 4:
-      return S.Array(__S(387, __c12, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          Angle: S.optional(S.Number),
-          Height: S.optional(S.Number),
-          Width: S.optional(S.Number),
-          ResultList: S.optional(S.NullOr(__S(388, __c12, 4))),
-          OrgHeight: S.optional(S.Number),
-          OrgWidth: S.optional(S.Number),
-          ImageBase64: S.optional(S.String),
-          ReturnImageUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QuestionInfo" });
-    case 6:
-      return S.Array(__S(389, __c12, 5));
-  }
-}
-function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5076,7 +5104,7 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          QuestionInfo: S.optional(__S(390, __c12, 6)),
+          QuestionInfo: S.optional(__S(294, __c9, 6)),
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
           JobStatus: S.optional(S.String),
@@ -5085,7 +5113,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DescribeQuestionSplitJobResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5111,8 +5139,8 @@ function __c14(j: number): any {
           CardCode: S.optional(S.String),
           ArchivesCode: S.optional(S.String),
           Record: S.optional(S.String),
-          RecognizeWarnCode: S.optional(__S(704, __c22, 0)),
-          RecognizeWarnMsg: S.optional(__S(1760, __c55, 0)),
+          RecognizeWarnCode: S.optional(__S(1376, __c43, 0)),
+          RecognizeWarnMsg: S.optional(__S(704, __c22, 0)),
           IssuingAuthority: S.optional(S.String),
           State: S.optional(S.String),
           CumulativeScore: S.optional(S.String),
@@ -5126,7 +5154,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DriverLicenseOCRResponse" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5142,11 +5170,11 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CandWords: S.optional(__S(515, __c16, 3)),
+          CandWords: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "CandWord" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5154,24 +5182,24 @@ function __c15(j: number): any {
           Confidence: S.optional(S.Number),
           Polygon: S.optional(S.NullOr(__S(32, __c1, 0))),
           AdvancedInfo: S.optional(S.String),
-          WordCoordPoint: S.optional(__S(513, __c16, 1)),
-          CandWord: S.optional(__S(482, __c15, 2)),
-          Words: S.optional(__S(515, __c16, 3)),
+          WordCoordPoint: S.optional(__S(481, __c15, 1)),
+          CandWord: S.optional(__S(450, __c14, 2)),
+          Words: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "TextDetectionEn" });
     case 4:
-      return S.Array(__S(483, __c15, 3));
+      return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TextDetections: S.optional(__S(484, __c15, 4)),
+          TextDetections: S.optional(__S(452, __c14, 4)),
           Angel: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnglishOCRResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5180,7 +5208,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "WordCoordPoint" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5189,10 +5217,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Words" });
     case 3:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(482, __c15, 2));
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5207,14 +5235,14 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          EnterpriseLicenseInfos: S.optional(__S(577, __c18, 1)),
+          EnterpriseLicenseInfos: S.optional(__S(545, __c17, 1)),
           Angle: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnterpriseLicenseOCRResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5224,10 +5252,10 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "EnterpriseLicenseInfo" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(544, __c17, 0));
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5253,7 +5281,91 @@ function __c19(j: number): any {
       ).annotate({ identifier: "EraseHandwrittenImageOCRResponse" });
   }
 }
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AgentType: S.String,
+          ImageUrl: S.optional(S.String),
+          ImageBase64: S.optional(S.String),
+          NeedSceneType: S.optional(S.Boolean),
+          StoreInfoHint: S.optional(S.String),
+          IgnoreWatermarkCategories: S.optional(__S(704, __c22, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "AuditMaterialAgent" })),
+      ).annotate({ identifier: "AuditMaterialAgentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StoreLabel: S.optional(__S(704, __c22, 0)),
+          SceneType: S.optional(S.String),
+          StoreInfo: S.optional(__S(673, __c21, 1)),
+          Angle: S.optional(S.Number),
+          Tamper: S.optional(__S(736, __c23, 0)),
+          Synthesis: S.optional(__S(736, __c23, 0)),
+          RemakeScreen: S.optional(__S(736, __c23, 0)),
+          Screenshot: S.optional(__S(736, __c23, 0)),
+          TextWatermark: S.optional(__S(736, __c23, 0)),
+          WatermarkContent: S.optional(S.String),
+          Template: S.optional(__S(736, __c23, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditMaterialAgentResponse" });
+  }
+}
 function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(768, __c24, 0));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          Rect: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "StoreInfo" });
+    case 1:
+      return S.Array(__S(672, __c21, 0));
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IsWarn: S.optional(S.Boolean),
+          RiskConfidence: S.optional(S.Number),
+          Polygon: S.optional(__S(640, __c20, 0)),
+        }),
+      ).annotate({ identifier: "SceneWarnInfo" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LeftTop: S.optional(__S(64, __c2, 0)),
+          RightTop: S.optional(__S(64, __c2, 0)),
+          RightBottom: S.optional(__S(64, __c2, 0)),
+          LeftBottom: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Polygon" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5283,7 +5395,347 @@ function __c20(j: number): any {
       ).annotate({ identifier: "EstateCertOCRResponse" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          ItemNames: S.optional(__S(865, __c27, 1)),
+          PdfPageNumber: S.optional(S.Number),
+          EnableCoord: S.optional(S.Boolean),
+          EnableAudit: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocAgent" })),
+      ).annotate({ identifier: "ExtractDocAgentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Angle: S.optional(S.Number),
+          StructuralList: S.optional(__S(231, __c7, 7)),
+          ErrorCode: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtractDocAgentResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KeyName: S.optional(S.String),
+          KeyType: S.optional(S.Number),
+          KeyPrompt: S.optional(S.String),
+          KeyExpectedValue: S.optional(S.String),
+          KeyAuditPrompt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ItemNames" });
+    case 1:
+      return S.Array(__S(864, __c27, 0));
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageUrl: S.optional(S.String),
+          ImageBase64: S.optional(S.String),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          ItemNames: S.optional(__S(704, __c22, 0)),
+          ReturnFullText: S.optional(S.Boolean),
+          ConfigId: S.optional(S.String),
+          EnableSealRecognize: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocBasic" })),
+      ).annotate({ identifier: "ExtractDocBasicRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Angle: S.optional(S.Number),
+          StructuralList: S.optional(__S(231, __c7, 7)),
+          WordList: S.optional(__S(929, __c29, 1)),
+          SealInfos: S.optional(__S(993, __c31, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtractDocBasicResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DetectedText: S.optional(S.String),
+          Coord: S.optional(__S(768, __c24, 0)),
+          AdvancedInfo: S.optional(S.String),
+          WordCoord: S.optional(__S(961, __c30, 1)),
+        }),
+      ).annotate({ identifier: "WordItem" });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DetectedText: S.optional(S.String),
+          Coord: S.optional(__S(768, __c24, 0)),
+        }),
+      ).annotate({ identifier: "WordPolygon" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SealBody: S.optional(S.String),
+          Location: S.optional(__S(128, __c4, 0)),
+          OtherTexts: S.optional(__S(704, __c22, 0)),
+          SealShape: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SealInfo" });
+    case 1:
+      return S.Array(__S(992, __c31, 0));
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scene: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigAdvanced" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ImageUrl: S.optional(S.String),
+          ImageBase64: S.optional(S.String),
+          PdfPageNumber: S.optional(S.Number),
+          ItemNames: S.optional(__S(704, __c22, 0)),
+          ItemNamesShowMode: S.optional(S.Boolean),
+          ReturnFullText: S.optional(S.Boolean),
+          ConfigId: S.optional(S.String),
+          EnableCoord: S.optional(S.Boolean),
+          OutputParentKey: S.optional(S.Boolean),
+          ConfigAdvanced: S.optional(__S(1024, __c32, 0)),
+          OutputLanguage: S.optional(S.String),
+          NewItemNames: S.optional(__S(865, __c27, 1)),
+          MultiModelVersion: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocMulti" })),
+      ).annotate({ identifier: "ExtractDocMultiRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Angle: S.optional(S.Number),
+          StructuralList: S.optional(__S(231, __c7, 7)),
+          WordList: S.optional(__S(929, __c29, 1)),
+          TokenNum: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtractDocMultiResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          IsWords: S.optional(S.Boolean),
+          EnableDetectSplit: S.optional(S.Boolean),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          EnableDetectText: S.optional(S.Boolean),
+          ConfigID: S.optional(S.String),
+          WordsType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralAccurateOCR" })),
+      ).annotate({ identifier: "GeneralAccurateOCRRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DetectedText: S.optional(S.String),
+          Confidence: S.optional(S.Number),
+          Polygon: S.optional(S.NullOr(__S(32, __c1, 0))),
+          AdvancedInfo: S.optional(S.String),
+          ItemPolygon: S.optional(__S(128, __c4, 0)),
+          Words: S.optional(__S(483, __c15, 3)),
+          WordCoordPoint: S.optional(__S(481, __c15, 1)),
+          Language: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextDetection" });
+    case 1:
+      return S.Array(__S(1088, __c34, 0));
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TextDetections: S.optional(__S(1089, __c34, 1)),
+          Angle: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GeneralAccurateOCRResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          Scene: S.optional(S.String),
+          LanguageType: S.optional(S.String),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          IsWords: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralBasicOCR" })),
+      ).annotate({ identifier: "GeneralBasicOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TextDetections: S.optional(__S(1089, __c34, 1)),
+          Language: S.optional(S.String),
+          PdfPageSize: S.optional(S.Number),
+          Angle: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GeneralBasicOCRResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralEfficientOCR" })),
+      ).annotate({ identifier: "GeneralEfficientOCRRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralFastOCR" })),
+      ).annotate({ identifier: "GeneralFastOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TextDetections: S.optional(__S(1089, __c34, 1)),
+          Language: S.optional(S.String),
+          Angel: S.optional(S.Number),
+          PdfPageSize: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GeneralFastOCRResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          Scene: S.optional(S.String),
+          EnableWordPolygon: S.optional(S.Boolean),
+          EnableDetectText: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralHandwritingOCR" }),
+        ),
+      ).annotate({ identifier: "GeneralHandwritingOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DetectedText: S.optional(S.String),
+          Confidence: S.optional(S.Number),
+          Polygon: S.optional(__S(32, __c1, 0)),
+          AdvancedInfo: S.optional(S.String),
+          WordPolygon: S.optional(S.NullOr(__S(640, __c20, 0))),
+        }),
+      ).annotate({ identifier: "TextGeneralHandwriting" });
+    case 2:
+      return S.Array(__S(1249, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TextDetections: S.optional(__S(1250, __c39, 2)),
+          Angle: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GeneralHandwritingOCRResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Model: S.String,
+          Inputs: __S(704, __c22, 0),
+          TextType: S.optional(S.String),
+          Instruction: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "ocr", version: "2018-11-19", action: "GenerateTextEmbedding" }),
+        ),
+      ).annotate({ identifier: "GenerateTextEmbeddingRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Index: S.optional(S.Number),
+          Embedding: S.optional(__S(1376, __c43, 0)),
+        }),
+      ).annotate({ identifier: "EmbeddingObject" });
+    case 1:
+      return S.Array(__S(1312, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(__S(1313, __c41, 1)),
+          InputTokens: S.optional(S.Number),
+          TotalTokens: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenerateTextEmbeddingResponse" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5309,7 +5761,7 @@ function __c21(j: number): any {
           CardName: S.optional(S.String),
           BorderCutImage: S.optional(S.NullOr(S.String)),
           CardNoImage: S.optional(S.NullOr(S.String)),
-          WarningCode: S.optional(S.NullOr(__S(704, __c22, 0))),
+          WarningCode: S.optional(S.NullOr(__S(1376, __c43, 0))),
           QualityValue: S.optional(S.NullOr(S.Number)),
           CardCategory: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -5317,353 +5769,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BankCardOCRResponse" });
   }
 }
-function __c22(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          ItemNames: S.optional(__S(769, __c24, 1)),
-          PdfPageNumber: S.optional(S.Number),
-          EnableCoord: S.optional(S.Boolean),
-          EnableAudit: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocAgent" })),
-      ).annotate({ identifier: "ExtractDocAgentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Angle: S.optional(S.Number),
-          StructuralList: S.optional(__S(199, __c6, 7)),
-          ErrorCode: S.optional(S.String),
-          ErrorMessage: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtractDocAgentResponse" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          KeyName: S.optional(S.String),
-          KeyType: S.optional(S.Number),
-          KeyPrompt: S.optional(S.String),
-          KeyExpectedValue: S.optional(S.String),
-          KeyAuditPrompt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ItemNames" });
-    case 1:
-      return S.Array(__S(768, __c24, 0));
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageUrl: S.optional(S.String),
-          ImageBase64: S.optional(S.String),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          ItemNames: S.optional(__S(1760, __c55, 0)),
-          ReturnFullText: S.optional(S.Boolean),
-          ConfigId: S.optional(S.String),
-          EnableSealRecognize: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocBasic" })),
-      ).annotate({ identifier: "ExtractDocBasicRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Angle: S.optional(S.Number),
-          StructuralList: S.optional(__S(199, __c6, 7)),
-          WordList: S.optional(__S(833, __c26, 1)),
-          SealInfos: S.optional(__S(897, __c28, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtractDocBasicResponse" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DetectedText: S.optional(S.String),
-          Coord: S.optional(__S(2592, __c81, 0)),
-          AdvancedInfo: S.optional(S.String),
-          WordCoord: S.optional(__S(865, __c27, 1)),
-        }),
-      ).annotate({ identifier: "WordItem" });
-    case 1:
-      return S.Array(__S(832, __c26, 0));
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DetectedText: S.optional(S.String),
-          Coord: S.optional(__S(2592, __c81, 0)),
-        }),
-      ).annotate({ identifier: "WordPolygon" });
-    case 1:
-      return S.Array(__S(864, __c27, 0));
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SealBody: S.optional(S.String),
-          Location: S.optional(__S(128, __c4, 0)),
-          OtherTexts: S.optional(__S(1760, __c55, 0)),
-          SealShape: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SealInfo" });
-    case 1:
-      return S.Array(__S(896, __c28, 0));
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Scene: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigAdvanced" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ImageUrl: S.optional(S.String),
-          ImageBase64: S.optional(S.String),
-          PdfPageNumber: S.optional(S.Number),
-          ItemNames: S.optional(__S(1760, __c55, 0)),
-          ItemNamesShowMode: S.optional(S.Boolean),
-          ReturnFullText: S.optional(S.Boolean),
-          ConfigId: S.optional(S.String),
-          EnableCoord: S.optional(S.Boolean),
-          OutputParentKey: S.optional(S.Boolean),
-          ConfigAdvanced: S.optional(__S(928, __c29, 0)),
-          OutputLanguage: S.optional(S.String),
-          NewItemNames: S.optional(__S(769, __c24, 1)),
-          MultiModelVersion: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ExtractDocMulti" })),
-      ).annotate({ identifier: "ExtractDocMultiRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Angle: S.optional(S.Number),
-          StructuralList: S.optional(__S(199, __c6, 7)),
-          WordList: S.optional(__S(833, __c26, 1)),
-          TokenNum: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtractDocMultiResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          IsWords: S.optional(S.Boolean),
-          EnableDetectSplit: S.optional(S.Boolean),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          EnableDetectText: S.optional(S.Boolean),
-          ConfigID: S.optional(S.String),
-          WordsType: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralAccurateOCR" })),
-      ).annotate({ identifier: "GeneralAccurateOCRRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DetectedText: S.optional(S.String),
-          Confidence: S.optional(S.Number),
-          Polygon: S.optional(S.NullOr(__S(32, __c1, 0))),
-          AdvancedInfo: S.optional(S.String),
-          ItemPolygon: S.optional(__S(128, __c4, 0)),
-          Words: S.optional(__S(515, __c16, 3)),
-          WordCoordPoint: S.optional(__S(513, __c16, 1)),
-          Language: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TextDetection" });
-    case 1:
-      return S.Array(__S(992, __c31, 0));
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TextDetections: S.optional(__S(993, __c31, 1)),
-          Angle: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneralAccurateOCRResponse" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          Scene: S.optional(S.String),
-          LanguageType: S.optional(S.String),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          IsWords: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralBasicOCR" })),
-      ).annotate({ identifier: "GeneralBasicOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TextDetections: S.optional(__S(993, __c31, 1)),
-          Language: S.optional(S.String),
-          PdfPageSize: S.optional(S.Number),
-          Angle: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneralBasicOCRResponse" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralEfficientOCR" })),
-      ).annotate({ identifier: "GeneralEfficientOCRRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralFastOCR" })),
-      ).annotate({ identifier: "GeneralFastOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TextDetections: S.optional(__S(993, __c31, 1)),
-          Language: S.optional(S.String),
-          Angel: S.optional(S.Number),
-          PdfPageSize: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneralFastOCRResponse" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          Scene: S.optional(S.String),
-          EnableWordPolygon: S.optional(S.Boolean),
-          EnableDetectText: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "ocr", version: "2018-11-19", action: "GeneralHandwritingOCR" }),
-        ),
-      ).annotate({ identifier: "GeneralHandwritingOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          DetectedText: S.optional(S.String),
-          Confidence: S.optional(S.Number),
-          Polygon: S.optional(__S(32, __c1, 0)),
-          AdvancedInfo: S.optional(S.String),
-          WordPolygon: S.optional(S.NullOr(__S(352, __c11, 0))),
-        }),
-      ).annotate({ identifier: "TextGeneralHandwriting" });
-    case 2:
-      return S.Array(__S(1153, __c36, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          TextDetections: S.optional(__S(1154, __c36, 2)),
-          Angle: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GeneralHandwritingOCRResponse" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Model: S.String,
-          Inputs: __S(1760, __c55, 0),
-          TextType: S.optional(S.String),
-          Instruction: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "ocr", version: "2018-11-19", action: "GenerateTextEmbedding" }),
-        ),
-      ).annotate({ identifier: "GenerateTextEmbeddingRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Index: S.optional(S.Number),
-          Embedding: S.optional(__S(704, __c22, 0)),
-        }),
-      ).annotate({ identifier: "EmbeddingObject" });
-    case 1:
-      return S.Array(__S(1216, __c38, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Data: S.optional(__S(1217, __c38, 1)),
-          InputTokens: S.optional(S.Number),
-          TotalTokens: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenerateTextEmbeddingResponse" });
-  }
-}
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5679,43 +5791,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GenerateVLEmbeddingRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BankSlipOCR" })),
-      ).annotate({ identifier: "BankSlipOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          BankSlipInfos: S.optional(__S(1313, __c41, 1)),
-          Angle: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BankSlipOCRResponse" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Value: S.optional(S.String),
-          Rect: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "BankSlipInfo" });
-    case 1:
-      return S.Array(__S(1312, __c41, 0));
-  }
-}
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5727,7 +5803,7 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          WarnCodes: S.optional(S.NullOr(__S(704, __c22, 0))),
+          WarnCodes: S.optional(S.NullOr(__S(1376, __c43, 0))),
           Address: S.optional(S.NullOr(S.String)),
           Authority: S.optional(S.NullOr(S.String)),
           Birth: S.optional(S.NullOr(S.String)),
@@ -5747,14 +5823,14 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Front: S.optional(S.NullOr(__S(1345, __c42, 1))),
-          Back: S.optional(S.NullOr(__S(1345, __c42, 1))),
+          Front: S.optional(S.NullOr(__S(1441, __c45, 1))),
+          Back: S.optional(S.NullOr(__S(1441, __c45, 1))),
         }),
       ).annotate({ identifier: "IDCardResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          IDCardResult: S.optional(S.NullOr(__S(1346, __c42, 2))),
+          IDCardResult: S.optional(S.NullOr(__S(1442, __c45, 2))),
         }),
       ).annotate({ identifier: "OCRResult" });
     case 4:
@@ -5762,23 +5838,23 @@ function __c42(j: number): any {
         S.Struct({
           ApiRequestId: S.optional(S.String),
           ApiErrorCode: S.optional(S.String),
-          WarnCodes: S.optional(__S(704, __c22, 0)),
+          WarnCodes: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "RequestIdInfo" });
     case 5:
-      return S.Array(__S(1348, __c42, 4));
+      return S.Array(__S(1444, __c45, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          OCRResult: S.optional(__S(1347, __c42, 3)),
-          RequestIdInfos: S.optional(__S(1349, __c42, 5)),
+          OCRResult: S.optional(__S(1443, __c45, 3)),
+          RequestIdInfos: S.optional(__S(1445, __c45, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOCRResultResponse" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5797,7 +5873,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          IDCardConfig: S.optional(__S(1376, __c43, 0)),
+          IDCardConfig: S.optional(__S(1472, __c46, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "GetOCRToken" })),
       ).annotate({ identifier: "GetOCRTokenRequest" });
@@ -5810,7 +5886,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetOCRTokenResponse" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5827,13 +5903,13 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Angle: S.optional(S.Number),
-          WordList: S.optional(__S(833, __c26, 1)),
+          WordList: S.optional(__S(929, __c29, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HandwritingEssayOCRResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5859,14 +5935,14 @@ function __c45(j: number): any {
           CurrentIssueDate: S.optional(S.String),
           HeadImage: S.optional(S.NullOr(S.String)),
           SmallHeadImage: S.optional(S.NullOr(S.String)),
-          WarnCardInfos: S.optional(__S(704, __c22, 0)),
+          WarnCardInfos: S.optional(__S(1376, __c43, 0)),
           WindowEmbeddedText: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HKIDCardOCRResponse" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5893,13 +5969,13 @@ function __c46(j: number): any {
           Authority: S.optional(S.String),
           ValidDate: S.optional(S.String),
           AdvancedInfo: S.optional(S.String),
-          ReflectDetailInfos: S.optional(__S(1505, __c47, 1)),
+          ReflectDetailInfos: S.optional(__S(1601, __c50, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IDCardOCRResponse" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5908,10 +5984,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "ReflectDetailInfo" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1600, __c50, 0));
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5933,7 +6009,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ImageEnhancementResponse" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5954,7 +6030,7 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "LicensePlateInfo" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5962,14 +6038,14 @@ function __c49(j: number): any {
           Confidence: S.optional(S.Number),
           Rect: S.optional(__S(128, __c4, 0)),
           Color: S.optional(S.String),
-          LicensePlateInfos: S.optional(__S(1570, __c49, 2)),
+          LicensePlateInfos: S.optional(__S(1666, __c52, 2)),
           LicensePlateCategory: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LicensePlateOCRResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6005,13 +6081,13 @@ function __c50(j: number): any {
           Type: S.optional(S.String),
           Profile: S.optional(S.String),
           Nationality: S.optional(S.String),
-          MainlandTravelPermitBackInfos: S.optional(__S(1601, __c50, 1)),
+          MainlandTravelPermitBackInfos: S.optional(__S(1697, __c53, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MainlandPermitOCRResponse" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6034,24 +6110,46 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceDetectInfo" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InvoiceDetectInfos: S.optional(__S(1634, __c51, 2)),
+          InvoiceDetectInfos: S.optional(__S(1730, __c54, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MixedInvoiceDetectResponse" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ImageBase64: S.optional(S.String),
           ImageUrl: S.optional(S.String),
-          Types: S.optional(__S(704, __c22, 0)),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BankSlipOCR" })),
+      ).annotate({ identifier: "BankSlipOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BankSlipInfos: S.optional(__S(673, __c21, 1)),
+          Angle: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BankSlipOCRResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          Types: S.optional(__S(1376, __c43, 0)),
           ReturnOther: S.optional(S.String),
           IsPdf: S.optional(S.Boolean),
           PdfPageNumber: S.optional(S.Number),
@@ -6066,22 +6164,22 @@ function __c52(j: number): any {
           Type: S.optional(S.Number),
           Rect: S.optional(__S(128, __c4, 0)),
           Angle: S.optional(S.Number),
-          SingleInvoiceInfos: S.optional(__S(1697, __c53, 1)),
+          SingleInvoiceInfos: S.optional(__S(1825, __c57, 1)),
           Page: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MixedInvoiceItem" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MixedInvoiceItems: S.optional(__S(1666, __c52, 2)),
+          MixedInvoiceItems: S.optional(__S(1794, __c56, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MixedInvoiceOCRResponse" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6092,61 +6190,10 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "SingleInvoiceInfo" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1824, __c57, 0));
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          EnableCopyWarn: S.optional(S.Boolean),
-          EnablePeriodComplete: S.optional(S.Boolean),
-          EnableBusinessCertificate: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BizLicenseOCR" })),
-      ).annotate({ identifier: "BizLicenseOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          RegNum: S.optional(S.String),
-          Name: S.optional(S.String),
-          Capital: S.optional(S.String),
-          Person: S.optional(S.String),
-          Address: S.optional(S.String),
-          Business: S.optional(S.String),
-          Type: S.optional(S.String),
-          Period: S.optional(S.String),
-          ComposingForm: S.optional(S.String),
-          SetDate: S.optional(S.String),
-          RecognizeWarnCode: S.optional(__S(704, __c22, 0)),
-          RecognizeWarnMsg: S.optional(__S(1760, __c55, 0)),
-          IsDuplication: S.optional(S.Number),
-          RegistrationDate: S.optional(S.String),
-          Angle: S.optional(S.Number),
-          NationalEmblem: S.optional(S.Boolean),
-          QRCode: S.optional(S.Boolean),
-          Seal: S.optional(S.Boolean),
-          Title: S.optional(S.String),
-          SerialNumber: S.optional(S.String),
-          RegistrationAuthority: S.optional(S.String),
-          Electronic: S.optional(S.Boolean),
-          BusinessCertificate: S.optional(__S(1313, __c41, 1)),
-          Important: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BizLicenseOCRResponse" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6170,13 +6217,13 @@ function __c56(j: number): any {
           Type: S.optional(S.String),
           Birthday: S.optional(S.String),
           MyKadNumber: S.optional(S.String),
-          WarnCardInfos: S.optional(__S(704, __c22, 0)),
+          WarnCardInfos: S.optional(__S(1376, __c43, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MLIDCardOCRResponse" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,15 +6270,15 @@ function __c57(j: number): any {
           Surname: S.optional(S.NullOr(S.String)),
           GivenName: S.optional(S.NullOr(S.String)),
           Type: S.optional(S.String),
-          PassportRecognizeInfos: S.optional(__S(1825, __c57, 1)),
-          WarnCardInfos: S.optional(__S(704, __c22, 0)),
+          PassportRecognizeInfos: S.optional(__S(1889, __c59, 1)),
+          WarnCardInfos: S.optional(__S(1376, __c43, 0)),
           CardCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MLIDPassportOCRResponse" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6242,6 +6289,7 @@ function __c58(j: number): any {
           EnableSubImg: S.optional(S.Boolean),
           PageRange: S.optional(S.String),
           TaskType: S.optional(S.Number),
+          EnableTableCellCoord: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "MultimodalDocParse" })),
       ).annotate({ identifier: "MultimodalDocParseRequest" });
@@ -6254,7 +6302,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "MultimodalDocParseResponse" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6279,7 +6327,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PortraitImage: S.optional(S.NullOr(S.String)),
-          ImageCoordinates: S.optional(S.NullOr(__S(1889, __c59, 1))),
+          ImageCoordinates: S.optional(S.NullOr(__S(1953, __c61, 1))),
         }),
       ).annotate({ identifier: "PortraitImageInfo" });
     case 3:
@@ -6300,13 +6348,13 @@ function __c59(j: number): any {
           Name: S.optional(S.String),
           FamilyName: S.optional(S.String),
           FirstName: S.optional(S.String),
-          PortraitImageInfo: S.optional(__S(1890, __c59, 2)),
+          PortraitImageInfo: S.optional(__S(1954, __c61, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PassportOCRResponse" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6335,7 +6383,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "PermitOCRResponse" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6350,11 +6398,11 @@ function __c61(j: number): any {
         S.Struct({
           TypeName: S.optional(S.String),
           Url: S.optional(S.String),
-          Position: S.optional(__S(2592, __c81, 0)),
+          Position: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "QrcodeResultsInfo" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(2017, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6365,14 +6413,14 @@ function __c61(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CodeResults: S.optional(__S(1954, __c61, 2)),
-          ImgSize: S.optional(__S(1955, __c61, 3)),
+          CodeResults: S.optional(__S(2018, __c63, 2)),
+          ImgSize: S.optional(__S(2019, __c63, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QrcodeOCRResponse" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6410,7 +6458,7 @@ function __c62(j: number): any {
           CapitalCurrency: S.optional(S.String),
           OrganizationCode: S.optional(S.String),
           EnglishName: S.optional(S.String),
-          FormerNames: S.optional(__S(1760, __c55, 0)),
+          FormerNames: S.optional(__S(704, __c22, 0)),
           OriginalRegNum: S.optional(S.String),
           PaidInCapital: S.optional(S.String),
           RevokeDate: S.optional(S.String),
@@ -6422,7 +6470,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "QueryEnterpriseBasicInfoResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6437,18 +6485,18 @@ function __c63(j: number): any {
       ).annotate({ identifier: "QuestionOCRRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          QuestionInfo: S.optional(__S(390, __c12, 6)),
+          QuestionInfo: S.optional(__S(294, __c9, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuestionOCRResponse" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6466,7 +6514,52 @@ function __c65(j: number): any {
       ).annotate({ identifier: "QuestionSplitLayoutOCRRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          EnableCopyWarn: S.optional(S.Boolean),
+          EnablePeriodComplete: S.optional(S.Boolean),
+          EnableBusinessCertificate: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BizLicenseOCR" })),
+      ).annotate({ identifier: "BizLicenseOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RegNum: S.optional(S.String),
+          Name: S.optional(S.String),
+          Capital: S.optional(S.String),
+          Person: S.optional(S.String),
+          Address: S.optional(S.String),
+          Business: S.optional(S.String),
+          Type: S.optional(S.String),
+          Period: S.optional(S.String),
+          ComposingForm: S.optional(S.String),
+          SetDate: S.optional(S.String),
+          RecognizeWarnCode: S.optional(__S(1376, __c43, 0)),
+          RecognizeWarnMsg: S.optional(__S(704, __c22, 0)),
+          IsDuplication: S.optional(S.Number),
+          RegistrationDate: S.optional(S.String),
+          Angle: S.optional(S.Number),
+          NationalEmblem: S.optional(S.Boolean),
+          QRCode: S.optional(S.Boolean),
+          Seal: S.optional(S.Boolean),
+          Title: S.optional(S.String),
+          SerialNumber: S.optional(S.String),
+          RegistrationAuthority: S.optional(S.String),
+          Electronic: S.optional(S.Boolean),
+          BusinessCertificate: S.optional(__S(673, __c21, 1)),
+          Important: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BizLicenseOCRResponse" });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6483,39 +6576,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "QuestionSplitOCRRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          Config: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BusinessCardOCR" })),
-      ).annotate({ identifier: "BusinessCardOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Value: S.optional(S.String),
-          ItemCoord: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "BusinessCardInfo" });
-    case 2:
-      return S.Array(__S(2145, __c67, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          BusinessCardInfos: S.optional(__S(2146, __c67, 2)),
-          RetImageBase64: S.optional(S.String),
-          Angle: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BusinessCardOCRResponse" });
-  }
-}
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6523,11 +6584,11 @@ function __c68(j: number): any {
           KeyName: S.optional(S.String),
           KeyType: S.optional(S.Number),
           KeyPrompt: S.optional(S.String),
-          SubItems: S.optional(S.suspend(() => __S(2177, __c68, 1))),
+          SubItems: S.optional(S.suspend(() => __S(2241, __c70, 1))),
         }),
       ).annotate({ identifier: "SchemaList" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2240, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6536,8 +6597,8 @@ function __c68(j: number): any {
           PdfPageNumber: S.optional(S.Number),
           SelectModel: S.optional(S.Number),
           QueryType: S.optional(S.Number),
-          SchemaItems: S.optional(__S(2177, __c68, 1)),
-          Query: S.optional(__S(1760, __c55, 0)),
+          SchemaItems: S.optional(__S(2241, __c70, 1)),
+          Query: S.optional(__S(704, __c22, 0)),
           EnableCoord: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "RecognizeAgent" })),
@@ -6554,11 +6615,11 @@ function __c68(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(S.suspend(() => __S(2183, __c68, 7))),
+          Groups: S.optional(S.suspend(() => __S(2247, __c70, 7))),
         }),
       ).annotate({ identifier: "SubItemGroup" });
     case 5:
-      return S.Array(__S(2180, __c68, 4));
+      return S.Array(__S(2244, __c70, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6566,34 +6627,34 @@ function __c68(j: number): any {
           KeyPrompt: S.optional(S.String),
           KeyValue: S.optional(S.String),
           KeyType: S.optional(S.Number),
-          Polygon: S.optional(__S(2179, __c68, 3)),
-          SubItems: S.optional(__S(2181, __c68, 5)),
+          Polygon: S.optional(__S(2243, __c70, 3)),
+          SubItems: S.optional(__S(2245, __c70, 5)),
         }),
       ).annotate({ identifier: "FieldsInfo" });
     case 7:
-      return S.Array(__S(2182, __c68, 6));
+      return S.Array(__S(2246, __c70, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           QueryInfo: S.optional(S.String),
           Answer: S.optional(S.String),
-          ExtractFields: S.optional(__S(2183, __c68, 7)),
-          TextDetections: S.optional(__S(993, __c31, 1)),
+          ExtractFields: S.optional(__S(2247, __c70, 7)),
+          TextDetections: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "ListInfo" });
     case 9:
-      return S.Array(__S(2184, __c68, 8));
+      return S.Array(__S(2248, __c70, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Response: S.optional(__S(2185, __c68, 9)),
+          Response: S.optional(__S(2249, __c70, 9)),
           Angle: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeAgentResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6601,15 +6662,15 @@ function __c69(j: number): any {
           CiphertextBlob: S.NullOr(S.String),
           Iv: S.NullOr(S.String),
           Algorithm: S.optional(S.NullOr(S.String)),
-          TagList: S.optional(S.NullOr(__S(1760, __c55, 0))),
-          EncryptList: S.optional(S.NullOr(__S(1760, __c55, 0))),
+          TagList: S.optional(S.NullOr(__S(704, __c22, 0))),
+          EncryptList: S.optional(S.NullOr(__S(704, __c22, 0))),
         }),
       ).annotate({ identifier: "Encryption" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           EncryptedBody: S.String,
-          Encryption: __S(2208, __c69, 0),
+          Encryption: __S(2272, __c71, 0),
           ImageBase64: S.optional(S.String),
           ImageUrl: S.optional(S.String),
           CardSide: S.optional(S.String),
@@ -6638,15 +6699,15 @@ function __c69(j: number): any {
           Authority: S.optional(S.String),
           ValidDate: S.optional(S.String),
           AdvancedInfo: S.optional(S.String),
-          ReflectDetailInfos: S.optional(__S(1505, __c47, 1)),
+          ReflectDetailInfos: S.optional(__S(1601, __c50, 1)),
           EncryptedBody: S.optional(S.String),
-          Encryption: S.optional(__S(2208, __c69, 0)),
+          Encryption: S.optional(__S(2272, __c71, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeEncryptedIDCardOCRResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6662,13 +6723,13 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Angle: S.optional(S.Number),
-          FormulaInfoList: S.optional(__S(865, __c27, 1)),
+          FormulaInfoList: S.optional(__S(961, __c30, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeFormulaOCRResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6687,42 +6748,30 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CardType: S.optional(S.String),
-          Blur: S.optional(__S(2304, __c72, 0)),
-          BorderIncomplete: S.optional(__S(2304, __c72, 0)),
-          Copy: S.optional(__S(2304, __c72, 0)),
-          Ps: S.optional(__S(2304, __c72, 0)),
-          Reflection: S.optional(__S(2304, __c72, 0)),
-          Reprint: S.optional(__S(2304, __c72, 0)),
-          Screenshot: S.optional(__S(2304, __c72, 0)),
-          Cover: S.optional(__S(2304, __c72, 0)),
-          Overlap: S.optional(__S(2304, __c72, 0)),
-          Watermark: S.optional(__S(2304, __c72, 0)),
-          Electron: S.optional(__S(2304, __c72, 0)),
+          Blur: S.optional(__S(736, __c23, 0)),
+          BorderIncomplete: S.optional(__S(736, __c23, 0)),
+          Copy: S.optional(__S(736, __c23, 0)),
+          Ps: S.optional(__S(736, __c23, 0)),
+          Reflection: S.optional(__S(736, __c23, 0)),
+          Reprint: S.optional(__S(736, __c23, 0)),
+          Screenshot: S.optional(__S(736, __c23, 0)),
+          Cover: S.optional(__S(736, __c23, 0)),
+          Overlap: S.optional(__S(736, __c23, 0)),
+          Watermark: S.optional(__S(736, __c23, 0)),
+          Electron: S.optional(__S(736, __c23, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeGeneralCardWarnResponse" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          IsWarn: S.optional(S.Boolean),
-          RiskConfidence: S.optional(S.Number),
-          Polygon: S.optional(__S(352, __c11, 0)),
-        }),
-      ).annotate({ identifier: "GeneralCardWarnInfo" });
-  }
-}
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ImageBase64: S.optional(S.String),
           ImageUrl: S.optional(S.String),
-          Types: S.optional(__S(704, __c22, 0)),
+          Types: S.optional(__S(1376, __c43, 0)),
           EnableOther: S.optional(S.Boolean),
           EnablePdf: S.optional(S.Boolean),
           PdfPageNumber: S.optional(S.Number),
@@ -6755,7 +6804,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "VatInvoiceItemInfo" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6795,7 +6844,7 @@ function __c73(j: number): any {
           Issuer: S.optional(S.String),
           Reviewer: S.optional(S.String),
           Province: S.optional(S.String),
-          VatInvoiceItemInfos: S.optional(__S(2338, __c73, 2)),
+          VatInvoiceItemInfos: S.optional(__S(2370, __c74, 2)),
           CodeConfirm: S.optional(S.String),
           Receiptor: S.optional(S.String),
           ElectronicFullMark: S.optional(S.Number),
@@ -6837,7 +6886,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "VatElectronicItemInfo" });
     case 5:
-      return S.Array(__S(2340, __c73, 4));
+      return S.Array(__S(2372, __c74, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6856,7 +6905,7 @@ function __c73(j: number): any {
           Remark: S.optional(S.String),
           SubTotal: S.optional(S.String),
           SubTax: S.optional(S.String),
-          VatElectronicItems: S.optional(__S(2341, __c73, 5)),
+          VatElectronicItems: S.optional(__S(2373, __c74, 5)),
           ServiceTypeLabel: S.optional(S.String),
           TotalCnMark: S.optional(S.String),
           TotalMark: S.optional(S.String),
@@ -6880,7 +6929,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "GeneralMachineItem" });
     case 8:
-      return S.Array(__S(2343, __c73, 7));
+      return S.Array(__S(2375, __c74, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -6919,7 +6968,7 @@ function __c73(j: number): any {
           TicketPickupUser: S.optional(S.String),
           MerchantNumber: S.optional(S.String),
           OrderNumber: S.optional(S.String),
-          GeneralMachineItems: S.optional(__S(2344, __c73, 8)),
+          GeneralMachineItems: S.optional(__S(2376, __c74, 8)),
         }),
       ).annotate({ identifier: "MachinePrintedInvoice" });
     case 10:
@@ -6986,18 +7035,18 @@ function __c73(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          OtherInvoiceItemList: S.optional(__S(577, __c18, 1)),
+          OtherInvoiceItemList: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "OtherInvoiceList" });
     case 14:
-      return S.Array(__S(2349, __c73, 13));
+      return S.Array(__S(2381, __c74, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
           Total: S.optional(S.String),
-          OtherInvoiceListItems: S.optional(__S(577, __c18, 1)),
-          OtherInvoiceTableItems: S.optional(__S(2350, __c73, 14)),
+          OtherInvoiceListItems: S.optional(__S(545, __c17, 1)),
+          OtherInvoiceTableItems: S.optional(__S(2382, __c74, 14)),
           Date: S.optional(S.String),
         }),
       ).annotate({ identifier: "OtherInvoice" });
@@ -7108,7 +7157,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "VatRollItem" });
     case 19:
-      return S.Array(__S(2354, __c73, 18));
+      return S.Array(__S(2386, __c74, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -7133,7 +7182,7 @@ function __c73(j: number): any {
           ServiceName: S.optional(S.String),
           CompanySealContent: S.optional(S.String),
           TaxSealContent: S.optional(S.String),
-          VatRollItems: S.optional(__S(2355, __c73, 19)),
+          VatRollItems: S.optional(__S(2387, __c74, 19)),
         }),
       ).annotate({ identifier: "VatInvoiceRoll" });
     case 21:
@@ -7191,7 +7240,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "FlightItem" });
     case 24:
-      return S.Array(__S(2359, __c73, 23));
+      return S.Array(__S(2391, __c74, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -7218,7 +7267,7 @@ function __c73(j: number): any {
           DateEnd: S.optional(S.String),
           Endorsement: S.optional(S.String),
           QRCodeMark: S.optional(S.Number),
-          FlightItems: S.optional(__S(2360, __c73, 24)),
+          FlightItems: S.optional(__S(2392, __c74, 24)),
           PromptInformation: S.optional(S.String),
           BuyerTaxID: S.optional(S.String),
           Buyer: S.optional(S.String),
@@ -7240,7 +7289,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "NonTaxItem" });
     case 27:
-      return S.Array(__S(2362, __c73, 26));
+      return S.Array(__S(2394, __c74, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -7268,7 +7317,7 @@ function __c73(j: number): any {
           PayerBank: S.optional(S.String),
           ReceiverAccount: S.optional(S.String),
           ReceiverBank: S.optional(S.String),
-          NonTaxItems: S.optional(__S(2363, __c73, 27)),
+          NonTaxItems: S.optional(__S(2395, __c74, 27)),
           BillName: S.optional(S.String),
         }),
       ).annotate({ identifier: "NonTaxIncomeBill" });
@@ -7345,7 +7394,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ElectronicTrainTicketFull" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7364,7 +7413,7 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "FlightItemInfo" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7390,7 +7439,7 @@ function __c74(j: number): any {
           Buyer: S.optional(S.String),
           Seller: S.optional(S.String),
           BuyerTaxID: S.optional(S.String),
-          FlightItems: S.optional(__S(2369, __c74, 1)),
+          FlightItems: S.optional(__S(2401, __c75, 1)),
           InvoiceStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ElectronicFlightTicketFull" });
@@ -7398,117 +7447,117 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
-          Content: S.optional(__S(577, __c18, 1)),
-          TableItems: S.optional(__S(2350, __c73, 14)),
+          Content: S.optional(__S(545, __c17, 1)),
+          TableItems: S.optional(__S(2382, __c74, 14)),
         }),
       ).annotate({ identifier: "TaxPayment" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
-          Content: S.optional(__S(577, __c18, 1)),
-          CommonContent: S.optional(__S(577, __c18, 1)),
+          Content: S.optional(__S(545, __c17, 1)),
+          CommonContent: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "CustomsPaymentReceipt" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          BankSlipInfos: S.optional(S.NullOr(__S(1313, __c41, 1))),
-          CommonBankSlipInfos: S.optional(__S(1313, __c41, 1)),
+          BankSlipInfos: S.optional(S.NullOr(__S(673, __c21, 1))),
+          CommonBankSlipInfos: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "BankSlip" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
-          Content: S.optional(__S(1697, __c53, 1)),
+          Content: S.optional(__S(1825, __c57, 1)),
         }),
       ).annotate({ identifier: "OnlineTaxiItinerary" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
-          Content: S.optional(__S(577, __c18, 1)),
+          Content: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "CustomsDeclaration" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(1697, __c53, 1)),
+          Items: S.optional(__S(1825, __c57, 1)),
         }),
       ).annotate({ identifier: "ElectronicTollSummaryList" });
     case 9:
-      return S.Array(__S(2376, __c74, 8));
+      return S.Array(__S(2408, __c75, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(S.String),
           Total: S.optional(S.String),
-          Items: S.optional(__S(1697, __c53, 1)),
-          TableItems: S.optional(__S(2377, __c74, 9)),
+          Items: S.optional(__S(1825, __c57, 1)),
+          TableItems: S.optional(__S(2409, __c75, 9)),
           Date: S.optional(S.String),
         }),
       ).annotate({ identifier: "ElectronicTollSummary" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          VatSpecialInvoice: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatCommonInvoice: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatElectronicCommonInvoice: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatElectronicSpecialInvoice: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatElectronicInvoiceBlockchain: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatElectronicInvoiceToll: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          VatElectronicSpecialInvoiceFull: S.optional(S.NullOr(__S(2342, __c73, 6))),
-          VatElectronicInvoiceFull: S.optional(S.NullOr(__S(2342, __c73, 6))),
-          MachinePrintedInvoice: S.optional(S.NullOr(__S(2345, __c73, 9))),
-          BusInvoice: S.optional(S.NullOr(__S(2346, __c73, 10))),
-          ShippingInvoice: S.optional(S.NullOr(__S(2347, __c73, 11))),
-          TollInvoice: S.optional(S.NullOr(__S(2348, __c73, 12))),
-          OtherInvoice: S.optional(S.NullOr(__S(2351, __c73, 15))),
-          MotorVehicleSaleInvoice: S.optional(S.NullOr(__S(2352, __c73, 16))),
-          UsedCarPurchaseInvoice: S.optional(S.NullOr(__S(2353, __c73, 17))),
-          VatInvoiceRoll: S.optional(S.NullOr(__S(2356, __c73, 20))),
-          TaxiTicket: S.optional(S.NullOr(__S(2357, __c73, 21))),
-          QuotaInvoice: S.optional(S.NullOr(__S(2358, __c73, 22))),
-          AirTransport: S.optional(S.NullOr(__S(2361, __c73, 25))),
-          NonTaxIncomeGeneralBill: S.optional(S.NullOr(__S(2364, __c73, 28))),
-          NonTaxIncomeElectronicBill: S.optional(S.NullOr(__S(2364, __c73, 28))),
-          TrainTicket: S.optional(S.NullOr(__S(2365, __c73, 29))),
-          MedicalOutpatientInvoice: S.optional(S.NullOr(__S(2366, __c73, 30))),
-          MedicalHospitalizedInvoice: S.optional(S.NullOr(__S(2366, __c73, 30))),
-          VatSalesList: S.optional(S.NullOr(__S(2339, __c73, 3))),
-          ElectronicTrainTicketFull: S.optional(S.NullOr(__S(2367, __c73, 31))),
-          ElectronicFlightTicketFull: S.optional(S.NullOr(__S(2370, __c74, 2))),
-          TaxPayment: S.optional(S.NullOr(__S(2371, __c74, 3))),
-          CustomsPaymentReceipt: S.optional(S.NullOr(__S(2372, __c74, 4))),
-          BankSlip: S.optional(S.NullOr(__S(2373, __c74, 5))),
-          OnlineTaxiItinerary: S.optional(S.NullOr(__S(2374, __c74, 6))),
-          CustomsDeclaration: S.optional(S.NullOr(__S(2375, __c74, 7))),
-          OverseasInvoice: S.optional(S.NullOr(__S(2375, __c74, 7))),
-          ShoppingReceipt: S.optional(S.NullOr(__S(2375, __c74, 7))),
-          SaleInventory: S.optional(S.NullOr(__S(2375, __c74, 7))),
-          MotorVehicleSaleInvoiceElectronic: S.optional(S.NullOr(__S(2352, __c73, 16))),
-          UsedCarPurchaseInvoiceElectronic: S.optional(S.NullOr(__S(2353, __c73, 17))),
-          ElectronicTollSummary: S.optional(S.NullOr(__S(2378, __c74, 10))),
+          VatSpecialInvoice: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatCommonInvoice: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatElectronicCommonInvoice: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatElectronicSpecialInvoice: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatElectronicInvoiceBlockchain: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatElectronicInvoiceToll: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          VatElectronicSpecialInvoiceFull: S.optional(S.NullOr(__S(2374, __c74, 6))),
+          VatElectronicInvoiceFull: S.optional(S.NullOr(__S(2374, __c74, 6))),
+          MachinePrintedInvoice: S.optional(S.NullOr(__S(2377, __c74, 9))),
+          BusInvoice: S.optional(S.NullOr(__S(2378, __c74, 10))),
+          ShippingInvoice: S.optional(S.NullOr(__S(2379, __c74, 11))),
+          TollInvoice: S.optional(S.NullOr(__S(2380, __c74, 12))),
+          OtherInvoice: S.optional(S.NullOr(__S(2383, __c74, 15))),
+          MotorVehicleSaleInvoice: S.optional(S.NullOr(__S(2384, __c74, 16))),
+          UsedCarPurchaseInvoice: S.optional(S.NullOr(__S(2385, __c74, 17))),
+          VatInvoiceRoll: S.optional(S.NullOr(__S(2388, __c74, 20))),
+          TaxiTicket: S.optional(S.NullOr(__S(2389, __c74, 21))),
+          QuotaInvoice: S.optional(S.NullOr(__S(2390, __c74, 22))),
+          AirTransport: S.optional(S.NullOr(__S(2393, __c74, 25))),
+          NonTaxIncomeGeneralBill: S.optional(S.NullOr(__S(2396, __c74, 28))),
+          NonTaxIncomeElectronicBill: S.optional(S.NullOr(__S(2396, __c74, 28))),
+          TrainTicket: S.optional(S.NullOr(__S(2397, __c74, 29))),
+          MedicalOutpatientInvoice: S.optional(S.NullOr(__S(2398, __c74, 30))),
+          MedicalHospitalizedInvoice: S.optional(S.NullOr(__S(2398, __c74, 30))),
+          VatSalesList: S.optional(S.NullOr(__S(2371, __c74, 3))),
+          ElectronicTrainTicketFull: S.optional(S.NullOr(__S(2399, __c74, 31))),
+          ElectronicFlightTicketFull: S.optional(S.NullOr(__S(2402, __c75, 2))),
+          TaxPayment: S.optional(S.NullOr(__S(2403, __c75, 3))),
+          CustomsPaymentReceipt: S.optional(S.NullOr(__S(2404, __c75, 4))),
+          BankSlip: S.optional(S.NullOr(__S(2405, __c75, 5))),
+          OnlineTaxiItinerary: S.optional(S.NullOr(__S(2406, __c75, 6))),
+          CustomsDeclaration: S.optional(S.NullOr(__S(2407, __c75, 7))),
+          OverseasInvoice: S.optional(S.NullOr(__S(2407, __c75, 7))),
+          ShoppingReceipt: S.optional(S.NullOr(__S(2407, __c75, 7))),
+          SaleInventory: S.optional(S.NullOr(__S(2407, __c75, 7))),
+          MotorVehicleSaleInvoiceElectronic: S.optional(S.NullOr(__S(2384, __c74, 16))),
+          UsedCarPurchaseInvoiceElectronic: S.optional(S.NullOr(__S(2385, __c74, 17))),
+          ElectronicTollSummary: S.optional(S.NullOr(__S(2410, __c75, 10))),
         }),
       ).annotate({ identifier: "SingleInvoiceItem" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
-          Polygon: S.optional(__S(2592, __c81, 0)),
+          Polygon: S.optional(__S(768, __c24, 0)),
           Row: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ItemPolygonInfo" });
     case 13:
-      return S.Array(__S(2380, __c74, 12));
+      return S.Array(__S(2412, __c75, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           CompanySealMark: S.optional(S.String),
           SupervisionSealMark: S.optional(S.String),
-          CompanySealMarkInfo: S.optional(__S(1760, __c55, 0)),
-          SupervisionSealMarkInfo: S.optional(__S(1760, __c55, 0)),
+          CompanySealMarkInfo: S.optional(__S(704, __c22, 0)),
+          SupervisionSealMarkInfo: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "InvoiceSealInfo" });
     case 15:
@@ -7516,32 +7565,32 @@ function __c74(j: number): any {
         S.Struct({
           Code: S.optional(S.String),
           Type: S.optional(S.Number),
-          Polygon: S.optional(__S(2592, __c81, 0)),
+          Polygon: S.optional(__S(768, __c24, 0)),
           Angle: S.optional(S.Number),
-          SingleInvoiceInfos: S.optional(__S(2379, __c74, 11)),
+          SingleInvoiceInfos: S.optional(__S(2411, __c75, 11)),
           Page: S.optional(S.Number),
           SubType: S.optional(S.String),
           TypeDescription: S.optional(S.String),
           CutImage: S.optional(S.String),
           SubTypeDescription: S.optional(S.String),
-          ItemPolygon: S.optional(__S(2381, __c74, 13)),
+          ItemPolygon: S.optional(__S(2413, __c75, 13)),
           QRCode: S.optional(S.String),
-          InvoiceSealInfo: S.optional(__S(2382, __c74, 14)),
+          InvoiceSealInfo: S.optional(__S(2414, __c75, 14)),
         }),
       ).annotate({ identifier: "InvoiceItem" });
     case 16:
-      return S.Array(__S(2383, __c74, 15));
+      return S.Array(__S(2415, __c75, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          MixedInvoiceItems: S.optional(__S(2384, __c74, 16)),
+          MixedInvoiceItems: S.optional(__S(2416, __c75, 16)),
           TotalPDFCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeGeneralInvoiceResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7562,31 +7611,31 @@ function __c75(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Content: S.optional(S.String),
-          Vertex: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          Vertex: S.optional(S.NullOr(__S(768, __c24, 0))),
           Coord: S.optional(S.NullOr(__S(128, __c4, 0))),
         }),
       ).annotate({ identifier: "MedicalInvoiceItem" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MedicalInvoiceItems: S.optional(__S(2402, __c75, 2)),
+          MedicalInvoiceItems: S.optional(__S(2434, __c76, 2)),
         }),
       ).annotate({ identifier: "MedicalInvoiceInfo" });
     case 4:
-      return S.Array(__S(2403, __c75, 3));
+      return S.Array(__S(2435, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          MedicalInvoiceInfos: S.optional(__S(2404, __c75, 4)),
+          MedicalInvoiceInfos: S.optional(__S(2436, __c76, 4)),
           Angle: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeMedicalInvoiceOCRResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7599,15 +7648,15 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StoreInfo: S.optional(__S(1313, __c41, 1)),
+          StoreInfo: S.optional(__S(673, __c21, 1)),
           Angle: S.optional(S.Number),
-          StoreLabel: S.optional(__S(1760, __c55, 0)),
+          StoreLabel: S.optional(__S(704, __c22, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeStoreNameResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7635,21 +7684,21 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "TableCellInfo" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Cells: S.optional(S.NullOr(__S(2466, __c77, 2))),
+          Cells: S.optional(S.NullOr(__S(2498, __c78, 2))),
           Type: S.optional(S.NullOr(S.Number)),
           TableCoordPoint: S.optional(S.NullOr(__S(32, __c1, 0))),
         }),
       ).annotate({ identifier: "TableInfo" });
     case 4:
-      return S.Array(__S(2467, __c77, 3));
+      return S.Array(__S(2499, __c78, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TableDetections: S.optional(S.NullOr(__S(2468, __c77, 4))),
+          TableDetections: S.optional(S.NullOr(__S(2500, __c78, 4))),
           Data: S.optional(S.String),
           PdfPageSize: S.optional(S.NullOr(S.Number)),
           Angle: S.optional(S.NullOr(S.Number)),
@@ -7658,7 +7707,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "RecognizeTableAccurateOCRResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7679,7 +7728,7 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "CellContent" });
     case 2:
-      return S.Array(__S(2497, __c78, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7692,11 +7741,11 @@ function __c78(j: number): any {
           Confidence: S.optional(S.Number),
           Polygon: S.optional(__S(32, __c1, 0)),
           AdvancedInfo: S.optional(S.NullOr(S.String)),
-          Contents: S.optional(__S(2498, __c78, 2)),
+          Contents: S.optional(__S(2530, __c79, 2)),
         }),
       ).annotate({ identifier: "TableCell" });
     case 4:
-      return S.Array(__S(2499, __c78, 3));
+      return S.Array(__S(2531, __c79, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7704,22 +7753,22 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "TableTitle" });
     case 6:
-      return S.Array(__S(2501, __c78, 5));
+      return S.Array(__S(2533, __c79, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Cells: S.optional(S.NullOr(__S(2500, __c78, 4))),
-          Titles: S.optional(S.NullOr(__S(2502, __c78, 6))),
+          Cells: S.optional(S.NullOr(__S(2532, __c79, 4))),
+          Titles: S.optional(S.NullOr(__S(2534, __c79, 6))),
           Type: S.optional(S.NullOr(S.Number)),
           TableCoordPoint: S.optional(S.NullOr(__S(32, __c1, 0))),
         }),
       ).annotate({ identifier: "TableDetectInfo" });
     case 8:
-      return S.Array(__S(2503, __c78, 7));
+      return S.Array(__S(2535, __c79, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          TableDetections: S.optional(__S(2504, __c78, 8)),
+          TableDetections: S.optional(__S(2536, __c79, 8)),
           Data: S.optional(S.String),
           PdfPageSize: S.optional(S.Number),
           Angle: S.optional(S.Number),
@@ -7728,7 +7777,39 @@ function __c78(j: number): any {
       ).annotate({ identifier: "RecognizeTableOCRResponse" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          Config: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "BusinessCardOCR" })),
+      ).annotate({ identifier: "BusinessCardOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          ItemCoord: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "BusinessCardInfo" });
+    case 2:
+      return S.Array(__S(2561, __c80, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          BusinessCardInfos: S.optional(__S(2562, __c80, 2)),
+          RetImageBase64: S.optional(S.String),
+          Angle: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BusinessCardOCRResponse" });
+  }
+}
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7761,58 +7842,13 @@ function __c79(j: number): any {
           Address: S.optional(S.String),
           LaserID: S.optional(S.String),
           PortraitImage: S.optional(S.String),
-          WarnCardInfos: S.optional(__S(704, __c22, 0)),
+          WarnCardInfos: S.optional(__S(1376, __c43, 0)),
           CardCount: S.optional(S.Number),
           ThaiFirstName: S.optional(S.String),
           ThaiLastName: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecognizeThaiIDCardOCRResponse" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          IsPdf: S.optional(S.Boolean),
-          PdfPageNumber: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "CarInvoiceOCR" })),
-      ).annotate({ identifier: "CarInvoiceOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Value: S.optional(S.String),
-          Rect: S.optional(__S(128, __c4, 0)),
-          Polygon: S.optional(S.NullOr(__S(2592, __c81, 0))),
-        }),
-      ).annotate({ identifier: "CarInvoiceInfo" });
-    case 2:
-      return S.Array(__S(2561, __c80, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          CarInvoiceInfos: S.optional(__S(2562, __c80, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CarInvoiceOCRResponse" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          LeftTop: S.optional(__S(64, __c2, 0)),
-          RightTop: S.optional(__S(64, __c2, 0)),
-          RightBottom: S.optional(__S(64, __c2, 0)),
-          LeftBottom: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "Polygon" });
   }
 }
 function __c82(j: number): any {
@@ -8042,7 +8078,7 @@ function __c86(j: number): any {
         S.Struct({
           Model: S.String,
           Query: S.String,
-          Docs: __S(1760, __c55, 0),
+          Docs: __S(704, __c22, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "RunRerank" })),
       ).annotate({ identifier: "RunRerankRequest" });
@@ -8081,8 +8117,8 @@ function __c87(j: number): any {
         S.Struct({
           SealBody: S.optional(S.String),
           Location: S.optional(__S(128, __c4, 0)),
-          OtherTexts: S.optional(__S(1760, __c55, 0)),
-          SealInfos: S.optional(__S(897, __c28, 1)),
+          OtherTexts: S.optional(__S(704, __c22, 0)),
+          SealInfos: S.optional(__S(993, __c31, 1)),
           SealShape: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
@@ -8096,7 +8132,7 @@ function __c88(j: number): any {
         S.Struct({
           ImageUrl: S.optional(S.String),
           ImageBase64: S.optional(S.String),
-          ItemNames: S.optional(__S(1760, __c55, 0)),
+          ItemNames: S.optional(__S(704, __c22, 0)),
           IsPdf: S.optional(S.Boolean),
           PdfPageNumber: S.optional(S.Number),
           ReturnFullText: S.optional(S.Boolean),
@@ -8132,18 +8168,23 @@ function __c89(j: number): any {
         S.Struct({
           ImageBase64: S.optional(S.String),
           ImageUrl: S.optional(S.String),
-          ItemNames: S.optional(__S(769, __c24, 1)),
+          ItemNames: S.optional(__S(865, __c27, 1)),
           EnableCoord: S.optional(S.Boolean),
           FileStartPageNumber: S.optional(S.Number),
           FileEndPageNumber: S.optional(S.Number),
           ModelConfig: S.optional(S.String),
           AgentType: S.optional(S.Number),
+          QuestionConfigMap: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ocr", version: "2018-11-19", action: "SubmitExtractDocAgentJob" }),
         ),
       ).annotate({ identifier: "SubmitExtractDocAgentJobRequest" });
-    case 1:
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           JobId: S.optional(S.String),
@@ -8152,15 +8193,16 @@ function __c89(j: number): any {
       ).annotate({ identifier: "SubmitExtractDocAgentJobResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ImageBase64List: S.optional(__S(1760, __c55, 0)),
-          ImageUrlList: S.optional(__S(1760, __c55, 0)),
-          PdfPageNumber: S.optional(S.Number),
+          ImageBase64List: S.optional(__S(704, __c22, 0)),
+          ImageUrlList: S.optional(__S(704, __c22, 0)),
           QuestionConfigMap: S.optional(S.String),
+          AgentType: S.optional(S.Number),
+          PageRange: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ocr", version: "2018-11-19", action: "SubmitMarkEssayAgentJob" }),
@@ -8169,13 +8211,45 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          JobIds: S.optional(__S(1760, __c55, 0)),
+          JobIds: S.optional(__S(704, __c22, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubmitMarkEssayAgentJobResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          IsPdf: S.optional(S.Boolean),
+          PdfPageNumber: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "CarInvoiceOCR" })),
+      ).annotate({ identifier: "CarInvoiceOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          Rect: S.optional(__S(128, __c4, 0)),
+          Polygon: S.optional(S.NullOr(__S(768, __c24, 0))),
+        }),
+      ).annotate({ identifier: "CarInvoiceInfo" });
+    case 2:
+      return S.Array(__S(2945, __c92, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CarInvoiceInfos: S.optional(__S(2946, __c92, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CarInvoiceOCRResponse" });
+  }
+}
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8188,6 +8262,7 @@ function __c91(j: number): any {
           FileStartPageNumber: S.optional(S.Number),
           FileEndPageNumber: S.optional(S.Number),
           TaskType: S.optional(S.Number),
+          EnableTableCellCoord: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -8206,37 +8281,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SubmitMultimodalDocParseJobResponse" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          DiscernType: S.optional(__S(1760, __c55, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ClassifyDetectOCR" })),
-      ).annotate({ identifier: "ClassifyDetectOCRRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.optional(S.String),
-          Type: S.optional(S.NullOr(S.String)),
-          Rect: S.optional(__S(128, __c4, 0)),
-        }),
-      ).annotate({ identifier: "ClassifyDetectInfo" });
-    case 2:
-      return S.Array(__S(2945, __c92, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ClassifyDetectInfos: S.optional(__S(2946, __c92, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClassifyDetectOCRResponse" });
-  }
-}
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8245,36 +8290,26 @@ function __c93(j: number): any {
           ImageUrl: S.optional(S.String),
           PdfPageNumber: S.optional(S.Number),
           QuestionConfigMap: S.optional(S.String),
-          ReferenceAnswer: S.optional(S.String),
-          ImageBase64List: S.optional(__S(1760, __c55, 0)),
-          ImageUrlList: S.optional(__S(1760, __c55, 0)),
+          ImageBase64List: S.optional(__S(704, __c22, 0)),
+          ImageUrlList: S.optional(__S(704, __c22, 0)),
           AssistMarkType: S.optional(S.Number),
           AnswerAssistMap: S.optional(S.String),
           EnableImageCrop: S.optional(S.Boolean),
+          ModelType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ocr", version: "2018-11-19", action: "SubmitQuestionMarkAgentJob" }),
         ),
       ).annotate({ identifier: "SubmitQuestionMarkAgentJobRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          JobId: S.optional(S.String),
-          QuestionInfo: S.optional(__S(390, __c12, 6)),
-          QuestionCount: S.optional(S.String),
-          OriginalImageUrl: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SubmitQuestionMarkAgentJobResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ImageUrlList: S.optional(__S(1760, __c55, 0)),
-          ImageBase64List: S.optional(__S(1760, __c55, 0)),
+          ImageUrlList: S.optional(__S(704, __c22, 0)),
+          ImageBase64List: S.optional(__S(704, __c22, 0)),
           ModelType: S.optional(S.String),
           EnableImageCrop: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -8292,7 +8327,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "SubmitQuestionSplitJobResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8317,18 +8352,18 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "TextTable" });
     case 2:
-      return S.Array(__S(3041, __c95, 1));
+      return S.Array(__S(3073, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TextDetections: S.optional(__S(3042, __c95, 2)),
+          TextDetections: S.optional(__S(3074, __c96, 2)),
           Data: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableOCRResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8347,7 +8382,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TextDetectResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8387,7 +8422,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TrainTicketOCRResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8404,16 +8439,16 @@ function __c98(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Value: S.optional(S.String),
-          Polygon: S.optional(S.NullOr(__S(2592, __c81, 0))),
+          Polygon: S.optional(S.NullOr(__S(768, __c24, 0))),
         }),
       ).annotate({ identifier: "TextVatInvoice" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(3169, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          VatInvoiceInfos: S.optional(__S(3138, __c98, 2)),
-          Items: S.optional(__S(3169, __c99, 1)),
+          VatInvoiceInfos: S.optional(__S(3170, __c99, 2)),
+          Items: S.optional(__S(3201, __c100, 1)),
           PdfPageSize: S.optional(S.Number),
           Angle: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -8421,7 +8456,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "VatInvoiceOCRResponse" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8451,10 +8486,10 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "VatInvoiceItem" });
     case 1:
-      return S.Array(__S(3168, __c99, 0));
+      return S.Array(__S(3200, __c100, 0));
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8482,7 +8517,7 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "RedLetterInvoiceItem" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8509,7 +8544,7 @@ function __c100(j: number): any {
           AmountWithoutTax: S.optional(S.String),
           TaxAmount: S.optional(S.String),
           AmountWithTax: S.optional(S.String),
-          Items: S.optional(__S(3169, __c99, 1)),
+          Items: S.optional(__S(3201, __c100, 1)),
           TaxBureau: S.optional(S.String),
           TrafficFreeFlag: S.optional(S.String),
           RedLetterInvoiceMark: S.optional(S.NullOr(S.Boolean)),
@@ -8525,7 +8560,7 @@ function __c100(j: number): any {
           AmountWithTaxCN: S.optional(S.NullOr(S.String)),
           TaxRate: S.optional(S.NullOr(S.String)),
           SpecialTicketCode: S.optional(S.NullOr(S.String)),
-          RedLetterInvoices: S.optional(S.NullOr(__S(3202, __c100, 2))),
+          RedLetterInvoices: S.optional(S.NullOr(__S(3234, __c101, 2))),
           FullElectronicType: S.optional(S.NullOr(S.String)),
           OfdUrl: S.optional(S.NullOr(S.String)),
           PdfUrl: S.optional(S.NullOr(S.String)),
@@ -8608,7 +8643,7 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "PassInvoiceInfo" });
     case 7:
-      return S.Array(__S(3206, __c100, 6));
+      return S.Array(__S(3238, __c101, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -8658,7 +8693,7 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "ElectronicAirTransportDetail" });
     case 10:
-      return S.Array(__S(3209, __c100, 9));
+      return S.Array(__S(3241, __c101, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -8677,7 +8712,7 @@ function __c100(j: number): any {
           PassengerName: S.optional(S.NullOr(S.String)),
           PassengerNo: S.optional(S.NullOr(S.String)),
           ElectronicNumber: S.optional(S.NullOr(S.String)),
-          ElectronicAirTransportDetails: S.optional(S.NullOr(__S(3210, __c100, 10))),
+          ElectronicAirTransportDetails: S.optional(S.NullOr(__S(3242, __c101, 10))),
           Fare: S.optional(S.String),
           FuelSurcharge: S.optional(S.String),
           TaxAmount: S.optional(S.String),
@@ -8698,7 +8733,7 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "FinancialBillItem" });
     case 13:
-      return S.Array(__S(3212, __c100, 12));
+      return S.Array(__S(3244, __c101, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -8718,26 +8753,26 @@ function __c100(j: number): any {
           RushRedDate: S.optional(S.NullOr(S.String)),
           RushRedTime: S.optional(S.NullOr(S.String)),
           RushRedReason: S.optional(S.NullOr(S.String)),
-          FinancialBillItems: S.optional(S.NullOr(__S(3213, __c100, 13))),
-          FinancialBillItemDetails: S.optional(S.NullOr(__S(3213, __c100, 13))),
+          FinancialBillItems: S.optional(S.NullOr(__S(3245, __c101, 13))),
+          FinancialBillItemDetails: S.optional(S.NullOr(__S(3245, __c101, 13))),
         }),
       ).annotate({ identifier: "FinancialBill" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          Invoice: S.optional(__S(3203, __c100, 3)),
-          VehicleInvoiceInfo: S.optional(__S(3204, __c100, 4)),
-          UsedVehicleInvoiceInfo: S.optional(__S(3205, __c100, 5)),
-          PassInvoiceInfoList: S.optional(__S(3207, __c100, 7)),
-          ElectronicTrainTicket: S.optional(__S(3208, __c100, 8)),
-          ElectronicAirTransport: S.optional(__S(3211, __c100, 11)),
-          FinancialBill: S.optional(__S(3214, __c100, 14)),
+          Invoice: S.optional(__S(3235, __c101, 3)),
+          VehicleInvoiceInfo: S.optional(__S(3236, __c101, 4)),
+          UsedVehicleInvoiceInfo: S.optional(__S(3237, __c101, 5)),
+          PassInvoiceInfoList: S.optional(__S(3239, __c101, 7)),
+          ElectronicTrainTicket: S.optional(__S(3240, __c101, 8)),
+          ElectronicAirTransport: S.optional(__S(3243, __c101, 11)),
+          FinancialBill: S.optional(__S(3246, __c101, 14)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VatInvoiceVerifyNewResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8805,18 +8840,18 @@ function __c101(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          FrontInfo: S.optional(S.NullOr(__S(3233, __c101, 1))),
-          BackInfo: S.optional(S.NullOr(__S(3234, __c101, 2))),
-          RecognizeWarnCode: S.optional(__S(704, __c22, 0)),
-          RecognizeWarnMsg: S.optional(__S(1760, __c55, 0)),
+          FrontInfo: S.optional(S.NullOr(__S(3265, __c102, 1))),
+          BackInfo: S.optional(S.NullOr(__S(3266, __c102, 2))),
+          RecognizeWarnCode: S.optional(__S(1376, __c43, 0)),
+          RecognizeWarnMsg: S.optional(__S(704, __c22, 0)),
           VehicleLicenseType: S.optional(S.String),
-          TractorBackInfo: S.optional(S.NullOr(__S(3235, __c101, 3))),
+          TractorBackInfo: S.optional(S.NullOr(__S(3267, __c102, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VehicleLicenseOCRResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8829,13 +8864,43 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VehicleRegCertInfos: S.optional(__S(577, __c18, 1)),
+          VehicleRegCertInfos: S.optional(__S(545, __c17, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VehicleRegCertOCRResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ImageBase64: S.optional(S.String),
+          ImageUrl: S.optional(S.String),
+          DiscernType: S.optional(__S(704, __c22, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ClassifyDetectOCR" })),
+      ).annotate({ identifier: "ClassifyDetectOCRRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(S.NullOr(S.String)),
+          Rect: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "ClassifyDetectInfo" });
+    case 2:
+      return S.Array(__S(3329, __c104, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ClassifyDetectInfos: S.optional(__S(3330, __c104, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClassifyDetectOCRResponse" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8864,29 +8929,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "VerifyBizLicenseEnterprise3Response" });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ImageBase64: S.optional(S.String),
-          ImageUrl: S.optional(S.String),
-          SceneType: S.optional(S.Boolean),
-          StoreInfo: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ClassifyStoreName" })),
-      ).annotate({ identifier: "ClassifyStoreNameRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          StoreLabel: S.optional(__S(1760, __c55, 0)),
-          SceneType: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClassifyStoreNameResponse" });
-  }
-}
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8920,7 +8963,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "VerifyBizLicenseEnterprise4Response" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8929,8 +8972,8 @@ function __c106(j: number): any {
           ImageUrl: S.optional(S.String),
           ImageBase64: S.optional(S.String),
           ReasoningPrompt: S.optional(S.String),
-          ReasoningConfig: S.optional(__S(3424, __c107, 0)),
-          IgnoreWatermarkCategories: S.optional(__S(1760, __c55, 0)),
+          ReasoningConfig: S.optional(__S(3456, __c108, 0)),
+          IgnoreWatermarkCategories: S.optional(__S(704, __c22, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ocr", version: "2018-11-19", action: "VerifyGeneralCardWarn" }),
@@ -8939,34 +8982,34 @@ function __c106(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tamper: S.optional(__S(2304, __c72, 0)),
-          Synthesis: S.optional(__S(2304, __c72, 0)),
-          Template: S.optional(__S(2304, __c72, 0)),
-          RemakeScreen: S.optional(__S(2304, __c72, 0)),
-          Screenshot: S.optional(__S(2304, __c72, 0)),
-          Blur: S.optional(__S(2304, __c72, 0)),
-          BorderIncomplete: S.optional(__S(2304, __c72, 0)),
-          Copy: S.optional(__S(2304, __c72, 0)),
-          Reflection: S.optional(__S(2304, __c72, 0)),
-          Cover: S.optional(__S(2304, __c72, 0)),
-          Overlap: S.optional(__S(2304, __c72, 0)),
-          Electron: S.optional(__S(2304, __c72, 0)),
-          TextWatermark: S.optional(__S(2304, __c72, 0)),
+          Tamper: S.optional(__S(736, __c23, 0)),
+          Synthesis: S.optional(__S(736, __c23, 0)),
+          Template: S.optional(__S(736, __c23, 0)),
+          RemakeScreen: S.optional(__S(736, __c23, 0)),
+          Screenshot: S.optional(__S(736, __c23, 0)),
+          Blur: S.optional(__S(736, __c23, 0)),
+          BorderIncomplete: S.optional(__S(736, __c23, 0)),
+          Copy: S.optional(__S(736, __c23, 0)),
+          Reflection: S.optional(__S(736, __c23, 0)),
+          Cover: S.optional(__S(736, __c23, 0)),
+          Overlap: S.optional(__S(736, __c23, 0)),
+          Electron: S.optional(__S(736, __c23, 0)),
+          TextWatermark: S.optional(__S(736, __c23, 0)),
           WatermarkContent: S.optional(S.String),
-          ReasoningResult: S.optional(__S(3425, __c107, 1)),
+          ReasoningResult: S.optional(__S(3457, __c108, 1)),
           IsKeyFieldTamper: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyGeneralCardWarnResponse" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OutputMode: S.optional(S.String),
-          EnumValues: S.optional(__S(1760, __c55, 0)),
+          EnumValues: S.optional(__S(704, __c22, 0)),
           MaxLength: S.optional(S.Number),
           EnableImageInput: S.optional(S.Boolean),
         }),
@@ -8983,7 +9026,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ReasoningResult" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9019,7 +9062,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "VatInvoiceGoodsInfo" });
     case 3:
-      return S.Array(__S(3458, __c108, 2));
+      return S.Array(__S(3490, __c109, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9038,7 +9081,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "DetailInformationOfAirTicketTupleList" });
     case 5:
-      return S.Array(__S(3460, __c108, 4));
+      return S.Array(__S(3492, __c109, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9047,7 +9090,7 @@ function __c108(j: number): any {
           Endorsement: S.optional(S.String),
           NumberOfGPOrder: S.optional(S.String),
           ElectronicInvoiceAirTransportReceiptNumber: S.optional(S.String),
-          DetailInformationOfAirTicketTuple: S.optional(__S(3461, __c108, 5)),
+          DetailInformationOfAirTicketTuple: S.optional(__S(3493, __c109, 5)),
           Fare: S.optional(S.String),
           FuelSurcharge: S.optional(S.String),
           VatRate: S.optional(S.String),
@@ -9109,8 +9152,8 @@ function __c108(j: number): any {
           InvoiceCheckCode: S.optional(S.String),
           MachineNumber: S.optional(S.String),
           TaxControlCode: S.optional(S.String),
-          Buyer: S.optional(__S(3457, __c108, 1)),
-          Seller: S.optional(__S(3457, __c108, 1)),
+          Buyer: S.optional(__S(3489, __c109, 1)),
+          Seller: S.optional(__S(3489, __c109, 1)),
           TaxInclusiveTotalAmount: S.optional(S.String),
           InvoiceClerk: S.optional(S.String),
           Payee: S.optional(S.String),
@@ -9118,16 +9161,16 @@ function __c108(j: number): any {
           TaxTotalAmount: S.optional(S.String),
           TaxExclusiveTotalAmount: S.optional(S.String),
           Note: S.optional(S.String),
-          GoodsInfos: S.optional(__S(3459, __c108, 3)),
-          AirTicketInfo: S.optional(__S(3462, __c108, 6)),
-          RailwayTicketInfo: S.optional(__S(3463, __c108, 7)),
+          GoodsInfos: S.optional(__S(3491, __c109, 3)),
+          AirTicketInfo: S.optional(__S(3494, __c109, 6)),
+          RailwayTicketInfo: S.optional(__S(3495, __c109, 7)),
           InvoiceTitle: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyOfdVatInvoiceOCRResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9138,28 +9181,28 @@ function __c109(j: number): any {
           ImageUrl: S.optional(S.String),
           ImageBase64: S.optional(S.String),
           ReasoningPrompt: S.optional(S.String),
-          ReasoningConfig: S.optional(__S(3424, __c107, 0)),
-          IgnoreWatermarkCategories: S.optional(__S(1760, __c55, 0)),
+          ReasoningConfig: S.optional(__S(3456, __c108, 0)),
+          IgnoreWatermarkCategories: S.optional(__S(704, __c22, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "VerifyScenePhoto" })),
       ).annotate({ identifier: "VerifyScenePhotoRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tamper: S.optional(__S(2304, __c72, 0)),
-          Synthesis: S.optional(__S(2304, __c72, 0)),
-          RemakeScreen: S.optional(__S(2304, __c72, 0)),
-          Screenshot: S.optional(__S(2304, __c72, 0)),
-          TextWatermark: S.optional(__S(2304, __c72, 0)),
+          Tamper: S.optional(__S(736, __c23, 0)),
+          Synthesis: S.optional(__S(736, __c23, 0)),
+          RemakeScreen: S.optional(__S(736, __c23, 0)),
+          Screenshot: S.optional(__S(736, __c23, 0)),
+          TextWatermark: S.optional(__S(736, __c23, 0)),
           WatermarkContent: S.optional(S.String),
-          Template: S.optional(__S(2304, __c72, 0)),
-          ReasoningResult: S.optional(__S(3425, __c107, 1)),
+          Template: S.optional(__S(736, __c23, 0)),
+          ReasoningResult: S.optional(__S(3457, __c108, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VerifyScenePhotoResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9178,7 +9221,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "VinOCRResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9200,53 +9243,45 @@ function __c111(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          RecName: S.optional(__S(3553, __c111, 1)),
-          RecNum: S.optional(__S(3553, __c111, 1)),
-          RecAddr: S.optional(__S(3553, __c111, 1)),
-          SenderName: S.optional(__S(3553, __c111, 1)),
-          SenderNum: S.optional(__S(3553, __c111, 1)),
-          SenderAddr: S.optional(__S(3553, __c111, 1)),
-          WaybillNum: S.optional(__S(3553, __c111, 1)),
-          MainWaybillNum: S.optional(__S(3553, __c111, 1)),
+          RecName: S.optional(__S(3585, __c112, 1)),
+          RecNum: S.optional(__S(3585, __c112, 1)),
+          RecAddr: S.optional(__S(3585, __c112, 1)),
+          SenderName: S.optional(__S(3585, __c112, 1)),
+          SenderNum: S.optional(__S(3585, __c112, 1)),
+          SenderAddr: S.optional(__S(3585, __c112, 1)),
+          WaybillNum: S.optional(__S(3585, __c112, 1)),
+          MainWaybillNum: S.optional(__S(3585, __c112, 1)),
         }),
       ).annotate({ identifier: "TextWaybill" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TextDetections: S.optional(__S(3554, __c111, 2)),
+          TextDetections: S.optional(__S(3586, __c112, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WaybillOCRResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ImageBase64: S.optional(S.String),
           ImageUrl: S.optional(S.String),
-          PdfPageNumber: S.optional(S.Number),
-          Crop: S.optional(S.Number),
-          Deskew: S.optional(S.Number),
-          OnlyPosition: S.optional(S.Number),
-          EnhanceType: S.optional(S.Number),
-          AdjustOrientation: S.optional(S.Number),
+          SceneType: S.optional(S.Boolean),
+          StoreInfo: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "CropEnhanceImageOCR" })),
-      ).annotate({ identifier: "CropEnhanceImageOCRRequest" });
+        }).pipe(T.Action({ service: "ocr", version: "2018-11-19", action: "ClassifyStoreName" })),
+      ).annotate({ identifier: "ClassifyStoreNameRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CroppedWidth: S.optional(S.Number),
-          CroppedHeight: S.optional(S.Number),
-          CroppedImage: S.optional(S.String),
-          CroppedImageUrl: S.optional(S.String),
-          Position: S.optional(__S(704, __c22, 0)),
-          Angle: S.optional(S.NullOr(S.Number)),
+          StoreLabel: S.optional(__S(704, __c22, 0)),
+          SceneType: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CropEnhanceImageOCRResponse" });
+      ).annotate({ identifier: "ClassifyStoreNameResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

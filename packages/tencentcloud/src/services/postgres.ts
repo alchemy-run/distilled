@@ -1986,6 +1986,8 @@ export interface ModifyDBInstanceSSLConfigRequest {
   DBInstanceId: string;
   SSLEnabled: boolean;
   ConnectAddress?: string | undefined;
+  CertSource?: string | undefined;
+  CertificateId?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2294,6 +2296,7 @@ export interface UpgradeDBInstanceMajorVersionRequest {
   UpgradeTimeOption?: number | undefined;
   UpgradeTimeBegin?: string | undefined;
   UpgradeTimeEnd?: string | undefined;
+  UpgradeReadOnlyInstance?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4729,6 +4732,8 @@ function __c11(j: number): any {
           DBInstanceId: S.String,
           SSLEnabled: S.Boolean,
           ConnectAddress: S.optional(S.String),
+          CertSource: S.optional(S.String),
+          CertificateId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -5235,6 +5240,7 @@ function __c39(j: number): any {
           UpgradeTimeOption: S.optional(S.Number),
           UpgradeTimeBegin: S.optional(S.String),
           UpgradeTimeEnd: S.optional(S.String),
+          UpgradeReadOnlyInstance: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({

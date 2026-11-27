@@ -208,12 +208,22 @@ export interface IoK8sApiStorageV1CSIDriver {
   /** spec represents the specification of the CSI Driver. */
   spec?: IoK8sApiStorageV1CSIDriverSpec | undefined;
 }
+/** CSINodeDriverRegistration holds the node ID of a CSI driver whose topology and volume attachment limit are reported by the CSI controller. */
+export interface IoK8sApiStorageV1CSINodeDriverRegistration {
+  /** name is the name of the CSI driver. This MUST be the same name returned by the CSI GetPluginInfo() call for that driver. This field is required. */
+  name: string;
+  /** nodeID is the ID of the node from the driver's point of view, as returned by the driver's NodeGetInfo call. This field is required. */
+  nodeID: string;
+}
+/** driverRegistrations lists CSI drivers on this node whose topology and volume attachment limit are reported by the CSI controller instead of the node. kubelet adds an entry with the node ID returned by the driver's NodeGetInfo call, and external-attacher then adds the driver to drivers using ControllerGetNodeInfo. An entry's nodeID must match the nodeID of the drivers entry with the same name, if one exists. This is an alpha field and requires enabling the CSIControllerGetNodeInfo feature gate. */
+export type IoK8sApiStorageV1CSINodeSpecDriverRegistrationsList =
+  Array<IoK8sApiStorageV1CSINodeDriverRegistration>;
 /** VolumeNodeResources is a set of resource limits for scheduling of volumes. */
 export interface IoK8sApiStorageV1VolumeNodeResources {
   /** count indicates the maximum number of unique volumes managed by the CSI driver that can be used on a node. A volume that is both attached and mounted on a node is considered to be used once, not twice. The same rule applies for a unique volume that is shared among multiple pods on the same node. If this field is not specified, then the supported number of volumes on this node is unbounded. */
   count?: number | undefined;
 }
-/** topologyKeys is the list of keys supported by the driver. When a driver is initialized on a cluster, it provides a set of topology keys that it understands (e.g. "company.com/zone", "company.com/region"). When a driver is initialized on a node, it provides the same topology keys along with values. Kubelet will expose these topology keys as labels on its own node object. When Kubernetes does topology aware provisioning, it can use this list to determine which labels it should retrieve from the node object and pass back to the driver. It is possible for different nodes to use different topology keys. This can be empty if driver does not support topology. */
+/** topologyKeys is the list of keys supported by the driver. When a driver is initialized on a cluster, it provides a set of topology keys that it understands (e.g. "company.com/zone", "company.com/region"). When a driver is initialized on a node, it provides the same topology keys along with values. Kubelet will expose these topology keys as labels on its own node object. For a driver in spec.driverRegistrations, external-attacher adds these labels instead. When Kubernetes does topology aware provisioning, it can use this list to determine which labels it should retrieve from the node object and pass back to the driver. It is possible for different nodes to use different topology keys. This can be empty if driver does not support topology. */
 export type IoK8sApiStorageV1CSINodeDriverTopologyKeysList = Array<string>;
 /** CSINodeDriver holds information about the specification of one CSI driver installed on a node */
 export interface IoK8sApiStorageV1CSINodeDriver {
@@ -223,14 +233,16 @@ export interface IoK8sApiStorageV1CSINodeDriver {
   name: string;
   /** nodeID of the node from the driver point of view. This field enables Kubernetes to communicate with storage systems that do not share the same nomenclature for nodes. For example, Kubernetes may refer to a given node as "node1", but the storage system may refer to the same node as "nodeA". When Kubernetes issues a command to the storage system to attach a volume to a specific node, it can use this field to refer to the node name using the ID that the storage system will understand, e.g. "nodeA" instead of "node1". This field is required. */
   nodeID: string;
-  /** topologyKeys is the list of keys supported by the driver. When a driver is initialized on a cluster, it provides a set of topology keys that it understands (e.g. "company.com/zone", "company.com/region"). When a driver is initialized on a node, it provides the same topology keys along with values. Kubelet will expose these topology keys as labels on its own node object. When Kubernetes does topology aware provisioning, it can use this list to determine which labels it should retrieve from the node object and pass back to the driver. It is possible for different nodes to use different topology keys. This can be empty if driver does not support topology. */
+  /** topologyKeys is the list of keys supported by the driver. When a driver is initialized on a cluster, it provides a set of topology keys that it understands (e.g. "company.com/zone", "company.com/region"). When a driver is initialized on a node, it provides the same topology keys along with values. Kubelet will expose these topology keys as labels on its own node object. For a driver in spec.driverRegistrations, external-attacher adds these labels instead. When Kubernetes does topology aware provisioning, it can use this list to determine which labels it should retrieve from the node object and pass back to the driver. It is possible for different nodes to use different topology keys. This can be empty if driver does not support topology. */
   topologyKeys?: IoK8sApiStorageV1CSINodeDriverTopologyKeysList | undefined;
 }
-/** drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty. */
+/** drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty. A driver in driverRegistrations may be missing from this list until external-attacher adds it. */
 export type IoK8sApiStorageV1CSINodeSpecDriversList = Array<IoK8sApiStorageV1CSINodeDriver>;
 /** CSINodeSpec holds information about the specification of all CSI drivers installed on a node */
 export interface IoK8sApiStorageV1CSINodeSpec {
-  /** drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty. */
+  /** driverRegistrations lists CSI drivers on this node whose topology and volume attachment limit are reported by the CSI controller instead of the node. kubelet adds an entry with the node ID returned by the driver's NodeGetInfo call, and external-attacher then adds the driver to drivers using ControllerGetNodeInfo. An entry's nodeID must match the nodeID of the drivers entry with the same name, if one exists. This is an alpha field and requires enabling the CSIControllerGetNodeInfo feature gate. */
+  driverRegistrations?: IoK8sApiStorageV1CSINodeSpecDriverRegistrationsList | undefined;
+  /** drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty. A driver in driverRegistrations may be missing from this list until external-attacher adds it. */
   drivers?: IoK8sApiStorageV1CSINodeSpecDriversList | undefined;
 }
 /** StorageHealthCondition represents a health condition reported by a CSI driver for its storage backend on a node. */
@@ -285,7 +297,7 @@ export interface CreateStorageV1CSINodeRequest {
   /** status contains health and status information for the node's storage. */
   status?: IoK8sApiStorageV1CSINodeStatus | undefined;
 }
-/** CSINode holds information about all CSI drivers installed on a node. CSI drivers do not need to create the CSINode object directly. As long as they use the node-driver-registrar sidecar container, the kubelet will automatically populate the CSINode object for the CSI driver as part of kubelet plugin registration. CSINode has the same name as a node. If the object is missing, it means either there are no CSI Drivers available on the node, or the Kubelet version is low enough that it doesn't create this object. CSINode has an OwnerReference that points to the corresponding node object. */
+/** CSINode holds information about all CSI drivers installed on a node. CSI drivers do not need to create the CSINode object directly. As long as they use the node-driver-registrar sidecar container, the kubelet will automatically populate the CSINode object for the CSI driver as part of kubelet plugin registration. For a driver in spec.driverRegistrations, the kubelet only adds the registration, and external-attacher populates its spec.drivers entry. CSINode has the same name as a node. If the object is missing, it means either there are no CSI Drivers available on the node, or the Kubelet version is low enough that it doesn't create this object. CSINode has an OwnerReference that points to the corresponding node object. */
 export interface IoK8sApiStorageV1CSINode {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string | undefined;
@@ -2665,7 +2677,7 @@ export const createStorageV1CSINode: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateStorageV1CSINodeRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -2898,7 +2910,7 @@ export const deleteStorageV1CSINode: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteStorageV1CSINodeRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3183,7 +3195,7 @@ export const patchStorageV1CSINode: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<PatchStorageV1CSINodeRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3201,7 +3213,7 @@ export const patchStorageV1CSINodeStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<PatchStorageV1CSINodeStatusRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3347,7 +3359,7 @@ export const readStorageV1CSINode: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ReadStorageV1CSINodeRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3365,7 +3377,7 @@ export const readStorageV1CSINodeStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ReadStorageV1CSINodeStatusRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3499,7 +3511,7 @@ export const replaceStorageV1CSINode: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ReplaceStorageV1CSINodeRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -3517,7 +3529,7 @@ export const replaceStorageV1CSINodeStatus: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ReplaceStorageV1CSINodeStatusRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<IoK8sApiStorageV1CSINode>,
+  output: __S(1163, __c36, 11) as any as S.Schema<IoK8sApiStorageV1CSINode>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -4301,7 +4313,7 @@ function __c14(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/apis/storage.k8s.io/v1/csinodes", code: 200 })),
       ).annotate({ identifier: "ListStorageV1CSINodeRequest" });
     case 1:
-      return S.Array(__S(1161, __c36, 9));
+      return S.Array(__S(1163, __c36, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4638,8 +4650,8 @@ function __c26(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/apis/storage.k8s.io/v1/csinodes/{name}", code: 200 }),
         ),
@@ -4662,8 +4674,8 @@ function __c27(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4860,8 +4872,8 @@ function __c35(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }).pipe(T.Http({ method: "POST", uri: "/apis/storage.k8s.io/v1/csinodes", code: 200 })),
       ).annotate({ identifier: "CreateStorageV1CSINodeRequest" });
   }
@@ -4871,27 +4883,37 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          nodeID: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiStorageV1CSINodeDriverRegistration" });
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1VolumeNodeResources" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          allocatable: S.optional(__S(1152, __c36, 0)),
+          allocatable: S.optional(__S(1154, __c36, 2)),
           name: S.String,
           nodeID: S.String,
           topologyKeys: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1CSINodeDriver" });
-    case 2:
-      return S.Array(__S(1153, __c36, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(1155, __c36, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          drivers: S.optional(__S(1154, __c36, 2)),
+          driverRegistrations: S.optional(__S(1153, __c36, 1)),
+          drivers: S.optional(__S(1156, __c36, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1CSINodeSpec" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           accessMode: S.optional(S.String),
@@ -4902,31 +4924,31 @@ function __c36(j: number): any {
           volumeMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1StorageHealthCondition" });
-    case 5:
-      return S.Array(__S(1156, __c36, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          healthConditions: S.optional(__S(1157, __c36, 5)),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiStorageV1StorageHealth" });
     case 7:
       return S.Array(__S(1158, __c36, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          storageHealth: S.optional(__S(1159, __c36, 7)),
+          healthConditions: S.optional(__S(1159, __c36, 7)),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiStorageV1StorageHealth" });
+    case 9:
+      return S.Array(__S(1160, __c36, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          storageHealth: S.optional(__S(1161, __c36, 9)),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1CSINodeStatus" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }),
       ).annotate({ identifier: "IoK8sApiStorageV1CSINode" });
   }
@@ -5067,8 +5089,8 @@ function __c44(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/apis/storage.k8s.io/v1/csinodes/{name}", code: 200 }),
         ),
@@ -5088,8 +5110,8 @@ function __c45(j: number): any {
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           metadata: S.optional(__S(773, __c24, 5)),
-          spec: S.optional(__S(1155, __c36, 3)),
-          status: S.optional(__S(1160, __c36, 8)),
+          spec: S.optional(__S(1157, __c36, 5)),
+          status: S.optional(__S(1162, __c36, 10)),
         }).pipe(
           T.Http({
             method: "PUT",

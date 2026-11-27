@@ -303,7 +303,7 @@ export interface UpdateUserProfileRequest {
   external_user_details?: UserProfileExternalUserDetailsParams | undefined;
 }
 export type CreateUserProfileError = AnthropicOpError;
-/** Create User Profile */
+/** Create User Profile Register one of your end customers and get the ID to send on the requests you make for them. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#create-a-profile-for-each-end-customer) for what to send. */
 export const createUserProfile: API.OperationMethod<
   CreateUserProfileRequest,
   UserProfile,
@@ -321,7 +321,7 @@ export const createUserProfile: API.OperationMethod<
 }));
 
 export type CreateUserProfileActionUrlError = AnthropicOpError;
-/** Create Action URL */
+/** Create Action URL Create a link that sends the profile's end customer to the Verification Portal. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal) for when to create the link and what the end customer sees. */
 export const createUserProfileActionUrl: API.OperationMethod<
   CreateUserProfileActionUrlRequest,
   UserProfileActionUrl,
@@ -339,7 +339,7 @@ export const createUserProfileActionUrl: API.OperationMethod<
 }));
 
 export type DeleteUserProfileError = AnthropicOpError;
-/** Delete User Profile */
+/** Delete User Profile Delete a user profile, for example when the end customer closes their account. Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#delete-a-profile) for what happens after a delete. */
 export const deleteUserProfile: API.OperationMethod<
   DeleteUserProfileRequest,
   DeletedUserProfile,
@@ -357,7 +357,7 @@ export const deleteUserProfile: API.OperationMethod<
 }));
 
 export type GetUserProfileError = AnthropicOpError;
-/** Get User Profile */
+/** Get User Profile Get a user profile by ID to check the details stored for it. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles) for how to set up and manage profiles. */
 export const getUserProfile: API.OperationMethod<
   GetUserProfileRequest,
   UserProfile,
@@ -375,7 +375,7 @@ export const getUserProfile: API.OperationMethod<
 }));
 
 export type ListUserProfilesError = AnthropicOpError;
-/** List User Profiles */
+/** List User Profiles List the user profiles in your organization, newest first by default. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles) for how to set up and manage profiles. */
 export const listUserProfiles: API.PaginatedOperationMethod<
   ListUserProfilesRequest,
   ListUserProfilesResponse,
@@ -404,7 +404,7 @@ export const listUserProfiles: API.PaginatedOperationMethod<
 ) as any;
 
 export type UpdateUserProfileError = AnthropicOpError;
-/** Update User Profile */
+/** Update User Profile Change the details of a user profile, leaving the fields that you don't send as they are. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles#update-a-profile) for how each field is updated. */
 export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileRequest,
   UserProfile,

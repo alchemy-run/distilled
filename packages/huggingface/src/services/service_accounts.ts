@@ -61,7 +61,7 @@ export type CreateServiceAccountTokenRequestPermissionsItem =
 export type CreateServiceAccountTokenRequestPermissionsList = Array<
   CreateServiceAccountTokenRequestPermissionsItem | (string & {})
 >;
-/** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
+/** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide and resource-group permissions. */
 export type CreateServiceAccountTokenRequestRepoIdsList = Array<string>;
 export type CreateServiceAccountTokenRequestRepoPermissionsItem =
   | "repo.content.read"
@@ -69,6 +69,20 @@ export type CreateServiceAccountTokenRequestRepoPermissionsItem =
 /** Permissions granted on the selected `repoIds`. */
 export type CreateServiceAccountTokenRequestRepoPermissionsList = Array<
   CreateServiceAccountTokenRequestRepoPermissionsItem | (string & {})
+>;
+/** Resource groups of the organization to grant `resourceGroupPermissions` on. Applies to every repository currently or later in those resource groups, and overrides the org-wide permissions. */
+export type CreateServiceAccountTokenRequestResourceGroupIdsList = Array<string>;
+export type CreateServiceAccountTokenRequestResourceGroupPermissionsItem =
+  | "repo.content.read"
+  | "repo.write";
+/** Permissions granted on the repositories of the selected `resourceGroupIds`. */
+export type CreateServiceAccountTokenRequestResourceGroupPermissionsList = Array<
+  CreateServiceAccountTokenRequestResourceGroupPermissionsItem | (string & {})
+>;
+export type CreateServiceAccountTokenRequestUserPermissionsItem = "user.gated-repos-requests.write";
+/** Permissions on the service account itself. */
+export type CreateServiceAccountTokenRequestUserPermissionsList = Array<
+  CreateServiceAccountTokenRequestUserPermissionsItem | (string & {})
 >;
 /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
 export type CreateServiceAccountTokenRequestEndpointPatternsList = Array<string>;
@@ -79,18 +93,31 @@ export interface CreateServiceAccountTokenRequest {
   displayName?: string | undefined;
   /** Org-wide permissions for this token */
   permissions?: CreateServiceAccountTokenRequestPermissionsList | undefined;
-  /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
+  /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide and resource-group permissions. */
   repoIds?: CreateServiceAccountTokenRequestRepoIdsList | undefined;
   /** Permissions granted on the selected `repoIds`. */
   repoPermissions?: CreateServiceAccountTokenRequestRepoPermissionsList | undefined;
+  /** Resource groups of the organization to grant `resourceGroupPermissions` on. Applies to every repository currently or later in those resource groups, and overrides the org-wide permissions. */
+  resourceGroupIds?: CreateServiceAccountTokenRequestResourceGroupIdsList | undefined;
+  /** Permissions granted on the repositories of the selected `resourceGroupIds`. */
+  resourceGroupPermissions?:
+    | CreateServiceAccountTokenRequestResourceGroupPermissionsList
+    | undefined;
+  /** Permissions on the service account itself. */
+  userPermissions?: CreateServiceAccountTokenRequestUserPermissionsList | undefined;
   /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
   endpointPatterns?: CreateServiceAccountTokenRequestEndpointPatternsList | undefined;
   /** Exempt this token from the org's Network Security enforcement (IP allowlist and content access policy). Enterprise Plus only, and requires the `org.networkSecurity.write` permission. */
   skipNetworkSecurity?: boolean | undefined;
+  /** Read contents of gated repos the service account has access to. */
+  canReadGatedRepos?: boolean | undefined;
 }
 export type CreateServiceAccountTokenResponseTokenInfoPermissionsList = Array<string>;
 export type CreateServiceAccountTokenResponseTokenInfoRepoIdsList = Array<string>;
 export type CreateServiceAccountTokenResponseTokenInfoRepoPermissionsList = Array<string>;
+export type CreateServiceAccountTokenResponseTokenInfoResourceGroupIdsList = Array<string>;
+export type CreateServiceAccountTokenResponseTokenInfoResourceGroupPermissionsList = Array<string>;
+export type CreateServiceAccountTokenResponseTokenInfoUserPermissionsList = Array<string>;
 export type CreateServiceAccountTokenResponseTokenInfoEndpointPatternsList = Array<string>;
 export interface CreateServiceAccountTokenResponseTokenInfo {
   _id: string;
@@ -99,13 +126,143 @@ export interface CreateServiceAccountTokenResponseTokenInfo {
   permissions?: CreateServiceAccountTokenResponseTokenInfoPermissionsList | undefined;
   repoIds: CreateServiceAccountTokenResponseTokenInfoRepoIdsList;
   repoPermissions: CreateServiceAccountTokenResponseTokenInfoRepoPermissionsList;
+  resourceGroupIds: CreateServiceAccountTokenResponseTokenInfoResourceGroupIdsList;
+  resourceGroupPermissions: CreateServiceAccountTokenResponseTokenInfoResourceGroupPermissionsList;
+  userPermissions: CreateServiceAccountTokenResponseTokenInfoUserPermissionsList;
   endpointPatterns: CreateServiceAccountTokenResponseTokenInfoEndpointPatternsList;
   skipNetworkSecurity: boolean;
+  canReadGatedRepos: boolean;
 }
 export interface CreateServiceAccountTokenResponse {
   /** The access token - store this securely, it cannot be retrieved later */
   token: string | Redacted.Redacted<string>;
   tokenInfo: CreateServiceAccountTokenResponseTokenInfo;
+}
+export interface CreateServiceAccountTrustedPublisherRequestClaimsValueCase0 {
+  kind: string;
+  value: string;
+}
+export type CreateServiceAccountTrustedPublisherRequestClaimsValueCase1 =
+  CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type CreateServiceAccountTrustedPublisherRequestClaimsValue =
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+/** Claims the OIDC token must match, by claim name. At least one is required. */
+export type CreateServiceAccountTrustedPublisherRequestClaimsMap = {
+  [key: string]: CreateServiceAccountTrustedPublisherRequestClaimsValue | undefined;
+};
+export type CreateServiceAccountTrustedPublisherRequestCapabilitiesItem =
+  | "inference-api"
+  | "request-gated-repos";
+/** Scopes granted to matching tokens on top of `gated-repos` (read the gated repos the account has access to). */
+export type CreateServiceAccountTrustedPublisherRequestCapabilitiesList = Array<
+  CreateServiceAccountTrustedPublisherRequestCapabilitiesItem | (string & {})
+>;
+export interface CreateServiceAccountTrustedPublisherRequest {
+  name: string;
+  serviceAccountId: string;
+  /** URL of the OIDC issuer, e.g. `https://token.actions.githubusercontent.com`. */
+  issuerUrl: string;
+  /** Claims the OIDC token must match, by claim name. At least one is required. */
+  claims: CreateServiceAccountTrustedPublisherRequestClaimsMap;
+  /** Scopes granted to matching tokens on top of `gated-repos` (read the gated repos the account has access to). */
+  capabilities?: CreateServiceAccountTrustedPublisherRequestCapabilitiesList | undefined;
+}
+export type CreateServiceAccountTrustedPublisherResponseClaimsValueCase0 =
+  CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+export type CreateServiceAccountTrustedPublisherResponseClaimsValueCase1 =
+  CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type CreateServiceAccountTrustedPublisherResponseClaimsValue =
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+export type CreateServiceAccountTrustedPublisherResponseClaimsMap = {
+  [key: string]: CreateServiceAccountTrustedPublisherResponseClaimsValue | undefined;
+};
+export type CreateServiceAccountTrustedPublisherResponseConfiguredByCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export interface CreateServiceAccountTrustedPublisherResponseConfiguredByCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  plan?: CreateServiceAccountTrustedPublisherResponseConfiguredByCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
+}
+export type CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export type CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export interface CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean | undefined;
+  plan?: CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
+}
+export interface CreateServiceAccountTrustedPublisherResponseConfiguredByCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: CreateServiceAccountTrustedPublisherResponseConfiguredByCase1PrimaryOrg | undefined;
+}
+export type CreateServiceAccountTrustedPublisherResponseConfiguredBy =
+  | CreateServiceAccountTrustedPublisherResponseConfiguredByCase0
+  | CreateServiceAccountTrustedPublisherResponseConfiguredByCase1;
+export type CreateServiceAccountTrustedPublisherResponseCapabilitiesItem =
+  | "inference-api"
+  | "request-gated-repos";
+export type CreateServiceAccountTrustedPublisherResponseCapabilitiesList =
+  Array<CreateServiceAccountTrustedPublisherResponseCapabilitiesItem>;
+export type CreateServiceAccountTrustedPublisherResponsePermissionsItem =
+  | "repo.content.read"
+  | "repo.content.write";
+export type CreateServiceAccountTrustedPublisherResponsePermissionsList =
+  Array<CreateServiceAccountTrustedPublisherResponsePermissionsItem>;
+export interface CreateServiceAccountTrustedPublisherResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  issuerUrl: string;
+  claims: CreateServiceAccountTrustedPublisherResponseClaimsMap;
+  configuredBy?: CreateServiceAccountTrustedPublisherResponseConfiguredBy | undefined;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+  capabilities?: CreateServiceAccountTrustedPublisherResponseCapabilitiesList | undefined;
+  permissions?: CreateServiceAccountTrustedPublisherResponsePermissionsList | undefined;
 }
 export interface DeleteServiceAccountRequest {
   name: string;
@@ -118,6 +275,12 @@ export interface DeleteServiceAccountTokenRequest {
   tokenId: string;
 }
 export type DeleteServiceAccountTokenResponse = unknown;
+export interface DeleteServiceAccountTrustedPublisherRequest {
+  name: string;
+  serviceAccountId: string;
+  publisherId: string;
+}
+export interface DeleteServiceAccountTrustedPublisherResponse {}
 export interface GetServiceAccountRequest {
   name: string;
   serviceAccountId: string;
@@ -147,6 +310,16 @@ export type GetServiceAccountResponseAccessTokensItemRepoPermissionsItem =
   | "repo.write";
 export type GetServiceAccountResponseAccessTokensItemRepoPermissionsList =
   Array<GetServiceAccountResponseAccessTokensItemRepoPermissionsItem>;
+export type GetServiceAccountResponseAccessTokensItemResourceGroupIdsList = Array<string>;
+export type GetServiceAccountResponseAccessTokensItemResourceGroupPermissionsItem =
+  | "repo.content.read"
+  | "repo.write";
+export type GetServiceAccountResponseAccessTokensItemResourceGroupPermissionsList =
+  Array<GetServiceAccountResponseAccessTokensItemResourceGroupPermissionsItem>;
+export type GetServiceAccountResponseAccessTokensItemUserPermissionsItem =
+  "user.gated-repos-requests.write";
+export type GetServiceAccountResponseAccessTokensItemUserPermissionsList =
+  Array<GetServiceAccountResponseAccessTokensItemUserPermissionsItem>;
 export type GetServiceAccountResponseAccessTokensItemEndpointPatternsList = Array<string>;
 export interface GetServiceAccountResponseAccessTokensItem {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -159,9 +332,13 @@ export interface GetServiceAccountResponseAccessTokensItem {
   permissions: GetServiceAccountResponseAccessTokensItemPermissionsList;
   repoIds: GetServiceAccountResponseAccessTokensItemRepoIdsList;
   repoPermissions: GetServiceAccountResponseAccessTokensItemRepoPermissionsList;
+  resourceGroupIds: GetServiceAccountResponseAccessTokensItemResourceGroupIdsList;
+  resourceGroupPermissions: GetServiceAccountResponseAccessTokensItemResourceGroupPermissionsList;
+  userPermissions: GetServiceAccountResponseAccessTokensItemUserPermissionsList;
   endpointPatterns: GetServiceAccountResponseAccessTokensItemEndpointPatternsList;
   last4?: string | undefined;
   skipNetworkSecurity?: boolean | undefined;
+  canReadGatedRepos?: boolean | undefined;
   s3AccessKey?: string | undefined;
 }
 export type GetServiceAccountResponseAccessTokensList =
@@ -189,6 +366,114 @@ export interface ListServiceAccountsResponseBodyItem {
 }
 export type ListServiceAccountsResponseBodyList = Array<ListServiceAccountsResponseBodyItem>;
 export type ListServiceAccountsResponse = ListServiceAccountsResponseBodyList;
+export interface ListServiceAccountTrustedPublishersRequest {
+  name: string;
+  serviceAccountId: string;
+}
+export type ListServiceAccountTrustedPublishersResponseBodyItemClaimsValueCase0 =
+  CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+export type ListServiceAccountTrustedPublishersResponseBodyItemClaimsValueCase1 =
+  CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+/** The claim must equal `value` (`eq`) or start with it (`prefix`). */
+export type ListServiceAccountTrustedPublishersResponseBodyItemClaimsValue =
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0
+  | CreateServiceAccountTrustedPublisherRequestClaimsValueCase0;
+export type ListServiceAccountTrustedPublishersResponseBodyItemClaimsMap = {
+  [key: string]: ListServiceAccountTrustedPublishersResponseBodyItemClaimsValue | undefined;
+};
+export type ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export interface ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  plan?: ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
+}
+export type ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export type ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export interface ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean | undefined;
+  plan?:
+    | ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgPlan
+    | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?:
+    | ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrgUserRole
+    | undefined;
+  numUsers?: number | undefined;
+}
+export interface ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number | undefined;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?:
+    | ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1PrimaryOrg
+    | undefined;
+}
+export type ListServiceAccountTrustedPublishersResponseBodyItemConfiguredBy =
+  | ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase0
+  | ListServiceAccountTrustedPublishersResponseBodyItemConfiguredByCase1;
+export type ListServiceAccountTrustedPublishersResponseBodyItemCapabilitiesItem =
+  | "inference-api"
+  | "request-gated-repos";
+export type ListServiceAccountTrustedPublishersResponseBodyItemCapabilitiesList =
+  Array<ListServiceAccountTrustedPublishersResponseBodyItemCapabilitiesItem>;
+export type ListServiceAccountTrustedPublishersResponseBodyItemPermissionsItem =
+  | "repo.content.read"
+  | "repo.content.write";
+export type ListServiceAccountTrustedPublishersResponseBodyItemPermissionsList =
+  Array<ListServiceAccountTrustedPublishersResponseBodyItemPermissionsItem>;
+/** Trusted publisher */
+export interface ListServiceAccountTrustedPublishersResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  issuerUrl: string;
+  claims: ListServiceAccountTrustedPublishersResponseBodyItemClaimsMap;
+  configuredBy?: ListServiceAccountTrustedPublishersResponseBodyItemConfiguredBy | undefined;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+  capabilities?: ListServiceAccountTrustedPublishersResponseBodyItemCapabilitiesList | undefined;
+  permissions?: ListServiceAccountTrustedPublishersResponseBodyItemPermissionsList | undefined;
+}
+export type ListServiceAccountTrustedPublishersResponseBodyList =
+  Array<ListServiceAccountTrustedPublishersResponseBodyItem>;
+export type ListServiceAccountTrustedPublishersResponse =
+  ListServiceAccountTrustedPublishersResponseBodyList;
 export interface RotateServiceAccountTokenRequest {
   name: string;
   serviceAccountId: string;
@@ -225,7 +510,7 @@ export type UpdateServiceAccountTokenRequestPermissionsItem =
 export type UpdateServiceAccountTokenRequestPermissionsList = Array<
   UpdateServiceAccountTokenRequestPermissionsItem | (string & {})
 >;
-/** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
+/** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide and resource-group permissions. */
 export type UpdateServiceAccountTokenRequestRepoIdsList = Array<string>;
 export type UpdateServiceAccountTokenRequestRepoPermissionsItem =
   | "repo.content.read"
@@ -233,6 +518,20 @@ export type UpdateServiceAccountTokenRequestRepoPermissionsItem =
 /** Permissions granted on the selected `repoIds`. */
 export type UpdateServiceAccountTokenRequestRepoPermissionsList = Array<
   UpdateServiceAccountTokenRequestRepoPermissionsItem | (string & {})
+>;
+/** Resource groups of the organization to grant `resourceGroupPermissions` on. Applies to every repository currently or later in those resource groups, and overrides the org-wide permissions. */
+export type UpdateServiceAccountTokenRequestResourceGroupIdsList = Array<string>;
+export type UpdateServiceAccountTokenRequestResourceGroupPermissionsItem =
+  | "repo.content.read"
+  | "repo.write";
+/** Permissions granted on the repositories of the selected `resourceGroupIds`. */
+export type UpdateServiceAccountTokenRequestResourceGroupPermissionsList = Array<
+  UpdateServiceAccountTokenRequestResourceGroupPermissionsItem | (string & {})
+>;
+export type UpdateServiceAccountTokenRequestUserPermissionsItem = "user.gated-repos-requests.write";
+/** Permissions on the service account itself. */
+export type UpdateServiceAccountTokenRequestUserPermissionsList = Array<
+  UpdateServiceAccountTokenRequestUserPermissionsItem | (string & {})
 >;
 /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
 export type UpdateServiceAccountTokenRequestEndpointPatternsList = Array<string>;
@@ -244,18 +543,31 @@ export interface UpdateServiceAccountTokenRequest {
   displayName?: string | undefined;
   /** Org-wide permissions for this token */
   permissions?: UpdateServiceAccountTokenRequestPermissionsList | undefined;
-  /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide permissions. */
+  /** Repositories to grant `repoPermissions` on. Can be repositories owned by the organization or any public repository. These override the org-wide and resource-group permissions. */
   repoIds?: UpdateServiceAccountTokenRequestRepoIdsList | undefined;
   /** Permissions granted on the selected `repoIds`. */
   repoPermissions?: UpdateServiceAccountTokenRequestRepoPermissionsList | undefined;
+  /** Resource groups of the organization to grant `resourceGroupPermissions` on. Applies to every repository currently or later in those resource groups, and overrides the org-wide permissions. */
+  resourceGroupIds?: UpdateServiceAccountTokenRequestResourceGroupIdsList | undefined;
+  /** Permissions granted on the repositories of the selected `resourceGroupIds`. */
+  resourceGroupPermissions?:
+    | UpdateServiceAccountTokenRequestResourceGroupPermissionsList
+    | undefined;
+  /** Permissions on the service account itself. */
+  userPermissions?: UpdateServiceAccountTokenRequestUserPermissionsList | undefined;
   /** Inference endpoint name patterns (wildcards allowed, e.g. `gpt2-*`) restricting the token's org-wide Inference Endpoint permissions to matching endpoints. Empty means all endpoints. */
   endpointPatterns?: UpdateServiceAccountTokenRequestEndpointPatternsList | undefined;
   /** Exempt this token from the org's Network Security enforcement (IP allowlist and content access policy). Enterprise Plus only, and requires the `org.networkSecurity.write` permission. */
   skipNetworkSecurity?: boolean | undefined;
+  /** Read contents of gated repos the service account has access to. */
+  canReadGatedRepos?: boolean | undefined;
 }
 export type UpdateServiceAccountTokenResponsePermissionsList = Array<string>;
 export type UpdateServiceAccountTokenResponseRepoIdsList = Array<string>;
 export type UpdateServiceAccountTokenResponseRepoPermissionsList = Array<string>;
+export type UpdateServiceAccountTokenResponseResourceGroupIdsList = Array<string>;
+export type UpdateServiceAccountTokenResponseResourceGroupPermissionsList = Array<string>;
+export type UpdateServiceAccountTokenResponseUserPermissionsList = Array<string>;
 export type UpdateServiceAccountTokenResponseEndpointPatternsList = Array<string>;
 export interface UpdateServiceAccountTokenResponse {
   _id: string;
@@ -263,8 +575,12 @@ export interface UpdateServiceAccountTokenResponse {
   permissions: UpdateServiceAccountTokenResponsePermissionsList;
   repoIds: UpdateServiceAccountTokenResponseRepoIdsList;
   repoPermissions: UpdateServiceAccountTokenResponseRepoPermissionsList;
+  resourceGroupIds: UpdateServiceAccountTokenResponseResourceGroupIdsList;
+  resourceGroupPermissions: UpdateServiceAccountTokenResponseResourceGroupPermissionsList;
+  userPermissions: UpdateServiceAccountTokenResponseUserPermissionsList;
   endpointPatterns: UpdateServiceAccountTokenResponseEndpointPatternsList;
   skipNetworkSecurity: boolean;
+  canReadGatedRepos: boolean;
 }
 export type CreateServiceAccountError = HuggingFaceOpError;
 /** Create service account Create a new service account for the organization. */
@@ -292,14 +608,32 @@ export const createServiceAccountToken: API.OperationMethod<
   CreateServiceAccountTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateServiceAccountTokenRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<CreateServiceAccountTokenResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateServiceAccountTokenRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<CreateServiceAccountTokenResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServiceAccountToken",
+}));
+
+export type CreateServiceAccountTrustedPublisherError = HuggingFaceOpError;
+/** Trusted publisher Let OIDC tokens matching the issuer and claims exchange for a short-lived token of the service account, with `resource` set to the service account name. */
+export const createServiceAccountTrustedPublisher: API.OperationMethod<
+  CreateServiceAccountTrustedPublisherRequest,
+  CreateServiceAccountTrustedPublisherResponse,
+  CreateServiceAccountTrustedPublisherError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(41, __c5, 1) as any as S.Schema<CreateServiceAccountTrustedPublisherRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<CreateServiceAccountTrustedPublisherResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccountTrustedPublisher",
 }));
 
 export type DeleteServiceAccountError = HuggingFaceOpError;
@@ -310,8 +644,8 @@ export const deleteServiceAccount: API.OperationMethod<
   DeleteServiceAccountError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteServiceAccountRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<DeleteServiceAccountResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteServiceAccountRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteServiceAccountResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -328,14 +662,32 @@ export const deleteServiceAccountToken: API.OperationMethod<
   DeleteServiceAccountTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DeleteServiceAccountTokenRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<DeleteServiceAccountTokenResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteServiceAccountTokenRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteServiceAccountTokenResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServiceAccountToken",
+}));
+
+export type DeleteServiceAccountTrustedPublisherError = HuggingFaceOpError;
+/** Trusted publisher */
+export const deleteServiceAccountTrustedPublisher: API.OperationMethod<
+  DeleteServiceAccountTrustedPublisherRequest,
+  DeleteServiceAccountTrustedPublisherResponse,
+  DeleteServiceAccountTrustedPublisherError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteServiceAccountTrustedPublisherRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DeleteServiceAccountTrustedPublisherResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccountTrustedPublisher",
 }));
 
 export type GetServiceAccountError = HuggingFaceOpError;
@@ -346,8 +698,8 @@ export const getServiceAccount: API.OperationMethod<
   GetServiceAccountError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetServiceAccountRequest>,
-  output: __S(27, __c6, 3) as any as S.Schema<GetServiceAccountResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetServiceAccountRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<GetServiceAccountResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -364,14 +716,32 @@ export const listServiceAccounts: API.OperationMethod<
   ListServiceAccountsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListServiceAccountsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<ListServiceAccountsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListServiceAccountsRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<ListServiceAccountsResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceAccounts",
+}));
+
+export type ListServiceAccountTrustedPublishersError = HuggingFaceOpError;
+/** Trusted publishers List the [trusted publishers](https://huggingface.co/docs/hub/trusted-publishers) of a service account. */
+export const listServiceAccountTrustedPublishers: API.OperationMethod<
+  ListServiceAccountTrustedPublishersRequest,
+  ListServiceAccountTrustedPublishersResponse,
+  ListServiceAccountTrustedPublishersError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<ListServiceAccountTrustedPublishersRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<ListServiceAccountTrustedPublishersResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccountTrustedPublishers",
 }));
 
 export type RotateServiceAccountTokenError = HuggingFaceOpError;
@@ -382,8 +752,8 @@ export const rotateServiceAccountToken: API.OperationMethod<
   RotateServiceAccountTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<RotateServiceAccountTokenRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<RotateServiceAccountTokenResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<RotateServiceAccountTokenRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<RotateServiceAccountTokenResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -400,8 +770,8 @@ export const updateServiceAccountToken: API.OperationMethod<
   UpdateServiceAccountTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<UpdateServiceAccountTokenRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<UpdateServiceAccountTokenResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<UpdateServiceAccountTokenRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<UpdateServiceAccountTokenResponse>,
   errors: [],
   serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
@@ -442,11 +812,15 @@ function __c1(j: number): any {
           name: S.String.pipe(T.Label()),
           serviceAccountId: S.String.pipe(T.Label()),
           displayName: S.optional(S.String),
-          permissions: S.optional(__S(8, __c2, 0)),
-          repoIds: S.optional(__S(9, __c2, 1)),
-          repoPermissions: S.optional(__S(8, __c2, 0)),
-          endpointPatterns: S.optional(__S(9, __c2, 1)),
+          permissions: S.optional(__S(16, __c2, 0)),
+          repoIds: S.optional(__S(24, __c3, 0)),
+          repoPermissions: S.optional(__S(16, __c2, 0)),
+          resourceGroupIds: S.optional(__S(24, __c3, 0)),
+          resourceGroupPermissions: S.optional(__S(16, __c2, 0)),
+          userPermissions: S.optional(__S(16, __c2, 0)),
+          endpointPatterns: S.optional(__S(24, __c3, 0)),
           skipNetworkSecurity: S.optional(S.Boolean),
+          canReadGatedRepos: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -461,18 +835,22 @@ function __c1(j: number): any {
           _id: S.String,
           displayName: S.String,
           createdAt: S.String,
-          permissions: S.optional(__S(9, __c2, 1)),
-          repoIds: __S(9, __c2, 1),
-          repoPermissions: __S(9, __c2, 1),
-          endpointPatterns: __S(9, __c2, 1),
+          permissions: S.optional(__S(24, __c3, 0)),
+          repoIds: __S(24, __c3, 0),
+          repoPermissions: __S(24, __c3, 0),
+          resourceGroupIds: __S(24, __c3, 0),
+          resourceGroupPermissions: __S(24, __c3, 0),
+          userPermissions: __S(24, __c3, 0),
+          endpointPatterns: __S(24, __c3, 0),
           skipNetworkSecurity: S.Boolean,
+          canReadGatedRepos: S.Boolean,
         }),
       ).annotate({ identifier: "CreateServiceAccountTokenResponseTokenInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.SensitiveValue({})),
-          tokenInfo: __S(5, __c1, 1),
+          tokenInfo: __S(9, __c1, 1),
         }),
       ).annotate({ identifier: "CreateServiceAccountTokenResponse" });
   }
@@ -481,11 +859,96 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
-    case 1:
-      return S.Array(S.String);
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          serviceAccountId: S.String.pipe(T.Label()),
+          tokenId: S.String.pipe(T.Label()),
+          displayName: S.optional(S.String),
+          permissions: S.optional(__S(16, __c2, 0)),
+          repoIds: S.optional(__S(24, __c3, 0)),
+          repoPermissions: S.optional(__S(16, __c2, 0)),
+          resourceGroupIds: S.optional(__S(24, __c3, 0)),
+          resourceGroupPermissions: S.optional(__S(16, __c2, 0)),
+          userPermissions: S.optional(__S(16, __c2, 0)),
+          endpointPatterns: S.optional(__S(24, __c3, 0)),
+          skipNetworkSecurity: S.optional(S.Boolean),
+          canReadGatedRepos: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/organizations/{name}/service-accounts/{serviceAccountId}/tokens/{tokenId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateServiceAccountTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          displayName: S.String,
+          permissions: __S(24, __c3, 0),
+          repoIds: __S(24, __c3, 0),
+          repoPermissions: __S(24, __c3, 0),
+          resourceGroupIds: __S(24, __c3, 0),
+          resourceGroupPermissions: __S(24, __c3, 0),
+          userPermissions: __S(24, __c3, 0),
+          endpointPatterns: __S(24, __c3, 0),
+          skipNetworkSecurity: S.Boolean,
+          canReadGatedRepos: S.Boolean,
+        }),
+      ).annotate({ identifier: "UpdateServiceAccountTokenResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          serviceAccountId: S.String.pipe(T.Label()),
+          issuerUrl: S.String,
+          claims: __S(40, __c5, 0),
+          capabilities: S.optional(__S(16, __c2, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateServiceAccountTrustedPublisherRequest" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          issuerUrl: S.String,
+          claims: __S(42, __c5, 2),
+          configuredBy: S.optional(S.Unknown),
+          createdAt: S.String,
+          lastUsedAt: S.optional(S.String),
+          capabilities: S.optional(__S(16, __c2, 0)),
+          permissions: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "CreateServiceAccountTrustedPublisherResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -502,7 +965,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -510,7 +973,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -528,7 +991,29 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountTokenRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          serviceAccountId: S.String.pipe(T.Label()),
+          publisherId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers/{publisherId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteServiceAccountTrustedPublisherRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteServiceAccountTrustedPublisherResponse",
+      });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -552,17 +1037,21 @@ function __c6(j: number): any {
           lastUsedAt: S.optional(S.String),
           expiration: S.optional(S.String),
           role: S.String,
-          permissions: __S(8, __c2, 0),
-          repoIds: __S(9, __c2, 1),
-          repoPermissions: __S(8, __c2, 0),
-          endpointPatterns: __S(9, __c2, 1),
+          permissions: __S(16, __c2, 0),
+          repoIds: __S(24, __c3, 0),
+          repoPermissions: __S(16, __c2, 0),
+          resourceGroupIds: __S(24, __c3, 0),
+          resourceGroupPermissions: __S(16, __c2, 0),
+          userPermissions: __S(16, __c2, 0),
+          endpointPatterns: __S(24, __c3, 0),
           last4: S.optional(S.String),
           skipNetworkSecurity: S.optional(S.Boolean),
+          canReadGatedRepos: S.optional(S.Boolean),
           s3AccessKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceAccountResponseAccessTokensItem" });
     case 2:
-      return S.Array(__S(25, __c6, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -572,12 +1061,12 @@ function __c6(j: number): any {
           email: S.String,
           description: S.optional(S.String),
           createdAt: S.String,
-          accessTokens: S.optional(__S(26, __c6, 2)),
+          accessTokens: S.optional(__S(82, __c10, 2)),
         }),
       ).annotate({ identifier: "GetServiceAccountResponse" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -599,14 +1088,52 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ListServiceAccountsResponseBodyItem" });
     case 2:
-      return S.Array(__S(29, __c7, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
-      return S.suspend(() => __S(30, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(90, __c11, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServiceAccountsResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          serviceAccountId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{name}/service-accounts/{serviceAccountId}/trusted-publishers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListServiceAccountTrustedPublishersRequest" });
+    case 1:
+      return S.Record(S.String, S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          issuerUrl: S.String,
+          claims: __S(97, __c12, 1),
+          configuredBy: S.optional(S.Unknown),
+          createdAt: S.String,
+          lastUsedAt: S.optional(S.String),
+          capabilities: S.optional(__S(16, __c2, 0)),
+          permissions: S.optional(__S(16, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ListServiceAccountTrustedPublishersResponseBodyItem" });
+    case 3:
+      return S.Array(__S(98, __c12, 2));
+    case 4:
+      return S.suspend(() => __S(99, __c12, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListServiceAccountTrustedPublishersResponse",
+      });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -635,45 +1162,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.SensitiveValue({})),
-          tokenInfo: __S(33, __c8, 1),
+          tokenInfo: __S(105, __c13, 1),
         }),
       ).annotate({ identifier: "RotateServiceAccountTokenResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          serviceAccountId: S.String.pipe(T.Label()),
-          tokenId: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          permissions: S.optional(__S(8, __c2, 0)),
-          repoIds: S.optional(__S(9, __c2, 1)),
-          repoPermissions: S.optional(__S(8, __c2, 0)),
-          endpointPatterns: S.optional(__S(9, __c2, 1)),
-          skipNetworkSecurity: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/organizations/{name}/service-accounts/{serviceAccountId}/tokens/{tokenId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateServiceAccountTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _id: S.String,
-          displayName: S.String,
-          permissions: __S(9, __c2, 1),
-          repoIds: __S(9, __c2, 1),
-          repoPermissions: __S(9, __c2, 1),
-          endpointPatterns: __S(9, __c2, 1),
-          skipNetworkSecurity: S.Boolean,
-        }),
-      ).annotate({ identifier: "UpdateServiceAccountTokenResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

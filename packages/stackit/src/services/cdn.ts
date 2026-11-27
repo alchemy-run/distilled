@@ -299,8 +299,12 @@ export interface CreateDistributionRequest {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps?: CreateDistributionRequestBlockedIpsList | undefined;
   cacheConfig?: CacheConfigCreate | undefined;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. */
+  custom404ErrorResponse?: string | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. */
+  defaultRootObject?: string | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader?: boolean | undefined;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple POST-Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped. */
@@ -393,8 +397,12 @@ export interface Config {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps: ConfigBlockedIpsList;
   cacheConfig: CacheConfig;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. */
+  custom404ErrorResponse?: string | null | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | null | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. */
+  defaultRootObject?: string | null | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader: boolean;
   /** Labels are key-value string pairs that can be attached to a distribution. */
@@ -973,8 +981,12 @@ export interface ConfigPatch {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps?: ConfigPatchBlockedIpsList | undefined;
   cacheConfig?: CacheConfigPatch | undefined;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. Setting to null removes the custom 404 error response. */
+  custom404ErrorResponse?: string | null | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | null | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. Setting to null removes the default root object. */
+  defaultRootObject?: string | null | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader?: boolean | undefined;
   /** Labels are key-value string pairs that can be attached to a distribution. JSON Merge Patch is supported, meaning setting a key to null will remove it. */
@@ -1657,7 +1669,9 @@ function __c6(j: number): any {
           blockedCountries: S.optional(__S(208, __c13, 0)),
           blockedIps: S.optional(__S(208, __c13, 0)),
           cacheConfig: S.optional(__S(160, __c10, 0)),
+          custom404ErrorResponse: S.optional(S.NullOr(S.String)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
+          defaultRootObject: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.optional(S.Boolean),
           labels: S.optional(__S(96, __c6, 0)),
           logSink: S.optional(S.NullOr(S.Unknown)),
@@ -1749,7 +1763,9 @@ function __c9(j: number): any {
           blockedCountries: S.optional(__S(208, __c13, 0)),
           blockedIps: S.optional(__S(208, __c13, 0)),
           cacheConfig: S.optional(__S(160, __c10, 0)),
+          custom404ErrorResponse: S.optional(S.String),
           defaultCacheDuration: S.optional(S.String),
+          defaultRootObject: S.optional(S.String),
           forwardHostHeader: S.optional(S.Boolean),
           intentId: S.optional(S.String),
           labels: S.optional(__S(192, __c12, 0)),
@@ -1890,7 +1906,9 @@ function __c14(j: number): any {
           blockedCountries: __S(208, __c13, 0),
           blockedIps: __S(208, __c13, 0),
           cacheConfig: __S(232, __c14, 8),
+          custom404ErrorResponse: S.optional(S.NullOr(S.String)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
+          defaultRootObject: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.Boolean,
           labels: S.optional(__S(192, __c12, 0)),
           logSink: S.optional(S.Unknown),

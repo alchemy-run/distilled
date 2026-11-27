@@ -88,6 +88,8 @@ export interface EnableResponse {
   id: string;
   /** Specifies the name of the activated catalog. */
   name: string;
+  /** Specifies the Iceberg REST catalog URI that clients use to connect to the catalog. */
+  catalogUri?: string | null | undefined;
 }
 export interface GetRequest {
   /** Use this to identify the account. */
@@ -132,6 +134,8 @@ export interface GetResponse {
   name: string;
   /** Indicates the status of the catalog. */
   status: GetResponseStatus;
+  /** Specifies the Iceberg REST catalog URI that clients use to connect to the catalog. */
+  catalogUri?: string | null | undefined;
   /** Shows the credential configuration status. */
   credentialStatus?: GetResponseCredentialStatus | null | undefined;
   /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
@@ -203,6 +207,12 @@ export type GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompact
   | "128"
   | "256"
   | "512";
+export type GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompactionNextEligibleReason =
+  | "disabled"
+  | "held_after_user_error"
+  | "running"
+  | "no_credential"
+  | "scheduled";
 export interface GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompaction {
   /** Specifies the state of maintenance operations. */
   state: GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompactionState;
@@ -210,10 +220,21 @@ export interface GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCo
   targetSizeMb: GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompactionTargetSizeMb;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
   nextEligibleAt?: string | null | undefined;
+  /** Why the operation is not eligible to run before next_eligible_at. Returned by the per-table GET only, and absent from the update response. `held_after_user_error` means a customer-caused failure holds the lease until it expires. */
+  nextEligibleReason?:
+    | GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompactionNextEligibleReason
+    | null
+    | undefined;
 }
 export type GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSnapshotExpirationState =
   | "enabled"
   | "disabled";
+export type GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSnapshotExpirationNextEligibleReason =
+  | "disabled"
+  | "held_after_user_error"
+  | "running"
+  | "no_credential"
+  | "scheduled";
 export interface GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSnapshotExpiration {
   /** Specifies the maximum age for snapshots. */
   maxSnapshotAge: string;
@@ -223,6 +244,11 @@ export interface GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSn
   state: GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSnapshotExpirationState;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
   nextEligibleAt?: string | null | undefined;
+  /** Why the operation is not eligible to run before next_eligible_at. Returned by the per-table GET only, and absent from the update response. `held_after_user_error` means a customer-caused failure holds the lease until it expires. */
+  nextEligibleReason?:
+    | GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigSnapshotExpirationNextEligibleReason
+    | null
+    | undefined;
 }
 export interface GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfig {
   /** Configures compaction settings for table optimization. */
@@ -291,6 +317,8 @@ export interface ListResponseWarehousesItem {
   name: string;
   /** Indicates the status of the catalog. */
   status: ListResponseWarehousesItemStatus;
+  /** Specifies the Iceberg REST catalog URI that clients use to connect to the catalog. */
+  catalogUri?: string | null | undefined;
   /** Shows the credential configuration status. */
   credentialStatus?: ListResponseWarehousesItemCredentialStatus | null | undefined;
   /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
@@ -505,6 +533,12 @@ export type UpdateNamespacesTablesMaintenanceConfigResponseCompactionTargetSizeM
   | "128"
   | "256"
   | "512";
+export type UpdateNamespacesTablesMaintenanceConfigResponseCompactionNextEligibleReason =
+  | "disabled"
+  | "held_after_user_error"
+  | "running"
+  | "no_credential"
+  | "scheduled";
 export interface UpdateNamespacesTablesMaintenanceConfigResponseCompaction {
   /** Specifies the state of maintenance operations. */
   state: UpdateNamespacesTablesMaintenanceConfigResponseCompactionState;
@@ -512,10 +546,21 @@ export interface UpdateNamespacesTablesMaintenanceConfigResponseCompaction {
   targetSizeMb: UpdateNamespacesTablesMaintenanceConfigResponseCompactionTargetSizeMb;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
   nextEligibleAt?: string | null | undefined;
+  /** Why the operation is not eligible to run before next_eligible_at. Returned by the per-table GET only, and absent from the update response. `held_after_user_error` means a customer-caused failure holds the lease until it expires. */
+  nextEligibleReason?:
+    | UpdateNamespacesTablesMaintenanceConfigResponseCompactionNextEligibleReason
+    | null
+    | undefined;
 }
 export type UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpirationState =
   | "enabled"
   | "disabled";
+export type UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpirationNextEligibleReason =
+  | "disabled"
+  | "held_after_user_error"
+  | "running"
+  | "no_credential"
+  | "scheduled";
 export interface UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpiration {
   /** Specifies the maximum age for snapshots. */
   maxSnapshotAge: string;
@@ -525,6 +570,11 @@ export interface UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpirati
   state: UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpirationState;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
   nextEligibleAt?: string | null | undefined;
+  /** Why the operation is not eligible to run before next_eligible_at. Returned by the per-table GET only, and absent from the update response. `held_after_user_error` means a customer-caused failure holds the lease until it expires. */
+  nextEligibleReason?:
+    | UpdateNamespacesTablesMaintenanceConfigResponseSnapshotExpirationNextEligibleReason
+    | null
+    | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateNamespacesTablesMaintenanceConfigResponse {
@@ -950,6 +1000,7 @@ function __c8(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
+          catalogUri: S.optional(S.NullOr(S.String).pipe(T.Body("catalog_uri"))),
         }),
       ).annotate({ identifier: "EnableResponse" });
   }
@@ -1009,6 +1060,7 @@ function __c11(j: number): any {
           bucket: S.String,
           name: S.String,
           status: S.String,
+          catalogUri: S.optional(S.NullOr(S.String).pipe(T.Body("catalog_uri"))),
           credentialStatus: S.optional(S.NullOr(S.String).pipe(T.Body("credential_status"))),
           jurisdiction: S.optional(S.NullOr(S.String)),
           maintenanceConfig: S.optional(
@@ -1075,6 +1127,7 @@ function __c14(j: number): any {
           state: S.String,
           targetSizeMb: S.String.pipe(T.Body("target_size_mb")),
           nextEligibleAt: S.optional(S.NullOr(S.String).pipe(T.Body("next_eligible_at"))),
+          nextEligibleReason: S.optional(S.NullOr(S.String).pipe(T.Body("next_eligible_reason"))),
         }),
       ).annotate({
         identifier: "GetNamespacesTablesMaintenanceConfigResponseMaintenanceConfigCompaction",
@@ -1086,6 +1139,7 @@ function __c14(j: number): any {
           minSnapshotsToKeep: S.Number.pipe(T.Body("min_snapshots_to_keep")),
           state: S.String,
           nextEligibleAt: S.optional(S.NullOr(S.String).pipe(T.Body("next_eligible_at"))),
+          nextEligibleReason: S.optional(S.NullOr(S.String).pipe(T.Body("next_eligible_reason"))),
         }),
       ).annotate({
         identifier:

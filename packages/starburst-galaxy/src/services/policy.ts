@@ -70,8 +70,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Entity kind */
-export type PolicyScopeEntityKind =
+export type EntityKind =
   | "Account"
   | "AiModel"
   | "AgentSkill"
@@ -90,10 +89,8 @@ export type PolicyScopeEntityKind =
   | "RowFilter"
   | "DataProduct"
   | "DataDomain";
-/** Grant kind (read only) */
-export type GrantKindAndPrivilegesGrantKind = "Allow" | "Deny";
-/** Privileges (read only) */
-export type GrantKindAndPrivilegesPrivilegeItem =
+export type GrantKind = "Allow" | "Deny";
+export type PrivilegeEnum =
   | "ManageSecurity"
   | "CreateRole"
   | "CreateUser"
@@ -151,13 +148,11 @@ export type GrantKindAndPrivilegesPrivilegeItem =
   | "CreateAgentPersona"
   | "UseAgentPersona";
 /** Privileges (read only) */
-export type GrantKindAndPrivilegesPrivilegeList = Array<
-  GrantKindAndPrivilegesPrivilegeItem | (string & {})
->;
+export type GrantKindAndPrivilegesPrivilegeList = Array<PrivilegeEnum | (string & {})>;
 /** Privileges (read only) */
 export interface GrantKindAndPrivileges {
   /** Grant kind (read only) */
-  grantKind: GrantKindAndPrivilegesGrantKind | (string & {});
+  grantKind: GrantKind | (string & {});
   /** Privileges (read only) */
   privilege: GrantKindAndPrivilegesPrivilegeList;
 }
@@ -170,7 +165,7 @@ export interface PolicyScope {
   /** Entity ID */
   entityId: string;
   /** Entity kind */
-  entityKind: PolicyScopeEntityKind | (string & {});
+  entityKind: EntityKind | (string & {});
   /** Schema name */
   schemaName?: string | undefined;
   /** Table name */

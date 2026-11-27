@@ -268,7 +268,7 @@ export interface GetRepositoryImageRequest {
   slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-export type VcrImageDetailKind = "attestation" | "index" | "manifest";
+export type VcrImageDetailKind = "artifact" | "attestation" | "index" | "manifest";
 /** Docker/OCI build instruction associated with an image layer. */
 export type VcrImageLayerCase0Operation =
   | "ADD"
@@ -457,7 +457,7 @@ export interface GetRepositoryTagRequest {
   slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-export type VcrTagKind = "attestation" | "index" | "manifest";
+export type VcrTagKind = "artifact" | "attestation" | "index" | "manifest";
 /** VHS-readiness status, or `null` for a multi-platform index. */
 export type VcrTagStatus = "errored" | "preparing" | "ready" | "unoptimized";
 /** A tag pointing at an image in a Vercel Container Registry repository, enriched with the backing image's metadata and VHS-readiness status. */
@@ -560,7 +560,7 @@ export interface ListRepositoryImagesRequest {
   slug?: string | undefined;
 }
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-export type VcrImageListItemKind = "attestation" | "index" | "manifest";
+export type VcrImageListItemKind = "artifact" | "attestation" | "index" | "manifest";
 /** VHS-readiness status, or `null` for a multi-platform index. */
 export type VcrImageListItemStatus = "errored" | "preparing" | "ready" | "unoptimized";
 /** Tags pointing at this image's manifest. */

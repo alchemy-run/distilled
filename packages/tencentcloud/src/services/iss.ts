@@ -1442,6 +1442,41 @@ export interface ListVideoDownloadTaskResponse {
   Data?: ListVideoDownloadTaskData | undefined;
   RequestId?: string | undefined;
 }
+export interface ListVideoSnapshotResultRequest {
+  BeginTime: number;
+  EndTime: number;
+  ConfigId?: string | undefined;
+  ChannelId?: string | undefined;
+  Type?: number | undefined;
+  ImageUrlExpires?: number | undefined;
+  PageNumber?: number | undefined;
+  PageSize?: number | undefined;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface VideoSnapshotInfo {
+  ImageId?: string | undefined;
+  ConfigId?: string | undefined;
+  ConfigName?: string | undefined;
+  ChannelId?: string | undefined;
+  ChannelName?: string | undefined;
+  Type?: number | undefined;
+  ImageUrl?: string | undefined;
+  ImageUrlExpires?: number | undefined;
+  Timestamp?: number | undefined;
+  FileSize?: number | undefined;
+}
+export type VideoSnapshotInfoList = Array<VideoSnapshotInfo>;
+export interface ListVideoSnapshotResultData {
+  List?: VideoSnapshotInfoList | undefined;
+  TotalCount?: number | undefined;
+  PageNumber?: number | undefined;
+  PageSize?: number | undefined;
+}
+export interface ListVideoSnapshotResultResponse {
+  Data?: ListVideoSnapshotResultData | undefined;
+  RequestId?: string | undefined;
+}
 export interface ListVideoSnapshotTemplateRequest {
   Name?: string | undefined;
   Type?: number | undefined;
@@ -3117,6 +3152,23 @@ export const listVideoDownloadTask: API.OperationMethod<
   span: "ListVideoDownloadTask",
 }));
 
+export type ListVideoSnapshotResultError = TencentCloudOpError;
+export const listVideoSnapshotResult: API.OperationMethod<
+  ListVideoSnapshotResultRequest,
+  ListVideoSnapshotResultResponse,
+  ListVideoSnapshotResultError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(888, __c111, 0) as any as S.Schema<ListVideoSnapshotResultRequest>,
+  output: __S(892, __c111, 4) as any as S.Schema<ListVideoSnapshotResultResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVideoSnapshotResult",
+}));
+
 export type ListVideoSnapshotTemplateError = TencentCloudOpError;
 export const listVideoSnapshotTemplate: API.OperationMethod<
   ListVideoSnapshotTemplateRequest,
@@ -3124,8 +3176,8 @@ export const listVideoSnapshotTemplate: API.OperationMethod<
   ListVideoSnapshotTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<ListVideoSnapshotTemplateRequest>,
-  output: __S(891, __c111, 3) as any as S.Schema<ListVideoSnapshotTemplateResponse>,
+  input: __S(896, __c112, 0) as any as S.Schema<ListVideoSnapshotTemplateRequest>,
+  output: __S(899, __c112, 3) as any as S.Schema<ListVideoSnapshotTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3141,8 +3193,8 @@ export const listVLPlanResults: API.OperationMethod<
   ListVLPlanResultsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<ListVLPlanResultsRequest>,
-  output: __S(899, __c112, 3) as any as S.Schema<ListVLPlanResultsResponse>,
+  input: __S(904, __c113, 0) as any as S.Schema<ListVLPlanResultsRequest>,
+  output: __S(907, __c113, 3) as any as S.Schema<ListVLPlanResultsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3158,8 +3210,8 @@ export const listVLPlans: API.OperationMethod<
   ListVLPlansError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<ListVLPlansRequest>,
-  output: __S(906, __c113, 2) as any as S.Schema<ListVLPlansResponse>,
+  input: __S(912, __c114, 0) as any as S.Schema<ListVLPlansRequest>,
+  output: __S(914, __c114, 2) as any as S.Schema<ListVLPlansResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3175,8 +3227,8 @@ export const listVLTemplates: API.OperationMethod<
   ListVLTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<ListVLTemplatesRequest>,
-  output: __S(914, __c114, 2) as any as S.Schema<ListVLTemplatesResponse>,
+  input: __S(920, __c115, 0) as any as S.Schema<ListVLTemplatesRequest>,
+  output: __S(922, __c115, 2) as any as S.Schema<ListVLTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3192,7 +3244,7 @@ export const modifyVideoSnapshotConfig: API.OperationMethod<
   ModifyVideoSnapshotConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<ModifyVideoSnapshotConfigRequest>,
+  input: __S(928, __c116, 0) as any as S.Schema<ModifyVideoSnapshotConfigRequest>,
   output: __S(217, __c27, 1) as any as S.Schema<ModifyVideoSnapshotConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3209,7 +3261,7 @@ export const modifyVLPlan: API.OperationMethod<
   ModifyVLPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<ModifyVLPlanRequest>,
+  input: __S(936, __c117, 0) as any as S.Schema<ModifyVLPlanRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<ModifyVLPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3226,8 +3278,8 @@ export const playRecord: API.OperationMethod<
   PlayRecordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<PlayRecordRequest>,
-  output: __S(938, __c117, 2) as any as S.Schema<PlayRecordResponse>,
+  input: __S(944, __c118, 0) as any as S.Schema<PlayRecordRequest>,
+  output: __S(946, __c118, 2) as any as S.Schema<PlayRecordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3243,8 +3295,8 @@ export const queryForbidPlayChannelList: API.OperationMethod<
   QueryForbidPlayChannelListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<QueryForbidPlayChannelListRequest>,
-  output: __S(948, __c118, 4) as any as S.Schema<QueryForbidPlayChannelListResponse>,
+  input: __S(952, __c119, 0) as any as S.Schema<QueryForbidPlayChannelListRequest>,
+  output: __S(956, __c119, 4) as any as S.Schema<QueryForbidPlayChannelListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3260,7 +3312,7 @@ export const refreshDeviceChannel: API.OperationMethod<
   RefreshDeviceChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<RefreshDeviceChannelRequest>,
+  input: __S(968, __c121, 0) as any as S.Schema<RefreshDeviceChannelRequest>,
   output: __S(872, __c109, 0) as any as S.Schema<RefreshDeviceChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3277,7 +3329,7 @@ export const setForbidPlayChannels: API.OperationMethod<
   SetForbidPlayChannelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(970, __c121, 2) as any as S.Schema<SetForbidPlayChannelsRequest>,
+  input: __S(978, __c122, 2) as any as S.Schema<SetForbidPlayChannelsRequest>,
   output: __S(872, __c109, 0) as any as S.Schema<SetForbidPlayChannelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3294,7 +3346,7 @@ export const updateDeviceOrganization: API.OperationMethod<
   UpdateDeviceOrganizationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<UpdateDeviceOrganizationRequest>,
+  input: __S(984, __c123, 0) as any as S.Schema<UpdateDeviceOrganizationRequest>,
   output: __S(872, __c109, 0) as any as S.Schema<UpdateDeviceOrganizationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3311,7 +3363,7 @@ export const updateDeviceStatus: API.OperationMethod<
   UpdateDeviceStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<UpdateDeviceStatusRequest>,
+  input: __S(992, __c124, 0) as any as S.Schema<UpdateDeviceStatusRequest>,
   output: __S(872, __c109, 0) as any as S.Schema<UpdateDeviceStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3328,7 +3380,7 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  input: __S(1000, __c125, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3345,7 +3397,7 @@ export const updateRecordBackupPlan: API.OperationMethod<
   UpdateRecordBackupPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1001, __c125, 1) as any as S.Schema<UpdateRecordBackupPlanRequest>,
+  input: __S(1009, __c126, 1) as any as S.Schema<UpdateRecordBackupPlanRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateRecordBackupPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3362,7 +3414,7 @@ export const updateRecordBackupTemplate: API.OperationMethod<
   UpdateRecordBackupTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1009, __c126, 1) as any as S.Schema<UpdateRecordBackupTemplateRequest>,
+  input: __S(1017, __c127, 1) as any as S.Schema<UpdateRecordBackupTemplateRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<UpdateRecordBackupTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3379,7 +3431,7 @@ export const updateRecordPlan: API.OperationMethod<
   UpdateRecordPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1017, __c127, 1) as any as S.Schema<UpdateRecordPlanRequest>,
+  input: __S(1025, __c128, 1) as any as S.Schema<UpdateRecordPlanRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<UpdateRecordPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3396,7 +3448,7 @@ export const updateRecordTemplate: API.OperationMethod<
   UpdateRecordTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c128, 1) as any as S.Schema<UpdateRecordTemplateRequest>,
+  input: __S(1033, __c129, 1) as any as S.Schema<UpdateRecordTemplateRequest>,
   output: __S(552, __c69, 0) as any as S.Schema<UpdateRecordTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3413,7 +3465,7 @@ export const updateUserDevice: API.OperationMethod<
   UpdateUserDeviceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<UpdateUserDeviceRequest>,
+  input: __S(1040, __c130, 0) as any as S.Schema<UpdateUserDeviceRequest>,
   output: __S(769, __c96, 1) as any as S.Schema<UpdateUserDeviceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5836,6 +5888,59 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          BeginTime: S.Number,
+          EndTime: S.Number,
+          ConfigId: S.optional(S.String),
+          ChannelId: S.optional(S.String),
+          Type: S.optional(S.Number),
+          ImageUrlExpires: S.optional(S.Number),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iss", version: "2023-05-17", action: "ListVideoSnapshotResult" }),
+        ),
+      ).annotate({ identifier: "ListVideoSnapshotResultRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ImageId: S.optional(S.String),
+          ConfigId: S.optional(S.String),
+          ConfigName: S.optional(S.String),
+          ChannelId: S.optional(S.String),
+          ChannelName: S.optional(S.String),
+          Type: S.optional(S.Number),
+          ImageUrl: S.optional(S.String),
+          ImageUrlExpires: S.optional(S.Number),
+          Timestamp: S.optional(S.Number),
+          FileSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VideoSnapshotInfo" });
+    case 2:
+      return S.Array(__S(889, __c111, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          List: S.optional(__S(890, __c111, 2)),
+          TotalCount: S.optional(S.Number),
+          PageNumber: S.optional(S.Number),
+          PageSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListVideoSnapshotResultData" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.optional(__S(891, __c111, 3)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListVideoSnapshotResultResponse" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Name: S.optional(S.String),
           Type: S.optional(S.Number),
           Sort: S.optional(S.String),
@@ -5857,19 +5962,19 @@ function __c111(j: number): any {
           Order: S.optional(S.String),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          List: S.optional(__S(889, __c111, 1)),
+          List: S.optional(__S(897, __c112, 1)),
         }),
       ).annotate({ identifier: "ListVideoSnapshotTemplateData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(890, __c111, 2)),
+          Data: S.optional(__S(898, __c112, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVideoSnapshotTemplateResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5904,18 +6009,18 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "VLPlanResultInfo" });
     case 2:
-      return S.Array(__S(897, __c112, 1));
+      return S.Array(__S(905, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(898, __c112, 2)),
+          Data: S.optional(__S(906, __c113, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVLPlanResultsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5931,14 +6036,14 @@ function __c113(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(905, __c113, 1)),
+          Data: S.optional(__S(913, __c114, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVLPlansResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5956,14 +6061,14 @@ function __c114(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(913, __c114, 1)),
+          Data: S.optional(__S(921, __c115, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVLTemplatesResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5980,7 +6085,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ModifyVideoSnapshotConfigRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5996,7 +6101,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ModifyVLPlanRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6020,13 +6125,13 @@ function __c117(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(937, __c117, 1)),
+          Data: S.optional(__S(945, __c118, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlayRecordResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6049,36 +6154,23 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "ChannelAttrInfo" });
     case 2:
-      return S.Array(__S(945, __c118, 1));
+      return S.Array(__S(953, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
-          List: S.optional(S.NullOr(__S(946, __c118, 2))),
+          List: S.optional(S.NullOr(__S(954, __c119, 2))),
         }),
       ).annotate({ identifier: "ListForbidplayChannelsData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(947, __c118, 3)),
+          Data: S.optional(__S(955, __c119, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryForbidPlayChannelListResponse" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DeviceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "iss", version: "2023-05-17", action: "RefreshDeviceChannel" }),
-        ),
-      ).annotate({ identifier: "RefreshDeviceChannelRequest" });
   }
 }
 function __c120(j: number): any {
@@ -6102,16 +6194,29 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          DeviceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "iss", version: "2023-05-17", action: "RefreshDeviceChannel" }),
+        ),
+      ).annotate({ identifier: "RefreshDeviceChannelRequest" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ChannelId: S.String,
           Enable: S.Boolean,
         }),
       ).annotate({ identifier: "SetForbidplayChannelParam" });
     case 1:
-      return S.Array(__S(968, __c121, 0));
+      return S.Array(__S(976, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Channels: __S(969, __c121, 1),
+          Channels: __S(977, __c122, 1),
           UserId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -6120,7 +6225,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "SetForbidPlayChannelsRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6134,7 +6239,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateDeviceOrganizationRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6146,7 +6251,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "UpdateDeviceStatusRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6158,7 +6263,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6176,7 +6281,7 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PlanId: S.String,
-          Mod: __S(1000, __c125, 0),
+          Mod: __S(1008, __c126, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iss", version: "2023-05-17", action: "UpdateRecordBackupPlan" }),
@@ -6184,7 +6289,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "UpdateRecordBackupPlanRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6199,7 +6304,7 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateId: S.String,
-          Mod: __S(1008, __c126, 0),
+          Mod: __S(1016, __c127, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iss", version: "2023-05-17", action: "UpdateRecordBackupTemplate" }),
@@ -6207,7 +6312,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UpdateRecordBackupTemplateRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6227,13 +6332,13 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PlanId: S.String,
-          Mod: __S(1016, __c127, 0),
+          Mod: __S(1024, __c128, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "iss", version: "2023-05-17", action: "UpdateRecordPlan" })),
       ).annotate({ identifier: "UpdateRecordPlanRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6246,7 +6351,7 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateId: S.String,
-          Mod: __S(1024, __c128, 0),
+          Mod: __S(1032, __c129, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "iss", version: "2023-05-17", action: "UpdateRecordTemplate" }),
@@ -6254,7 +6359,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "UpdateRecordTemplateRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

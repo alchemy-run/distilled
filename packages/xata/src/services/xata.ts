@@ -359,6 +359,8 @@ export interface BranchShortMetadata {
   region: string;
   /** Whether the branch allows public access without authentication */
   publicAccess: boolean;
+  /** Whether backups are enabled for the newly created branch. Only set in responses to branch creation. */
+  backupsEnabled?: boolean | undefined;
 }
 export interface CreateGithubAppInstallationRequest {
   /** Unique identifier of the organization */
@@ -786,7 +788,7 @@ export interface BranchMetadata {
   connectionString: string | Redacted.Redacted<string> | null;
   /** Whether the branch allows public access without authentication */
   publicAccess: boolean;
-  /** Whether the branch is in a region that supports backups */
+  /** Whether backups are enabled for this branch */
   backupsEnabled: boolean;
   scaleToZero: ScaleToZeroConfiguration;
   configuration: ClusterConfiguration;
@@ -1253,7 +1255,7 @@ export interface BranchListMetadata {
   region: string;
   /** Whether the branch allows public access without authentication */
   publicAccess: boolean;
-  /** Whether the branch is in a region that supports backups */
+  /** Whether the branch's region supports backups. A branch can still have backups disabled; see the branch details for its actual state. */
   backupsEnabled: boolean;
 }
 /** Array of branch objects with their metadata */
@@ -3131,7 +3133,7 @@ export const resendOrganizationInvitation: API.OperationMethod<
 }));
 
 export type RestoreFromBackupError = BadRequest | NotFound | XataOpError;
-/** Create a new branch from a backup of another branch Creates a new branch from the continuous backup of the source branch. The source branch does not change. The new branch is created in the region and cell of the source branch, and its parentID is the source branch. */
+/** Create a new branch from a backup of another branch Creates a new branch from the continuous backup of the source branch. The source branch does not change. The new branch is created in the region and cell of the source branch, and its parentID is the source branch. Returns 412 if the backups of the source branch cannot be restored to a new branch. */
 export const restoreFromBackup: API.OperationMethod<
   RestoreFromBackupRequest,
   BranchShortMetadata,
@@ -5708,6 +5710,7 @@ function __c101(j: number): any {
           connectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           region: S.String,
           publicAccess: S.Boolean,
+          backupsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BranchShortMetadata" });
   }

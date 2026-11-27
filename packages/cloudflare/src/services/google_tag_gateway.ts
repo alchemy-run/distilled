@@ -50,10 +50,10 @@ export interface GetConfigResponse {
   enabled: boolean;
   /** Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics). */
   endpoint: string;
-  /** Hides the original client IP address from Google when enabled. */
-  hideOriginalIp: boolean;
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
+  /** Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it. */
+  hideOriginalIp?: boolean | null | undefined;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
   setUpTag?: boolean | null | undefined;
 }
@@ -64,10 +64,10 @@ export interface PutConfigRequest {
   enabled: boolean;
   /** Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics). */
   endpoint: string;
-  /** Hides the original client IP address from Google when enabled. */
-  hideOriginalIp: boolean;
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
+  /** Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it. */
+  hideOriginalIp?: boolean | undefined;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
   setUpTag?: boolean | undefined;
 }
@@ -77,10 +77,10 @@ export interface PutConfigResponse {
   enabled: boolean;
   /** Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics). */
   endpoint: string;
-  /** Hides the original client IP address from Google when enabled. */
-  hideOriginalIp: boolean;
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
+  /** Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it. */
+  hideOriginalIp?: boolean | null | undefined;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
   setUpTag?: boolean | null | undefined;
 }
@@ -144,8 +144,8 @@ function __c1(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           endpoint: S.String,
-          hideOriginalIp: S.Boolean,
           measurementId: S.String,
+          hideOriginalIp: S.optional(S.NullOr(S.Boolean)),
           setUpTag: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "GetConfigResponse" });
@@ -159,8 +159,8 @@ function __c2(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
           enabled: S.Boolean,
           endpoint: S.String,
-          hideOriginalIp: S.Boolean,
           measurementId: S.String,
+          hideOriginalIp: S.optional(S.Boolean),
           setUpTag: S.optional(S.Boolean),
         }).pipe(
           T.Http({

@@ -52,6 +52,8 @@ export interface GetPosthogConnectionsTargetRequest {
   project_id: string;
   id: string;
 }
+/** API scopes the user granted to this connection, e.g. `insight:read`. Empty when they are not known. */
+export type PostHogConnectionTargetGrantedScopesList = Array<string>;
 export interface PostHogConnectionTarget {
   /** Project id to use in target API paths. It is the connected project's id, not this one's. */
   project_id: number;
@@ -65,6 +67,8 @@ export interface PostHogConnectionTarget {
   region: string;
   /** Base URL requests through this connection are sent to. */
   base_url: string;
+  /** API scopes the user granted to this connection, e.g. `insight:read`. Empty when they are not known. */
+  granted_scopes: PostHogConnectionTargetGrantedScopesList;
 }
 export type CreatePosthogConnectionsForwardError = PosthogOpError;
 /** Forward a request through a PostHog connection Replay an API request against the connected PostHog project. The server injects the connection's token; the response is passed through. */
@@ -93,7 +97,7 @@ export const getPosthogConnectionsTarget: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetPosthogConnectionsTargetRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<PostHogConnectionTarget>,
+  output: __S(6, __c1, 2) as any as S.Schema<PostHogConnectionTarget>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -149,6 +153,8 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "GetPosthogConnectionsTargetRequest" });
     case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.Number,
@@ -157,6 +163,7 @@ function __c1(j: number): any {
           organization_name: S.String,
           region: S.String,
           base_url: S.String,
+          granted_scopes: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "PostHogConnectionTarget" });
   }

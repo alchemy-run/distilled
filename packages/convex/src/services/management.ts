@@ -340,7 +340,9 @@ export type CreateDeployKeyRequestAllowedActionsItem =
   | "deployment:usageLimits:view"
   | "deployment:usageLimits:write"
   | "deployment:usage:view"
-  | "deployment:aiGateway:use";
+  | "deployment:aiGateway:use"
+  | "deployment:backups:configurePeriodic"
+  | "deployment:backups:disablePeriodic";
 /** Optional list of allowed operations for this deploy key. If omitted, the key is allowed every action the caller is currently allowed to perform on this deployment. Must contain at least one action if provided. */
 export type CreateDeployKeyRequestAllowedActionsList = Array<
   CreateDeployKeyRequestAllowedActionsItem | (string & {})
@@ -594,7 +596,7 @@ export interface ProjectResponse {
   prodDeploymentReference?: string | null | undefined;
   /** The reference of the requesting member's default development deployment for this project, if one exists and is a cloud deployment (e.g. "dev/jane-doe"). */
   devDeploymentReference?: string | null | undefined;
-  tags?: ProjectResponseTagsList | null | undefined;
+  tags: ProjectResponseTagsList;
 }
 export interface GetProjectBySlugRequest {
   /** Team ID or slug */
@@ -678,6 +680,7 @@ export type ListAuditLogEventsRequestAction =
   | "project:receive"
   | "project:update"
   | "project:delete"
+  | "project:recover"
   | "defaultEnvironmentVariable:create"
   | "defaultEnvironmentVariable:update"
   | "defaultEnvironmentVariable:delete"
@@ -808,6 +811,7 @@ export type AuditLogEventResponseAction =
   | "project:receive"
   | "project:update"
   | "project:delete"
+  | "project:recover"
   | "defaultEnvironmentVariable:create"
   | "defaultEnvironmentVariable:update"
   | "defaultEnvironmentVariable:delete"
@@ -959,6 +963,28 @@ export interface PaginatedDefaultEnvironmentVariablesResponse {
   items: PaginatedDefaultEnvironmentVariablesResponseItemsList;
   pagination: PaginationMetadata;
 }
+export interface ListDeletedProjectsRequest {
+  /** Team ID */
+  teamId: number;
+  /** Cursor from the previous page. */
+  cursor?: string | undefined;
+  /** Maximum number of projects to return (1-100, defaults to 100). */
+  limit?: number | undefined;
+}
+export interface DeletedProject {
+  id: number;
+  name: string;
+  slug: string;
+  /** Deletion time in milliseconds since epoch. */
+  deletedAt: number;
+  /** Recovery deadline in milliseconds since epoch. */
+  recoverableUntil: number;
+}
+export type PaginatedDeletedProjectsResponseItemsList = Array<DeletedProject>;
+export interface PaginatedDeletedProjectsResponse {
+  items: PaginatedDeletedProjectsResponseItemsList;
+  pagination: PaginationMetadata;
+}
 export interface ListDeployKeysRequest {
   /** Deployment name */
   deploymentName: string;
@@ -989,7 +1015,9 @@ export type PlatformDeployKeyResponseAllowedActionsItem =
   | "deployment:usageLimits:view"
   | "deployment:usageLimits:write"
   | "deployment:usage:view"
-  | "deployment:aiGateway:use";
+  | "deployment:aiGateway:use"
+  | "deployment:backups:configurePeriodic"
+  | "deployment:backups:disablePeriodic";
 /** The same operations as `allowedOperations`, in the colon-based action format (e.g. `"deployment:data:view"`). Unlike `allowedOperations`, this is always present: an unrestricted key (where `allowedOperations` is omitted) lists every deployment action here. */
 export type PlatformDeployKeyResponseAllowedActionsList =
   Array<PlatformDeployKeyResponseAllowedActionsItem>;
@@ -1236,6 +1264,13 @@ export interface MintAiGatewayJwtRequest {
 export interface MintLocalAiGatewayJwtResponse {
   token: Redacted.Redacted<string>;
 }
+export interface RecoverProjectRequest {
+  /** Team ID */
+  teamId: number;
+  /** Project ID */
+  projectId: number;
+}
+export interface RecoverProjectResponse {}
 export interface TransferDeploymentRequest {
   /** Deployment Name */
   deploymentName: string;
@@ -2063,6 +2098,35 @@ export const listDefaultEnvironmentVariables: API.OperationMethod<
   span: "ListDefaultEnvironmentVariables",
 }));
 
+export type ListDeletedProjectsError = ConvexOpError;
+/** List deleted projects List a team's deleted projects within the recovery window, newest first. */
+export const listDeletedProjects: API.PaginatedOperationMethod<
+  ListDeletedProjectsRequest,
+  PaginatedDeletedProjectsResponse,
+  ListDeletedProjectsError,
+  ConvexOpContext,
+  DeletedProject
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(148, __c37, 0) as any as S.Schema<ListDeletedProjectsRequest>,
+    output: __S(151, __c37, 3) as any as S.Schema<PaginatedDeletedProjectsResponse>,
+    errors: [],
+    serviceErrors: ConvexServiceErrors,
+    protocol: ConvexProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeletedProjects",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "pagination.nextCursor",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateCursor,
+) as any;
+
 export type ListDeployKeysError =
   | DeploymentNotFound
   | AccessTokenInvalid
@@ -2076,8 +2140,8 @@ export const listDeployKeys: API.OperationMethod<
   ListDeployKeysError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<ListDeployKeysRequest>,
-  output: __S(149, __c37, 1) as any as S.Schema<ListDeployKeysResponse>,
+  input: __S(152, __c38, 0) as any as S.Schema<ListDeployKeysRequest>,
+  output: __S(153, __c38, 1) as any as S.Schema<ListDeployKeysResponse>,
   errors: [
     DeploymentNotFound,
     AccessTokenInvalid,
@@ -2103,8 +2167,8 @@ export const listDeploymentClasses: API.OperationMethod<
   ListDeploymentClassesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<ListDeploymentClassesRequest>,
-  output: __S(159, __c39, 3) as any as S.Schema<ListDeploymentClassesResponse>,
+  input: __S(160, __c40, 0) as any as S.Schema<ListDeploymentClassesRequest>,
+  output: __S(163, __c40, 3) as any as S.Schema<ListDeploymentClassesResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2125,8 +2189,8 @@ export const listDeploymentRegions: API.OperationMethod<
   ListDeploymentRegionsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<ListDeploymentRegionsRequest>,
-  output: __S(163, __c40, 3) as any as S.Schema<ListDeploymentRegionsResponse>,
+  input: __S(164, __c41, 0) as any as S.Schema<ListDeploymentRegionsRequest>,
+  output: __S(167, __c41, 3) as any as S.Schema<ListDeploymentRegionsResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2148,8 +2212,8 @@ export const listDeployments: API.OperationMethod<
   ListDeploymentsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<ListDeploymentsRequest>,
-  output: __S(165, __c41, 1) as any as S.Schema<ListDeploymentsResponse>,
+  input: __S(168, __c42, 0) as any as S.Schema<ListDeploymentsRequest>,
+  output: __S(169, __c42, 1) as any as S.Schema<ListDeploymentsResponse>,
   errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2170,8 +2234,8 @@ export const listLocalDeployments: API.OperationMethod<
   ListLocalDeploymentsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<ListLocalDeploymentsRequest>,
-  output: __S(173, __c43, 1) as any as S.Schema<ListLocalDeploymentsResponse>,
+  input: __S(176, __c44, 0) as any as S.Schema<ListLocalDeploymentsRequest>,
+  output: __S(177, __c44, 1) as any as S.Schema<ListLocalDeploymentsResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2192,8 +2256,8 @@ export const listPendingTeamInvites: API.OperationMethod<
   ListPendingTeamInvitesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<ListPendingTeamInvitesRequest>,
-  output: __S(179, __c44, 3) as any as S.Schema<PlatformListInvitationsResponse>,
+  input: __S(180, __c45, 0) as any as S.Schema<ListPendingTeamInvitesRequest>,
+  output: __S(183, __c45, 3) as any as S.Schema<PlatformListInvitationsResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2216,8 +2280,8 @@ export const listPersonalAccessTokens: API.PaginatedOperationMethod<
   PersonalAccessTokenResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(184, __c46, 0) as any as S.Schema<ListPersonalAccessTokensRequest>,
-    output: __S(187, __c46, 3) as any as S.Schema<PaginatedPersonalAccessTokensResponse>,
+    input: __S(188, __c47, 0) as any as S.Schema<ListPersonalAccessTokensRequest>,
+    output: __S(191, __c47, 3) as any as S.Schema<PaginatedPersonalAccessTokensResponse>,
     errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     serviceErrors: ConvexServiceErrors,
     protocol: ConvexProtocol,
@@ -2248,8 +2312,8 @@ export const listPreviewDeployKeys: API.OperationMethod<
   ListPreviewDeployKeysError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<ListPreviewDeployKeysRequest>,
-  output: __S(189, __c47, 1) as any as S.Schema<PlatformListPreviewDeployKeysResponse>,
+  input: __S(192, __c48, 0) as any as S.Schema<ListPreviewDeployKeysRequest>,
+  output: __S(193, __c48, 1) as any as S.Schema<PlatformListPreviewDeployKeysResponse>,
   errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2272,8 +2336,8 @@ export const listProjects: API.PaginatedOperationMethod<
   ProjectResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c48, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(194, __c48, 2) as any as S.Schema<PlatformPaginatedProjectsResponse>,
+    input: __S(196, __c49, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(198, __c49, 2) as any as S.Schema<PlatformPaginatedProjectsResponse>,
     errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     serviceErrors: ConvexServiceErrors,
     protocol: ConvexProtocol,
@@ -2305,8 +2369,8 @@ export const listProjectTags: API.PaginatedOperationMethod<
   ProjectTagResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(196, __c49, 0) as any as S.Schema<ListProjectTagsRequest>,
-    output: __S(199, __c49, 3) as any as S.Schema<ProjectTagsResponse>,
+    input: __S(200, __c50, 0) as any as S.Schema<ListProjectTagsRequest>,
+    output: __S(203, __c50, 3) as any as S.Schema<ProjectTagsResponse>,
     errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     serviceErrors: ConvexServiceErrors,
     protocol: ConvexProtocol,
@@ -2338,8 +2402,8 @@ export const listTeamAccessTokens: API.PaginatedOperationMethod<
   TeamAccessTokenResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(200, __c50, 0) as any as S.Schema<ListTeamAccessTokensRequest>,
-    output: __S(203, __c50, 3) as any as S.Schema<ListTeamAccessTokensResponse>,
+    input: __S(204, __c51, 0) as any as S.Schema<ListTeamAccessTokensRequest>,
+    output: __S(207, __c51, 3) as any as S.Schema<ListTeamAccessTokensResponse>,
     errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     serviceErrors: ConvexServiceErrors,
     protocol: ConvexProtocol,
@@ -2371,8 +2435,8 @@ export const listTeamDeployments: API.PaginatedOperationMethod<
   PlatformDeploymentResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(204, __c51, 0) as any as S.Schema<ListTeamDeploymentsRequest>,
-    output: __S(205, __c51, 1) as any as S.Schema<PaginatedDeploymentsResponse>,
+    input: __S(208, __c52, 0) as any as S.Schema<ListTeamDeploymentsRequest>,
+    output: __S(209, __c52, 1) as any as S.Schema<PaginatedDeploymentsResponse>,
     errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
     serviceErrors: ConvexServiceErrors,
     protocol: ConvexProtocol,
@@ -2402,8 +2466,8 @@ export const listTeamMembers: API.OperationMethod<
   ListTeamMembersError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<ListTeamMembersRequest>,
-  output: __S(211, __c52, 3) as any as S.Schema<PlatformListTeamMembersResponse>,
+  input: __S(212, __c53, 0) as any as S.Schema<ListTeamMembersRequest>,
+  output: __S(215, __c53, 3) as any as S.Schema<PlatformListTeamMembersResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
   protocol: ConvexProtocol,
@@ -2425,8 +2489,8 @@ export const mintAiGatewayJwt: API.OperationMethod<
   MintAiGatewayJwtError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(213, __c53, 1) as any as S.Schema<MintAiGatewayJwtRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<MintLocalAiGatewayJwtResponse>,
+  input: __S(217, __c54, 1) as any as S.Schema<MintAiGatewayJwtRequest>,
+  output: __S(218, __c54, 2) as any as S.Schema<MintLocalAiGatewayJwtResponse>,
   errors: [
     DeploymentNotFound,
     AccessTokenInvalid,
@@ -2438,6 +2502,24 @@ export const mintAiGatewayJwt: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MintAiGatewayJwt",
+}));
+
+export type RecoverProjectError = ConvexOpError;
+/** Recover project Recover a recently deleted project and its eligible deployments. */
+export const recoverProject: API.OperationMethod<
+  RecoverProjectRequest,
+  RecoverProjectResponse,
+  RecoverProjectError,
+  ConvexOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(220, __c55, 0) as any as S.Schema<RecoverProjectRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<RecoverProjectResponse>,
+  errors: [],
+  serviceErrors: ConvexServiceErrors,
+  protocol: ConvexProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverProject",
 }));
 
 export type TransferDeploymentError =
@@ -2454,7 +2536,7 @@ export const transferDeployment: API.OperationMethod<
   TransferDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<TransferDeploymentRequest>,
+  input: __S(224, __c56, 0) as any as S.Schema<TransferDeploymentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<TransferDeploymentResponse>,
   errors: [
     ProjectNotFound,
@@ -2482,7 +2564,7 @@ export const updateCustomRole: API.OperationMethod<
   UpdateCustomRoleError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<UpdateCustomRoleRequest>,
+  input: __S(228, __c57, 0) as any as S.Schema<UpdateCustomRoleRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<CustomRoleResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
@@ -2505,7 +2587,7 @@ export const updateDefaultEnvironmentVariables: API.OperationMethod<
   UpdateDefaultEnvironmentVariablesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c56, 2) as any as S.Schema<UpdateDefaultEnvironmentVariablesRequest>,
+  input: __S(234, __c58, 2) as any as S.Schema<UpdateDefaultEnvironmentVariablesRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateDefaultEnvironmentVariablesResponse>,
   errors: [ProjectNotFound, AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
@@ -2530,7 +2612,7 @@ export const updateDeployment: API.OperationMethod<
   UpdateDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<UpdateDeploymentRequest>,
+  input: __S(236, __c59, 0) as any as S.Schema<UpdateDeploymentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateDeploymentResponse>,
   errors: [
     DeploymentNotFound,
@@ -2561,7 +2643,7 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c58, 0) as any as S.Schema<UpdateProjectRequest>,
+  input: __S(240, __c60, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<ProjectResponse>,
   errors: [
     ProjectNotFound,
@@ -2589,7 +2671,7 @@ export const updateTeamMemberRole: API.OperationMethod<
   UpdateTeamMemberRoleError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(236, __c59, 0) as any as S.Schema<UpdateTeamMemberRoleRequest>,
+  input: __S(244, __c61, 0) as any as S.Schema<UpdateTeamMemberRoleRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateTeamMemberRoleResponse>,
   errors: [AccessTokenInvalid, OperationNotPermitted, UnexpectedAuthHeaderFormat],
   serviceErrors: ConvexServiceErrors,
@@ -3000,7 +3082,7 @@ function __c25(j: number): any {
           devDeploymentName: S.optional(S.NullOr(S.String)),
           prodDeploymentReference: S.optional(S.NullOr(S.String)),
           devDeploymentReference: S.optional(S.NullOr(S.String)),
-          tags: S.optional(S.NullOr(__S(48, __c12, 0))),
+          tags: __S(48, __c12, 0),
         }),
       ).annotate({ identifier: "ProjectResponse" });
   }
@@ -3233,6 +3315,39 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          teamId: S.Number.pipe(T.Label("team_id")),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/teams/{team_id}/list_deleted_projects", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListDeletedProjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          slug: S.String,
+          deletedAt: S.Number,
+          recoverableUntil: S.Number,
+        }),
+      ).annotate({ identifier: "DeletedProject" });
+    case 2:
+      return S.Array(__S(149, __c37, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(150, __c37, 2),
+          pagination: __S(132, __c33, 0),
+        }),
+      ).annotate({ identifier: "PaginatedDeletedProjectsResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           deploymentName: S.String.pipe(T.Label("deployment_name")),
         }).pipe(
           T.Http({
@@ -3243,12 +3358,12 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListDeployKeysRequest" });
     case 1:
-      return S.suspend(() => __S(153, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(157, __c39, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeployKeysResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3264,10 +3379,10 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "PlatformDeployKeyResponse" });
     case 1:
-      return S.Array(__S(152, __c38, 0));
+      return S.Array(__S(156, __c39, 0));
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3285,16 +3400,16 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentClassMetadata" });
     case 2:
-      return S.Array(__S(157, __c39, 1));
+      return S.Array(__S(161, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(158, __c39, 2),
+          items: __S(162, __c40, 2),
         }),
       ).annotate({ identifier: "ListDeploymentClassesResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3313,16 +3428,16 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentRegionMetadata" });
     case 2:
-      return S.Array(__S(161, __c40, 1));
+      return S.Array(__S(165, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(162, __c40, 2),
+          items: __S(166, __c41, 2),
         }),
       ).annotate({ identifier: "ListDeploymentRegionsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3336,18 +3451,18 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.suspend(() => __S(168, __c42, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(172, __c43, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeploymentsResponse",
       });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3360,12 +3475,12 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(168, __c42, 0),
+          items: __S(172, __c43, 0),
         }),
       ).annotate({ identifier: "ListLocalDeploymentsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3379,20 +3494,20 @@ function __c44(j: number): any {
           email: S.String,
           expired: S.Boolean,
           role: S.String,
-          customRoles: S.optional(S.NullOr(__S(181, __c45, 1))),
+          customRoles: S.optional(S.NullOr(__S(185, __c46, 1))),
         }),
       ).annotate({ identifier: "InvitationResponse" });
     case 2:
-      return S.Array(__S(177, __c44, 1));
+      return S.Array(__S(181, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(178, __c44, 2),
+          items: __S(182, __c45, 2),
         }),
       ).annotate({ identifier: "PlatformListInvitationsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3402,10 +3517,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "TeamMemberCustomRole" });
     case 1:
-      return S.Array(__S(180, __c45, 0));
+      return S.Array(__S(184, __c46, 0));
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3426,17 +3541,17 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "PersonalAccessTokenResponse" });
     case 2:
-      return S.Array(__S(185, __c46, 1));
+      return S.Array(__S(189, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(186, __c46, 2),
+          items: __S(190, __c47, 2),
           pagination: __S(132, __c33, 0),
         }),
       ).annotate({ identifier: "PaginatedPersonalAccessTokensResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3454,12 +3569,12 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(153, __c38, 1),
+          items: __S(157, __c39, 1),
         }),
       ).annotate({ identifier: "PlatformListPreviewDeployKeysResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3476,13 +3591,13 @@ function __c48(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(193, __c48, 1),
+          items: __S(197, __c49, 1),
           pagination: __S(132, __c33, 0),
         }),
       ).annotate({ identifier: "PlatformPaginatedProjectsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3499,17 +3614,17 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "ProjectTagResponse" });
     case 2:
-      return S.Array(__S(197, __c49, 1));
+      return S.Array(__S(201, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(198, __c49, 2),
+          items: __S(202, __c50, 2),
           pagination: __S(132, __c33, 0),
         }),
       ).annotate({ identifier: "ProjectTagsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3531,17 +3646,17 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "TeamAccessTokenResponse" });
     case 2:
-      return S.Array(__S(201, __c50, 1));
+      return S.Array(__S(205, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(202, __c50, 2),
+          items: __S(206, __c51, 2),
           pagination: __S(132, __c33, 0),
         }),
       ).annotate({ identifier: "ListTeamAccessTokensResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3561,13 +3676,13 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(168, __c42, 0),
+          items: __S(172, __c43, 0),
           pagination: __S(132, __c33, 0),
         }),
       ).annotate({ identifier: "PaginatedDeploymentsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3582,22 +3697,22 @@ function __c52(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           email: S.String,
           role: S.String,
-          customRoles: S.optional(S.NullOr(__S(181, __c45, 1))),
+          customRoles: S.optional(S.NullOr(__S(185, __c46, 1))),
           directoryManaged: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "TeamMember" });
     case 2:
-      return S.Array(__S(209, __c52, 1));
+      return S.Array(__S(213, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(210, __c52, 2),
+          items: __S(214, __c53, 2),
           directorySynced: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PlatformListTeamMembersResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3611,7 +3726,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deploymentName: S.String.pipe(T.Label("deployment_name")),
-          attribution: __S(212, __c53, 0),
+          attribution: __S(216, __c54, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3628,7 +3743,24 @@ function __c53(j: number): any {
       ).annotate({ identifier: "MintLocalAiGatewayJwtResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.Number.pipe(T.Label("team_id")),
+          projectId: S.Number.pipe(T.Label("project_id")),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/teams/{team_id}/projects/{project_id}/recover",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RecoverProjectRequest" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3641,7 +3773,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "TransferDeploymentRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3655,7 +3787,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateCustomRoleRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3667,12 +3799,12 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "DefaultEnvironmentVariableChangeArgs" });
     case 1:
-      return S.Array(__S(224, __c56, 0));
+      return S.Array(__S(232, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.Number.pipe(T.Label("project_id")),
-          changes: __S(225, __c56, 1),
+          changes: __S(233, __c58, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3683,7 +3815,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateDefaultEnvironmentVariablesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3700,7 +3832,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3713,7 +3845,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

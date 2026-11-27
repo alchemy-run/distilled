@@ -41,7 +41,7 @@ export type ClickPipePostKafkaSourceType =
   | "dokafka";
 /** Format of the Kafka source. */
 export type ClickPipePostKafkaSourceFormat = "JSONEachRow" | "Avro" | "AvroConfluent" | "Protobuf";
-/** Authentication method of the Kafka source. SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. Supported authentication methods: kafka: PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, msk: SCRAM-SHA-512, IAM_ROLE, IAM_USER, MUTUAL_TLS, gcmk: PLAIN, MUTUAL_TLS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY, confluent: PLAIN, MUTUAL_TLS, warpstream: PLAIN, azureeventhub: PLAIN, redpanda: SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, dokafka: SCRAM-SHA-256, MUTUAL_TLS */
+/** Authentication method of the Kafka source. SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. Supported authentication methods: kafka: PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, msk: SCRAM-SHA-512, IAM_ROLE, IAM_USER, MUTUAL_TLS, gcmk: PLAIN, MUTUAL_TLS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY, confluent: PLAIN, SCRAM-SHA-512, MUTUAL_TLS, warpstream: PLAIN, azureeventhub: PLAIN, redpanda: SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, dokafka: SCRAM-SHA-256, MUTUAL_TLS */
 export type ClickPipePostKafkaSourceAuthentication =
   | "PLAIN"
   | "SCRAM-SHA-256"
@@ -60,24 +60,39 @@ export interface ClickPipeKafkaOffset {
 }
 /** Type of the schema registry. Defaults to 'confluent' (a Confluent-compatible REST registry). */
 export type ClickPipeMutateKafkaConfluentSchemaRegistryType = "confluent";
-/** Authentication type of the schema registry. */
-export type ClickPipeMutateKafkaConfluentSchemaRegistryAuthentication = "PLAIN";
 export interface ClickPipeKafkaSchemaRegistryCredentials {
   /** Username for the schema registry. */
-  username?: string | undefined;
+  username: string;
   /** Password for the schema registry. */
-  password?: string | Redacted.Redacted<string> | undefined;
+  password: string | Redacted.Redacted<string>;
 }
+export interface ClickPipeKafkaSchemaRegistryClientCredentials {
+  /** OAuth2 client ID for the schema registry. */
+  clientId: string;
+  /** OAuth2 client secret for the schema registry. */
+  clientSecret: string | Redacted.Redacted<string>;
+}
+/** Credentials for the schema registry. Use a username and password for PLAIN, or a client ID and secret for CLIENT_CREDENTIALS. */
+export type ClickPipeMutateKafkaConfluentSchemaRegistryCredentials =
+  | ClickPipeKafkaSchemaRegistryCredentials
+  | ClickPipeKafkaSchemaRegistryClientCredentials;
 export interface ClickPipeMutateKafkaConfluentSchemaRegistry {
   /** Type of the schema registry. Defaults to 'confluent' (a Confluent-compatible REST registry). */
   type?: ClickPipeMutateKafkaConfluentSchemaRegistryType | (string & {}) | undefined;
   /** Schema URL. HTTPS required. */
   url: string;
-  /** Authentication type of the schema registry. */
-  authentication: ClickPipeMutateKafkaConfluentSchemaRegistryAuthentication;
+  /** Authentication type of the schema registry. One of 'PLAIN', 'CLIENT_CREDENTIALS'. PLAIN uses a username and password. CLIENT_CREDENTIALS uses the OAuth2 client credentials flow. */
+  authentication: string;
   /** PEM encoded CA certificates to validate the schema registry's certificate. */
   caCertificate?: string | null | undefined;
-  credentials: ClickPipeKafkaSchemaRegistryCredentials;
+  /** OAuth2 token endpoint. HTTPS required. Required when authentication is CLIENT_CREDENTIALS. */
+  tokenUrl?: string | null | undefined;
+  /** Space-separated OAuth2 scopes to request. Only used when authentication is CLIENT_CREDENTIALS. */
+  scope?: string | null | undefined;
+  /** OAuth2 audience to request. Only used when authentication is CLIENT_CREDENTIALS. */
+  audience?: string | null | undefined;
+  /** Credentials for the schema registry. Use a username and password for PLAIN, or a client ID and secret for CLIENT_CREDENTIALS. */
+  credentials: ClickPipeMutateKafkaConfluentSchemaRegistryCredentials;
 }
 /** Type of the schema registry. Use 'glue' for the AWS Glue Schema Registry, which authenticates with IAM instead of credentials. */
 export type ClickPipeKafkaGlueSchemaRegistryType = "glue";
@@ -133,7 +148,7 @@ export interface ClickPipePostKafkaSource {
   topics: string;
   /** Consumer group of the Kafka source. If not provided "clickpipes-<<ID>>" will be used. */
   consumerGroup?: string | null | undefined;
-  /** Authentication method of the Kafka source. SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. Supported authentication methods: kafka: PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, msk: SCRAM-SHA-512, IAM_ROLE, IAM_USER, MUTUAL_TLS, gcmk: PLAIN, MUTUAL_TLS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY, confluent: PLAIN, MUTUAL_TLS, warpstream: PLAIN, azureeventhub: PLAIN, redpanda: SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, dokafka: SCRAM-SHA-256, MUTUAL_TLS */
+  /** Authentication method of the Kafka source. SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. Supported authentication methods: kafka: PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, msk: SCRAM-SHA-512, IAM_ROLE, IAM_USER, MUTUAL_TLS, gcmk: PLAIN, MUTUAL_TLS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY, confluent: PLAIN, SCRAM-SHA-512, MUTUAL_TLS, warpstream: PLAIN, azureeventhub: PLAIN, redpanda: SCRAM-SHA-256, SCRAM-SHA-512, MUTUAL_TLS, dokafka: SCRAM-SHA-256, MUTUAL_TLS */
   authentication: ClickPipePostKafkaSourceAuthentication | (string & {});
   /** IAM role for the Kafka source. Use with IAM role authentication. Read more in ClickPipes documentation: https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam */
   iamRole?: string | null | undefined;
@@ -229,7 +244,7 @@ export interface ClickPipePostPubSubServiceAccountSource {
 }
 /** Format of messages in the Pub/Sub topic. GCP Pub/Sub ClickPipes are in private preview -- contact support to enable this feature for your organization. */
 export type ClickPipePostPubSubWorkloadIdentitySourceFormat = "JSONEachRow" | "Avro" | "Protobuf";
-/** SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. */
+/** SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. */
 export type ClickPipePostPubSubWorkloadIdentitySourceAuthentication =
   "SERVICE_ACCOUNT_WORKLOAD_IDENTITY";
 /** Starting position strategy for consuming the subscription. The seekTimestamp companion is required only when seekType is "timestamp"; setting it for a mismatched seek type is rejected. */
@@ -241,7 +256,7 @@ export interface ClickPipePostPubSubWorkloadIdentitySource {
   projectId: string;
   /** Pub/Sub topic name (not the fully-qualified path). */
   topic: string;
-  /** SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. */
+  /** SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. */
   authentication: ClickPipePostPubSubWorkloadIdentitySourceAuthentication;
   /** Starting position strategy for consuming the subscription. The seekTimestamp companion is required only when seekType is "timestamp"; setting it for a mismatched seek type is rejected. */
   seekType: ClickPipePostPubSubWorkloadIdentitySourceSeekType | (string & {});
@@ -286,7 +301,7 @@ export type ClickPipePostObjectStorageSourceCompression =
   | "LZMA"
   | "zstd"
   | "auto";
-/** Authentication method. IAM_USER is for S3, GCS, and DigitalOcean Spaces. IAM_ROLE is for S3 only. SERVICE_ACCOUNT is for GCS only. For GCS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. CONNECTION_STRING is for Azure Blob Storage. PUBLIC uses no authentication. */
+/** Authentication method. IAM_USER is for S3, GCS, and DigitalOcean Spaces. IAM_ROLE is for S3 only. SERVICE_ACCOUNT is for GCS only. For GCS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. CONNECTION_STRING is for Azure Blob Storage. PUBLIC uses no authentication. */
 export type ClickPipePostObjectStorageSourceAuthentication =
   | "IAM_ROLE"
   | "IAM_USER"
@@ -314,7 +329,7 @@ export interface ClickPipePostObjectStorageSource {
   skipInitialLoad?: boolean | null | undefined;
   /** Skip all files up to and including this object key during the initial load. Cannot be provided when skipInitialLoad is true. */
   startAfter?: string | null | undefined;
-  /** Authentication method. IAM_USER is for S3, GCS, and DigitalOcean Spaces. IAM_ROLE is for S3 only. SERVICE_ACCOUNT is for GCS only. For GCS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Private Preview. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. CONNECTION_STRING is for Azure Blob Storage. PUBLIC uses no authentication. */
+  /** Authentication method. IAM_USER is for S3, GCS, and DigitalOcean Spaces. IAM_ROLE is for S3 only. SERVICE_ACCOUNT is for GCS only. For GCS, SERVICE_ACCOUNT_WORKLOAD_IDENTITY is in Beta. ClickPipes uses the GCP service account returned in gcpWorkloadIdentity.principal by the operation with operationId clickPipesServiceContextGet; grant it access to the source resources. CONNECTION_STRING is for Azure Blob Storage. PUBLIC uses no authentication. */
   authentication?:
     | ClickPipePostObjectStorageSourceAuthentication
     | (string & {})
@@ -373,7 +388,7 @@ export interface GetClickPipesServiceContextRequest {
   serviceId: string;
 }
 export interface ClickPipesGcpWorkloadIdentityContext {
-  /** Whether the ClickPipes deployment supports GCP workload identity, which is in Private Preview. The principal field identifies the GCP service account used for source access. */
+  /** Whether the ClickPipes deployment supports GCP workload identity, which is in Beta. The principal field identifies the GCP service account used for source access. */
   supported?: boolean | undefined;
   /** Whether the service tenant identity is ready for workload identity authentication. */
   ready?: boolean | null | undefined;
@@ -391,8 +406,8 @@ export const discoverClickPipeSchema: API.OperationMethod<
   DiscoverClickPipeSchemaError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19, __c0, 19) as any as S.Schema<DiscoverClickPipeSchemaRequest>,
-  output: __S(23, __c0, 23) as any as S.Schema<ClickPipeSchemaDiscoveryResponse>,
+  input: __S(22, __c0, 22) as any as S.Schema<DiscoverClickPipeSchemaRequest>,
+  output: __S(26, __c0, 26) as any as S.Schema<ClickPipeSchemaDiscoveryResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -402,7 +417,7 @@ export const discoverClickPipeSchema: API.OperationMethod<
 }));
 
 export type GetClickPipesServiceContextError = ClickHouseCloudOpError;
-/** Get ClickPipes service context **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns service-level ClickPipes capabilities and Private Preview workload identity context, including the GCP service account to grant access to customer source resources. */
+/** Get ClickPipes service context **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns service-level ClickPipes capabilities and Beta workload identity context, including the GCP service account to grant access to customer source resources. */
 export const getClickPipesServiceContext: API.OperationMethod<
   GetClickPipesServiceContextRequest,
   ClickPipesServiceContext,
@@ -432,21 +447,33 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ClickPipeKafkaSchemaRegistryCredentials" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String,
+          clientSecret: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "ClickPipeKafkaSchemaRegistryClientCredentials" });
+    case 3:
+      return S.Union([__S(1, __c0, 1), __S(2, __c0, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           url: S.String,
           authentication: S.String,
           caCertificate: S.optional(S.NullOr(S.String)),
-          credentials: __S(1, __c0, 1),
+          tokenUrl: S.optional(S.NullOr(S.String)),
+          scope: S.optional(S.NullOr(S.String)),
+          audience: S.optional(S.NullOr(S.String)),
+          credentials: __S(3, __c0, 3),
         }),
       ).annotate({ identifier: "ClickPipeMutateKafkaConfluentSchemaRegistry" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -455,33 +482,40 @@ function __c0(j: number): any {
           glueRoleArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipeKafkaGlueSchemaRegistry" });
-    case 4:
-      return S.Union([__S(2, __c0, 2), __S(3, __c0, 3)]);
-    case 5:
-      return S.Array(S.String);
     case 6:
+      return S.Union([__S(4, __c0, 4), __S(5, __c0, 5)]);
+    case 7:
+      return S.Array(S.String);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "PLAIN" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           accessKeyId: S.optional(S.String),
           secretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MskIamUser" });
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureEventHub" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           certificate: S.optional(S.String),
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MutualTLS" });
-    case 9:
-      return S.Union([__S(1, __c0, 1), __S(6, __c0, 6), __S(7, __c0, 7), __S(8, __c0, 8)]);
-    case 10:
+    case 12:
+      return S.Union([__S(8, __c0, 8), __S(9, __c0, 9), __S(10, __c0, 10), __S(11, __c0, 11)]);
+    case 13:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -492,16 +526,16 @@ function __c0(j: number): any {
           authentication: S.String,
           iamRole: S.optional(S.NullOr(S.String)),
           offset: S.optional(S.NullOr(__S(0, __c0, 0))),
-          schemaRegistry: S.optional(S.NullOr(__S(4, __c0, 4))),
+          schemaRegistry: S.optional(S.NullOr(__S(6, __c0, 6))),
           caCertificate: S.optional(S.NullOr(S.String)),
-          reversePrivateEndpointIds: S.optional(__S(5, __c0, 5)),
+          reversePrivateEndpointIds: S.optional(__S(7, __c0, 7)),
           exactlyOnce: S.optional(S.NullOr(S.Boolean)),
           tombstoneMode: S.optional(S.NullOr(S.String)),
-          credentials: S.optional(__S(9, __c0, 9)),
+          credentials: S.optional(__S(12, __c0, 12)),
           protobufSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipePostKafkaSource" });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -510,7 +544,7 @@ function __c0(j: number): any {
           glueRoleArn: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ClickPipeKinesisSchemaRegistry" });
-    case 12:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           format: S.optional(S.String),
@@ -521,18 +555,18 @@ function __c0(j: number): any {
           timestamp: S.optional(S.NullOr(S.Number)),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.NullOr(S.String)),
-          schemaRegistry: S.optional(S.NullOr(__S(11, __c0, 11))),
-          accessKey: S.optional(S.NullOr(__S(6, __c0, 6))),
+          schemaRegistry: S.optional(S.NullOr(__S(14, __c0, 14))),
+          accessKey: S.optional(S.NullOr(__S(9, __c0, 9))),
           protobufSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipePostKinesisSource" });
-    case 13:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           serviceAccountFile: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ServiceAccount" });
-    case 14:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           format: S.String,
@@ -544,10 +578,10 @@ function __c0(j: number): any {
           filter: S.optional(S.NullOr(S.String)),
           enableOrdering: S.optional(S.NullOr(S.Boolean)),
           ackDeadline: S.optional(S.NullOr(S.Number)),
-          serviceAccountKey: __S(13, __c0, 13),
+          serviceAccountKey: __S(16, __c0, 16),
         }),
       ).annotate({ identifier: "ClickPipePostPubSubServiceAccountSource" });
-    case 15:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           format: S.String,
@@ -561,9 +595,9 @@ function __c0(j: number): any {
           ackDeadline: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ClickPipePostPubSubWorkloadIdentitySource" });
-    case 16:
-      return S.Union([__S(14, __c0, 14), __S(15, __c0, 15)]);
-    case 17:
+    case 19:
+      return S.Union([__S(17, __c0, 17), __S(18, __c0, 18)]);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -581,25 +615,25 @@ function __c0(j: number): any {
           connectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           path: S.optional(S.NullOr(S.String)),
           azureContainerName: S.optional(S.NullOr(S.String)),
-          accessKey: S.optional(S.NullOr(__S(6, __c0, 6))),
+          accessKey: S.optional(S.NullOr(__S(9, __c0, 9))),
           serviceAccountKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ClickPipePostObjectStorageSource" });
-    case 18:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(10, __c0, 10)),
-          kinesis: S.optional(__S(12, __c0, 12)),
-          pubsub: S.optional(__S(16, __c0, 16)),
-          objectStorage: S.optional(__S(17, __c0, 17)),
+          kafka: S.optional(__S(13, __c0, 13)),
+          kinesis: S.optional(__S(15, __c0, 15)),
+          pubsub: S.optional(__S(19, __c0, 19)),
+          objectStorage: S.optional(__S(20, __c0, 20)),
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoverySource" });
-    case 19:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          source: __S(18, __c0, 18),
+          source: __S(21, __c0, 21),
         }).pipe(
           T.Http({
             method: "POST",
@@ -608,7 +642,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DiscoverClickPipeSchemaRequest" });
-    case 20:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -618,15 +652,15 @@ function __c0(j: number): any {
           isVirtualDisabledDefault: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoveryField" });
-    case 21:
-      return S.Array(__S(20, __c0, 20));
-    case 22:
+    case 24:
+      return S.Array(__S(23, __c0, 23));
+    case 25:
       return S.Record(S.String, S.String);
-    case 23:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(21, __c0, 21)),
-          meta: S.optional(S.NullOr(__S(22, __c0, 22))),
+          fields: S.optional(__S(24, __c0, 24)),
+          meta: S.optional(S.NullOr(__S(25, __c0, 25))),
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoveryResponse" });
   }

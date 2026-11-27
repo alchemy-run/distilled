@@ -1715,14 +1715,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.query#TraceNeighborsQuery/members/timestamp/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.query#TraceNeighborsQuery/members/traceId/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.query#VectorSearchQuery/members/embedding/traits"
     },
     {
@@ -2876,18 +2868,6 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.query#QueryResponseAlternative90/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/columns/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/limit/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.query#QueryResponseAlternative91/members/offset/traits"
     },
     {
       "op": "remove",

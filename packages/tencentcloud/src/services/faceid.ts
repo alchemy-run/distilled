@@ -153,11 +153,18 @@ export interface CheckPhoneAndNameResponse {
   Description?: string | undefined;
   RequestId?: string | undefined;
 }
+export interface ExtraRiskInfo {
+  PersonId?: string | undefined;
+  Latitude?: string | undefined;
+  Longitude?: string | undefined;
+  Ip?: string | undefined;
+}
 export interface DetectAIFakeFacesRequest {
   FaceInput?: string | undefined;
   FaceInputType?: number | undefined;
   Encryption?: Encryption | undefined;
   EncryptedBody?: string | undefined;
+  ExtraRiskInfo?: ExtraRiskInfo | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -174,10 +181,28 @@ export type RetrievalLivenessExtraInfoList = Array<RetrievalLivenessExtraInfo>;
 export interface ExtraInfo {
   RetrievalLivenessExtraInfo?: RetrievalLivenessExtraInfoList | null | undefined;
 }
+export interface BlackListItem {
+  ModelId?: string | undefined;
+  ModelType?: string | undefined;
+  FaceScore?: string | undefined;
+  BackgroundScore?: string | undefined;
+}
+export type BlackListItemList = Array<BlackListItem>;
+export interface RiskDetailItem {
+  Type?: string | undefined;
+}
+export type RiskDetailItemList = Array<RiskDetailItem>;
+export interface ExtraRiskResult {
+  Status?: string | undefined;
+  RiskLevel?: string | undefined;
+  BlackListResult?: BlackListItemList | undefined;
+  RiskDetailList?: RiskDetailItemList | undefined;
+}
 export interface DetectAIFakeFacesResponse {
   AttackRiskLevel?: string | undefined;
   AttackRiskDetailList?: AttackRiskDetailList | undefined;
   ExtraInfo?: ExtraInfo | undefined;
+  ExtraRiskResult?: ExtraRiskResult | null | undefined;
   RequestId?: string | undefined;
 }
 export interface IntentionQuestion {
@@ -237,6 +262,25 @@ export interface GetActionSequenceRequest {
 }
 export interface GetActionSequenceResponse {
   ActionSequence?: string | undefined;
+  RequestId?: string | undefined;
+}
+export interface GetAttackDetailRequest {
+  SeqId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface Point {
+  X?: number | undefined;
+  Y?: number | undefined;
+}
+export type PointList = Array<Point>;
+export interface AttackRegion {
+  Polygon?: PointList | undefined;
+  Description?: string | undefined;
+}
+export type AttackRegionList = Array<AttackRegion>;
+export interface GetAttackDetailResponse {
+  AttackRegionList?: AttackRegionList | undefined;
   RequestId?: string | undefined;
 }
 export interface GetDetectInfoRequest {
@@ -873,8 +917,8 @@ export const checkEidTokenStatus: API.OperationMethod<
   CheckEidTokenStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CheckEidTokenStatusRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<CheckEidTokenStatusResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<CheckEidTokenStatusRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<CheckEidTokenStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -890,8 +934,8 @@ export const checkIdCardInformation: API.OperationMethod<
   CheckIdCardInformationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CheckIdCardInformationRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<CheckIdCardInformationResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<CheckIdCardInformationRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<CheckIdCardInformationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -907,7 +951,7 @@ export const checkIdNameDate: API.OperationMethod<
   CheckIdNameDateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<CheckIdNameDateRequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<CheckIdNameDateRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CheckIdNameDateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -924,7 +968,7 @@ export const checkPhoneAndName: API.OperationMethod<
   CheckPhoneAndNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<CheckPhoneAndNameRequest>,
+  input: __S(656, __c41, 0) as any as S.Schema<CheckPhoneAndNameRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CheckPhoneAndNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -941,8 +985,8 @@ export const detectAIFakeFaces: API.OperationMethod<
   DetectAIFakeFacesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DetectAIFakeFacesRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<DetectAIFakeFacesResponse>,
+  input: __S(673, __c42, 1) as any as S.Schema<DetectAIFakeFacesRequest>,
+  output: __S(684, __c42, 12) as any as S.Schema<DetectAIFakeFacesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -958,8 +1002,8 @@ export const detectAuth: API.OperationMethod<
   DetectAuthError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c42, 1) as any as S.Schema<DetectAuthRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<DetectAuthResponse>,
+  input: __S(689, __c43, 1) as any as S.Schema<DetectAuthRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<DetectAuthResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1002,6 +1046,23 @@ export const getActionSequence: API.OperationMethod<
   span: "GetActionSequence",
 }));
 
+export type GetAttackDetailError = TencentCloudOpError;
+export const getAttackDetail: API.OperationMethod<
+  GetAttackDetailRequest,
+  GetAttackDetailResponse,
+  GetAttackDetailError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<GetAttackDetailRequest>,
+  output: __S(117, __c7, 5) as any as S.Schema<GetAttackDetailResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttackDetail",
+}));
+
 export type GetDetectInfoError = TencentCloudOpError;
 export const getDetectInfo: API.OperationMethod<
   GetDetectInfoRequest,
@@ -1009,8 +1070,8 @@ export const getDetectInfo: API.OperationMethod<
   GetDetectInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetDetectInfoRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetDetectInfoResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetDetectInfoRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetDetectInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1026,8 +1087,8 @@ export const getDetectInfoEnhanced: API.OperationMethod<
   GetDetectInfoEnhancedError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetDetectInfoEnhancedRequest>,
-  output: __S(132, __c8, 4) as any as S.Schema<GetDetectInfoEnhancedResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetDetectInfoEnhancedRequest>,
+  output: __S(148, __c9, 4) as any as S.Schema<GetDetectInfoEnhancedResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1043,8 +1104,8 @@ export const getEidResult: API.OperationMethod<
   GetEidResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetEidResultRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GetEidResultResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetEidResultRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetEidResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1060,8 +1121,8 @@ export const getEidToken: API.OperationMethod<
   GetEidTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<GetEidTokenRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<GetEidTokenResponse>,
+  input: __S(193, __c12, 1) as any as S.Schema<GetEidTokenRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<GetEidTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1077,8 +1138,8 @@ export const getFaceIdResult: API.OperationMethod<
   GetFaceIdResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetFaceIdResultRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetFaceIdResultResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetFaceIdResultRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetFaceIdResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1094,8 +1155,8 @@ export const getFaceIdRiskInfo: API.OperationMethod<
   GetFaceIdRiskInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetFaceIdRiskInfoRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GetFaceIdRiskInfoResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetFaceIdRiskInfoRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetFaceIdRiskInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1111,8 +1172,8 @@ export const getFaceidRiskInfoToken: API.OperationMethod<
   GetFaceidRiskInfoTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetFaceidRiskInfoTokenRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetFaceidRiskInfoTokenResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetFaceidRiskInfoTokenRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GetFaceidRiskInfoTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1128,8 +1189,8 @@ export const getFaceIdToken: API.OperationMethod<
   GetFaceIdTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetFaceIdTokenRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetFaceIdTokenResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetFaceIdTokenRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetFaceIdTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1145,8 +1206,8 @@ export const getLiveCode: API.OperationMethod<
   GetLiveCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetLiveCodeRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<GetLiveCodeResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetLiveCodeRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetLiveCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1162,8 +1223,8 @@ export const getNFCToken: API.OperationMethod<
   GetNFCTokenError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetNFCTokenRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<GetNFCTokenResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetNFCTokenRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<GetNFCTokenResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1179,8 +1240,8 @@ export const getWeChatBillDetails: API.OperationMethod<
   GetWeChatBillDetailsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetWeChatBillDetailsRequest>,
-  output: __S(309, __c19, 5) as any as S.Schema<GetWeChatBillDetailsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetWeChatBillDetailsRequest>,
+  output: __S(325, __c20, 5) as any as S.Schema<GetWeChatBillDetailsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1196,8 +1257,8 @@ export const getWxNFCResult: API.OperationMethod<
   GetWxNFCResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetWxNFCResultRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<GetWxNFCResultResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetWxNFCResultRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetWxNFCResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1213,8 +1274,8 @@ export const idCardOCRVerification: API.OperationMethod<
   IdCardOCRVerificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<IdCardOCRVerificationRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<IdCardOCRVerificationResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<IdCardOCRVerificationRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<IdCardOCRVerificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1230,7 +1291,7 @@ export const idCardVerification: API.OperationMethod<
   IdCardVerificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<IdCardVerificationRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<IdCardVerificationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<IdCardVerificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -1247,8 +1308,8 @@ export const imageRecognitionV2: API.OperationMethod<
   ImageRecognitionV2Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ImageRecognitionV2Request>,
-  output: __S(369, __c23, 1) as any as S.Schema<ImageRecognitionV2Response>,
+  input: __S(384, __c24, 0) as any as S.Schema<ImageRecognitionV2Request>,
+  output: __S(385, __c24, 1) as any as S.Schema<ImageRecognitionV2Response>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1264,8 +1325,8 @@ export const livenessCompare: API.OperationMethod<
   LivenessCompareError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<LivenessCompareRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<LivenessCompareResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<LivenessCompareRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<LivenessCompareResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1281,8 +1342,8 @@ export const livenessRecognition: API.OperationMethod<
   LivenessRecognitionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<LivenessRecognitionRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<LivenessRecognitionResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<LivenessRecognitionRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<LivenessRecognitionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1298,8 +1359,8 @@ export const minorsVerification: API.OperationMethod<
   MinorsVerificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<MinorsVerificationRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<MinorsVerificationResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<MinorsVerificationRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<MinorsVerificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1315,8 +1376,8 @@ export const mobileNetworkTimeVerification: API.OperationMethod<
   MobileNetworkTimeVerificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<MobileNetworkTimeVerificationRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<MobileNetworkTimeVerificationResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<MobileNetworkTimeVerificationRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<MobileNetworkTimeVerificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1332,8 +1393,8 @@ export const mobileStatus: API.OperationMethod<
   MobileStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<MobileStatusRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<MobileStatusResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<MobileStatusRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<MobileStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1349,8 +1410,8 @@ export const parseNfcData: API.OperationMethod<
   ParseNfcDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ParseNfcDataRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<ParseNfcDataResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ParseNfcDataRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<ParseNfcDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1366,8 +1427,8 @@ export const phoneVerification: API.OperationMethod<
   PhoneVerificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<PhoneVerificationRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<PhoneVerificationResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<PhoneVerificationRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<PhoneVerificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1383,8 +1444,8 @@ export const phoneVerificationCMCC: API.OperationMethod<
   PhoneVerificationCMCCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<PhoneVerificationCMCCRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<PhoneVerificationCMCCResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<PhoneVerificationCMCCRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PhoneVerificationCMCCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1400,8 +1461,8 @@ export const phoneVerificationCTCC: API.OperationMethod<
   PhoneVerificationCTCCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<PhoneVerificationCTCCRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<PhoneVerificationCTCCResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<PhoneVerificationCTCCRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PhoneVerificationCTCCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1417,8 +1478,8 @@ export const phoneVerificationCUCC: API.OperationMethod<
   PhoneVerificationCUCCError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<PhoneVerificationCUCCRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<PhoneVerificationCUCCResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<PhoneVerificationCUCCRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PhoneVerificationCUCCResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1547,6 +1608,42 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SeqId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "faceid", version: "2018-03-01", action: "GetAttackDetail" })),
+      ).annotate({ identifier: "GetAttackDetailRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          X: S.optional(S.Number),
+          Y: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Point" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Polygon: S.optional(__S(114, __c7, 2)),
+          Description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AttackRegion" });
+    case 4:
+      return S.Array(__S(115, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AttackRegionList: S.optional(__S(116, __c7, 4)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetAttackDetailResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           BizToken: S.String.pipe(T.SensitiveValue({})),
           RuleId: S.String,
           InfoType: S.optional(S.String),
@@ -1562,7 +1659,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetDetectInfoResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1590,25 +1687,25 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "VideoDetailData" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           LivenessVideo: S.optional(S.NullOr(S.String)),
-          LivenessVideos: S.optional(S.NullOr(__S(130, __c8, 2))),
+          LivenessVideos: S.optional(S.NullOr(__S(146, __c9, 2))),
         }),
       ).annotate({ identifier: "DetectInfoVideoData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Text: S.optional(S.NullOr(__S(146, __c9, 2))),
-          IdCardData: S.optional(S.NullOr(__S(148, __c9, 4))),
-          BestFrame: S.optional(S.NullOr(__S(149, __c9, 5))),
-          VideoData: S.optional(S.NullOr(__S(131, __c8, 3))),
+          Text: S.optional(S.NullOr(__S(162, __c10, 2))),
+          IdCardData: S.optional(S.NullOr(__S(164, __c10, 4))),
+          BestFrame: S.optional(S.NullOr(__S(165, __c10, 5))),
+          VideoData: S.optional(S.NullOr(__S(147, __c9, 3))),
           Encryption: S.optional(S.NullOr(__S(32, __c2, 0))),
-          IntentionVerifyData: S.optional(S.NullOr(__S(150, __c9, 6))),
-          IntentionQuestionResult: S.optional(S.NullOr(__S(151, __c9, 7))),
-          IntentionActionResult: S.optional(S.NullOr(__S(154, __c9, 10))),
+          IntentionVerifyData: S.optional(S.NullOr(__S(166, __c10, 6))),
+          IntentionQuestionResult: S.optional(S.NullOr(__S(167, __c10, 7))),
+          IntentionActionResult: S.optional(S.NullOr(__S(170, __c10, 10))),
           EncryptedBody: S.optional(S.NullOr(S.String)),
           IsVerifyIntention: S.optional(S.Boolean),
           IntentionVerifyType: S.optional(S.String),
@@ -1617,7 +1714,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetDetectInfoEnhancedResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1639,7 +1736,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "DetectDetail" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1664,7 +1761,7 @@ function __c9(j: number): any {
           Sim: S.optional(S.NullOr(S.String)),
           Location: S.optional(S.NullOr(S.String)),
           Extra: S.optional(S.NullOr(S.String)),
-          LivenessDetail: S.optional(S.NullOr(__S(145, __c9, 1))),
+          LivenessDetail: S.optional(S.NullOr(__S(161, __c10, 1))),
           LivenessInfoTag: S.optional(S.NullOr(__S(16, __c1, 0))),
           Mobile: S.optional(S.NullOr(S.String)),
           CompareLibType: S.optional(S.NullOr(S.String)),
@@ -1686,8 +1783,8 @@ function __c9(j: number): any {
           ProcessedFrontImage: S.optional(S.NullOr(S.String)),
           ProcessedBackImage: S.optional(S.NullOr(S.String)),
           Avatar: S.optional(S.NullOr(S.String)),
-          WarnInfos: S.optional(S.NullOr(__S(147, __c9, 3))),
-          BackWarnInfos: S.optional(S.NullOr(__S(147, __c9, 3))),
+          WarnInfos: S.optional(S.NullOr(__S(163, __c10, 3))),
+          BackWarnInfos: S.optional(S.NullOr(__S(163, __c10, 3))),
         }),
       ).annotate({ identifier: "DetectInfoIdCardData" });
     case 5:
@@ -1729,18 +1826,18 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "IntentionActionResultDetail" });
     case 9:
-      return S.Array(__S(152, __c9, 8));
+      return S.Array(__S(168, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           FinalResultDetailCode: S.optional(S.NullOr(S.Number)),
           FinalResultMessage: S.optional(S.NullOr(S.String)),
-          Details: S.optional(S.NullOr(__S(153, __c9, 9))),
+          Details: S.optional(S.NullOr(__S(169, __c10, 9))),
         }),
       ).annotate({ identifier: "IntentionActionResult" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1765,13 +1862,13 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Text: S.optional(S.NullOr(__S(146, __c9, 2))),
-          IdCardData: S.optional(S.NullOr(__S(148, __c9, 4))),
-          BestFrame: S.optional(S.NullOr(__S(149, __c9, 5))),
-          EidInfo: S.optional(S.NullOr(__S(161, __c10, 1))),
-          IntentionVerifyData: S.optional(S.NullOr(__S(150, __c9, 6))),
-          IntentionQuestionResult: S.optional(S.NullOr(__S(151, __c9, 7))),
-          IntentionActionResult: S.optional(S.NullOr(__S(154, __c9, 10))),
+          Text: S.optional(S.NullOr(__S(162, __c10, 2))),
+          IdCardData: S.optional(S.NullOr(__S(164, __c10, 4))),
+          BestFrame: S.optional(S.NullOr(__S(165, __c10, 5))),
+          EidInfo: S.optional(S.NullOr(__S(177, __c11, 1))),
+          IntentionVerifyData: S.optional(S.NullOr(__S(166, __c10, 6))),
+          IntentionQuestionResult: S.optional(S.NullOr(__S(167, __c10, 7))),
+          IntentionActionResult: S.optional(S.NullOr(__S(170, __c10, 10))),
           IsVerifyIntention: S.optional(S.Boolean),
           IntentionVerifyType: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -1779,7 +1876,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetEidResultResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1788,8 +1885,8 @@ function __c11(j: number): any {
           UseIntentionVerify: S.optional(S.Boolean),
           IntentionMode: S.optional(S.String),
           IntentionVerifyText: S.optional(S.String),
-          IntentionQuestions: S.optional(__S(689, __c43, 1)),
-          IntentionActions: S.optional(__S(691, __c43, 3)),
+          IntentionQuestions: S.optional(__S(705, __c44, 1)),
+          IntentionActions: S.optional(__S(707, __c44, 3)),
           IntentionRecognition: S.optional(S.Boolean),
           IsSupportHMTResidentPermitOCR: S.optional(S.Boolean),
           MouthOpenRecognition: S.optional(S.Boolean),
@@ -1803,7 +1900,7 @@ function __c11(j: number): any {
           IdCard: S.optional(S.String),
           Name: S.optional(S.String),
           Extra: S.optional(S.String),
-          Config: S.optional(__S(176, __c11, 0)),
+          Config: S.optional(__S(192, __c12, 0)),
           RedirectUrl: S.optional(S.String),
           Encryption: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -1819,7 +1916,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetEidTokenResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1855,7 +1952,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetFaceIdResultResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1880,7 +1977,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetFaceIdRiskInfoResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1901,7 +1998,24 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetFaceidRiskInfoTokenResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IdCard: S.String,
+          Name: S.String,
+          BankCard: S.String,
+          CertType: S.optional(S.Number),
+          Encryption: S.optional(__S(32, __c2, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "faceid", version: "2018-03-01", action: "BankCardVerification" }),
+        ),
+      ).annotate({ identifier: "BankCardVerificationRequest" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1929,24 +2043,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetFaceIdTokenResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          IdCard: S.String,
-          Name: S.String,
-          BankCard: S.String,
-          CertType: S.optional(S.Number),
-          Encryption: S.optional(__S(32, __c2, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "faceid", version: "2018-03-01", action: "BankCardVerification" }),
-        ),
-      ).annotate({ identifier: "BankCardVerificationRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1963,7 +2060,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetLiveCodeResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1980,7 +2077,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetNFCTokenResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2008,30 +2105,30 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ChargeDetail" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           BizToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           ChargeCount: S.optional(S.Number),
-          ChargeDetails: S.optional(__S(306, __c19, 2)),
+          ChargeDetails: S.optional(__S(322, __c20, 2)),
           RuleId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WeChatBillDetail" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(323, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           HasNextPage: S.optional(S.Boolean),
           NextCursor: S.optional(S.Number),
-          WeChatBillDetails: S.optional(__S(308, __c19, 4)),
+          WeChatBillDetails: S.optional(__S(324, __c20, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWeChatBillDetailsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2067,7 +2164,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetWxNFCResultResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2102,7 +2199,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "IdCardOCRVerificationResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2117,7 +2214,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "IdCardVerificationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2145,7 +2242,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ImageRecognitionV2Response" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2162,7 +2259,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "LivenessCompareRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2177,7 +2274,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "LivenessCompareResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2195,32 +2292,6 @@ function __c26(j: number): any {
           T.Action({ service: "faceid", version: "2018-03-01", action: "LivenessRecognition" }),
         ),
       ).annotate({ identifier: "LivenessRecognitionRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.String,
-          Mobile: S.optional(S.String),
-          IdCard: S.optional(S.String),
-          Name: S.optional(S.String),
-          Encryption: S.optional(__S(32, __c2, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "faceid", version: "2018-03-01", action: "MinorsVerification" }),
-        ),
-      ).annotate({ identifier: "MinorsVerificationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Result: S.optional(S.String),
-          Description: S.optional(S.String),
-          AgeRange: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MinorsVerificationResponse" });
   }
 }
 function __c28(j: number): any {
@@ -2256,6 +2327,32 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Type: S.String,
+          Mobile: S.optional(S.String),
+          IdCard: S.optional(S.String),
+          Name: S.optional(S.String),
+          Encryption: S.optional(__S(32, __c2, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "faceid", version: "2018-03-01", action: "MinorsVerification" }),
+        ),
+      ).annotate({ identifier: "MinorsVerificationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Result: S.optional(S.String),
+          Description: S.optional(S.String),
+          AgeRange: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MinorsVerificationResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Mobile: S.String,
           Encryption: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -2278,7 +2375,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "MobileNetworkTimeVerificationResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2299,7 +2396,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "MobileStatusResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2336,7 +2433,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ParseNfcDataResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2365,7 +2462,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "PhoneVerificationResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2381,7 +2478,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "PhoneVerificationCMCCRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2394,7 +2491,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "PhoneVerificationCMCCResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2410,7 +2507,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "PhoneVerificationCTCCRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2426,7 +2523,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PhoneVerificationCUCCRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2446,7 +2543,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CheckEidTokenStatusResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2484,7 +2581,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CheckIdCardInformationResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2499,7 +2596,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CheckIdNameDateRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2514,29 +2611,39 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CheckPhoneAndNameRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PersonId: S.optional(S.String),
+          Latitude: S.optional(S.String),
+          Longitude: S.optional(S.String),
+          Ip: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtraRiskInfo" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           FaceInput: S.optional(S.String),
           FaceInputType: S.optional(S.Number),
           Encryption: S.optional(__S(32, __c2, 0)),
           EncryptedBody: S.optional(S.String),
+          ExtraRiskInfo: S.optional(__S(672, __c42, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "faceid", version: "2018-03-01", action: "DetectAIFakeFaces" }),
         ),
       ).annotate({ identifier: "DetectAIFakeFacesRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AttackRiskDetail" });
-    case 2:
-      return S.Array(__S(657, __c41, 1));
     case 3:
+      return S.Array(__S(674, __c42, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           HitGroup: S.optional(S.NullOr(S.String)),
@@ -2544,26 +2651,55 @@ function __c41(j: number): any {
           HitTemplate: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RetrievalLivenessExtraInfo" });
-    case 4:
-      return S.Array(__S(659, __c41, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          RetrievalLivenessExtraInfo: S.optional(S.NullOr(__S(660, __c41, 4))),
-        }),
-      ).annotate({ identifier: "ExtraInfo" });
+      return S.Array(__S(676, __c42, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
+          RetrievalLivenessExtraInfo: S.optional(S.NullOr(__S(677, __c42, 5))),
+        }),
+      ).annotate({ identifier: "ExtraInfo" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ModelId: S.optional(S.String),
+          ModelType: S.optional(S.String),
+          FaceScore: S.optional(S.String),
+          BackgroundScore: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BlackListItem" });
+    case 8:
+      return S.Array(__S(679, __c42, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RiskDetailItem" });
+    case 10:
+      return S.Array(__S(681, __c42, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          RiskLevel: S.optional(S.String),
+          BlackListResult: S.optional(__S(680, __c42, 8)),
+          RiskDetailList: S.optional(__S(682, __c42, 10)),
+        }),
+      ).annotate({ identifier: "ExtraRiskResult" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           AttackRiskLevel: S.optional(S.String),
-          AttackRiskDetailList: S.optional(__S(658, __c41, 2)),
-          ExtraInfo: S.optional(__S(661, __c41, 5)),
+          AttackRiskDetailList: S.optional(__S(675, __c42, 3)),
+          ExtraInfo: S.optional(__S(678, __c42, 6)),
+          ExtraRiskResult: S.optional(S.NullOr(__S(683, __c42, 11))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DetectAIFakeFacesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2586,9 +2722,9 @@ function __c42(j: number): any {
           ImageBase64: S.optional(S.String),
           Encryption: S.optional(__S(32, __c2, 0)),
           IntentionVerifyText: S.optional(S.String),
-          IntentionQuestions: S.optional(__S(689, __c43, 1)),
-          IntentionActions: S.optional(__S(691, __c43, 3)),
-          Config: S.optional(__S(672, __c42, 0)),
+          IntentionQuestions: S.optional(__S(705, __c44, 1)),
+          IntentionActions: S.optional(__S(707, __c44, 3)),
+          Config: S.optional(__S(688, __c43, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "faceid", version: "2018-03-01", action: "DetectAuth" })),
       ).annotate({ identifier: "DetectAuthRequest" });
@@ -2602,7 +2738,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DetectAuthResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2612,7 +2748,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "IntentionQuestion" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2620,7 +2756,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "IntentionActionConfig" });
     case 3:
-      return S.Array(__S(690, __c43, 2));
+      return S.Array(__S(706, __c44, 2));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

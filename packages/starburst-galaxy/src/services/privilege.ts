@@ -70,10 +70,8 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Grant kind */
-export type GrantRolePrivilegeRequestGrantKind = "Allow" | "Deny";
-/** Entity kind */
-export type GrantRolePrivilegeRequestEntityKind =
+export type GrantKind = "Allow" | "Deny";
+export type EntityKind =
   | "Account"
   | "AiModel"
   | "AgentSkill"
@@ -92,8 +90,7 @@ export type GrantRolePrivilegeRequestEntityKind =
   | "RowFilter"
   | "DataProduct"
   | "DataDomain";
-/** Privilege */
-export type GrantRolePrivilegeRequestPrivilege =
+export type PrivilegeEnum =
   | "ManageSecurity"
   | "CreateRole"
   | "CreateUser"
@@ -154,15 +151,15 @@ export interface GrantRolePrivilegeRequest {
   /** - A role - This parameter can be looked up using `name` instead of its Id. Use `name=value` instead of an Id to lookup/search using the `value`. `value` must be encoded ([see RFC](https://www.rfc-editor.org/rfc/rfc3986#section-2.2) including `=`) */
   roleId: string;
   /** Grant kind */
-  grantKind: GrantRolePrivilegeRequestGrantKind | (string & {});
+  grantKind: GrantKind | (string & {});
   /** Entity ID */
   entityId: string;
   /** Entity kind */
-  entityKind: GrantRolePrivilegeRequestEntityKind | (string & {});
+  entityKind: EntityKind | (string & {});
   /** Grant option */
   grantOption: boolean;
   /** Privilege */
-  privilege: GrantRolePrivilegeRequestPrivilege | (string & {});
+  privilege: PrivilegeEnum | (string & {});
   /** Schema name */
   schemaName?: string | undefined;
   /** Table name */
@@ -181,98 +178,18 @@ export interface ListRolePrivilegesRequest {
   /** Lists all inherited and directly granted privileges if true, or only directly granted privileges if false. */
   listAllPrivileges?: boolean | undefined;
 }
-/** Grant kind */
-export type GrantedPrivilegeGrantKind = "Allow" | "Deny";
-/** Entity kind */
-export type GrantedPrivilegeEntityKind =
-  | "Account"
-  | "AiModel"
-  | "AgentSkill"
-  | "ExternalMcpServer"
-  | "AgentPersona"
-  | "Cluster"
-  | "Catalog"
-  | "Schema"
-  | "Table"
-  | "Column"
-  | "Location"
-  | "Function"
-  | "Tag"
-  | "TableBranch"
-  | "Policy"
-  | "RowFilter"
-  | "DataProduct"
-  | "DataDomain";
-/** Privilege */
-export type GrantedPrivilegePrivilege =
-  | "ManageSecurity"
-  | "CreateRole"
-  | "CreateUser"
-  | "CreateCluster"
-  | "CreateCatalog"
-  | "CreateAiModel"
-  | "UseAiModel"
-  | "ViewAuditLog"
-  | "ManageBilling"
-  | "ManageNotifications"
-  | "ViewAllQueryHistory"
-  | "ManageSso"
-  | "SsoUserPasswordLogin"
-  | "ViewAllDataLineage"
-  | "UseCluster"
-  | "EnableDisableCluster"
-  | "MonitorCluster"
-  | "TroubleshootQuery"
-  | "CreateSchema"
-  | "CreateTable"
-  | "CreateBranch"
-  | "Insert"
-  | "Delete"
-  | "Select"
-  | "Update"
-  | "ManageDataObservability"
-  | "CreateSql"
-  | "Execute"
-  | "ManageServiceAccount"
-  | "ManageServiceAccountToken"
-  | "ManageOauthClient"
-  | "ViewPublicOauthClient"
-  | "ManageAccountWork"
-  | "CreateTag"
-  | "ApplyTag"
-  | "GenerativeAiFeatures"
-  | "ManageIngestStreams"
-  | "CreateFunction"
-  | "CancelQuery"
-  | "ViewDataProduct"
-  | "ManageCertification"
-  | "DownloadQueryResults"
-  | "ManageQueryRoutingRules"
-  | "ManageIcehouseOps"
-  | "CreateDataDomain"
-  | "ViewAllQueryProfilerResults"
-  | "CreateAgentSkill"
-  | "UseAgentSkill"
-  | "PublishDataProduct"
-  | "CreateDataProduct"
-  | "Alter"
-  | "View"
-  | "CreateExternalMcpServer"
-  | "UseExternalMcpServer"
-  | "CreateAgentPersona"
-  | "UseAgentPersona";
 /** A role privilege (read only) */
 export interface GrantedPrivilege {
   /** Grant kind */
-  grantKind: GrantedPrivilegeGrantKind;
+  grantKind: GrantKind;
   /** Entity ID */
   entityId: string;
   /** Entity kind */
-  entityKind: GrantedPrivilegeEntityKind;
+  entityKind: EntityKind;
   /** Grant option */
   grantOption: boolean;
   /** Privilege */
-  privilege: GrantedPrivilegePrivilege;
+  privilege: PrivilegeEnum;
   /** Schema name */
   schemaName?: string | undefined;
   /** Table name */
@@ -288,95 +205,16 @@ export interface PaginatedGrantedPrivilege {
   /** A page of results. */
   result: PaginatedGrantedPrivilegeResultList;
 }
-/** Entity kind */
-export type RevokeRolePrivilegeRequestEntityKind =
-  | "Account"
-  | "AiModel"
-  | "AgentSkill"
-  | "ExternalMcpServer"
-  | "AgentPersona"
-  | "Cluster"
-  | "Catalog"
-  | "Schema"
-  | "Table"
-  | "Column"
-  | "Location"
-  | "Function"
-  | "Tag"
-  | "TableBranch"
-  | "Policy"
-  | "RowFilter"
-  | "DataProduct"
-  | "DataDomain";
-/** Privilege */
-export type RevokeRolePrivilegeRequestPrivilege =
-  | "ManageSecurity"
-  | "CreateRole"
-  | "CreateUser"
-  | "CreateCluster"
-  | "CreateCatalog"
-  | "CreateAiModel"
-  | "UseAiModel"
-  | "ViewAuditLog"
-  | "ManageBilling"
-  | "ManageNotifications"
-  | "ViewAllQueryHistory"
-  | "ManageSso"
-  | "SsoUserPasswordLogin"
-  | "ViewAllDataLineage"
-  | "UseCluster"
-  | "EnableDisableCluster"
-  | "MonitorCluster"
-  | "TroubleshootQuery"
-  | "CreateSchema"
-  | "CreateTable"
-  | "CreateBranch"
-  | "Insert"
-  | "Delete"
-  | "Select"
-  | "Update"
-  | "ManageDataObservability"
-  | "CreateSql"
-  | "Execute"
-  | "ManageServiceAccount"
-  | "ManageServiceAccountToken"
-  | "ManageOauthClient"
-  | "ViewPublicOauthClient"
-  | "ManageAccountWork"
-  | "CreateTag"
-  | "ApplyTag"
-  | "GenerativeAiFeatures"
-  | "ManageIngestStreams"
-  | "CreateFunction"
-  | "CancelQuery"
-  | "ViewDataProduct"
-  | "ManageCertification"
-  | "DownloadQueryResults"
-  | "ManageQueryRoutingRules"
-  | "ManageIcehouseOps"
-  | "CreateDataDomain"
-  | "ViewAllQueryProfilerResults"
-  | "CreateAgentSkill"
-  | "UseAgentSkill"
-  | "PublishDataProduct"
-  | "CreateDataProduct"
-  | "Alter"
-  | "View"
-  | "CreateExternalMcpServer"
-  | "UseExternalMcpServer"
-  | "CreateAgentPersona"
-  | "UseAgentPersona";
-/** Revoke grant option or remove role privilege */
-export type RevokeRolePrivilegeRequestRevokeAction = "RevokeGrantOption" | "RemoveRoleGrant";
+export type RevokeAction = "RevokeGrantOption" | "RemoveRoleGrant";
 export interface RevokeRolePrivilegeRequest {
   /** - A role - This parameter can be looked up using `name` instead of its Id. Use `name=value` instead of an Id to lookup/search using the `value`. `value` must be encoded ([see RFC](https://www.rfc-editor.org/rfc/rfc3986#section-2.2) including `=`) */
   roleId: string;
   /** Entity ID */
   entityId: string;
   /** Entity kind */
-  entityKind: RevokeRolePrivilegeRequestEntityKind | (string & {});
+  entityKind: EntityKind | (string & {});
   /** Privilege */
-  privilege: RevokeRolePrivilegeRequestPrivilege | (string & {});
+  privilege: PrivilegeEnum | (string & {});
   /** Schema name */
   schemaName?: string | undefined;
   /** Table name */
@@ -384,7 +222,7 @@ export interface RevokeRolePrivilegeRequest {
   /** Column name */
   columnName?: string | undefined;
   /** Revoke grant option or remove role privilege */
-  revokeAction: RevokeRolePrivilegeRequestRevokeAction | (string & {});
+  revokeAction: RevokeAction | (string & {});
 }
 export interface RevokeRolePrivilegeResponse {}
 /** Any fields/values that are invalid or incorrect */

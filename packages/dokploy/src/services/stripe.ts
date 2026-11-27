@@ -80,6 +80,7 @@ export interface CreateStripeCheckoutSessionRequest {
   productId: string;
   serverQuantity: number;
   isAnnual: boolean;
+  fromOnboarding?: boolean | undefined;
 }
 export type CreateStripeCheckoutSessionResponse = unknown;
 export interface CreateStripeCustomerPortalSessionRequest {}
@@ -396,6 +397,7 @@ function __c6(j: number): any {
           productId: S.String,
           serverQuantity: S.Number,
           isAnnual: S.Boolean,
+          fromOnboarding: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/stripe.createCheckoutSession", code: 200 })),
       ).annotate({ identifier: "CreateStripeCheckoutSessionRequest" });
   }

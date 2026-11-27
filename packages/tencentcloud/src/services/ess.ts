@@ -963,6 +963,8 @@ export interface SignComponentConfig {
   HideDate?: boolean | undefined;
   AddSignComponentUseSealSize?: number | undefined;
 }
+export type EmbedSignComponentLimit = ComponentLimit;
+export type EmbedSignComponentLimitList = Array<ComponentLimit>;
 export interface FlowGroupOptions {
   ApproverVerifyType?: string | undefined;
   SelfOrganizationApproverNotifyType?: string | undefined;
@@ -976,6 +978,8 @@ export interface FlowGroupOptions {
   HideSignCodeAfterStart?: boolean | undefined;
   SignAfterStart?: boolean | undefined;
   PreviewAfterStart?: boolean | undefined;
+  SignComponentLimits?: EmbedSignComponentLimitList | undefined;
+  HideOperationSteps?: LongList | undefined;
 }
 export interface UserFlowType {
   UserFlowTypeId?: string | undefined;
@@ -1314,6 +1318,7 @@ export interface MiniAppCreateApproverInfo {
   ApproverIdCardType?: string | undefined;
   ApproverIdCardNumber?: string | undefined;
   RecipientId?: string | undefined;
+  PinCode?: string | undefined;
 }
 export type MiniAppCreateApproverInfoList = Array<MiniAppCreateApproverInfo>;
 export interface MiniAppCreateFlowOption {
@@ -1641,6 +1646,7 @@ export interface CreateFlowOption {
   SignAfterStart?: boolean | undefined;
   NeedFlowDraft?: boolean | undefined;
   CcInfoVisibility?: number | undefined;
+  SignComponentLimits?: EmbedSignComponentLimitList | undefined;
 }
 export interface CreatePrepareFlowRequest {
   Operator: UserInfo;
@@ -3636,7 +3642,7 @@ export const cancelMultiFlowSignQRCode: API.OperationMethod<
   CancelMultiFlowSignQRCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<CancelMultiFlowSignQRCodeRequest>,
+  input: __S(1664, __c104, 0) as any as S.Schema<CancelMultiFlowSignQRCodeRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CancelMultiFlowSignQRCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3653,8 +3659,8 @@ export const cancelOrganizationFlows: API.OperationMethod<
   CancelOrganizationFlowsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<CancelOrganizationFlowsRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<CancelOrganizationFlowsResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<CancelOrganizationFlowsRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<CancelOrganizationFlowsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3670,7 +3676,7 @@ export const cancelUserAutoSignEnableUrl: API.OperationMethod<
   CancelUserAutoSignEnableUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<CancelUserAutoSignEnableUrlRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<CancelUserAutoSignEnableUrlRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CancelUserAutoSignEnableUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3687,8 +3693,8 @@ export const createArchiveFlowTask: API.OperationMethod<
   CreateArchiveFlowTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2420, __c151, 4) as any as S.Schema<CreateArchiveFlowTaskRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<CreateArchiveFlowTaskResponse>,
+  input: __S(2436, __c152, 4) as any as S.Schema<CreateArchiveFlowTaskRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<CreateArchiveFlowTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3704,8 +3710,8 @@ export const createBatchAdminChangeInvitations: API.OperationMethod<
   CreateBatchAdminChangeInvitationsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2642, __c165, 2) as any as S.Schema<CreateBatchAdminChangeInvitationsRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<CreateBatchAdminChangeInvitationsResponse>,
+  input: __S(2658, __c166, 2) as any as S.Schema<CreateBatchAdminChangeInvitationsRequest>,
+  output: __S(2659, __c166, 3) as any as S.Schema<CreateBatchAdminChangeInvitationsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3721,8 +3727,8 @@ export const createBatchAdminChangeInvitationsUrl: API.OperationMethod<
   CreateBatchAdminChangeInvitationsUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<CreateBatchAdminChangeInvitationsUrlRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<CreateBatchAdminChangeInvitationsUrlResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<CreateBatchAdminChangeInvitationsUrlRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateBatchAdminChangeInvitationsUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3738,8 +3744,8 @@ export const createBatchCancelFlowUrl: API.OperationMethod<
   CreateBatchCancelFlowUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<CreateBatchCancelFlowUrlRequest>,
-  output: __S(3089, __c193, 1) as any as S.Schema<CreateBatchCancelFlowUrlResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<CreateBatchCancelFlowUrlRequest>,
+  output: __S(3105, __c194, 1) as any as S.Schema<CreateBatchCancelFlowUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3943,7 +3949,7 @@ export const createConvertTaskApi: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<CreateConvertTaskApiRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<CreateConvertTaskApiResponse>,
+  output: __S(1984, __c124, 0) as any as S.Schema<CreateConvertTaskApiResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4027,7 +4033,7 @@ export const createEmbedWebUrl: API.OperationMethod<
   CreateEmbedWebUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1553, __c97, 1) as any as S.Schema<CreateEmbedWebUrlRequest>,
+  input: __S(1569, __c98, 1) as any as S.Schema<CreateEmbedWebUrlRequest>,
   output: __S(1360, __c85, 0) as any as S.Schema<CreateEmbedWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4044,8 +4050,8 @@ export const createEmployeeChangeUrl: API.OperationMethod<
   CreateEmployeeChangeUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<CreateEmployeeChangeUrlRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<CreateEmployeeChangeUrlResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<CreateEmployeeChangeUrlRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<CreateEmployeeChangeUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4061,8 +4067,8 @@ export const createEmployeeQualificationSealQrCode: API.OperationMethod<
   CreateEmployeeQualificationSealQrCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateEmployeeQualificationSealQrCodeRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<CreateEmployeeQualificationSealQrCodeResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<CreateEmployeeQualificationSealQrCodeRequest>,
+  output: __S(1632, __c102, 0) as any as S.Schema<CreateEmployeeQualificationSealQrCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4078,7 +4084,7 @@ export const createExtendedServiceAuthInfos: API.OperationMethod<
   CreateExtendedServiceAuthInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<CreateExtendedServiceAuthInfosRequest>,
+  input: __S(1648, __c103, 0) as any as S.Schema<CreateExtendedServiceAuthInfosRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CreateExtendedServiceAuthInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4095,8 +4101,8 @@ export const createFileConvertTask: API.OperationMethod<
   CreateFileConvertTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<CreateFileConvertTaskRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<CreateFileConvertTaskResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<CreateFileConvertTaskRequest>,
+  output: __S(1984, __c124, 0) as any as S.Schema<CreateFileConvertTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4112,8 +4118,8 @@ export const createFileCounterSign: API.OperationMethod<
   CreateFileCounterSignError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<CreateFileCounterSignRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<CreateFileCounterSignResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<CreateFileCounterSignRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<CreateFileCounterSignResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4129,8 +4135,8 @@ export const createFlow: API.OperationMethod<
   CreateFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateFlowRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<CreateFlowResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<CreateFlowRequest>,
+  output: __S(1776, __c111, 0) as any as S.Schema<CreateFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4146,8 +4152,8 @@ export const createFlowApprovers: API.OperationMethod<
   CreateFlowApproversError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1778, __c111, 2) as any as S.Schema<CreateFlowApproversRequest>,
-  output: __S(1781, __c111, 5) as any as S.Schema<CreateFlowApproversResponse>,
+  input: __S(1794, __c112, 2) as any as S.Schema<CreateFlowApproversRequest>,
+  output: __S(1797, __c112, 5) as any as S.Schema<CreateFlowApproversResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4163,8 +4169,8 @@ export const createFlowBlockchainEvidenceUrl: API.OperationMethod<
   CreateFlowBlockchainEvidenceUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<CreateFlowBlockchainEvidenceUrlRequest>,
-  output: __S(1793, __c112, 1) as any as S.Schema<CreateFlowBlockchainEvidenceUrlResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CreateFlowBlockchainEvidenceUrlRequest>,
+  output: __S(1809, __c113, 1) as any as S.Schema<CreateFlowBlockchainEvidenceUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4180,8 +4186,8 @@ export const createFlowByFiles: API.OperationMethod<
   CreateFlowByFilesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CreateFlowByFilesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<CreateFlowByFilesResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<CreateFlowByFilesRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<CreateFlowByFilesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4197,8 +4203,8 @@ export const createFlowEvidenceReport: API.OperationMethod<
   CreateFlowEvidenceReportError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<CreateFlowEvidenceReportRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<CreateFlowEvidenceReportResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<CreateFlowEvidenceReportRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<CreateFlowEvidenceReportResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4214,8 +4220,8 @@ export const createFlowForwards: API.OperationMethod<
   CreateFlowForwardsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1842, __c115, 2) as any as S.Schema<CreateFlowForwardsRequest>,
-  output: __S(1845, __c115, 5) as any as S.Schema<CreateFlowForwardsResponse>,
+  input: __S(1858, __c116, 2) as any as S.Schema<CreateFlowForwardsRequest>,
+  output: __S(1861, __c116, 5) as any as S.Schema<CreateFlowForwardsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4231,8 +4237,8 @@ export const createFlowGroupByFiles: API.OperationMethod<
   CreateFlowGroupByFilesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateFlowGroupByFilesRequest>,
-  output: __S(1874, __c117, 2) as any as S.Schema<CreateFlowGroupByFilesResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateFlowGroupByFilesRequest>,
+  output: __S(1890, __c118, 2) as any as S.Schema<CreateFlowGroupByFilesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4248,8 +4254,8 @@ export const createFlowGroupByTemplates: API.OperationMethod<
   CreateFlowGroupByTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<CreateFlowGroupByTemplatesRequest>,
-  output: __S(1874, __c117, 2) as any as S.Schema<CreateFlowGroupByTemplatesResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<CreateFlowGroupByTemplatesRequest>,
+  output: __S(1890, __c118, 2) as any as S.Schema<CreateFlowGroupByTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4265,8 +4271,8 @@ export const createFlowGroupReminds: API.OperationMethod<
   CreateFlowGroupRemindsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CreateFlowGroupRemindsRequest>,
-  output: __S(1989, __c124, 5) as any as S.Schema<CreateFlowGroupRemindsResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<CreateFlowGroupRemindsRequest>,
+  output: __S(2005, __c125, 5) as any as S.Schema<CreateFlowGroupRemindsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4282,7 +4288,7 @@ export const createFlowGroupSignReview: API.OperationMethod<
   CreateFlowGroupSignReviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2001, __c125, 1) as any as S.Schema<CreateFlowGroupSignReviewRequest>,
+  input: __S(2017, __c126, 1) as any as S.Schema<CreateFlowGroupSignReviewRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CreateFlowGroupSignReviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4299,8 +4305,8 @@ export const createFlowReminds: API.OperationMethod<
   CreateFlowRemindsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2018, __c126, 2) as any as S.Schema<CreateFlowRemindsRequest>,
-  output: __S(2021, __c126, 5) as any as S.Schema<CreateFlowRemindsResponse>,
+  input: __S(2034, __c127, 2) as any as S.Schema<CreateFlowRemindsRequest>,
+  output: __S(2037, __c127, 5) as any as S.Schema<CreateFlowRemindsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4316,7 +4322,7 @@ export const createFlowSignReview: API.OperationMethod<
   CreateFlowSignReviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CreateFlowSignReviewRequest>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateFlowSignReviewRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CreateFlowSignReviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4333,8 +4339,8 @@ export const createFlowSignUrl: API.OperationMethod<
   CreateFlowSignUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<CreateFlowSignUrlRequest>,
-  output: __S(2050, __c128, 2) as any as S.Schema<CreateFlowSignUrlResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<CreateFlowSignUrlRequest>,
+  output: __S(2066, __c129, 2) as any as S.Schema<CreateFlowSignUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4350,8 +4356,8 @@ export const createInformationExtractionWebUrl: API.OperationMethod<
   CreateInformationExtractionWebUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2065, __c129, 1) as any as S.Schema<CreateInformationExtractionWebUrlRequest>,
-  output: __S(2080, __c130, 0) as any as S.Schema<CreateInformationExtractionWebUrlResponse>,
+  input: __S(2081, __c130, 1) as any as S.Schema<CreateInformationExtractionWebUrlRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<CreateInformationExtractionWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4367,8 +4373,8 @@ export const createIntegrationDepartment: API.OperationMethod<
   CreateIntegrationDepartmentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<CreateIntegrationDepartmentRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<CreateIntegrationDepartmentResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CreateIntegrationDepartmentRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<CreateIntegrationDepartmentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4384,8 +4390,8 @@ export const createIntegrationEmployees: API.OperationMethod<
   CreateIntegrationEmployeesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<CreateIntegrationEmployeesRequest>,
-  output: __S(2118, __c132, 6) as any as S.Schema<CreateIntegrationEmployeesResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<CreateIntegrationEmployeesRequest>,
+  output: __S(2134, __c133, 6) as any as S.Schema<CreateIntegrationEmployeesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4401,8 +4407,8 @@ export const createIntegrationRole: API.OperationMethod<
   CreateIntegrationRoleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<CreateIntegrationRoleRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<CreateIntegrationRoleResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<CreateIntegrationRoleRequest>,
+  output: __S(2192, __c137, 0) as any as S.Schema<CreateIntegrationRoleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4419,13 +4425,13 @@ export const createIntegrationSubOrganizationActiveRecord: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2192,
-    __c137,
+    2208,
+    __c138,
     0,
   ) as any as S.Schema<CreateIntegrationSubOrganizationActiveRecordRequest>,
   output: __S(
-    2193,
-    __c137,
+    2209,
+    __c138,
     1,
   ) as any as S.Schema<CreateIntegrationSubOrganizationActiveRecordResponse>,
   errors: [],
@@ -4443,8 +4449,8 @@ export const createIntegrationUserRoles: API.OperationMethod<
   CreateIntegrationUserRolesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<CreateIntegrationUserRolesRequest>,
-  output: __S(2243, __c140, 3) as any as S.Schema<CreateIntegrationUserRolesResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<CreateIntegrationUserRolesRequest>,
+  output: __S(2259, __c141, 3) as any as S.Schema<CreateIntegrationUserRolesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4460,8 +4466,8 @@ export const createLegalSealQrCode: API.OperationMethod<
   CreateLegalSealQrCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<CreateLegalSealQrCodeRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<CreateLegalSealQrCodeResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<CreateLegalSealQrCodeRequest>,
+  output: __S(1632, __c102, 0) as any as S.Schema<CreateLegalSealQrCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4478,8 +4484,8 @@ export const createLMInformationExtractionTaskFieldFeedback: API.OperationMethod
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c142,
+    2288,
+    __c143,
     0,
   ) as any as S.Schema<CreateLMInformationExtractionTaskFieldFeedbackRequest>,
   output: __S(
@@ -4502,8 +4508,8 @@ export const createMiniAppPrepareFlow: API.OperationMethod<
   CreateMiniAppPrepareFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2308, __c144, 4) as any as S.Schema<CreateMiniAppPrepareFlowRequest>,
-  output: __S(2309, __c144, 5) as any as S.Schema<CreateMiniAppPrepareFlowResponse>,
+  input: __S(2324, __c145, 4) as any as S.Schema<CreateMiniAppPrepareFlowRequest>,
+  output: __S(2325, __c145, 5) as any as S.Schema<CreateMiniAppPrepareFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4519,8 +4525,8 @@ export const createModifyAdminAuthorizationUrl: API.OperationMethod<
   CreateModifyAdminAuthorizationUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<CreateModifyAdminAuthorizationUrlRequest>,
-  output: __S(2080, __c130, 0) as any as S.Schema<CreateModifyAdminAuthorizationUrlResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<CreateModifyAdminAuthorizationUrlRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<CreateModifyAdminAuthorizationUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4536,8 +4542,8 @@ export const createMultiFlowSignQRCode: API.OperationMethod<
   CreateMultiFlowSignQRCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2340, __c146, 4) as any as S.Schema<CreateMultiFlowSignQRCodeRequest>,
-  output: __S(2343, __c146, 7) as any as S.Schema<CreateMultiFlowSignQRCodeResponse>,
+  input: __S(2356, __c147, 4) as any as S.Schema<CreateMultiFlowSignQRCodeRequest>,
+  output: __S(2359, __c147, 7) as any as S.Schema<CreateMultiFlowSignQRCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4553,8 +4559,8 @@ export const createOrganizationAuthFile: API.OperationMethod<
   CreateOrganizationAuthFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2353, __c147, 1) as any as S.Schema<CreateOrganizationAuthFileRequest>,
-  output: __S(2354, __c147, 2) as any as S.Schema<CreateOrganizationAuthFileResponse>,
+  input: __S(2369, __c148, 1) as any as S.Schema<CreateOrganizationAuthFileRequest>,
+  output: __S(2370, __c148, 2) as any as S.Schema<CreateOrganizationAuthFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4570,8 +4576,8 @@ export const createOrganizationAuthUrl: API.OperationMethod<
   CreateOrganizationAuthUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2370, __c148, 2) as any as S.Schema<CreateOrganizationAuthUrlRequest>,
-  output: __S(2371, __c148, 3) as any as S.Schema<CreateOrganizationAuthUrlResponse>,
+  input: __S(2386, __c149, 2) as any as S.Schema<CreateOrganizationAuthUrlRequest>,
+  output: __S(2387, __c149, 3) as any as S.Schema<CreateOrganizationAuthUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4587,8 +4593,8 @@ export const createOrganizationBatchSignUrl: API.OperationMethod<
   CreateOrganizationBatchSignUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2385, __c149, 1) as any as S.Schema<CreateOrganizationBatchSignUrlRequest>,
-  output: __S(2386, __c149, 2) as any as S.Schema<CreateOrganizationBatchSignUrlResponse>,
+  input: __S(2401, __c150, 1) as any as S.Schema<CreateOrganizationBatchSignUrlRequest>,
+  output: __S(2402, __c150, 2) as any as S.Schema<CreateOrganizationBatchSignUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4604,8 +4610,8 @@ export const createOrganizationGroupInvitationLink: API.OperationMethod<
   CreateOrganizationGroupInvitationLinkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<CreateOrganizationGroupInvitationLinkRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<CreateOrganizationGroupInvitationLinkResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<CreateOrganizationGroupInvitationLinkRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<CreateOrganizationGroupInvitationLinkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4621,8 +4627,8 @@ export const createOrganizationInfoChangeUrl: API.OperationMethod<
   CreateOrganizationInfoChangeUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<CreateOrganizationInfoChangeUrlRequest>,
-  output: __S(2449, __c153, 1) as any as S.Schema<CreateOrganizationInfoChangeUrlResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<CreateOrganizationInfoChangeUrlRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<CreateOrganizationInfoChangeUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4638,8 +4644,8 @@ export const createPartnerAuthorizationLink: API.OperationMethod<
   CreatePartnerAuthorizationLinkError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c154, 1) as any as S.Schema<CreatePartnerAuthorizationLinkRequest>,
-  output: __S(2466, __c154, 2) as any as S.Schema<CreatePartnerAuthorizationLinkResponse>,
+  input: __S(2481, __c155, 1) as any as S.Schema<CreatePartnerAuthorizationLinkRequest>,
+  output: __S(2482, __c155, 2) as any as S.Schema<CreatePartnerAuthorizationLinkResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4655,8 +4661,8 @@ export const createPartnerAutoSignAuthUrl: API.OperationMethod<
   CreatePartnerAutoSignAuthUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<CreatePartnerAutoSignAuthUrlRequest>,
-  output: __S(2512, __c157, 0) as any as S.Schema<CreatePartnerAutoSignAuthUrlResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<CreatePartnerAutoSignAuthUrlRequest>,
+  output: __S(2528, __c158, 0) as any as S.Schema<CreatePartnerAutoSignAuthUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4672,8 +4678,8 @@ export const createPersonAuthCertificateImage: API.OperationMethod<
   CreatePersonAuthCertificateImageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<CreatePersonAuthCertificateImageRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<CreatePersonAuthCertificateImageResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<CreatePersonAuthCertificateImageRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<CreatePersonAuthCertificateImageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4689,8 +4695,8 @@ export const createPreparedPersonalEsign: API.OperationMethod<
   CreatePreparedPersonalEsignError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<CreatePreparedPersonalEsignRequest>,
-  output: __S(2545, __c159, 1) as any as S.Schema<CreatePreparedPersonalEsignResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<CreatePreparedPersonalEsignRequest>,
+  output: __S(2561, __c160, 1) as any as S.Schema<CreatePreparedPersonalEsignResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4706,8 +4712,8 @@ export const createPrepareFlow: API.OperationMethod<
   CreatePrepareFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2563, __c160, 3) as any as S.Schema<CreatePrepareFlowRequest>,
-  output: __S(2564, __c160, 4) as any as S.Schema<CreatePrepareFlowResponse>,
+  input: __S(2579, __c161, 3) as any as S.Schema<CreatePrepareFlowRequest>,
+  output: __S(2580, __c161, 4) as any as S.Schema<CreatePrepareFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4723,8 +4729,8 @@ export const createPrepareFlowGroup: API.OperationMethod<
   CreatePrepareFlowGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<CreatePrepareFlowGroupRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<CreatePrepareFlowGroupResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<CreatePrepareFlowGroupRequest>,
+  output: __S(2593, __c162, 1) as any as S.Schema<CreatePrepareFlowGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4740,8 +4746,8 @@ export const createReleaseFlow: API.OperationMethod<
   CreateReleaseFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2595, __c162, 3) as any as S.Schema<CreateReleaseFlowRequest>,
-  output: __S(1760, __c110, 0) as any as S.Schema<CreateReleaseFlowResponse>,
+  input: __S(2611, __c163, 3) as any as S.Schema<CreateReleaseFlowRequest>,
+  output: __S(1776, __c111, 0) as any as S.Schema<CreateReleaseFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4757,8 +4763,8 @@ export const createRequestWithEncryption: API.OperationMethod<
   CreateRequestWithEncryptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<CreateRequestWithEncryptionRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<CreateRequestWithEncryptionResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<CreateRequestWithEncryptionRequest>,
+  output: __S(2625, __c164, 1) as any as S.Schema<CreateRequestWithEncryptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4774,7 +4780,7 @@ export const createRiskIdentificationTaskFeedback: API.OperationMethod<
   CreateRiskIdentificationTaskFeedbackError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<CreateRiskIdentificationTaskFeedbackRequest>,
+  input: __S(2640, __c165, 0) as any as S.Schema<CreateRiskIdentificationTaskFeedbackRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CreateRiskIdentificationTaskFeedbackResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4791,8 +4797,8 @@ export const createSchemeUrl: API.OperationMethod<
   CreateSchemeUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2657, __c166, 1) as any as S.Schema<CreateSchemeUrlRequest>,
-  output: __S(2658, __c166, 2) as any as S.Schema<CreateSchemeUrlResponse>,
+  input: __S(2673, __c167, 1) as any as S.Schema<CreateSchemeUrlRequest>,
+  output: __S(2674, __c167, 2) as any as S.Schema<CreateSchemeUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4808,8 +4814,8 @@ export const createSeal: API.OperationMethod<
   CreateSealError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<CreateSealRequest>,
-  output: __S(2673, __c167, 1) as any as S.Schema<CreateSealResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<CreateSealRequest>,
+  output: __S(2689, __c168, 1) as any as S.Schema<CreateSealResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4825,8 +4831,8 @@ export const createSealPolicy: API.OperationMethod<
   CreateSealPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2705, __c169, 1) as any as S.Schema<CreateSealPolicyRequest>,
-  output: __S(2706, __c169, 2) as any as S.Schema<CreateSealPolicyResponse>,
+  input: __S(2721, __c170, 1) as any as S.Schema<CreateSealPolicyRequest>,
+  output: __S(2722, __c170, 2) as any as S.Schema<CreateSealPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4842,8 +4848,8 @@ export const createSingleSignOnEmployees: API.OperationMethod<
   CreateSingleSignOnEmployeesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<CreateSingleSignOnEmployeesRequest>,
-  output: __S(2737, __c171, 1) as any as S.Schema<CreateSingleSignOnEmployeesResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<CreateSingleSignOnEmployeesRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<CreateSingleSignOnEmployeesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4859,8 +4865,8 @@ export const createUserAutoSignEnableUrl: API.OperationMethod<
   CreateUserAutoSignEnableUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2785, __c174, 1) as any as S.Schema<CreateUserAutoSignEnableUrlRequest>,
-  output: __S(2786, __c174, 2) as any as S.Schema<CreateUserAutoSignEnableUrlResponse>,
+  input: __S(2801, __c175, 1) as any as S.Schema<CreateUserAutoSignEnableUrlRequest>,
+  output: __S(2802, __c175, 2) as any as S.Schema<CreateUserAutoSignEnableUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4876,8 +4882,8 @@ export const createUserAutoSignSealUrl: API.OperationMethod<
   CreateUserAutoSignSealUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<CreateUserAutoSignSealUrlRequest>,
-  output: __S(2801, __c175, 1) as any as S.Schema<CreateUserAutoSignSealUrlResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<CreateUserAutoSignSealUrlRequest>,
+  output: __S(2817, __c176, 1) as any as S.Schema<CreateUserAutoSignSealUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4893,8 +4899,8 @@ export const createUserMobileChangeUrl: API.OperationMethod<
   CreateUserMobileChangeUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<CreateUserMobileChangeUrlRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<CreateUserMobileChangeUrlResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<CreateUserMobileChangeUrlRequest>,
+  output: __S(2928, __c183, 0) as any as S.Schema<CreateUserMobileChangeUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4910,8 +4916,8 @@ export const createUserNameChangeUrl: API.OperationMethod<
   CreateUserNameChangeUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<CreateUserNameChangeUrlRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<CreateUserNameChangeUrlResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<CreateUserNameChangeUrlRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<CreateUserNameChangeUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4927,8 +4933,8 @@ export const createUserVerifyUrl: API.OperationMethod<
   CreateUserVerifyUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<CreateUserVerifyUrlRequest>,
-  output: __S(2848, __c178, 0) as any as S.Schema<CreateUserVerifyUrlResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<CreateUserVerifyUrlRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<CreateUserVerifyUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4944,7 +4950,7 @@ export const createWebThemeConfig: API.OperationMethod<
   CreateWebThemeConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2881, __c180, 1) as any as S.Schema<CreateWebThemeConfigRequest>,
+  input: __S(2897, __c181, 1) as any as S.Schema<CreateWebThemeConfigRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<CreateWebThemeConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4961,7 +4967,7 @@ export const deleteExtendedServiceAuthInfos: API.OperationMethod<
   DeleteExtendedServiceAuthInfosError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<DeleteExtendedServiceAuthInfosRequest>,
+  input: __S(2944, __c184, 0) as any as S.Schema<DeleteExtendedServiceAuthInfosRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DeleteExtendedServiceAuthInfosResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4978,7 +4984,7 @@ export const deleteIntegrationDepartment: API.OperationMethod<
   DeleteIntegrationDepartmentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<DeleteIntegrationDepartmentRequest>,
+  input: __S(2960, __c185, 0) as any as S.Schema<DeleteIntegrationDepartmentRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DeleteIntegrationDepartmentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4995,8 +5001,8 @@ export const deleteIntegrationEmployees: API.OperationMethod<
   DeleteIntegrationEmployeesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<DeleteIntegrationEmployeesRequest>,
-  output: __S(2966, __c185, 6) as any as S.Schema<DeleteIntegrationEmployeesResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<DeleteIntegrationEmployeesRequest>,
+  output: __S(2982, __c186, 6) as any as S.Schema<DeleteIntegrationEmployeesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5012,8 +5018,8 @@ export const deleteIntegrationRoleUsers: API.OperationMethod<
   DeleteIntegrationRoleUsersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<DeleteIntegrationRoleUsersRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<DeleteIntegrationRoleUsersResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<DeleteIntegrationRoleUsersRequest>,
+  output: __S(2192, __c137, 0) as any as S.Schema<DeleteIntegrationRoleUsersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5029,8 +5035,8 @@ export const deleteOrganizationAuthorizations: API.OperationMethod<
   DeleteOrganizationAuthorizationsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<DeleteOrganizationAuthorizationsRequest>,
-  output: __S(2995, __c187, 3) as any as S.Schema<DeleteOrganizationAuthorizationsResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<DeleteOrganizationAuthorizationsRequest>,
+  output: __S(3011, __c188, 3) as any as S.Schema<DeleteOrganizationAuthorizationsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5046,7 +5052,7 @@ export const deleteSealPolicies: API.OperationMethod<
   DeleteSealPoliciesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<DeleteSealPoliciesRequest>,
+  input: __S(3024, __c189, 0) as any as S.Schema<DeleteSealPoliciesRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DeleteSealPoliciesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5063,7 +5069,7 @@ export const deleteSingleSignOnEmployees: API.OperationMethod<
   DeleteSingleSignOnEmployeesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<DeleteSingleSignOnEmployeesRequest>,
+  input: __S(3040, __c190, 0) as any as S.Schema<DeleteSingleSignOnEmployeesRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DeleteSingleSignOnEmployeesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5080,8 +5086,8 @@ export const describeArchiveFlowTask: API.OperationMethod<
   DescribeArchiveFlowTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<DescribeArchiveFlowTaskRequest>,
-  output: __S(3043, __c190, 3) as any as S.Schema<DescribeArchiveFlowTaskResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<DescribeArchiveFlowTaskRequest>,
+  output: __S(3059, __c191, 3) as any as S.Schema<DescribeArchiveFlowTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5097,10 +5103,10 @@ export const describeBatchOrganizationRegistrationTasks: API.OperationMethod<
   DescribeBatchOrganizationRegistrationTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<DescribeBatchOrganizationRegistrationTasksRequest>,
+  input: __S(3072, __c192, 0) as any as S.Schema<DescribeBatchOrganizationRegistrationTasksRequest>,
   output: __S(
-    3059,
-    __c191,
+    3075,
+    __c192,
     3,
   ) as any as S.Schema<DescribeBatchOrganizationRegistrationTasksResponse>,
   errors: [],
@@ -5118,10 +5124,10 @@ export const describeBatchOrganizationRegistrationUrls: API.OperationMethod<
   DescribeBatchOrganizationRegistrationUrlsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<DescribeBatchOrganizationRegistrationUrlsRequest>,
+  input: __S(3088, __c193, 0) as any as S.Schema<DescribeBatchOrganizationRegistrationUrlsRequest>,
   output: __S(
-    3075,
-    __c192,
+    3091,
+    __c193,
     3,
   ) as any as S.Schema<DescribeBatchOrganizationRegistrationUrlsResponse>,
   errors: [],
@@ -5139,8 +5145,8 @@ export const describeBillUsage: API.OperationMethod<
   DescribeBillUsageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<DescribeBillUsageRequest>,
-  output: __S(3111, __c194, 7) as any as S.Schema<DescribeBillUsageResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<DescribeBillUsageRequest>,
+  output: __S(3127, __c195, 7) as any as S.Schema<DescribeBillUsageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5156,8 +5162,8 @@ export const describeBillUsageDetail: API.OperationMethod<
   DescribeBillUsageDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<DescribeBillUsageDetailRequest>,
-  output: __S(3123, __c195, 3) as any as S.Schema<DescribeBillUsageDetailResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<DescribeBillUsageDetailRequest>,
+  output: __S(3139, __c196, 3) as any as S.Schema<DescribeBillUsageDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5173,8 +5179,8 @@ export const describeCancelFlowsTask: API.OperationMethod<
   DescribeCancelFlowsTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<DescribeCancelFlowsTaskRequest>,
-  output: __S(3139, __c196, 3) as any as S.Schema<DescribeCancelFlowsTaskResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<DescribeCancelFlowsTaskRequest>,
+  output: __S(3155, __c197, 3) as any as S.Schema<DescribeCancelFlowsTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5190,8 +5196,8 @@ export const describeContractComparisonTask: API.OperationMethod<
   DescribeContractComparisonTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<DescribeContractComparisonTaskRequest>,
-  output: __S(3155, __c197, 3) as any as S.Schema<DescribeContractComparisonTaskResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<DescribeContractComparisonTaskRequest>,
+  output: __S(3171, __c198, 3) as any as S.Schema<DescribeContractComparisonTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5207,7 +5213,7 @@ export const describeContractDiffTaskWebUrl: API.OperationMethod<
   DescribeContractDiffTaskWebUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3201, __c200, 1) as any as S.Schema<DescribeContractDiffTaskWebUrlRequest>,
+  input: __S(3217, __c201, 1) as any as S.Schema<DescribeContractDiffTaskWebUrlRequest>,
   output: __S(1360, __c85, 0) as any as S.Schema<DescribeContractDiffTaskWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5224,8 +5230,8 @@ export const describeContractReviewChecklist: API.OperationMethod<
   DescribeContractReviewChecklistError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<DescribeContractReviewChecklistRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<DescribeContractReviewChecklistResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<DescribeContractReviewChecklistRequest>,
+  output: __S(3233, __c202, 1) as any as S.Schema<DescribeContractReviewChecklistResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5241,7 +5247,7 @@ export const describeContractReviewChecklistsWebUrl: API.OperationMethod<
   DescribeContractReviewChecklistsWebUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3249, __c203, 1) as any as S.Schema<DescribeContractReviewChecklistsWebUrlRequest>,
+  input: __S(3265, __c204, 1) as any as S.Schema<DescribeContractReviewChecklistsWebUrlRequest>,
   output: __S(1360, __c85, 0) as any as S.Schema<DescribeContractReviewChecklistsWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5258,8 +5264,8 @@ export const describeContractReviewChecklistWebUrl: API.OperationMethod<
   DescribeContractReviewChecklistWebUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<DescribeContractReviewChecklistWebUrlRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<DescribeContractReviewChecklistWebUrlResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<DescribeContractReviewChecklistWebUrlRequest>,
+  output: __S(3281, __c205, 1) as any as S.Schema<DescribeContractReviewChecklistWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5275,10 +5281,10 @@ export const describeContractReviewMarkedRiskExportTask: API.OperationMethod<
   DescribeContractReviewMarkedRiskExportTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<DescribeContractReviewMarkedRiskExportTaskRequest>,
+  input: __S(3296, __c206, 0) as any as S.Schema<DescribeContractReviewMarkedRiskExportTaskRequest>,
   output: __S(
-    3281,
-    __c205,
+    3297,
+    __c206,
     1,
   ) as any as S.Schema<DescribeContractReviewMarkedRiskExportTaskResponse>,
   errors: [],
@@ -5296,8 +5302,8 @@ export const describeContractReviewTask: API.OperationMethod<
   DescribeContractReviewTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<DescribeContractReviewTaskRequest>,
-  output: __S(3308, __c206, 12) as any as S.Schema<DescribeContractReviewTaskResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<DescribeContractReviewTaskRequest>,
+  output: __S(3324, __c207, 12) as any as S.Schema<DescribeContractReviewTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5569,7 +5575,7 @@ export const describeInformationExtractionWebUrl: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DescribeInformationExtractionWebUrlRequest>,
-  output: __S(2080, __c130, 0) as any as S.Schema<DescribeInformationExtractionWebUrlResponse>,
+  output: __S(2096, __c131, 0) as any as S.Schema<DescribeInformationExtractionWebUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5900,7 +5906,7 @@ export const exportContractReviewMarkedRisk: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ExportContractReviewMarkedRiskRequest>,
-  output: __S(1968, __c123, 0) as any as S.Schema<ExportContractReviewMarkedRiskResponse>,
+  output: __S(1984, __c124, 0) as any as S.Schema<ExportContractReviewMarkedRiskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5917,7 +5923,7 @@ export const exportContractReviewResult: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ExportContractReviewResultRequest>,
-  output: __S(2080, __c130, 0) as any as S.Schema<ExportContractReviewResultResponse>,
+  output: __S(2096, __c131, 0) as any as S.Schema<ExportContractReviewResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6036,7 +6042,7 @@ export const modifyIntegrationRole: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ModifyIntegrationRoleRequest>,
-  output: __S(2176, __c136, 0) as any as S.Schema<ModifyIntegrationRoleResponse>,
+  output: __S(2192, __c137, 0) as any as S.Schema<ModifyIntegrationRoleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6070,7 +6076,7 @@ export const modifyPartnerAutoSignAuthUrl: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ModifyPartnerAutoSignAuthUrlRequest>,
-  output: __S(2512, __c157, 0) as any as S.Schema<ModifyPartnerAutoSignAuthUrlResponse>,
+  output: __S(2528, __c158, 0) as any as S.Schema<ModifyPartnerAutoSignAuthUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6372,12 +6378,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          ResourceIds: __S(2432, __c152, 0),
+          ResourceIds: __S(2448, __c153, 0),
           PolicyType: S.optional(S.Number),
           Role: S.optional(__S(112, __c7, 0)),
           Roles: S.optional(__S(113, __c7, 1)),
           ChecklistId: S.optional(S.String),
-          ChecklistIds: S.optional(__S(2432, __c152, 0)),
+          ChecklistIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           Comment: S.optional(S.String),
           UserData: S.optional(S.String),
@@ -6398,7 +6404,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TaskIds: S.optional(__S(2432, __c152, 0)),
+          TaskIds: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateBatchContractReviewTaskResponse" });
@@ -6496,7 +6502,7 @@ function __c11(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           Agent: S.optional(__S(32, __c2, 0)),
-          Filters: S.optional(__S(3168, __c198, 0)),
+          Filters: S.optional(__S(3184, __c199, 0)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6704,7 +6710,7 @@ function __c18(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           BusinessType: S.String,
-          BusinessIds: __S(2432, __c152, 0),
+          BusinessIds: __S(2448, __c153, 0),
           FileName: S.optional(S.String),
           FileType: S.optional(S.String),
           Offset: S.optional(S.Number),
@@ -6739,7 +6745,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          FlowIds: __S(2432, __c152, 0),
+          FlowIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "DescribeFlowBriefs" })),
@@ -6756,7 +6762,7 @@ function __c19(j: number): any {
           FlowMessage: S.optional(S.String),
           Creator: S.optional(S.String),
           Deadline: S.optional(S.Number),
-          UserFlowType: S.optional(__S(1888, __c118, 0)),
+          UserFlowType: S.optional(__S(1904, __c119, 0)),
           TemplateId: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlowBrief" });
@@ -6777,7 +6783,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          ResourceIds: __S(2432, __c152, 0),
+          ResourceIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           FieldTemplateId: S.optional(S.String),
           Fields: S.optional(__S(337, __c21, 1)),
@@ -6800,8 +6806,8 @@ function __c21(j: number): any {
           Name: S.String,
           Type: S.String,
           Description: S.optional(S.String),
-          Values: S.optional(__S(2432, __c152, 0)),
-          ChoiceList: S.optional(__S(2432, __c152, 0)),
+          Values: S.optional(__S(2448, __c153, 0)),
+          ChoiceList: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "ExtractionField" });
     case 1:
@@ -6885,7 +6891,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: S.optional(__S(16, __c1, 0)),
-          FlowIds: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           FlowGroupId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6939,9 +6945,9 @@ function __c24(j: number): any {
           FlowApproverInfos: S.optional(__S(388, __c24, 4)),
           CcInfos: S.optional(__S(388, __c24, 4)),
           Creator: S.optional(S.String),
-          UserFlowType: S.optional(__S(1888, __c118, 0)),
+          UserFlowType: S.optional(__S(1904, __c119, 0)),
           TemplateId: S.optional(S.String),
-          FlowRemarks: S.optional(__S(2432, __c152, 0)),
+          FlowRemarks: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "FlowDetailInfo" });
     case 6:
@@ -6952,7 +6958,7 @@ function __c24(j: number): any {
           FlowDetailInfos: S.optional(__S(390, __c24, 6)),
           FlowGroupId: S.optional(S.String),
           FlowGroupName: S.optional(S.String),
-          FlowGroupRemarks: S.optional(__S(2432, __c152, 0)),
+          FlowGroupRemarks: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFlowInfoResponse" });
@@ -6966,7 +6972,7 @@ function __c25(j: number): any {
           Operator: __S(16, __c1, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           ContentType: S.optional(S.Number),
-          Filters: S.optional(__S(3184, __c199, 0)),
+          Filters: S.optional(__S(3200, __c200, 0)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           ApplicationId: S.optional(S.String),
@@ -7030,9 +7036,9 @@ function __c25(j: number): any {
           Components: S.optional(__S(1121, __c70, 1)),
           SignComponents: S.optional(__S(1121, __c70, 1)),
           Description: S.optional(S.String),
-          DocumentResourceIds: S.optional(__S(2432, __c152, 0)),
+          DocumentResourceIds: S.optional(__S(2448, __c153, 0)),
           FileInfos: S.optional(__S(404, __c25, 4)),
-          AttachmentResourceIds: S.optional(__S(2432, __c152, 0)),
+          AttachmentResourceIds: S.optional(__S(2448, __c153, 0)),
           SignOrder: S.optional(__S(880, __c55, 0)),
           Status: S.optional(S.Number),
           Creator: S.optional(S.String),
@@ -7043,7 +7049,7 @@ function __c25(j: number): any {
           OrganizationId: S.optional(S.String),
           CreatorId: S.optional(S.String),
           PreviewUrl: S.optional(S.String),
-          UserFlowType: S.optional(__S(1888, __c118, 0)),
+          UserFlowType: S.optional(__S(1904, __c119, 0)),
           TemplateVersion: S.optional(S.String),
           Published: S.optional(S.Boolean),
           ShareTemplateId: S.optional(S.String),
@@ -7085,9 +7091,9 @@ function __c26(j: number): any {
           Id: S.optional(S.String),
           Name: S.optional(S.String),
           Type: S.optional(S.String),
-          Values: S.optional(__S(2432, __c152, 0)),
+          Values: S.optional(__S(2448, __c153, 0)),
           RequiresSemanticExtraction: S.optional(S.Boolean),
-          Positions: S.optional(__S(3313, __c207, 1)),
+          Positions: S.optional(__S(3329, __c208, 1)),
         }),
       ).annotate({ identifier: "ExtractionFieldResult" });
     case 2:
@@ -7180,7 +7186,7 @@ function __c29(j: number): any {
           Operator: __S(16, __c1, 0),
           Limit: S.optional(S.Number),
           Agent: S.optional(__S(32, __c2, 0)),
-          Filters: S.optional(__S(3184, __c199, 0)),
+          Filters: S.optional(__S(3200, __c200, 0)),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7194,7 +7200,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Employees: S.optional(__S(2132, __c133, 4)),
+          Employees: S.optional(__S(2148, __c134, 4)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
@@ -7211,7 +7217,7 @@ function __c30(j: number): any {
           Operator: __S(16, __c1, 0),
           Limit: S.Number,
           Agent: S.optional(__S(32, __c2, 0)),
-          Filters: S.optional(__S(3184, __c199, 0)),
+          Filters: S.optional(__S(3200, __c200, 0)),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7225,8 +7231,8 @@ function __c30(j: number): any {
           RoleName: S.optional(S.String),
           RoleStatus: S.optional(S.Number),
           IsGroupRole: S.optional(S.Boolean),
-          SubOrgIdList: S.optional(__S(2432, __c152, 0)),
-          PermissionGroups: S.optional(__S(2163, __c135, 3)),
+          SubOrgIdList: S.optional(__S(2448, __c153, 0)),
+          PermissionGroups: S.optional(__S(2179, __c136, 3)),
         }),
       ).annotate({ identifier: "IntegrateRole" });
     case 2:
@@ -7263,7 +7269,7 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
-          Info: S.optional(__S(2289, __c143, 1)),
+          Info: S.optional(__S(2305, __c144, 1)),
         }),
       ).annotate({ identifier: "FeedbackList" });
     case 2:
@@ -7293,8 +7299,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          OperateTypes: __S(2432, __c152, 0),
-          OrganizationIds: __S(2432, __c152, 0),
+          OperateTypes: __S(2448, __c153, 0),
+          OrganizationIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           AuthorizedOrganizationId: S.optional(S.String),
           ChangeAdminAuthAutoSign: S.optional(S.Boolean),
@@ -7392,7 +7398,7 @@ function __c34(j: number): any {
           Status: S.optional(S.Number),
           IsMainOrganization: S.optional(S.Boolean),
           IdCardNumber: S.optional(S.String),
-          AdminInfo: S.optional(__S(1568, __c98, 0)),
+          AdminInfo: S.optional(__S(1584, __c99, 0)),
           License: S.optional(S.String),
           LicenseExpireTime: S.optional(S.Number),
           JoinTime: S.optional(S.Number),
@@ -7424,9 +7430,9 @@ function __c35(j: number): any {
           Offset: S.optional(S.Number),
           InfoType: S.optional(S.Number),
           SealId: S.optional(S.String),
-          SealTypes: S.optional(__S(2432, __c152, 0)),
+          SealTypes: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
-          SealStatuses: S.optional(__S(2432, __c152, 0)),
+          SealStatuses: S.optional(__S(2448, __c153, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ess", version: "2020-11-11", action: "DescribeOrganizationSeals" }),
@@ -7453,7 +7459,7 @@ function __c35(j: number): any {
           Url: S.optional(S.String),
           SealType: S.optional(S.String),
           IsAllTime: S.optional(S.Boolean),
-          AuthorizedUsers: S.optional(__S(2720, __c170, 0)),
+          AuthorizedUsers: S.optional(__S(2736, __c171, 0)),
           ExtendScene: S.optional(__S(561, __c35, 1)),
           RealWidth: S.optional(S.Number),
           RealHeight: S.optional(S.Number),
@@ -7505,7 +7511,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           SceneKey: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7581,8 +7587,8 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Video: S.optional(S.String),
-          ResultCode: S.optional(__S(2432, __c152, 0)),
-          AsrResult: S.optional(__S(2432, __c152, 0)),
+          ResultCode: S.optional(__S(2448, __c153, 0)),
+          AsrResult: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "IntentionQuestionResult" });
     case 3:
@@ -7617,7 +7623,7 @@ function __c40(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SsoApplicationId: S.String,
-          OpenIds: S.optional(__S(2432, __c152, 0)),
+          OpenIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
@@ -7633,7 +7639,7 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Employees: S.optional(__S(2752, __c172, 0)),
+          Employees: S.optional(__S(2768, __c173, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSingleSignOnEmployeesResponse" });
@@ -7668,7 +7674,7 @@ function __c42(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7697,7 +7703,7 @@ function __c43(j: number): any {
           AdminName: S.String,
           AdminMobile: S.String,
           Agent: S.optional(__S(32, __c2, 0)),
-          SubTaskIds: S.optional(__S(2432, __c152, 0)),
+          SubTaskIds: S.optional(__S(2448, __c153, 0)),
           AdminIdCardType: S.optional(S.String),
           AdminIdCardNumber: S.optional(S.String),
           Endpoint: S.optional(S.String),
@@ -7714,7 +7720,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthUrl: S.optional(S.String),
-          ErrorMessages: S.optional(__S(2432, __c152, 0)),
+          ErrorMessages: S.optional(__S(2448, __c153, 0)),
           ExpireTime: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
@@ -7728,7 +7734,7 @@ function __c44(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           Agent: S.optional(__S(32, __c2, 0)),
-          Filters: S.optional(__S(3184, __c199, 0)),
+          Filters: S.optional(__S(3200, __c200, 0)),
           QueryBindTemplate: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7786,7 +7792,7 @@ function __c46(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "DisableUserAutoSign" })),
@@ -7877,7 +7883,7 @@ function __c51(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           Name: S.String,
-          Categories: __S(3235, __c202, 3),
+          Categories: __S(3251, __c203, 3),
           Agent: S.optional(__S(32, __c2, 0)),
           ChecklistID: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
@@ -7906,7 +7912,7 @@ function __c52(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           OperateType: S.Number,
-          CallbackInfo: __S(2480, __c155, 0),
+          CallbackInfo: __S(2496, __c156, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7958,7 +7964,7 @@ function __c54(j: number): any {
           AdminIdCardNumber: S.optional(S.String),
           AdminIdCardType: S.optional(S.String),
           BusinessLicense: S.optional(S.String),
-          PowerOfAttorneys: S.optional(__S(2432, __c152, 0)),
+          PowerOfAttorneys: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "RegistrationOrganizationInfo" });
     case 1:
@@ -7984,7 +7990,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TaskId: S.optional(S.String),
-          ErrorMessages: S.optional(__S(2432, __c152, 0)),
+          ErrorMessages: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateBatchOrganizationRegistrationTasksResponse" });
@@ -8043,8 +8049,8 @@ function __c58(j: number): any {
           Name: S.String,
           Operator: __S(16, __c1, 0),
           Description: S.optional(S.String),
-          PermissionGroups: S.optional(__S(2163, __c135, 3)),
-          SubOrganizationIds: S.optional(__S(2432, __c152, 0)),
+          PermissionGroups: S.optional(__S(2179, __c136, 3)),
+          SubOrganizationIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -8061,7 +8067,7 @@ function __c59(j: number): any {
           Operator: __S(16, __c1, 0),
           BusinessId: S.String,
           PartnerApplicationId: S.String,
-          ApplicationInfo: __S(2480, __c155, 0),
+          ApplicationInfo: __S(2496, __c156, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ess", version: "2020-11-11", action: "ModifyPartnerAuthorization" }),
@@ -8079,7 +8085,7 @@ function __c60(j: number): any {
           AuthorizedOrganizationId: S.optional(S.String),
           AuthorizedOrganizationName: S.optional(S.String),
           AuthToMe: S.optional(S.Boolean),
-          SealTypes: S.optional(__S(2432, __c152, 0)),
+          SealTypes: S.optional(__S(2448, __c153, 0)),
           LimitAuthType: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -8099,7 +8105,7 @@ function __c61(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SsoApplicationId: S.String,
-          Employee: __S(2768, __c173, 0),
+          Employee: __S(2784, __c174, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -8130,7 +8136,7 @@ function __c62(j: number): any {
           Agent: S.optional(__S(32, __c2, 0)),
           FlowGroupId: S.optional(S.String),
           FlowItem: S.optional(__S(992, __c62, 0)),
-          FlowItems: S.optional(__S(2432, __c152, 0)),
+          FlowItems: S.optional(__S(2448, __c153, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "OperateFlowRemarks" })),
       ).annotate({ identifier: "OperateFlowRemarksRequest" });
@@ -8144,8 +8150,8 @@ function __c63(j: number): any {
           Operator: S.optional(__S(16, __c1, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           Act: S.optional(S.Number),
-          SealIds: S.optional(__S(2432, __c152, 0)),
-          Options: S.optional(__S(2689, __c168, 1)),
+          SealIds: S.optional(__S(2448, __c153, 0)),
+          Options: S.optional(__S(2705, __c169, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "OperateSeals" })),
       ).annotate({ identifier: "OperateSealsRequest" });
@@ -8189,7 +8195,7 @@ function __c65(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -8223,7 +8229,7 @@ function __c66(j: number): any {
           FlowApproverInfo: __S(1142, __c71, 6),
           Agent: S.optional(__S(32, __c2, 0)),
           Operator: S.optional(__S(16, __c1, 0)),
-          FlowIds: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
           FlowGroupId: S.optional(S.String),
           JumpUrl: S.optional(S.String),
           SignatureTypes: S.optional(__S(880, __c55, 0)),
@@ -8355,7 +8361,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Question: S.optional(S.String),
-          Answers: S.optional(__S(2432, __c152, 0)),
+          Answers: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "IntentionQuestion" });
     case 1:
@@ -8393,7 +8399,7 @@ function __c71(j: number): any {
           ApproverIdCardType: S.optional(S.String),
           ApproverIdCardNumber: S.optional(S.String),
           RecipientId: S.optional(S.String),
-          VerifyChannel: S.optional(__S(2432, __c152, 0)),
+          VerifyChannel: S.optional(__S(2448, __c153, 0)),
           NotifyType: S.optional(S.String),
           IsFullText: S.optional(S.Boolean),
           PreReadTime: S.optional(S.Number),
@@ -8407,13 +8413,13 @@ function __c71(j: number): any {
           ApproverNeedSignReview: S.optional(S.Boolean),
           SignComponents: S.optional(__S(1121, __c70, 1)),
           Components: S.optional(__S(1121, __c70, 1)),
-          ComponentLimitType: S.optional(__S(2432, __c152, 0)),
+          ComponentLimitType: S.optional(__S(2448, __c153, 0)),
           ApproverVerifyTypes: S.optional(__S(880, __c55, 0)),
           ApproverSignTypes: S.optional(__S(880, __c55, 0)),
           SignTypeSelector: S.optional(S.Number),
           Deadline: S.optional(S.Number),
           Intention: S.optional(__S(1141, __c71, 5)),
-          SignEndpoints: S.optional(__S(2432, __c152, 0)),
+          SignEndpoints: S.optional(__S(2448, __c153, 0)),
           NotSaveContact: S.optional(S.Boolean),
           ApproverEmail: S.optional(S.String),
           PinCode: S.optional(S.String),
@@ -8483,7 +8489,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Employees: __S(2132, __c133, 4),
+          Employees: __S(2148, __c134, 4),
           Agent: S.optional(__S(32, __c2, 0)),
           InvitationNotifyType: S.optional(S.String),
           JumpUrl: S.optional(S.String),
@@ -8551,7 +8557,7 @@ function __c76(j: number): any {
           FileInfos: S.optional(__S(1218, __c76, 2)),
           FileType: S.optional(S.String),
           CoverRect: S.optional(S.Boolean),
-          CustomIds: S.optional(__S(2432, __c152, 0)),
+          CustomIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           Deadline: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -8560,7 +8566,7 @@ function __c76(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          FileIds: S.optional(__S(2432, __c152, 0)),
+          FileIds: S.optional(__S(2448, __c153, 0)),
           TotalCount: S.optional(S.Number),
           Deadline: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -8687,7 +8693,7 @@ function __c80(j: number): any {
           SignatureTypes: S.optional(__S(880, __c55, 0)),
           IdCardNumber: S.optional(S.String),
           NotifyType: S.optional(S.String),
-          FlowIds: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
           OrganizationName: S.optional(S.String),
           JumpToDetail: S.optional(S.Boolean),
           FlowBatchUrlInfo: S.optional(__S(1072, __c67, 0)),
@@ -8945,7 +8951,7 @@ function __c92(j: number): any {
           Operator: __S(16, __c1, 0),
           TemplateId: S.String,
           FlowId: S.optional(S.String),
-          FileNames: S.optional(__S(2432, __c152, 0)),
+          FileNames: S.optional(__S(2448, __c153, 0)),
           FormFields: S.optional(__S(1473, __c92, 1)),
           NeedPreview: S.optional(S.Boolean),
           PreviewType: S.optional(S.Number),
@@ -8987,7 +8993,7 @@ function __c94(j: number): any {
           Operator: __S(16, __c1, 0),
           Requirement: S.String,
           ReferenceTemplateId: S.optional(S.String),
-          RequirementFileIds: S.optional(__S(2432, __c152, 0)),
+          RequirementFileIds: S.optional(__S(2448, __c153, 0)),
           ContractLanguage: S.optional(S.String),
           ReviewTaskId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9015,7 +9021,7 @@ function __c95(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowId: S.String,
-          Approvers: __S(1539, __c96, 3),
+          Approvers: __S(1553, __c97, 1),
           Agent: S.optional(__S(32, __c2, 0)),
           AutoSignScene: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9049,12 +9055,16 @@ function __c96(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ComponentType: S.String,
-          ComponentValue: S.optional(__S(2432, __c152, 0)),
+          ComponentValue: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "ComponentLimit" });
     case 1:
       return S.Array(__S(1536, __c96, 0));
-    case 2:
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           ApproverType: S.Number,
@@ -9067,7 +9077,7 @@ function __c96(j: number): any {
           NotifyType: S.optional(S.String),
           ApproverRole: S.optional(S.Number),
           ApproverRoleName: S.optional(S.String),
-          VerifyChannel: S.optional(__S(2432, __c152, 0)),
+          VerifyChannel: S.optional(__S(2448, __c153, 0)),
           PreReadTime: S.optional(S.Number),
           UserId: S.optional(S.String),
           ApproverSource: S.optional(S.String),
@@ -9080,18 +9090,18 @@ function __c96(j: number): any {
           SignInstructionContent: S.optional(S.String),
           Deadline: S.optional(S.Number),
           Components: S.optional(__S(1121, __c70, 1)),
-          SignEndpoints: S.optional(__S(2432, __c152, 0)),
+          SignEndpoints: S.optional(__S(2448, __c153, 0)),
           RegisterInfo: S.optional(__S(1105, __c69, 1)),
           NotSaveContact: S.optional(S.Boolean),
           ApproverEmail: S.optional(S.String),
           PinCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApproverInfo" });
-    case 3:
-      return S.Array(__S(1538, __c96, 2));
+    case 1:
+      return S.Array(__S(1552, __c97, 0));
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9112,8 +9122,8 @@ function __c97(j: number): any {
           EmbedType: S.String,
           BusinessId: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
-          Reviewer: S.optional(__S(1568, __c98, 0)),
-          Option: S.optional(__S(1552, __c97, 0)),
+          Reviewer: S.optional(__S(1584, __c99, 0)),
+          Option: S.optional(__S(1568, __c98, 0)),
           UserData: S.optional(S.String),
           ApplicationId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9121,7 +9131,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateEmbedWebUrlRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9132,7 +9142,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ReviewerInfo" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9156,7 +9166,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateEmployeeChangeUrlResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9176,7 +9186,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateEmployeeQualificationSealQrCodeRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9187,13 +9197,13 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateEmployeeQualificationSealQrCodeResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          UserIds: __S(2432, __c152, 0),
+          UserIds: __S(2448, __c153, 0),
           ExtendServiceType: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9207,7 +9217,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateExtendedServiceAuthInfosRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9222,7 +9232,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "CancelMultiFlowSignQRCodeRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9239,7 +9249,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateFileConvertTaskRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9264,14 +9274,14 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateFileCounterSignResponse" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowName: S.String,
-          Approvers: __S(1744, __c109, 0),
+          Approvers: __S(1760, __c110, 0),
           FlowDescription: S.optional(S.String),
           FlowType: S.optional(S.String),
           ClientToken: S.optional(S.String),
@@ -9282,17 +9292,17 @@ function __c106(j: number): any {
           CustomShowMap: S.optional(S.String),
           NeedSignReview: S.optional(S.Boolean),
           Agent: S.optional(__S(32, __c2, 0)),
-          CcInfos: S.optional(__S(1729, __c108, 1)),
+          CcInfos: S.optional(__S(1745, __c109, 1)),
           AutoSignScene: S.optional(S.String),
           FlowDisplayType: S.optional(S.Number),
           Workflow: S.optional(S.Boolean),
-          FlowOperateLimit: S.optional(__S(1712, __c107, 0)),
+          FlowOperateLimit: S.optional(__S(1728, __c108, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlow" })),
       ).annotate({ identifier: "CreateFlowRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9302,7 +9312,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "FlowOperateLimit" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9316,16 +9326,16 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "CcInfo" });
     case 1:
-      return S.Array(__S(1728, __c108, 0));
+      return S.Array(__S(1744, __c109, 0));
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1142, __c71, 6));
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9336,7 +9346,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateFlowResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9355,12 +9365,12 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "FillApproverInfo" });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Approvers: __S(1777, __c111, 1),
+          Approvers: __S(1793, __c112, 1),
           FlowId: S.optional(S.String),
           FillApproverType: S.optional(S.Number),
           Initiator: S.optional(S.String),
@@ -9378,17 +9388,17 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "FillError" });
     case 4:
-      return S.Array(__S(1779, __c111, 3));
+      return S.Array(__S(1795, __c112, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          FillError: S.optional(__S(1780, __c111, 4)),
+          FillError: S.optional(__S(1796, __c112, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowApproversResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9417,19 +9427,19 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateFlowBlockchainEvidenceUrlResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowName: S.String,
-          FileIds: __S(2432, __c152, 0),
-          Approvers: S.optional(__S(1539, __c96, 3)),
+          FileIds: __S(2448, __c153, 0),
+          Approvers: S.optional(__S(1553, __c97, 1)),
           FlowDescription: S.optional(S.String),
           FlowType: S.optional(S.String),
           Components: S.optional(__S(1121, __c70, 1)),
-          CcInfos: S.optional(__S(1729, __c108, 1)),
+          CcInfos: S.optional(__S(1745, __c109, 1)),
           CcNotifyType: S.optional(S.Number),
           NeedPreview: S.optional(S.Boolean),
           PreviewType: S.optional(S.Number),
@@ -9446,7 +9456,7 @@ function __c113(j: number): any {
           FlowDisplayType: S.optional(S.Number),
           OpenDynamicSignFlow: S.optional(S.Boolean),
           Workflow: S.optional(S.Boolean),
-          FlowOperateLimit: S.optional(__S(1712, __c107, 0)),
+          FlowOperateLimit: S.optional(__S(1728, __c108, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlowByFiles" })),
       ).annotate({ identifier: "CreateFlowByFilesRequest" });
@@ -9462,7 +9472,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateFlowByFilesResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9487,7 +9497,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CreateFlowEvidenceReportResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9497,13 +9507,13 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "FlowForwardInfo" });
     case 1:
-      return S.Array(__S(1840, __c115, 0));
+      return S.Array(__S(1856, __c116, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           TargetUserId: S.String,
-          FlowForwardInfos: __S(1841, __c115, 1),
+          FlowForwardInfos: __S(1857, __c116, 1),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlowForwards" })),
@@ -9516,28 +9526,28 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "FlowForwardResult" });
     case 4:
-      return S.Array(__S(1843, __c115, 3));
+      return S.Array(__S(1859, __c116, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          FailedFlows: S.optional(__S(1844, __c115, 4)),
-          SuccessFlows: S.optional(__S(2432, __c152, 0)),
+          FailedFlows: S.optional(__S(1860, __c116, 4)),
+          SuccessFlows: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowForwardsResponse" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowGroupName: S.String,
-          FlowGroupInfos: __S(1921, __c120, 1),
+          FlowGroupInfos: __S(1937, __c121, 1),
           Agent: S.optional(__S(32, __c2, 0)),
-          FlowGroupOptions: S.optional(__S(1922, __c120, 2)),
-          UserFlowType: S.optional(__S(1888, __c118, 0)),
+          FlowGroupOptions: S.optional(__S(1938, __c121, 2)),
+          UserFlowType: S.optional(__S(1904, __c119, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlowGroupByFiles" }),
@@ -9545,7 +9555,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateFlowGroupByFilesRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9555,20 +9565,20 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "FlowGroupApprovers" });
     case 1:
-      return S.Array(__S(1872, __c117, 0));
+      return S.Array(__S(1888, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           FlowGroupId: S.optional(S.String),
-          FlowIds: S.optional(__S(2432, __c152, 0)),
-          Approvers: S.optional(__S(1873, __c117, 1)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
+          Approvers: S.optional(__S(1889, __c118, 1)),
           WorkflowInstanceId: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowGroupByFilesResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9580,7 +9590,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UserFlowType" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9591,14 +9601,14 @@ function __c119(j: number): any {
       ).annotate({ identifier: "SignComponentConfig" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FlowName: S.String,
-          Approvers: __S(1539, __c96, 3),
-          FileIds: S.optional(__S(2432, __c152, 0)),
+          Approvers: __S(1553, __c97, 1),
+          FileIds: S.optional(__S(2448, __c153, 0)),
           TemplateId: S.optional(S.String),
           FlowType: S.optional(S.String),
           FlowDescription: S.optional(S.String),
@@ -9609,11 +9619,11 @@ function __c120(j: number): any {
           NeedSignReview: S.optional(S.Boolean),
           AutoSignScene: S.optional(S.String),
           FlowDisplayType: S.optional(S.Number),
-          CcInfos: S.optional(__S(1729, __c108, 1)),
+          CcInfos: S.optional(__S(1745, __c109, 1)),
         }),
       ).annotate({ identifier: "FlowGroupInfo" });
     case 1:
-      return S.Array(__S(1920, __c120, 0));
+      return S.Array(__S(1936, __c121, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9624,26 +9634,28 @@ function __c120(j: number): any {
           NoEditFlowName: S.optional(S.Boolean),
           NoEditFlowType: S.optional(S.Boolean),
           NoEditDeadline: S.optional(S.Boolean),
-          SignComponentConfig: S.optional(__S(1904, __c119, 0)),
+          SignComponentConfig: S.optional(__S(1920, __c120, 0)),
           ForbidEditWatermark: S.optional(S.Boolean),
           HideSignCodeAfterStart: S.optional(S.Boolean),
           SignAfterStart: S.optional(S.Boolean),
           PreviewAfterStart: S.optional(S.Boolean),
+          SignComponentLimits: S.optional(__S(1537, __c96, 1)),
+          HideOperationSteps: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "FlowGroupOptions" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowGroupName: S.String,
-          FlowGroupInfos: __S(1921, __c120, 1),
+          FlowGroupInfos: __S(1937, __c121, 1),
           Agent: S.optional(__S(32, __c2, 0)),
-          FlowGroupOptions: S.optional(__S(1922, __c120, 2)),
-          UserFlowType: S.optional(__S(1888, __c118, 0)),
+          FlowGroupOptions: S.optional(__S(1938, __c121, 2)),
+          UserFlowType: S.optional(__S(1904, __c119, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlowGroupByTemplates" }),
@@ -9651,7 +9663,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateFlowGroupByTemplatesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9667,7 +9679,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CancelOrganizationFlowsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9678,7 +9690,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CancelOrganizationFlowsResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9701,29 +9713,29 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "RemindFlowGroupDetail" });
     case 2:
-      return S.Array(__S(1985, __c124, 1));
+      return S.Array(__S(2001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FlowIds: S.optional(__S(2432, __c152, 0)),
-          FlowNames: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
+          FlowNames: S.optional(__S(2448, __c153, 0)),
           ApproverName: S.optional(S.String),
           Mobile: S.optional(S.String),
-          RemindMessageList: S.optional(S.NullOr(__S(1986, __c124, 2))),
+          RemindMessageList: S.optional(S.NullOr(__S(2002, __c125, 2))),
         }),
       ).annotate({ identifier: "RemindFlowGroupRecord" });
     case 4:
-      return S.Array(__S(1987, __c124, 3));
+      return S.Array(__S(2003, __c125, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          RemindFlowGroupRecords: S.optional(__S(1988, __c124, 4)),
+          RemindFlowGroupRecords: S.optional(__S(2004, __c125, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowGroupRemindsResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9742,7 +9754,7 @@ function __c125(j: number): any {
           Operator: __S(16, __c1, 0),
           FlowGroupId: S.String,
           ReviewType: S.String,
-          ApproverInfo: __S(2000, __c125, 0),
+          ApproverInfo: __S(2016, __c126, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           ReviewMessage: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9752,7 +9764,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateFlowGroupSignReviewRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9762,15 +9774,15 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "RemindEmailInfo" });
     case 1:
-      return S.Array(__S(2016, __c126, 0));
+      return S.Array(__S(2032, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          FlowIds: __S(2432, __c152, 0),
+          FlowIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
-          RemindTypes: S.optional(__S(2432, __c152, 0)),
-          RemindEmailInfos: S.optional(__S(2017, __c126, 1)),
+          RemindTypes: S.optional(__S(2448, __c153, 0)),
+          RemindEmailInfos: S.optional(__S(2033, __c127, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateFlowReminds" })),
       ).annotate({ identifier: "CreateFlowRemindsRequest" });
@@ -9783,17 +9795,17 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "RemindFlowRecords" });
     case 4:
-      return S.Array(__S(2019, __c126, 3));
+      return S.Array(__S(2035, __c127, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          RemindFlowRecords: S.optional(__S(2020, __c126, 4)),
+          RemindFlowRecords: S.optional(__S(2036, __c127, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowRemindsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9812,7 +9824,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateFlowSignReviewRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9820,7 +9832,7 @@ function __c128(j: number): any {
           FlowId: S.String,
           Operator: S.optional(__S(16, __c1, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
-          FlowApproverInfos: S.optional(__S(1744, __c109, 0)),
+          FlowApproverInfos: S.optional(__S(1760, __c110, 0)),
           VideoVerifyTimesLimit: S.optional(S.Number),
           JumpUrl: S.optional(S.String),
           UrlType: S.optional(S.Number),
@@ -9833,13 +9845,13 @@ function __c128(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FlowApproverUrlInfos: S.optional(__S(2049, __c128, 1)),
+          FlowApproverUrlInfos: S.optional(__S(2065, __c129, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFlowSignUrlResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9853,9 +9865,9 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          ResourceIds: S.optional(__S(2432, __c152, 0)),
+          ResourceIds: S.optional(__S(2448, __c153, 0)),
           UserData: S.optional(S.String),
-          Option: S.optional(__S(2064, __c129, 0)),
+          Option: S.optional(__S(2080, __c130, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9867,7 +9879,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateInformationExtractionWebUrlRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9878,7 +9890,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateInformationExtractionWebUrlResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9908,13 +9920,13 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CreateIntegrationDepartmentResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Employees: __S(2132, __c133, 4),
+          Employees: __S(2148, __c134, 4),
           Agent: S.optional(__S(32, __c2, 0)),
           InvitationNotifyType: S.optional(S.String),
           JumpUrl: S.optional(S.String),
@@ -9936,7 +9948,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "SuccessCreateStaffData" });
     case 2:
-      return S.Array(__S(2113, __c132, 1));
+      return S.Array(__S(2129, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9947,24 +9959,24 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "FailedCreateStaffData" });
     case 4:
-      return S.Array(__S(2115, __c132, 3));
+      return S.Array(__S(2131, __c133, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SuccessEmployeeData: S.optional(__S(2114, __c132, 2)),
-          FailedEmployeeData: S.optional(__S(2116, __c132, 4)),
+          SuccessEmployeeData: S.optional(__S(2130, __c133, 2)),
+          FailedEmployeeData: S.optional(__S(2132, __c133, 4)),
         }),
       ).annotate({ identifier: "CreateStaffResult" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          CreateEmployeeResult: S.optional(__S(2117, __c132, 5)),
+          CreateEmployeeResult: S.optional(__S(2133, __c133, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateIntegrationEmployeesResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9974,7 +9986,7 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "StaffRole" });
     case 1:
-      return S.Array(__S(2128, __c133, 0));
+      return S.Array(__S(2144, __c134, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9990,8 +10002,8 @@ function __c133(j: number): any {
           Mobile: S.optional(S.String),
           Email: S.optional(S.String),
           OpenId: S.optional(S.String),
-          Roles: S.optional(__S(2129, __c133, 1)),
-          Department: S.optional(__S(2130, __c133, 2)),
+          Roles: S.optional(__S(2145, __c134, 1)),
+          Department: S.optional(__S(2146, __c134, 2)),
           Verified: S.optional(S.Boolean),
           CreatedOn: S.optional(S.Number),
           VerifiedOn: S.optional(S.Number),
@@ -10002,10 +10014,10 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "Staff" });
     case 4:
-      return S.Array(__S(2131, __c133, 3));
+      return S.Array(__S(2147, __c134, 3));
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10014,8 +10026,8 @@ function __c134(j: number): any {
           Operator: __S(16, __c1, 0),
           Description: S.optional(S.String),
           IsGroupRole: S.optional(S.Number),
-          PermissionGroups: S.optional(__S(2163, __c135, 3)),
-          SubOrganizationIds: S.optional(__S(2432, __c152, 0)),
+          PermissionGroups: S.optional(__S(2179, __c136, 3)),
+          SubOrganizationIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10024,7 +10036,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateIntegrationRoleRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10039,25 +10051,25 @@ function __c135(j: number): any {
           DataTo: S.optional(S.String),
           ParentKey: S.optional(S.String),
           IsChecked: S.optional(S.Boolean),
-          Children: S.optional(S.suspend(() => __S(2161, __c135, 1))),
+          Children: S.optional(S.suspend(() => __S(2177, __c136, 1))),
         }),
       ).annotate({ identifier: "Permission" });
     case 1:
-      return S.Array(__S(2160, __c135, 0));
+      return S.Array(__S(2176, __c136, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           GroupName: S.optional(S.String),
           GroupKey: S.optional(S.String),
           Hide: S.optional(S.Number),
-          Permissions: S.optional(__S(2161, __c135, 1)),
+          Permissions: S.optional(__S(2177, __c136, 1)),
         }),
       ).annotate({ identifier: "PermissionGroup" });
     case 3:
-      return S.Array(__S(2162, __c135, 2));
+      return S.Array(__S(2178, __c136, 2));
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10068,13 +10080,13 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateIntegrationRoleResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          SubOrganizationIds: __S(2432, __c152, 0),
+          SubOrganizationIds: __S(2448, __c153, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10087,20 +10099,20 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FailedSubOrganizationIds: S.optional(__S(2432, __c152, 0)),
+          FailedSubOrganizationIds: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateIntegrationSubOrganizationActiveRecordResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10113,7 +10125,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "CancelUserAutoSignEnableUrlRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10125,14 +10137,14 @@ function __c139(j: number): any {
       ).annotate({ identifier: "UserThreeFactor" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          UserIds: __S(2432, __c152, 0),
-          RoleIds: __S(2432, __c152, 0),
+          UserIds: __S(2448, __c153, 0),
+          RoleIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10143,21 +10155,21 @@ function __c140(j: number): any {
       return S.suspend(() =>
         S.Struct({
           UserId: S.optional(S.String),
-          RoleIds: S.optional(__S(2432, __c152, 0)),
+          RoleIds: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "FailedCreateRoleData" });
     case 2:
-      return S.Array(__S(2241, __c140, 1));
+      return S.Array(__S(2257, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FailedCreateRoleData: S.optional(__S(2242, __c140, 2)),
+          FailedCreateRoleData: S.optional(__S(2258, __c141, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateIntegrationUserRolesResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10171,14 +10183,14 @@ function __c141(j: number): any {
       ).annotate({ identifier: "CreateLegalSealQrCodeRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           Id: S.optional(S.String),
-          Feedback: S.optional(__S(2289, __c143, 1)),
+          Feedback: S.optional(__S(2305, __c144, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10190,7 +10202,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "CreateLMInformationExtractionTaskFieldFeedbackRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10203,12 +10215,12 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Result: S.optional(S.Number),
-          Reason: S.optional(__S(2288, __c143, 0)),
+          Reason: S.optional(__S(2304, __c144, 0)),
         }),
       ).annotate({ identifier: "FeedbackInfo" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10220,10 +10232,11 @@ function __c144(j: number): any {
           ApproverIdCardType: S.optional(S.String),
           ApproverIdCardNumber: S.optional(S.String),
           RecipientId: S.optional(S.String),
+          PinCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "MiniAppCreateApproverInfo" });
     case 1:
-      return S.Array(__S(2304, __c144, 0));
+      return S.Array(__S(2320, __c145, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10247,13 +10260,13 @@ function __c144(j: number): any {
           ResourceId: S.String,
           FlowName: S.String,
           Agent: S.optional(__S(32, __c2, 0)),
-          Approvers: S.optional(__S(2305, __c144, 1)),
-          CcInfos: S.optional(__S(1729, __c108, 1)),
+          Approvers: S.optional(__S(2321, __c145, 1)),
+          CcInfos: S.optional(__S(1745, __c109, 1)),
           Unordered: S.optional(S.Boolean),
           DeadlineAfterStartDays: S.optional(S.Number),
           UserFlowTypeId: S.optional(S.String),
-          FlowOption: S.optional(__S(2306, __c144, 2)),
-          PageOption: S.optional(__S(2307, __c144, 3)),
+          FlowOption: S.optional(__S(2322, __c145, 2)),
+          PageOption: S.optional(__S(2323, __c145, 3)),
           UserData: S.optional(S.String),
           Hides: S.optional(__S(880, __c55, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -10276,7 +10289,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "CreateMiniAppPrepareFlowResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10296,7 +10309,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CreateModifyAdminAuthorizationUrlRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10308,16 +10321,16 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "ApproverRestriction" });
     case 1:
-      return S.Array(__S(2336, __c146, 0));
+      return S.Array(__S(2352, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           RecipientId: S.String,
-          Values: __S(2432, __c152, 0),
+          Values: __S(2448, __c153, 0),
         }),
       ).annotate({ identifier: "ApproverComponentLimitType" });
     case 3:
-      return S.Array(__S(2338, __c146, 2));
+      return S.Array(__S(2354, __c147, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10327,10 +10340,10 @@ function __c146(j: number): any {
           MaxFlowNum: S.optional(S.Number),
           FlowEffectiveDay: S.optional(S.Number),
           FlowDisplayType: S.optional(S.Number),
-          Restrictions: S.optional(__S(2337, __c146, 1)),
+          Restrictions: S.optional(__S(2353, __c147, 1)),
           UserData: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
-          ApproverComponentLimitTypes: S.optional(__S(2339, __c146, 3)),
+          ApproverComponentLimitTypes: S.optional(__S(2355, __c147, 3)),
           ForbidPersonalMultipleSign: S.optional(S.Boolean),
           FlowNameAppendScannerInfo: S.optional(S.Boolean),
           QrCodeName: S.optional(S.String),
@@ -10360,14 +10373,14 @@ function __c146(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          QrCode: S.optional(__S(2341, __c146, 5)),
-          SignUrls: S.optional(__S(2342, __c146, 6)),
+          QrCode: S.optional(__S(2357, __c147, 5)),
+          SignUrls: S.optional(__S(2358, __c147, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateMultiFlowSignQRCodeResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10390,7 +10403,7 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OrganizationCommonInfo: __S(2352, __c147, 0),
+          OrganizationCommonInfo: __S(2368, __c148, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           Operator: S.optional(__S(16, __c1, 0)),
           Type: S.optional(S.Number),
@@ -10408,7 +10421,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateOrganizationAuthFileResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10418,7 +10431,7 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "JumpEvent" });
     case 1:
-      return S.Array(__S(2368, __c148, 0));
+      return S.Array(__S(2384, __c149, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10442,11 +10455,11 @@ function __c148(j: number): any {
           BusinessLicense: S.optional(S.String),
           Endpoint: S.optional(S.String),
           Initialization: S.optional(__S(880, __c55, 0)),
-          PowerOfAttorneys: S.optional(__S(2432, __c152, 0)),
+          PowerOfAttorneys: S.optional(__S(2448, __c153, 0)),
           UserData: S.optional(S.String),
           BankAccountNumber: S.optional(S.String),
           BankAccountNumberSame: S.optional(S.Boolean),
-          JumpEvents: S.optional(__S(2369, __c148, 1)),
+          JumpEvents: S.optional(__S(2385, __c149, 1)),
           OrganizationIdCardType: S.optional(S.String),
           OrganizationIdCardTypeSame: S.optional(S.Boolean),
           AuthorizationMethod: S.optional(__S(880, __c55, 0)),
@@ -10468,7 +10481,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "CreateOrganizationAuthUrlResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10481,15 +10494,15 @@ function __c149(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          FlowIds: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           UserId: S.optional(S.String),
           Name: S.optional(S.String),
           Mobile: S.optional(S.String),
-          RecipientIds: S.optional(__S(2432, __c152, 0)),
+          RecipientIds: S.optional(__S(2448, __c153, 0)),
           FlowGroupId: S.optional(S.String),
           CanBatchReject: S.optional(S.Boolean),
-          DynamicSignOption: S.optional(__S(2384, __c149, 0)),
+          DynamicSignOption: S.optional(__S(2400, __c150, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10509,7 +10522,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "CreateOrganizationBatchSignUrlResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10537,7 +10550,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "CreateOrganizationGroupInvitationLinkResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10553,17 +10566,17 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "ArchiveFlowApproverInfo" });
     case 1:
-      return S.Array(__S(2416, __c151, 0));
+      return S.Array(__S(2432, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ResourceIds: __S(2432, __c152, 0),
+          ResourceIds: __S(2448, __c153, 0),
           FlowName: S.optional(S.String),
           FlowType: S.optional(S.String),
           BusinessId: S.optional(S.String),
           CreatorName: S.optional(S.String),
-          ApproverInfo: S.optional(__S(2417, __c151, 1)),
-          CcInfo: S.optional(__S(2417, __c151, 1)),
+          ApproverInfo: S.optional(__S(2433, __c152, 1)),
+          CcInfo: S.optional(__S(2433, __c152, 1)),
           UserData: S.optional(S.String),
           FlowDescription: S.optional(S.String),
           ApproveTime: S.optional(S.Number),
@@ -10571,12 +10584,12 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "CreateArchiveFlow" });
     case 3:
-      return S.Array(__S(2418, __c151, 2));
+      return S.Array(__S(2434, __c152, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          ArchiveFlows: __S(2419, __c151, 3),
+          ArchiveFlows: __S(2435, __c152, 3),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "ess", version: "2020-11-11", action: "CreateArchiveFlowTask" }),
@@ -10584,13 +10597,13 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CreateArchiveFlowTaskRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10618,7 +10631,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CreateOrganizationInfoChangeUrlResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10633,8 +10646,8 @@ function __c154(j: number): any {
           Operator: __S(16, __c1, 0),
           BusinessId: S.String,
           PartnerOrganizationId: S.String,
-          ApplicationInfo: __S(2480, __c155, 0),
-          ProxyOrganizationInfo: __S(2464, __c154, 0),
+          ApplicationInfo: __S(2496, __c156, 0),
+          ProxyOrganizationInfo: __S(2480, __c155, 0),
           PartnerApplicationId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10655,7 +10668,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "CreatePartnerAuthorizationLinkResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10667,7 +10680,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "CallbackInfo" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10676,7 +10689,7 @@ function __c156(j: number): any {
           Operator: S.optional(__S(16, __c1, 0)),
           AuthorizedOrganizationId: S.optional(S.String),
           AuthorizedOrganizationName: S.optional(S.String),
-          SealTypes: S.optional(__S(2432, __c152, 0)),
+          SealTypes: S.optional(__S(2448, __c153, 0)),
           AuthToMe: S.optional(S.Boolean),
           LimitAuthType: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -10690,7 +10703,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "CreatePartnerAutoSignAuthUrlRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10703,7 +10716,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "CreatePartnerAutoSignAuthUrlResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10736,7 +10749,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "CreatePersonAuthCertificateImageResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10770,7 +10783,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "CreatePreparedPersonalEsignResponse" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10781,7 +10794,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "CreateResultPageConfig" });
     case 1:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10797,10 +10810,10 @@ function __c160(j: number): any {
           ForbidAddApprover: S.optional(S.Boolean),
           ForbidEditApprover: S.optional(S.Boolean),
           ForbidEditFlowProperties: S.optional(S.Boolean),
-          HideComponentTypes: S.optional(__S(2432, __c152, 0)),
-          ShowComponentTypes: S.optional(__S(2432, __c152, 0)),
-          ResultPageConfig: S.optional(__S(2561, __c160, 1)),
-          SignComponentConfig: S.optional(__S(1904, __c119, 0)),
+          HideComponentTypes: S.optional(__S(2448, __c153, 0)),
+          ShowComponentTypes: S.optional(__S(2448, __c153, 0)),
+          ResultPageConfig: S.optional(__S(2577, __c161, 1)),
+          SignComponentConfig: S.optional(__S(1920, __c120, 0)),
           ForbidEditWatermark: S.optional(S.Boolean),
           HideOperationSteps: S.optional(__S(880, __c55, 0)),
           SelfName: S.optional(S.String),
@@ -10809,6 +10822,7 @@ function __c160(j: number): any {
           SignAfterStart: S.optional(S.Boolean),
           NeedFlowDraft: S.optional(S.Boolean),
           CcInfoVisibility: S.optional(S.Number),
+          SignComponentLimits: S.optional(__S(1537, __c96, 1)),
         }),
       ).annotate({ identifier: "CreateFlowOption" });
     case 3:
@@ -10822,14 +10836,14 @@ function __c160(j: number): any {
           Deadline: S.optional(S.Number),
           UserFlowTypeId: S.optional(S.String),
           FlowType: S.optional(S.String),
-          Approvers: S.optional(__S(1744, __c109, 0)),
+          Approvers: S.optional(__S(1760, __c110, 0)),
           IntelligentStatus: S.optional(S.String),
           Components: S.optional(__S(1120, __c70, 0)),
-          FlowOption: S.optional(__S(2562, __c160, 2)),
+          FlowOption: S.optional(__S(2578, __c161, 2)),
           NeedSignReview: S.optional(S.Boolean),
           NeedCreateReview: S.optional(S.Boolean),
           UserData: S.optional(S.String),
-          CcInfos: S.optional(__S(1729, __c108, 1)),
+          CcInfos: S.optional(__S(1745, __c109, 1)),
           FlowId: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
           InitiatorComponents: S.optional(__S(1121, __c70, 1)),
@@ -10849,17 +10863,17 @@ function __c160(j: number): any {
       ).annotate({ identifier: "CreatePrepareFlowResponse" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           FlowGroupName: S.String,
-          FlowGroupInfos: __S(1921, __c120, 1),
+          FlowGroupInfos: __S(1937, __c121, 1),
           ResourceType: S.Number,
           Agent: S.optional(__S(32, __c2, 0)),
-          FlowGroupOptions: S.optional(__S(1922, __c120, 2)),
+          FlowGroupOptions: S.optional(__S(1938, __c121, 2)),
           FlowGroupType: S.optional(S.String),
           FlowGroupDeadline: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -10877,7 +10891,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "CreatePrepareFlowGroupResponse" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10903,15 +10917,15 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "ReleasedApprover" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2609, __c163, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           NeedRelievedFlowId: S.String,
-          ReliveInfo: __S(2592, __c162, 0),
+          ReliveInfo: __S(2608, __c163, 0),
           Agent: S.optional(__S(32, __c2, 0)),
-          ReleasedApprovers: S.optional(__S(2594, __c162, 2)),
+          ReleasedApprovers: S.optional(__S(2610, __c163, 2)),
           Deadline: S.optional(S.Number),
           UserData: S.optional(S.String),
           FlowName: S.optional(S.String),
@@ -10920,7 +10934,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "CreateReleaseFlowRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10949,7 +10963,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "CreateRequestWithEncryptionResponse" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10969,26 +10983,26 @@ function __c164(j: number): any {
       ).annotate({ identifier: "CreateRiskIdentificationTaskFeedbackRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ChangeAdminOrganizationId: S.String,
           NewAdminName: S.String,
-          AuthFiles: __S(2432, __c152, 0),
+          AuthFiles: __S(2448, __c153, 0),
           NewAdminMobile: S.optional(S.String),
           NewAdminIdCardType: S.optional(S.String),
           NewAdminIdCardNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminChangeInvitationInfo" });
     case 1:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(2656, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          AdminChangeInvitationInfos: __S(2641, __c165, 1),
+          AdminChangeInvitationInfos: __S(2657, __c166, 1),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11002,13 +11016,13 @@ function __c165(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ErrorMessages: S.optional(__S(2432, __c152, 0)),
+          ErrorMessages: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateBatchAdminChangeInvitationsResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11033,7 +11047,7 @@ function __c166(j: number): any {
           Agent: S.optional(__S(32, __c2, 0)),
           Hides: S.optional(__S(880, __c55, 0)),
           RecipientId: S.optional(S.String),
-          FlowGroupUrlInfo: S.optional(__S(2656, __c166, 0)),
+          FlowGroupUrlInfo: S.optional(__S(2672, __c167, 0)),
           UrlUseEnv: S.optional(S.String),
           PickUpAfterJoined: S.optional(S.Boolean),
           CanSkipReadFlow: S.optional(S.Boolean),
@@ -11050,7 +11064,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "CreateSchemeUrlResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11074,7 +11088,7 @@ function __c167(j: number): any {
           SealSize: S.optional(S.String),
           TaxIdentifyCode: S.optional(S.String),
           SealDescription: S.optional(S.String),
-          Options: S.optional(__S(2689, __c168, 1)),
+          Options: S.optional(__S(2705, __c169, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateSeal" })),
       ).annotate({ identifier: "CreateSealRequest" });
@@ -11092,7 +11106,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreateSealResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11102,37 +11116,37 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "Option" });
     case 1:
-      return S.Array(__S(2688, __c168, 0));
+      return S.Array(__S(2704, __c169, 0));
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FlowIds: S.optional(__S(2432, __c152, 0)),
-          FlowGroupIds: S.optional(__S(2432, __c152, 0)),
+          FlowIds: S.optional(__S(2448, __c153, 0)),
+          FlowGroupIds: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "SealPolicyAuthorizationFlows" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Users: __S(2720, __c170, 0),
+          Users: __S(2736, __c171, 0),
           SealId: S.String,
           Expired: S.Number,
-          UserIds: S.optional(__S(2432, __c152, 0)),
+          UserIds: S.optional(__S(2448, __c153, 0)),
           Policy: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
-          Options: S.optional(__S(2689, __c168, 1)),
-          AuthorizationFlows: S.optional(__S(2704, __c169, 0)),
+          Options: S.optional(__S(2705, __c169, 1)),
+          AuthorizationFlows: S.optional(__S(2720, __c170, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "CreateSealPolicy" })),
       ).annotate({ identifier: "CreateSealPolicyRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UserIds: S.optional(__S(2432, __c152, 0)),
+          UserIds: S.optional(__S(2448, __c153, 0)),
           SealOperatorVerifyPath: S.optional(S.String),
           SealOperatorVerifyQrcodeUrl: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -11140,19 +11154,19 @@ function __c169(j: number): any {
       ).annotate({ identifier: "CreateSealPolicyResponse" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(16, __c1, 0));
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Employees: __S(2752, __c172, 0),
+          Employees: __S(2768, __c173, 0),
           SsoApplicationId: S.String,
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11167,20 +11181,20 @@ function __c171(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ErrorMessages: S.optional(__S(2432, __c152, 0)),
+          ErrorMessages: S.optional(__S(2448, __c153, 0)),
           Status: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSingleSignOnEmployeesResponse" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2768, __c173, 0));
+      return S.Array(__S(2784, __c174, 0));
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11190,23 +11204,23 @@ function __c173(j: number): any {
           Mobile: S.String,
           UserId: S.optional(S.String),
           Email: S.optional(S.String),
-          RoleIds: S.optional(__S(2432, __c152, 0)),
+          RoleIds: S.optional(__S(2448, __c153, 0)),
           IsVerified: S.optional(S.Boolean),
           CreatedOn: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SingleSignOnEmployees" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           CertInfoCallback: S.optional(S.Boolean),
           UserDefineSeal: S.optional(S.Boolean),
           SealImgCallback: S.optional(S.Boolean),
-          VerifyChannels: S.optional(__S(2432, __c152, 0)),
+          VerifyChannels: S.optional(__S(2448, __c153, 0)),
           LicenseType: S.optional(S.Number),
           JumpUrl: S.optional(S.String),
         }),
@@ -11216,7 +11230,7 @@ function __c174(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          AutoSignConfig: __S(2784, __c174, 0),
+          AutoSignConfig: __S(2800, __c175, 0),
           UrlType: S.optional(S.String),
           NotifyType: S.optional(S.String),
           NotifyAddress: S.optional(S.String),
@@ -11247,14 +11261,14 @@ function __c174(j: number): any {
       ).annotate({ identifier: "CreateUserAutoSignEnableUrlResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           SceneKey: S.String,
-          UserInfo: __S(2224, __c139, 0),
+          UserInfo: __S(2240, __c140, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           ExpiredTime: S.optional(S.Number),
           EndPoint: S.optional(S.String),
@@ -11276,7 +11290,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "CreateUserAutoSignSealUrlResponse" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11297,7 +11311,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "CreateUserMobileChangeUrlRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11312,7 +11326,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "CreateUserNameChangeUrlRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11325,7 +11339,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "CreateUserNameChangeUrlResponse" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11344,7 +11358,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "CreateUserVerifyUrlRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11358,7 +11372,7 @@ function __c180(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           ThemeType: S.String,
-          WebThemeConfig: __S(2880, __c180, 0),
+          WebThemeConfig: __S(2896, __c181, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11367,7 +11381,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "CreateWebThemeConfigRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11390,7 +11404,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreateBatchAdminChangeInvitationsUrlRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11402,13 +11416,13 @@ function __c182(j: number): any {
       ).annotate({ identifier: "CreateBatchAdminChangeInvitationsUrlResponse" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          UserIds: __S(2432, __c152, 0),
+          UserIds: __S(2448, __c153, 0),
           ExtendServiceType: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11422,7 +11436,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "DeleteExtendedServiceAuthInfosRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11442,13 +11456,13 @@ function __c184(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationDepartmentRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Employees: __S(2132, __c133, 4),
+          Employees: __S(2148, __c134, 4),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11464,7 +11478,7 @@ function __c185(j: number): any {
         }),
       ).annotate({ identifier: "SuccessDeleteStaffData" });
     case 2:
-      return S.Array(__S(2961, __c185, 1));
+      return S.Array(__S(2977, __c186, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11474,37 +11488,21 @@ function __c185(j: number): any {
         }),
       ).annotate({ identifier: "FailedDeleteStaffData" });
     case 4:
-      return S.Array(__S(2963, __c185, 3));
+      return S.Array(__S(2979, __c186, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SuccessEmployeeData: S.optional(__S(2962, __c185, 2)),
-          FailedEmployeeData: S.optional(__S(2964, __c185, 4)),
+          SuccessEmployeeData: S.optional(__S(2978, __c186, 2)),
+          FailedEmployeeData: S.optional(__S(2980, __c186, 4)),
         }),
       ).annotate({ identifier: "DeleteStaffsResult" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          DeleteEmployeeResult: S.optional(__S(2965, __c185, 5)),
+          DeleteEmployeeResult: S.optional(__S(2981, __c186, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteIntegrationEmployeesResponse" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Operator: __S(16, __c1, 0),
-          RoleId: S.String,
-          Users: __S(2720, __c170, 0),
-          Agent: S.optional(__S(32, __c2, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "ess", version: "2020-11-11", action: "DeleteIntegrationRoleUsers" }),
-        ),
-      ).annotate({ identifier: "DeleteIntegrationRoleUsersRequest" });
   }
 }
 function __c187(j: number): any {
@@ -11513,7 +11511,23 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          AuthorizationIds: S.optional(__S(2432, __c152, 0)),
+          RoleId: S.String,
+          Users: __S(2736, __c171, 0),
+          Agent: S.optional(__S(32, __c2, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "ess", version: "2020-11-11", action: "DeleteIntegrationRoleUsers" }),
+        ),
+      ).annotate({ identifier: "DeleteIntegrationRoleUsersRequest" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Operator: __S(16, __c1, 0),
+          AuthorizationIds: S.optional(__S(2448, __c153, 0)),
           AdminName: S.optional(S.String),
           AdminMobile: S.optional(S.String),
           Agent: S.optional(__S(32, __c2, 0)),
@@ -11535,33 +11549,33 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "DeleteOrganizationAuthorizationInfo" });
     case 2:
-      return S.Array(__S(2993, __c187, 1));
+      return S.Array(__S(3009, __c188, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DeleteOrganizationAuthorizationInfos: S.optional(__S(2994, __c187, 2)),
+          DeleteOrganizationAuthorizationInfos: S.optional(__S(3010, __c188, 2)),
           Status: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteOrganizationAuthorizationsResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          PolicyIds: S.optional(__S(2432, __c152, 0)),
+          PolicyIds: S.optional(__S(2448, __c153, 0)),
           SealId: S.optional(S.String),
-          UserIds: S.optional(__S(2432, __c152, 0)),
+          UserIds: S.optional(__S(2448, __c153, 0)),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "ess", version: "2020-11-11", action: "DeleteSealPolicies" })),
       ).annotate({ identifier: "DeleteSealPoliciesRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11581,7 +11595,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteSingleSignOnEmployeesRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11599,30 +11613,30 @@ function __c190(j: number): any {
           FlowId: S.optional(S.String),
           ArchiveFlowStatus: S.optional(S.Number),
           BusinessId: S.optional(S.String),
-          ResourceIdList: S.optional(__S(2432, __c152, 0)),
+          ResourceIdList: S.optional(__S(2448, __c153, 0)),
           ErrorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArchiveFlowResult" });
     case 2:
-      return S.Array(__S(3041, __c190, 1));
+      return S.Array(__S(3057, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.Number),
-          ArchiveFlowResults: S.optional(__S(3042, __c190, 2)),
+          ArchiveFlowResults: S.optional(__S(3058, __c191, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeArchiveFlowTaskResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
           Agent: S.optional(__S(32, __c2, 0)),
-          TaskIds: S.optional(__S(2432, __c152, 0)),
+          TaskIds: S.optional(__S(2448, __c153, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11642,17 +11656,17 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "BatchOrganizationRegistrationTasksDetails" });
     case 2:
-      return S.Array(__S(3057, __c191, 1));
+      return S.Array(__S(3073, __c192, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Details: S.optional(__S(3058, __c191, 2)),
+          Details: S.optional(__S(3074, __c192, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBatchOrganizationRegistrationTasksResponse" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11679,23 +11693,23 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationAuthUrl" });
     case 2:
-      return S.Array(__S(3073, __c192, 1));
+      return S.Array(__S(3089, __c193, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationAuthUrls: S.optional(__S(3074, __c192, 2)),
+          OrganizationAuthUrls: S.optional(__S(3090, __c193, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBatchOrganizationRegistrationUrlsResponse" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          FlowIds: __S(2432, __c152, 0),
+          FlowIds: __S(2448, __c153, 0),
           Agent: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11706,7 +11720,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.Struct({
           BatchCancelFlowUrl: S.optional(S.String),
-          FailMessages: S.optional(__S(2432, __c152, 0)),
+          FailMessages: S.optional(__S(2448, __c153, 0)),
           UrlExpireOn: S.optional(S.String),
           TaskId: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -11714,7 +11728,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "CreateBatchCancelFlowUrlResponse" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11737,7 +11751,7 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "OrgBillSummary" });
     case 2:
-      return S.Array(__S(3105, __c194, 1));
+      return S.Array(__S(3121, __c195, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11746,27 +11760,27 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "SubOrgBillUsage" });
     case 4:
-      return S.Array(__S(3107, __c194, 3));
+      return S.Array(__S(3123, __c195, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           OrganizationName: S.optional(S.String),
-          Usage: S.optional(__S(3108, __c194, 4)),
+          Usage: S.optional(__S(3124, __c195, 4)),
         }),
       ).annotate({ identifier: "SubOrgBillSummary" });
     case 6:
-      return S.Array(__S(3109, __c194, 5));
+      return S.Array(__S(3125, __c195, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Summary: S.optional(__S(3106, __c194, 2)),
-          SubOrgSummary: S.optional(__S(3110, __c194, 6)),
+          Summary: S.optional(__S(3122, __c195, 2)),
+          SubOrgSummary: S.optional(__S(3126, __c195, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBillUsageResponse" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11799,18 +11813,18 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "BillUsageDetail" });
     case 2:
-      return S.Array(__S(3121, __c195, 1));
+      return S.Array(__S(3137, __c196, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Details: S.optional(__S(3122, __c195, 2)),
+          Details: S.optional(__S(3138, __c196, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBillUsageDetailResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11833,20 +11847,20 @@ function __c196(j: number): any {
         }),
       ).annotate({ identifier: "CancelFailureFlow" });
     case 2:
-      return S.Array(__S(3137, __c196, 1));
+      return S.Array(__S(3153, __c197, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TaskId: S.optional(S.String),
           TaskStatus: S.optional(S.String),
-          SuccessFlowIds: S.optional(__S(2432, __c152, 0)),
-          FailureFlows: S.optional(__S(3138, __c196, 2)),
+          SuccessFlowIds: S.optional(__S(2448, __c153, 0)),
+          FailureFlows: S.optional(__S(3154, __c197, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeCancelFlowsTaskResponse" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11854,7 +11868,7 @@ function __c197(j: number): any {
           Operator: __S(16, __c1, 0),
           TaskId: S.String,
           ShowDetail: S.optional(S.Boolean),
-          Filters: S.optional(__S(3184, __c199, 0)),
+          Filters: S.optional(__S(3200, __c200, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11877,7 +11891,7 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "ComparisonDetail" });
     case 2:
-      return S.Array(__S(3153, __c197, 1));
+      return S.Array(__S(3169, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11893,30 +11907,30 @@ function __c197(j: number): any {
           DeleteDiffCount: S.optional(S.Number),
           Operator: S.optional(S.String),
           CreateTime: S.optional(S.Number),
-          ComparisonDetail: S.optional(__S(3154, __c197, 2)),
+          ComparisonDetail: S.optional(__S(3170, __c198, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeContractComparisonTaskResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Key: S.String,
-          Values: __S(2432, __c152, 0),
+          Values: __S(2448, __c153, 0),
         }),
       ).annotate({ identifier: "Filter" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3168, __c198, 0));
+      return S.Array(__S(3184, __c199, 0));
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11929,7 +11943,7 @@ function __c200(j: number): any {
         S.Struct({
           Operator: __S(16, __c1, 0),
           TaskId: S.String,
-          FormatConfigs: S.optional(__S(3200, __c200, 0)),
+          FormatConfigs: S.optional(__S(3216, __c201, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11941,7 +11955,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "DescribeContractDiffTaskWebUrlRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11964,13 +11978,13 @@ function __c201(j: number): any {
           ChecklistId: S.optional(S.String),
           Name: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
-          Categories: S.optional(__S(3235, __c202, 3)),
+          Categories: S.optional(__S(3251, __c203, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeContractReviewChecklistResponse" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11984,23 +11998,23 @@ function __c202(j: number): any {
           ReferenceItem: S.optional(S.String),
           Suggestion: S.optional(S.String),
           AiSuggestion: S.optional(S.String),
-          RiskPresentation: S.optional(__S(2432, __c152, 0)),
+          RiskPresentation: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "ChecklistPoint" });
     case 1:
-      return S.Array(__S(3232, __c202, 0));
+      return S.Array(__S(3248, __c203, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Points: S.optional(__S(3233, __c202, 1)),
+          Points: S.optional(__S(3249, __c203, 1)),
         }),
       ).annotate({ identifier: "ChecklistCategory" });
     case 3:
-      return S.Array(__S(3234, __c202, 2));
+      return S.Array(__S(3250, __c203, 2));
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12012,7 +12026,7 @@ function __c203(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Operator: __S(16, __c1, 0),
-          Option: S.optional(__S(3248, __c203, 0)),
+          Option: S.optional(__S(3264, __c204, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12024,7 +12038,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "DescribeContractReviewChecklistsWebUrlRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12050,7 +12064,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DescribeContractReviewChecklistWebUrlResponse" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12077,7 +12091,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DescribeContractReviewMarkedRiskExportTaskResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12098,14 +12112,14 @@ function __c206(j: number): any {
           RiskDescription: S.optional(S.String),
           RiskLevel: S.optional(S.String),
           RiskAdvice: S.optional(S.String),
-          RiskPresentation: S.optional(__S(2432, __c152, 0)),
+          RiskPresentation: S.optional(__S(2448, __c153, 0)),
           Content: S.optional(S.String),
-          Positions: S.optional(__S(3313, __c207, 1)),
+          Positions: S.optional(__S(3329, __c208, 1)),
           IsMark: S.optional(S.Boolean),
           IsIgnore: S.optional(S.Boolean),
           RiskBasis: S.optional(S.String),
           RiskLevelId: S.optional(S.Number),
-          RiskLabels: S.optional(__S(2432, __c152, 0)),
+          RiskLabels: S.optional(__S(2448, __c153, 0)),
           RiskOrigin: S.optional(S.Number),
           Creator: S.optional(S.String),
           CreatorId: S.optional(S.String),
@@ -12114,16 +12128,16 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "OutputRisk" });
     case 2:
-      return S.Array(__S(3297, __c206, 1));
+      return S.Array(__S(3313, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Content: S.optional(S.String),
-          Position: S.optional(S.NullOr(__S(3312, __c207, 0))),
+          Position: S.optional(S.NullOr(__S(3328, __c208, 0))),
         }),
       ).annotate({ identifier: "ReferenceExcerpt" });
     case 4:
-      return S.Array(__S(3299, __c206, 3));
+      return S.Array(__S(3315, __c207, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12132,11 +12146,11 @@ function __c206(j: number): any {
           RiskDescription: S.optional(S.String),
           CategoryName: S.optional(S.String),
           RiskBasis: S.optional(S.String),
-          Excerpts: S.optional(S.NullOr(__S(3300, __c206, 4))),
+          Excerpts: S.optional(S.NullOr(__S(3316, __c207, 4))),
         }),
       ).annotate({ identifier: "OutputReference" });
     case 6:
-      return S.Array(__S(3301, __c206, 5));
+      return S.Array(__S(3317, __c207, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12174,30 +12188,30 @@ function __c206(j: number): any {
         S.Struct({
           Key: S.optional(S.String),
           Value: S.optional(S.String),
-          Identity: S.optional(S.NullOr(__S(3303, __c206, 7))),
+          Identity: S.optional(S.NullOr(__S(3319, __c207, 7))),
         }),
       ).annotate({ identifier: "ContractSummaryInfo" });
     case 9:
-      return S.Array(__S(3304, __c206, 8));
+      return S.Array(__S(3320, __c207, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Infos: S.optional(__S(3305, __c206, 9)),
+          Infos: S.optional(__S(3321, __c207, 9)),
         }),
       ).annotate({ identifier: "ContractSummary" });
     case 11:
-      return S.Array(__S(3306, __c206, 10));
+      return S.Array(__S(3322, __c207, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           ChecklistId: S.optional(S.String),
-          ChecklistIds: S.optional(__S(2432, __c152, 0)),
+          ChecklistIds: S.optional(__S(2448, __c153, 0)),
           CreatedOn: S.optional(S.Number),
           FinishedOn: S.optional(S.Number),
           PolicyType: S.optional(S.Number),
           ResourceId: S.optional(S.String),
-          Risks: S.optional(__S(3298, __c206, 2)),
+          Risks: S.optional(__S(3314, __c207, 2)),
           Role: S.optional(S.NullOr(__S(112, __c7, 0))),
           Roles: S.optional(__S(113, __c7, 1)),
           Status: S.optional(S.Number),
@@ -12206,14 +12220,14 @@ function __c206(j: number): any {
           UserData: S.optional(S.String),
           HighRiskCount: S.optional(S.Number),
           TotalRiskCount: S.optional(S.Number),
-          ApprovedLists: S.optional(S.NullOr(__S(3302, __c206, 6))),
-          Summaries: S.optional(__S(3307, __c206, 11)),
+          ApprovedLists: S.optional(S.NullOr(__S(3318, __c207, 6))),
+          Summaries: S.optional(__S(3323, __c207, 11)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeContractReviewTaskResponse" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12230,7 +12244,7 @@ function __c207(j: number): any {
         }),
       ).annotate({ identifier: "PositionInfo" });
     case 1:
-      return S.Array(__S(3312, __c207, 0));
+      return S.Array(__S(3328, __c208, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

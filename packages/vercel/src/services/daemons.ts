@@ -230,6 +230,8 @@ export interface PutProjectDaemonInstancesRequest {
   daemonName: string;
   /** The deployment target for the daemon configuration. */
   target?: PutProjectDaemonInstancesRequestTarget | (string & {}) | undefined;
+  /** The ID of the custom environment of the daemon, instead of `target`. */
+  customEnvironmentId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
@@ -246,6 +248,8 @@ export interface RestartProjectDaemonInstanceRequest {
   daemonName: string;
   /** The ID of the daemon instance to restart */
   instanceId: string;
+  /** The ID of the custom environment of the instance. Production instances are restarted when omitted. */
+  customEnvironmentId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
@@ -272,7 +276,12 @@ export const getProjectBoxes: API.OperationMethod<
   span: "GetProjectBoxes",
 }));
 
-export type PutProjectDaemonInstancesError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type PutProjectDaemonInstancesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
 /** Override a project daemon's instance counts Override the instance counts of a daemon in the given regions, without changing its configuration or the overrides of other regions. */
 export const putProjectDaemonInstances: API.OperationMethod<
   PutProjectDaemonInstancesRequest,
@@ -282,7 +291,7 @@ export const putProjectDaemonInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c1, 1) as any as S.Schema<PutProjectDaemonInstancesRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<PutProjectDaemonInstancesResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -296,7 +305,7 @@ export type RestartProjectDaemonInstanceError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Force restart a project daemon instance Force restart a running production daemon instance. The new container starts asynchronously after the restart is accepted. */
+/** Force restart a project daemon instance Force restart a running daemon instance in production, or in a custom environment when `customEnvironmentId` is given. The new container starts asynchronously after the restart is accepted. */
 export const restartProjectDaemonInstance: API.OperationMethod<
   RestartProjectDaemonInstanceRequest,
   RestartProjectDaemonInstanceResponse,
@@ -467,6 +476,7 @@ function __c1(j: number): any {
           idOrName: S.String.pipe(T.Label()),
           daemonName: S.String.pipe(T.Label()),
           target: S.optional(S.String.pipe(T.Query())),
+          customEnvironmentId: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
@@ -498,6 +508,7 @@ function __c3(j: number): any {
           idOrName: S.String.pipe(T.Label()),
           daemonName: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
+          customEnvironmentId: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(

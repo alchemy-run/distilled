@@ -454,7 +454,7 @@ export interface CreateThreatEventsQueryRequest {
   name: string;
   /** JSON string containing the query parameters */
   queryJson: string;
-  /** Deprecated and ignored: saved-query alerting and rules were removed. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
   alertRollupEnabled?: boolean | undefined;
@@ -469,7 +469,7 @@ export interface CreateThreatEventsQueryResponse {
   id: number;
   /** Account ID */
   accountId: number;
-  /** Deprecated: saved-query alerting and rules were removed. Always false. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled: boolean;
   /** Deprecated: saved-query alerting and rules were removed. Always false. */
   alertRollupEnabled: boolean;
@@ -1099,6 +1099,8 @@ export interface CreateThreatSignalsFeedRequest {
   enabled?: boolean | undefined;
   /** Polling interval in seconds (60-86400). Default 300s (5 minutes). */
   pollIntervalS?: number | undefined;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Default false. */
+  taggingEnabled?: boolean | undefined;
   /** Override the feed's title. Null clears it; omit to keep existing or derived value. */
   title?: string | undefined;
   /** HTTPS RSS feed URL. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance. */
@@ -1123,6 +1125,8 @@ export interface CreateThreatSignalsFeedResponse {
   /** Polling health: `active`, or `error` after a failed poll. */
   status: string;
   subscribedAt: string;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. */
+  taggingEnabled: boolean;
   title: string;
   updatedAt: string;
   url: string;
@@ -1302,6 +1306,8 @@ export interface DeleteThreatSignalsFeedResponse {
   /** Polling health: `active`, or `error` after a failed poll. */
   status: string;
   subscribedAt: string;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. */
+  taggingEnabled: boolean;
   title: string;
   updatedAt: string;
   url: string;
@@ -1334,7 +1340,7 @@ export interface EditThreatEventsQueryRequest {
   accountId: string;
   /** Event query ID */
   queryId: number;
-  /** Deprecated and ignored: saved-query alerting and rules were removed. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
   alertRollupEnabled?: boolean | undefined;
@@ -1353,7 +1359,7 @@ export interface EditThreatEventsQueryResponse {
   id: number;
   /** Account ID */
   accountId: number;
-  /** Deprecated: saved-query alerting and rules were removed. Always false. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled: boolean;
   /** Deprecated: saved-query alerting and rules were removed. Always false. */
   alertRollupEnabled: boolean;
@@ -2005,6 +2011,8 @@ export interface EditThreatSignalsFeedRequest {
   enabled?: boolean | undefined;
   /** New polling interval in seconds (60-86400). Omit to keep current value. */
   pollIntervalS?: number | undefined;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Omit to keep current value. */
+  taggingEnabled?: boolean | undefined;
   /** Override the feed's title. Null clears it; omit to keep existing or derived value. */
   title?: string | undefined;
 }
@@ -2027,6 +2035,8 @@ export interface EditThreatSignalsFeedResponse {
   /** Polling health: `active`, or `error` after a failed poll. */
   status: string;
   subscribedAt: string;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. */
+  taggingEnabled: boolean;
   title: string;
   updatedAt: string;
   url: string;
@@ -2429,7 +2439,7 @@ export interface GetThreatEventsQueryResponse {
   id: number;
   /** Account ID */
   accountId: number;
-  /** Deprecated: saved-query alerting and rules were removed. Always false. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled: boolean;
   /** Deprecated: saved-query alerting and rules were removed. Always false. */
   alertRollupEnabled: boolean;
@@ -2467,10 +2477,13 @@ export type GetThreatSignalsArticleResponseIndicatorExtractionStatus =
 export type GetThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
 export type GetThreatSignalsArticleResponseRelevanceBand = "low" | "medium" | "high";
 export type GetThreatSignalsArticleResponseRelevancePirsItemBand = "low" | "medium" | "high";
+export type GetThreatSignalsArticleResponseRelevancePirsItemRequirementBasis = "current" | "saved";
 export interface GetThreatSignalsArticleResponseRelevancePirsItem {
   /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
   band: GetThreatSignalsArticleResponseRelevancePirsItemBand;
   pirId: string;
+  /** Beta. current: scored against the PIR's current requirement. saved: the PIR's structured definition no longer generates a valid requirement, for example because its topic was retired, so the requirement from its last save was scored instead. */
+  requirementBasis: GetThreatSignalsArticleResponseRelevancePirsItemRequirementBasis;
 }
 export type GetThreatSignalsArticleResponseRelevancePirsList =
   Array<GetThreatSignalsArticleResponseRelevancePirsItem>;
@@ -2482,6 +2495,11 @@ export interface GetThreatSignalsArticleResponseRelevance {
   /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
   pirs: GetThreatSignalsArticleResponseRelevancePirsList;
 }
+export type GetThreatSignalsArticleResponseRelevanceCoverage =
+  | "current"
+  | "stale"
+  | "pending"
+  | "unavailable";
 export type GetThreatSignalsArticleResponseSeverity =
   | "informational"
   | "low"
@@ -2514,6 +2532,8 @@ export interface GetThreatSignalsArticleResponse {
   readAt: string;
   /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
   relevance: GetThreatSignalsArticleResponseRelevance;
+  /** Beta. Whether relevance and severity reflect the account's current Priority Intelligence Requirements, organization profile, and the article's current content. current: they do. stale: they were scored before a change; articles fetched in the last 7 days are being rescored, older articles keep these scores. pending: not scored yet, fetched in the last 7 days. unavailable: not scored, and will not be scored automatically, because it was fetched more than 7 days ago or processing failed. Updates to managed topics can take up to a day to mark scores stale. Null when the account has no active PIRs or none of its articles has been scored yet. */
+  relevanceCoverage: GetThreatSignalsArticleResponseRelevanceCoverage;
   /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
   severity: GetThreatSignalsArticleResponseSeverity;
   sourceCount: number;
@@ -2848,7 +2868,7 @@ export interface ListThreatEventsRequest {
   page?: number | undefined;
   /** Number of results per page. Maximum 25,000. */
   pageSize?: number | undefined;
-  /** JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. */
+  /** JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. `containsAny` takes an array of up to 50 strings and matches when the field contains any of them; it is not supported for `indicator`, `date`, `killChain`, or `hasChildren`. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. */
   search?: ThreatEventsListRequestSearchList | undefined;
   /** JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. */
   searchBranches?: ThreatEventsListRequestSearchBranchesList | undefined;
@@ -3306,7 +3326,7 @@ export interface ListThreatEventsQueriesResponse {
   id: number;
   /** Account ID */
   accountId: number;
-  /** Deprecated: saved-query alerting and rules were removed. Always false. */
+  /** Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy. */
   alertEnabled: boolean;
   /** Deprecated: saved-query alerting and rules were removed. Always false. */
   alertRollupEnabled: boolean;
@@ -3891,6 +3911,19 @@ export interface ListThreatEventTargetIndustriesResponse {
   type: string;
 }
 export type ListThreatSignalsArticlesRequestArticleIdList = Array<string>;
+export type ListThreatSignalsArticlesRequestFeedCategoryId =
+  | "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
+  | "d5b70eaa-626f-5761-b55b-6d9590df49fb"
+  | "3b572d2b-890d-5286-9433-f18c85079030"
+  | "17f90d3b-37d3-5241-8ad4-7d6abbc2006c"
+  | "c68f28e9-7e8f-5d4b-853b-f3076893a9ee"
+  | "bb0e4a94-38ab-5c14-80a7-28cee9f4b139"
+  | "b1ef66d9-a73c-58dc-b269-22d34dfd11f4"
+  | "ab02a976-0a20-5c76-a553-7f6325afacfe";
+export type ListThreatSignalsArticlesRequestFeedCategoryIdList = Array<
+  ListThreatSignalsArticlesRequestFeedCategoryId | (string & {})
+>;
+export type ListThreatSignalsArticlesRequestFeedIdList = Array<string>;
 export type ListThreatSignalsArticlesRequestMinRelevance = "low" | "medium" | "high";
 export type ListThreatSignalsArticlesRequestSeverity =
   | "informational"
@@ -3911,10 +3944,12 @@ export interface ListThreatSignalsArticlesRequest {
   articleId?: ListThreatSignalsArticlesRequestArticleIdList | undefined;
   /** Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`. */
   cursor?: string | undefined;
-  /** Exact feed-category filter after trimming. Omit to include every category. */
+  /** Exact match on a feed's legacy free-form category after trimming. Omit to include every category; to filter by the categories shown on feeds, use feed_category_id. */
   feedCategory?: string | undefined;
-  /** Feed UUID filter. Omit to include articles from every account feed. */
-  feedId?: string | undefined;
+  /** Repeatable feed category UUID filter, using the ids from the feed categories list. An article matches when its feed has any selected category; feeds without a category never match. */
+  feedCategoryId?: ListThreatSignalsArticlesRequestFeedCategoryIdList | undefined;
+  /** Repeatable feed UUID filter. An article matches any selected feed. Omit to include articles from every account feed. */
+  feedId?: ListThreatSignalsArticlesRequestFeedIdList | undefined;
   /** Include articles fetched at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
   fetchedAfter?: string | undefined;
   /** Include articles fetched at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
@@ -3957,10 +3992,15 @@ export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand =
   | "low"
   | "medium"
   | "high";
+export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemRequirementBasis =
+  | "current"
+  | "saved";
 export interface ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem {
   /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
   band: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand;
   pirId: string;
+  /** Beta. current: scored against the PIR's current requirement. saved: the PIR's structured definition no longer generates a valid requirement, for example because its topic was retired, so the requirement from its last save was scored instead. */
+  requirementBasis: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemRequirementBasis;
 }
 export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList =
   Array<ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem>;
@@ -3972,6 +4012,11 @@ export interface ListThreatSignalsArticlesResponseArticlesItemRelevance {
   /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
   pirs: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList;
 }
+export type ListThreatSignalsArticlesResponseArticlesItemRelevanceCoverage =
+  | "current"
+  | "stale"
+  | "pending"
+  | "unavailable";
 export type ListThreatSignalsArticlesResponseArticlesItemSeverity =
   | "informational"
   | "low"
@@ -4005,6 +4050,8 @@ export interface ListThreatSignalsArticlesResponseArticlesItem {
   readAt: string;
   /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
   relevance: ListThreatSignalsArticlesResponseArticlesItemRelevance;
+  /** Beta. Whether relevance and severity reflect the account's current Priority Intelligence Requirements, organization profile, and the article's current content. current: they do. stale: they were scored before a change; articles fetched in the last 7 days are being rescored, older articles keep these scores. pending: not scored yet, fetched in the last 7 days. unavailable: not scored, and will not be scored automatically, because it was fetched more than 7 days ago or processing failed. Updates to managed topics can take up to a day to mark scores stale. Null when the account has no active PIRs or none of its articles has been scored yet. */
+  relevanceCoverage: ListThreatSignalsArticlesResponseArticlesItemRelevanceCoverage;
   /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
   severity: ListThreatSignalsArticlesResponseArticlesItemSeverity;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
@@ -4077,6 +4124,8 @@ export interface ListThreatSignalsFeedsResponseFeedsItem {
   /** Polling health: `active`, or `error` after a failed poll. */
   status: string;
   subscribedAt: string;
+  /** When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. */
+  taggingEnabled: boolean;
   title: string;
   updatedAt: string;
   url: string;
@@ -4515,12 +4564,13 @@ export type ThreatSignalsHealthResponseStatus = "ok";
 export interface ThreatSignalsHealthResponse {
   status: ThreatSignalsHealthResponseStatus;
 }
+export type ThreatSignalsSearchSearchRequestFeedIdList = Array<string>;
 export interface ThreatSignalsSearchSearchRequest {
   accountId: string;
   /** Keyword and semantic article-search text, from 1 to 1000 characters. */
   query: string;
-  /** Optional feed UUID that restricts results to articles from that feed. */
-  feedId?: string | undefined;
+  /** Optional repeatable feed UUID filter, up to 40 feeds. Results come only from articles in the selected feeds. */
+  feedId?: ThreatSignalsSearchSearchRequestFeedIdList | undefined;
   /** Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles. */
   maxResults?: string | undefined;
 }
@@ -5032,7 +5082,7 @@ export const createThreatSignalsFeed: API.OperationMethod<
 }));
 
 export type CreateThreatSignalsSkillError = CloudflareOpError;
-/** Creates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills. */
+/** Creates an active Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills. When the account is at its active Custom Skill limit (`cfone.threat.threat_signals_skills`), returns 403 with `errors[0].reason` `threat_signals_skill_limit`, and `errors[0].custom_skill_limit` and `errors[0].custom_skill_count` give the limit and current count. Managed Default Skills do not count. */
 export const createThreatSignalsSkill: API.OperationMethod<
   CreateThreatSignalsSkillRequest,
   CreateThreatSignalsSkillResponse,
@@ -5410,7 +5460,7 @@ export const editThreatSignalsFeed: API.OperationMethod<
 }));
 
 export type EditThreatSignalsSkillError = CloudflareOpError;
-/** Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. */
+/** Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit. */
 export const editThreatSignalsSkill: API.OperationMethod<
   EditThreatSignalsSkillRequest,
   EditThreatSignalsSkillResponse,
@@ -6720,7 +6770,7 @@ export const updateRequestPriority: API.OperationMethod<
 }));
 
 export type UpdateThreatSignalsFeedsSkillError = CloudflareOpError;
-/** Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. */
+/** Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed. */
 export const updateThreatSignalsFeedsSkill: API.OperationMethod<
   UpdateThreatSignalsFeedsSkillRequest,
   UpdateThreatSignalsFeedsSkillResponse,
@@ -7062,7 +7112,7 @@ function __c14(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           query: S.String.pipe(T.Query()),
-          feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+          feedId: S.optional(__S(32, __c2, 0).pipe(T.Query("feed_id"))),
           maxResults: S.optional(S.String.pipe(T.Query("max_results"))),
         })
           .pipe(
@@ -7668,6 +7718,7 @@ function __c34(j: number): any {
           displayName: S.optional(S.String.pipe(T.Body("display_name"))),
           enabled: S.optional(S.Boolean),
           pollIntervalS: S.optional(S.Number.pipe(T.Body("poll_interval_s"))),
+          taggingEnabled: S.optional(S.Boolean.pipe(T.Body("tagging_enabled"))),
           title: S.optional(S.String),
           url: S.optional(S.String),
         })
@@ -7699,6 +7750,7 @@ function __c35(j: number): any {
           sourceType: S.String.pipe(T.Body("source_type")),
           status: S.String,
           subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+          taggingEnabled: S.Boolean.pipe(T.Body("tagging_enabled")),
           title: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
           url: S.String,
@@ -8325,6 +8377,7 @@ function __c64(j: number): any {
           displayName: S.optional(S.String.pipe(T.Body("display_name"))),
           enabled: S.optional(S.Boolean),
           pollIntervalS: S.optional(S.Number.pipe(T.Body("poll_interval_s"))),
+          taggingEnabled: S.optional(S.Boolean.pipe(T.Body("tagging_enabled"))),
           title: S.optional(S.String),
         })
           .pipe(
@@ -8848,6 +8901,7 @@ function __c85(j: number): any {
           read: S.Boolean,
           readAt: S.String.pipe(T.Body("read_at")),
           relevance: __S(1378, __c86, 2),
+          relevanceCoverage: S.String.pipe(T.Body("relevance_coverage")),
           severity: S.String,
           sourceCount: S.Number.pipe(T.Body("source_count")),
           summary: S.String,
@@ -8867,6 +8921,7 @@ function __c86(j: number): any {
         S.Struct({
           band: S.String,
           pirId: S.String.pipe(T.Body("pir_id")),
+          requirementBasis: S.String.pipe(T.Body("requirement_basis")),
         }),
       ).annotate({ identifier: "GetThreatSignalsArticleResponseRelevancePirsItem" });
     case 1:
@@ -10215,7 +10270,8 @@ function __c130(j: number): any {
           articleId: S.optional(__S(32, __c2, 0).pipe(T.Query("article_id"))),
           cursor: S.optional(S.String.pipe(T.Query())),
           feedCategory: S.optional(S.String.pipe(T.Query("feed_category"))),
-          feedId: S.optional(S.String.pipe(T.Query("feed_id"))),
+          feedCategoryId: S.optional(__S(2096, __c131, 0).pipe(T.Query("feed_category_id"))),
+          feedId: S.optional(__S(32, __c2, 0).pipe(T.Query("feed_id"))),
           fetchedAfter: S.optional(S.String.pipe(T.Query("fetched_after"))),
           fetchedBefore: S.optional(S.String.pipe(T.Query("fetched_before"))),
           includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
@@ -10258,6 +10314,7 @@ function __c130(j: number): any {
           read: S.Boolean,
           readAt: S.String.pipe(T.Body("read_at")),
           relevance: __S(1378, __c86, 2),
+          relevanceCoverage: S.String.pipe(T.Body("relevance_coverage")),
           severity: S.String,
           summary: S.String,
           tags: __S(993, __c62, 1),
@@ -10357,6 +10414,7 @@ function __c133(j: number): any {
           sourceType: S.String.pipe(T.Body("source_type")),
           status: S.String,
           subscribedAt: S.String.pipe(T.Body("subscribed_at")),
+          taggingEnabled: S.Boolean.pipe(T.Body("tagging_enabled")),
           title: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
           url: S.String,

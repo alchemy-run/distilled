@@ -207,6 +207,84 @@ export interface GetAuthorizedSenderResponse {
   /** Auto-generated username for SMTP authentication */
   username: string;
 }
+export type GetMessageRequestRegionId = "eu01" | "eu02";
+export interface GetMessageRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The STACKIT region name the resource is located in. */
+  regionId: GetMessageRequestRegionId | (string & {});
+  /** UUID of the sending domain resource */
+  sendingDomainId: string;
+  /** The message spool id of the email */
+  messageSpoolId: string;
+}
+/** Customer-facing delivery status. */
+export type MessageDetailsStatus =
+  | "Delivered"
+  | "Queued"
+  | "Soft Bounce"
+  | "Hard Bounce"
+  | "Expired"
+  | "Hard Bounce (OOB)";
+/** The logged email event details plus the resolved status. */
+export interface MessageDetails {
+  accepted_at?: string | undefined;
+  attachment: string;
+  attachment_size: number;
+  attempts: number;
+  delivered_at?: string | undefined;
+  from: string;
+  last_attempt?: string | undefined;
+  message_direction: string;
+  message_id: string;
+  message_size: number;
+  message_spool_id: string;
+  recipient: string;
+  smtp_code: number;
+  smtp_description: string;
+  /** Customer-facing delivery status. */
+  status: MessageDetailsStatus;
+  subject: string;
+  timestamp: number;
+  to: string;
+}
+/** The original email headers. */
+export type MessageHeadersMap = { [key: string]: string | undefined };
+export interface Message {
+  details: MessageDetails;
+  /** The original email headers. */
+  headers: MessageHeadersMap;
+}
+export type GetMetricsRequestRegionId = "eu01" | "eu02";
+export type MetricsTimespan = "day" | "week" | "all";
+export interface GetMetricsRequest {
+  /** The STACKIT portal project UUID the resource is located in. */
+  projectId: string;
+  /** The STACKIT region name the resource is located in. */
+  regionId: GetMetricsRequestRegionId | (string & {});
+  /** UUID of the sending domain resource */
+  sendingDomainId: string;
+  /** The time span for the metrics query. Can be combined with startTime or endTime to query relative time intervals (e.g., timespan=day with startTime queries 24h starting from startTime; timespan=week with endTime queries 7d ending at endTime). Ignored if both startTime and endTime are provided. Defaults to all time if omitted. */
+  timespan?: MetricsTimespan | (string & {}) | undefined;
+  /** The start time for a metrics timespan (RFC 3339). Must not be after endTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans forward by that duration starting from startTime. If timespan is 'all' or omitted, queries from startTime until the current time. */
+  startTime?: string | undefined;
+  /** The end time for a metrics timespan (RFC 3339). Must not be before startTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans backward by that duration ending at endTime. If timespan is 'all' or omitted, queries all history up to endTime. */
+  endTime?: string | undefined;
+}
+export interface MetricsResponse {
+  /** Number of accepted e-mails */
+  acceptedEmails: number;
+  /** Bounce rate as a percentage, or "-" if deliveredEmails is 0 */
+  bounceRatePercent: string;
+  /** Number of delivered e-mails */
+  deliveredEmails: number;
+  /** Delivery rate as a percentage, or "-" if acceptedEmails is 0 */
+  deliveryRatePercent: string;
+  /** Number of hard bounces */
+  hardBounces: number;
+  /** Number of soft bounces */
+  softBounces: number;
+}
 export type GetSendingDomainRequestRegionId = "eu01" | "eu02";
 export interface GetSendingDomainRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -290,84 +368,6 @@ export interface GetSendingDomainResponse {
   state: SendingDomainState;
   config: SendingDomainConfig;
 }
-export type GetSendingDomainMessageRequestRegionId = "eu01" | "eu02";
-export interface GetSendingDomainMessageRequest {
-  /** The STACKIT portal project UUID the resource is located in. */
-  projectId: string;
-  /** The STACKIT region name the resource is located in. */
-  regionId: GetSendingDomainMessageRequestRegionId | (string & {});
-  /** UUID of the sending domain resource */
-  sendingDomainId: string;
-  /** The message spool id of the email */
-  messageSpoolId: string;
-}
-/** Customer-facing delivery status. */
-export type SendingDomainMessageDetailsStatus =
-  | "Delivered"
-  | "Queued"
-  | "Soft Bounce"
-  | "Hard Bounce"
-  | "Expired"
-  | "Hard Bounce (OOB)";
-/** The logged email event details plus the resolved status. */
-export interface SendingDomainMessageDetails {
-  accepted_at?: string | undefined;
-  attachment: string;
-  attachment_size: number;
-  attempts: number;
-  delivered_at?: string | undefined;
-  from: string;
-  last_attempt?: string | undefined;
-  message_direction: string;
-  message_id: string;
-  message_size: number;
-  message_spool_id: string;
-  recipient: string;
-  smtp_code: number;
-  smtp_description: string;
-  /** Customer-facing delivery status. */
-  status: SendingDomainMessageDetailsStatus;
-  subject: string;
-  timestamp: number;
-  to: string;
-}
-/** The original email headers. */
-export type SendingDomainMessageHeadersMap = { [key: string]: string | undefined };
-export interface SendingDomainMessage {
-  details: SendingDomainMessageDetails;
-  /** The original email headers. */
-  headers: SendingDomainMessageHeadersMap;
-}
-export type GetSendingDomainMetricsRequestRegionId = "eu01" | "eu02";
-export type MetricsTimespan = "day" | "week" | "all";
-export interface GetSendingDomainMetricsRequest {
-  /** The STACKIT portal project UUID the resource is located in. */
-  projectId: string;
-  /** The STACKIT region name the resource is located in. */
-  regionId: GetSendingDomainMetricsRequestRegionId | (string & {});
-  /** UUID of the sending domain resource */
-  sendingDomainId: string;
-  /** The time span for the metrics query. Can be combined with startTime or endTime to query relative time intervals (e.g., timespan=day with startTime queries 24h starting from startTime; timespan=week with endTime queries 7d ending at endTime). Ignored if both startTime and endTime are provided. Defaults to all time if omitted. */
-  timespan?: MetricsTimespan | (string & {}) | undefined;
-  /** The start time for a metrics timespan (RFC 3339). Must not be after endTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans forward by that duration starting from startTime. If timespan is 'all' or omitted, queries from startTime until the current time. */
-  startTime?: string | undefined;
-  /** The end time for a metrics timespan (RFC 3339). Must not be before startTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans backward by that duration ending at endTime. If timespan is 'all' or omitted, queries all history up to endTime. */
-  endTime?: string | undefined;
-}
-export interface MetricsResponse {
-  /** Number of accepted e-mails */
-  acceptedEmails: number;
-  /** Bounce rate as a percentage, or "-" if deliveredEmails is 0 */
-  bounceRatePercent: string;
-  /** Number of delivered e-mails */
-  deliveredEmails: number;
-  /** Delivery rate as a percentage, or "-" if acceptedEmails is 0 */
-  deliveryRatePercent: string;
-  /** Number of hard bounces */
-  hardBounces: number;
-  /** Number of soft bounces */
-  softBounces: number;
-}
 export type ListAuthorizedSendersRequestRegionId = "eu01" | "eu02";
 export interface ListAuthorizedSendersRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -392,33 +392,6 @@ export type ListAuthorizedSendersResponseItemsList = Array<AuthorizedSender>;
 export interface ListAuthorizedSendersResponse {
   items: ListAuthorizedSendersResponseItemsList;
 }
-export type ListSendingDomainMessagesRequestRegionId = "eu01" | "eu02";
-export interface ListSendingDomainMessagesRequest {
-  /** The STACKIT portal project UUID the resource is located in. */
-  projectId: string;
-  /** The STACKIT region name the resource is located in. */
-  regionId: ListSendingDomainMessagesRequestRegionId | (string & {});
-  /** UUID of the sending domain resource */
-  sendingDomainId: string;
-  /** Maximum number of messages to return per page. */
-  limit?: number | undefined;
-  /** Pagination cursor from a previous response's nextCursor */
-  cursor?: string | undefined;
-  /** Filter by the state of the message (maps to event_type). */
-  state?: string | undefined;
-  /** Case-insensitive substring search for subject (minimum 3 characters). */
-  subject?: string | undefined;
-  /** Case-insensitive substring search for sender address (minimum 3 characters). */
-  sender?: string | undefined;
-  /** Case-insensitive substring search for recipient address (minimum 3 characters). */
-  recipient?: string | undefined;
-}
-export type ListMessagesResponseItemsList = Array<SendingDomainMessage>;
-export interface ListMessagesResponse {
-  items: ListMessagesResponseItemsList;
-  /** Timestamp cursor for the next page. Absent when there are no more messages. */
-  nextCursor?: string | undefined;
-}
 export type ListSendingDomainsRequestRegionId = "eu01" | "eu02";
 export interface ListSendingDomainsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -440,19 +413,6 @@ export interface SendingDomain {
 export type ListSendingDomainsResponseItemsList = Array<SendingDomain>;
 export interface ListSendingDomainsResponse {
   items: ListSendingDomainsResponseItemsList;
-}
-export type ListSuppressedRecipientsRequestRegionId = "eu01" | "eu02";
-export interface ListSuppressedRecipientsRequest {
-  /** The STACKIT portal project UUID the resource is located in. */
-  projectId: string;
-  /** The STACKIT region name the resource is located in. */
-  regionId: ListSuppressedRecipientsRequestRegionId | (string & {});
-  /** UUID of the sending domain resource */
-  sendingDomainId: string;
-}
-export type ListSuppressedRecipientsResponseItemsList = Array<Suppression>;
-export interface ListSuppressedRecipientsResponse {
-  items: ListSuppressedRecipientsResponseItemsList;
 }
 export type RemoveRecipientFromSuppressionListRequestRegionId = "eu01" | "eu02";
 export interface RemoveRecipientFromSuppressionListRequest {
@@ -490,8 +450,8 @@ export const addRecipientToSuppressionList: API.OperationMethod<
   AddRecipientToSuppressionListError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<AddRecipientToSuppressionListRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<Suppression>,
+  input: __S(128, __c8, 0) as any as S.Schema<AddRecipientToSuppressionListRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<Suppression>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -508,8 +468,8 @@ export const createAuthorizedSender: API.OperationMethod<
   CreateAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateAuthorizedSenderRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<CreateAuthorizedSenderResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateAuthorizedSenderRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<CreateAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -526,8 +486,8 @@ export const createSendingDomain: API.OperationMethod<
   CreateSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateSendingDomainRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<CreateSendingDomainResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateSendingDomainRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<CreateSendingDomainResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -544,8 +504,8 @@ export const deleteAuthorizedSender: API.OperationMethod<
   DeleteAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteAuthorizedSenderRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<DeleteAuthorizedSenderResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteAuthorizedSenderRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<DeleteAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -562,8 +522,8 @@ export const deleteSendingDomain: API.OperationMethod<
   DeleteSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteSendingDomainRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<DeleteSendingDomainResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteSendingDomainRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<DeleteSendingDomainResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -580,8 +540,8 @@ export const exportSendingDomainDNSRecords: API.OperationMethod<
   ExportSendingDomainDNSRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ExportSendingDomainDNSRecordsRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<ExportSendingDomainDNSRecordsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ExportSendingDomainDNSRecordsRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<ExportSendingDomainDNSRecordsResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -598,14 +558,50 @@ export const getAuthorizedSender: API.OperationMethod<
   GetAuthorizedSenderError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetAuthorizedSenderRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<GetAuthorizedSenderResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetAuthorizedSenderRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetAuthorizedSenderResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAuthorizedSender",
+}));
+
+export type GetMessageError = BadRequest | NotFound | StackitOpError;
+/** Get the newest event of a message */
+export const getMessage: API.OperationMethod<
+  GetMessageRequest,
+  Message,
+  GetMessageError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<GetMessageRequest>,
+  output: __S(19, __c1, 3) as any as S.Schema<Message>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessage",
+}));
+
+export type GetMetricsError = BadRequest | NotFound | StackitOpError;
+/** Retrieves aggregated email metrics for a sending domain */
+export const getMetrics: API.OperationMethod<
+  GetMetricsRequest,
+  MetricsResponse,
+  GetMetricsError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c2, 0) as any as S.Schema<GetMetricsRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<MetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type GetSendingDomainError = BadRequest | NotFound | StackitOpError;
@@ -616,50 +612,14 @@ export const getSendingDomain: API.OperationMethod<
   GetSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetSendingDomainRequest>,
-  output: __S(26, __c1, 10) as any as S.Schema<GetSendingDomainResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetSendingDomainRequest>,
+  output: __S(58, __c3, 10) as any as S.Schema<GetSendingDomainResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSendingDomain",
-}));
-
-export type GetSendingDomainMessageError = BadRequest | NotFound | StackitOpError;
-/** Get the newest event of a message */
-export const getSendingDomainMessage: API.OperationMethod<
-  GetSendingDomainMessageRequest,
-  SendingDomainMessage,
-  GetSendingDomainMessageError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetSendingDomainMessageRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<SendingDomainMessage>,
-  errors: [BadRequest, NotFound],
-  serviceErrors: StackitServiceErrors,
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSendingDomainMessage",
-}));
-
-export type GetSendingDomainMetricsError = BadRequest | NotFound | StackitOpError;
-/** Retrieves aggregated email metrics for a sending domain */
-export const getSendingDomainMetrics: API.OperationMethod<
-  GetSendingDomainMetricsRequest,
-  MetricsResponse,
-  GetSendingDomainMetricsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetSendingDomainMetricsRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<MetricsResponse>,
-  errors: [BadRequest, NotFound],
-  serviceErrors: StackitServiceErrors,
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSendingDomainMetrics",
 }));
 
 export type ListAuthorizedSendersError = BadRequest | NotFound | StackitOpError;
@@ -670,32 +630,14 @@ export const listAuthorizedSenders: API.OperationMethod<
   ListAuthorizedSendersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListAuthorizedSendersRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListAuthorizedSendersResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListAuthorizedSendersRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<ListAuthorizedSendersResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuthorizedSenders",
-}));
-
-export type ListSendingDomainMessagesError = BadRequest | NotFound | StackitOpError;
-/** List messages for a specific sending domain */
-export const listSendingDomainMessages: API.OperationMethod<
-  ListSendingDomainMessagesRequest,
-  ListMessagesResponse,
-  ListSendingDomainMessagesError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListSendingDomainMessagesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListMessagesResponse>,
-  errors: [BadRequest, NotFound],
-  serviceErrors: StackitServiceErrors,
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListSendingDomainMessages",
 }));
 
 export type ListSendingDomainsError = BadRequest | StackitOpError;
@@ -706,32 +648,14 @@ export const listSendingDomains: API.OperationMethod<
   ListSendingDomainsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListSendingDomainsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListSendingDomainsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListSendingDomainsRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<ListSendingDomainsResponse>,
   errors: [BadRequest],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSendingDomains",
-}));
-
-export type ListSuppressedRecipientsError = BadRequest | NotFound | StackitOpError;
-/** List suppressions for a specific sending domain */
-export const listSuppressedRecipients: API.OperationMethod<
-  ListSuppressedRecipientsRequest,
-  ListSuppressedRecipientsResponse,
-  ListSuppressedRecipientsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListSuppressedRecipientsRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListSuppressedRecipientsResponse>,
-  errors: [BadRequest, NotFound],
-  serviceErrors: StackitServiceErrors,
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListSuppressedRecipients",
 }));
 
 export type RemoveRecipientFromSuppressionListError = BadRequest | NotFound | StackitOpError;
@@ -742,8 +666,8 @@ export const removeRecipientFromSuppressionList: API.OperationMethod<
   RemoveRecipientFromSuppressionListError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<RemoveRecipientFromSuppressionListRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<RemoveRecipientFromSuppressionListResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<RemoveRecipientFromSuppressionListRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<RemoveRecipientFromSuppressionListResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -760,8 +684,8 @@ export const validateSendingDomain: API.OperationMethod<
   ValidateSendingDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ValidateSendingDomainRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<ValidateSendingDomainResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ValidateSendingDomainRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<ValidateSendingDomainResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
@@ -790,97 +714,6 @@ function __c1(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           sendingDomainId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1beta1/projects/{projectId}/regions/{regionId}/sending-domains/{sendingDomainId}",
-            code: 200,
-            baseUrl: "https://mailout.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetSendingDomainRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          type: S.String,
-          value: S.String,
-        }),
-      ).annotate({ identifier: "DNSRecord" });
-    case 2:
-      return S.Array(__S(17, __c1, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dkim: S.optional(__S(18, __c1, 2)),
-          dmarc: S.optional(__S(17, __c1, 1)),
-          returnPath: S.optional(__S(17, __c1, 1)),
-          spf: S.optional(__S(17, __c1, 1)),
-        }),
-      ).annotate({ identifier: "DNSRecords" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          selector: S.optional(S.String),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "DKIMValidationReport" });
-    case 5:
-      return S.Array(__S(20, __c1, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "ValidationReport" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          dkim: S.optional(__S(21, __c1, 5)),
-          dmarc: S.optional(__S(22, __c1, 6)),
-          returnPath: S.optional(__S(22, __c1, 6)),
-          spf: S.optional(__S(22, __c1, 6)),
-        }),
-      ).annotate({ identifier: "DomainValidationReport" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          lastValidationTime: S.optional(S.String),
-          status: S.optional(S.String),
-          validationReport: S.optional(__S(23, __c1, 7)),
-        }),
-      ).annotate({ identifier: "DomainValidationStatus" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          dnsRecords: S.optional(__S(19, __c1, 3)),
-          domainValidationStatus: S.optional(__S(24, __c1, 8)),
-          region: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SendingDomainConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          blockedUntil: S.optional(S.String),
-          domain: S.String,
-          id: S.String,
-          messages: S.optional(__S(240, __c15, 0)),
-          state: S.String,
-          config: __S(25, __c1, 9),
-        }),
-      ).annotate({ identifier: "GetSendingDomainResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          sendingDomainId: S.String.pipe(T.Label()),
           messageSpoolId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -890,12 +723,8 @@ function __c2(j: number): any {
             baseUrl: "https://mailout.api.{region}stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "GetSendingDomainMessageRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "GetMessageRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           accepted_at: S.optional(S.String),
@@ -917,19 +746,19 @@ function __c3(j: number): any {
           timestamp: S.Number,
           to: S.String,
         }),
-      ).annotate({ identifier: "SendingDomainMessageDetails" });
-    case 1:
-      return S.Record(S.String, S.String);
+      ).annotate({ identifier: "MessageDetails" });
     case 2:
+      return S.Record(S.String, S.String);
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          details: __S(48, __c3, 0),
-          headers: __S(49, __c3, 1),
+          details: __S(17, __c1, 1),
+          headers: __S(18, __c1, 2),
         }),
-      ).annotate({ identifier: "SendingDomainMessage" });
+      ).annotate({ identifier: "Message" });
   }
 }
-function __c4(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -948,7 +777,7 @@ function __c4(j: number): any {
             baseUrl: "https://mailout.api.{region}stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "GetSendingDomainMetricsRequest" });
+      ).annotate({ identifier: "GetMetricsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -962,7 +791,98 @@ function __c4(j: number): any {
       ).annotate({ identifier: "MetricsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          sendingDomainId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta1/projects/{projectId}/regions/{regionId}/sending-domains/{sendingDomainId}",
+            code: 200,
+            baseUrl: "https://mailout.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "GetSendingDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          type: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "DNSRecord" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dkim: S.optional(__S(50, __c3, 2)),
+          dmarc: S.optional(__S(49, __c3, 1)),
+          returnPath: S.optional(__S(49, __c3, 1)),
+          spf: S.optional(__S(49, __c3, 1)),
+        }),
+      ).annotate({ identifier: "DNSRecords" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          selector: S.optional(S.String),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "DKIMValidationReport" });
+    case 5:
+      return S.Array(__S(52, __c3, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ValidationReport" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          dkim: S.optional(__S(53, __c3, 5)),
+          dmarc: S.optional(__S(54, __c3, 6)),
+          returnPath: S.optional(__S(54, __c3, 6)),
+          spf: S.optional(__S(54, __c3, 6)),
+        }),
+      ).annotate({ identifier: "DomainValidationReport" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          lastValidationTime: S.optional(S.String),
+          status: S.optional(S.String),
+          validationReport: S.optional(__S(55, __c3, 7)),
+        }),
+      ).annotate({ identifier: "DomainValidationStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          dnsRecords: S.optional(__S(51, __c3, 3)),
+          domainValidationStatus: S.optional(__S(56, __c3, 8)),
+          region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SendingDomainConfig" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          blockedUntil: S.optional(S.String),
+          domain: S.String,
+          id: S.String,
+          messages: S.optional(__S(176, __c11, 0)),
+          state: S.String,
+          config: __S(57, __c3, 9),
+        }),
+      ).annotate({ identifier: "GetSendingDomainResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -980,50 +900,16 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizedSendersRequest" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(81, __c5, 1),
+          items: __S(65, __c4, 1),
         }),
       ).annotate({ identifier: "ListAuthorizedSendersResponse" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          sendingDomainId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-          subject: S.optional(S.String.pipe(T.Query())),
-          sender: S.optional(S.String.pipe(T.Query())),
-          recipient: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1beta1/projects/{projectId}/regions/{regionId}/sending-domains/{sendingDomainId}/messages",
-            code: 200,
-            baseUrl: "https://mailout.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSendingDomainMessagesRequest" });
-    case 1:
-      return S.Array(__S(50, __c3, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(97, __c6, 1),
-          nextCursor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListMessagesResponse" });
-  }
-}
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1040,43 +926,16 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListSendingDomainsRequest" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(113, __c7, 1),
-        }),
-      ).annotate({ identifier: "ListSendingDomainsResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          sendingDomainId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1beta1/projects/{projectId}/regions/{regionId}/sending-domains/{sendingDomainId}/suppressions",
-            code: 200,
-            baseUrl: "https://mailout.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSuppressedRecipientsRequest" });
-    case 1:
       return S.Array(__S(192, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(129, __c8, 1),
+          items: __S(81, __c5, 1),
         }),
-      ).annotate({ identifier: "ListSuppressedRecipientsResponse" });
+      ).annotate({ identifier: "ListSendingDomainsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1096,7 +955,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RemoveRecipientFromSuppressionListRequest" });
   }
 }
-function __c10(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1115,7 +974,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ValidateSendingDomainRequest" });
   }
 }
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1133,11 +992,7 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AddRecipientToSuppressionListRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           addedAt: S.String,
@@ -1150,7 +1005,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "Suppression" });
   }
 }
-function __c13(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1181,7 +1036,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateAuthorizedSenderResponse" });
   }
 }
-function __c14(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1200,13 +1055,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateSendingDomainRequest" });
   }
 }
-function __c15(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c16(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1214,13 +1069,13 @@ function __c16(j: number): any {
           blockedUntil: S.optional(S.String),
           domain: S.String,
           id: S.String,
-          messages: S.optional(__S(240, __c15, 0)),
+          messages: S.optional(__S(176, __c11, 0)),
           state: S.String,
         }),
       ).annotate({ identifier: "CreateSendingDomainResponse" });
   }
 }
-function __c17(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1240,7 +1095,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizedSenderRequest" });
   }
 }
-function __c18(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1248,7 +1103,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1267,7 +1122,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteSendingDomainRequest" });
   }
 }
-function __c20(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1291,7 +1146,7 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1311,7 +1166,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetAuthorizedSenderRequest" });
   }
 }
-function __c22(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -229,6 +229,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */

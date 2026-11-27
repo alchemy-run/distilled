@@ -130,8 +130,7 @@ export interface GetSqlJobStatusRequest {
   /** SQL query scheduled job */
   sqlJobId: string;
 }
-/** SQL job status (read only) */
-export type SqlJobStatusStatus = "Scheduled" | "Queued" | "InProgress" | "Completed" | "Failed";
+export type JobStatus = "Scheduled" | "Queued" | "InProgress" | "Completed" | "Failed";
 /** IDs of SQL queries. (read only) */
 export type SqlJobStatusQueryIdsList = Array<string>;
 /** Current status of a SQL query job (read only) */
@@ -139,7 +138,7 @@ export interface SqlJobStatus {
   /** ID of a SQL job (read only) */
   sqlJobId: string;
   /** SQL job status (read only) */
-  status: SqlJobStatusStatus;
+  status: JobStatus;
   /** Status last update time (read only) */
   updatedAt: string;
   /** Percentage progress of SQL job execution (read only) */
@@ -153,8 +152,6 @@ export interface ListSqlJobHistoryRequest {
   /** SQL query scheduled job */
   sqlJobId: string;
 }
-/** SQL job status (read only) */
-export type SqlJobHistoryStatus = "Scheduled" | "Queued" | "InProgress" | "Completed" | "Failed";
 /** IDs of SQL queries that were run. (read only) */
 export type SqlJobHistoryQueryIdsList = Array<string>;
 /** SQL queries that were run. (read only) */
@@ -162,7 +159,7 @@ export type SqlJobHistoryQueriesList = Array<string>;
 /** History of a SQL query job (read only) */
 export interface SqlJobHistory {
   /** SQL job status (read only) */
-  status: SqlJobHistoryStatus;
+  status: JobStatus;
   /** SQL job start time (read only) */
   startedAt?: string | undefined;
   /** SQL job last update time (read only) */

@@ -9329,7 +9329,7 @@ export type CreateBusinessAccountError =
   | Conflict
   | UnprocessableEntity
   | MollieOpError;
-/** Create business account > U+1F512 Restricted access > > This API is currently only available to Mollie's authorized partners via OAuth. Direct access for individual businesses isn't available yet, but it's on our roadmap -- check back here for updates. Create a new business account for the authenticated organization. The response contains the newly created business account. Each organization can have up to 5 active business accounts. Need more? [Contact us](https://www.mollie.com/contact) and we'll help you out. */
+/** Create business account > U+1F6A7 Beta feature > > This feature is currently in beta testing, and the final specification may still change. > U+1F510 **Request signing required** > > Signature enforcement is mandatory for Direct Customer API users for `live` mode requests. > > Sign every request with the `X-Client-Signature` and `X-Client-Signed-At` headers. > > [Learn how to sign requests](https://docs.mollie.com/reference/request-signing) Create a new business account for the authenticated organization. The response contains the newly created business account. Each organization can have up to 5 active business accounts. Need more? [Contact us](https://www.mollie.com/contact) and we'll help you out. */
 export const createBusinessAccount: API.OperationMethod<
   CreateBusinessAccountRequest,
   CreateBusinessAccountResponse,
@@ -9887,7 +9887,7 @@ export const getBalanceReport: API.OperationMethod<
 }));
 
 export type GetBusinessAccountError = NotFound | MollieOpError;
-/** Get business account > U+1F512 Restricted access > > This API is currently only available to Mollie's authorized partners via OAuth. Direct access for individual businesses isn't available yet, but it's on our roadmap -- check back here for updates. Retrieve a single business account object by its account ID. This allows you to check the current status, balance, and account details. */
+/** Get business account > U+1F510 **Request signing required** > > Signature enforcement is mandatory for Direct Customer API users for `live` mode requests. > > Sign every request with the `X-Client-Signature` and `X-Client-Signed-At` headers. > > [Learn how to sign requests](https://docs.mollie.com/reference/request-signing) Retrieve a single business account object by its account ID. This allows you to check the current status, balance, and account details. */
 export const getBusinessAccount: API.OperationMethod<
   GetBusinessAccountRequest,
   GetBusinessAccountResponse,
@@ -9905,7 +9905,7 @@ export const getBusinessAccount: API.OperationMethod<
 }));
 
 export type GetBusinessAccountTransactionError = NotFound | MollieOpError;
-/** Get transaction > U+1F512 Restricted access > > This API is currently only available to Mollie's authorized partners via OAuth. Direct access for individual businesses isn't available yet, but it's on our roadmap -- check back here for updates. Retrieve a single transaction object by its transaction ID. This allows you to check the details, amount, counterparty, and balance impact of a specific transaction. */
+/** Get transaction > U+1F510 **Request signing required** > > Signature enforcement is mandatory for Direct Customer API users for `live` mode requests. > > Sign every request with the `X-Client-Signature` and `X-Client-Signed-At` headers. > > [Learn how to sign requests](https://docs.mollie.com/reference/request-signing) Retrieve a single transaction object by its transaction ID. This allows you to check the details, amount, counterparty, and balance impact of a specific transaction. */
 export const getBusinessAccountTransaction: API.OperationMethod<
   GetBusinessAccountTransactionRequest,
   GetBusinessAccountTransactionResponse,
@@ -10716,7 +10716,7 @@ export const listBalanceTransactions: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListBusinessAccountsError = BadRequest | MollieOpError;
-/** List business accounts > U+1F512 Restricted access > > This API is currently only available to Mollie's authorized partners via OAuth. Direct access for individual businesses isn't available yet, but it's on our roadmap -- check back here for updates. Retrieve all business accounts for the authenticated organization. The results are paginated. */
+/** List business accounts > U+1F510 **Request signing required** > > Signature enforcement is mandatory for Direct Customer API users for `live` mode requests. > > Sign every request with the `X-Client-Signature` and `X-Client-Signed-At` headers. > > [Learn how to sign requests](https://docs.mollie.com/reference/request-signing) Retrieve all business accounts for the authenticated organization. The results are paginated. */
 export const listBusinessAccounts: API.OperationMethod<
   ListBusinessAccountsRequest,
   ListBusinessAccountsResponse,
@@ -10734,7 +10734,7 @@ export const listBusinessAccounts: API.OperationMethod<
 }));
 
 export type ListBusinessAccountTransactionsError = BadRequest | MollieOpError;
-/** List transactions > U+1F512 Restricted access > > This API is currently only available to Mollie's authorized partners via OAuth. Direct access for individual businesses isn't available yet, but it's on our roadmap -- check back here for updates. Retrieve all transactions for a specific business account. The results are paginated. */
+/** List transactions > U+1F510 **Request signing required** > > Signature enforcement is mandatory for Direct Customer API users for `live` mode requests. > > Sign every request with the `X-Client-Signature` and `X-Client-Signed-At` headers. > > [Learn how to sign requests](https://docs.mollie.com/reference/request-signing) Retrieve all transactions for a specific business account. The results are paginated. */
 export const listBusinessAccountTransactions: API.OperationMethod<
   ListBusinessAccountTransactionsRequest,
   ListBusinessAccountTransactionsResponse,

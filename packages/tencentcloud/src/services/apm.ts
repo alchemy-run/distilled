@@ -55,6 +55,7 @@ export interface CreateApmPrometheusRuleRequest {
   MetricNameRule: string;
   InstanceId: string;
   AppendResourceAttributes?: boolean | undefined;
+  AssociationId?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -384,6 +385,7 @@ export interface DescribeApmInstancesResponse {
 }
 export interface DescribeApmPrometheusRuleRequest {
   InstanceId: string;
+  AssociationId?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -395,6 +397,7 @@ export interface ApmPrometheusRules {
   MetricNameRule?: string | null | undefined;
   MetricMatchType?: number | null | undefined;
   AppendResourceAttributes?: boolean | undefined;
+  AssociationId?: number | null | undefined;
 }
 export type ApmPrometheusRulesList = Array<ApmPrometheusRules>;
 export interface DescribeApmPrometheusRuleResponse {
@@ -438,8 +441,6 @@ export interface DescribeApmServiceMetricRequest {
 export interface ServiceDetail {
   ServiceID?: string | null | undefined;
   InstanceKey?: string | null | undefined;
-  AppID?: number | null | undefined;
-  CreateUIN?: string | null | undefined;
   ServiceName?: string | null | undefined;
   ServiceDescription?: string | null | undefined;
   Region?: string | null | undefined;
@@ -448,6 +449,8 @@ export interface ServiceDetail {
   EnableThresholdConfig?: boolean | null | undefined;
   ErrRateThreshold?: number | null | undefined;
   ResponseDurationWarningThreshold?: number | null | undefined;
+  AppId?: string | undefined;
+  CreateUin?: string | undefined;
 }
 export interface ApmServiceMetric {
   Fields?: ApmFieldList | null | undefined;
@@ -565,8 +568,6 @@ export interface ApmApplicationConfigView {
   IsTemplateEngineInjectionAnalysis?: number | undefined;
   IsScriptEngineInjectionAnalysis?: number | undefined;
   IsExpressionInjectionAnalysis?: number | undefined;
-  IsJndiInjectionAnalysis?: number | undefined;
-  IsJniInjectionAnalysis?: number | undefined;
   IsWebshellBackdoorAnalysis?: number | undefined;
   IsDeserializationAnalysis?: number | undefined;
   EnableDashboardConfig?: boolean | undefined;
@@ -583,6 +584,8 @@ export interface ApmApplicationConfigView {
   ErrRateThreshold?: number | undefined;
   ResponseDurationWarningThreshold?: number | undefined;
   UseDefaultFuseConfig?: boolean | undefined;
+  IsJNDIInjectionAnalysis?: string | undefined;
+  IsJNIInjectionAnalysis?: string | undefined;
 }
 export interface DescribeGeneralApmApplicationConfigResponse {
   ApmApplicationConfigView?: ApmApplicationConfigView | undefined;
@@ -785,14 +788,8 @@ export interface Series {
   Name?: string | null | undefined;
 }
 export type SeriesList = Array<Series>;
-export interface YAxis {
-  Keys?: StringList | undefined;
-  Data?: StringList | undefined;
-}
-export type YAxisList = Array<YAxis>;
 export interface ChartData {
   Series?: SeriesList | undefined;
-  YAxis?: YAxisList | undefined;
 }
 export interface ErrorSpan {
   SpanID?: string | undefined;
@@ -885,7 +882,7 @@ export interface TkeMeta {
 export type TkeMetaList = Array<TkeMeta>;
 export interface CVMMeta {
   Region?: string | null | undefined;
-  InstanceID?: string | null | undefined;
+  InstanceId?: string | null | undefined;
 }
 export type CVMMetaList = Array<CVMMeta>;
 export interface Resource {
@@ -913,9 +910,9 @@ export interface TopologyNode {
   ConsumerDuration?: number | undefined;
   ConsumerErrRate?: number | undefined;
   ConsumerQps?: number | undefined;
-  ServiceId?: string | undefined;
   ReqCnt?: number | undefined;
   ConsumerReqCnt?: number | undefined;
+  ServiceID?: string | undefined;
 }
 export type TopologyNodeList = Array<TopologyNode>;
 export interface TopologyEdgeNew {
@@ -1119,6 +1116,7 @@ export interface ModifyApmPrometheusRuleRequest {
   MetricMatchType?: number | undefined;
   MetricNameRule?: string | undefined;
   AppendResourceAttributes?: boolean | undefined;
+  AssociationId?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1593,7 +1591,7 @@ export const describeSpanTreeByID: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DescribeSpanTreeByIDRequest>,
-  output: __S(748, __c23, 12) as any as S.Schema<DescribeSpanTreeByIDResponse>,
+  output: __S(746, __c23, 10) as any as S.Schema<DescribeSpanTreeByIDResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -1841,6 +1839,7 @@ function __c3(j: number): any {
           MetricNameRule: S.String,
           InstanceId: S.String,
           AppendResourceAttributes: S.optional(S.Boolean),
+          AssociationId: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apm", version: "2021-06-22", action: "CreateApmPrometheusRule" }),
@@ -1861,6 +1860,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
+          AssociationId: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apm", version: "2021-06-22", action: "DescribeApmPrometheusRule" }),
@@ -1876,6 +1876,7 @@ function __c4(j: number): any {
           MetricNameRule: S.optional(S.NullOr(S.String)),
           MetricMatchType: S.optional(S.NullOr(S.Number)),
           AppendResourceAttributes: S.optional(S.Boolean),
+          AssociationId: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ApmPrometheusRules" });
     case 2:
@@ -1939,8 +1940,6 @@ function __c6(j: number): any {
         S.Struct({
           ServiceID: S.optional(S.NullOr(S.String)),
           InstanceKey: S.optional(S.NullOr(S.String)),
-          AppID: S.optional(S.NullOr(S.Number)),
-          CreateUIN: S.optional(S.NullOr(S.String)),
           ServiceName: S.optional(S.NullOr(S.String)),
           ServiceDescription: S.optional(S.NullOr(S.String)),
           Region: S.optional(S.NullOr(S.String)),
@@ -1949,6 +1948,8 @@ function __c6(j: number): any {
           EnableThresholdConfig: S.optional(S.NullOr(S.Boolean)),
           ErrRateThreshold: S.optional(S.NullOr(S.Number)),
           ResponseDurationWarningThreshold: S.optional(S.NullOr(S.Number)),
+          AppId: S.optional(S.String),
+          CreateUin: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceDetail" });
     case 2:
@@ -2149,8 +2150,6 @@ function __c12(j: number): any {
           IsTemplateEngineInjectionAnalysis: S.optional(S.Number),
           IsScriptEngineInjectionAnalysis: S.optional(S.Number),
           IsExpressionInjectionAnalysis: S.optional(S.Number),
-          IsJndiInjectionAnalysis: S.optional(S.Number),
-          IsJniInjectionAnalysis: S.optional(S.Number),
           IsWebshellBackdoorAnalysis: S.optional(S.Number),
           IsDeserializationAnalysis: S.optional(S.Number),
           EnableDashboardConfig: S.optional(S.Boolean),
@@ -2167,6 +2166,8 @@ function __c12(j: number): any {
           ErrRateThreshold: S.optional(S.Number),
           ResponseDurationWarningThreshold: S.optional(S.Number),
           UseDefaultFuseConfig: S.optional(S.Boolean),
+          IsJNDIInjectionAnalysis: S.optional(S.String),
+          IsJNIInjectionAnalysis: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApmApplicationConfigView" });
     case 2:
@@ -2533,29 +2534,19 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Keys: S.optional(__S(1472, __c46, 0)),
-          Data: S.optional(__S(1472, __c46, 0)),
-        }),
-      ).annotate({ identifier: "YAxis" });
-    case 4:
-      return S.Array(__S(739, __c23, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           Series: S.optional(__S(738, __c23, 2)),
-          YAxis: S.optional(__S(740, __c23, 4)),
         }),
       ).annotate({ identifier: "ChartData" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           SpanID: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorSpan" });
-    case 7:
-      return S.Array(__S(742, __c23, 6));
-    case 8:
+    case 5:
+      return S.Array(__S(740, __c23, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.NullOr(S.Number)),
@@ -2566,35 +2557,35 @@ function __c23(j: number): any {
           Operation: S.optional(S.String),
           StartTime: S.optional(S.Number),
           ApplicationCount: S.optional(S.Number),
-          ErrorSpans: S.optional(S.NullOr(__S(743, __c23, 7))),
+          ErrorSpans: S.optional(S.NullOr(__S(741, __c23, 5))),
         }),
       ).annotate({ identifier: "TraceOverview" });
-    case 9:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
           Values: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "TagValues" });
-    case 10:
-      return S.Array(__S(745, __c23, 9));
-    case 11:
+    case 8:
+      return S.Array(__S(743, __c23, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           TreeData: S.optional(S.String),
-          ChartData: S.optional(__S(741, __c23, 5)),
-          TraceOverview: S.optional(__S(744, __c23, 8)),
+          ChartData: S.optional(__S(739, __c23, 3)),
+          TraceOverview: S.optional(__S(742, __c23, 6)),
           CompressedTreeData: S.optional(S.String),
           CntExceeded: S.optional(S.Boolean),
           QueryTimeout: S.optional(S.Boolean),
           SpanTotalCnt: S.optional(S.Number),
-          FilterViewTagValues: S.optional(__S(746, __c23, 10)),
+          FilterViewTagValues: S.optional(__S(744, __c23, 8)),
         }),
       ).annotate({ identifier: "SpanTreeView" });
-    case 12:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          SpanTreeView: S.optional(__S(747, __c23, 11)),
+          SpanTreeView: S.optional(__S(745, __c23, 9)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSpanTreeByIDResponse" });
@@ -2681,7 +2672,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Region: S.optional(S.NullOr(S.String)),
-          InstanceID: S.optional(S.NullOr(S.String)),
+          InstanceId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CVMMeta" });
     case 6:
@@ -2716,9 +2707,9 @@ function __c25(j: number): any {
           ConsumerDuration: S.optional(S.Number),
           ConsumerErrRate: S.optional(S.Number),
           ConsumerQps: S.optional(S.Number),
-          ServiceId: S.optional(S.String),
           ReqCnt: S.optional(S.Number),
           ConsumerReqCnt: S.optional(S.Number),
+          ServiceID: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopologyNode" });
     case 9:
@@ -2987,6 +2978,7 @@ function __c30(j: number): any {
           MetricMatchType: S.optional(S.Number),
           MetricNameRule: S.optional(S.String),
           AppendResourceAttributes: S.optional(S.Boolean),
+          AssociationId: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "apm", version: "2021-06-22", action: "ModifyApmPrometheusRule" }),

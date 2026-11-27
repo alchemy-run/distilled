@@ -55,7 +55,7 @@ export interface CreateJwtProviderRequest {
   issuer: string;
   /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
   audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
+  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one supported signing key: RS256 (RSA), or on ClickHouse 26.8 and later also ES256, ES384 or ES512 (EC); it is fetched and validated when the provider is created or updated. */
   jwksUrl: string;
   /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). Omit to configure no roles claim. */
   rolesClaim?: string | undefined;
@@ -67,7 +67,7 @@ export interface JwtProvider {
   issuer: string;
   /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
   audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
+  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one supported signing key: RS256 (RSA), or on ClickHouse 26.8 and later also ES256, ES384 or ES512 (EC); it is fetched and validated when the provider is created or updated. */
   jwksUrl: string;
   /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). Absent when no roles claim is configured. */
   rolesClaim?: string | undefined;
@@ -94,11 +94,18 @@ export interface DeleteServiceClickHouseSettingRequest {
   /** Name of the setting to reset. */
   settingName: string;
 }
-export interface DeleteServiceClickHouseSettingResponse {
-  /** HTTP status code. */
-  status?: number | undefined;
-  /** Unique id assigned to every request. UUIDv4 */
-  requestId?: string | undefined;
+export interface ServiceClickhouseSettingWarning {
+  /** Name of the setting the warning applies to. */
+  name?: string | undefined;
+  /** Warning message. */
+  message?: string | undefined;
+}
+/** Warnings about how the reset takes effect, such as a ClickHouse server rollout restart. Omitted when the setting was not configured. */
+export type ServiceClickhouseSettingDeleteResponseWarningsList =
+  Array<ServiceClickhouseSettingWarning>;
+export interface ServiceClickhouseSettingDeleteResponse {
+  /** Warnings about how the reset takes effect, such as a ClickHouse server rollout restart. Omitted when the setting was not configured. */
+  warnings?: ServiceClickhouseSettingDeleteResponseWarningsList | undefined;
 }
 export interface GetJwtProviderRequest {
   /** ID of the organization that owns the service. */
@@ -152,7 +159,7 @@ export interface ServiceClickhouseSettingSchemaEntry {
   description?: string | undefined;
   /** List of allowed values, if the setting is an enum. */
   enum?: ServiceClickhouseSettingSchemaEntryEnumList | undefined;
-  /** Warning message about potential disruptive effects of changing this setting. */
+  /** Warning message about potential disruptive effects of changing or resetting this setting. */
   warning?: string | undefined;
   /** Deprecation notice, if applicable. */
   deprecationNotice?: string | undefined;
@@ -197,7 +204,7 @@ export interface UpdateJwtProviderRequest {
   issuer: string;
   /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
   audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
+  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one supported signing key: RS256 (RSA), or on ClickHouse 26.8 and later also ES256, ES384 or ES512 (EC); it is fetched and validated when the provider is created or updated. */
   jwksUrl: string;
   /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). The request replaces the whole provider configuration, so omitting this field removes an existing roles claim. */
   rolesClaim?: string | undefined;
@@ -223,12 +230,6 @@ export interface UpdateServiceClickHouseSettingsRequest {
   serviceId: string;
   settings: ServiceClickhouseSettingsMap;
 }
-export interface ServiceClickhouseSettingWarning {
-  /** Name of the setting the warning applies to. */
-  name?: string | undefined;
-  /** Warning message. */
-  message?: string | undefined;
-}
 /** Warnings for settings that may have disruptive effects. */
 export type ServiceClickhouseSettingsPatchResponseWarningsList =
   Array<ServiceClickhouseSettingWarning>;
@@ -238,7 +239,7 @@ export interface ServiceClickhouseSettingsPatchResponse {
   warnings?: ServiceClickhouseSettingsPatchResponseWarningsList | undefined;
 }
 export type CreateJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Create service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Adds a JWT authentication provider to the service. Users can then connect to the service with a JWT issued by the provider; they are signed in as the `default` user and receive the roles listed in the roles claim. The JWKS URL is fetched and validated before the provider is saved. If the service already has a provider with this name and the same configuration, the request succeeds without changing it, so it is safe to retry. Errors: - 400: invalid field values, the JWKS URL is unreachable or does not return a valid RS256 key set, or the service already has 5 providers. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist or is not visible to the caller. - 409: the service already has a provider with this name and a different configuration. */
+/** Create service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Adds a JWT authentication provider to the service. Users can then connect to the service with a JWT issued by the provider; they are signed in as the `default` user and receive the roles listed in the roles claim. The JWKS URL is fetched and validated before the provider is saved. If the service already has a provider with this name and the same configuration, the request succeeds without changing it, so it is safe to retry. Errors: - 400: invalid field values, the JWKS URL is unreachable or does not return a key set with a supported signing key, or the service already has 5 providers. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist or is not visible to the caller. - 409: the service already has a provider with this name and a different configuration. */
 export const createJwtProvider: API.OperationMethod<
   CreateJwtProviderRequest,
   JwtProvider,
@@ -264,7 +265,7 @@ export const deleteJwtProvider: API.OperationMethod<
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteJwtProviderRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteJwtProviderResponse>,
+  output: __S(41, __c5, 1) as any as S.Schema<DeleteJwtProviderResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -274,15 +275,15 @@ export const deleteJwtProvider: API.OperationMethod<
 }));
 
 export type DeleteServiceClickHouseSettingError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Reset ClickHouse setting to default **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Removes a previously-configured ClickHouse setting, reverting its effective value to the platform default. Settings under `spec.extraConfig.server.*` (e.g. `keep_alive_timeout`, `shared_merge_tree_disable_merges_and_mutations_assignment`) trigger a ClickHouse server rollout restart; other settings propagate to all replicas after a short delay. Deleting a setting that was never configured is a no-op (200 OK). */
+/** Reset ClickHouse setting to default **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Removes a previously-configured ClickHouse setting, reverting its effective value to the platform default. The reset is applied before this endpoint responds, so the response `warnings` describe what happens next and cannot prevent it. To find out beforehand, check the setting's `warning` field in the [schema endpoint](#tag/Service/operation/serviceClickhouseSettingsSchemaGet) (`GET /v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings/schema`, one entry per setting in `settings`). It says whether changing or resetting the setting triggers a ClickHouse server rollout restart (e.g. `compatibility`, `keep_alive_timeout`, `mark_cache_ram_ratio`) or takes effect after a short delay. When the setting was configured, the response `warnings` repeat that same message. Deleting a setting that was never configured is a no-op (200 OK) and returns no warnings. */
 export const deleteServiceClickHouseSetting: API.OperationMethod<
   DeleteServiceClickHouseSettingRequest,
-  DeleteServiceClickHouseSettingResponse,
+  ServiceClickhouseSettingDeleteResponse,
   DeleteServiceClickHouseSettingError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteServiceClickHouseSettingRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteServiceClickHouseSettingResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteServiceClickHouseSettingRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<ServiceClickhouseSettingDeleteResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -400,7 +401,7 @@ export const listServiceClickHouseSettings: API.OperationMethod<
 }));
 
 export type UpdateJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Update service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Replaces the configuration of a JWT authentication provider. The JWKS URL is fetched and validated before the change is saved. Errors: - 400: invalid provider name or field values, or the JWKS URL is unreachable or does not return a valid RS256 key set. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist, is not visible to the caller, or has no provider with this name. */
+/** Update service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Replaces the configuration of a JWT authentication provider. The JWKS URL is fetched and validated before the change is saved. Errors: - 400: invalid provider name or field values, or the JWKS URL is unreachable or does not return a key set with a supported signing key. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist, is not visible to the caller, or has no provider with this name. */
 export const updateJwtProvider: API.OperationMethod<
   UpdateJwtProviderRequest,
   JwtProvider,
@@ -444,7 +445,7 @@ export const updateServiceClickHouseSettings: API.OperationMethod<
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c4, 1) as any as S.Schema<UpdateServiceClickHouseSettingsRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<ServiceClickhouseSettingsPatchResponse>,
+  output: __S(34, __c4, 2) as any as S.Schema<ServiceClickhouseSettingsPatchResponse>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -552,17 +553,8 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingWarning" });
-    case 3:
-      return S.Array(__S(34, __c4, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           settings: S.optional(__S(32, __c4, 0)),
-          warnings: S.optional(__S(35, __c4, 3)),
+          warnings: S.optional(__S(57, __c7, 1)),
         }),
       ).annotate({ identifier: "ServiceClickhouseSettingsPatchResponse" });
   }
@@ -583,11 +575,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteJwtProviderRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.Number),
@@ -596,7 +584,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteJwtProviderResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -612,6 +600,25 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteServiceClickHouseSettingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          warnings: S.optional(__S(57, __c7, 1)),
+        }),
+      ).annotate({ identifier: "ServiceClickhouseSettingDeleteResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceClickhouseSettingWarning" });
+    case 1:
+      return S.Array(__S(56, __c7, 0));
   }
 }
 function __c8(j: number): any {

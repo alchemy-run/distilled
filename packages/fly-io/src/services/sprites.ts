@@ -512,6 +512,8 @@ export interface UsageBucket {
   cpu_time_sec: number;
   /** Exclusive bucket end in UTC. The final bucket may be shorter. */
   end: string;
+  /** Resident bytes of the Sprite's own FlyFS segments multiplied by observed running seconds. */
+  hot_storage_byte_sec: number;
   /** Latest observation in the bucket, or null if none exists. */
   last_recorded_at: string | null;
   /** Reserved memory usage in byte-seconds: max_ram_gb while running, or for a Sprite running with dynamic memory the memory its host measures it holding. */
@@ -520,6 +522,22 @@ export interface UsageBucket {
   sprite_ref?: string | undefined;
   /** Inclusive bucket start in UTC. */
   start: string;
+  /** Estimated retained bytes multiplied by seconds. Each Sprite contributes its own committed FlyFS objects and stored hibernation image. Cluster and organization totals sum their Sprites. */
+  storage_byte_sec: number;
+  /** Metered S3 DELETE and multi-object delete requests. A batch counts once. */
+  storage_delete_requests: number;
+  /** Response payload bytes returned by the storage gateway, including ranged reads. */
+  storage_egress_bytes: number;
+  /** Request payload bytes sent through the storage gateway, excluding HTTP and checksum framing. */
+  storage_ingress_bytes: number;
+  /** Metered S3 GET and HEAD requests in the bucket. */
+  storage_read_requests: number;
+  /** Observed outbound S3 attempts attributed to this owner, including errors and retries. */
+  storage_request_attempts: number;
+  /** Metered S3 PUT, COPY and LIST requests in the bucket. */
+  storage_write_requests: number;
+  /** Stored hibernation image byte-seconds for this Sprite or the sum across the selected cluster or organization. FlyFS images already contribute to storage_byte_sec. Null when observations do not cover the entire bucket. */
+  suspend_storage_byte_sec: number | null;
 }
 /** Available usage ordered by start time and sprite. Missing records contribute zero to these sums. Check partial before treating them as complete totals. */
 export type UsageResponseUsageList = Array<UsageBucket>;
@@ -529,7 +547,7 @@ export interface UsageResponse {
   end: string;
   /** Resolved bucket duration, or null when interval is omitted. */
   interval: string | null;
-  /** True when missing minute records were detected. Returned totals include available records only and may understate usage. False means no gaps were detected, not proof of complete collection. */
+  /** True when a retained-storage estimate is incomplete or historical minute records are missing. Totals include the available measurements. The optional suspend storage breakdown reports its own coverage with a null value. */
   partial: boolean;
   /** Inclusive start in UTC. */
   start: string;
@@ -2340,10 +2358,19 @@ function __c22(j: number): any {
         S.Struct({
           cpu_time_sec: S.Number,
           end: S.String,
+          hot_storage_byte_sec: S.Number,
           last_recorded_at: S.NullOr(S.String),
           reserved_memory_byte_sec: S.Number,
           sprite_ref: S.optional(S.String),
           start: S.String,
+          storage_byte_sec: S.Number,
+          storage_delete_requests: S.Number,
+          storage_egress_bytes: S.Number,
+          storage_ingress_bytes: S.Number,
+          storage_read_requests: S.Number,
+          storage_request_attempts: S.Number,
+          storage_write_requests: S.Number,
+          suspend_storage_byte_sec: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "UsageBucket" });
     case 1:

@@ -106,44 +106,44 @@ export type PkixPublicKeySignatureAlgorithmEnum =
   | "ML_DSA_65";
 /** A public key in the PkixPublicKey format (see https://tools.ietf.org/html/rfc5280#section-4.1.2.7 for details). Public keys of this type are typically textually encoded using the PEM format. */
 export interface PkixPublicKey {
-  /** A PEM-encoded public key, as described in https://tools.ietf.org/html/rfc7468#section-13 */
-  publicKeyPem?: string | undefined;
   /** The signature algorithm used to verify a message against a signature using this key. These signature algorithm must match the structure and any object identifiers encoded in `public_key_pem` (i.e. this algorithm must match that of the public key). */
   signatureAlgorithm?: PkixPublicKeySignatureAlgorithmEnum | (string & {}) | undefined;
+  /** A PEM-encoded public key, as described in https://tools.ietf.org/html/rfc7468#section-13 */
+  publicKeyPem?: string | undefined;
 }
 /** An attestor public key that will be used to verify attestations signed by this attestor. */
 export interface AttestorPublicKey {
   /** ASCII-armored representation of a PGP public key, as the entire output by the command `gpg --export --armor foo@example.com` (either LF or CRLF line endings). When using this field, `id` should be left blank. The BinAuthz API handlers will calculate the ID and fill it in automatically. BinAuthz computes this ID as the OpenPGP RFC4880 V4 fingerprint, represented as upper-case hex. If `id` is provided by the caller, it will be overwritten by the API-calculated ID. */
   asciiArmoredPgpPublicKey?: string | undefined;
+  /** Optional. A descriptive comment. This field may be updated. */
+  comment?: string | undefined;
   /** A raw PKIX SubjectPublicKeyInfo format public key. NOTE: `id` may be explicitly provided by the caller when using this type of public key, but it MUST be a valid RFC3986 URI. If `id` is left blank, a default one will be computed based on the digest of the DER encoding of the public key. */
   pkixPublicKey?: PkixPublicKey | undefined;
   /** The ID of this public key. Signatures verified by BinAuthz must include the ID of the public key that can be used to verify them, and that ID must match the contents of this field exactly. Additional restrictions on this field can be imposed based on which public key type is encapsulated. See the documentation on `public_key` cases below for details. */
   id?: string | undefined;
-  /** Optional. A descriptive comment. This field may be updated. */
-  comment?: string | undefined;
 }
 export type AttestorPublicKeyList = Array<AttestorPublicKey>;
 /** An user owned drydock note references a Drydock ATTESTATION_AUTHORITY Note created by the user. */
 export interface UserOwnedDrydockNote {
   /** Required. The Drydock resource name of a ATTESTATION_AUTHORITY Note, created by the user, in the format: `projects/*\/notes/*` (or the legacy `providers/*\/notes/*`). This field may not be updated. An attestation by this attestor is stored as a Drydock ATTESTATION_AUTHORITY Occurrence that names a container image and that links to this Note. Drydock is an external dependency. */
   noteReference?: string | undefined;
-  /** Optional. Public keys that verify attestations signed by this attestor. This field may be updated. If this field is non-empty, one of the specified public keys must verify that an attestation was signed by this attestor for the image specified in the admission request. If this field is empty, this attestor always returns that no valid attestations exist. */
-  publicKeys?: AttestorPublicKeyList | undefined;
   /** Output only. This field will contain the service account email address that this Attestor will use as the principal when querying Container Analysis. Attestor administrators must grant this service account the IAM role needed to read attestations from the note_reference in Container Analysis (`containeranalysis.notes.occurrences.viewer`). This email address is fixed for the lifetime of the Attestor, but callers should not make any other assumptions about the service account email; future versions may use an email based on a different naming pattern. */
   delegationServiceAccountEmail?: string | undefined;
+  /** Optional. Public keys that verify attestations signed by this attestor. This field may be updated. If this field is non-empty, one of the specified public keys must verify that an attestation was signed by this attestor for the image specified in the admission request. If this field is empty, this attestor always returns that no valid attestations exist. */
+  publicKeys?: AttestorPublicKeyList | undefined;
 }
 /** An attestor that attests to container image artifacts. An existing attestor cannot be modified except where indicated. */
 export interface Attestor {
-  /** Output only. Time when the attestor was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. A descriptive comment. This field may be updated. The field may be displayed in chooser dialogs. */
-  description?: string | undefined;
   /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the attestor has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
   etag?: string | undefined;
   /** A Drydock ATTESTATION_AUTHORITY Note, created by the user. */
   userOwnedDrydockNote?: UserOwnedDrydockNote | undefined;
   /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
   name?: string | undefined;
+  /** Output only. Time when the attestor was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. A descriptive comment. This field may be updated. The field may be displayed in chooser dialogs. */
+  description?: string | undefined;
 }
 export interface CreateProjectsAttestorsRequest extends Attestor {
   /** Required. The parent of this attestor. */
@@ -158,21 +158,21 @@ export interface DeleteProjectsAttestorsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface GetIamPolicyProjectsAttestorsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
 }
 export type StringList = Array<string>;
 /** Associates `members`, or principals, with a `role`. */
@@ -187,27 +187,23 @@ export interface Binding {
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface IamPolicy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
 export interface GetIamPolicyProjectsPolicyRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetPolicyProjectsRequest {
   /** Required. The resource name of the policy to retrieve, in the format `projects/*\/policy`. */
   name: string;
 }
-export type PolicyGlobalPolicyEvaluationModeEnum =
-  | "GLOBAL_POLICY_EVALUATION_MODE_UNSPECIFIED"
-  | "ENABLE"
-  | "DISABLE";
 export type AdmissionRuleEvaluationModeEnum =
   | "EVALUATION_MODE_UNSPECIFIED"
   | "ALWAYS_ALLOW"
@@ -221,10 +217,10 @@ export type AdmissionRuleEnforcementModeEnum =
 export interface AdmissionRule {
   /** Required. How this admission rule will be evaluated. */
   evaluationMode?: AdmissionRuleEvaluationModeEnum | (string & {}) | undefined;
-  /** Required. The action when a pod creation is denied by the admission rule. */
-  enforcementMode?: AdmissionRuleEnforcementModeEnum | (string & {}) | undefined;
   /** Optional. The resource names of the attestors that must attest to a container image, in the format `projects/*\/attestors/*`. Each attestor must exist before a policy can reference it. To add an attestor to a policy the principal issuing the policy change request must be able to read the attestor resource. Note: this field must be non-empty when the evaluation_mode field specifies REQUIRE_ATTESTATION, otherwise it must be empty. */
   requireAttestationsBy?: StringList | undefined;
+  /** Required. The action when a pod creation is denied by the admission rule. */
+  enforcementMode?: AdmissionRuleEnforcementModeEnum | (string & {}) | undefined;
 }
 export type AdmissionRuleMap = { [key: string]: AdmissionRule | undefined };
 /** An admission allowlist pattern exempts images from checks by admission rules. */
@@ -233,30 +229,34 @@ export interface AdmissionWhitelistPattern {
   namePattern?: string | undefined;
 }
 export type AdmissionWhitelistPatternList = Array<AdmissionWhitelistPattern>;
+export type PolicyGlobalPolicyEvaluationModeEnum =
+  | "GLOBAL_POLICY_EVALUATION_MODE_UNSPECIFIED"
+  | "ENABLE"
+  | "DISABLE";
 /** A policy for Binary Authorization. */
 export interface Policy {
-  /** Output only. Time when the policy was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Controls the evaluation of a Google-maintained global admission policy for common system-level images. Images not covered by the global policy will be subject to the project admission policy. This setting has no effect when specified inside a global admission policy. */
-  globalPolicyEvaluationMode?: PolicyGlobalPolicyEvaluationModeEnum | (string & {}) | undefined;
-  /** Optional. Per-kubernetes-service-account admission rules. Service account spec format: `namespace:serviceaccount`. e.g. `test-ns:default` */
-  kubernetesServiceAccountAdmissionRules?: AdmissionRuleMap | undefined;
-  /** Optional. A descriptive comment. */
-  description?: string | undefined;
   /** Optional. Per-istio-service-identity admission rules. Istio service identity spec format: `spiffe:///ns//sa/` or `/ns//sa/` e.g. `spiffe://example.com/ns/test-ns/sa/default` */
   istioServiceIdentityAdmissionRules?: AdmissionRuleMap | undefined;
   /** Optional. Admission policy allowlisting. A matching admission request will always be permitted. This feature is typically used to exclude Google or third-party infrastructure images from Binary Authorization policies. */
   admissionWhitelistPatterns?: AdmissionWhitelistPatternList | undefined;
-  /** Required. Default admission rule for a cluster without a per-cluster, per- kubernetes-service-account, or per-istio-service-identity admission rule. */
-  defaultAdmissionRule?: AdmissionRule | undefined;
+  /** Output only. Time when the policy was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Controls the evaluation of a Google-maintained global admission policy for common system-level images. Images not covered by the global policy will be subject to the project admission policy. This setting has no effect when specified inside a global admission policy. */
+  globalPolicyEvaluationMode?: PolicyGlobalPolicyEvaluationModeEnum | (string & {}) | undefined;
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
   name?: string | undefined;
+  /** Optional. Per-kubernetes-service-account admission rules. Service account spec format: `namespace:serviceaccount`. e.g. `test-ns:default` */
+  kubernetesServiceAccountAdmissionRules?: AdmissionRuleMap | undefined;
   /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the policy has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
   etag?: string | undefined;
   /** Optional. A valid Policy has only one of the following rule maps non-empty, i.e. only one of cluster_admission_rules, kubernetes_service_account_admission_rules or istio_service_identity_admission_rules can be non-empty. Per-cluster admission rules. Cluster spec format: `location.clusterId`. There can be at most one admission rule per cluster spec. A `location` is either a compute zone (e.g. us-central1-a) or a region (e.g. us-central1). For `clusterId` syntax restrictions see https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters. */
   clusterAdmissionRules?: AdmissionRuleMap | undefined;
   /** Optional. Per-kubernetes-namespace admission rules. K8s namespace spec format: `[a-z.-]+`, e.g. `some-namespace` */
   kubernetesNamespaceAdmissionRules?: AdmissionRuleMap | undefined;
+  /** Optional. A descriptive comment. */
+  description?: string | undefined;
+  /** Required. Default admission rule for a cluster without a per-cluster, per- kubernetes-service-account, or per-istio-service-identity admission rule. */
+  defaultAdmissionRule?: AdmissionRule | undefined;
 }
 export interface GetPolicySystempolicyRequest {
   /** Required. The resource name, in the format `locations/*\/policy`. Note that the system policy is not associated with a project. */
@@ -267,20 +267,20 @@ export interface GetProjectsAttestorsRequest {
   name: string;
 }
 export interface ListProjectsAttestorsRequest {
-  /** Required. The resource name of the project associated with the attestors, in the format `projects/*`. */
-  parent: string;
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListAttestorsResponse.next_page_token returned from the previous call to the `ListAttestors` method. */
-  pageToken?: string | undefined;
   /** Requested page size. The server may return fewer results than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListAttestorsResponse.next_page_token returned from the previous call to the `ListAttestors` method. */
+  pageToken?: string | undefined;
+  /** Required. The resource name of the project associated with the attestors, in the format `projects/*`. */
+  parent: string;
 }
 export type AttestorList = Array<Attestor>;
 /** Response message for BinauthzManagementService.ListAttestors. */
 export interface ListAttestorsResponse {
-  /** The list of attestors. */
-  attestors?: AttestorList | undefined;
   /** A token to retrieve the next page of results. Pass this value in the ListAttestorsRequest.page_token field in the subsequent call to the `ListAttestors` method to retrieve the next page of results. */
   nextPageToken?: string | undefined;
+  /** The list of attestors. */
+  attestors?: AttestorList | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -345,12 +345,12 @@ export interface AttestationOccurrence {
 }
 /** Request message for ValidationHelperV1.ValidateAttestationOccurrence. */
 export interface ValidateAttestationOccurrenceRequest {
-  /** Required. The resource name of the Note to which the containing Occurrence is associated. */
-  occurrenceNote?: string | undefined;
-  /** Required. An AttestationOccurrence to be checked that it can be verified by the `Attestor`. It does not have to be an existing entity in Container Analysis. It must otherwise be a valid `AttestationOccurrence`. */
-  attestation?: AttestationOccurrence | undefined;
   /** Required. The URI of the artifact (e.g. container image) that is the subject of the containing Occurrence. */
   occurrenceResourceUri?: string | undefined;
+  /** Required. An AttestationOccurrence to be checked that it can be verified by the `Attestor`. It does not have to be an existing entity in Container Analysis. It must otherwise be a valid `AttestationOccurrence`. */
+  attestation?: AttestationOccurrence | undefined;
+  /** Required. The resource name of the Note to which the containing Occurrence is associated. */
+  occurrenceNote?: string | undefined;
 }
 export interface ValidateAttestationOccurrenceProjectsAttestorsRequest extends ValidateAttestationOccurrenceRequest {
   /** Required. The resource name of the Attestor of the occurrence, in the format `projects/*\/attestors/*`. */
@@ -362,10 +362,10 @@ export type ValidateAttestationOccurrenceResponseResultEnum =
   | "ATTESTATION_NOT_VERIFIABLE";
 /** Response message for ValidationHelperV1.ValidateAttestationOccurrence. */
 export interface ValidateAttestationOccurrenceResponse {
-  /** The result of the Attestation validation. */
-  result?: ValidateAttestationOccurrenceResponseResultEnum | undefined;
   /** The reason for denial if the Attestation couldn't be validated. */
   denialReason?: string | undefined;
+  /** The result of the Attestation validation. */
+  result?: ValidateAttestationOccurrenceResponseResultEnum | undefined;
 }
 export type CreateProjectsAttestorsError =
   | NotFound
@@ -706,9 +706,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -722,8 +722,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attestors: S.optional(__S(9, __c1, 1)),
           nextPageToken: S.optional(S.String),
+          attestors: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "ListAttestorsResponse" });
   }
@@ -892,9 +892,9 @@ function __c10(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          occurrenceNote: S.optional(S.String),
-          attestation: S.optional(__S(84, __c10, 4)),
           occurrenceResourceUri: S.optional(S.String),
+          attestation: S.optional(__S(84, __c10, 4)),
+          occurrenceNote: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValidateAttestationOccurrenceRequest" });
     case 6:
@@ -915,8 +915,8 @@ function __c10(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(S.String),
           denialReason: S.optional(S.String),
+          result: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValidateAttestationOccurrenceResponse" });
   }
@@ -946,17 +946,17 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publicKeyPem: S.optional(S.String),
           signatureAlgorithm: S.optional(S.String),
+          publicKeyPem: S.optional(S.String),
         }),
       ).annotate({ identifier: "PkixPublicKey" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           asciiArmoredPgpPublicKey: S.optional(S.String),
+          comment: S.optional(S.String),
           pkixPublicKey: S.optional(__S(96, __c12, 0)),
           id: S.optional(S.String),
-          comment: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttestorPublicKey" });
     case 2:
@@ -965,18 +965,18 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           noteReference: S.optional(S.String),
-          publicKeys: S.optional(__S(98, __c12, 2)),
           delegationServiceAccountEmail: S.optional(S.String),
+          publicKeys: S.optional(__S(98, __c12, 2)),
         }),
       ).annotate({ identifier: "UserOwnedDrydockNote" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
           etag: S.optional(S.String),
           userOwnedDrydockNote: S.optional(__S(99, __c12, 3)),
           name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attestor" });
   }
@@ -1004,8 +1004,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1021,10 +1021,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          title: S.optional(S.String),
           description: S.optional(S.String),
           location: S.optional(S.String),
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
@@ -1040,8 +1040,8 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(122, __c15, 2)),
           etag: S.optional(S.String),
+          bindings: S.optional(__S(122, __c15, 2)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IamPolicy" });
@@ -1058,8 +1058,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1092,8 +1092,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           evaluationMode: S.optional(S.String),
-          enforcementMode: S.optional(S.String),
           requireAttestationsBy: S.optional(__S(128, __c16, 0)),
+          enforcementMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdmissionRule" });
     case 1:
@@ -1109,17 +1109,17 @@ function __c19(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          globalPolicyEvaluationMode: S.optional(S.String),
-          kubernetesServiceAccountAdmissionRules: S.optional(__S(153, __c19, 1)),
-          description: S.optional(S.String),
           istioServiceIdentityAdmissionRules: S.optional(__S(153, __c19, 1)),
           admissionWhitelistPatterns: S.optional(__S(155, __c19, 3)),
-          defaultAdmissionRule: S.optional(__S(152, __c19, 0)),
+          updateTime: S.optional(S.String),
+          globalPolicyEvaluationMode: S.optional(S.String),
           name: S.optional(S.String),
+          kubernetesServiceAccountAdmissionRules: S.optional(__S(153, __c19, 1)),
           etag: S.optional(S.String),
           clusterAdmissionRules: S.optional(__S(153, __c19, 1)),
           kubernetesNamespaceAdmissionRules: S.optional(__S(153, __c19, 1)),
+          description: S.optional(S.String),
+          defaultAdmissionRule: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "Policy" });
   }

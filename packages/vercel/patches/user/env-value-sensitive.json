@@ -3,17 +3,17 @@
   "patches": [
     {
       "op": "add",
-      "path": "/shapes/com.vercel.user#UserEventPayloadCase179/members/value/traits/smithy.api#sensitive",
+      "path": "/shapes/com.vercel.user#UserEventPayloadCase192/members/value/traits/smithy.api#sensitive",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.vercel.user#UserEventPayloadCase181NewEnvVar/members/value/traits/smithy.api#sensitive",
+      "path": "/shapes/com.vercel.user#UserEventPayloadCase194NewEnvVar/members/value/traits/smithy.api#sensitive",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.vercel.user#UserEventPayloadCase181OldEnvVar/members/value/traits/smithy.api#sensitive",
+      "path": "/shapes/com.vercel.user#UserEventPayloadCase194OldEnvVar/members/value/traits/smithy.api#sensitive",
       "value": {}
     }
   ]

@@ -250,8 +250,8 @@ export interface ConvertPreToPostClusterResponse {
   RequestId?: string | undefined;
 }
 export interface VPCSettings {
-  VpcId: string;
   SubnetId: string;
+  VpcId: string;
 }
 export interface HostPathVolumeSource {
   Path?: string | undefined;
@@ -613,7 +613,10 @@ export interface ScriptBootstrapActionConfig {
   Remark?: string | undefined;
 }
 export type ScriptBootstrapActionConfigList = Array<ScriptBootstrapActionConfig>;
-export type VirtualPrivateCloud = VPCSettings;
+export interface VirtualPrivateCloud {
+  VpcId: string;
+  SubnetId: string;
+}
 export interface Placement {
   Zone: string;
   ProjectId?: number | undefined;
@@ -650,7 +653,7 @@ export interface AllNodeResourceSpec {
   CommonCount?: number | undefined;
 }
 export interface ZoneResourceConfiguration {
-  VirtualPrivateCloud?: VPCSettings | null | undefined;
+  VirtualPrivateCloud?: VirtualPrivateCloud | null | undefined;
   Placement?: Placement | null | undefined;
   AllNodeResourceSpec?: AllNodeResourceSpec | null | undefined;
   ZoneTag?: string | undefined;
@@ -829,9 +832,9 @@ export interface CreateInstanceResponse {
   RequestId?: string | undefined;
 }
 export interface ZoneSetting {
-  Zone: string;
-  VPCSettings: VPCSettings;
   NodeNum: number;
+  VPCSettings: VPCSettings;
+  Zone: string;
 }
 export type ZoneSettingList = Array<ZoneSetting>;
 export interface Period {
@@ -839,20 +842,23 @@ export interface Period {
   TimeUnit?: string | undefined;
 }
 export interface PrePaySetting {
-  Period: Period | null;
   AutoRenewFlag: number;
+  Period: Period | null;
 }
 export interface CreateSLInstanceRequest {
-  InstanceName: string;
-  PayMode: number;
-  DiskType: string;
   DiskSize: number;
+  DiskType: string;
+  InstanceName: string;
   NodeType: string;
+  PayMode: number;
   ZoneSettings: ZoneSettingList;
-  Tags?: TagList | undefined;
-  PrePaySetting?: PrePaySetting | undefined;
   ClientToken?: string | undefined;
   DeploymentMode?: string | undefined;
+  EnablePublicIP?: boolean | undefined;
+  PrePaySetting?: PrePaySetting | undefined;
+  SecurityGroupIds?: StringList | undefined;
+  Tags?: TagList | undefined;
+  TerminateProtection?: boolean | undefined;
   UserName?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
@@ -3827,7 +3833,7 @@ export const createCluster: API.OperationMethod<
   CreateClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2916, __c91, 4) as any as S.Schema<CreateClusterRequest>,
+  input: __S(2917, __c91, 5) as any as S.Schema<CreateClusterRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<CreateClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5767,23 +5773,26 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Period: S.NullOr(__S(320, __c10, 0)),
           AutoRenewFlag: S.Number,
+          Period: S.NullOr(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "PrePaySetting" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          InstanceName: S.String,
-          PayMode: S.Number,
-          DiskType: S.String,
           DiskSize: S.Number,
+          DiskType: S.String,
+          InstanceName: S.String,
           NodeType: S.String,
+          PayMode: S.Number,
           ZoneSettings: __S(353, __c11, 1),
-          Tags: S.optional(__S(65, __c2, 1)),
-          PrePaySetting: S.optional(__S(321, __c10, 1)),
           ClientToken: S.optional(S.String),
           DeploymentMode: S.optional(S.String),
+          EnablePublicIP: S.optional(S.Boolean),
+          PrePaySetting: S.optional(__S(321, __c10, 1)),
+          SecurityGroupIds: S.optional(__S(160, __c5, 0)),
+          Tags: S.optional(__S(65, __c2, 1)),
+          TerminateProtection: S.optional(S.Boolean),
           UserName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "emr", version: "2019-01-03", action: "CreateSLInstance" })),
@@ -5795,9 +5804,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Zone: S.String,
-          VPCSettings: __S(2368, __c74, 0),
           NodeNum: S.Number,
+          VPCSettings: __S(2528, __c79, 0),
+          Zone: S.String,
         }),
       ).annotate({ identifier: "ZoneSetting" });
     case 1:
@@ -6582,14 +6591,14 @@ function __c37(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CBSVolumes: S.optional(__S(2471, __c77, 7)),
-          CFSVolumes: S.optional(__S(2473, __c77, 9)),
-          COSVolumes: S.optional(__S(2475, __c77, 11)),
+          CBSVolumes: S.optional(__S(2439, __c76, 7)),
+          CFSVolumes: S.optional(__S(2441, __c76, 9)),
+          COSVolumes: S.optional(__S(2443, __c76, 11)),
           StorageVolumeName: S.optional(__S(160, __c5, 0)),
-          VolumeMounts: S.optional(__S(2477, __c77, 13)),
+          VolumeMounts: S.optional(__S(2445, __c76, 13)),
           StorageVolumeDetail: S.optional(__S(1186, __c37, 2)),
-          CFSTurboVolumes: S.optional(__S(2481, __c77, 17)),
-          GooseFSVolumes: S.optional(__S(2483, __c77, 19)),
+          CFSTurboVolumes: S.optional(__S(2449, __c76, 17)),
+          GooseFSVolumes: S.optional(__S(2451, __c76, 19)),
         }),
       ).annotate({ identifier: "PersistentVolume" });
     case 4:
@@ -6606,9 +6615,9 @@ function __c37(j: number): any {
           GpuType: S.optional(S.String),
           Gpu: S.optional(S.Number),
           ResourceLabels: S.optional(S.String),
-          Env: S.optional(__S(2479, __c77, 15)),
-          Labels: S.optional(__S(2479, __c77, 15)),
-          Tolerations: S.optional(__S(2465, __c77, 1)),
+          Env: S.optional(__S(2447, __c76, 15)),
+          Labels: S.optional(__S(2447, __c76, 15)),
+          Tolerations: S.optional(__S(2433, __c76, 1)),
           Scheduler: S.optional(S.String),
           PersistentVolume: S.optional(__S(1187, __c37, 3)),
           PreStartCommand: S.optional(S.String),
@@ -6634,9 +6643,9 @@ function __c37(j: number): any {
           Namespace: S.optional(S.String),
           CreateTime: S.optional(S.String),
           UpdateTime: S.optional(S.String),
-          Labels: S.optional(__S(2479, __c77, 15)),
-          Tolerations: S.optional(__S(2465, __c77, 1)),
-          Env: S.optional(__S(2479, __c77, 15)),
+          Labels: S.optional(__S(2447, __c76, 15)),
+          Tolerations: S.optional(__S(2433, __c76, 1)),
+          Env: S.optional(__S(2447, __c76, 15)),
           SupportExternalKerberosService: S.optional(S.Boolean),
           KerberosCluster: S.optional(S.String),
           Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -6644,13 +6653,13 @@ function __c37(j: number): any {
           WorkerGroupSpecs: S.optional(__S(1189, __c37, 5)),
           StorageConfigEnabled: S.optional(S.Boolean),
           RedisInstance: S.optional(__S(1190, __c37, 6)),
-          CustomImage: S.optional(__S(2469, __c77, 5)),
+          CustomImage: S.optional(__S(2437, __c76, 5)),
           DashboardUrl: S.optional(S.String),
           TotalPodCount: S.optional(S.Number),
           HighAvailability: S.optional(S.Boolean),
           PersistentVolume: S.optional(__S(1187, __c37, 3)),
           RayClusterYaml: S.optional(S.String),
-          ImageInfoV2: S.optional(__S(2467, __c77, 3)),
+          ImageInfoV2: S.optional(__S(2435, __c76, 3)),
           EnableHistoryServer: S.optional(S.Boolean),
           TensorBoardUrl: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -8113,18 +8122,18 @@ function __c69(j: number): any {
           EksClusterId: S.optional(S.String),
           ProductId: S.optional(S.Number),
           ClientToken: S.optional(S.String),
-          VPCSettings: S.optional(__S(2368, __c74, 0)),
-          CloudResources: S.optional(__S(2457, __c76, 25)),
+          VPCSettings: S.optional(__S(2528, __c79, 0)),
+          CloudResources: S.optional(__S(2425, __c75, 25)),
           SgId: S.optional(S.String),
           MetaDBInfo: S.optional(__S(2272, __c71, 0)),
           Tags: S.optional(__S(65, __c2, 1)),
-          LoginSettings: S.optional(__S(2400, __c75, 0)),
+          LoginSettings: S.optional(__S(2368, __c74, 0)),
           ExternalService: S.optional(__S(2561, __c80, 1)),
           ZoneId: S.optional(S.Number),
           DefaultMetaVersion: S.optional(S.String),
           NeedCdbAudit: S.optional(S.Number),
           SgIP: S.optional(S.String),
-          ContainerExtraConf: S.optional(__S(2458, __c76, 26)),
+          ContainerExtraConf: S.optional(__S(2426, __c75, 26)),
           EnableSparkAppMonitorInfo: S.optional(__S(2208, __c69, 0)),
           ComputeResourceGroupIds: S.optional(__S(160, __c5, 0)),
           TerminateProtection: S.optional(S.Boolean),
@@ -8197,24 +8206,13 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VpcId: S.String,
-          SubnetId: S.String,
-        }),
-      ).annotate({ identifier: "VPCSettings" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           PublicKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoginSettings" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8227,21 +8225,21 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VolumeType: S.optional(S.String),
-          HostPath: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          HostPath: S.optional(S.NullOr(__S(2400, __c75, 0))),
         }),
       ).annotate({ identifier: "VolumeSetting" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           CLBType: S.optional(S.String),
-          VPCSettings: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          VPCSettings: S.optional(S.NullOr(__S(2528, __c79, 0))),
         }),
       ).annotate({ identifier: "CLBSetting" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          CLBServer: S.optional(S.NullOr(__S(2434, __c76, 2))),
+          CLBServer: S.optional(S.NullOr(__S(2402, __c75, 2))),
         }),
       ).annotate({ identifier: "ExternalAccess" });
     case 4:
@@ -8253,36 +8251,36 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "NodeSelectorRequirement" });
     case 5:
-      return S.Array(__S(2436, __c76, 4));
+      return S.Array(__S(2404, __c75, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          MatchExpressions: S.optional(S.NullOr(__S(2437, __c76, 5))),
+          MatchExpressions: S.optional(S.NullOr(__S(2405, __c75, 5))),
         }),
       ).annotate({ identifier: "NodeSelectorTerm" });
     case 7:
-      return S.Array(__S(2438, __c76, 6));
+      return S.Array(__S(2406, __c75, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          NodeSelectorTerms: S.optional(S.NullOr(__S(2439, __c76, 7))),
+          NodeSelectorTerms: S.optional(S.NullOr(__S(2407, __c75, 7))),
         }),
       ).annotate({ identifier: "NodeSelector" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           Weight: S.optional(S.Number),
-          Preference: S.optional(S.NullOr(__S(2438, __c76, 6))),
+          Preference: S.optional(S.NullOr(__S(2406, __c75, 6))),
         }),
       ).annotate({ identifier: "PreferredSchedulingTerm" });
     case 10:
-      return S.Array(__S(2441, __c76, 9));
+      return S.Array(__S(2409, __c75, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          RequiredDuringSchedulingIgnoredDuringExecution: S.optional(S.NullOr(__S(2440, __c76, 8))),
+          RequiredDuringSchedulingIgnoredDuringExecution: S.optional(S.NullOr(__S(2408, __c75, 8))),
           PreferredDuringSchedulingIgnoredDuringExecution: S.optional(
-            S.NullOr(__S(2442, __c76, 10)),
+            S.NullOr(__S(2410, __c75, 10)),
           ),
         }),
       ).annotate({ identifier: "NodeAffinity" });
@@ -8295,7 +8293,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "Disk" });
     case 13:
-      return S.Array(__S(2444, __c76, 12));
+      return S.Array(__S(2412, __c75, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -8305,39 +8303,39 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "LabelSelectorRequirement" });
     case 15:
-      return S.Array(__S(2446, __c76, 14));
+      return S.Array(__S(2414, __c75, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           MatchLabels: S.optional(__S(2241, __c70, 1)),
-          MatchExpressions: S.optional(__S(2447, __c76, 15)),
+          MatchExpressions: S.optional(__S(2415, __c75, 15)),
         }),
       ).annotate({ identifier: "LabelSelector" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          LabelSelector: S.optional(__S(2448, __c76, 16)),
+          LabelSelector: S.optional(__S(2416, __c75, 16)),
           Namespaces: S.optional(__S(160, __c5, 0)),
           TopologyKey: S.optional(S.String),
-          NamespaceSelector: S.optional(__S(2448, __c76, 16)),
+          NamespaceSelector: S.optional(__S(2416, __c75, 16)),
         }),
       ).annotate({ identifier: "PodAffinityTerm" });
     case 18:
-      return S.Array(__S(2449, __c76, 17));
+      return S.Array(__S(2417, __c75, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           Weight: S.optional(S.Number),
-          PodAffinityTerm: S.optional(__S(2449, __c76, 17)),
+          PodAffinityTerm: S.optional(__S(2417, __c75, 17)),
         }),
       ).annotate({ identifier: "WeightedPodAffinityTerm" });
     case 20:
-      return S.Array(__S(2451, __c76, 19));
+      return S.Array(__S(2419, __c75, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          RequiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(2450, __c76, 18)),
-          PreferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(2452, __c76, 20)),
+          RequiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(2418, __c75, 18)),
+          PreferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(2420, __c75, 20)),
         }),
       ).annotate({ identifier: "PodAffinitySpec" });
     case 22:
@@ -8346,7 +8344,7 @@ function __c76(j: number): any {
           MaxSkew: S.optional(S.Number),
           TopologyKey: S.optional(S.String),
           WhenUnsatisfiable: S.optional(S.String),
-          LabelSelector: S.optional(__S(2448, __c76, 16)),
+          LabelSelector: S.optional(__S(2416, __c75, 16)),
           MinDomains: S.optional(S.Number),
           NodeAffinityPolicy: S.optional(S.String),
           NodeTaintsPolicy: S.optional(S.String),
@@ -8354,7 +8352,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "TopologySpreadConstraint" });
     case 23:
-      return S.Array(__S(2454, __c76, 22));
+      return S.Array(__S(2422, __c75, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -8363,22 +8361,22 @@ function __c76(j: number): any {
           LimitCpu: S.Number,
           LimitMemory: S.Number,
           Service: S.optional(S.String),
-          VolumeDir: S.optional(S.NullOr(__S(2433, __c76, 1))),
-          ExternalAccess: S.optional(S.NullOr(__S(2435, __c76, 3))),
-          Affinity: S.optional(S.NullOr(__S(2443, __c76, 11))),
-          Disks: S.optional(S.NullOr(__S(2445, __c76, 13))),
-          Tolerations: S.optional(S.NullOr(__S(2465, __c77, 1))),
-          PodAffinity: S.optional(__S(2453, __c76, 21)),
-          PodAntiAffinity: S.optional(__S(2453, __c76, 21)),
-          TopologySpreadConstraints: S.optional(__S(2455, __c76, 23)),
+          VolumeDir: S.optional(S.NullOr(__S(2401, __c75, 1))),
+          ExternalAccess: S.optional(S.NullOr(__S(2403, __c75, 3))),
+          Affinity: S.optional(S.NullOr(__S(2411, __c75, 11))),
+          Disks: S.optional(S.NullOr(__S(2413, __c75, 13))),
+          Tolerations: S.optional(S.NullOr(__S(2433, __c76, 1))),
+          PodAffinity: S.optional(__S(2421, __c75, 21)),
+          PodAntiAffinity: S.optional(__S(2421, __c75, 21)),
+          TopologySpreadConstraints: S.optional(__S(2423, __c75, 23)),
           PodLabels: S.optional(__S(2241, __c70, 1)),
           EnableDefaultRayCluster: S.optional(S.Boolean),
-          ImageInfoV2: S.optional(__S(2467, __c77, 3)),
-          DynamicInstanceForm: S.optional(__S(2497, __c78, 1)),
+          ImageInfoV2: S.optional(__S(2435, __c76, 3)),
+          DynamicInstanceForm: S.optional(__S(2465, __c77, 1)),
         }),
       ).annotate({ identifier: "CloudResource" });
     case 25:
-      return S.Array(__S(2456, __c76, 24));
+      return S.Array(__S(2424, __c75, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -8387,7 +8385,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ContainerExtraConf" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,7 +8398,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "Toleration" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(2432, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8422,7 +8420,7 @@ function __c77(j: number): any {
           Tag: S.optional(S.String),
           Username: S.optional(S.String),
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ImagePullSecret: S.optional(__S(2466, __c77, 2)),
+          ImagePullSecret: S.optional(__S(2434, __c76, 2)),
           ImagePullPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageInfoV2" });
@@ -8443,8 +8441,8 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ImageSourceType: S.optional(S.String),
-          ImageInfo: S.optional(S.NullOr(__S(2468, __c77, 4))),
-          ImagePullSecret: S.optional(S.NullOr(__S(2466, __c77, 2))),
+          ImageInfo: S.optional(S.NullOr(__S(2436, __c76, 4))),
+          ImagePullSecret: S.optional(S.NullOr(__S(2434, __c76, 2))),
         }),
       ).annotate({ identifier: "CustomImage" });
     case 6:
@@ -8457,7 +8455,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "CBSVolume" });
     case 7:
-      return S.Array(__S(2470, __c77, 6));
+      return S.Array(__S(2438, __c76, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -8469,7 +8467,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "CFSVolume" });
     case 9:
-      return S.Array(__S(2472, __c77, 8));
+      return S.Array(__S(2440, __c76, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -8481,7 +8479,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "COSVolume" });
     case 11:
-      return S.Array(__S(2474, __c77, 10));
+      return S.Array(__S(2442, __c76, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -8493,7 +8491,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "VolumeMount" });
     case 13:
-      return S.Array(__S(2476, __c77, 12));
+      return S.Array(__S(2444, __c76, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -8502,7 +8500,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "NameValue" });
     case 15:
-      return S.Array(__S(2478, __c77, 14));
+      return S.Array(__S(2446, __c76, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -8515,7 +8513,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "CFSTurboVolume" });
     case 17:
-      return S.Array(__S(2480, __c77, 16));
+      return S.Array(__S(2448, __c76, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -8530,40 +8528,40 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "GooseFSVolume" });
     case 19:
-      return S.Array(__S(2482, __c77, 18));
+      return S.Array(__S(2450, __c76, 18));
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2496, __c78, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           DynamicInstanceName: S.optional(S.NullOr(S.String)),
           Namespace: S.optional(S.NullOr(S.String)),
           SupportHA: S.optional(S.NullOr(S.Boolean)),
-          CustomImage: S.optional(S.NullOr(__S(2469, __c77, 5))),
-          DynamicInstanceGroups: S.optional(S.NullOr(__S(2496, __c78, 0))),
+          CustomImage: S.optional(S.NullOr(__S(2437, __c76, 5))),
+          DynamicInstanceGroups: S.optional(S.NullOr(__S(2464, __c77, 0))),
           SupportPV: S.optional(S.NullOr(S.Boolean)),
-          CBSVolumes: S.optional(S.NullOr(__S(2471, __c77, 7))),
-          CFSVolumes: S.optional(S.NullOr(__S(2473, __c77, 9))),
-          COSVolumes: S.optional(S.NullOr(__S(2475, __c77, 11))),
-          VolumeMounts: S.optional(S.NullOr(__S(2477, __c77, 13))),
+          CBSVolumes: S.optional(S.NullOr(__S(2439, __c76, 7))),
+          CFSVolumes: S.optional(S.NullOr(__S(2441, __c76, 9))),
+          COSVolumes: S.optional(S.NullOr(__S(2443, __c76, 11))),
+          VolumeMounts: S.optional(S.NullOr(__S(2445, __c76, 13))),
           Labels: S.optional(S.NullOr(__S(193, __c6, 1))),
-          Tolerations: S.optional(S.NullOr(__S(2465, __c77, 1))),
-          Envs: S.optional(S.NullOr(__S(2479, __c77, 15))),
+          Tolerations: S.optional(S.NullOr(__S(2433, __c76, 1))),
+          Envs: S.optional(S.NullOr(__S(2447, __c76, 15))),
           DependServices: S.optional(S.NullOr(__S(2305, __c72, 1))),
           SupportToken: S.optional(S.NullOr(S.Boolean)),
-          CFSTurboVolumes: S.optional(S.NullOr(__S(2481, __c77, 17))),
-          ImageInfoV2: S.optional(S.NullOr(__S(2467, __c77, 3))),
-          GooseFSVolumes: S.optional(__S(2483, __c77, 19)),
+          CFSTurboVolumes: S.optional(S.NullOr(__S(2449, __c76, 17))),
+          ImageInfoV2: S.optional(S.NullOr(__S(2435, __c76, 3))),
+          GooseFSVolumes: S.optional(__S(2451, __c76, 19)),
           EnableHistoryServer: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DynamicInstanceForm" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8578,22 +8576,33 @@ function __c79(j: number): any {
           MinPodNum: S.optional(S.NullOr(S.Number)),
           MaxPodNum: S.optional(S.NullOr(S.Number)),
           SupportPV: S.optional(S.NullOr(S.Boolean)),
-          CBSVolumes: S.optional(S.NullOr(__S(2471, __c77, 7))),
-          CFSVolumes: S.optional(S.NullOr(__S(2473, __c77, 9))),
-          COSVolumes: S.optional(S.NullOr(__S(2475, __c77, 11))),
-          VolumeMounts: S.optional(S.NullOr(__S(2477, __c77, 13))),
+          CBSVolumes: S.optional(S.NullOr(__S(2439, __c76, 7))),
+          CFSVolumes: S.optional(S.NullOr(__S(2441, __c76, 9))),
+          COSVolumes: S.optional(S.NullOr(__S(2443, __c76, 11))),
+          VolumeMounts: S.optional(S.NullOr(__S(2445, __c76, 13))),
           Labels: S.optional(S.NullOr(__S(193, __c6, 1))),
-          Tolerations: S.optional(S.NullOr(__S(2465, __c77, 1))),
-          Envs: S.optional(S.NullOr(__S(2479, __c77, 15))),
+          Tolerations: S.optional(S.NullOr(__S(2433, __c76, 1))),
+          Envs: S.optional(S.NullOr(__S(2447, __c76, 15))),
           SchedulingPolicy: S.optional(S.NullOr(S.String)),
           ResourceLabel: S.optional(S.NullOr(S.String)),
           PodGpuResourceKey: S.optional(S.NullOr(S.String)),
-          CFSTurboVolumes: S.optional(S.NullOr(__S(2481, __c77, 17))),
-          GooseFSVolumes: S.optional(__S(2483, __c77, 19)),
+          CFSTurboVolumes: S.optional(S.NullOr(__S(2449, __c76, 17))),
+          GooseFSVolumes: S.optional(__S(2451, __c76, 19)),
           PreStartCommand: S.optional(S.String),
           RayStartParams: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicInstanceGroup" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetId: S.String,
+          VpcId: S.String,
+        }),
+      ).annotate({ identifier: "VPCSettings" });
   }
 }
 function __c80(j: number): any {
@@ -9154,6 +9163,13 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          VpcId: S.String,
+          SubnetId: S.String,
+        }),
+      ).annotate({ identifier: "VirtualPrivateCloud" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           MasterResourceSpec: S.optional(S.NullOr(__S(3110, __c97, 6))),
           CoreResourceSpec: S.optional(S.NullOr(__S(3110, __c97, 6))),
           TaskResourceSpec: S.optional(S.NullOr(__S(3110, __c97, 6))),
@@ -9164,25 +9180,25 @@ function __c91(j: number): any {
           CommonCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AllNodeResourceSpec" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          VirtualPrivateCloud: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          VirtualPrivateCloud: S.optional(S.NullOr(__S(2913, __c91, 1))),
           Placement: S.optional(S.NullOr(__S(3008, __c94, 0))),
-          AllNodeResourceSpec: S.optional(S.NullOr(__S(2913, __c91, 1))),
+          AllNodeResourceSpec: S.optional(S.NullOr(__S(2914, __c91, 2))),
           ZoneTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ZoneResourceConfiguration" });
-    case 3:
-      return S.Array(__S(2914, __c91, 2));
     case 4:
+      return S.Array(__S(2915, __c91, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           ProductVersion: S.String,
           EnableSupportHAFlag: S.Boolean,
           InstanceName: S.String,
           InstanceChargeType: S.String,
-          LoginSettings: __S(2400, __c75, 0),
+          LoginSettings: __S(2368, __c74, 0),
           SceneSoftwareConfig: __S(2912, __c91, 0),
           InstanceChargePrepaid: S.optional(__S(3072, __c96, 0)),
           SecurityGroupIds: S.optional(__S(160, __c5, 0)),
@@ -9197,7 +9213,7 @@ function __c91(j: number): any {
           EnableCbsEncryptFlag: S.optional(S.Boolean),
           MetaDBInfo: S.optional(__S(2272, __c71, 0)),
           DependService: S.optional(__S(2305, __c72, 1)),
-          ZoneResourceConfiguration: S.optional(__S(2915, __c91, 3)),
+          ZoneResourceConfiguration: S.optional(__S(2916, __c91, 4)),
           CosBucket: S.optional(S.String),
           NodeMarks: S.optional(__S(2976, __c93, 0)),
           LoadBalancerId: S.optional(S.String),
@@ -9595,7 +9611,7 @@ function __c104(j: number): any {
           Software: __S(160, __c5, 0),
           ResourceSpec: S.optional(__S(4320, __c135, 0)),
           Placement: S.optional(__S(3008, __c94, 0)),
-          VPCSettings: S.optional(__S(2368, __c74, 0)),
+          VPCSettings: S.optional(__S(2528, __c79, 0)),
           MetaType: S.optional(S.String),
           UnifyMetaInstanceId: S.optional(S.String),
           MetaDBInfo: S.optional(__S(4352, __c136, 0)),
@@ -9854,11 +9870,11 @@ function __c109(j: number): any {
           MetaDBInfo: S.optional(__S(4352, __c136, 0)),
           ExternalService: S.optional(__S(2561, __c80, 1)),
           Tags: S.optional(__S(65, __c2, 1)),
-          CloudResources: S.optional(__S(2457, __c76, 25)),
+          CloudResources: S.optional(__S(2425, __c75, 25)),
           ServiceDeployInfoList: S.optional(__S(3491, __c109, 3)),
           DefaultMetaVersion: S.optional(S.String),
           NeedCdbAudit: S.optional(S.Number),
-          ContainerExtraConf: S.optional(__S(2458, __c76, 26)),
+          ContainerExtraConf: S.optional(__S(2426, __c75, 26)),
           CheckServiceDeployInfo: S.optional(S.Boolean),
           MetaDBGroupInfo: S.optional(__S(2944, __c92, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9882,7 +9898,7 @@ function __c110(j: number): any {
           InstanceId: S.String,
           ServiceName: S.String,
           DynamicInstanceType: S.String,
-          DynamicInstanceForm: S.optional(__S(2497, __c78, 1)),
+          DynamicInstanceForm: S.optional(__S(2465, __c77, 1)),
           DynamicInstanceYaml: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9941,22 +9957,22 @@ function __c114(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ModifyScope: S.Number,
-          AddDynamicInstanceGroup: S.optional(__S(2528, __c79, 0)),
+          AddDynamicInstanceGroup: S.optional(__S(2496, __c78, 0)),
           SupportPV: S.optional(S.Boolean),
-          CBSVolumes: S.optional(__S(2471, __c77, 7)),
-          CFSVolumes: S.optional(__S(2473, __c77, 9)),
-          COSVolumes: S.optional(__S(2475, __c77, 11)),
-          VolumeMounts: S.optional(__S(2477, __c77, 13)),
+          CBSVolumes: S.optional(__S(2439, __c76, 7)),
+          CFSVolumes: S.optional(__S(2441, __c76, 9)),
+          COSVolumes: S.optional(__S(2443, __c76, 11)),
+          VolumeMounts: S.optional(__S(2445, __c76, 13)),
           Labels: S.optional(__S(193, __c6, 1)),
-          Tolerations: S.optional(__S(2465, __c77, 1)),
-          Envs: S.optional(__S(2479, __c77, 15)),
+          Tolerations: S.optional(__S(2433, __c76, 1)),
+          Envs: S.optional(__S(2447, __c76, 15)),
           DependServices: S.optional(__S(2305, __c72, 1)),
           SupportNewToken: S.optional(S.Boolean),
-          ModifyDynamicInstanceGroup: S.optional(__S(2528, __c79, 0)),
-          CFSTurboVolumes: S.optional(__S(2481, __c77, 17)),
-          CustomImage: S.optional(__S(2469, __c77, 5)),
-          ImageInfoV2: S.optional(__S(2467, __c77, 3)),
-          GooseFSVolumes: S.optional(__S(2483, __c77, 19)),
+          ModifyDynamicInstanceGroup: S.optional(__S(2496, __c78, 0)),
+          CFSTurboVolumes: S.optional(__S(2449, __c76, 17)),
+          CustomImage: S.optional(__S(2437, __c76, 5)),
+          ImageInfoV2: S.optional(__S(2435, __c76, 3)),
+          GooseFSVolumes: S.optional(__S(2451, __c76, 19)),
           EnableHistoryServer: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModifyDynamicInstanceForm" });
@@ -10414,8 +10430,8 @@ function __c134(j: number): any {
           PayMode: S.Number,
           TimeSpan: S.Number,
           TimeUnit: S.String,
-          LoginSettings: __S(2400, __c75, 0),
-          VPCSettings: S.optional(__S(2368, __c74, 0)),
+          LoginSettings: __S(2368, __c74, 0),
+          VPCSettings: S.optional(__S(2528, __c79, 0)),
           ResourceSpec: S.optional(__S(4320, __c135, 0)),
           COSSettings: S.optional(__S(4288, __c134, 0)),
           Placement: S.optional(__S(3008, __c94, 0)),
@@ -10472,7 +10488,7 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ZoneTag: S.optional(S.String),
-          VPCSettings: S.optional(__S(2368, __c74, 0)),
+          VPCSettings: S.optional(__S(2528, __c79, 0)),
           Placement: S.optional(__S(3008, __c94, 0)),
           ResourceSpec: S.optional(__S(4320, __c135, 0)),
         }),
@@ -10681,8 +10697,8 @@ function __c141(j: number): any {
           SupportHA: S.Boolean,
           SecurityGroupIds: __S(160, __c5, 0),
           Placement: __S(3008, __c94, 0),
-          VPCSettings: __S(2368, __c74, 0),
-          LoginSettings: __S(2400, __c75, 0),
+          VPCSettings: __S(2528, __c79, 0),
+          LoginSettings: __S(2368, __c74, 0),
           TagSpecification: __S(160, __c5, 0),
           MetaDB: __S(4519, __c141, 7),
           ResourceSpec: __S(4524, __c141, 12),

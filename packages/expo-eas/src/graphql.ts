@@ -801,6 +801,7 @@ export type StatuspageIncidentStatus =
 /** Name of a service monitored by Expo status page. */
 export type StatuspageServiceName =
   | "EAS_BUILD"
+  | "EAS_SIMULATOR"
   | "EAS_SUBMIT"
   | "EAS_UPDATE"
   | "EAS_WORKFLOWS"
@@ -1028,6 +1029,7 @@ export type WorkflowRunTriggerEventType =
   | "GITHUB_PUSH"
   | "GITHUB_REF_DELETE"
   | "MANUAL"
+  | "OBSERVE_NEW_ERROR"
   | "REPACK_EXPO_GO"
   | "SCHEDULE"
   | "SENTRY_ISSUE_ARCHIVED"
@@ -1716,6 +1718,7 @@ export interface AppObserveSessionSpanFilter {
   readonly minDurationMs?: number | null | undefined;
   readonly names?: ReadonlyArray<string> | null | undefined;
   readonly rootOnly?: boolean | null | undefined;
+  readonly scopes?: ReadonlyArray<string> | null | undefined;
   readonly statusCodes?: ReadonlyArray<"ERROR" | "OK" | "UNSET"> | null | undefined;
 }
 
@@ -1747,6 +1750,7 @@ export interface AppObserveSpanListFilter {
     | null
     | undefined;
   readonly rootOnly?: boolean | null | undefined;
+  readonly scopes?: ReadonlyArray<string> | null | undefined;
   readonly sessionId?: string | null | undefined;
   readonly startTime: string;
   readonly statusCodes?: ReadonlyArray<"ERROR" | "OK" | "UNSET"> | null | undefined;
@@ -2366,6 +2370,7 @@ export interface CreateAndConfigureRepositoryInput {
 
 export interface CreateAndroidDeviceRunSessionInput {
   readonly deviceIdentifier?: string | null | undefined;
+  readonly logSources?: ReadonlyArray<string> | null | undefined;
   readonly systemImagePackage?: string | null | undefined;
 }
 
@@ -3422,7 +3427,16 @@ export interface WorkflowRunGitBranchFilterInput {
   readonly searchTerm?: string | null | undefined;
 }
 
+/** Git metadata for a run started from an uploaded project. The commit must exist in the
+project's linked GitHub repository. The run records the branch and commit but is not
+linked to the repository. */
+export interface WorkflowRunGitInput {
+  readonly branch: string;
+  readonly commitHash: string;
+}
+
 export interface WorkflowRunInput {
+  readonly git?: WorkflowRunGitInput | null | undefined;
   readonly inputs?: unknown | null | undefined;
   readonly projectSource: WorkflowProjectSourceInput;
   readonly ssh?: WorkflowRunSshInput | null | undefined;
@@ -3475,6 +3489,7 @@ export interface WorkflowsInsightsFiltersInput {
         | "GITHUB_PUSH"
         | "GITHUB_REF_DELETE"
         | "MANUAL"
+        | "OBSERVE_NEW_ERROR"
         | "REPACK_EXPO_GO"
         | "SCHEDULE"
         | "SENTRY_ISSUE_ARCHIVED"
@@ -4241,6 +4256,7 @@ export interface AndroidAppCredentialsMutation {
 export interface AndroidDeviceRunSessionDevice {
   readonly displayName: string;
   readonly identifier: string;
+  readonly isDefault: boolean;
 }
 
 export interface AndroidDeviceRunSessionProfiles {
@@ -5231,6 +5247,7 @@ export interface AppObserveSpan {
   readonly name: string;
   readonly parentSpanId: string | null;
   readonly reactNativeVersion: string | null;
+  readonly scopeName: string;
   readonly sessionId: string | null;
   readonly spanId: string;
   readonly startTimestamp: string;
@@ -6883,6 +6900,7 @@ export interface DeviceRunSession {
   readonly artifacts: ReadonlyArray<DeviceRunSessionArtifact>;
   readonly build: Build | null;
   readonly createdAt: string;
+  readonly deviceIdentifier: string | null;
   readonly finishedAt: string | null;
   readonly id: string;
   readonly initiatingActor: Actor | null;
@@ -7495,7 +7513,7 @@ export interface GitHubRepository {
 }
 
 export interface GitHubRepositoryMetadata {
-  readonly defaultBranch: string | null;
+  readonly defaultBranch: string;
   readonly githubRepoDescription: string | null;
   readonly githubRepoName: string;
   readonly githubRepoOwnerName: string;
@@ -7725,6 +7743,7 @@ export interface IosAppCredentialsMutation {
 export interface IosDeviceRunSessionDevice {
   readonly displayName: string;
   readonly identifier: string;
+  readonly isDefault: boolean;
 }
 
 export interface IosDeviceRunSessionProfiles {
@@ -8574,6 +8593,7 @@ export interface StatuspageService {
   readonly incidents: ReadonlyArray<StatuspageIncident>;
   readonly name:
     | "EAS_BUILD"
+    | "EAS_SIMULATOR"
     | "EAS_SUBMIT"
     | "EAS_UPDATE"
     | "EAS_WORKFLOWS"
@@ -10433,6 +10453,7 @@ export interface WorkflowRun {
     | "GITHUB_PUSH"
     | "GITHUB_REF_DELETE"
     | "MANUAL"
+    | "OBSERVE_NEW_ERROR"
     | "REPACK_EXPO_GO"
     | "SCHEDULE"
     | "SENTRY_ISSUE_ARCHIVED"
@@ -14840,18 +14861,26 @@ const AccountFields: TypeMeta["fields"] = {
   }),
   displayName: scalarField("displayName"),
   environmentSecrets: listField("environmentSecrets", EnvironmentSecret, {
+    excludeProductionOnly: "Boolean",
     filterNames: "[String!]",
   }),
-  environmentVariableEnvironments: scalarField("environmentVariableEnvironments"),
+  environmentVariableEnvironments: scalarField("environmentVariableEnvironments", {
+    argTypes: { excludeProductionOnly: "Boolean" },
+  }),
   environmentVariableProtectionEnabled: scalarField("environmentVariableProtectionEnabled"),
   environmentVariables: listField("environmentVariables", EnvironmentVariable, {
     environment: "EnvironmentVariableEnvironment",
+    excludeProductionOnly: "Boolean",
     filterNames: "[String!]",
   }),
   environmentVariablesIncludingSensitive: listField(
     "environmentVariablesIncludingSensitive",
     EnvironmentVariableWithSecret,
-    { environment: "EnvironmentVariableEnvironment", filterNames: "[String!]" },
+    {
+      environment: "EnvironmentVariableEnvironment",
+      excludeProductionOnly: "Boolean",
+      filterNames: "[String!]",
+    },
   ),
   githubAppInstallations: listField("githubAppInstallations", GitHubAppInstallation),
   githubAppRegistration: objectField("githubAppRegistration", GitHubAppRegistration),
@@ -15411,6 +15440,7 @@ const AndroidAppCredentialsMutationFields: TypeMeta["fields"] = {
 const AndroidDeviceRunSessionDeviceFields: TypeMeta["fields"] = {
   displayName: scalarField("displayName"),
   identifier: scalarField("identifier"),
+  isDefault: scalarField("isDefault"),
 };
 
 const AndroidDeviceRunSessionProfilesFields: TypeMeta["fields"] = {
@@ -15551,17 +15581,25 @@ const AppFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   environmentSecrets: listField("environmentSecrets", EnvironmentSecret, {
+    excludeProductionOnly: "Boolean",
     filterNames: "[String!]",
   }),
-  environmentVariableEnvironments: scalarField("environmentVariableEnvironments"),
+  environmentVariableEnvironments: scalarField("environmentVariableEnvironments", {
+    argTypes: { excludeProductionOnly: "Boolean" },
+  }),
   environmentVariables: listField("environmentVariables", EnvironmentVariable, {
     environment: "EnvironmentVariableEnvironment",
+    excludeProductionOnly: "Boolean",
     filterNames: "[String!]",
   }),
   environmentVariablesIncludingSensitive: listField(
     "environmentVariablesIncludingSensitive",
     EnvironmentVariableWithSecret,
-    { environment: "EnvironmentVariableEnvironment", filterNames: "[String!]" },
+    {
+      environment: "EnvironmentVariableEnvironment",
+      excludeProductionOnly: "Boolean",
+      filterNames: "[String!]",
+    },
   ),
   fingerprintsPaginated: connectionField("fingerprintsPaginated", Fingerprint, {
     after: "String",
@@ -16575,6 +16613,7 @@ const AppObserveSpanFields: TypeMeta["fields"] = {
   name: scalarField("name"),
   parentSpanId: scalarField("parentSpanId"),
   reactNativeVersion: scalarField("reactNativeVersion"),
+  scopeName: scalarField("scopeName"),
   sessionId: scalarField("sessionId"),
   spanId: scalarField("spanId"),
   startTimestamp: scalarField("startTimestamp"),
@@ -18031,6 +18070,7 @@ const DeviceRunSessionFields: TypeMeta["fields"] = {
   artifacts: listField("artifacts", DeviceRunSessionArtifact),
   build: objectField("build", Build),
   createdAt: scalarField("createdAt"),
+  deviceIdentifier: scalarField("deviceIdentifier"),
   finishedAt: scalarField("finishedAt"),
   id: scalarField("id"),
   initiatingActor: objectField("initiatingActor", Actor),
@@ -18838,6 +18878,7 @@ const IosAppCredentialsMutationFields: TypeMeta["fields"] = {
 const IosDeviceRunSessionDeviceFields: TypeMeta["fields"] = {
   displayName: scalarField("displayName"),
   identifier: scalarField("identifier"),
+  isDefault: scalarField("isDefault"),
 };
 
 const IosDeviceRunSessionProfilesFields: TypeMeta["fields"] = {

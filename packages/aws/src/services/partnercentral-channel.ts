@@ -3,6 +3,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -10,6 +11,7 @@ import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -190,7 +192,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(289, __c18, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(417, __c26, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -220,6 +222,32 @@ export interface AcceptChannelHandshakeDetail {
 export interface AcceptChannelHandshakeResponse {
   channelHandshakeDetail?: AcceptChannelHandshakeDetail | undefined;
 }
+export type ChannelContractIdentifier = string;
+export type CancellationReason = string;
+export type ClientToken = string;
+export interface CancelChannelContractRequest {
+  catalog: string;
+  identifier: string;
+  reason?: string | undefined;
+  clientToken?: string | undefined;
+}
+export type ChannelContractId = string;
+export type ChannelContractStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "EXPIRED"
+  | "CANCELED"
+  | "INACTIVE"
+  | (string & {});
+export interface CancelChannelContractDetail {
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: ChannelContractStatus | undefined;
+  cancellationReason?: string | undefined;
+}
+export interface CancelChannelContractResponse {
+  channelContractDetail?: CancelChannelContractDetail | undefined;
+}
 export interface CancelChannelHandshakeRequest {
   catalog: string;
   identifier: string;
@@ -232,13 +260,79 @@ export interface CancelChannelHandshakeDetail {
 export interface CancelChannelHandshakeResponse {
   channelHandshakeDetail?: CancelChannelHandshakeDetail | undefined;
 }
+export type ChannelContractType = "MANAGED_SERVICES_ATTESTATION" | (string & {});
+export type ChannelContractLegalEntityName = string | redacted.Redacted<string>;
+export type RelationshipIdentifier = string;
+export type ProgramManagementAccountIdentifier = string;
+export type AccountId = string;
+export type MemberAccountIdList = string[];
+export type ManagedServicesSupportedService =
+  | "MONITORING"
+  | "PATCHING"
+  | "SECURITY"
+  | "BACKUP_AND_DISASTER_RECOVERY"
+  | "FINANCIAL_OPERATIONS"
+  | "INFRASTRUCTURE_AS_CODE_AND_AUTOMATION"
+  | "WELL_ARCHITECTED"
+  | "ARTIFICIAL_INTELLIGENCE_AND_MACHINE_LEARNING_OPERATIONS"
+  | (string & {});
+export type ManagedServicesSupportedServiceList = ManagedServicesSupportedService[];
+export type City = string;
+export type StateOrRegion = string;
+export type PostalCode = string;
+export type CountryCode = string;
+export type AddressLine = string;
+export interface Address {
+  city: string;
+  stateOrRegion: string;
+  postalCode: string;
+  countryCode: string;
+  addressLine: string;
+  addressLine2?: string | undefined;
+}
+export type ChannelContractSignatoryName = string | redacted.Redacted<string>;
+export type ChannelContractSignatoryEmail = string | redacted.Redacted<string>;
+export interface ManagedServicesAttestationPayload {
+  legalEntityName: string | redacted.Redacted<string>;
+  relationshipIdentifier: string;
+  programManagementAccountIdentifier: string;
+  memberAccountIds?: string[] | undefined;
+  endDate: Date;
+  supportedServices: ManagedServicesSupportedService[];
+  legalEntityAddress: Address;
+  signatoryName: string | redacted.Redacted<string>;
+  signatoryEmail: string | redacted.Redacted<string>;
+}
+export type ChannelContractPayload = {
+  managedServicesAttestationPayload: ManagedServicesAttestationPayload;
+};
+export type TagKey = string;
+export type TagValue = string;
+export interface Tag {
+  key: string;
+  value: string;
+}
+export type TagList = Tag[];
+export interface CreateChannelContractRequest {
+  contractType: ChannelContractType;
+  catalog: string;
+  payload: ChannelContractPayload;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
+}
+export interface CreateChannelContractDetail {
+  id?: string | undefined;
+  arn?: string | undefined;
+}
+export interface CreateChannelContractResponse {
+  channelContractDetail?: CreateChannelContractDetail | undefined;
+}
 export type HandshakeType =
   | "START_SERVICE_PERIOD"
   | "REVOKE_SERVICE_PERIOD"
   | "PROGRAM_MANAGEMENT_ACCOUNT"
   | (string & {});
 export type AssociatedResourceIdentifier = string;
-export type ProgramManagementAccountIdentifier = string;
 export type Note = string;
 export type ServicePeriodType = "MINIMUM_NOTICE_PERIOD" | "FIXED_COMMITMENT_PERIOD" | (string & {});
 export type MinimumNoticeDays = string;
@@ -259,14 +353,6 @@ export type ChannelHandshakePayload =
       startServicePeriodPayload?: undefined;
       revokeServicePeriodPayload: RevokeServicePeriodPayload;
     };
-export type ClientToken = string;
-export type TagKey = string;
-export type TagValue = string;
-export interface Tag {
-  key: string;
-  value: string;
-}
-export type TagList = Tag[];
 export interface CreateChannelHandshakeRequest {
   handshakeType: HandshakeType;
   catalog: string;
@@ -282,9 +368,17 @@ export interface CreateChannelHandshakeDetail {
 export interface CreateChannelHandshakeResponse {
   channelHandshakeDetail?: CreateChannelHandshakeDetail | undefined;
 }
-export type Program = "SOLUTION_PROVIDER" | "DISTRIBUTION" | "DISTRIBUTION_SELLER" | (string & {});
+export type Program =
+  | "SOLUTION_PROVIDER"
+  | "DISTRIBUTION"
+  | "DISTRIBUTION_SELLER"
+  | "MANAGED_SERVICES_PROVIDER"
+  | (string & {});
 export type ProgramManagementAccountDisplayName = string;
-export type AccountId = string;
+export type ProgramManagementAccountType =
+  | "RESALE_BILLING_TRANSFER"
+  | "MANAGED_SERVICES"
+  | (string & {});
 export interface CreateProgramManagementAccountRequest {
   catalog: string;
   program: Program;
@@ -292,6 +386,7 @@ export interface CreateProgramManagementAccountRequest {
   accountId: string;
   clientToken?: string | undefined;
   tags?: Tag[] | undefined;
+  type?: ProgramManagementAccountType | undefined;
 }
 export type ProgramManagementAccountId = string;
 export interface CreateProgramManagementAccountDetail {
@@ -301,7 +396,12 @@ export interface CreateProgramManagementAccountDetail {
 export interface CreateProgramManagementAccountResponse {
   programManagementAccountDetail?: CreateProgramManagementAccountDetail | undefined;
 }
-export type AssociationType = "DOWNSTREAM_SELLER" | "END_CUSTOMER" | "INTERNAL" | (string & {});
+export type AssociationType =
+  | "DOWNSTREAM_SELLER"
+  | "END_CUSTOMER"
+  | "INTERNAL"
+  | "MANAGED_SERVICES_END_CUSTOMER"
+  | (string & {});
 export type RelationshipDisplayName = string;
 export type ResaleAccountModel =
   | "DISTRIBUTOR"
@@ -342,17 +442,20 @@ export type SupportPlan =
       partnerLedSupport?: undefined;
       resoldUnifiedOperations: ResoldUnifiedOperations;
     };
+export type AccountScope = "ENTIRE_ORGANIZATION" | "SPECIFIC_MEMBER_ACCOUNTS" | (string & {});
 export interface CreateRelationshipRequest {
   catalog: string;
   associationType: AssociationType;
   programManagementAccountIdentifier: string;
-  associatedAccountId: string;
+  associatedAccountId?: string | undefined;
   displayName: string;
   resaleAccountModel?: ResaleAccountModel | undefined;
   sector: Sector;
   clientToken?: string | undefined;
   tags?: Tag[] | undefined;
   requestedSupportPlan?: SupportPlan | undefined;
+  accountScope?: AccountScope | undefined;
+  startDate?: Date | undefined;
 }
 export type RelationshipId = string;
 export interface CreateRelationshipDetail {
@@ -368,7 +471,6 @@ export interface DeleteProgramManagementAccountRequest {
   clientToken?: string | undefined;
 }
 export interface DeleteProgramManagementAccountResponse {}
-export type RelationshipIdentifier = string;
 export interface DeleteRelationshipRequest {
   catalog: string;
   identifier: string;
@@ -376,6 +478,39 @@ export interface DeleteRelationshipRequest {
   clientToken?: string | undefined;
 }
 export interface DeleteRelationshipResponse {}
+export interface GetChannelContractRequest {
+  catalog: string;
+  identifier: string;
+}
+export interface ManagedServicesAttestationDetails {
+  legalEntityName: string | redacted.Redacted<string>;
+  relationshipIdentifier: string;
+  programManagementAccountIdentifier: string;
+  memberAccountIds?: string[] | undefined;
+  endDate: Date;
+  supportedServices: ManagedServicesSupportedService[];
+  signatoryName: string | redacted.Redacted<string>;
+  signatoryEmail: string | redacted.Redacted<string>;
+  legalEntityAddress?: Address | undefined;
+}
+export type ChannelContractDetails = {
+  managedServicesAttestationDetails: ManagedServicesAttestationDetails;
+};
+export interface ChannelContractDetail {
+  id: string;
+  arn: string;
+  catalog: string;
+  contractType: ChannelContractType;
+  status: ChannelContractStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  respondedAt?: Date | undefined;
+  cancellationReason?: string | undefined;
+  details: ChannelContractDetails;
+}
+export interface GetChannelContractResponse {
+  channelContractDetail?: ChannelContractDetail | undefined;
+}
 export interface GetRelationshipRequest {
   catalog: string;
   programManagementAccountIdentifier: string;
@@ -393,12 +528,71 @@ export interface RelationshipDetail {
   displayName?: string | undefined;
   resaleAccountModel?: ResaleAccountModel | undefined;
   sector?: Sector | undefined;
+  accountScope?: AccountScope | undefined;
+  channelContractId?: string | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
   startDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export interface GetRelationshipResponse {
   relationshipDetail?: RelationshipDetail | undefined;
+}
+export type ChannelContractStatusFilterList = ChannelContractStatus[];
+export type RelationshipIdentifierFilterList = string[];
+export type ChannelContractLegalEntityNameFilterList = (string | redacted.Redacted<string>)[];
+export interface ManagedServicesAttestationTypeFilters {
+  relationshipIdentifiers?: string[] | undefined;
+  legalEntityNames?: (string | redacted.Redacted<string>)[] | undefined;
+}
+export type ListChannelContractsTypeFilters = {
+  managedServicesAttestationTypeFilters: ManagedServicesAttestationTypeFilters;
+};
+export type SortOrder = "Ascending" | "Descending" | (string & {});
+export type ManagedServicesAttestationTypeSortName = "UpdatedAt" | (string & {});
+export interface ManagedServicesAttestationTypeSort {
+  sortOrder: SortOrder;
+  sortBy: ManagedServicesAttestationTypeSortName;
+}
+export type ListChannelContractsTypeSort = {
+  managedServicesAttestationTypeSort: ManagedServicesAttestationTypeSort;
+};
+export type NextToken = string;
+export interface ListChannelContractsRequest {
+  catalog: string;
+  contractType: ChannelContractType;
+  statuses?: ChannelContractStatus[] | undefined;
+  contractTypeFilters?: ListChannelContractsTypeFilters | undefined;
+  contractTypeSort?: ListChannelContractsTypeSort | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface ManagedServicesAttestationSummaryDetails {
+  legalEntityName: string | redacted.Redacted<string>;
+  relationshipIdentifier: string;
+  programManagementAccountIdentifier: string;
+  memberAccountIds?: string[] | undefined;
+  endDate: Date;
+  supportedServices: ManagedServicesSupportedService[];
+}
+export type ChannelContractSummaryDetails = {
+  managedServicesAttestationDetails: ManagedServicesAttestationSummaryDetails;
+};
+export interface ChannelContractSummary {
+  id: string;
+  arn: string;
+  catalog: string;
+  contractType: ChannelContractType;
+  status: ChannelContractStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  respondedAt?: Date | undefined;
+  details: ChannelContractSummaryDetails;
+}
+export type ChannelContractSummaries = ChannelContractSummary[];
+export interface ListChannelContractsResponse {
+  items: ChannelContractSummary[];
+  nextToken?: string | undefined;
 }
 export type ParticipantType = "SENDER" | "RECEIVER" | (string & {});
 export type HandshakeStatusList = HandshakeStatus[];
@@ -430,7 +624,6 @@ export type ListChannelHandshakesTypeFilters =
       revokeServicePeriodTypeFilters?: undefined;
       programManagementAccountTypeFilters: ProgramManagementAccountTypeFilters;
     };
-export type SortOrder = "Ascending" | "Descending" | (string & {});
 export type StartServicePeriodTypeSortName = "UpdatedAt" | (string & {});
 export interface StartServicePeriodTypeSort {
   sortOrder: SortOrder;
@@ -462,7 +655,6 @@ export type ListChannelHandshakesTypeSort =
       revokeServicePeriodTypeSort?: undefined;
       programManagementAccountTypeSort: ProgramManagementAccountTypeSort;
     };
-export type NextToken = string;
 export interface ListChannelHandshakesRequest {
   handshakeType: HandshakeType;
   catalog: string;
@@ -547,6 +739,7 @@ export interface ListProgramManagementAccountsRequest {
   statuses?: ProgramManagementAccountStatus[] | undefined;
   sort?: ListProgramManagementAccountsSortBase | undefined;
   nextToken?: string | undefined;
+  type?: ProgramManagementAccountType | undefined;
 }
 export interface ProgramManagementAccountSummary {
   id?: string | undefined;
@@ -560,6 +753,7 @@ export interface ProgramManagementAccountSummary {
   updatedAt?: Date | undefined;
   startDate?: Date | undefined;
   status?: ProgramManagementAccountStatus | undefined;
+  type?: ProgramManagementAccountType | undefined;
 }
 export type ProgramManagementAccountSummaries = ProgramManagementAccountSummary[];
 export interface ListProgramManagementAccountsResponse {
@@ -691,8 +885,8 @@ export const acceptChannelHandshake: API.OperationMethod<
   AcceptChannelHandshakeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<AcceptChannelHandshakeRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<AcceptChannelHandshakeResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<AcceptChannelHandshakeRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<AcceptChannelHandshakeResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -706,6 +900,40 @@ export const acceptChannelHandshake: API.OperationMethod<
   operationName: "AcceptChannelHandshake",
   telemetry: TELEMETRY,
   span: "AcceptChannelHandshake",
+}));
+
+export type CancelChannelContractError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels a pending channel contract created within the last 30 days. A request for a channel contract that isn't PENDING, including one that is already CANCELED, fails with a ValidationException.
+ */
+export const cancelChannelContract: API.OperationMethod<
+  CancelChannelContractRequest & RegionInput,
+  CancelChannelContractResponse,
+  CancelChannelContractError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<CancelChannelContractRequest>,
+  output: __S(466, __c29, 2) as any as S.Schema<CancelChannelContractResponse>,
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelChannelContract",
+  telemetry: TELEMETRY,
+  span: "CancelChannelContract",
 }));
 
 export type CancelChannelHandshakeError =
@@ -724,8 +952,8 @@ export const cancelChannelHandshake: API.OperationMethod<
   CancelChannelHandshakeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CancelChannelHandshakeRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<CancelChannelHandshakeResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<CancelChannelHandshakeRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<CancelChannelHandshakeResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -739,6 +967,41 @@ export const cancelChannelHandshake: API.OperationMethod<
   operationName: "CancelChannelHandshake",
   telemetry: TELEMETRY,
   span: "CancelChannelHandshake",
+}));
+
+export type CreateChannelContractError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a new channel contract and sends it to the signatory for signature. In the Sandbox catalog, the channel contract is accepted automatically.
+ */
+export const createChannelContract: API.OperationMethod<
+  CreateChannelContractRequest & RegionInput,
+  CreateChannelContractResponse,
+  CreateChannelContractError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2, __c0, 2) as any as S.Schema<CreateChannelContractRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<CreateChannelContractResponse>,
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateChannelContract",
+  telemetry: TELEMETRY,
+  span: "CreateChannelContract",
 }));
 
 export type CreateChannelHandshakeError =
@@ -759,8 +1022,8 @@ export const createChannelHandshake: API.OperationMethod<
   CreateChannelHandshakeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(355, __c22, 3) as any as S.Schema<CreateChannelHandshakeRequest>,
-  output: __S(356, __c22, 4) as any as S.Schema<CreateChannelHandshakeResponse>,
+  input: __S(99, __c6, 3) as any as S.Schema<CreateChannelHandshakeRequest>,
+  output: __S(100, __c6, 4) as any as S.Schema<CreateChannelHandshakeResponse>,
   errors: [ConflictException, ServiceQuotaExceededException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -794,8 +1057,8 @@ export const createProgramManagementAccount: API.OperationMethod<
   CreateProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProgramManagementAccountRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateProgramManagementAccountResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateProgramManagementAccountRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<CreateProgramManagementAccountResponse>,
   errors: [ConflictException, ServiceQuotaExceededException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -829,8 +1092,8 @@ export const createRelationship: API.OperationMethod<
   CreateRelationshipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<CreateRelationshipRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CreateRelationshipResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateRelationshipRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<CreateRelationshipResponse>,
   errors: [ConflictException, ServiceQuotaExceededException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -863,8 +1126,8 @@ export const deleteProgramManagementAccount: API.OperationMethod<
   DeleteProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<DeleteProgramManagementAccountRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<DeleteProgramManagementAccountResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteProgramManagementAccountRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteProgramManagementAccountResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -897,8 +1160,8 @@ export const deleteRelationship: API.OperationMethod<
   DeleteRelationshipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteRelationshipRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<DeleteRelationshipResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteRelationshipRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteRelationshipResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -912,6 +1175,39 @@ export const deleteRelationship: API.OperationMethod<
   operationName: "DeleteRelationship",
   telemetry: TELEMETRY,
   span: "DeleteRelationship",
+}));
+
+export type GetChannelContractError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves details of a specific channel contract.
+ */
+export const getChannelContract: API.OperationMethod<
+  GetChannelContractRequest & RegionInput,
+  GetChannelContractResponse,
+  GetChannelContractError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<GetChannelContractRequest>,
+  output: __S(212, __c13, 4) as any as S.Schema<GetChannelContractResponse>,
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetChannelContract",
+  telemetry: TELEMETRY,
+  span: "GetChannelContract",
 }));
 
 export type GetRelationshipError =
@@ -930,8 +1226,8 @@ export const getRelationship: API.OperationMethod<
   GetRelationshipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetRelationshipRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetRelationshipResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetRelationshipRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<GetRelationshipResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -946,6 +1242,46 @@ export const getRelationship: API.OperationMethod<
   telemetry: TELEMETRY,
   span: "GetRelationship",
 }));
+
+export type ListChannelContractsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists channel contracts based on specified criteria.
+ */
+export const listChannelContracts: API.PaginatedOperationMethod<
+  ListChannelContractsRequest & RegionInput,
+  ListChannelContractsResponse,
+  ListChannelContractsError,
+  Credentials | HttpClient.HttpClient,
+  ChannelContractSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(244, __c15, 4) as any as S.Schema<ListChannelContractsRequest>,
+  output: __S(249, __c15, 9) as any as S.Schema<ListChannelContractsResponse>,
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListChannelContracts",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelContracts",
+})) as any;
 
 export type ListChannelHandshakesError =
   | AccessDeniedException
@@ -964,8 +1300,8 @@ export const listChannelHandshakes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChannelHandshakeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(116, __c7, 4) as any as S.Schema<ListChannelHandshakesRequest>,
-  output: __S(122, __c7, 10) as any as S.Schema<ListChannelHandshakesResponse>,
+  input: __S(276, __c17, 4) as any as S.Schema<ListChannelHandshakesRequest>,
+  output: __S(282, __c17, 10) as any as S.Schema<ListChannelHandshakesResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1004,8 +1340,8 @@ export const listProgramManagementAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProgramManagementAccountSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListProgramManagementAccountsRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<ListProgramManagementAccountsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListProgramManagementAccountsRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<ListProgramManagementAccountsResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1044,8 +1380,8 @@ export const listRelationships: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RelationshipSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListRelationshipsRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<ListRelationshipsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListRelationshipsRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<ListRelationshipsResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1083,8 +1419,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1116,8 +1452,8 @@ export const rejectChannelHandshake: API.OperationMethod<
   RejectChannelHandshakeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<RejectChannelHandshakeRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<RejectChannelHandshakeResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<RejectChannelHandshakeRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<RejectChannelHandshakeResponse>,
   errors: [],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1150,8 +1486,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1184,8 +1520,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1218,8 +1554,8 @@ export const updateProgramManagementAccount: API.OperationMethod<
   UpdateProgramManagementAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateProgramManagementAccountRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<UpdateProgramManagementAccountResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<UpdateProgramManagementAccountRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<UpdateProgramManagementAccountResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1252,8 +1588,8 @@ export const updateRelationship: API.OperationMethod<
   UpdateRelationshipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateRelationshipRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<UpdateRelationshipResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateRelationshipRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<UpdateRelationshipResponse>,
   errors: [ConflictException],
   serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
@@ -1275,12 +1611,150 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          legalEntityName: SensitiveString,
+          relationshipIdentifier: S.String,
+          programManagementAccountIdentifier: S.String,
+          memberAccountIds: S.optional(__S(80, __c5, 0)),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          supportedServices: __S(64, __c4, 0),
+          legalEntityAddress: __S(48, __c3, 0),
+          signatoryName: SensitiveString,
+          signatoryEmail: SensitiveString,
+        }),
+      ).annotate({ identifier: "ManagedServicesAttestationPayload" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ managedServicesAttestationPayload: __S(0, __c0, 0) }),
+      ]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contractType: S.String,
+          catalog: S.String,
+          payload: __S(1, __c0, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(33, __c2, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateChannelContract" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateChannelContractRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ channelContractDetail: S.optional(__S(16, __c1, 0)) }),
+      ).annotate({ identifier: "CreateChannelContractResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.optional(S.String), arn: S.optional(S.String) }),
+      ).annotate({ identifier: "CreateChannelContractDetail" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(32, __c2, 0));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          city: S.String,
+          stateOrRegion: S.String,
+          postalCode: S.String,
+          countryCode: S.String,
+          addressLine: S.String,
+          addressLine2: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Address" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          programManagementAccountIdentifier: S.String,
+          note: S.optional(S.String),
+          servicePeriodType: S.String,
+          minimumNoticeDays: S.optional(S.String),
+          endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "StartServicePeriodPayload" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ programManagementAccountIdentifier: S.String, note: S.optional(S.String) }),
+      ).annotate({ identifier: "RevokeServicePeriodPayload" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ startServicePeriodPayload: __S(96, __c6, 0) }),
+        /*@__PURE__*/ S.Struct({ revokeServicePeriodPayload: __S(97, __c6, 1) }),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          handshakeType: S.String,
+          catalog: S.String,
+          associatedResourceIdentifier: S.String,
+          payload: S.optional(__S(98, __c6, 2)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(33, __c2, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CreateChannelHandshake" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateChannelHandshakeRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ channelHandshakeDetail: S.optional(__S(16, __c1, 0)) }),
+      ).annotate({ identifier: "CreateChannelHandshakeResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           catalog: S.String,
           program: S.String,
           displayName: S.String,
           accountId: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(385, __c24, 1)),
+          tags: S.optional(__S(33, __c2, 1)),
+          type: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateProgramManagementAccount" }),
@@ -1294,11 +1768,11 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateProgramManagementAccountRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ programManagementAccountDetail: S.optional(__S(368, __c23, 0)) }),
+        S.Struct({ programManagementAccountDetail: S.optional(__S(16, __c1, 0)) }),
       ).annotate({ identifier: "CreateProgramManagementAccountResponse" });
   }
 }
-function __c1(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1306,13 +1780,15 @@ function __c1(j: number): any {
           catalog: S.String,
           associationType: S.String,
           programManagementAccountIdentifier: S.String,
-          associatedAccountId: S.String,
+          associatedAccountId: S.optional(S.String),
           displayName: S.String,
           resaleAccountModel: S.optional(S.String),
           sector: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(385, __c24, 1)),
-          requestedSupportPlan: S.optional(__S(34, __c2, 2)),
+          tags: S.optional(__S(33, __c2, 1)),
+          requestedSupportPlan: S.optional(__S(146, __c9, 2)),
+          accountScope: S.optional(S.String),
+          startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateRelationship" }),
@@ -1330,11 +1806,11 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateRelationshipDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ relationshipDetail: S.optional(__S(17, __c1, 1)) }),
+        S.Struct({ relationshipDetail: S.optional(__S(129, __c8, 1)) }),
       ).annotate({ identifier: "CreateRelationshipResponse" });
   }
 }
-function __c2(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1350,13 +1826,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PartnerLedSupport" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ resoldEnterprise: __S(32, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ partnerLedSupport: __S(33, __c2, 1) }),
-        /*@__PURE__*/ S.Struct({ resoldUnifiedOperations: __S(32, __c2, 0) }),
+        /*@__PURE__*/ S.Struct({ resoldEnterprise: __S(144, __c9, 0) }),
+        /*@__PURE__*/ S.Struct({ partnerLedSupport: __S(145, __c9, 1) }),
+        /*@__PURE__*/ S.Struct({ resoldUnifiedOperations: __S(144, __c9, 0) }),
       ]);
   }
 }
-function __c3(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1377,7 +1853,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteProgramManagementAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1385,7 +1861,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1407,7 +1883,61 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteRelationshipRequest" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ catalog: S.String, identifier: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/GetChannelContract" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetChannelContractRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          legalEntityName: SensitiveString,
+          relationshipIdentifier: S.String,
+          programManagementAccountIdentifier: S.String,
+          memberAccountIds: S.optional(__S(80, __c5, 0)),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          supportedServices: __S(64, __c4, 0),
+          signatoryName: SensitiveString,
+          signatoryEmail: SensitiveString,
+          legalEntityAddress: S.optional(__S(48, __c3, 0)),
+        }),
+      ).annotate({ identifier: "ManagedServicesAttestationDetails" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ managedServicesAttestationDetails: __S(209, __c13, 1) }),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          arn: S.String,
+          catalog: S.String,
+          contractType: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          respondedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          cancellationReason: S.optional(S.String),
+          details: __S(210, __c13, 2),
+        }),
+      ).annotate({ identifier: "ChannelContractDetail" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ channelContractDetail: S.optional(__S(211, __c13, 3)) }),
+      ).annotate({ identifier: "GetChannelContractResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,38 +1962,126 @@ function __c6(j: number): any {
           displayName: S.optional(S.String),
           resaleAccountModel: S.optional(S.String),
           sector: S.optional(S.String),
+          accountScope: S.optional(S.String),
+          channelContractId: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "RelationshipDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ relationshipDetail: S.optional(__S(97, __c6, 1)) }),
+        S.Struct({ relationshipDetail: S.optional(__S(225, __c14, 1)) }),
       ).annotate({ identifier: "GetRelationshipResponse" });
   }
 }
-function __c7(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(SensitiveString);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          relationshipIdentifiers: S.optional(__S(80, __c5, 0)),
+          legalEntityNames: S.optional(__S(240, __c15, 0)),
+        }),
+      ).annotate({ identifier: "ManagedServicesAttestationTypeFilters" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ managedServicesAttestationTypeFilters: __S(241, __c15, 1) }),
+      ]);
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ managedServicesAttestationTypeSort: __S(256, __c16, 0) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String,
+          contractType: S.String,
+          statuses: S.optional(__S(64, __c4, 0)),
+          contractTypeFilters: S.optional(__S(242, __c15, 2)),
+          contractTypeSort: S.optional(__S(243, __c15, 3)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ListChannelContracts" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListChannelContractsRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          legalEntityName: SensitiveString,
+          relationshipIdentifier: S.String,
+          programManagementAccountIdentifier: S.String,
+          memberAccountIds: S.optional(__S(80, __c5, 0)),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          supportedServices: __S(64, __c4, 0),
+        }),
+      ).annotate({ identifier: "ManagedServicesAttestationSummaryDetails" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ managedServicesAttestationDetails: __S(245, __c15, 5) }),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          arn: S.String,
+          catalog: S.String,
+          contractType: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          respondedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          details: __S(246, __c15, 6),
+        }),
+      ).annotate({ identifier: "ChannelContractSummary" });
+    case 8:
+      return S.Array(__S(247, __c15, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ items: __S(248, __c15, 8), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListChannelContractsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ sortOrder: S.String, sortBy: S.String })).annotate({
+        identifier: "ManagedServicesAttestationTypeSort",
+      });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ servicePeriodTypes: S.optional(__S(128, __c8, 0)) }),
+        S.Struct({ servicePeriodTypes: S.optional(__S(64, __c4, 0)) }),
       ).annotate({ identifier: "StartServicePeriodTypeFilters" });
     case 1:
-      return S.suspend(() => S.Struct({ programs: S.optional(__S(128, __c8, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ programs: S.optional(__S(64, __c4, 0)) })).annotate({
         identifier: "ProgramManagementAccountTypeFilters",
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ startServicePeriodTypeFilters: __S(112, __c7, 0) }),
-        /*@__PURE__*/ S.Struct({ revokeServicePeriodTypeFilters: __S(112, __c7, 0) }),
-        /*@__PURE__*/ S.Struct({ programManagementAccountTypeFilters: __S(113, __c7, 1) }),
+        /*@__PURE__*/ S.Struct({ startServicePeriodTypeFilters: __S(272, __c17, 0) }),
+        /*@__PURE__*/ S.Struct({ revokeServicePeriodTypeFilters: __S(272, __c17, 0) }),
+        /*@__PURE__*/ S.Struct({ programManagementAccountTypeFilters: __S(273, __c17, 1) }),
       ]);
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ startServicePeriodTypeSort: __S(129, __c8, 1) }),
-        /*@__PURE__*/ S.Struct({ revokeServicePeriodTypeSort: __S(129, __c8, 1) }),
-        /*@__PURE__*/ S.Struct({ programManagementAccountTypeSort: __S(129, __c8, 1) }),
+        /*@__PURE__*/ S.Struct({ startServicePeriodTypeSort: __S(256, __c16, 0) }),
+        /*@__PURE__*/ S.Struct({ revokeServicePeriodTypeSort: __S(256, __c16, 0) }),
+        /*@__PURE__*/ S.Struct({ programManagementAccountTypeSort: __S(256, __c16, 0) }),
       ]);
     case 4:
       return S.suspend(() =>
@@ -1472,10 +2090,10 @@ function __c7(j: number): any {
           catalog: S.String,
           participantType: S.String,
           maxResults: S.optional(S.Number),
-          statuses: S.optional(__S(128, __c8, 0)),
-          associatedResourceIdentifiers: S.optional(__S(144, __c9, 0)),
-          handshakeTypeFilters: S.optional(__S(114, __c7, 2)),
-          handshakeTypeSort: S.optional(__S(115, __c7, 3)),
+          statuses: S.optional(__S(64, __c4, 0)),
+          associatedResourceIdentifiers: S.optional(__S(80, __c5, 0)),
+          handshakeTypeFilters: S.optional(__S(274, __c17, 2)),
+          handshakeTypeSort: S.optional(__S(275, __c17, 3)),
           nextToken: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1504,9 +2122,9 @@ function __c7(j: number): any {
       });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ startServicePeriodHandshakeDetail: __S(117, __c7, 5) }),
-        /*@__PURE__*/ S.Struct({ revokeServicePeriodHandshakeDetail: __S(117, __c7, 5) }),
-        /*@__PURE__*/ S.Struct({ programManagementAccountHandshakeDetail: __S(118, __c7, 6) }),
+        /*@__PURE__*/ S.Struct({ startServicePeriodHandshakeDetail: __S(277, __c17, 5) }),
+        /*@__PURE__*/ S.Struct({ revokeServicePeriodHandshakeDetail: __S(277, __c17, 5) }),
+        /*@__PURE__*/ S.Struct({ programManagementAccountHandshakeDetail: __S(278, __c17, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -1520,49 +2138,34 @@ function __c7(j: number): any {
           senderDisplayName: S.optional(S.String),
           receiverAccountId: S.optional(S.String),
           associatedResourceId: S.optional(S.String),
-          detail: S.optional(__S(119, __c7, 7)),
+          detail: S.optional(__S(279, __c17, 7)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChannelHandshakeSummary" });
     case 9:
-      return S.Array(__S(120, __c7, 8));
+      return S.Array(__S(280, __c17, 8));
     case 10:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(121, __c7, 9)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(281, __c17, 9)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListChannelHandshakesResponse" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() => S.Struct({ sortOrder: S.String, sortBy: S.String })).annotate({
-        identifier: "StartServicePeriodTypeSort",
-      });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c10(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           catalog: S.String,
           maxResults: S.optional(S.Number),
-          displayNames: S.optional(__S(144, __c9, 0)),
-          programs: S.optional(__S(128, __c8, 0)),
-          accountIds: S.optional(__S(144, __c9, 0)),
-          statuses: S.optional(__S(128, __c8, 0)),
-          sort: S.optional(__S(129, __c8, 1)),
+          displayNames: S.optional(__S(80, __c5, 0)),
+          programs: S.optional(__S(64, __c4, 0)),
+          accountIds: S.optional(__S(80, __c5, 0)),
+          statuses: S.optional(__S(64, __c4, 0)),
+          sort: S.optional(__S(256, __c16, 0)),
           nextToken: S.optional(S.String),
+          type: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/ListProgramManagementAccounts" }),
@@ -1588,28 +2191,29 @@ function __c10(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           status: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProgramManagementAccountSummary" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(162, __c10, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(290, __c18, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListProgramManagementAccountsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           catalog: S.String,
           maxResults: S.optional(S.Number),
-          associatedAccountIds: S.optional(__S(144, __c9, 0)),
-          associationTypes: S.optional(__S(128, __c8, 0)),
-          displayNames: S.optional(__S(144, __c9, 0)),
-          programManagementAccountIdentifiers: S.optional(__S(144, __c9, 0)),
-          sort: S.optional(__S(129, __c8, 1)),
+          associatedAccountIds: S.optional(__S(80, __c5, 0)),
+          associationTypes: S.optional(__S(64, __c4, 0)),
+          displayNames: S.optional(__S(80, __c5, 0)),
+          programManagementAccountIdentifiers: S.optional(__S(80, __c5, 0)),
+          sort: S.optional(__S(256, __c16, 0)),
           nextToken: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1640,14 +2244,14 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "RelationshipSummary" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(178, __c11, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(306, __c19, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRelationshipsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,12 +2267,12 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(385, __c24, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(33, __c2, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1685,27 +2289,27 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RejectChannelHandshakeRequest" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(385, __c24, 1) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(33, __c2, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tagKeys: __S(144, __c9, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tagKeys: __S(80, __c5, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c16(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1736,11 +2340,11 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateProgramManagementAccountDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ programManagementAccountDetail: S.optional(__S(257, __c16, 1)) }),
+        S.Struct({ programManagementAccountDetail: S.optional(__S(385, __c24, 1)) }),
       ).annotate({ identifier: "UpdateProgramManagementAccountResponse" });
   }
 }
-function __c17(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1750,7 +2354,7 @@ function __c17(j: number): any {
           programManagementAccountIdentifier: S.String,
           revision: S.optional(S.String),
           displayName: S.optional(S.String),
-          requestedSupportPlan: S.optional(__S(34, __c2, 2)),
+          requestedSupportPlan: S.optional(__S(146, __c9, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/UpdateRelationship" }),
@@ -1773,21 +2377,21 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateRelationshipDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ relationshipDetail: S.optional(__S(273, __c17, 1)) }),
+        S.Struct({ relationshipDetail: S.optional(__S(401, __c25, 1)) }),
       ).annotate({ identifier: "UpdateRelationshipResponse" });
   }
 }
-function __c18(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.String, code: S.String, message: S.String }),
       ).annotate({ identifier: "ValidationExceptionField" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(416, __c26, 0));
   }
 }
-function __c19(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1804,7 +2408,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "AcceptChannelHandshakeRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1816,11 +2420,46 @@ function __c20(j: number): any {
       ).annotate({ identifier: "AcceptChannelHandshakeDetail" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ channelHandshakeDetail: S.optional(__S(320, __c20, 0)) }),
+        S.Struct({ channelHandshakeDetail: S.optional(__S(448, __c28, 0)) }),
       ).annotate({ identifier: "AcceptChannelHandshakeResponse" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          catalog: S.String,
+          identifier: S.String,
+          reason: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CancelChannelContract" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelChannelContractRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          status: S.optional(S.String),
+          cancellationReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelChannelContractDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ channelContractDetail: S.optional(__S(465, __c29, 1)) }),
+      ).annotate({ identifier: "CancelChannelContractResponse" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1835,71 +2474,6 @@ function __c21(j: number): any {
           ),
         ),
       ).annotate({ identifier: "CancelChannelHandshakeRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          programManagementAccountIdentifier: S.String,
-          note: S.optional(S.String),
-          servicePeriodType: S.String,
-          minimumNoticeDays: S.optional(S.String),
-          endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-        }),
-      ).annotate({ identifier: "StartServicePeriodPayload" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ programManagementAccountIdentifier: S.String, note: S.optional(S.String) }),
-      ).annotate({ identifier: "RevokeServicePeriodPayload" });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ startServicePeriodPayload: __S(352, __c22, 0) }),
-        /*@__PURE__*/ S.Struct({ revokeServicePeriodPayload: __S(353, __c22, 1) }),
-      ]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          handshakeType: S.String,
-          catalog: S.String,
-          associatedResourceIdentifier: S.String,
-          payload: S.optional(__S(354, __c22, 2)),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(385, __c24, 1)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/CreateChannelHandshake" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "CreateChannelHandshakeRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({ channelHandshakeDetail: S.optional(__S(368, __c23, 0)) }),
-      ).annotate({ identifier: "CreateChannelHandshakeResponse" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ id: S.optional(S.String), arn: S.optional(S.String) }),
-      ).annotate({ identifier: "CreateChannelHandshakeDetail" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
-        identifier: "Tag",
-      });
-    case 1:
-      return S.Array(__S(384, __c24, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

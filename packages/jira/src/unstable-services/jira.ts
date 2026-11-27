@@ -128,7 +128,7 @@ export class UnprocessableEntity
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1440, __c90, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1456, __c91, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -1989,7 +1989,7 @@ export interface GetContextDefaultValuesRequest {
   fieldId: string;
   /** The IDs of the contexts to return default values for. If omitted, default values for every context the custom field has are returned. */
   contextId?: GetContextDefaultValuesRequestContextIdList | undefined;
-  /** The IDs of the issue types to restrict the returned per-issue-type default values to. If omitted, default values for every issue type are returned. This filter never removes the catch-all `isAnyIssueType` entry of a context. */
+  /** The IDs of the issue types whose stored overrides are returned. If omitted, all stored overrides are returned. Each returned context includes its base default regardless of this filter. */
   issueTypeId?: GetContextDefaultValuesRequestIssueTypeIdList | undefined;
   /** The index of the first item to return in a page of results (page offset). */
   startAt?: number | undefined;
@@ -2265,19 +2265,19 @@ export type CustomFieldContextDefaultValue =
   | CustomFieldContextDefaultValueForgeMultiUserField;
 /** A default value associated with an issue type within a context. */
 export interface IssueTypeDefaultValue {
-  /** True when this default value applies to every issue type covered by the context (no specific issue type). Only present when true; omitted otherwise. */
+  /** True when this entry is the base default scope, independently of context applicability. Only present when true; omitted otherwise. */
   isAnyIssueType?: boolean | null | undefined;
   /** The ID of the issue type this default value applies to. Null when isAnyIssueType is true. */
   issueTypeId?: string | null | undefined;
   value?: CustomFieldContextDefaultValue | undefined;
 }
-/** Per-issue-type default values for this context. May contain a single entry for unconverted contexts, or one entry per issue type for converted contexts. */
+/** The base default and explicitly stored issue-type overrides for this context. Inherited defaults are not duplicated. */
 export type ContextDefaultValuesDefaultValuesList = Array<IssueTypeDefaultValue>;
 /** Default values grouped by custom field context. */
 export interface ContextDefaultValues {
   /** The ID of the context. */
   contextId: number;
-  /** Per-issue-type default values for this context. May contain a single entry for unconverted contexts, or one entry per issue type for converted contexts. */
+  /** The base default and explicitly stored issue-type overrides for this context. Inherited defaults are not duplicated. */
   defaultValues?: ContextDefaultValuesDefaultValuesList | undefined;
 }
 /** The list of items. */
@@ -3655,6 +3655,40 @@ export interface PageBeanSecuritySchemeWithProjects {
   /** The list of items. */
   values: PageBeanSecuritySchemeWithProjectsValuesList;
 }
+/** The write operation. Defaults to set when omitted or null. */
+export type IssueTypeDefaultValueUpdateOperation = "set" | "removeOverride";
+/** A default value update for one issue-type scope in a context. */
+export interface IssueTypeDefaultValueUpdate {
+  /** True when targeting the base default, independently of context applicability. */
+  isAnyIssueType?: boolean | null | undefined;
+  /** The ID of the issue type this default value applies to. */
+  issueTypeId?: string | null | undefined;
+  /** The write operation. Defaults to set when omitted or null. */
+  operation?: IssueTypeDefaultValueUpdateOperation | (string & {}) | null | undefined;
+  value?: CustomFieldContextDefaultValue | undefined;
+}
+/** The default values to update. */
+export type ContextDefaultValueUpdateDefaultValuesList = Array<IssueTypeDefaultValueUpdate>;
+/** How to handle omitted defaults. */
+export type ContextDefaultValueUpdateMode = "merge" | "replace";
+/** Updates for one custom field context. */
+export interface ContextDefaultValueUpdate {
+  /** The ID of the context. */
+  contextId: number;
+  /** The default values to update. */
+  defaultValues: ContextDefaultValueUpdateDefaultValuesList;
+  /** How to handle omitted defaults. */
+  mode?: ContextDefaultValueUpdateMode | (string & {}) | undefined;
+}
+/** The contexts to update. */
+export type SetContextDefaultValuesRequestContextsList = Array<ContextDefaultValueUpdate>;
+export interface SetContextDefaultValuesRequest {
+  /** The ID of the custom field, for example \{@code customfield\_10000\}. */
+  fieldId: string;
+  /** The contexts to update. */
+  contexts: SetContextDefaultValuesRequestContextsList;
+}
+export type SetContextDefaultValuesResponse = unknown;
 /** Details of scheme and new default level. */
 export interface DefaultLevelValue {
   /** The ID of the issue security level to set as default for the specified scheme. Providing null will reset the default level. */
@@ -4127,8 +4161,8 @@ export const addAtlassianTeam: API.OperationMethod<
   AddAtlassianTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<AddAtlassianTeamRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<AddAtlassianTeamResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<AddAtlassianTeamRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<AddAtlassianTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4145,8 +4179,8 @@ export const addGadget: API.OperationMethod<
   AddGadgetError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<AddGadgetRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<DashboardGadgetOutput>,
+  input: __S(1872, __c117, 0) as any as S.Schema<AddGadgetRequest>,
+  output: __S(1888, __c118, 0) as any as S.Schema<DashboardGadgetOutput>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4163,7 +4197,7 @@ export const addPolicyToProjects: API.OperationMethod<
   AddPolicyToProjectsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<AddPolicyToProjectsRequest>,
+  input: __S(2096, __c131, 0) as any as S.Schema<AddPolicyToProjectsRequest>,
   output: __S(84, __c5, 4) as any as S.Schema<BulkPolicyOperationResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -4186,8 +4220,8 @@ export const addSecurityLevel: API.OperationMethod<
   AddSecurityLevelError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<AddSecurityLevelRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<AddSecurityLevelResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<AddSecurityLevelRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<AddSecurityLevelResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4204,8 +4238,8 @@ export const addSecurityLevelMembers: API.OperationMethod<
   AddSecurityLevelMembersError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<AddSecurityLevelMembersRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<AddSecurityLevelMembersResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<AddSecurityLevelMembersRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<AddSecurityLevelMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4240,8 +4274,8 @@ export const archiveIssuesAsync: API.OperationMethod<
   ArchiveIssuesAsyncError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ArchiveIssuesAsyncRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<ArchiveIssuesAsyncResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ArchiveIssuesAsyncRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<ArchiveIssuesAsyncResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4259,7 +4293,7 @@ export const archivePlan: API.OperationMethod<
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ArchivePlanRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<ArchivePlanResponse>,
+  output: __S(1664, __c104, 0) as any as S.Schema<ArchivePlanResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4299,8 +4333,8 @@ export const associateSchemesToProjects: API.OperationMethod<
   AssociateSchemesToProjectsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(706, __c44, 2) as any as S.Schema<AssociateSchemesToProjectsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<AssociateSchemesToProjectsResponse>,
+  input: __S(722, __c45, 2) as any as S.Schema<AssociateSchemesToProjectsRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<AssociateSchemesToProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4317,8 +4351,8 @@ export const bulkDeleteWorklogs: API.OperationMethod<
   BulkDeleteWorklogsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<BulkDeleteWorklogsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<BulkDeleteWorklogsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<BulkDeleteWorklogsRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<BulkDeleteWorklogsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4335,8 +4369,8 @@ export const bulkEditDashboards: API.OperationMethod<
   BulkEditDashboardsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(738, __c46, 2) as any as S.Schema<BulkEditDashboardsRequest>,
-  output: __S(741, __c46, 5) as any as S.Schema<BulkEditShareableEntityResponse>,
+  input: __S(754, __c47, 2) as any as S.Schema<BulkEditDashboardsRequest>,
+  output: __S(757, __c47, 5) as any as S.Schema<BulkEditShareableEntityResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4355,8 +4389,8 @@ export const bulkGetGroups: API.PaginatedOperationMethod<
   GroupDetails
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(816, __c51, 0) as any as S.Schema<BulkGetGroupsRequest>,
-    output: __S(818, __c51, 2) as any as S.Schema<PageBeanGroupDetails>,
+    input: __S(832, __c52, 0) as any as S.Schema<BulkGetGroupsRequest>,
+    output: __S(834, __c52, 2) as any as S.Schema<PageBeanGroupDetails>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -4383,8 +4417,8 @@ export const bulkGetUsers: API.PaginatedOperationMethod<
   User
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c52, 0) as any as S.Schema<BulkGetUsersRequest>,
-    output: __S(834, __c52, 2) as any as S.Schema<PageBeanUser>,
+    input: __S(848, __c53, 0) as any as S.Schema<BulkGetUsersRequest>,
+    output: __S(850, __c53, 2) as any as S.Schema<PageBeanUser>,
     errors: [BadRequest],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -4409,8 +4443,8 @@ export const bulkGetUsersMigration: API.OperationMethod<
   BulkGetUsersMigrationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<BulkGetUsersMigrationRequest>,
-  output: __S(867, __c54, 3) as any as S.Schema<BulkGetUsersMigrationResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<BulkGetUsersMigrationRequest>,
+  output: __S(883, __c55, 3) as any as S.Schema<BulkGetUsersMigrationResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4427,8 +4461,8 @@ export const bulkMoveWorklogs: API.OperationMethod<
   BulkMoveWorklogsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<BulkMoveWorklogsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<BulkMoveWorklogsResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<BulkMoveWorklogsRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<BulkMoveWorklogsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4445,8 +4479,8 @@ export const cancelTask: API.OperationMethod<
   CancelTaskError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CancelTaskRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<CancelTaskResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CancelTaskRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CancelTaskResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4463,8 +4497,8 @@ export const changeFilterOwner: API.OperationMethod<
   ChangeFilterOwnerError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ChangeFilterOwnerRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<ChangeFilterOwnerResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ChangeFilterOwnerRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<ChangeFilterOwnerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4481,8 +4515,8 @@ export const cloneFieldAssociationScheme: API.OperationMethod<
   CloneFieldAssociationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CloneFieldAssociationSchemeRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<CreateFieldAssociationSchemeResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<CloneFieldAssociationSchemeRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<CreateFieldAssociationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4499,8 +4533,8 @@ export const copyDashboard: API.OperationMethod<
   CopyDashboardError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<CopyDashboardRequest>,
-  output: __S(999, __c62, 7) as any as S.Schema<DashboardOutput>,
+  input: __S(992, __c62, 0) as any as S.Schema<CopyDashboardRequest>,
+  output: __S(1015, __c63, 7) as any as S.Schema<DashboardOutput>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4517,8 +4551,8 @@ export const createDashboard: API.OperationMethod<
   CreateDashboardError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CreateDashboardRequest>,
-  output: __S(999, __c62, 7) as any as S.Schema<DashboardOutput>,
+  input: __S(1104, __c69, 0) as any as S.Schema<CreateDashboardRequest>,
+  output: __S(1015, __c63, 7) as any as S.Schema<DashboardOutput>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4535,8 +4569,8 @@ export const createFieldAssociationScheme: API.OperationMethod<
   CreateFieldAssociationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateFieldAssociationSchemeRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<CreateFieldAssociationSchemeResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateFieldAssociationSchemeRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<CreateFieldAssociationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4557,8 +4591,8 @@ export const createIssueSecurityScheme: API.OperationMethod<
   CreateIssueSecuritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<CreateIssueSecuritySchemeRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<SecuritySchemeId>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CreateIssueSecuritySchemeRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<SecuritySchemeId>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4575,8 +4609,8 @@ export const createNotificationScheme: API.OperationMethod<
   CreateNotificationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1156, __c72, 4) as any as S.Schema<CreateNotificationSchemeRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<NotificationSchemeId>,
+  input: __S(1172, __c73, 4) as any as S.Schema<CreateNotificationSchemeRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<NotificationSchemeId>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4593,8 +4627,8 @@ export const createPlan: API.OperationMethod<
   CreatePlanError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1172, __c73, 4) as any as S.Schema<CreatePlanRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<CreatePlanResponse>,
+  input: __S(1188, __c74, 4) as any as S.Schema<CreatePlanRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<CreatePlanResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4611,8 +4645,8 @@ export const createPlanOnlyTeam: API.OperationMethod<
   CreatePlanOnlyTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<CreatePlanOnlyTeamRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<CreatePlanOnlyTeamResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreatePlanOnlyTeamRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<CreatePlanOnlyTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4634,8 +4668,8 @@ export const createPriorityScheme: API.OperationMethod<
   CreatePrioritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<CreatePrioritySchemeRequest>,
-  output: __S(1251, __c78, 3) as any as S.Schema<PrioritySchemeId>,
+  input: __S(1264, __c79, 0) as any as S.Schema<CreatePrioritySchemeRequest>,
+  output: __S(1267, __c79, 3) as any as S.Schema<PrioritySchemeId>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4652,8 +4686,8 @@ export const createResolution: API.OperationMethod<
   CreateResolutionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<CreateResolutionRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<ResolutionId>,
+  input: __S(1312, __c82, 0) as any as S.Schema<CreateResolutionRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<ResolutionId>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4670,8 +4704,8 @@ export const createScreen: API.OperationMethod<
   CreateScreenError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<CreateScreenRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<Screen>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateScreenRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<Screen>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4688,8 +4722,8 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteDashboardResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<DeleteDashboardResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4711,8 +4745,8 @@ export const deleteFieldAssociationScheme: API.OperationMethod<
   DeleteFieldAssociationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<DeleteFieldAssociationSchemeRequest>,
-  output: __S(1361, __c85, 1) as any as S.Schema<DeleteFieldAssociationSchemeResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<DeleteFieldAssociationSchemeRequest>,
+  output: __S(1377, __c86, 1) as any as S.Schema<DeleteFieldAssociationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4729,8 +4763,8 @@ export const deleteNotificationScheme: API.OperationMethod<
   DeleteNotificationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<DeleteNotificationSchemeRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<DeleteNotificationSchemeResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<DeleteNotificationSchemeRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<DeleteNotificationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4747,8 +4781,8 @@ export const deletePlanOnlyTeam: API.OperationMethod<
   DeletePlanOnlyTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeletePlanOnlyTeamRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<DeletePlanOnlyTeamResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DeletePlanOnlyTeamRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<DeletePlanOnlyTeamResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4765,8 +4799,8 @@ export const deletePriorityScheme: API.OperationMethod<
   DeletePrioritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DeletePrioritySchemeRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<DeletePrioritySchemeResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<DeletePrioritySchemeRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<DeletePrioritySchemeResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4783,8 +4817,8 @@ export const deleteProjectAsynchronously: API.OperationMethod<
   DeleteProjectAsynchronouslyError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DeleteProjectAsynchronouslyRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteProjectAsynchronouslyResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<DeleteProjectAsynchronouslyRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<DeleteProjectAsynchronouslyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4801,8 +4835,8 @@ export const deleteResolution: API.OperationMethod<
   DeleteResolutionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteResolutionRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteResolutionResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<DeleteResolutionRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<DeleteResolutionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4819,8 +4853,8 @@ export const deleteScreen: API.OperationMethod<
   DeleteScreenError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DeleteScreenRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteScreenResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<DeleteScreenRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<DeleteScreenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4837,8 +4871,8 @@ export const deleteSecurityScheme: API.OperationMethod<
   DeleteSecuritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DeleteSecuritySchemeRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<DeleteSecuritySchemeResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<DeleteSecuritySchemeRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<DeleteSecuritySchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4855,8 +4889,8 @@ export const duplicatePlan: API.OperationMethod<
   DuplicatePlanError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DuplicatePlanRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DuplicatePlanResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<DuplicatePlanRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<DuplicatePlanResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4873,8 +4907,8 @@ export const editTemplate: API.OperationMethod<
   EditTemplateError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<EditTemplateRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<EditTemplateResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<EditTemplateRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<EditTemplateResponse>,
   errors: [],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4891,8 +4925,8 @@ export const expandAttachmentForHumans: API.OperationMethod<
   ExpandAttachmentForHumansError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ExpandAttachmentForHumansRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<AttachmentArchiveMetadataReadable>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ExpandAttachmentForHumansRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<AttachmentArchiveMetadataReadable>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4909,8 +4943,8 @@ export const expandAttachmentForMachines: API.OperationMethod<
   ExpandAttachmentForMachinesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ExpandAttachmentForMachinesRequest>,
-  output: __S(1571, __c98, 3) as any as S.Schema<AttachmentArchiveImpl>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ExpandAttachmentForMachinesRequest>,
+  output: __S(1587, __c99, 3) as any as S.Schema<AttachmentArchiveImpl>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4927,8 +4961,8 @@ export const exportArchivedIssues: API.OperationMethod<
   ExportArchivedIssuesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1585, __c99, 1) as any as S.Schema<ExportArchivedIssuesRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<ExportArchivedIssuesResponse>,
+  input: __S(1601, __c100, 1) as any as S.Schema<ExportArchivedIssuesRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<ExportArchivedIssuesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4945,8 +4979,8 @@ export const getAllAvailableDashboardGadgets: API.OperationMethod<
   GetAllAvailableDashboardGadgetsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<GetAllAvailableDashboardGadgetsRequest>,
-  output: __S(1603, __c100, 3) as any as S.Schema<AvailableDashboardGadgetsResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<GetAllAvailableDashboardGadgetsRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<AvailableDashboardGadgetsResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4963,8 +4997,8 @@ export const getAllGadgets: API.OperationMethod<
   GetAllGadgetsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetAllGadgetsRequest>,
-  output: __S(1618, __c101, 2) as any as S.Schema<DashboardGadgetResponseOutput>,
+  input: __S(1632, __c102, 0) as any as S.Schema<GetAllGadgetsRequest>,
+  output: __S(1634, __c102, 2) as any as S.Schema<DashboardGadgetResponseOutput>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4981,8 +5015,8 @@ export const getAllUserDataClassificationLevels: API.OperationMethod<
   GetAllUserDataClassificationLevelsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1665, __c104, 1) as any as S.Schema<GetAllUserDataClassificationLevelsRequest>,
-  output: __S(1668, __c104, 4) as any as S.Schema<DataClassificationLevelsBean>,
+  input: __S(1681, __c105, 1) as any as S.Schema<GetAllUserDataClassificationLevelsRequest>,
+  output: __S(1684, __c105, 4) as any as S.Schema<DataClassificationLevelsBean>,
   errors: [],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -4999,8 +5033,8 @@ export const getApproximateApplicationLicenseCount: API.OperationMethod<
   GetApproximateApplicationLicenseCountError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<GetApproximateApplicationLicenseCountRequest>,
-  output: __S(1696, __c106, 0) as any as S.Schema<LicenseMetric>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetApproximateApplicationLicenseCountRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<LicenseMetric>,
   errors: [Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5017,8 +5051,8 @@ export const getApproximateLicenseCount: API.OperationMethod<
   GetApproximateLicenseCountError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<GetApproximateLicenseCountRequest>,
-  output: __S(1696, __c106, 0) as any as S.Schema<LicenseMetric>,
+  input: __S(1728, __c108, 0) as any as S.Schema<GetApproximateLicenseCountRequest>,
+  output: __S(1712, __c107, 0) as any as S.Schema<LicenseMetric>,
   errors: [Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5035,8 +5069,8 @@ export const getAtlassianTeam: API.OperationMethod<
   GetAtlassianTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetAtlassianTeamRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<GetAtlassianTeamResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<GetAtlassianTeamRequest>,
+  output: __S(1745, __c109, 1) as any as S.Schema<GetAtlassianTeamResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5055,8 +5089,8 @@ export const getAuditEntries: API.PaginatedOperationMethod<
   AuditEntry
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1744, __c109, 0) as any as S.Schema<GetAuditEntriesRequest>,
-    output: __S(1747, __c109, 3) as any as S.Schema<AuditPage>,
+    input: __S(1760, __c110, 0) as any as S.Schema<GetAuditEntriesRequest>,
+    output: __S(1763, __c110, 3) as any as S.Schema<AuditPage>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5084,8 +5118,8 @@ export const getAvailablePrioritiesByPriorityScheme: API.PaginatedOperationMetho
   PriorityWithSequence
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1760, __c110, 0) as any as S.Schema<GetAvailablePrioritiesByPrioritySchemeRequest>,
-    output: __S(1778, __c111, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
+    input: __S(1776, __c111, 0) as any as S.Schema<GetAvailablePrioritiesByPrioritySchemeRequest>,
+    output: __S(1794, __c112, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
     errors: [BadRequest],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5110,8 +5144,8 @@ export const getBulkScreenTabs: API.OperationMethod<
   GetBulkScreenTabsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetBulkScreenTabsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<GetBulkScreenTabsResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<GetBulkScreenTabsRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetBulkScreenTabsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5120,8 +5154,8 @@ export const getBulkScreenTabs: API.OperationMethod<
   span: "GetBulkScreenTabs",
 }));
 
-export type GetContextDefaultValuesError = Forbidden | NotFound | JiraOpError;
-/** Get default values for a custom field grouped by context and issue type Returns a paginated list of default values grouped by custom field context. Each returned `ContextDefaultValuesBean` has a `contextId` and a `defaultValues` list of `IssueTypeDefaultValueBean` entries - one per issue-type-scoped default value configured for the context. An entry with `"isAnyIssueType": true` represents the catch-all default that applies to every issue type covered by the context that is not covered by a more specific entry; a non-null `issueTypeId` represents a default that only applies to that issue type. For contexts that have not been converted to the multiple-contexts data model, exactly one entry is returned per context with `isAnyIssueType=true`. For converted contexts, one entry is returned per configured per-issue-type default. The value object on each entry is the same polymorphic `CustomFieldContextDefaultValueBean` exposed by the deprecated `GET /defaultValue` endpoint - its concrete subtype depends on the custom field's type (see the list of supported types on that endpoint). Only tenants enrolled in the early access program (EAP) can access this resource. See the [EAP announcement](https://ecosystem.atlassian.net/browse/CHANGE-3082) for details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+export type GetContextDefaultValuesError = BadRequest | Forbidden | NotFound | JiraOpError;
+/** Get default values for a custom field grouped by context and issue type Returns a paginated list of default values grouped by custom field context. Each context includes its base default with `isAnyIssueType=true`, even in a restricted context or when unset (`value: null`). Additional entries are explicitly stored issue-type overrides. Inherited defaults are not duplicated. Pagination is by context. Filtering by \{@code issueTypeId\} limits only the returned overrides; each returned context still includes its base default, even when none of its overrides match the filter. The value object on each entry is the same polymorphic `CustomFieldContextDefaultValueBean` exposed by the deprecated `GET /defaultValue` endpoint - its concrete subtype depends on the custom field's type (see the list of supported types on that endpoint). Only tenants enrolled in the early access program (EAP) can access this resource. See the [EAP announcement](https://ecosystem.atlassian.net/browse/CHANGE-3082) for details. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const getContextDefaultValues: API.PaginatedOperationMethod<
   GetContextDefaultValuesRequest,
   PageBeanContextDefaultValues,
@@ -5130,9 +5164,9 @@ export const getContextDefaultValues: API.PaginatedOperationMethod<
   ContextDefaultValues
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1808, __c113, 0) as any as S.Schema<GetContextDefaultValuesRequest>,
-    output: __S(1813, __c113, 5) as any as S.Schema<PageBeanContextDefaultValues>,
-    errors: [Forbidden, NotFound],
+    input: __S(1824, __c114, 0) as any as S.Schema<GetContextDefaultValuesRequest>,
+    output: __S(1829, __c114, 5) as any as S.Schema<PageBeanContextDefaultValues>,
+    errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
     retry: Retry.Retry,
@@ -5158,8 +5192,8 @@ export const getCustomFieldsConfigurations: API.PaginatedOperationMethod<
   BulkContextualConfiguration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1824, __c114, 0) as any as S.Schema<GetCustomFieldsConfigurationsRequest>,
-    output: __S(1827, __c114, 3) as any as S.Schema<PageBeanBulkContextualConfiguration>,
+    input: __S(1840, __c115, 0) as any as S.Schema<GetCustomFieldsConfigurationsRequest>,
+    output: __S(1843, __c115, 3) as any as S.Schema<PageBeanBulkContextualConfiguration>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5177,15 +5211,15 @@ export const getCustomFieldsConfigurations: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetDefaultProjectClassificationError = NotFound | JiraOpError;
-/** Get the default data classification level of a project Returns the default data classification for a project. **[Permissions](#permissions) required:** * *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+/** Get the default data classification level of a project Returns the default data classification for a project. **[Permissions](#permissions) required:** any **one** of the following is sufficient. * *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const getDefaultProjectClassification: API.OperationMethod<
   GetDefaultProjectClassificationRequest,
   GetDefaultProjectClassificationResponse,
   GetDefaultProjectClassificationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetDefaultProjectClassificationRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<GetDefaultProjectClassificationResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetDefaultProjectClassificationRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<GetDefaultProjectClassificationResponse>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5202,8 +5236,8 @@ export const getEvents: API.OperationMethod<
   GetEventsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetEventsRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<GetEventsResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetEventsRequest>,
+  output: __S(1923, __c120, 3) as any as S.Schema<GetEventsResponse>,
   errors: [Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5220,8 +5254,8 @@ export const getFailedWebhooks: API.OperationMethod<
   GetFailedWebhooksError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetFailedWebhooksRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<FailedWebhooks>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetFailedWebhooksRequest>,
+  output: __S(1939, __c121, 3) as any as S.Schema<FailedWebhooks>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5238,8 +5272,8 @@ export const getFieldAssociationSchemeById: API.OperationMethod<
   GetFieldAssociationSchemeByIdError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetFieldAssociationSchemeByIdRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetFieldAssociationSchemeByIdResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetFieldAssociationSchemeByIdRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetFieldAssociationSchemeByIdResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5256,8 +5290,8 @@ export const getFieldAssociationSchemeItemParameters: API.OperationMethod<
   GetFieldAssociationSchemeItemParametersError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetFieldAssociationSchemeItemParametersRequest>,
-  output: __S(1956, __c122, 4) as any as S.Schema<GetFieldAssociationParametersResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetFieldAssociationSchemeItemParametersRequest>,
+  output: __S(1972, __c123, 4) as any as S.Schema<GetFieldAssociationParametersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5276,8 +5310,8 @@ export const getFieldAssociationSchemes: API.PaginatedOperationMethod<
   GetFieldAssociationSchemeResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1968, __c123, 0) as any as S.Schema<GetFieldAssociationSchemesRequest>,
-    output: __S(1972, __c123, 4) as any as S.Schema<PageBean2GetFieldAssociationSchemeResponse>,
+    input: __S(1984, __c124, 0) as any as S.Schema<GetFieldAssociationSchemesRequest>,
+    output: __S(1988, __c124, 4) as any as S.Schema<PageBean2GetFieldAssociationSchemeResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5304,8 +5338,8 @@ export const getFieldProjectAssociations: API.PaginatedOperationMethod<
   FieldProjectAssociation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1984, __c124, 0) as any as S.Schema<GetFieldProjectAssociationsRequest>,
-    output: __S(1987, __c124, 3) as any as S.Schema<PageBeanFieldProjectAssociation>,
+    input: __S(2000, __c125, 0) as any as S.Schema<GetFieldProjectAssociationsRequest>,
+    output: __S(2003, __c125, 3) as any as S.Schema<PageBeanFieldProjectAssociation>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5330,8 +5364,8 @@ export const getIssueAdfLimitReport: API.OperationMethod<
   GetIssueAdfLimitReportError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetIssueAdfLimitReportRequest>,
-  output: __S(2019, __c126, 3) as any as S.Schema<IssueLimitReportResponseBean>,
+  input: __S(2016, __c126, 0) as any as S.Schema<GetIssueAdfLimitReportRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<IssueLimitReportResponseBean>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5348,8 +5382,8 @@ export const getIssueLimitReport: API.OperationMethod<
   GetIssueLimitReportError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetIssueLimitReportRequest>,
-  output: __S(2019, __c126, 3) as any as S.Schema<IssueLimitReportResponseBean>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetIssueLimitReportRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<IssueLimitReportResponseBean>,
   errors: [Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5366,8 +5400,8 @@ export const getIssueTypesForProject: API.OperationMethod<
   GetIssueTypesForProjectError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetIssueTypesForProjectRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<GetIssueTypesForProjectResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetIssueTypesForProjectRequest>,
+  output: __S(2065, __c129, 1) as any as S.Schema<GetIssueTypesForProjectResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5384,8 +5418,8 @@ export const getLicense: API.OperationMethod<
   GetLicenseError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetLicenseRequest>,
-  output: __S(2067, __c129, 3) as any as S.Schema<License>,
+  input: __S(2080, __c130, 0) as any as S.Schema<GetLicenseRequest>,
+  output: __S(2083, __c130, 3) as any as S.Schema<License>,
   errors: [],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5402,8 +5436,8 @@ export const getPlan: API.OperationMethod<
   GetPlanError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetPlanRequest>,
-  output: __S(2101, __c131, 5) as any as S.Schema<GetPlanResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<GetPlanRequest>,
+  output: __S(2117, __c132, 5) as any as S.Schema<GetPlanResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5420,8 +5454,8 @@ export const getPlanOnlyTeam: API.OperationMethod<
   GetPlanOnlyTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<GetPlanOnlyTeamRequest>,
-  output: __S(2113, __c132, 1) as any as S.Schema<GetPlanOnlyTeamResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<GetPlanOnlyTeamRequest>,
+  output: __S(2129, __c133, 1) as any as S.Schema<GetPlanOnlyTeamResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5440,8 +5474,8 @@ export const getPlans: API.PaginatedOperationMethod<
   GetPlanResponseForPage
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2128, __c133, 0) as any as S.Schema<GetPlansRequest>,
-    output: __S(2131, __c133, 3) as any as S.Schema<PageWithCursorGetPlanResponseForPage>,
+    input: __S(2144, __c134, 0) as any as S.Schema<GetPlansRequest>,
+    output: __S(2147, __c134, 3) as any as S.Schema<PageWithCursorGetPlanResponseForPage>,
     errors: [Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5467,8 +5501,8 @@ export const getPolicyState: API.OperationMethod<
   GetPolicyStateError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<GetPolicyStateRequest>,
-  output: __S(2148, __c134, 4) as any as S.Schema<GetPolicyStateResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<GetPolicyStateRequest>,
+  output: __S(2164, __c135, 4) as any as S.Schema<GetPolicyStateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5487,8 +5521,8 @@ export const getPrioritiesByPriorityScheme: API.PaginatedOperationMethod<
   PriorityWithSequence
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2176, __c136, 0) as any as S.Schema<GetPrioritiesByPrioritySchemeRequest>,
-    output: __S(1778, __c111, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
+    input: __S(2192, __c137, 0) as any as S.Schema<GetPrioritiesByPrioritySchemeRequest>,
+    output: __S(1794, __c112, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
     errors: [BadRequest],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5515,10 +5549,10 @@ export const getPrioritySchemes: API.PaginatedOperationMethod<
   PrioritySchemeWithPaginatedPrioritiesAndProjectsOutput
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2192, __c137, 0) as any as S.Schema<GetPrioritySchemesRequest>,
+    input: __S(2208, __c138, 0) as any as S.Schema<GetPrioritySchemesRequest>,
     output: __S(
-      2197,
-      __c137,
+      2213,
+      __c138,
       5,
     ) as any as S.Schema<PageBeanPrioritySchemeWithPaginatedPrioritiesAndProjectsOutput>,
     errors: [BadRequest],
@@ -5538,15 +5572,15 @@ export const getPrioritySchemes: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetProjectClassificationConfigError = NotFound | JiraOpError;
-/** Get the classification configuration for a project Returns the consolidated classification configuration for a project's admin settings page. This includes permitted classification levels (with status), the project's default classification level, the organization's default classification level, and the container override setting. **[Permissions](#permissions) required:** * *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+/** Get the classification configuration for a project Returns the consolidated classification configuration for a project's admin settings page. This includes permitted classification levels (with status), the project's default classification level, the organization's default classification level, and the container override setting. **[Permissions](#permissions) required:** any **one** of the following is sufficient. * *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const getProjectClassificationConfig: API.OperationMethod<
   GetProjectClassificationConfigRequest,
   GetProjectClassificationConfigResponse,
   GetProjectClassificationConfigError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetProjectClassificationConfigRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<GetProjectClassificationConfigResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<GetProjectClassificationConfigRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<GetProjectClassificationConfigResponse>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5565,8 +5599,8 @@ export const getProjectFields: API.PaginatedOperationMethod<
   ProjectFieldBean
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2224, __c139, 0) as any as S.Schema<GetProjectFieldsRequest>,
-    output: __S(2227, __c139, 3) as any as S.Schema<PageBean2ProjectFieldBean>,
+    input: __S(2240, __c140, 0) as any as S.Schema<GetProjectFieldsRequest>,
+    output: __S(2243, __c140, 3) as any as S.Schema<PageBean2ProjectFieldBean>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5591,8 +5625,8 @@ export const getProjectRules: API.OperationMethod<
   GetProjectRulesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetProjectRulesRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<GetProjectRulesResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<GetProjectRulesRequest>,
+  output: __S(2257, __c141, 1) as any as S.Schema<GetProjectRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5611,8 +5645,8 @@ export const getProjectsByPriorityScheme: API.PaginatedOperationMethod<
   ProjectOutput
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2256, __c141, 0) as any as S.Schema<GetProjectsByPrioritySchemeRequest>,
-    output: __S(2257, __c141, 1) as any as S.Schema<PageBeanProjectOutput>,
+    input: __S(2272, __c142, 0) as any as S.Schema<GetProjectsByPrioritySchemeRequest>,
+    output: __S(2273, __c142, 1) as any as S.Schema<PageBeanProjectOutput>,
     errors: [BadRequest],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5639,8 +5673,8 @@ export const getProjectsWithFieldSchemes: API.PaginatedOperationMethod<
   GetProjectsWithFieldSchemesResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2336, __c146, 0) as any as S.Schema<GetProjectsWithFieldSchemesRequest>,
-    output: __S(2339, __c146, 3) as any as S.Schema<PageBean2GetProjectsWithFieldSchemesResponse>,
+    input: __S(2352, __c147, 0) as any as S.Schema<GetProjectsWithFieldSchemesRequest>,
+    output: __S(2355, __c147, 3) as any as S.Schema<PageBean2GetProjectsWithFieldSchemesResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5665,8 +5699,8 @@ export const getRecent: API.OperationMethod<
   GetRecentError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2353, __c147, 1) as any as S.Schema<GetRecentRequest>,
-  output: __S(2354, __c147, 2) as any as S.Schema<GetRecentResponse>,
+  input: __S(2369, __c148, 1) as any as S.Schema<GetRecentRequest>,
+  output: __S(2370, __c148, 2) as any as S.Schema<GetRecentResponse>,
   errors: [BadRequest],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5685,8 +5719,8 @@ export const getSecurityLevelMembers: API.PaginatedOperationMethod<
   SecurityLevelMemberOutput
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2368, __c148, 0) as any as S.Schema<GetSecurityLevelMembersRequest>,
-    output: __S(2372, __c148, 4) as any as S.Schema<PageBeanSecurityLevelMemberOutput>,
+    input: __S(2384, __c149, 0) as any as S.Schema<GetSecurityLevelMembersRequest>,
+    output: __S(2388, __c149, 4) as any as S.Schema<PageBeanSecurityLevelMemberOutput>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5713,8 +5747,8 @@ export const getSecurityLevels: API.PaginatedOperationMethod<
   SecurityLevel
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2384, __c149, 0) as any as S.Schema<GetSecurityLevelsRequest>,
-    output: __S(2387, __c149, 3) as any as S.Schema<PageBeanSecurityLevel>,
+    input: __S(2400, __c150, 0) as any as S.Schema<GetSecurityLevelsRequest>,
+    output: __S(2403, __c150, 3) as any as S.Schema<PageBeanSecurityLevel>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5739,8 +5773,8 @@ export const getServiceRegistries: API.OperationMethod<
   GetServiceRegistriesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetServiceRegistriesRequest>,
-  output: __S(2404, __c150, 4) as any as S.Schema<GetServiceRegistriesResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<GetServiceRegistriesRequest>,
+  output: __S(2420, __c151, 4) as any as S.Schema<GetServiceRegistriesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5759,8 +5793,8 @@ export const getTeams: API.PaginatedOperationMethod<
   GetTeamResponseForPage
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2416, __c151, 0) as any as S.Schema<GetTeamsRequest>,
-    output: __S(2419, __c151, 3) as any as S.Schema<PageWithCursorGetTeamResponseForPage>,
+    input: __S(2432, __c152, 0) as any as S.Schema<GetTeamsRequest>,
+    output: __S(2435, __c152, 3) as any as S.Schema<PageWithCursorGetTeamResponseForPage>,
     errors: [Forbidden, NotFound],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5788,8 +5822,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   PolicySummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2432, __c152, 0) as any as S.Schema<ListPoliciesRequest>,
-    output: __S(2435, __c152, 3) as any as S.Schema<PolicySummaryResponse>,
+    input: __S(2448, __c153, 0) as any as S.Schema<ListPoliciesRequest>,
+    output: __S(2451, __c153, 3) as any as S.Schema<PolicySummaryResponse>,
     errors: [BadRequest, Forbidden],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -5815,8 +5849,8 @@ export const liveTemplate: API.OperationMethod<
   LiveTemplateError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<LiveTemplateRequest>,
-  output: __S(2450, __c153, 2) as any as S.Schema<ProjectTemplateModel>,
+  input: __S(2464, __c154, 0) as any as S.Schema<LiveTemplateRequest>,
+  output: __S(2466, __c154, 2) as any as S.Schema<ProjectTemplateModel>,
   errors: [],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5833,8 +5867,8 @@ export const moveResolutions: API.OperationMethod<
   MoveResolutionsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<MoveResolutionsRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<MoveResolutionsResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<MoveResolutionsRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<MoveResolutionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5851,8 +5885,8 @@ export const removeAtlassianTeam: API.OperationMethod<
   RemoveAtlassianTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<RemoveAtlassianTeamRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<RemoveAtlassianTeamResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<RemoveAtlassianTeamRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<RemoveAtlassianTeamResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5862,15 +5896,15 @@ export const removeAtlassianTeam: API.OperationMethod<
 }));
 
 export type RemoveDefaultProjectClassificationError = BadRequest | NotFound | JiraOpError;
-/** Remove the default data classification level from a project Remove the default data classification level for a project. **[Permissions](#permissions) required:** * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+/** Remove the default data classification level from a project Remove the default data classification level for a project. **[Permissions](#permissions) required:** any **one** of the following is sufficient. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const removeDefaultProjectClassification: API.OperationMethod<
   RemoveDefaultProjectClassificationRequest,
   RemoveDefaultProjectClassificationResponse,
   RemoveDefaultProjectClassificationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<RemoveDefaultProjectClassificationRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<RemoveDefaultProjectClassificationResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<RemoveDefaultProjectClassificationRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<RemoveDefaultProjectClassificationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5887,8 +5921,8 @@ export const removeFieldAssociationSchemeItemParameters: API.OperationMethod<
   RemoveFieldAssociationSchemeItemParametersError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2547, __c159, 3) as any as S.Schema<RemoveFieldAssociationSchemeItemParametersRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<RemoveFieldAssociationSchemeItemParametersResponse>,
+  input: __S(2563, __c160, 3) as any as S.Schema<RemoveFieldAssociationSchemeItemParametersRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<RemoveFieldAssociationSchemeItemParametersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5905,7 +5939,7 @@ export const removeFieldsAssociatedWithSchemes: API.OperationMethod<
   RemoveFieldsAssociatedWithSchemesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2562, __c160, 2) as any as S.Schema<RemoveFieldsAssociatedWithSchemesRequest>,
+  input: __S(2578, __c161, 2) as any as S.Schema<RemoveFieldsAssociatedWithSchemesRequest>,
   output: __S(69, __c4, 5) as any as S.Schema<MinimalFieldSchemeToFieldsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -5923,8 +5957,8 @@ export const removeGadget: API.OperationMethod<
   RemoveGadgetError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<RemoveGadgetRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<RemoveGadgetResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<RemoveGadgetRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<RemoveGadgetResponse>,
   errors: [NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5941,8 +5975,8 @@ export const removeLevel: API.OperationMethod<
   RemoveLevelError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<RemoveLevelRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<RemoveLevelResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<RemoveLevelRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<RemoveLevelResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5959,8 +5993,8 @@ export const removeMemberFromSecurityLevel: API.OperationMethod<
   RemoveMemberFromSecurityLevelError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<RemoveMemberFromSecurityLevelRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<RemoveMemberFromSecurityLevelResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<RemoveMemberFromSecurityLevelRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<RemoveMemberFromSecurityLevelResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -5977,7 +6011,7 @@ export const removePolicyFromProjects: API.OperationMethod<
   RemovePolicyFromProjectsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<RemovePolicyFromProjectsRequest>,
+  input: __S(2640, __c165, 0) as any as S.Schema<RemovePolicyFromProjectsRequest>,
   output: __S(84, __c5, 4) as any as S.Schema<BulkPolicyOperationResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
@@ -5995,8 +6029,8 @@ export const removeTemplate: API.OperationMethod<
   RemoveTemplateError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<RemoveTemplateRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<RemoveTemplateResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<RemoveTemplateRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<RemoveTemplateResponse>,
   errors: [],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6013,8 +6047,8 @@ export const restore: API.OperationMethod<
   RestoreError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<RestoreRequest>,
-  output: __S(1087, __c67, 15) as any as S.Schema<ProjectOutput>,
+  input: __S(2672, __c167, 0) as any as S.Schema<RestoreRequest>,
+  output: __S(1103, __c68, 15) as any as S.Schema<ProjectOutput>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6031,8 +6065,8 @@ export const sanitiseJqlQueries: API.OperationMethod<
   SanitiseJqlQueriesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2674, __c167, 2) as any as S.Schema<SanitiseJqlQueriesRequest>,
-  output: __S(2677, __c167, 5) as any as S.Schema<SanitizedJqlQueries>,
+  input: __S(2690, __c168, 2) as any as S.Schema<SanitiseJqlQueriesRequest>,
+  output: __S(2693, __c168, 5) as any as S.Schema<SanitizedJqlQueries>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6211,6 +6245,24 @@ export const searchSecuritySchemes: API.PaginatedOperationMethod<
   paginateStartAt,
 ) as any;
 
+export type SetContextDefaultValuesError = BadRequest | Forbidden | NotFound | JiraOpError;
+/** Set default values for a custom field by context and issue type Updates default values for individual issue types in custom field contexts. Only tenants enrolled in the early access program (EAP) can access this resource. See the [EAP announcement](https://ecosystem.atlassian.net/browse/CHANGE-3082) for details. Each entry targets either one issue type through \{@code issueTypeId\}, or the catch-all configuration through \{@code isAnyIssueType=true\}. Null clears the base default. Each context group requires defaultValues. In merge mode (the default), omitted defaults are preserved. In replace mode, omitted defaults are cleared and removeOverride is invalid. Each scope may appear only once. The operation defaults to \{@code set\}, which requires a value. \{@code operation="removeOverride"\} requires issueTypeId and allows the value property to be omitted or null. The contextId belongs on the context group; setting contextId inside the value object is invalid. */
+export const setContextDefaultValues: API.OperationMethod<
+  SetContextDefaultValuesRequest,
+  SetContextDefaultValuesResponse,
+  SetContextDefaultValuesError,
+  JiraOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(228, __c14, 4) as any as S.Schema<SetContextDefaultValuesRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<SetContextDefaultValuesResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: JiraServiceErrors,
+  protocol: JiraProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetContextDefaultValues",
+}));
+
 export type SetDefaultLevelsError = BadRequest | Forbidden | NotFound | JiraOpError;
 /** Set default issue security levels Sets default issue security levels for schemes. **[Permissions](#permissions) required:** *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const setDefaultLevels: API.OperationMethod<
@@ -6219,8 +6271,8 @@ export const setDefaultLevels: API.OperationMethod<
   SetDefaultLevelsError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c14, 2) as any as S.Schema<SetDefaultLevelsRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<SetDefaultLevelsResponse>,
+  input: __S(242, __c15, 2) as any as S.Schema<SetDefaultLevelsRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<SetDefaultLevelsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6237,8 +6289,8 @@ export const setDefaultResolution: API.OperationMethod<
   SetDefaultResolutionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<SetDefaultResolutionRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<SetDefaultResolutionResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<SetDefaultResolutionRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<SetDefaultResolutionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6255,8 +6307,8 @@ export const setProjectPolicies: API.OperationMethod<
   SetProjectPoliciesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<SetProjectPoliciesRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<SetProjectPoliciesResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<SetProjectPoliciesRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<SetProjectPoliciesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6273,8 +6325,8 @@ export const startBatch: API.OperationMethod<
   StartBatchError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(274, __c17, 2) as any as S.Schema<StartBatchRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<BulkAgentSessionsResponse>,
+  input: __S(322, __c20, 2) as any as S.Schema<StartBatchRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<BulkAgentSessionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6291,8 +6343,8 @@ export const startUniform: API.OperationMethod<
   StartUniformError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<StartUniformRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<BulkAgentSessionsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<StartUniformRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<BulkAgentSessionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6311,8 +6363,8 @@ export const suggestedPrioritiesForMappings: API.PaginatedOperationMethod<
   PriorityWithSequence
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(354, __c22, 2) as any as S.Schema<SuggestedPrioritiesForMappingsRequest>,
-    output: __S(1778, __c111, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
+    input: __S(370, __c23, 2) as any as S.Schema<SuggestedPrioritiesForMappingsRequest>,
+    output: __S(1794, __c112, 2) as any as S.Schema<PageBeanPriorityWithSequence>,
     errors: [BadRequest],
     serviceErrors: JiraServiceErrors,
     protocol: JiraProtocol,
@@ -6337,8 +6389,8 @@ export const switchWorkflowSchemeForProject: API.OperationMethod<
   SwitchWorkflowSchemeForProjectError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(372, __c23, 4) as any as S.Schema<SwitchWorkflowSchemeForProjectRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<SwitchWorkflowSchemeForProjectResponse>,
+  input: __S(388, __c24, 4) as any as S.Schema<SwitchWorkflowSchemeForProjectRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<SwitchWorkflowSchemeForProjectResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6355,8 +6407,8 @@ export const trashPlan: API.OperationMethod<
   TrashPlanError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<TrashPlanRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<TrashPlanResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<TrashPlanRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<TrashPlanResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6373,7 +6425,7 @@ export const unarchiveIssues: API.OperationMethod<
   UnarchiveIssuesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UnarchiveIssuesRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<UnarchiveIssuesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<IssueArchivalSyncResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -6391,8 +6443,8 @@ export const updateAtlassianTeam: API.OperationMethod<
   UpdateAtlassianTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateAtlassianTeamRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateAtlassianTeamResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateAtlassianTeamRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateAtlassianTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6409,8 +6461,8 @@ export const updateDashboard: API.OperationMethod<
   UpdateDashboardError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UpdateDashboardRequest>,
-  output: __S(999, __c62, 7) as any as S.Schema<DashboardOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<UpdateDashboardRequest>,
+  output: __S(1015, __c63, 7) as any as S.Schema<DashboardOutput>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6420,15 +6472,15 @@ export const updateDashboard: API.OperationMethod<
 }));
 
 export type UpdateDefaultProjectClassificationError = BadRequest | NotFound | JiraOpError;
-/** Update the default data classification level of a project Updates the default data classification level for a project. **[Permissions](#permissions) required:** * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
+/** Update the default data classification level of a project Updates the default data classification level for a project. **[Permissions](#permissions) required:** any **one** of the following is sufficient. * *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project. * *Administer jira* [global permission](https://confluence.atlassian.com/x/x4dKLg). */
 export const updateDefaultProjectClassification: API.OperationMethod<
   UpdateDefaultProjectClassificationRequest,
   UpdateDefaultProjectClassificationResponse,
   UpdateDefaultProjectClassificationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpdateDefaultProjectClassificationRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateDefaultProjectClassificationResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateDefaultProjectClassificationRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateDefaultProjectClassificationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6445,8 +6497,8 @@ export const updateFieldAssociationScheme: API.OperationMethod<
   UpdateFieldAssociationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<UpdateFieldAssociationSchemeRequest>,
-  output: __S(944, __c59, 0) as any as S.Schema<UpdateFieldAssociationSchemeResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateFieldAssociationSchemeRequest>,
+  output: __S(960, __c60, 0) as any as S.Schema<UpdateFieldAssociationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6463,7 +6515,7 @@ export const updateFieldAssociationSchemeItemParameters: API.OperationMethod<
   UpdateFieldAssociationSchemeItemParametersError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(486, __c30, 6) as any as S.Schema<UpdateFieldAssociationSchemeItemParametersRequest>,
+  input: __S(518, __c32, 6) as any as S.Schema<UpdateFieldAssociationSchemeItemParametersRequest>,
   output: __S(72, __c4, 8) as any as S.Schema<UpdateFieldSchemeParametersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -6481,7 +6533,7 @@ export const updateFieldsAssociatedWithSchemes: API.OperationMethod<
   UpdateFieldsAssociatedWithSchemesError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(515, __c32, 3) as any as S.Schema<UpdateFieldsAssociatedWithSchemesRequest>,
+  input: __S(531, __c33, 3) as any as S.Schema<UpdateFieldsAssociatedWithSchemesRequest>,
   output: __S(75, __c4, 11) as any as S.Schema<FieldSchemeToFieldsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: JiraServiceErrors,
@@ -6499,8 +6551,8 @@ export const updateGadget: API.OperationMethod<
   UpdateGadgetError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UpdateGadgetRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateGadgetResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateGadgetRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateGadgetResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6517,8 +6569,8 @@ export const updateIssueSecurityScheme: API.OperationMethod<
   UpdateIssueSecuritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateIssueSecuritySchemeRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateIssueSecuritySchemeResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateIssueSecuritySchemeRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateIssueSecuritySchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6535,8 +6587,8 @@ export const updateNotificationScheme: API.OperationMethod<
   UpdateNotificationSchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateNotificationSchemeRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateNotificationSchemeResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateNotificationSchemeRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateNotificationSchemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6553,8 +6605,8 @@ export const updatePlan: API.OperationMethod<
   UpdatePlanError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UpdatePlanRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdatePlanResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<UpdatePlanRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdatePlanResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6571,8 +6623,8 @@ export const updatePlanOnlyTeam: API.OperationMethod<
   UpdatePlanOnlyTeamError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UpdatePlanOnlyTeamRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdatePlanOnlyTeamResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<UpdatePlanOnlyTeamRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdatePlanOnlyTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6594,8 +6646,8 @@ export const updatePriorityScheme: API.OperationMethod<
   UpdatePrioritySchemeError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c38, 2) as any as S.Schema<UpdatePrioritySchemeRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<UpdatePrioritySchemeResponse>,
+  input: __S(626, __c39, 2) as any as S.Schema<UpdatePrioritySchemeRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdatePrioritySchemeResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6612,8 +6664,8 @@ export const updateResolution: API.OperationMethod<
   UpdateResolutionError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UpdateResolutionRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateResolutionResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<UpdateResolutionRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateResolutionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6630,8 +6682,8 @@ export const updateScreen: API.OperationMethod<
   UpdateScreenError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UpdateScreenRequest>,
-  output: __S(1328, __c83, 0) as any as S.Schema<Screen>,
+  input: __S(656, __c41, 0) as any as S.Schema<UpdateScreenRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<Screen>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6648,8 +6700,8 @@ export const updateSecurityLevel: API.OperationMethod<
   UpdateSecurityLevelError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UpdateSecurityLevelRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<UpdateSecurityLevelResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<UpdateSecurityLevelRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<UpdateSecurityLevelResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6671,8 +6723,8 @@ export const validatePolicyApplication: API.OperationMethod<
   ValidatePolicyApplicationError,
   JiraOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ValidatePolicyApplicationRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<ValidatePolicyApplicationResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ValidatePolicyApplicationRequest>,
+  output: __S(1664, __c104, 0) as any as S.Schema<ValidatePolicyApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: JiraServiceErrors,
   protocol: JiraProtocol,
@@ -6871,7 +6923,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.Number),
-          templateGenerationOptions: S.optional(__S(1536, __c96, 0)),
+          templateGenerationOptions: S.optional(__S(1552, __c97, 0)),
           templateType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SaveProjectTemplateRequest" });
@@ -6888,7 +6940,7 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projectTemplateKey: S.optional(__S(2464, __c154, 0)),
+          projectTemplateKey: S.optional(__S(2480, __c155, 0)),
         }),
       ).annotate({ identifier: "SaveTemplateResponse" });
   }
@@ -7119,6 +7171,44 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          isAnyIssueType: S.optional(S.NullOr(S.Boolean)),
+          issueTypeId: S.optional(S.NullOr(S.String)),
+          operation: S.optional(S.NullOr(S.String)),
+          value: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "IssueTypeDefaultValueUpdate" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contextId: S.Number,
+          defaultValues: __S(225, __c14, 1),
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContextDefaultValueUpdate" });
+    case 3:
+      return S.Array(__S(226, __c14, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          fieldId: S.String.pipe(T.Label()),
+          contexts: __S(227, __c14, 3),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/rest/api/3/field/{fieldId}/context/defaultValues",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetContextDefaultValuesRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             defaultLevelId: S.String,
@@ -7128,11 +7218,11 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "DefaultLevelValue" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultValues: __S(225, __c14, 1),
+          defaultValues: __S(241, __c15, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7143,7 +7233,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SetDefaultLevelsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7153,7 +7243,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SetDefaultResolutionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7170,7 +7260,23 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SetProjectPoliciesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jql: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/issue/archive", code: 200 })),
+      ).annotate({ identifier: "ArchiveIssuesAsyncRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ArchiveIssuesAsyncResponse" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7182,17 +7288,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "BulkAgentSessionInvocation" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           clientMutationId: S.String,
-          invocations: __S(273, __c17, 1),
+          invocations: __S(321, __c20, 1),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/agents/bulk/invoke/batch", code: 200 })),
       ).annotate({ identifier: "StartBatchRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7207,44 +7313,28 @@ function __c18(j: number): any {
         S.Struct({
           agentId: S.optional(S.String),
           conversationId: S.optional(S.NullOr(S.String)),
-          error: S.optional(S.NullOr(__S(288, __c18, 0))),
+          error: S.optional(S.NullOr(__S(336, __c21, 0))),
           issueId: S.optional(S.String),
           requestId: S.optional(S.String),
           result: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkAgentSessionOutcome" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           alreadyStartedCount: S.optional(S.Number),
           failedCount: S.optional(S.Number),
           rateLimitedCount: S.optional(S.Number),
-          results: S.optional(__S(290, __c18, 2)),
+          results: S.optional(__S(338, __c21, 2)),
           startedCount: S.optional(S.Number),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BulkAgentSessionsResponse" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jql: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/issue/archive", code: 200 })),
-      ).annotate({ identifier: "ArchiveIssuesAsyncRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ArchiveIssuesAsyncResponse" });
-  }
-}
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7259,7 +7349,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "StartUniformRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7278,15 +7368,15 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number),
-          priorities: S.optional(__S(352, __c22, 0)),
-          projects: S.optional(__S(353, __c22, 1)),
+          priorities: S.optional(__S(368, __c23, 0)),
+          projects: S.optional(__S(369, __c23, 1)),
           schemeId: S.optional(S.Number),
           startAt: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/priorityscheme/mappings", code: 200 })),
       ).annotate({ identifier: "SuggestedPrioritiesForMappingsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7296,20 +7386,20 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowAssociationStatusMapping" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           issueTypeId: S.optional(S.String),
-          statusMappings: S.optional(__S(369, __c23, 1)),
+          statusMappings: S.optional(__S(385, __c24, 1)),
         }),
       ).annotate({ identifier: "MappingsByIssueTypeOverride" });
     case 3:
-      return S.Array(__S(370, __c23, 2));
+      return S.Array(__S(386, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          mappingsByIssueTypeOverride: S.optional(__S(371, __c23, 3)),
+          mappingsByIssueTypeOverride: S.optional(__S(387, __c24, 3)),
           projectId: S.optional(S.String),
           targetSchemeId: S.optional(S.String),
         }).pipe(
@@ -7318,7 +7408,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SwitchWorkflowSchemeForProjectRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7328,7 +7418,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TrashPlanRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7338,7 +7428,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UnarchiveIssuesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7355,7 +7445,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateAtlassianTeamRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7363,14 +7453,14 @@ function __c27(j: number): any {
           id: S.String.pipe(T.Label()),
           extendAdminPermissions: S.optional(S.Boolean.pipe(T.Query())),
           description: S.optional(S.String),
-          editPermissions: __S(787, __c49, 3),
+          editPermissions: __S(803, __c50, 3),
           name: S.String,
-          sharePermissions: __S(787, __c49, 3),
+          sharePermissions: __S(803, __c50, 3),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/dashboard/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDashboardRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7387,7 +7477,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateDefaultProjectClassificationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7397,53 +7487,6 @@ function __c29(j: number): any {
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/config/fieldschemes/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFieldAssociationSchemeRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
-          rendererType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FieldsSchemeItemParameter" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
-          rendererType: S.optional(S.String),
-          workTypeId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FieldsSchemeItemWorkTypeParameter" });
-    case 2:
-      return S.Array(__S(481, __c30, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(480, __c30, 0)),
-          schemeIds: S.optional(__S(48, __c3, 0)),
-          workTypeParameters: S.optional(__S(482, __c30, 2)),
-        }),
-      ).annotate({ identifier: "UpdateFieldSchemeParametersRequest" });
-    case 4:
-      return S.Array(__S(483, __c30, 3));
-    case 5:
-      return S.Record(S.String, __S(484, __c30, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(485, __c30, 5).pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/rest/api/3/config/fieldschemes/fields/parameters",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateFieldAssociationSchemeItemParametersRequest" });
   }
 }
 function __c31(j: number): any {
@@ -7463,22 +7506,46 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          restrictedToWorkTypes: S.optional(__S(48, __c3, 0)),
-          schemeIds: __S(48, __c3, 0),
+          description: S.optional(S.String),
+          isRequired: S.optional(S.Boolean),
+          rendererType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateFieldAssociationsRequestItem" });
+      ).annotate({ identifier: "FieldsSchemeItemParameter" });
     case 1:
-      return S.Array(__S(512, __c32, 0));
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          isRequired: S.optional(S.Boolean),
+          rendererType: S.optional(S.String),
+          workTypeId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FieldsSchemeItemWorkTypeParameter" });
     case 2:
-      return S.Record(S.String, __S(513, __c32, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body: __S(514, __c32, 2).pipe(T.HttpBody()),
+          parameters: S.optional(__S(512, __c32, 0)),
+          schemeIds: S.optional(__S(48, __c3, 0)),
+          workTypeParameters: S.optional(__S(514, __c32, 2)),
+        }),
+      ).annotate({ identifier: "UpdateFieldSchemeParametersRequest" });
+    case 4:
+      return S.Array(__S(515, __c32, 3));
+    case 5:
+      return S.Record(S.String, __S(516, __c32, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(517, __c32, 5).pipe(T.HttpBody()),
         }).pipe(
-          T.Http({ method: "PUT", uri: "/rest/api/3/config/fieldschemes/fields", code: 200 }),
+          T.Http({
+            method: "PUT",
+            uri: "/rest/api/3/config/fieldschemes/fields/parameters",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "UpdateFieldsAssociatedWithSchemesRequest" });
+      ).annotate({ identifier: "UpdateFieldAssociationSchemeItemParametersRequest" });
   }
 }
 function __c33(j: number): any {
@@ -7486,10 +7553,33 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          restrictedToWorkTypes: S.optional(__S(48, __c3, 0)),
+          schemeIds: __S(48, __c3, 0),
+        }),
+      ).annotate({ identifier: "UpdateFieldAssociationsRequestItem" });
+    case 1:
+      return S.Array(__S(528, __c33, 0));
+    case 2:
+      return S.Record(S.String, __S(529, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(530, __c33, 2).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/rest/api/3/config/fieldschemes/fields", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateFieldsAssociatedWithSchemesRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           dashboardId: S.Number.pipe(T.Label()),
           gadgetId: S.Number.pipe(T.Label()),
           color: S.optional(S.String),
-          position: S.optional(__S(1888, __c118, 0)),
+          position: S.optional(__S(1904, __c119, 0)),
           title: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -7501,7 +7591,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateGadgetRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7513,7 +7603,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateIssueSecuritySchemeRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7525,7 +7615,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateNotificationSchemeRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7536,7 +7626,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdatePlanRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7553,7 +7643,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdatePlanOnlyTeamRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7565,8 +7655,8 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            add: S.optional(__S(608, __c38, 0)),
-            remove: S.optional(__S(608, __c38, 0)),
+            add: S.optional(__S(624, __c39, 0)),
+            remove: S.optional(__S(624, __c39, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -7577,15 +7667,15 @@ function __c38(j: number): any {
           schemeId: S.Number.pipe(T.Label()),
           defaultPriorityId: S.optional(S.Number),
           description: S.optional(S.String),
-          mappings: S.optional(__S(1264, __c79, 0)),
+          mappings: S.optional(__S(1280, __c80, 0)),
           name: S.optional(S.String),
-          priorities: S.optional(__S(609, __c38, 1)),
-          projects: S.optional(__S(609, __c38, 1)),
+          priorities: S.optional(__S(625, __c39, 1)),
+          projects: S.optional(__S(625, __c39, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/priorityscheme/{schemeId}", code: 200 })),
       ).annotate({ identifier: "UpdatePrioritySchemeRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7597,7 +7687,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateResolutionRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7607,25 +7697,6 @@ function __c40(j: number): any {
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/screens/{screenId}", code: 200 })),
       ).annotate({ identifier: "UpdateScreenRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          schemeId: S.String.pipe(T.Label()),
-          levelId: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateSecurityLevelRequest" });
   }
 }
 function __c42(j: number): any {
@@ -7653,6 +7724,25 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          schemeId: S.String.pipe(T.Label()),
+          levelId: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/rest/api/3/issuesecurityschemes/{schemeId}/level/{levelId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSecurityLevelRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           projectIdOrKey: S.String.pipe(T.Label()),
           policyIds: S.optional(__S(0, __c0, 0)),
         }).pipe(
@@ -7665,7 +7755,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ValidatePolicyApplicationRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7675,11 +7765,11 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "OldToNewSecurityLevelMappingsBean" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(720, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          oldToNewSecurityLevelMappings: S.optional(__S(705, __c44, 1)),
+          oldToNewSecurityLevelMappings: S.optional(__S(721, __c45, 1)),
           projectId: S.String,
           schemeId: S.String,
         }).pipe(
@@ -7688,7 +7778,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "AssociateSchemesToProjectsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7703,7 +7793,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "BulkDeleteWorklogsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7715,18 +7805,18 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          editPermissions: __S(787, __c49, 3),
-          sharePermissions: __S(787, __c49, 3),
+          editPermissions: __S(803, __c50, 3),
+          sharePermissions: __S(803, __c50, 3),
         }),
       ).annotate({ identifier: "PermissionDetailsInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          changeOwnerDetails: S.optional(__S(736, __c46, 0)),
+          changeOwnerDetails: S.optional(__S(752, __c47, 0)),
           entityIds: __S(48, __c3, 0),
           extendAdminPermissions: S.optional(S.Boolean),
-          permissionDetails: S.optional(__S(737, __c46, 1)),
+          permissionDetails: S.optional(__S(753, __c47, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/rest/api/3/dashboard/bulk/edit", code: 200 })),
       ).annotate({ identifier: "BulkEditDashboardsRequest" });
     case 3:
@@ -7737,17 +7827,17 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "BulkEditActionError" });
     case 4:
-      return S.Record(S.String, __S(739, __c46, 3));
+      return S.Record(S.String, __S(755, __c47, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          entityErrors: S.optional(__S(740, __c46, 4)),
+          entityErrors: S.optional(__S(756, __c47, 4)),
         }),
       ).annotate({ identifier: "BulkEditShareableEntityResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7758,7 +7848,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GroupNameInput" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7771,7 +7861,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UserBeanAvatarUrls" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7792,25 +7882,25 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(752, __c47, 0)),
-          project: S.optional(__S(784, __c49, 0)),
-          role: S.optional(__S(785, __c49, 1)),
+          group: S.optional(__S(768, __c48, 0)),
+          project: S.optional(__S(800, __c50, 0)),
+          role: S.optional(__S(801, __c50, 1)),
           type: S.String,
-          user: S.optional(__S(800, __c50, 0)),
+          user: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "SharePermissionInput" });
     case 3:
-      return S.Array(__S(786, __c49, 2));
+      return S.Array(__S(802, __c50, 2));
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
           active: S.optional(S.Boolean),
-          avatarUrls: S.optional(__S(768, __c48, 0)),
+          avatarUrls: S.optional(__S(784, __c49, 0)),
           displayName: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
@@ -7819,7 +7909,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UserBean" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7833,7 +7923,7 @@ function __c51(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/group/bulk", code: 200 })),
       ).annotate({ identifier: "BulkGetGroupsRequest" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7843,12 +7933,12 @@ function __c51(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(817, __c51, 1),
+          values: __S(833, __c52, 1),
         }),
       ).annotate({ identifier: "PageBeanGroupDetails" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7861,7 +7951,7 @@ function __c52(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/user/bulk", code: 200 })),
       ).annotate({ identifier: "BulkGetUsersRequest" });
     case 1:
-      return S.Array(__S(854, __c53, 6));
+      return S.Array(__S(870, __c54, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7871,12 +7961,12 @@ function __c52(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(833, __c52, 1),
+          values: __S(849, __c53, 1),
         }),
       ).annotate({ identifier: "PageBeanUser" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7887,14 +7977,14 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "GroupName" });
     case 1:
-      return S.Array(__S(848, __c53, 0));
+      return S.Array(__S(864, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           defaultGroups: S.optional(__S(0, __c0, 0)),
-          defaultGroupsDetails: S.optional(__S(849, __c53, 1)),
+          defaultGroupsDetails: S.optional(__S(865, __c54, 1)),
           defined: S.optional(S.Boolean),
-          groupDetails: S.optional(__S(849, __c53, 1)),
+          groupDetails: S.optional(__S(865, __c54, 1)),
           groups: S.optional(__S(0, __c0, 0)),
           hasUnlimitedSeats: S.optional(S.Boolean),
           key: S.optional(S.String),
@@ -7908,12 +7998,12 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationRole" });
     case 3:
-      return S.Array(__S(850, __c53, 2));
+      return S.Array(__S(866, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           callback: S.optional(S.Unknown),
-          items: S.optional(__S(851, __c53, 3)),
+          items: S.optional(__S(867, __c54, 3)),
           max_results: S.optional(S.Number.pipe(T.Body("max-results"))),
           pagingCallback: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -7923,7 +8013,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           callback: S.optional(S.Unknown),
-          items: S.optional(__S(849, __c53, 1)),
+          items: S.optional(__S(865, __c54, 1)),
           max_results: S.optional(S.Number.pipe(T.Body("max-results"))),
           pagingCallback: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -7936,12 +8026,12 @@ function __c53(j: number): any {
           accountType: S.optional(S.String),
           active: S.optional(S.Boolean),
           appType: S.optional(S.String),
-          applicationRoles: S.optional(__S(852, __c53, 4)),
-          avatarUrls: S.optional(__S(768, __c48, 0)),
+          applicationRoles: S.optional(__S(868, __c54, 4)),
+          avatarUrls: S.optional(__S(784, __c49, 0)),
           displayName: S.optional(S.String),
           emailAddress: S.optional(S.String),
           expand: S.optional(S.String),
-          groups: S.optional(__S(853, __c53, 5)),
+          groups: S.optional(__S(869, __c54, 5)),
           guest: S.optional(S.Boolean),
           key: S.optional(S.String),
           locale: S.optional(S.String),
@@ -7952,7 +8042,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7972,14 +8062,14 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "UserMigrationBean" });
     case 2:
-      return S.Array(__S(865, __c54, 1));
+      return S.Array(__S(881, __c55, 1));
     case 3:
-      return S.suspend(() => __S(866, __c54, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(882, __c55, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "BulkGetUsersMigrationResponse",
       });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7998,7 +8088,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "BulkMoveWorklogsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8008,7 +8098,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CancelTaskRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8019,7 +8109,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ChangeFilterOwnerRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8033,20 +8123,20 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CloneFieldAssociationSchemeRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           id: S.optional(S.Number),
-          links: S.optional(__S(960, __c60, 0)),
+          links: S.optional(__S(976, __c61, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFieldAssociationSchemeResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8057,7 +8147,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateFieldAssociationSchemeLinksBean" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8065,14 +8155,14 @@ function __c61(j: number): any {
           id: S.String.pipe(T.Label()),
           extendAdminPermissions: S.optional(S.Boolean.pipe(T.Query())),
           description: S.optional(S.String),
-          editPermissions: __S(787, __c49, 3),
+          editPermissions: __S(803, __c50, 3),
           name: S.String,
-          sharePermissions: __S(787, __c49, 3),
+          sharePermissions: __S(803, __c50, 3),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/dashboard/{id}/copy", code: 200 })),
       ).annotate({ identifier: "CopyDashboardRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8091,8 +8181,8 @@ function __c62(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actorGroup: S.optional(__S(992, __c62, 0)),
-          actorUser: S.optional(__S(993, __c62, 1)),
+          actorGroup: S.optional(__S(1008, __c63, 0)),
+          actorUser: S.optional(__S(1009, __c63, 1)),
           avatarUrl: S.optional(S.String),
           displayName: S.optional(S.String),
           id: S.optional(S.Number),
@@ -8101,11 +8191,11 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "RoleActor" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(1010, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actors: S.optional(__S(995, __c62, 3)),
+          actors: S.optional(__S(1011, __c63, 3)),
           admin: S.optional(S.Boolean),
           currentUserRole: S.optional(S.Boolean),
           default: S.optional(S.Boolean),
@@ -8113,7 +8203,7 @@ function __c62(j: number): any {
           id: S.optional(S.Number),
           name: S.optional(S.String),
           roleConfigurable: S.optional(S.Boolean),
-          scope: S.optional(__S(1024, __c64, 0)),
+          scope: S.optional(__S(1040, __c65, 0)),
           self: S.optional(S.String),
           translatedName: S.optional(S.String),
         }),
@@ -8121,38 +8211,38 @@ function __c62(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(848, __c53, 0)),
+          group: S.optional(__S(864, __c54, 0)),
           id: S.optional(S.Number),
-          project: S.optional(__S(1087, __c67, 15)),
-          role: S.optional(__S(996, __c62, 4)),
+          project: S.optional(__S(1103, __c68, 15)),
+          role: S.optional(__S(1012, __c63, 4)),
           type: S.String,
-          user: S.optional(__S(800, __c50, 0)),
+          user: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "SharePermissionOutput" });
     case 6:
-      return S.Array(__S(997, __c62, 5));
+      return S.Array(__S(1013, __c63, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           automaticRefreshMs: S.optional(S.Number),
           description: S.optional(S.String),
-          editPermissions: S.optional(__S(998, __c62, 6)),
+          editPermissions: S.optional(__S(1014, __c63, 6)),
           id: S.optional(S.String),
           isFavourite: S.optional(S.Boolean),
           isWritable: S.optional(S.Boolean),
           name: S.optional(S.String),
-          owner: S.optional(__S(800, __c50, 0)),
+          owner: S.optional(__S(816, __c51, 0)),
           popularity: S.optional(S.Number),
           rank: S.optional(S.Number),
           self: S.optional(S.String),
-          sharePermissions: S.optional(__S(998, __c62, 6)),
+          sharePermissions: S.optional(__S(1014, __c63, 6)),
           systemDashboard: S.optional(S.Boolean),
           view: S.optional(S.String),
         }),
       ).annotate({ identifier: "DashboardOutput" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8166,11 +8256,11 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          avatarUrls: S.optional(__S(768, __c48, 0)),
+          avatarUrls: S.optional(__S(784, __c49, 0)),
           id: S.optional(S.String),
           key: S.optional(S.String),
           name: S.optional(S.String),
-          projectCategory: S.optional(__S(1008, __c63, 0)),
+          projectCategory: S.optional(__S(1024, __c64, 0)),
           projectTypeKey: S.optional(S.String),
           self: S.optional(S.String),
           simplified: S.optional(S.Boolean),
@@ -8178,13 +8268,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ProjectDetails" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            project: S.optional(__S(1009, __c63, 1)),
+            project: S.optional(__S(1025, __c64, 1)),
             type: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -8192,7 +8282,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "Scope" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8204,45 +8294,45 @@ function __c65(j: number): any {
           iconUrl: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          scope: S.optional(__S(1024, __c64, 0)),
+          scope: S.optional(__S(1040, __c65, 0)),
           self: S.optional(S.String),
           subtask: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IssueTypeDetails" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(1056, __c66, 0));
   }
 }
 function __c67(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           ari: S.optional(S.String),
-          assignee: S.optional(__S(854, __c53, 6)),
+          assignee: S.optional(__S(870, __c54, 6)),
           assigneeType: S.optional(S.String),
           description: S.optional(S.String),
           id: S.optional(S.String),
           isAssigneeTypeValid: S.optional(S.Boolean),
-          lead: S.optional(__S(854, __c53, 6)),
+          lead: S.optional(__S(870, __c54, 6)),
           leadUserName: S.optional(S.String),
           metadata: S.optional(__S(16, __c1, 0)),
           name: S.optional(S.String),
           project: S.optional(S.String),
           projectId: S.optional(S.Number),
-          realAssignee: S.optional(__S(854, __c53, 6)),
+          realAssignee: S.optional(__S(870, __c54, 6)),
           realAssigneeType: S.optional(S.String),
           self: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectComponentOutput" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8265,12 +8355,12 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "SimplifiedHierarchyLevel" });
     case 4:
-      return S.Array(__S(1075, __c67, 3));
+      return S.Array(__S(1091, __c68, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           baseLevelId: S.optional(S.Number),
-          levels: S.optional(__S(1076, __c67, 4)),
+          levels: S.optional(__S(1092, __c68, 4)),
         }),
       ).annotate({ identifier: "Hierarchy" });
     case 6:
@@ -8308,7 +8398,7 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "VersionApprover" });
     case 9:
-      return S.Array(__S(1080, __c67, 8));
+      return S.Array(__S(1096, __c68, 8));
     case 10:
       return S.suspend(() =>
         S.StructWithRest(
@@ -8334,20 +8424,20 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "SimpleLink" });
     case 12:
-      return S.Array(__S(1083, __c67, 11));
+      return S.Array(__S(1099, __c68, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          approvers: S.optional(__S(1081, __c67, 9)),
+          approvers: S.optional(__S(1097, __c68, 9)),
           archived: S.optional(S.Boolean),
           description: S.optional(S.String),
           driver: S.optional(S.String),
           expand: S.optional(S.String),
           id: S.optional(S.String),
-          issuesStatusForFixVersion: S.optional(__S(1082, __c67, 10)),
+          issuesStatusForFixVersion: S.optional(__S(1098, __c68, 10)),
           moveUnfixedIssuesTo: S.optional(S.String),
           name: S.optional(S.String),
-          operations: S.optional(__S(1084, __c67, 12)),
+          operations: S.optional(__S(1100, __c68, 12)),
           overdue: S.optional(S.Boolean),
           project: S.optional(S.String),
           projectId: S.optional(S.Number),
@@ -8360,36 +8450,36 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "Version" });
     case 14:
-      return S.Array(__S(1085, __c67, 13));
+      return S.Array(__S(1101, __c68, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           archived: S.optional(S.Boolean),
-          archivedBy: S.optional(__S(854, __c53, 6)),
+          archivedBy: S.optional(__S(870, __c54, 6)),
           archivedDate: S.optional(S.String),
           assigneeType: S.optional(S.String),
-          avatarUrls: S.optional(__S(768, __c48, 0)),
-          components: S.optional(__S(1073, __c67, 1)),
+          avatarUrls: S.optional(__S(784, __c49, 0)),
+          components: S.optional(__S(1089, __c68, 1)),
           deleted: S.optional(S.Boolean),
-          deletedBy: S.optional(__S(854, __c53, 6)),
+          deletedBy: S.optional(__S(870, __c54, 6)),
           deletedDate: S.optional(S.String),
           description: S.optional(S.String),
           email: S.optional(S.String),
           expand: S.optional(S.String),
           favourite: S.optional(S.Boolean),
           id: S.optional(S.String),
-          insight: S.optional(__S(1074, __c67, 2)),
+          insight: S.optional(__S(1090, __c68, 2)),
           isPrivate: S.optional(S.Boolean),
-          issueTypeHierarchy: S.optional(__S(1077, __c67, 5)),
-          issueTypes: S.optional(__S(1041, __c65, 1)),
+          issueTypeHierarchy: S.optional(__S(1093, __c68, 5)),
+          issueTypes: S.optional(__S(1057, __c66, 1)),
           key: S.optional(S.String),
-          landingPageInfo: S.optional(__S(1078, __c67, 6)),
-          lead: S.optional(__S(854, __c53, 6)),
+          landingPageInfo: S.optional(__S(1094, __c68, 6)),
+          lead: S.optional(__S(870, __c54, 6)),
           name: S.optional(S.String),
-          permissions: S.optional(__S(1079, __c67, 7)),
-          projectCategory: S.optional(__S(1008, __c63, 0)),
+          permissions: S.optional(__S(1095, __c68, 7)),
+          projectCategory: S.optional(__S(1024, __c64, 0)),
           projectTypeKey: S.optional(S.String),
-          properties: S.optional(__S(1056, __c66, 0)),
+          properties: S.optional(__S(1072, __c67, 0)),
           retentionTillDate: S.optional(S.String),
           roles: S.optional(__S(16, __c1, 0)),
           self: S.optional(S.String),
@@ -8397,26 +8487,26 @@ function __c67(j: number): any {
           style: S.optional(S.String),
           url: S.optional(S.String),
           uuid: S.optional(S.String),
-          versions: S.optional(__S(1086, __c67, 14)),
+          versions: S.optional(__S(1102, __c68, 14)),
         }),
       ).annotate({ identifier: "ProjectOutput" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           extendAdminPermissions: S.optional(S.Boolean.pipe(T.Query())),
           description: S.optional(S.String),
-          editPermissions: __S(787, __c49, 3),
+          editPermissions: __S(803, __c50, 3),
           name: S.String,
-          sharePermissions: __S(787, __c49, 3),
+          sharePermissions: __S(803, __c50, 3),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/dashboard", code: 200 })),
       ).annotate({ identifier: "CreateDashboardRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8427,19 +8517,19 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateFieldAssociationSchemeRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          levels: S.optional(__S(2305, __c144, 1)),
+          levels: S.optional(__S(2321, __c145, 1)),
           name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/issuesecurityschemes", code: 200 })),
       ).annotate({ identifier: "CreateIssueSecuritySchemeRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8452,7 +8542,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "SecuritySchemeId" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8465,30 +8555,30 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "NotificationSchemeNotificationDetails" });
     case 1:
-      return S.Array(__S(1152, __c72, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            event: __S(1136, __c71, 0),
-            notifications: __S(1153, __c72, 1),
+            event: __S(1152, __c72, 0),
+            notifications: __S(1169, __c73, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "NotificationSchemeEventDetails" });
     case 3:
-      return S.Array(__S(1154, __c72, 2));
+      return S.Array(__S(1170, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           name: S.String,
-          notificationSchemeEvents: S.optional(__S(1155, __c72, 3)),
+          notificationSchemeEvents: S.optional(__S(1171, __c73, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/notificationscheme", code: 200 })),
       ).annotate({ identifier: "CreateNotificationSchemeRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8498,7 +8588,7 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "CreateCrossProjectReleaseRequest" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1184, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8514,29 +8604,29 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dependencies: S.optional(S.String),
-          endDate: S.optional(__S(1205, __c75, 5)),
+          endDate: S.optional(__S(1221, __c76, 5)),
           estimation: S.String,
           inferredDates: S.optional(S.String),
-          startDate: S.optional(__S(1205, __c75, 5)),
+          startDate: S.optional(__S(1221, __c76, 5)),
         }),
       ).annotate({ identifier: "CreateSchedulingRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           useGroupId: S.optional(S.Boolean.pipe(T.Query())),
-          crossProjectReleases: S.optional(__S(1169, __c73, 1)),
-          customFields: S.optional(__S(1201, __c75, 1)),
-          exclusionRules: S.optional(__S(1170, __c73, 2)),
-          issueSources: __S(1217, __c76, 1),
+          crossProjectReleases: S.optional(__S(1185, __c74, 1)),
+          customFields: S.optional(__S(1217, __c76, 1)),
+          exclusionRules: S.optional(__S(1186, __c74, 2)),
+          issueSources: __S(1233, __c77, 1),
           leadAccountId: S.optional(S.String),
           name: S.String,
-          permissions: S.optional(__S(1204, __c75, 4)),
-          scheduling: __S(1171, __c73, 3),
+          permissions: S.optional(__S(1220, __c76, 4)),
+          scheduling: __S(1187, __c74, 3),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/plans/plan", code: 200 })),
       ).annotate({ identifier: "CreatePlanRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Number.pipe(T.RawResponseRoot())).annotate({
@@ -8544,7 +8634,7 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8554,7 +8644,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "CreateCustomFieldRequest2" });
     case 1:
-      return S.Array(__S(1200, __c75, 0));
+      return S.Array(__S(1216, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8565,12 +8655,12 @@ function __c75(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          holder: __S(1202, __c75, 2),
+          holder: __S(1218, __c76, 2),
           type: S.String,
         }),
       ).annotate({ identifier: "CreatePermissionRequest" });
     case 4:
-      return S.Array(__S(1203, __c75, 3));
+      return S.Array(__S(1219, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -8580,7 +8670,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CreateDateFieldRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8590,10 +8680,10 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "CreateIssueSourceRequest" });
     case 1:
-      return S.Array(__S(1216, __c76, 0));
+      return S.Array(__S(1232, __c77, 0));
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8615,14 +8705,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreatePlanOnlyTeamRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           defaultPriorityId: S.Number,
           description: S.optional(S.String),
-          mappings: S.optional(__S(1264, __c79, 0)),
+          mappings: S.optional(__S(1280, __c80, 0)),
           name: S.String,
           priorityIds: __S(48, __c3, 0),
           projectIds: S.optional(__S(48, __c3, 0)),
@@ -8679,7 +8769,7 @@ function __c78(j: number): any {
           lastUpdate: S.Number,
           message: S.optional(S.String),
           progress: S.Number,
-          result: S.optional(__S(1249, __c78, 1)),
+          result: S.optional(__S(1265, __c79, 1)),
           self: S.String,
           started: S.optional(S.Number),
           status: S.String,
@@ -8691,29 +8781,29 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          task: S.optional(__S(1250, __c78, 2)),
+          task: S.optional(__S(1266, __c79, 2)),
         }),
       ).annotate({ identifier: "PrioritySchemeId" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          in: S.optional(__S(1280, __c80, 0)),
-          out: S.optional(__S(1280, __c80, 0)),
-        }),
-      ).annotate({ identifier: "PriorityMapping" });
   }
 }
 function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          in: S.optional(__S(1296, __c81, 0)),
+          out: S.optional(__S(1296, __c81, 0)),
+        }),
+      ).annotate({ identifier: "PriorityMapping" });
   }
 }
 function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Number);
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8724,7 +8814,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateResolutionRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8735,7 +8825,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateScreenRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8743,12 +8833,12 @@ function __c83(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          scope: S.optional(__S(1024, __c64, 0)),
+          scope: S.optional(__S(1040, __c65, 0)),
         }),
       ).annotate({ identifier: "Screen" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8758,7 +8848,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8777,7 +8867,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteFieldAssociationSchemeResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8793,7 +8883,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteNotificationSchemeRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8810,7 +8900,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeletePlanOnlyTeamRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8822,7 +8912,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeletePrioritySchemeRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8834,7 +8924,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteProjectAsynchronouslyRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8850,7 +8940,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "LimitExceededResponseBean" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8861,7 +8951,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteResolutionRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8871,7 +8961,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteScreenRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8887,7 +8977,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteSecuritySchemeRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8900,13 +8990,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DuplicatePlanRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           templateDescription: S.optional(S.String),
-          templateGenerationOptions: S.optional(__S(1536, __c96, 0)),
+          templateGenerationOptions: S.optional(__S(1552, __c97, 0)),
           templateKey: S.optional(S.String),
           templateName: S.optional(S.String),
         }).pipe(
@@ -8915,7 +9005,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "EditTemplateRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8926,7 +9016,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CustomTemplateOptions" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8947,11 +9037,11 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "AttachmentArchiveItemReadable" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(1554, __c97, 2)),
+          entries: S.optional(__S(1570, __c98, 2)),
           id: S.optional(S.Number),
           mediaType: S.optional(S.String),
           name: S.optional(S.String),
@@ -8960,7 +9050,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "AttachmentArchiveMetadataReadable" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8981,17 +9071,17 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "AttachmentArchiveEntry" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1585, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(1570, __c98, 2)),
+          entries: S.optional(__S(1586, __c99, 2)),
           totalEntryCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AttachmentArchiveImpl" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9004,7 +9094,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           archivedBy: S.optional(__S(0, __c0, 0)),
-          archivedDateRange: S.optional(__S(1584, __c99, 0)),
+          archivedDateRange: S.optional(__S(1600, __c100, 0)),
           issueTypes: S.optional(__S(0, __c0, 0)),
           projects: S.optional(__S(0, __c0, 0)),
           reporters: S.optional(__S(0, __c0, 0)),
@@ -9012,7 +9102,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ExportArchivedIssuesRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9029,16 +9119,16 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "AvailableDashboardGadget" });
     case 2:
-      return S.Array(__S(1601, __c100, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          gadgets: __S(1602, __c100, 2),
+          gadgets: __S(1618, __c101, 2),
         }),
       ).annotate({ identifier: "AvailableDashboardGadgetsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9052,16 +9142,16 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "GetAllGadgetsRequest" });
     case 1:
-      return S.Array(__S(1872, __c117, 0));
+      return S.Array(__S(1888, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gadgets: __S(1617, __c101, 1),
+          gadgets: __S(1633, __c102, 1),
         }),
       ).annotate({ identifier: "DashboardGadgetResponseOutput" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9082,7 +9172,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "AddAtlassianTeamRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -9090,14 +9180,14 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(1664, __c104, 0).pipe(T.Query())),
+          status: S.optional(__S(1680, __c105, 0).pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/classification-levels", code: 200 })),
       ).annotate({ identifier: "GetAllUserDataClassificationLevelsRequest" });
@@ -9115,16 +9205,16 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "DataClassificationTagBean" });
     case 3:
-      return S.Array(__S(1666, __c104, 2));
+      return S.Array(__S(1682, __c105, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          classifications: S.optional(__S(1667, __c104, 3)),
+          classifications: S.optional(__S(1683, __c105, 3)),
         }),
       ).annotate({ identifier: "DataClassificationLevelsBean" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9140,7 +9230,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetApproximateApplicationLicenseCountRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9151,7 +9241,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "LicenseMetric" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9161,7 +9251,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetApproximateLicenseCountRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9188,7 +9278,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetAtlassianTeamResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9206,17 +9296,17 @@ function __c109(j: number): any {
           filterId: S.optional(S.String),
           jql: S.optional(S.String),
           requestUrl: S.optional(S.String),
-          user: S.optional(__S(800, __c50, 0)),
+          user: S.optional(__S(816, __c51, 0)),
           userAgent: S.optional(S.String),
           validationMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditEntry" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(1746, __c109, 2),
+          entries: __S(1762, __c110, 2),
           isLast: S.optional(S.Boolean),
           nextPageToken: S.optional(S.String),
           nextPageURL: S.optional(S.String),
@@ -9224,7 +9314,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "AuditPage" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9244,7 +9334,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetAvailablePrioritiesByPrioritySchemeRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9260,7 +9350,7 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "PriorityWithSequence" });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9270,12 +9360,12 @@ function __c111(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(1777, __c111, 1),
+          values: __S(1793, __c112, 1),
         }),
       ).annotate({ identifier: "PageBeanPriorityWithSequence" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9288,7 +9378,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetBulkScreenTabsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9315,16 +9405,16 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "IssueTypeDefaultValue" });
     case 2:
-      return S.Array(__S(1809, __c113, 1));
+      return S.Array(__S(1825, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           contextId: S.Number,
-          defaultValues: S.optional(__S(1810, __c113, 2)),
+          defaultValues: S.optional(__S(1826, __c114, 2)),
         }),
       ).annotate({ identifier: "ContextDefaultValues" });
     case 4:
-      return S.Array(__S(1811, __c113, 3));
+      return S.Array(__S(1827, __c114, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9334,12 +9424,12 @@ function __c113(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(1812, __c113, 4),
+          values: __S(1828, __c114, 4),
         }),
       ).annotate({ identifier: "PageBeanContextDefaultValues" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9371,7 +9461,7 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "BulkContextualConfiguration" });
     case 2:
-      return S.Array(__S(1825, __c114, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9381,12 +9471,12 @@ function __c114(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(1826, __c114, 2),
+          values: __S(1842, __c115, 2),
         }),
       ).annotate({ identifier: "PageBeanBulkContextualConfiguration" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9402,7 +9492,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetDefaultProjectClassificationRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9411,7 +9501,7 @@ function __c116(j: number): any {
           color: S.optional(S.String),
           ignoreUriAndModuleKeyValidation: S.optional(S.Boolean),
           moduleKey: S.optional(S.String),
-          position: S.optional(__S(1888, __c118, 0)),
+          position: S.optional(__S(1904, __c119, 0)),
           title: S.optional(S.String),
           uri: S.optional(S.String),
         }).pipe(
@@ -9420,7 +9510,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "AddGadgetRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9428,14 +9518,14 @@ function __c117(j: number): any {
           color: S.String,
           id: S.Number,
           moduleKey: S.optional(S.String),
-          position: __S(1888, __c118, 0),
+          position: __S(1904, __c119, 0),
           title: S.String,
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "DashboardGadgetOutput" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9448,7 +9538,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DashboardGadgetPosition" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9462,14 +9552,14 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "IssueEvent" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 3:
-      return S.suspend(() => __S(1906, __c119, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1922, __c120, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEventsResponse",
       });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9488,18 +9578,18 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "FailedWebhook" });
     case 2:
-      return S.Array(__S(1921, __c120, 1));
+      return S.Array(__S(1937, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           maxResults: S.Number,
           next: S.optional(S.String),
-          values: __S(1922, __c120, 2),
+          values: __S(1938, __c121, 2),
         }),
       ).annotate({ identifier: "FailedWebhooks" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9514,13 +9604,13 @@ function __c121(j: number): any {
           fieldsCount: S.optional(S.Number),
           id: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          links: S.optional(__S(960, __c60, 0)),
+          links: S.optional(__S(976, __c61, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetFieldAssociationSchemeByIdResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9553,18 +9643,18 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "WorkTypeParameters" });
     case 3:
-      return S.Array(__S(1954, __c122, 2));
+      return S.Array(__S(1970, __c123, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.String,
-          parameters: S.optional(__S(1953, __c122, 1)),
-          workTypeParameters: S.optional(__S(1955, __c122, 3)),
+          parameters: S.optional(__S(1969, __c123, 1)),
+          workTypeParameters: S.optional(__S(1971, __c123, 3)),
         }),
       ).annotate({ identifier: "GetFieldAssociationParametersResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9589,13 +9679,13 @@ function __c123(j: number): any {
           fieldsCount: S.optional(S.Number),
           id: S.optional(S.Number),
           isDefault: S.optional(S.Boolean),
-          links: S.optional(__S(960, __c60, 0)),
-          matchedFilters: S.optional(__S(1969, __c123, 1)),
+          links: S.optional(__S(976, __c61, 0)),
+          matchedFilters: S.optional(__S(1985, __c124, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetFieldAssociationSchemeResponse" });
     case 3:
-      return S.Array(__S(1970, __c123, 2));
+      return S.Array(__S(1986, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9605,12 +9695,12 @@ function __c123(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(1971, __c123, 3),
+          values: __S(1987, __c124, 3),
         }),
       ).annotate({ identifier: "PageBean2GetFieldAssociationSchemeResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9633,7 +9723,7 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "FieldProjectAssociation" });
     case 2:
-      return S.Array(__S(1985, __c124, 1));
+      return S.Array(__S(2001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9643,12 +9733,12 @@ function __c124(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(1986, __c124, 2),
+          values: __S(2002, __c125, 2),
         }),
       ).annotate({ identifier: "PageBeanFieldProjectAssociation" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9659,26 +9749,26 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetIssueAdfLimitReportRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(48, __c3, 0));
     case 1:
-      return S.Record(S.String, __S(2016, __c126, 0));
+      return S.Record(S.String, __S(2032, __c127, 0));
     case 2:
-      return S.Record(S.String, __S(1280, __c80, 0));
+      return S.Record(S.String, __S(1296, __c81, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entitiesBreachingLimit: S.optional(__S(2017, __c126, 1)),
-          issuesApproachingLimit: S.optional(__S(2018, __c126, 2)),
-          issuesBreachingLimit: S.optional(__S(2018, __c126, 2)),
-          limits: S.optional(__S(1280, __c80, 0)),
+          entitiesBreachingLimit: S.optional(__S(2033, __c127, 1)),
+          issuesApproachingLimit: S.optional(__S(2034, __c127, 2)),
+          issuesBreachingLimit: S.optional(__S(2034, __c127, 2)),
+          limits: S.optional(__S(1296, __c81, 0)),
         }),
       ).annotate({ identifier: "IssueLimitReportResponseBean" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9688,7 +9778,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetIssueLimitReportRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9698,12 +9788,12 @@ function __c128(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/issuetype/project", code: 200 })),
       ).annotate({ identifier: "GetIssueTypesForProjectRequest" });
     case 1:
-      return S.suspend(() => __S(1041, __c65, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1057, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetIssueTypesForProjectResponse",
       });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9719,16 +9809,16 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "LicensedApplication" });
     case 2:
-      return S.Array(__S(2065, __c129, 1));
+      return S.Array(__S(2081, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          applications: __S(2066, __c129, 2),
+          applications: __S(2082, __c130, 2),
         }),
       ).annotate({ identifier: "License" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9741,7 +9831,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "AddPolicyToProjectsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9758,7 +9848,7 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "GetCrossProjectReleaseResponse" });
     case 2:
-      return S.Array(__S(2097, __c131, 1));
+      return S.Array(__S(2113, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9774,31 +9864,31 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dependencies: S.String,
-          endDate: __S(1205, __c75, 5),
+          endDate: __S(1221, __c76, 5),
           estimation: S.String,
           inferredDates: S.String,
-          startDate: __S(1205, __c75, 5),
+          startDate: __S(1221, __c76, 5),
         }),
       ).annotate({ identifier: "GetSchedulingResponse" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          crossProjectReleases: S.optional(__S(2098, __c131, 2)),
-          customFields: S.optional(__S(1201, __c75, 1)),
-          exclusionRules: S.optional(__S(2099, __c131, 3)),
+          crossProjectReleases: S.optional(__S(2114, __c132, 2)),
+          customFields: S.optional(__S(1217, __c76, 1)),
+          exclusionRules: S.optional(__S(2115, __c132, 3)),
           id: S.Number,
-          issueSources: S.optional(__S(1217, __c76, 1)),
+          issueSources: S.optional(__S(1233, __c77, 1)),
           lastSaved: S.optional(S.String),
           leadAccountId: S.optional(S.String),
           name: S.optional(S.String),
-          permissions: S.optional(__S(1204, __c75, 4)),
-          scheduling: __S(2100, __c131, 4),
+          permissions: S.optional(__S(1220, __c76, 4)),
+          scheduling: __S(2116, __c132, 4),
           status: S.String,
         }),
       ).annotate({ identifier: "GetPlanResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9827,7 +9917,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetPlanOnlyTeamResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9842,14 +9932,14 @@ function __c133(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          issueSources: S.optional(__S(1217, __c76, 1)),
+          issueSources: S.optional(__S(1233, __c77, 1)),
           name: S.String,
           scenarioId: S.String,
           status: S.String,
         }),
       ).annotate({ identifier: "GetPlanResponseForPage" });
     case 2:
-      return S.Array(__S(2129, __c133, 1));
+      return S.Array(__S(2145, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9858,12 +9948,12 @@ function __c133(j: number): any {
           nextPageCursor: S.optional(S.String),
           size: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2130, __c133, 2),
+          values: __S(2146, __c134, 2),
         }),
       ).annotate({ identifier: "PageWithCursorGetPlanResponseForPage" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9878,7 +9968,7 @@ function __c134(j: number): any {
         ),
       ).annotate({ identifier: "GetPolicyStateRequest" });
     case 1:
-      return S.Record(S.String, __S(2161, __c135, 1));
+      return S.Record(S.String, __S(2177, __c136, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9886,35 +9976,35 @@ function __c134(j: number): any {
           isDefault: S.optional(S.Boolean),
           policyDescription: S.optional(S.String),
           policyName: S.optional(S.String),
-          rulesByDomain: S.optional(__S(2145, __c134, 1)),
+          rulesByDomain: S.optional(__S(2161, __c135, 1)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StatePolicyDocument" });
     case 3:
-      return S.Array(__S(2146, __c134, 2));
+      return S.Array(__S(2162, __c135, 2));
     case 4:
-      return S.suspend(() => __S(2147, __c134, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2163, __c135, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPolicyStateResponse",
       });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           domain: S.optional(S.String),
-          properties: S.optional(__S(1056, __c66, 0)),
+          properties: S.optional(__S(1072, __c67, 0)),
           ruleId: S.optional(S.String),
           ruleTypeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StatePolicyRule" });
     case 1:
-      return S.Array(__S(2160, __c135, 0));
+      return S.Array(__S(2176, __c136, 0));
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9932,7 +10022,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetPrioritiesByPrioritySchemeRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9948,7 +10038,7 @@ function __c137(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/priorityscheme", code: 200 })),
       ).annotate({ identifier: "GetPrioritySchemesRequest" });
     case 1:
-      return S.Array(__S(1009, __c63, 1));
+      return S.Array(__S(1025, __c64, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9958,7 +10048,7 @@ function __c137(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: S.optional(__S(2193, __c137, 1)),
+          values: S.optional(__S(2209, __c138, 1)),
         }),
       ).annotate({ identifier: "PageBeanProjectDetails" });
     case 3:
@@ -9970,15 +10060,15 @@ function __c137(j: number): any {
             description: S.optional(S.String),
             id: S.String,
             name: S.String,
-            priorities: S.optional(__S(1778, __c111, 2)),
-            projects: S.optional(__S(2194, __c137, 2)),
+            priorities: S.optional(__S(1794, __c112, 2)),
+            projects: S.optional(__S(2210, __c138, 2)),
             self: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PrioritySchemeWithPaginatedPrioritiesAndProjectsOutput" });
     case 4:
-      return S.Array(__S(2195, __c137, 3));
+      return S.Array(__S(2211, __c138, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9988,12 +10078,12 @@ function __c137(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2196, __c137, 4),
+          values: __S(2212, __c138, 4),
         }),
       ).annotate({ identifier: "PageBeanPrioritySchemeWithPaginatedPrioritiesAndProjectsOutput" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10009,7 +10099,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetProjectClassificationConfigRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10032,7 +10122,7 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "ProjectFieldBean" });
     case 2:
-      return S.Array(__S(2225, __c139, 1));
+      return S.Array(__S(2241, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10042,12 +10132,12 @@ function __c139(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2226, __c139, 2),
+          values: __S(2242, __c140, 2),
         }),
       ).annotate({ identifier: "PageBean2ProjectFieldBean" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10063,12 +10153,12 @@ function __c140(j: number): any {
         ),
       ).annotate({ identifier: "GetProjectRulesRequest" });
     case 1:
-      return S.suspend(() => __S(2161, __c135, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2177, __c136, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectRulesResponse",
       });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10095,24 +10185,24 @@ function __c141(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2272, __c142, 0),
+          values: __S(2288, __c143, 0),
         }),
       ).annotate({ identifier: "PageBeanProjectOutput" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1087, __c67, 15));
   }
 }
 function __c143(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(1103, __c68, 15));
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           schemeId: S.String.pipe(T.Label()),
-          levels: S.optional(__S(2305, __c144, 1)),
+          levels: S.optional(__S(2321, __c145, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10123,22 +10213,22 @@ function __c143(j: number): any {
       ).annotate({ identifier: "AddSecurityLevelRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          members: S.optional(__S(2321, __c145, 1)),
+          members: S.optional(__S(2337, __c146, 1)),
           name: S.String,
         }),
       ).annotate({ identifier: "SecuritySchemeLevelBean" });
     case 1:
-      return S.Array(__S(2304, __c144, 0));
+      return S.Array(__S(2320, __c145, 0));
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10148,10 +10238,10 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "SecuritySchemeLevelMemberBean" });
     case 1:
-      return S.Array(__S(2320, __c145, 0));
+      return S.Array(__S(2336, __c146, 0));
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10171,7 +10261,7 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectsWithFieldSchemesResponse" });
     case 2:
-      return S.Array(__S(2337, __c146, 1));
+      return S.Array(__S(2353, __c147, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10181,12 +10271,12 @@ function __c146(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2338, __c146, 2),
+          values: __S(2354, __c147, 2),
         }),
       ).annotate({ identifier: "PageBean2GetProjectsWithFieldSchemesResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -10194,16 +10284,16 @@ function __c147(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expand: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(2352, __c147, 0).pipe(T.Query())),
+          properties: S.optional(__S(2368, __c148, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/rest/api/3/project/recent", code: 200 })),
       ).annotate({ identifier: "GetRecentRequest" });
     case 2:
-      return S.suspend(() => __S(2272, __c142, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2288, __c143, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRecentResponse",
       });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10235,7 +10325,7 @@ function __c148(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            holder: __S(2369, __c148, 1),
+            holder: __S(2385, __c149, 1),
             id: S.String,
             issueSecurityLevelId: S.String,
             issueSecuritySchemeId: S.String,
@@ -10244,7 +10334,7 @@ function __c148(j: number): any {
         ),
       ).annotate({ identifier: "SecurityLevelMemberOutput" });
     case 3:
-      return S.Array(__S(2370, __c148, 2));
+      return S.Array(__S(2386, __c149, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10254,12 +10344,12 @@ function __c148(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2371, __c148, 3),
+          values: __S(2387, __c149, 3),
         }),
       ).annotate({ identifier: "PageBeanSecurityLevelMemberOutput" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10285,7 +10375,7 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "SecurityLevel" });
     case 2:
-      return S.Array(__S(2385, __c149, 1));
+      return S.Array(__S(2401, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10295,12 +10385,12 @@ function __c149(j: number): any {
           self: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2386, __c149, 2),
+          values: __S(2402, __c150, 2),
         }),
       ).annotate({ identifier: "PageBeanSecurityLevel" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10328,18 +10418,18 @@ function __c150(j: number): any {
           name: S.optional(S.String),
           organizationId: S.optional(S.String),
           revision: S.optional(S.String),
-          serviceTier: S.optional(__S(2401, __c150, 1)),
+          serviceTier: S.optional(__S(2417, __c151, 1)),
         }),
       ).annotate({ identifier: "ServiceRegistry" });
     case 3:
-      return S.Array(__S(2402, __c150, 2));
+      return S.Array(__S(2418, __c151, 2));
     case 4:
-      return S.suspend(() => __S(2403, __c150, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2419, __c151, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetServiceRegistriesResponse",
       });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10358,7 +10448,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "GetTeamResponseForPage" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2433, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10367,12 +10457,12 @@ function __c151(j: number): any {
           nextPageCursor: S.optional(S.String),
           size: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2418, __c151, 2),
+          values: __S(2434, __c152, 2),
         }),
       ).annotate({ identifier: "PageWithCursorGetTeamResponseForPage" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10394,7 +10484,7 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "PolicySummary" });
     case 2:
-      return S.Array(__S(2433, __c152, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10403,12 +10493,12 @@ function __c152(j: number): any {
           nextPageCursor: S.optional(S.String),
           startAt: S.optional(S.Number),
           total: S.optional(S.Number),
-          values: __S(2434, __c152, 2),
+          values: __S(2450, __c153, 2),
         }),
       ).annotate({ identifier: "PolicySummaryResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10430,20 +10520,20 @@ function __c153(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          archetype: S.optional(__S(2449, __c153, 1)),
+          archetype: S.optional(__S(2465, __c154, 1)),
           defaultBoardView: S.optional(S.String),
           description: S.optional(S.String),
           liveTemplateProjectIdReference: S.optional(S.Number),
           name: S.optional(S.String),
-          projectTemplateKey: S.optional(__S(2464, __c154, 0)),
-          snapshotTemplate: S.optional(__S(1056, __c66, 0)),
-          templateGenerationOptions: S.optional(__S(1536, __c96, 0)),
+          projectTemplateKey: S.optional(__S(2480, __c155, 0)),
+          snapshotTemplate: S.optional(__S(1072, __c67, 0)),
+          templateGenerationOptions: S.optional(__S(1552, __c97, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectTemplateModel" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10454,7 +10544,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ProjectTemplateKey" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10466,7 +10556,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "MoveResolutionsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10483,14 +10573,14 @@ function __c156(j: number): any {
       ).annotate({ identifier: "RemoveAtlassianTeamRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           schemeId: S.String.pipe(T.Label()),
           levelId: S.String.pipe(T.Label()),
-          members: S.optional(__S(2321, __c145, 1)),
+          members: S.optional(__S(2337, __c146, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10501,7 +10591,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "AddSecurityLevelMembersRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10517,7 +10607,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "RemoveDefaultProjectClassificationRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10528,13 +10618,13 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "ParameterRemovalDetails" });
     case 1:
-      return S.Array(__S(2544, __c159, 0));
+      return S.Array(__S(2560, __c160, 0));
     case 2:
-      return S.Record(S.String, __S(2545, __c159, 1));
+      return S.Record(S.String, __S(2561, __c160, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body: __S(2546, __c159, 2).pipe(T.HttpBody()),
+          body: __S(2562, __c160, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -10545,7 +10635,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "RemoveFieldAssociationSchemeItemParametersRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10554,18 +10644,18 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "RemoveFieldAssociationsRequestItem" });
     case 1:
-      return S.Record(S.String, __S(2560, __c160, 0));
+      return S.Record(S.String, __S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: __S(2561, __c160, 1).pipe(T.HttpBody()),
+          body: __S(2577, __c161, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/rest/api/3/config/fieldschemes/fields", code: 200 }),
         ),
       ).annotate({ identifier: "RemoveFieldsAssociatedWithSchemesRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10582,7 +10672,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "RemoveGadgetRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10600,7 +10690,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "RemoveLevelRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10618,7 +10708,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "RemoveMemberFromSecurityLevelRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10631,7 +10721,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "RemovePolicyFromProjectsRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10647,7 +10737,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "RemoveTemplateRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10663,7 +10753,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "RestoreRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10673,11 +10763,11 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "JqlQueryToSanitize" });
     case 1:
-      return S.Array(__S(2672, __c167, 0));
+      return S.Array(__S(2688, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          queries: __S(2673, __c167, 1),
+          queries: __S(2689, __c168, 1),
         }).pipe(T.Http({ method: "POST", uri: "/rest/api/3/jql/sanitize", code: 200 })),
       ).annotate({ identifier: "SanitiseJqlQueriesRequest" });
     case 3:
@@ -10690,11 +10780,11 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "SanitizedJqlQuery" });
     case 4:
-      return S.Array(__S(2675, __c167, 3));
+      return S.Array(__S(2691, __c168, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          queries: S.optional(__S(2676, __c167, 4)),
+          queries: S.optional(__S(2692, __c168, 4)),
         }),
       ).annotate({ identifier: "SanitizedJqlQueries" });
   }

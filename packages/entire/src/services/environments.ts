@@ -36,9 +36,9 @@ export interface ArchiveProjectEnvironmentRequest {
   ifMatch?: string | undefined;
 }
 export interface EnvironmentArchivedBy {
-  /** Full principal id: an account ULID, svc_<ULID> for a service account, or aut_<ULID> for an automation. */
+  /** Full principal id: an account ULID, svc_<ULID> for a service account, aut_<ULID> for an automation, or ins_<ULID> for a plugin installation. */
   id: string;
-  /** Open principal kind; currently account, service_account, or automation. Clients must tolerate future values. */
+  /** Open principal kind; currently account, service_account, or automation, and on a run also plugin_installation (a plugin installation that started it with agents:run). Clients must tolerate future values. */
   kind: string;
 }
 export type EnvironmentCreatedBy = EnvironmentArchivedBy;

@@ -58,6 +58,50 @@ export interface CreditBalances {
   /** List of active balances for the organization. Empty when the organization has none. */
   balances?: CreditBalancesBalancesList | undefined;
 }
+export interface GetInferenceUsageCostRequest {
+  /** ID of the requested organization. */
+  organizationId: string;
+  /** Start date for the report, e.g. 2024-12-19. */
+  from_date: string;
+  /** End date (inclusive) for the report, e.g. 2024-12-20. This date cannot be more than 30 days after from_date (for a maximum queried period of 31 days). */
+  to_date: string;
+}
+export interface InferenceUsageCostMetric {
+  /** Name of the metric: `input`, `output`, `cache_read`, `cache_write_5m`, `cache_write_30m` or `cache_write_1h`. New values can appear. */
+  metric?: string | undefined;
+  /** Number of tokens used, in millions. For example, 1.5 means 1,500,000 tokens. */
+  tokensMillions?: number | undefined;
+  /** Average price per million tokens in ClickHouse Credits (CHCs): `totalCHC` divided by `tokensMillions`. It is an average because one model can have more than one price. Zero when no tokens were used. */
+  pricePerMillionTokensCHC?: number | undefined;
+  /** Cost of the tokens used in ClickHouse Credits (CHCs). */
+  totalCHC?: number | undefined;
+}
+/** Usage and cost for each metric that has usage. The costs add up to `totalCHC`. */
+export type InferenceUsageCostRecordMetricsList = Array<InferenceUsageCostMetric>;
+export interface InferenceUsageCostRecord {
+  /** Date of the usage. ISO-8601 date, based on the UTC timezone. */
+  date?: string | undefined;
+  /** Provider of the model. */
+  provider?: string | undefined;
+  /** ID of the model. This is the raw model ID; `modelName` has the display name. */
+  model?: string | undefined;
+  /** Display name of the model, as the usage page and the usage statement CSV show it. */
+  modelName?: string | undefined;
+  /** Usage and cost for each metric that has usage. The costs add up to `totalCHC`. */
+  metrics?: InferenceUsageCostRecordMetricsList | undefined;
+  /** Total cost of usage in ClickHouse Credits (CHCs) for this model on this date. */
+  totalCHC?: number | undefined;
+  /** When true, the record is immutable. Unlocked records are subject to change until locked. */
+  locked?: boolean | undefined;
+}
+/** List of AI inference usage cost records, one per day, provider and model. Empty when the organization has no usage. */
+export type InferenceUsageCostCostsList = Array<InferenceUsageCostRecord>;
+export interface InferenceUsageCost {
+  /** Grand total cost of AI inference usage in ClickHouse Credits (CHCs). */
+  grandTotalCHC?: number | undefined;
+  /** List of AI inference usage cost records, one per day, provider and model. Empty when the organization has no usage. */
+  costs?: InferenceUsageCostCostsList | undefined;
+}
 export type GetCreditBalancesError = ClickHouseCloudOpError;
 /** Get organization active credit balances **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the active credit balances for the organization, each with its own balance ID, type and remaining credits, along with the total remaining credits across all of them. A balance is active when it has started, has not expired, and has credits remaining. Balances are ordered by expiration date, soonest first. The list is always present and is empty when the organization has no active balances. */
 export const getCreditBalances: API.OperationMethod<
@@ -74,6 +118,24 @@ export const getCreditBalances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCreditBalances",
+}));
+
+export type GetInferenceUsageCostError = ClickHouseCloudOpError;
+/** Get organization AI inference usage costs **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns a grand total and a list of daily AI inference usage cost records for the organization in the queried time period (maximum 31 days). There is one record per day, provider and model. Each record lists the tokens used, the average price and the cost for each metric, such as input, output, cache read and each cache write duration. All costs are at list price. All days in both the request and the response are evaluated based on the UTC timezone. */
+export const getInferenceUsageCost: API.OperationMethod<
+  GetInferenceUsageCostRequest,
+  InferenceUsageCost,
+  GetInferenceUsageCostError,
+  ClickHouseCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<GetInferenceUsageCostRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<InferenceUsageCost>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
+  protocol: ClickHouseCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInferenceUsageCost",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -112,6 +174,56 @@ function __c0(j: number): any {
           balances: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "CreditBalances" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          from_date: S.String.pipe(T.Query()),
+          to_date: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/inferenceUsageCost",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetInferenceUsageCostRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          metric: S.optional(S.String),
+          tokensMillions: S.optional(S.Number),
+          pricePerMillionTokensCHC: S.optional(S.Number),
+          totalCHC: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InferenceUsageCostMetric" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          date: S.optional(S.String),
+          provider: S.optional(S.String),
+          model: S.optional(S.String),
+          modelName: S.optional(S.String),
+          metrics: S.optional(__S(10, __c1, 2)),
+          totalCHC: S.optional(S.Number),
+          locked: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "InferenceUsageCostRecord" });
+    case 4:
+      return S.Array(__S(11, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          grandTotalCHC: S.optional(S.Number),
+          costs: S.optional(__S(12, __c1, 4)),
+        }),
+      ).annotate({ identifier: "InferenceUsageCost" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

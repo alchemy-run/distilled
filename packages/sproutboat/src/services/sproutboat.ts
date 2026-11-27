@@ -76,10 +76,10 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)),
           /*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(288, __c18, 0)),
           /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
@@ -108,7 +108,7 @@ export class DomainInUse
     /*@__PURE__*/ S.TaggedError<DomainInUse>()("DomainInUse", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
@@ -184,7 +184,7 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(816, __c51, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(912, __c57, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           S.String,
@@ -226,7 +226,7 @@ export class RouteTaken
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(288, __c18, 0)),
           S.String,
         ]),
       ),
@@ -260,7 +260,7 @@ export class UnprocessableEntity
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -433,7 +433,7 @@ export interface SpecShared {
   assets_manifest_ref?: string | null | undefined;
 }
 export interface CreateBuildRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   source_sha256: string;
   kind?: CreateBuildRequestKind | (string & {}) | undefined;
@@ -441,7 +441,7 @@ export interface CreateBuildRequest {
   spec?: SpecShared | undefined;
 }
 export interface DeleteAppRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
 }
 export interface DeleteAppResponse {
@@ -456,7 +456,7 @@ export interface DeleteDomainResponse {
   deleted: string;
 }
 export interface DeleteR2ObjectRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
@@ -468,14 +468,29 @@ export interface DeleteR2ObjectResponse {
   deleted?: boolean | undefined;
 }
 export interface DeleteSecretRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   name: string;
 }
+/** Match on this, not on the text. */
+export type SecretWarningCode = "secret-not-declared";
+export interface SecretWarning {
+  /** Match on this, not on the text. */
+  code: SecretWarningCode;
+  /** The secret that is stored but not declared. */
+  name: string;
+  /** A message for people. Do not parse it. */
+  message: string;
+  /** The change that makes the Worker see it, as one line for people: add the name to `secrets` in sproutboat.jsonc and deploy. */
+  fix: string;
+}
+/** Empty when every name set is declared. Absent from answers of Clouds before 2026-11-25. */
+export type SecretWarnings = Array<SecretWarning>;
 export interface SecretWritten {
   app_id: string;
   record_generation: number;
   name: string;
+  warnings: SecretWarnings;
 }
 export type FindMissingAssetsRequestSha256List = Array<string>;
 export interface FindMissingAssetsRequest {
@@ -490,7 +505,7 @@ export interface FindMissingSourcesRequest {
   sha256: FindMissingSourcesRequestSha256List;
 }
 export interface GetAppRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
 }
 /** The app's whole route list. Exclusive with `hosts_patch`. */
@@ -527,7 +542,7 @@ export interface AppSpec {
 }
 export type RouteViewKind = "platform" | "custom";
 export type RouteViewCertState = "pending" | "ready" | "failed" | "checking";
-/** Certificate state of the name, or null when not checked. */
+/** Certificate state of the name, or null when not checked. For a `platform` name it is the team wildcard's state: `pending` from team creation until the issuer has installed it (usually about 3 minutes: up to one 2-minute timer tick plus about a minute to issue; retried with a backoff on `failed`), and a name under it does not answer over HTTPS until `ready`. A client that prints a deploy's URL should wait for it (the CLI does). */
 export interface RouteViewCert {
   state?: RouteViewCertState | undefined;
   error?: string | null | undefined;
@@ -539,7 +554,7 @@ export interface RouteView {
   host?: string | undefined;
   path?: string | undefined;
   kind?: RouteViewKind | undefined;
-  /** Certificate state of the name, or null when not checked. */
+  /** Certificate state of the name, or null when not checked. For a `platform` name it is the team wildcard's state: `pending` from team creation until the issuer has installed it (usually about 3 minutes: up to one 2-minute timer tick plus about a minute to issue; retried with a backoff on `failed`), and a name under it does not answer over HTTPS until `ready`. A client that prints a deploy's URL should wait for it (the CLI does). */
   cert?: RouteViewCert | null | undefined;
 }
 export type AppRoutesList = Array<RouteView>;
@@ -583,7 +598,7 @@ export interface App {
 }
 export type GetAppEventsRequestKind = "exception" | "trigger";
 export interface GetAppEventsRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   kind?: GetAppEventsRequestKind | (string & {}) | undefined;
 }
@@ -599,22 +614,150 @@ export type GetAppEventsResponseEventsList = Array<GetAppEventsResponseEventsIte
 export interface GetAppEventsResponse {
   events: GetAppEventsResponseEventsList;
 }
+export interface GetAppLogsRequest {
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  project: string;
+  /** How many of the last lines, 1 to 1000. Default 100. */
+  lines?: number | undefined;
+}
+export type GetAppLogsResponseLinesList = Array<string>;
+/** The time the host stored each line of `lines`, ms since the epoch, in the same order; null for a line an older host stored (it has no stamp). Absent from a control plane before logs step 2. */
+export type GetAppLogsResponseTimesList = Array<number | null>;
+export interface GetAppLogsResponse {
+  project: string;
+  lines: GetAppLogsResponseLinesList;
+  /** The time the host stored each line of `lines`, ms since the epoch, in the same order; null for a line an older host stored (it has no stamp). Absent from a control plane before logs step 2. */
+  times?: GetAppLogsResponseTimesList | undefined;
+  /** How long the host keeps the app's output, in words. */
+  retention: string;
+}
 export type GetAppMetricsRequestRange = "1h" | "24h" | "7d" | "30d" | "90d";
 export interface GetAppMetricsRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   range?: GetAppMetricsRequestRange | (string & {}) | undefined;
 }
-export type GetAppMetricsResponsePointsItemMap = { [key: string]: unknown | undefined };
-export type GetAppMetricsResponsePointsList = Array<GetAppMetricsResponsePointsItemMap>;
-export type GetAppMetricsResponseTotalsMap = { [key: string]: unknown | undefined };
-export interface GetAppMetricsResponse {
-  range?: string | undefined;
-  step_seconds?: number | undefined;
-  from?: string | undefined;
-  to?: string | undefined;
-  points?: GetAppMetricsResponsePointsList | undefined;
-  totals?: GetAppMetricsResponseTotalsMap | undefined;
+/** The range asked for. */
+export type AppMetricsRange = "1h" | "24h" | "7d" | "30d" | "90d";
+export interface AppMetricsRetention {
+  /** How long one-minute points are kept (7). */
+  minute_days: number;
+  /** How long hourly points are kept (90). */
+  hourly_days: number;
+  note: string;
+}
+/** Upper bounds, in milliseconds, of the buckets of every histogram here (`dur`, `wake_dur`, `request_cpu.hist`): 0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000. Each histogram has one more entry than this list, for everything above the last bound. */
+export type AppMetricsDurationBoundsMsList = Array<number>;
+/** The names, in order, of the entries of `outcomes`: ok, exception, exceededCpu, exceededWallTime, canceled, rateLimited, suspended, unavailable, queueFull. */
+export type AppMetricsOutcomeNamesList = Array<string>;
+/** Six counts in this order: no status, 1xx, 2xx, 3xx, 4xx, 5xx. */
+export type MetricsPointStatusList = Array<number>;
+/** Nine counts in the order of `outcome_names`. */
+export type MetricsPointOutcomesList = Array<number>;
+/** Counts per bucket of `duration_bounds_ms`, with a last entry for everything above the last bound (15 entries). */
+export type MetricsHistogram = Array<number>;
+/** Four counts in this order: scheduled ok, scheduled failed, other ok, other failed. */
+export type MetricsPointTrigList = Array<number>;
+/** The CPU time of each request the runtime stamped one on, in the buckets of `duration_bounds_ms`. **Absent** (the key is not there, not zero or null) where no request reported a CPU time: a host from before logs step 2, or a quiet minute. Read it as optional; an app on an old host has none. */
+export interface RequestCpu {
+  hist: MetricsHistogram;
+  /** CPU time per request at the median, milliseconds, from `hist`. */
+  p50_ms: number | null;
+  p95_ms: number | null;
+  p99_ms: number | null;
+  /** Total CPU time of those requests, milliseconds; a mean is `sum_ms` over the sum of `hist`. */
+  sum_ms: number;
+}
+/** One step of the series. */
+export interface MetricsPoint {
+  /** Requests answered. */
+  requests: number;
+  /** Six counts in this order: no status, 1xx, 2xx, 3xx, 4xx, 5xx. */
+  status: MetricsPointStatusList;
+  /** Nine counts in the order of `outcome_names`. */
+  outcomes: MetricsPointOutcomesList;
+  dur: MetricsHistogram;
+  /** Response time quantiles from `dur`, linear inside the bucket; null with no requests. The overflow bucket answers its lower bound (10000). */
+  p50_ms?: number | null | undefined;
+  p95_ms?: number | null | undefined;
+  p99_ms?: number | null | undefined;
+  /** Four counts in this order: scheduled ok, scheduled failed, other ok, other failed. */
+  trig: MetricsPointTrigList;
+  /** Times the app was started for a request or trigger. */
+  wakes: number;
+  /** Times it was put to sleep. */
+  sleeps: number;
+  /** CPU time of the worker process, microseconds. */
+  cpu_us: number;
+  oom_kills: number;
+  crashes: number;
+  request_cpu?: RequestCpu | undefined;
+  /** The start of the step. */
+  t: string;
+  /** The summed response time, microseconds; with `requests` it gives the mean. */
+  dur_us: number;
+  wake_dur: MetricsHistogram;
+  /** The summed wake time, microseconds. */
+  wake_us: number;
+  /** The largest memory peak seen in the step, bytes. */
+  mem_peak: number | null;
+  /** The last memory reading in the step, bytes. */
+  mem_cur: number | null;
+}
+/** Oldest first; a step with no data has no point. */
+export type AppMetricsPointsList = Array<MetricsPoint>;
+/** Six counts in this order: no status, 1xx, 2xx, 3xx, 4xx, 5xx. */
+export type MetricsTotalsStatusList = Array<number>;
+/** Nine counts in the order of `outcome_names`. */
+export type MetricsTotalsOutcomesList = Array<number>;
+/** Four counts in this order: scheduled ok, scheduled failed, other ok, other failed. */
+export type MetricsTotalsTrigList = Array<number>;
+/** The sum over the range. */
+export interface MetricsTotals {
+  /** Requests answered. */
+  requests: number;
+  /** Six counts in this order: no status, 1xx, 2xx, 3xx, 4xx, 5xx. */
+  status: MetricsTotalsStatusList;
+  /** Nine counts in the order of `outcome_names`. */
+  outcomes: MetricsTotalsOutcomesList;
+  dur: MetricsHistogram;
+  /** Response time quantiles from `dur`, linear inside the bucket; null with no requests. The overflow bucket answers its lower bound (10000). */
+  p50_ms?: number | null | undefined;
+  p95_ms?: number | null | undefined;
+  p99_ms?: number | null | undefined;
+  /** Four counts in this order: scheduled ok, scheduled failed, other ok, other failed. */
+  trig: MetricsTotalsTrigList;
+  /** Times the app was started for a request or trigger. */
+  wakes: number;
+  /** Times it was put to sleep. */
+  sleeps: number;
+  /** CPU time of the worker process, microseconds. */
+  cpu_us: number;
+  oom_kills: number;
+  crashes: number;
+  request_cpu?: RequestCpu | undefined;
+  /** `status[5]`. */
+  errors_5xx: number;
+  /** The largest memory peak in the range, bytes. */
+  mem_peak: number | null;
+}
+export interface AppMetrics {
+  /** The range asked for. */
+  range: AppMetricsRange;
+  /** The width of one point: 60 for 1h, 600 for 24h, 3600 for 7d and 30d, 86400 for 90d. */
+  step_seconds: number;
+  from: string;
+  to: string;
+  retention: AppMetricsRetention;
+  /** Upper bounds, in milliseconds, of the buckets of every histogram here (`dur`, `wake_dur`, `request_cpu.hist`): 0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000. Each histogram has one more entry than this list, for everything above the last bound. */
+  duration_bounds_ms: AppMetricsDurationBoundsMsList;
+  /** The names, in order, of the entries of `outcomes`: ok, exception, exceededCpu, exceededWallTime, canceled, rateLimited, suspended, unavailable, queueFull. */
+  outcome_names: AppMetricsOutcomeNamesList;
+  /** The app's memory limit, or null while neither a host reading nor a limit in the spec is known. */
+  memory_limit_bytes: number | null;
+  /** Oldest first; a step with no data has no point. */
+  points: AppMetricsPointsList;
+  totals: MetricsTotals;
 }
 export interface GetAssetManifestRequest {
   /** Lowercase hex SHA-256 of the exact bytes of the body. */
@@ -731,9 +874,18 @@ export type GetLimitsResponseOverriddenItem =
   | "asset_mb_per_day";
 /** The limits raised (or lowered) for this team. */
 export type GetLimitsResponseOverriddenList = Array<GetLimitsResponseOverriddenItem>;
+export type GetLimitsResponseNewAppRefusalReason = "quota-apps";
+/** What creating one more app would answer right now (403 `quota-apps`, with the same message), or null when there is room. A client can stop before it uploads or builds anything. Advisory: the write decides. */
+export interface GetLimitsResponseNewAppRefusal {
+  reason?: GetLimitsResponseNewAppRefusalReason | undefined;
+  message?: string | undefined;
+}
 export interface GetLimitsResponseUsage {
   apps?: number | undefined;
+  /** Builds that compiled in the last 24 hours (against `limits.builds_per_day`); cache hits and prebuilds are free. */
   builds_24h?: number | undefined;
+  /** Seconds until the oldest counted build is 24 hours old and frees one build (never under 60; the `retry_after_s` of a 429 `quota-builds`). Null when no build counts. Room comes back one build at a time, not at a fixed hour. */
+  builds_next_slot_s?: number | null | undefined;
   /** MiB of static assets across the team's apps. */
   assets_mb?: number | undefined;
   /** MiB of new sources the team uploaded in the last 24 hours (against `limits.source_mb_per_day`). */
@@ -747,10 +899,14 @@ export interface GetLimitsResponse {
   limits: GetLimitsResponseLimits;
   /** The limits raised (or lowered) for this team. */
   overridden: GetLimitsResponseOverriddenList;
+  /** Where to ask for more room: an email address or a URL (by default `support@sproutboat.com`). It is the address the quota messages name. */
+  contact: string;
+  /** What creating one more app would answer right now (403 `quota-apps`, with the same message), or null when there is room. A client can stop before it uploads or builds anything. Advisory: the write decides. */
+  new_app_refusal: GetLimitsResponseNewAppRefusal | null;
   usage: GetLimitsResponseUsage;
 }
 export interface GetR2ObjectRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
@@ -793,6 +949,129 @@ export interface Whoami {
   /** The team member who created the key. */
   created_by?: WhoamiCreatedBy | null | undefined;
 }
+export type ListAppInvocationsRequestStatusList = Array<string>;
+export type ListAppInvocationsRequestMethodList = Array<string>;
+export type ListAppInvocationsRequestHandlerItem = "fetch" | "scheduled" | "trigger" | "system";
+export type ListAppInvocationsRequestHandlerList = Array<
+  ListAppInvocationsRequestHandlerItem | (string & {})
+>;
+export type ListAppInvocationsRequestLevel = "warn" | "error";
+export interface ListAppInvocationsRequest {
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  project: string;
+  /** How many of the host's last stored lines to read, 1 to 1000. Default 500, or 1000 when `from` or `to` is set. An invocation takes one request line and the lines before it, so the answer has fewer invocations than lines. */
+  lines?: number | undefined;
+  /** `ok` (the run was not an error), `error` (`status_code` is `ERROR`: an exception, a failed outcome, a 5xx, or a cron run that did not answer 2xx), a code such as `404` or a class such as `5xx` (requests only). Repeat the parameter or comma-separate. */
+  status?: ListAppInvocationsRequestStatusList | undefined;
+  /** HTTP methods (requests only), repeated or comma-separated. */
+  method?: ListAppInvocationsRequestMethodList | undefined;
+  /** Only these kinds of run: `fetch`, `scheduled`, `trigger`, `system`. Repeat or comma-separate. Default: all. */
+  handler?: ListAppInvocationsRequestHandlerList | undefined;
+  /** A text the request path must contain (case-insensitive, at most 200 characters). Only requests have a path. */
+  path?: string | undefined;
+  /** A text the method, path, a console line or an exception must contain (case-insensitive, at most 200 characters). */
+  search?: string | undefined;
+  /** Only runs with a line or exception of at least this level. `warn` is 13 and up, `error` 17 and up. An exception counts as an error; a console line has a level only where the host recorded one (none yet), so today this finds runs with an exception. */
+  level?: ListAppInvocationsRequestLevel | (string & {}) | undefined;
+  /** Only runs that finished at or after this time: epoch milliseconds, or an ISO 8601 date-time with a zone (`2026-11-24T08:00:00Z`). Needs a host that stamps its lines (`window.times`). */
+  from?: string | undefined;
+  /** Only runs that finished at or before this time, in the same forms as `from`; must be after `from`. Default: now. */
+  to?: string | undefined;
+}
+/** `fetch`: a request. `scheduled`: a cron run. `trigger`: a queue or alarm delivery or other background wake-up. `system`: output no run claimed. */
+export type InvocationHandler = "fetch" | "scheduled" | "trigger" | "system";
+/** OpenTelemetry span status: `ERROR` for an exception, a failed outcome, a 5xx, or a cron or background run the app did not answer with 2xx. */
+export type InvocationStatusCode = "UNSET" | "ERROR";
+/** OpenTelemetry attributes. A request has `http.request.method`, `url.path` (no query), `url.scheme` (`https`), `server.address`, `http.response.status_code` and `faas.trigger: http`; a cron run `faas.trigger: timer` and, when the host reports it, `faas.cron` (the expression, such as `*\/5 * * * *`); a background run `faas.trigger: other`; `system` has none. `trace_id`, `span_id` and `faas.invocation_id` will join them. */
+export type InvocationAttributesMap = { [key: string]: unknown | undefined };
+export interface InvocationExceptionsItem {
+  time: number | null;
+  /** The error's name, or `WorkerStopped` when the host stopped the worker (the message says why). */
+  exception_type: string;
+  exception_message: string;
+  /** Present only when frames follow the first line; the runtime prints none for most errors today. */
+  exception_stacktrace?: string | undefined;
+}
+export type InvocationExceptionsList = Array<InvocationExceptionsItem>;
+/** `host` for a line sproutd wrote about the app, `app` for what the app printed. */
+export type InvocationLogsItemSource = "app" | "host";
+export interface InvocationLogsItem {
+  time: number | null;
+  /** OpenTelemetry severity: 0 unspecified (the host records no level yet), 13 warn, 17 error. */
+  severity_number: number;
+  severity_text?: string | undefined;
+  body: string;
+  /** `host` for a line sproutd wrote about the app, `app` for what the app printed. */
+  source: InvocationLogsItemSource;
+}
+/** What the app printed, oldest first, matched to this run by order. */
+export type InvocationLogsList = Array<InvocationLogsItem>;
+/** How lines were attached: by order, because the host records no request id on a line. */
+export type InvocationLogsMatchedBy = "order";
+/** One run of a handler with what it printed. Names follow OpenTelemetry's semantic conventions where they map. */
+export interface Invocation {
+  /** Unique within one answer or stream, not across them. */
+  id: string;
+  /** `fetch`: a request. `scheduled`: a cron run. `trigger`: a queue or alarm delivery or other background wake-up. `system`: output no run claimed. */
+  handler: InvocationHandler;
+  /** When it finished, ms since the epoch. Null on a line an older host stored (it has no stamp). */
+  time: number | null;
+  /** The host's outcome: `ok`, `exception`, `exceededCpu`, `exceededWallTime`, `canceled`, ... */
+  outcome: string;
+  /** OpenTelemetry span status: `ERROR` for an exception, a failed outcome, a 5xx, or a cron or background run the app did not answer with 2xx. */
+  status_code: InvocationStatusCode;
+  /** From arrival to reply, so queue wait included. Null for `system`. */
+  duration_ms: number | null;
+  /** The CPU time the runtime measured for the request, in ms. Null when the host reports none: a host from before logs step 2, a streamed or non-string body, a compatibility date before 2026-11-02. */
+  cpu_ms: number | null;
+  /** OpenTelemetry attributes. A request has `http.request.method`, `url.path` (no query), `url.scheme` (`https`), `server.address`, `http.response.status_code` and `faas.trigger: http`; a cron run `faas.trigger: timer` and, when the host reports it, `faas.cron` (the expression, such as `*\/5 * * * *`); a background run `faas.trigger: other`; `system` has none. `trace_id`, `span_id` and `faas.invocation_id` will join them. */
+  attributes: InvocationAttributesMap;
+  exceptions: InvocationExceptionsList;
+  /** What the app printed, oldest first, matched to this run by order. */
+  logs: InvocationLogsList;
+  /** How lines were attached: by order, because the host records no request id on a line. */
+  logs_matched_by: InvocationLogsMatchedBy;
+  /** Lines that did not fit (at most 200 or 64 KiB wait for a run) and were dropped, oldest first. */
+  logs_dropped: number;
+}
+export type ListAppInvocationsResponseInvocationsList = Array<Invocation>;
+export type ListAppInvocationsResponseLogsMatchedBy = "order";
+/** What bounds the answer: the last `lines` stored lines, or a time range cut from them. */
+export type ListAppInvocationsResponseWindowSource = "lines" | "time";
+export interface ListAppInvocationsResponseWindow {
+  /** What bounds the answer: the last `lines` stored lines, or a time range cut from them. */
+  source: ListAppInvocationsResponseWindowSource;
+  /** The `lines` asked. */
+  lines: number;
+  /** Lines the host returned. */
+  read: number;
+  /** The range's start as asked, ms since the epoch; null without a range. */
+  from: number | null;
+  /** The range's end as asked; null without one (or with only `from`). */
+  to: number | null;
+  /** Whether the host stamps its stored lines. False for a host from before logs step 2: no range can be answered there. */
+  times: boolean;
+  /** The oldest time stamped on a line read, ms since the epoch; null when none has one. */
+  oldest: number | null;
+  /** The newest time stamped on a line read. */
+  newest: number | null;
+  /** True when the host cut the range itself, so it was read in full up to the page cap. False for a host from before the time window: the range was cut from its last `lines` lines. */
+  windowed: boolean;
+  /** True when older runs of the range exist that this answer does not reach: with `windowed`, the page cap (10 pages of the host) was hit; otherwise the range starts before `oldest` and the read hit `lines`. */
+  truncated: boolean;
+  /** Runs read that have no time (lines an older host stored). A range leaves them out. */
+  untimed: number;
+}
+export interface ListAppInvocationsResponse {
+  project: string;
+  invocations: ListAppInvocationsResponseInvocationsList;
+  /** How long the host keeps the app's output, in words. */
+  retention: string;
+  logs_matched_by: ListAppInvocationsResponseLogsMatchedBy;
+  window: ListAppInvocationsResponseWindow;
+  /** Invocations in the window (inside the range, when there is one) before the other filters. */
+  total: number;
+}
 export interface ListAppsRequest {}
 export type AppSummaryHostsList = Array<string>;
 /** Secret names; null without `secret:list`. */
@@ -813,7 +1092,7 @@ export interface ListAppsResponse {
   apps: ListAppsResponseAppsList;
 }
 export interface ListBuildsRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   limit?: number | undefined;
 }
@@ -844,7 +1123,7 @@ export interface ListNoticesResponse {
   notices: ListNoticesResponseNoticesList;
 }
 export interface ListSecretsRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
 }
 export type ListSecretsResponseSecretsList = Array<string>;
@@ -854,7 +1133,7 @@ export interface ListSecretsResponse {
 export type PatchRoutesRequestAddList = Array<string>;
 export type PatchRoutesRequestRemoveList = Array<string>;
 export interface PatchRoutesRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   add?: PatchRoutesRequestAddList | undefined;
   remove?: PatchRoutesRequestRemoveList | undefined;
@@ -871,7 +1150,7 @@ export type PatchSecretsRequestSetMap = {
 };
 export type PatchSecretsRequestDeleteList = Array<string>;
 export interface PatchSecretsRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   /** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
   set?: PatchSecretsRequestSetMap | undefined;
@@ -882,6 +1161,7 @@ export interface PatchSecretsResponse {
   app_id: string;
   record_generation: number;
   names: PatchSecretsResponseNamesList;
+  warnings: SecretWarnings;
 }
 /** The app's whole route list. Exclusive with `hosts_patch`. */
 export type PutAppRequestHostsList = Array<string>;
@@ -907,7 +1187,7 @@ export interface SecretsPatch {
   delete?: SecretsPatchDeleteList | undefined;
 }
 export interface PutAppRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   active?: boolean | undefined;
   /** The app's whole route list. Exclusive with `hosts_patch`. */
@@ -991,7 +1271,7 @@ export interface PutAssetManifestResponse {
   stored: boolean;
 }
 export interface PutR2ObjectRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
@@ -1006,7 +1286,7 @@ export interface PutR2ObjectResponse {
   etag?: string | undefined;
 }
 export interface PutSecretRequest {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   name: string;
   /** The secret's value. Never returned by any route; keep it out of logs. */
@@ -1025,7 +1305,7 @@ export interface QueryD1RequestStatementsItem {
 }
 export type QueryD1RequestStatementsList = Array<QueryD1RequestStatementsItem>;
 export interface QueryD1Request {
-  /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   /** The D1 binding name from the app's config, for example `DB`. */
   binding: string;
@@ -1049,6 +1329,48 @@ export interface RevokeSelfRequest {}
 export interface RevokeSelfResponse {
   revoked: boolean;
 }
+export type TailAppRequestStatusList = Array<string>;
+export type TailAppRequestMethodList = Array<string>;
+export type TailAppRequestOutcomeList = Array<string>;
+export interface TailAppRequest {
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  project: string;
+  /** `ok` (the outcome was ok), `error` (any other outcome but `canceled`), a code such as `404`, or a class such as `5xx`. Repeat the parameter or comma-separate. */
+  status?: TailAppRequestStatusList | undefined;
+  /** HTTP methods, repeated or comma-separated. */
+  method?: TailAppRequestMethodList | undefined;
+  /** Outcome names, repeated or comma-separated. */
+  outcome?: TailAppRequestOutcomeList | undefined;
+  /** Send only this fraction of request events, 0 to 1. */
+  sampling_rate?: number | undefined;
+  /** A text a message, URL or exception must contain (case-sensitive, at most 200 characters). */
+  search?: string | undefined;
+}
+export interface TailAppResponse {}
+export type TailAppInvocationsRequestStatusList = Array<string>;
+export type TailAppInvocationsRequestMethodList = Array<string>;
+export type TailAppInvocationsRequestHandlerItem = "fetch" | "scheduled" | "trigger" | "system";
+export type TailAppInvocationsRequestHandlerList = Array<
+  TailAppInvocationsRequestHandlerItem | (string & {})
+>;
+export type TailAppInvocationsRequestLevel = "warn" | "error";
+export interface TailAppInvocationsRequest {
+  /** The app's name, unique within the team. 3 to 51 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
+  project: string;
+  /** `ok` (the run was not an error), `error` (`status_code` is `ERROR`: an exception, a failed outcome, a 5xx, or a cron run that did not answer 2xx), a code such as `404` or a class such as `5xx` (requests only). Repeat the parameter or comma-separate. */
+  status?: TailAppInvocationsRequestStatusList | undefined;
+  /** HTTP methods (requests only), repeated or comma-separated. */
+  method?: TailAppInvocationsRequestMethodList | undefined;
+  /** Only these kinds of run: `fetch`, `scheduled`, `trigger`, `system`. Repeat or comma-separate. Default: all. */
+  handler?: TailAppInvocationsRequestHandlerList | undefined;
+  /** A text the request path must contain (case-insensitive, at most 200 characters). Only requests have a path. */
+  path?: string | undefined;
+  /** A text the method, path, a console line or an exception must contain (case-insensitive, at most 200 characters). */
+  search?: string | undefined;
+  /** Only runs with a line or exception of at least this level. `warn` is 13 and up, `error` 17 and up. An exception counts as an error; a console line has a level only where the host recorded one (none yet), so today this finds runs with an exception. */
+  level?: TailAppInvocationsRequestLevel | (string & {}) | undefined;
+}
+export interface TailAppInvocationsResponse {}
 export interface VerifyDomainRequest {
   /** A custom domain, lowercase, percent-encoded if needed. */
   host: string;
@@ -1502,7 +1824,7 @@ export const deleteSecret: API.OperationMethod<
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<SecretWritten>,
+  output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1519,8 +1841,8 @@ export const findMissingAssets: API.OperationMethod<
   FindMissingAssetsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<FindMissingAssetsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<MissingList>,
+  input: __S(240, __c15, 0) as any as S.Schema<FindMissingAssetsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1537,8 +1859,8 @@ export const findMissingSources: API.OperationMethod<
   FindMissingSourcesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<FindMissingSourcesRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<MissingList>,
+  input: __S(304, __c19, 0) as any as S.Schema<FindMissingSourcesRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1551,8 +1873,8 @@ export type GetAppError = Forbidden | NotFound | SproutboatOpError;
 /** Read an app The app's stored spec (secrets as sorted names, or null without `secret:list`), its routes with certificate state, runtime state, the build that is live and the one before it, and `apply`, which says whether a host has applied a `record_generation`. This is the "is it live" call: see *Deploy flow*, step 8. */
 export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, SproutboatOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(304, __c19, 0) as any as S.Schema<GetAppRequest>,
-    output: __S(311, __c19, 7) as any as S.Schema<App>,
+    input: __S(320, __c20, 0) as any as S.Schema<GetAppRequest>,
+    output: __S(327, __c20, 7) as any as S.Schema<App>,
     errors: [Forbidden, NotFound],
     serviceErrors: SproutboatServiceErrors,
     protocol: SproutboatProtocol,
@@ -1569,8 +1891,8 @@ export const getAppEvents: API.OperationMethod<
   GetAppEventsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetAppEventsRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<GetAppEventsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetAppEventsRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<GetAppEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1579,16 +1901,34 @@ export const getAppEvents: API.OperationMethod<
   span: "GetAppEvents",
 }));
 
+export type GetAppLogsError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+/** Recent log lines of a running app The last lines of what the app printed (`console.log`, `console.error`, uncaught errors) and of the host's own lines about it (a request line per request, a worker that stopped), oldest first, as plain text lines. The control plane stores none of it: the lines come from the app's host, which keeps up to about 16 MiB or 7 days of output per app (`retention` in the answer). Lines have **no level** here (the host does not record one) and no time in their text; `times` has the time each line was stored, in the same order (the live stream has times too). What is removed before a line is returned: the query string of every request URL in the host's request lines, and every value of the app's secrets of 8 characters or more (also URL-encoded, JSON-escaped, base64 and hex), replaced by `[redacted]`. Redaction is best effort: a secret the app slices, hashes or re-encodes is not matched, and a value shorter than 8 characters never is. A line over 16 KiB is cut with an ellipsis. */
+export const getAppLogs: API.OperationMethod<
+  GetAppLogsRequest,
+  GetAppLogsResponse,
+  GetAppLogsError,
+  SproutboatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<GetAppLogsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<GetAppLogsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
+  protocol: SproutboatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppLogs",
+}));
+
 export type GetAppMetricsError = BadRequest | Forbidden | NotFound | SproutboatOpError;
-/** App metrics Aggregates over a range: request counts by status class, outcomes, latency histograms, wakes, CPU and memory. One-minute points are kept 7 days, hourly points longer (`retention` in the answer says how long). **Uncertain:** the point and total fields are large and still change; this file documents the envelope only. */
+/** App metrics Aggregates over a range: request counts by status class, outcomes, latency histograms, wakes, CPU and memory. One-minute points are kept 7 days, hourly points longer (`retention` in the answer says how long). `totals.request_cpu` and each point's `request_cpu` (`{hist, p50_ms, p95_ms, p99_ms, sum_ms}`) are the CPU time of each request the runtime stamped one on, in the buckets of `duration_bounds_ms`; they are absent where no request reported a CPU time (a host from before logs step 2, a quiet minute). The per-bucket arrays have a fixed order (listed on each field); a new entry is only ever added at the end, so read them by position and ignore a longer array. */
 export const getAppMetrics: API.OperationMethod<
   GetAppMetricsRequest,
-  GetAppMetricsResponse,
+  AppMetrics,
   GetAppMetricsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetAppMetricsRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GetAppMetricsResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetAppMetricsRequest>,
+  output: __S(391, __c24, 7) as any as S.Schema<AppMetrics>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1605,8 +1945,8 @@ export const getAssetManifest: API.OperationMethod<
   GetAssetManifestError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetAssetManifestRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<AssetManifest>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetAssetManifestRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<AssetManifest>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1623,7 +1963,7 @@ export const getBuild: API.OperationMethod<
   GetBuildError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetBuildRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetBuildRequest>,
   output: __S(83, __c5, 3) as any as S.Schema<Build>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
@@ -1641,8 +1981,8 @@ export const getDomainStatus: API.OperationMethod<
   GetDomainStatusError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetDomainStatusRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<GetDomainStatusResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetDomainStatusRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<GetDomainStatusResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1659,8 +1999,8 @@ export const getHealth: API.OperationMethod<
   GetHealthError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetHealthRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetHealthResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetHealthRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<GetHealthResponse>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1670,15 +2010,15 @@ export const getHealth: API.OperationMethod<
 }));
 
 export type GetLimitsError = Forbidden | SproutboatOpError;
-/** Get the team's limits and usage The free alpha limits that apply to the team (defaults, with any limit raised for this team) and what it uses now. `null` is unlimited. Memory, CPU, wall time, request rate and operations are ceilings on what an app may ask for in `limits`, so they have no usage. */
+/** Get the team's limits and usage The free alpha limits that apply to the team (defaults, with any limit raised for this team) and what it uses now. `null` is unlimited. Builds and uploads are counted over a rolling 24 hours: nothing resets at midnight. Memory, CPU, wall time, request rate and operations are ceilings on what an app may ask for in `limits`, so they have no usage. */
 export const getLimits: API.OperationMethod<
   GetLimitsRequest,
   GetLimitsResponse,
   GetLimitsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(468, __c29, 4) as any as S.Schema<GetLimitsResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<GetLimitsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1695,8 +2035,8 @@ export const getR2Object: API.OperationMethod<
   GetR2ObjectError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetR2ObjectRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<GetR2ObjectResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetR2ObjectRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<GetR2ObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1713,14 +2053,32 @@ export const getWhoami: API.OperationMethod<
   GetWhoamiError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetWhoamiRequest>,
-  output: __S(500, __c31, 4) as any as S.Schema<Whoami>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetWhoamiRequest>,
+  output: __S(532, __c33, 4) as any as S.Schema<Whoami>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWhoami",
+}));
+
+export type ListAppInvocationsError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+/** Recent runs of a running app, one per request What the Logs tab shows: the app's last stored output grouped into **invocations**, newest first. One invocation is one run of a handler: a request (`handler: fetch`), a cron run (`scheduled`), a queue or alarm delivery or other background wake-up (`trigger`), or output no run claimed (`system`: a line printed with no request after it, a worker that stopped). The Logs tab shows `scheduled` runs by default and hides `trigger` ones. The control plane stores none of it: the lines come from the app's host (`retention` in the answer). Field names follow OpenTelemetry's semantic conventions where they map: `attributes` carry `http.request.method`, `url.path`, `url.scheme`, `server.address`, `http.response.status_code` and `faas.trigger` (`http`, `timer` or `other`; a cron run has no HTTP attributes), each exception `exception.type`, `exception.message` and `exception.stacktrace`, each console line `severity_number` and `severity_text`. `trace_id`, `span_id` and `faas.invocation_id` will appear when the runtime tags lines with a request id; they are absent today. **Console lines are matched to a request by order** (`logs_matched_by: order`): the host records no request id on a line, so the lines seen since the previous run are attached to the next one. When requests overlap, a line can land under the wrong one. A host from logs step 2 on stamps every stored line with the time it read it and reports each request's **CPU time** (`cpu_ms`) and a cron run's expression (`attributes["faas.cron"]`). A host before that records none: `time` is `null`, `cpu_ms` is `null` and a cron run has no `faas.cron`, and the answer is otherwise the same. The host still records no **level** (`severity_number` is 0 on a console line; a stack trace has frames only if the runtime printed them). **Time range.** `from` and `to` keep the runs that finished in that range (epoch milliseconds or an ISO 8601 date-time with a zone; `to` is optional). On a host with the time window the range is read from the host in full, newest first, up to 10,000 lines or about 10 MiB in all (`window.windowed` true; `window.truncated` says when the range holds more and older runs are left out). On a host from before it, the range is cut from the host's last `lines` stored lines (1000 at most), so a busy app's old runs may lie beyond it: `window.truncated` says so. A run with no time (a line an older host stored) cannot be placed in a range and is left out of it (`window.untimed` counts them); on a host that records no times (`window.times` false) a range therefore answers an empty list. `window` says what the answer covers. Removed before an invocation is returned, exactly as in `GET /v1/apps/{project}/logs`: the query string, the `http://` scheme (shown `https://`), and every secret value of 8 characters or more (also URL-encoded, JSON-escaped, base64 and hex), replaced by `[redacted]`. A message over 16 KiB is cut. */
+export const listAppInvocations: API.OperationMethod<
+  ListAppInvocationsRequest,
+  ListAppInvocationsResponse,
+  ListAppInvocationsError,
+  SproutboatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<ListAppInvocationsRequest>,
+  output: __S(552, __c34, 8) as any as S.Schema<ListAppInvocationsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
+  protocol: SproutboatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppInvocations",
 }));
 
 export type ListAppsError = Forbidden | SproutboatOpError;
@@ -1731,8 +2089,8 @@ export const listApps: API.OperationMethod<
   ListAppsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListAppsRequest>,
-  output: __S(515, __c32, 3) as any as S.Schema<ListAppsResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListAppsRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<ListAppsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1749,8 +2107,8 @@ export const listBuilds: API.OperationMethod<
   ListBuildsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListBuildsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<ListBuildsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListBuildsRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ListBuildsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1767,8 +2125,8 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListDomainsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1785,8 +2143,8 @@ export const listNotices: API.OperationMethod<
   ListNoticesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListNoticesRequest>,
-  output: __S(563, __c35, 3) as any as S.Schema<ListNoticesResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListNoticesRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<ListNoticesResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1803,8 +2161,8 @@ export const listSecrets: API.OperationMethod<
   ListSecretsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListSecretsRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1829,8 +2187,8 @@ export const patchRoutes: API.OperationMethod<
   PatchRoutesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<PatchRoutesRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<PatchRoutesResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<PatchRoutesRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<PatchRoutesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, PayloadTooLarge, HostNotYours, RouteTaken],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1845,15 +2203,15 @@ export type PatchSecretsError =
   | NotFound
   | PayloadTooLarge
   | SproutboatOpError;
-/** Patch secrets Deletes first, then sets, in one write that bumps `record_generation`. Deleting a name that is not there is not an error here. Names match `[A-Za-z_][A-Za-z0-9_]*`, at most 128 characters; at most 128 secrets per app and 64 KiB of values in total. Values are strings. */
+/** Patch secrets Deletes first, then sets, in one write that bumps `record_generation`. Deleting a name that is not there is not an error here. A name you set that the app's `bindings` do not declare as a `secret` is stored, but the Worker's `env` does not carry it: the answer lists it in `warnings` (`code: secret-not-declared`, with the `fix`) and the status is still 200. Declare it in the deploy's `bindings` and the value goes live with that deploy. Names match `[A-Za-z_][A-Za-z0-9_]*`, at most 128 characters; at most 128 secrets per app and 64 KiB of values in total. Values are strings. */
 export const patchSecrets: API.OperationMethod<
   PatchSecretsRequest,
   PatchSecretsResponse,
   PatchSecretsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<PatchSecretsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<PatchSecretsResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<PatchSecretsRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<PatchSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1878,8 +2236,8 @@ export const putApp: API.OperationMethod<
   PutAppError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(642, __c40, 2) as any as S.Schema<PutAppRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<GenerationWritten>,
+  input: __S(706, __c44, 2) as any as S.Schema<PutAppRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<GenerationWritten>,
   errors: [
     BadRequest,
     Forbidden,
@@ -1904,8 +2262,8 @@ export const putAssetBlob: API.OperationMethod<
   PutAssetBlobError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<PutAssetBlobRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<Stored>,
+  input: __S(720, __c45, 0) as any as S.Schema<PutAssetBlobRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<Stored>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1928,8 +2286,8 @@ export const putAssetManifest: API.OperationMethod<
   PutAssetManifestError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<PutAssetManifestRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<PutAssetManifestResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<PutAssetManifestRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<PutAssetManifestResponse>,
   errors: [BadRequest, Forbidden, Conflict, PayloadTooLarge, BlobsMissing],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1951,8 +2309,8 @@ export const putR2Object: API.OperationMethod<
   PutR2ObjectError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<PutR2ObjectRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<PutR2ObjectResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<PutR2ObjectRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<PutR2ObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1967,15 +2325,15 @@ export type PutSecretError =
   | NotFound
   | PayloadTooLarge
   | SproutboatOpError;
-/** Set one secret The app must exist (404 otherwise). Bumps `record_generation` even if the value is unchanged. */
+/** Set one secret The app must exist (404 otherwise). Bumps `record_generation` even if the value is unchanged. A name the app does not declare as a `secret` binding is stored, with a `secret-not-declared` entry in `warnings` and the line that fixes it: the Worker's `env` is built from the declared bindings, so it does not see the value until a deploy declares the name (Wrangler needs no declaration; here it is a warning, not a refusal, so a secret may be set before the deploy that declares it). */
 export const putSecret: API.OperationMethod<
   PutSecretRequest,
   SecretWritten,
   PutSecretError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<PutSecretRequest>,
-  output: __S(208, __c13, 0) as any as S.Schema<SecretWritten>,
+  input: __S(784, __c49, 0) as any as S.Schema<PutSecretRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
   errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1992,8 +2350,8 @@ export const putSource: API.OperationMethod<
   PutSourceError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<PutSourceRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<Stored>,
+  input: __S(800, __c50, 0) as any as S.Schema<PutSourceRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<Stored>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -2017,8 +2375,8 @@ export const queryD1: API.OperationMethod<
   QueryD1Error,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(771, __c48, 3) as any as S.Schema<QueryD1Request>,
-  output: __S(774, __c48, 6) as any as S.Schema<QueryD1Response>,
+  input: __S(819, __c51, 3) as any as S.Schema<QueryD1Request>,
+  output: __S(823, __c51, 7) as any as S.Schema<QueryD1Response>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, PayloadTooLarge, UnprocessableEntity],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -2035,14 +2393,50 @@ export const revokeSelf: API.OperationMethod<
   RevokeSelfError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<RevokeSelfRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<RevokeSelfResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<RevokeSelfRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<RevokeSelfResponse>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeSelf",
+}));
+
+export type TailAppError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+/** Stream a running app's events live `text/event-stream`, the frames `sproutboat tail` reads. Each `data:` line is one JSON object with a `type`: - `ready`, once, first. - `event`, with an `event` object shaped like a `wrangler tail` event: `scriptName`, `outcome` (`ok`, `exception`, `exceededCpu`, `exceededWallTime`, `canceled`, `rateLimited`, ...), `eventTimestamp` (ms), `event` (`{request: {url, method}, response: {status}}` for a request, `null` otherwise), `handler` (`fetch`, `scheduled` or `trigger`: which handler ran; an addition to the Wrangler shape), `cpuTime` (always `null`), `wallTime` (ms), `logs` (`[{level, message: [string], timestamp}]`) and `exceptions` (`[{name, message, timestamp, stack?}]`). A request, a console line and an error are **separate events**: the host cannot tell which request printed a line, so lines are not grouped under their request, and their `level` is always `log`. `url` is the full request URL **without its query string**. - `dropped`, with `count` (events) or `bytes`, and `reason` (`rate`: over 100 events a second after the filters; `backlog`: the client or the host fell behind and output was skipped). - `closed`, with a `reason` (`time`: the session cap; `host`: the host closed its side; `gone`: the app was deleted). The stream then ends. A client reconnects. A `: keepalive` comment arrives every 15 seconds. A session lasts at most 10 minutes; reconnect after `closed`. Events are live only: nothing is replayed (use `GET /v1/apps/{project}/logs` for what was printed before). Limits: 5 live viewers per app, 10 per team, and a bounded number per host (a 429 `tail-viewers` says which `scope`). Secret values of 8 characters or more are removed as in `GET /v1/apps/{project}/logs`. The `status`, `method`, `outcome` and `sampling-rate` filters apply to request events; console lines and errors always pass them, so the lines of a failing request are not hidden. `search` applies to every event. */
+export const tailApp: API.OperationMethod<
+  TailAppRequest,
+  TailAppResponse,
+  TailAppError,
+  SproutboatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(848, __c53, 0) as any as S.Schema<TailAppRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<TailAppResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
+  protocol: SproutboatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TailApp",
+}));
+
+export type TailAppInvocationsError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+/** Stream a running app's runs live, one per request `text/event-stream`, the live counterpart of `GET /v1/apps/{project}/invocations`. Each `data:` line is one JSON object with a `type`: - `ready`, once, first. - `invocation`, with an `invocation` object (the same shape as in the list) when a run finishes. It carries the console lines and the error that came with it, matched by order. `time` is the host's time when it finished. Lines no run claims within about 2 seconds arrive on their own as a `system` invocation. A request that runs longer than that can therefore show its early lines apart from it. - `dropped`, `closed` and the `: keepalive` comment: as in `GET /v1/apps/{project}/tail`. The viewer limits, the 10 minute session and the rate cap (100 invocations a second after the filters) are the same, and share the same slots. `GET /v1/apps/{project}/tail` is unchanged: the Wrangler-shaped events `sproutboat tail` reads. Query strings and secret values are removed as in the list. */
+export const tailAppInvocations: API.OperationMethod<
+  TailAppInvocationsRequest,
+  TailAppInvocationsResponse,
+  TailAppInvocationsError,
+  SproutboatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(880, __c55, 0) as any as S.Schema<TailAppInvocationsRequest>,
+  output: __S(864, __c54, 0) as any as S.Schema<TailAppInvocationsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SproutboatServiceErrors,
+  protocol: SproutboatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TailAppInvocations",
 }));
 
 export type VerifyDomainError = BadRequest | Forbidden | NotFound | Conflict | SproutboatOpError;
@@ -2053,7 +2447,7 @@ export const verifyDomain: API.OperationMethod<
   VerifyDomainError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<VerifyDomainRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<VerifyDomainRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<DomainClaim>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: SproutboatServiceErrors,
@@ -2359,14 +2753,30 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.String,
+          name: S.String,
+          message: S.String,
+          fix: S.String,
+        }),
+      ).annotate({ identifier: "SecretWarning" });
+    case 1:
+      return S.Array(__S(208, __c13, 0));
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           app_id: S.String,
           record_generation: S.Number,
           name: S.String,
+          warnings: __S(209, __c13, 1),
         }),
       ).annotate({ identifier: "SecretWritten" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2376,7 +2786,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "FindMissingAssetsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2386,7 +2796,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "MissingList" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2397,7 +2807,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ErrorInvalidHost" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2409,7 +2819,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ErrorRouteTaken" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2419,7 +2829,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "FindMissingSourcesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2448,7 +2858,7 @@ function __c19(j: number): any {
           limits: S.optional(__S(134, __c8, 6)),
           egress_policy_ref: S.optional(S.NullOr(S.String)),
           assets_manifest_ref: S.optional(S.NullOr(S.String)),
-          module: S.optional(__S(305, __c19, 1)),
+          module: S.optional(__S(321, __c20, 1)),
           secrets: S.optional(S.NullOr(__S(0, __c0, 0))),
         }),
       ).annotate({ identifier: "AppSpec" });
@@ -2467,11 +2877,11 @@ function __c19(j: number): any {
           host: S.optional(S.String),
           path: S.optional(S.String),
           kind: S.optional(S.String),
-          cert: S.optional(S.NullOr(__S(307, __c19, 3))),
+          cert: S.optional(S.NullOr(__S(323, __c20, 3))),
         }),
       ).annotate({ identifier: "RouteView" });
     case 5:
-      return S.Array(__S(308, __c19, 4));
+      return S.Array(__S(324, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -2487,11 +2897,11 @@ function __c19(j: number): any {
           app_id: S.optional(S.String),
           project: S.optional(S.String),
           record_generation: S.optional(S.Number),
-          spec: S.optional(__S(306, __c19, 2)),
-          routes: S.optional(__S(309, __c19, 5)),
-          placement: S.optional(S.NullOr(__S(310, __c19, 6))),
+          spec: S.optional(__S(322, __c20, 2)),
+          routes: S.optional(__S(325, __c20, 5)),
+          placement: S.optional(S.NullOr(__S(326, __c20, 6))),
           runtime: S.optional(S.NullOr(__S(112, __c7, 0))),
-          apply: S.optional(S.NullOr(__S(320, __c20, 0))),
+          apply: S.optional(S.NullOr(__S(336, __c21, 0))),
           live_build: S.optional(S.NullOr(__S(83, __c5, 3))),
           previous_build: S.optional(S.NullOr(__S(83, __c5, 3))),
           latest_build: S.optional(S.NullOr(__S(83, __c5, 3))),
@@ -2500,7 +2910,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "App" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2518,7 +2928,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ApplyState" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2539,16 +2949,38 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "GetAppEventsResponseEventsItem" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: __S(338, __c21, 2),
+          events: __S(354, __c22, 2),
         }),
       ).annotate({ identifier: "GetAppEventsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          lines: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{project}/logs", code: 200 })),
+      ).annotate({ identifier: "GetAppLogsRequest" });
+    case 1:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String,
+          lines: __S(0, __c0, 0),
+          times: S.optional(__S(369, __c23, 1)),
+          retention: S.String,
+        }),
+      ).annotate({ identifier: "GetAppLogsResponse" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2560,23 +2992,89 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(S.String),
-          step_seconds: S.optional(S.Number),
-          from: S.optional(S.String),
-          to: S.optional(S.String),
-          points: S.optional(__S(368, __c23, 0)),
-          totals: S.optional(__S(112, __c7, 0)),
+          minute_days: S.Number,
+          hourly_days: S.Number,
+          note: S.String,
         }),
-      ).annotate({ identifier: "GetAppMetricsResponse" });
+      ).annotate({ identifier: "AppMetricsRetention" });
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          hist: __S(386, __c24, 2),
+          p50_ms: S.NullOr(S.Number),
+          p95_ms: S.NullOr(S.Number),
+          p99_ms: S.NullOr(S.Number),
+          sum_ms: S.Number,
+        }),
+      ).annotate({ identifier: "RequestCpu" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.Number,
+          status: __S(386, __c24, 2),
+          outcomes: __S(386, __c24, 2),
+          dur: __S(386, __c24, 2),
+          p50_ms: S.optional(S.NullOr(S.Number)),
+          p95_ms: S.optional(S.NullOr(S.Number)),
+          p99_ms: S.optional(S.NullOr(S.Number)),
+          trig: __S(386, __c24, 2),
+          wakes: S.Number,
+          sleeps: S.Number,
+          cpu_us: S.Number,
+          oom_kills: S.Number,
+          crashes: S.Number,
+          request_cpu: S.optional(__S(387, __c24, 3)),
+          t: S.String,
+          dur_us: S.Number,
+          wake_dur: __S(386, __c24, 2),
+          wake_us: S.Number,
+          mem_peak: S.NullOr(S.Number),
+          mem_cur: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "MetricsPoint" });
+    case 5:
+      return S.Array(__S(388, __c24, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          requests: S.Number,
+          status: __S(386, __c24, 2),
+          outcomes: __S(386, __c24, 2),
+          dur: __S(386, __c24, 2),
+          p50_ms: S.optional(S.NullOr(S.Number)),
+          p95_ms: S.optional(S.NullOr(S.Number)),
+          p99_ms: S.optional(S.NullOr(S.Number)),
+          trig: __S(386, __c24, 2),
+          wakes: S.Number,
+          sleeps: S.Number,
+          cpu_us: S.Number,
+          oom_kills: S.Number,
+          crashes: S.Number,
+          request_cpu: S.optional(__S(387, __c24, 3)),
+          errors_5xx: S.Number,
+          mem_peak: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "MetricsTotals" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          range: S.String,
+          step_seconds: S.Number,
+          from: S.String,
+          to: S.String,
+          retention: __S(385, __c24, 1),
+          duration_bounds_ms: __S(386, __c24, 2),
+          outcome_names: __S(0, __c0, 0),
+          memory_limit_bytes: S.NullOr(S.Number),
+          points: __S(389, __c24, 5),
+          totals: __S(390, __c24, 6),
+        }),
+      ).annotate({ identifier: "AppMetrics" });
   }
 }
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(112, __c7, 0));
-  }
-}
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2589,14 +3087,14 @@ function __c24(j: number): any {
         S.Struct({
           notFound: S.String,
           runSproutFirst: S.Unknown,
-          files: __S(402, __c25, 2),
-          headers: S.optional(__S(406, __c25, 6)),
-          redirects: S.optional(__S(408, __c25, 8)),
+          files: __S(418, __c26, 2),
+          headers: S.optional(__S(422, __c26, 6)),
+          redirects: S.optional(__S(424, __c26, 8)),
         }),
       ).annotate({ identifier: "AssetManifest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2611,26 +3109,26 @@ function __c25(j: number): any {
           hash: S.String,
           size: S.Number,
           type: S.String,
-          br: S.optional(__S(400, __c25, 0)),
-          gz: S.optional(__S(400, __c25, 0)),
+          br: S.optional(__S(416, __c26, 0)),
+          gz: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "AssetManifestFilesValue" });
     case 2:
-      return S.Record(S.String, __S(401, __c25, 1));
+      return S.Record(S.String, __S(417, __c26, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
-      return S.Array(__S(403, __c25, 3));
+      return S.Array(__S(419, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           pattern: S.String,
-          set: __S(404, __c25, 4),
+          set: __S(420, __c26, 4),
           unset: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "AssetManifestHeadersItem" });
     case 6:
-      return S.Array(__S(405, __c25, 5));
+      return S.Array(__S(421, __c26, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2640,10 +3138,10 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "AssetManifestRedirectsItem" });
     case 8:
-      return S.Array(__S(407, __c25, 7));
+      return S.Array(__S(423, __c26, 7));
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2653,7 +3151,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetBuildRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2674,13 +3172,13 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: __S(51, __c3, 3),
-          dns: __S(433, __c27, 1),
+          dns: __S(449, __c28, 1),
           certificate: S.NullOr(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "GetDomainStatusResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2694,7 +3192,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetHealthResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2716,12 +3214,18 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseLimits" });
     case 2:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetLimitsResponseNewAppRefusal" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           apps: S.optional(S.Number),
           builds_24h: S.optional(S.Number),
+          builds_next_slot_s: S.optional(S.NullOr(S.Number)),
           assets_mb: S.optional(S.Number),
           sources_mb_24h: S.optional(S.Number),
           assets_mb_24h: S.optional(S.Number),
@@ -2731,14 +3235,22 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          limits: __S(465, __c29, 1),
-          overridden: __S(466, __c29, 2),
-          usage: __S(467, __c29, 3),
+          limits: __S(481, __c30, 1),
+          overridden: __S(496, __c31, 0),
+          contact: S.String,
+          new_app_refusal: S.NullOr(__S(482, __c30, 2)),
+          usage: __S(483, __c30, 3),
         }),
       ).annotate({ identifier: "GetLimitsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2763,7 +3275,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetR2ObjectResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2777,7 +3289,7 @@ function __c31(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           start: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(S.NullOr(__S(497, __c31, 1))),
+          permissions: S.optional(S.NullOr(__S(529, __c33, 1))),
           expires_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "WhoamiKey" });
@@ -2796,13 +3308,101 @@ function __c31(j: number): any {
           organization: S.String,
           organization_slug: S.optional(S.NullOr(S.String)),
           organization_name: S.optional(S.NullOr(S.String)),
-          key: S.optional(__S(498, __c31, 2)),
-          created_by: S.optional(S.NullOr(__S(499, __c31, 3))),
+          key: S.optional(__S(530, __c33, 2)),
+          created_by: S.optional(S.NullOr(__S(531, __c33, 3))),
         }),
       ).annotate({ identifier: "Whoami" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          lines: S.optional(S.Number.pipe(T.Query())),
+          status: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          method: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          handler: S.optional(__S(496, __c31, 0).pipe(T.Query())),
+          path: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          level: S.optional(S.String.pipe(T.Query())),
+          from: S.optional(S.String.pipe(T.Query())),
+          to: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{project}/invocations", code: 200 })),
+      ).annotate({ identifier: "ListAppInvocationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          time: S.NullOr(S.Number),
+          exception_type: S.String.pipe(T.Body("exception.type")),
+          exception_message: S.String.pipe(T.Body("exception.message")),
+          exception_stacktrace: S.optional(S.String.pipe(T.Body("exception.stacktrace"))),
+        }),
+      ).annotate({ identifier: "InvocationExceptionsItem" });
+    case 2:
+      return S.Array(__S(545, __c34, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          time: S.NullOr(S.Number),
+          severity_number: S.Number,
+          severity_text: S.optional(S.String),
+          body: S.String,
+          source: S.String,
+        }),
+      ).annotate({ identifier: "InvocationLogsItem" });
+    case 4:
+      return S.Array(__S(547, __c34, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          handler: S.String,
+          time: S.NullOr(S.Number),
+          outcome: S.String,
+          status_code: S.String,
+          duration_ms: S.NullOr(S.Number),
+          cpu_ms: S.NullOr(S.Number),
+          attributes: __S(112, __c7, 0),
+          exceptions: __S(546, __c34, 2),
+          logs: __S(548, __c34, 4),
+          logs_matched_by: S.String,
+          logs_dropped: S.Number,
+        }),
+      ).annotate({ identifier: "Invocation" });
+    case 6:
+      return S.Array(__S(549, __c34, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          lines: S.Number,
+          read: S.Number,
+          from: S.NullOr(S.Number),
+          to: S.NullOr(S.Number),
+          times: S.Boolean,
+          oldest: S.NullOr(S.Number),
+          newest: S.NullOr(S.Number),
+          windowed: S.Boolean,
+          truncated: S.Boolean,
+          untimed: S.Number,
+        }),
+      ).annotate({ identifier: "ListAppInvocationsResponseWindow" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String,
+          invocations: __S(550, __c34, 6),
+          retention: S.String,
+          logs_matched_by: S.String,
+          window: __S(551, __c34, 7),
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "ListAppInvocationsResponse" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2818,20 +3418,20 @@ function __c32(j: number): any {
           hosts: S.optional(__S(0, __c0, 0)),
           created_by: S.optional(S.NullOr(S.String)),
           secrets: S.optional(S.NullOr(__S(0, __c0, 0))),
-          apply: S.optional(S.NullOr(__S(320, __c20, 0))),
+          apply: S.optional(S.NullOr(__S(336, __c21, 0))),
         }),
       ).annotate({ identifier: "AppSummary" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apps: __S(514, __c32, 2),
+          apps: __S(562, __c35, 2),
         }),
       ).annotate({ identifier: "ListAppsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2845,12 +3445,12 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          builds: __S(529, __c33, 1),
+          builds: __S(577, __c36, 1),
         }),
       ).annotate({ identifier: "ListBuildsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2861,12 +3461,12 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(545, __c34, 1),
+          domains: __S(593, __c37, 1),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2887,16 +3487,16 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "ListNoticesResponseNoticesItem" });
     case 2:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notices: __S(562, __c35, 2),
+          notices: __S(610, __c38, 2),
         }),
       ).annotate({ identifier: "ListNoticesResponse" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2912,7 +3512,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListSecretsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2932,13 +3532,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "PatchRoutesResponse" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
-          set: S.optional(__S(624, __c39, 0)),
+          set: S.optional(__S(672, __c42, 0)),
           delete: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/apps/{project}/secrets", code: 200 })),
       ).annotate({ identifier: "PatchSecretsRequest" });
@@ -2948,90 +3548,15 @@ function __c38(j: number): any {
           app_id: S.String,
           record_generation: S.Number,
           names: __S(0, __c0, 0),
+          warnings: __S(209, __c13, 1),
         }),
       ).annotate({ identifier: "PatchSecretsResponse" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sha256: S.String,
-        }),
-      ).annotate({ identifier: "PutAppRequestModule" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          set: S.optional(__S(624, __c39, 0)),
-          delete: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "SecretsPatch" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          active: S.optional(S.Boolean),
-          hosts: S.optional(__S(0, __c0, 0)),
-          hosts_patch: S.optional(__S(128, __c8, 0)),
-          bindings: S.optional(__S(130, __c8, 2)),
-          services: S.optional(__S(131, __c8, 3)),
-          crons: S.optional(__S(0, __c0, 0)),
-          queue_consumers: S.optional(__S(133, __c8, 5)),
-          limits: S.optional(__S(134, __c8, 6)),
-          egress_policy_ref: S.optional(S.NullOr(S.String)),
-          assets_manifest_ref: S.optional(S.NullOr(S.String)),
-          module: __S(640, __c40, 0),
-          secrets: S.optional(S.NullOr(__S(624, __c39, 0))),
-          secrets_patch: S.optional(__S(641, __c40, 1)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/apps/{project}", code: 200 })),
-      ).annotate({ identifier: "PutAppRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            app_id: S.String,
-            record_generation: S.Number,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GenerationWritten" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sha256: S.String.pipe(T.Label()),
-          body: RawBody.pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/assets/blobs/{sha256}",
-            code: 200,
-            bodyMediaType: "application/octet-stream",
-          }),
-        ),
-      ).annotate({ identifier: "PutAssetBlobRequest" });
   }
 }
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sha256: S.String,
-          size: S.Number,
-          stored: S.Boolean,
-        }),
-      ).annotate({ identifier: "Stored" });
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
   }
 }
 function __c43(j: number): any {
@@ -3051,12 +3576,88 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sha256: S.String,
+        }),
+      ).annotate({ identifier: "PutAppRequestModule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          set: S.optional(__S(672, __c42, 0)),
+          delete: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "SecretsPatch" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean),
+          hosts: S.optional(__S(0, __c0, 0)),
+          hosts_patch: S.optional(__S(128, __c8, 0)),
+          bindings: S.optional(__S(130, __c8, 2)),
+          services: S.optional(__S(131, __c8, 3)),
+          crons: S.optional(__S(0, __c0, 0)),
+          queue_consumers: S.optional(__S(133, __c8, 5)),
+          limits: S.optional(__S(134, __c8, 6)),
+          egress_policy_ref: S.optional(S.NullOr(S.String)),
+          assets_manifest_ref: S.optional(S.NullOr(S.String)),
+          module: __S(704, __c44, 0),
+          secrets: S.optional(S.NullOr(__S(672, __c42, 0))),
+          secrets_patch: S.optional(__S(705, __c44, 1)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/apps/{project}", code: 200 })),
+      ).annotate({ identifier: "PutAppRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            app_id: S.String,
+            record_generation: S.Number,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "GenerationWritten" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sha256: S.String.pipe(T.Label()),
+          body: RawBody.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/assets/blobs/{sha256}",
+            code: 200,
+            bodyMediaType: "application/octet-stream",
+          }),
+        ),
+      ).annotate({ identifier: "PutAssetBlobRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sha256: S.String,
+          size: S.Number,
+          stored: S.Boolean,
+        }),
+      ).annotate({ identifier: "Stored" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           sha256: S.String.pipe(T.Label()),
           notFound: S.String,
           runSproutFirst: S.Unknown,
-          files: __S(402, __c25, 2),
-          headers: S.optional(__S(406, __c25, 6)),
-          redirects: S.optional(__S(408, __c25, 8)),
+          files: __S(418, __c26, 2),
+          headers: S.optional(__S(422, __c26, 6)),
+          redirects: S.optional(__S(424, __c26, 8)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/manifests/{sha256}", code: 200 })),
       ).annotate({ identifier: "PutAssetManifestRequest" });
     case 1:
@@ -3071,7 +3672,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PutAssetManifestResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3099,7 +3700,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PutR2ObjectResponse" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3111,7 +3712,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PutSecretRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3129,7 +3730,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PutSourceRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
@@ -3137,44 +3738,46 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sql: S.String,
-          params: S.optional(__S(768, __c48, 0)),
+          params: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "QueryD1RequestStatementsItem" });
     case 2:
-      return S.Array(__S(769, __c48, 1));
+      return S.Array(__S(817, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
           binding: S.String.pipe(T.Label()),
-          statements: __S(770, __c48, 2),
+          statements: __S(818, __c51, 2),
           transaction: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/apps/{project}/d1/{binding}/query", code: 200 }),
         ),
       ).annotate({ identifier: "QueryD1Request" });
     case 4:
+      return S.Array(__S(112, __c7, 0));
+    case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             success: S.optional(S.Boolean),
-            results: S.optional(__S(368, __c23, 0)),
+            results: S.optional(__S(820, __c51, 4)),
             meta: S.optional(__S(112, __c7, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "QueryD1ResponseResultsItem" });
-    case 5:
-      return S.Array(__S(772, __c48, 4));
     case 6:
+      return S.Array(__S(821, __c51, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(773, __c48, 5)),
+          results: S.optional(__S(822, __c51, 6)),
         }),
       ).annotate({ identifier: "QueryD1Response" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3188,7 +3791,44 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RevokeSelfResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          status: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          method: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          outcome: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          sampling_rate: S.optional(S.Number.pipe(T.Query("sampling-rate"))),
+          search: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{project}/tail", code: 200 })),
+      ).annotate({ identifier: "TailAppRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TailAppResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          status: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          method: S.optional(__S(0, __c0, 0).pipe(T.Query())),
+          handler: S.optional(__S(496, __c31, 0).pipe(T.Query())),
+          path: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          level: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{project}/invocations/tail", code: 200 })),
+      ).annotate({ identifier: "TailAppInvocationsRequest" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3198,7 +3838,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "VerifyDomainRequest" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

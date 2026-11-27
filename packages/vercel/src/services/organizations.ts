@@ -123,6 +123,18 @@ export interface Organization {
   /** The authenticated user's role in the organization. Present on read endpoints when the user holds an organization role. */
   userRole?: string | undefined;
 }
+export interface DeleteOrganizationDsyncGroupRequest {
+  organizationId: string;
+  groupId: string;
+  /** Delete even if it would leave the root team without an owner or the acting admin without the Owner role on it. */
+  overrideLockout?: boolean | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  ifMatch?: string | undefined;
+}
+export interface DeleteOrganizationDsyncGroupResponse {}
 export interface GetOrganizationRequest {
   /** The ID or slug of the organization to retrieve. */
   organizationId: string;
@@ -130,6 +142,90 @@ export interface GetOrganizationRequest {
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
+}
+export interface GetOrganizationDsyncGroupRequest {
+  organizationId: string;
+  groupId: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export type OrganizationDirectorySyncGroupAssignmentsOrganizationPermissionsItem = "OrgAdmin";
+/** Organization-level permissions assigned to the directory group. */
+export type OrganizationDirectorySyncGroupAssignmentsOrganizationPermissionsList =
+  Array<OrganizationDirectorySyncGroupAssignmentsOrganizationPermissionsItem>;
+/** Roles for linked child teams without an explicit team assignment. */
+export type OrganizationDirectorySyncGroupAssignmentsTeamRolesItem =
+  | "BILLING"
+  | "CONTRIBUTOR"
+  | "DEVELOPER"
+  | "MEMBER"
+  | "OWNER"
+  | "SECURITY"
+  | "VIEWER"
+  | "VIEWER_FOR_PLUS";
+/** Roles for linked child teams without an explicit team assignment. */
+export type OrganizationDirectorySyncGroupAssignmentsTeamRolesList =
+  Array<OrganizationDirectorySyncGroupAssignmentsTeamRolesItem>;
+export type OrganizationDirectorySyncGroupAssignmentsTeamsValueTeamRolesItem =
+  | "BILLING"
+  | "CONTRIBUTOR"
+  | "DEVELOPER"
+  | "MEMBER"
+  | "OWNER"
+  | "SECURITY"
+  | "VIEWER"
+  | "VIEWER_FOR_PLUS";
+export type OrganizationDirectorySyncGroupAssignmentsTeamsValueTeamRolesList =
+  Array<OrganizationDirectorySyncGroupAssignmentsTeamsValueTeamRolesItem>;
+/** Replaces the default team roles for each specified child team. */
+export interface OrganizationDirectorySyncGroupAssignmentsTeamsValue {
+  teamRoles: OrganizationDirectorySyncGroupAssignmentsTeamsValueTeamRolesList;
+}
+/** Replaces the default team roles for each specified child team. */
+export type OrganizationDirectorySyncGroupAssignmentsTeamsMap = {
+  [key: string]: OrganizationDirectorySyncGroupAssignmentsTeamsValue | undefined;
+};
+/** `null` when the group has no Directory Sync group configuration. */
+export interface OrganizationDirectorySyncGroupAssignments {
+  /** Organization-level permissions assigned to the directory group. */
+  organizationPermissions: OrganizationDirectorySyncGroupAssignmentsOrganizationPermissionsList;
+  /** Roles for linked child teams without an explicit team assignment. */
+  teamRoles: OrganizationDirectorySyncGroupAssignmentsTeamRolesList;
+  /** Replaces the default team roles for each specified child team. */
+  teams: OrganizationDirectorySyncGroupAssignmentsTeamsMap;
+}
+/** A group from the organization's Identity Provider directory, joined with its Directory Sync group configuration when one exists. */
+export interface OrganizationDirectorySyncGroup {
+  /** `null` when the group has no Directory Sync group configuration. */
+  assignments: OrganizationDirectorySyncGroupAssignments | null;
+  /** `null` when the group has no Directory Sync group configuration. */
+  createdAt: string | null;
+  directoryGroupId: string;
+  directoryId: string;
+  /** The group's name in the Identity Provider directory. */
+  name: string;
+  organizationId: string;
+  /** `null` when the group has no Directory Sync group configuration. */
+  updatedAt: string | null;
+}
+export interface ListOrganizationDsyncGroupsRequest {
+  /** The ID of the organization. */
+  organizationId: string;
+  /** Pagination cursor. */
+  cursor?: string | undefined;
+  /** Number of groups to return. */
+  limit?: number | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export type ListOrganizationDsyncGroupsResponseGroupsList = Array<OrganizationDirectorySyncGroup>;
+export interface ListOrganizationDsyncGroupsResponse {
+  cursor?: string | undefined;
+  groups: ListOrganizationDsyncGroupsResponseGroupsList;
 }
 export interface ListOrganizationsRequest {}
 export type ListOrganizationsResponseOrganizationsList = Array<Organization>;
@@ -141,7 +237,7 @@ export interface ListOrganizationTeamsRequest {
   organizationId: string;
   /** Pagination cursor. */
   cursor?: string | undefined;
-  /** When true, includes each team's member count in the response. */
+  /** When true, includes each team's member count, including organization Directory Sync members. Counting Directory Sync members can add latency. */
   includeMemberCount?: boolean | undefined;
 }
 /** Billing profile of the organization link: how this team settles within the organization. This is not the team's billing.plan or planIteration. Links with `enterprise` billing participate in organization-level billing and usage rollups. This field is optional for legacy links that have no stored profile. */
@@ -159,7 +255,7 @@ export interface OrganizationTeamListItem {
   createdAt: string;
   /** Whether the organization's Directory Sync manages the team's memberships. */
   dsyncMode: OrganizationTeamListItemDsyncMode;
-  /** Present only when the request sets `includeMemberCount=true`. Number of members on the Team, including pending memberships. Excludes email invitations that do not have a membership record. */
+  /** Present only when the request sets `includeMemberCount=true`. Number of members on the Team, including pending memberships and organization Directory Sync grants. Excludes suppressed memberships and email invitations that do not have a membership record. */
   memberCount?: number | undefined;
   /** The Team's display name, or `null` if none has been set. */
   name: string | null;
@@ -177,6 +273,79 @@ export type ListOrganizationTeamsResponseTeamsList = Array<OrganizationTeamListI
 export interface ListOrganizationTeamsResponse {
   cursor?: string | undefined;
   teams: ListOrganizationTeamsResponseTeamsList;
+}
+export type PutOrganizationDsyncGroupRequestAssignmentsOrganizationPermissionsItem = "OrgAdmin";
+export type PutOrganizationDsyncGroupRequestAssignmentsOrganizationPermissionsList = Array<
+  PutOrganizationDsyncGroupRequestAssignmentsOrganizationPermissionsItem | (string & {})
+>;
+export type PutOrganizationDsyncGroupRequestAssignmentsTeamRolesItem =
+  | "OWNER"
+  | "MEMBER"
+  | "DEVELOPER"
+  | "SECURITY"
+  | "BILLING"
+  | "VIEWER"
+  | "VIEWER_FOR_PLUS"
+  | "CONTRIBUTOR";
+export type PutOrganizationDsyncGroupRequestAssignmentsTeamRolesList = Array<
+  PutOrganizationDsyncGroupRequestAssignmentsTeamRolesItem | (string & {})
+>;
+export type PutOrganizationDsyncGroupRequestAssignmentsTeamsValueTeamRolesItem =
+  | "OWNER"
+  | "MEMBER"
+  | "DEVELOPER"
+  | "SECURITY"
+  | "BILLING"
+  | "VIEWER"
+  | "VIEWER_FOR_PLUS"
+  | "CONTRIBUTOR";
+export type PutOrganizationDsyncGroupRequestAssignmentsTeamsValueTeamRolesList = Array<
+  PutOrganizationDsyncGroupRequestAssignmentsTeamsValueTeamRolesItem | (string & {})
+>;
+export interface PutOrganizationDsyncGroupRequestAssignmentsTeamsValue {
+  teamRoles: PutOrganizationDsyncGroupRequestAssignmentsTeamsValueTeamRolesList;
+}
+export type PutOrganizationDsyncGroupRequestAssignmentsTeamsMap = {
+  [key: string]: PutOrganizationDsyncGroupRequestAssignmentsTeamsValue | undefined;
+};
+export interface PutOrganizationDsyncGroupRequestAssignments {
+  organizationPermissions?:
+    | PutOrganizationDsyncGroupRequestAssignmentsOrganizationPermissionsList
+    | undefined;
+  teamRoles?: PutOrganizationDsyncGroupRequestAssignmentsTeamRolesList | undefined;
+  teams?: PutOrganizationDsyncGroupRequestAssignmentsTeamsMap | undefined;
+}
+export interface PutOrganizationDsyncGroupRequest {
+  organizationId: string;
+  groupId: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  ifMatch?: string | undefined;
+  ifNoneMatch?: string | undefined;
+  assignments: PutOrganizationDsyncGroupRequestAssignments;
+  /** Save even if the change would leave the root team without an owner or the acting admin without the Owner role on it. */
+  overrideLockout?: boolean | undefined;
+}
+/** Whether the Organization's Directory Sync or the team's own directory governs the team's memberships. */
+export type PutOrganizationTeamDsyncRequestDsyncMode = "organization" | "team";
+export interface PutOrganizationTeamDsyncRequest {
+  organizationId: string;
+  targetTeamId: string;
+  slug?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** Whether the Organization's Directory Sync or the team's own directory governs the team's memberships. */
+  dsyncMode: PutOrganizationTeamDsyncRequestDsyncMode | (string & {});
+  /** Change the root team's mode even if it would leave it without an owner or the acting admin without the Owner role on it. */
+  overrideLockout?: boolean | undefined;
+}
+export type PutOrganizationTeamDsyncResponseDsyncMode = "organization" | "team";
+export interface PutOrganizationTeamDsyncResponse {
+  dsyncMode: PutOrganizationTeamDsyncResponseDsyncMode;
+  organizationId: string;
+  teamId: string;
 }
 export interface RemoveOrganizationTeamRequest {
   /** The ID of the organization. */
@@ -199,15 +368,15 @@ export interface UpdateOrganizationRequest {
   slug?: string | undefined;
 }
 export type AddOrganizationTeamError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
-/** Create or Add Team to Organization Create a new team under an organization, or add an existing team. `mode: "create"` creates a brand-new child team from `slug` + `name` -- a platform child by default, or an enterprise child (billed on the organization root's flex subscription) when `billingPlan: "enterprise"` is supplied. `mode: "link"` links an existing team identified by `teamId` or `slug`; the child's billing profile is derived from the target team's plan (enterprise team -> enterprise child, else platform), or explicitly supplied. Both modes respond with the resulting organization-team link. This endpoint is in private beta. Contact your Vercel account team for access. */
+/** Create or Add Team to Organization Create a new team under an organization, or add an existing team. `mode: "create"` creates a brand-new child team from `slug` + `name` -- a platform child by default, or an enterprise child (billed on the organization root's flex subscription) when `billingPlan: "enterprise"` is supplied. `mode: "link"` links an existing team identified by `teamId` or `slug`. The request must state the child's billing profile in `billingPlan`: `enterprise` or `platform`. Both modes respond with the resulting organization-team link. This endpoint is in private beta. Contact your Vercel account team for access. */
 export const addOrganizationTeam: API.OperationMethod<
   AddOrganizationTeamRequest,
   OrganizationTeam,
   AddOrganizationTeamError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<AddOrganizationTeamRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<OrganizationTeam>,
+  input: __S(48, __c6, 0) as any as S.Schema<AddOrganizationTeamRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<OrganizationTeam>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -224,14 +393,37 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<Organization>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganization",
+}));
+
+export type DeleteOrganizationDsyncGroupError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Delete Organization Directory Sync Group Configuration Delete one organization's Directory Sync group configuration. The last group granting OrgAdmin cannot be removed. A deletion that would leave the root team without an owner, or take the Owner role on it from the acting admin, is refused with `organization_lockout` unless `overrideLockout` is set. */
+export const deleteOrganizationDsyncGroup: API.OperationMethod<
+  DeleteOrganizationDsyncGroupRequest,
+  DeleteOrganizationDsyncGroupResponse,
+  DeleteOrganizationDsyncGroupError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteOrganizationDsyncGroupRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DeleteOrganizationDsyncGroupResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDsyncGroup",
 }));
 
 export type GetOrganizationError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -242,14 +434,50 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<Organization>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganization",
+}));
+
+export type GetOrganizationDsyncGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Get Organization Directory Sync Group Get one group from the organization's Identity Provider directory, joined with its Directory Sync group configuration when one exists. */
+export const getOrganizationDsyncGroup: API.OperationMethod<
+  GetOrganizationDsyncGroupRequest,
+  OrganizationDirectorySyncGroup,
+  GetOrganizationDsyncGroupError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(88, __c11, 0) as any as S.Schema<GetOrganizationDsyncGroupRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<OrganizationDirectorySyncGroup>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDsyncGroup",
+}));
+
+export type ListOrganizationDsyncGroupsError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List Organization Directory Sync Groups List the groups in an organization's Identity Provider directory, along with their Directory Sync group configuration when one exists. */
+export const listOrganizationDsyncGroups: API.OperationMethod<
+  ListOrganizationDsyncGroupsRequest,
+  ListOrganizationDsyncGroupsResponse,
+  ListOrganizationDsyncGroupsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(104, __c13, 0) as any as S.Schema<ListOrganizationDsyncGroupsRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<ListOrganizationDsyncGroupsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationDsyncGroups",
 }));
 
 export type ListOrganizationsError = BadRequest | Forbidden | VercelOpError;
@@ -260,8 +488,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<ListOrganizationsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<ListOrganizationsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -271,21 +499,67 @@ export const listOrganizations: API.OperationMethod<
 }));
 
 export type ListOrganizationTeamsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List Organization Teams List up to 100 teams in an organization, each enriched with the team's slug, name, and avatar. Set `includeMemberCount` to include counts that include pending memberships but exclude email invitations without a membership record. Teams whose underlying record no longer exists are omitted, so a page may contain fewer teams than the page size (or be empty) while still returning a `cursor`; paginate until `cursor` is absent. This endpoint is in private beta. Contact your Vercel account team for access. */
+/** List Organization Teams List up to 100 teams in an organization, each enriched with the team's slug, name, and avatar. Set `includeMemberCount` to include counts that include pending memberships and organization Directory Sync grants, while excluding suppressed memberships and email invitations without a membership record. Teams whose underlying record no longer exists are omitted, so a page may contain fewer teams than the page size (or be empty) while still returning a `cursor`; paginate until `cursor` is absent. This endpoint is in private beta. Contact your Vercel account team for access. */
 export const listOrganizationTeams: API.OperationMethod<
   ListOrganizationTeamsRequest,
   ListOrganizationTeamsResponse,
   ListOrganizationTeamsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListOrganizationTeamsRequest>,
-  output: __S(27, __c6, 3) as any as S.Schema<ListOrganizationTeamsResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ListOrganizationTeamsRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<ListOrganizationTeamsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationTeams",
+}));
+
+export type PutOrganizationDsyncGroupError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Create or Replace Organization Directory Sync Group Configuration Create or replace one organization's Directory Sync group configuration. The directory starts syncing when at least one group grants OrgAdmin. A group that grants OrgAdmin must also grant the Owner role on the organization's root team, as its default role or for that team. A save that would leave the root team without an owner, or take the Owner role on it from the acting admin, is refused with `organization_lockout` unless `overrideLockout` is set. */
+export const putOrganizationDsyncGroup: API.OperationMethod<
+  PutOrganizationDsyncGroupRequest,
+  OrganizationDirectorySyncGroup,
+  PutOrganizationDsyncGroupError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(17, __c2, 1) as any as S.Schema<PutOrganizationDsyncGroupRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<OrganizationDirectorySyncGroup>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOrganizationDsyncGroup",
+}));
+
+export type PutOrganizationTeamDsyncError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Update Organization Team Directory Sync Mode Select whether one Organization team's memberships are governed by the Organization's Directory Sync or by the team's own directory. The team's own directory connection is kept either way. The root team can follow the Organization's Directory Sync only when no group grants OrgAdmin or at least one OrgAdmin group also grants the Owner role on it. A change of the root team that would leave it without an owner, or take the Owner role on it from the acting admin, is refused with `organization_lockout` unless `overrideLockout` is set. */
+export const putOrganizationTeamDsync: API.OperationMethod<
+  PutOrganizationTeamDsyncRequest,
+  PutOrganizationTeamDsyncResponse,
+  PutOrganizationTeamDsyncError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<PutOrganizationTeamDsyncRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<PutOrganizationTeamDsyncResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOrganizationTeamDsync",
 }));
 
 export type RemoveOrganizationTeamError =
@@ -301,8 +575,8 @@ export const removeOrganizationTeam: API.OperationMethod<
   RemoveOrganizationTeamError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<RemoveOrganizationTeamRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<RemoveOrganizationTeamResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<RemoveOrganizationTeamRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<RemoveOrganizationTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -319,8 +593,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<Organization>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
@@ -334,103 +608,19 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          avatar: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.String),
-          slug: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/organizations/{organizationId}", code: 200 })),
-      ).annotate({ identifier: "UpdateOrganizationRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          mode: S.String,
-          teamId: S.optional(S.String),
-          slug: S.optional(S.String),
-          name: S.optional(S.String),
-          billingPlan: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1/organizations/{organizationId}/teams", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddOrganizationTeamRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          billingPlan: S.optional(S.String),
-          createdAt: S.String,
-          dsyncMode: S.String,
-          organizationId: S.String,
-          ssoMode: S.String,
-          teamId: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "OrganizationTeam" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          avatar: S.NullOr(S.String),
-          createdAt: S.String,
-          name: S.optional(S.String),
-          organizationId: S.String,
-          slug: S.String,
-          teamCount: S.Number,
-          teamId: S.String,
-          updatedAt: S.String,
-          userRole: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Organization" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}", code: 200 })),
-      ).annotate({ identifier: "GetOrganizationRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(64, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          organizations: __S(21, __c5, 1),
+          organizations: __S(1, __c0, 1),
         }),
       ).annotate({ identifier: "ListOrganizationsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -459,17 +649,77 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationTeamListItem" });
     case 2:
-      return S.Array(__S(25, __c6, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String),
-          teams: __S(26, __c6, 2),
+          teams: __S(10, __c1, 2),
         }),
       ).annotate({ identifier: "ListOrganizationTeamsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationPermissions: S.optional(__S(96, __c12, 0)),
+          teamRoles: S.optional(__S(96, __c12, 0)),
+          teams: S.optional(__S(98, __c12, 2)),
+        }),
+      ).annotate({ identifier: "PutOrganizationDsyncGroupRequestAssignments" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+          ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
+          assignments: __S(16, __c2, 0),
+          overrideLockout: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/dsync/groups/{groupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutOrganizationDsyncGroupRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          targetTeamId: S.String.pipe(T.Label()),
+          slug: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          dsyncMode: S.String,
+          overrideLockout: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/v1/organizations/{organizationId}/teams/{targetTeamId}/dsync",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutOrganizationTeamDsyncRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dsyncMode: S.String,
+          organizationId: S.String,
+          teamId: S.String,
+        }),
+      ).annotate({ identifier: "PutOrganizationTeamDsyncResponse" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -491,6 +741,197 @@ function __c7(j: number): any {
           teamId: S.String,
         }),
       ).annotate({ identifier: "RemoveOrganizationTeamResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          avatar: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.String),
+          slug: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/organizations/{organizationId}", code: 200 })),
+      ).annotate({ identifier: "UpdateOrganizationRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          mode: S.String,
+          teamId: S.optional(S.String),
+          slug: S.optional(S.String),
+          name: S.optional(S.String),
+          billingPlan: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1/organizations/{organizationId}/teams", code: 200 }),
+        ),
+      ).annotate({ identifier: "AddOrganizationTeamRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          billingPlan: S.optional(S.String),
+          createdAt: S.String,
+          dsyncMode: S.String,
+          organizationId: S.String,
+          ssoMode: S.String,
+          teamId: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationTeam" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/organizations", code: 200 })),
+      ).annotate({ identifier: "CreateOrganizationRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          avatar: S.NullOr(S.String),
+          createdAt: S.String,
+          name: S.optional(S.String),
+          organizationId: S.String,
+          slug: S.String,
+          teamCount: S.Number,
+          teamId: S.String,
+          updatedAt: S.String,
+          userRole: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Organization" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          overrideLockout: S.optional(S.Boolean.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/dsync/groups/{groupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteOrganizationDsyncGroupRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteOrganizationDsyncGroupResponse",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}", code: 200 })),
+      ).annotate({ identifier: "GetOrganizationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/dsync/groups/{groupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationDsyncGroupRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          teamRoles: __S(96, __c12, 0),
+        }),
+      ).annotate({ identifier: "OrganizationDirectorySyncGroupAssignmentsTeamsValue" });
+    case 2:
+      return S.Record(S.String, __S(97, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          organizationPermissions: __S(96, __c12, 0),
+          teamRoles: __S(96, __c12, 0),
+          teams: __S(98, __c12, 2),
+        }),
+      ).annotate({ identifier: "OrganizationDirectorySyncGroupAssignments" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          assignments: S.NullOr(__S(99, __c12, 3)),
+          createdAt: S.NullOr(S.String),
+          directoryGroupId: S.String,
+          directoryId: S.String,
+          name: S.String,
+          organizationId: S.String,
+          updatedAt: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "OrganizationDirectorySyncGroup" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/dsync/groups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListOrganizationDsyncGroupsRequest" });
+    case 1:
+      return S.Array(__S(100, __c12, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String),
+          groups: __S(105, __c13, 1),
+        }),
+      ).annotate({ identifier: "ListOrganizationDsyncGroupsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -3250,6 +3250,135 @@ export interface ConnectorsSnapshotsGetResponseNetdevsItem {
 }
 export type ConnectorsSnapshotsGetResponseNetdevsList =
   Array<ConnectorsSnapshotsGetResponseNetdevsItem>;
+export interface ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsOptions {
+  /** ACK filter mode */
+  ackFilter: string;
+  /** Shaped rate (bytes per second, 0 when unlimited) */
+  bandwidth: number;
+  /** Diffserv mode */
+  diffserv: string;
+  /** Flow isolation mode */
+  flowmode: string;
+  /** Firewall mark mask used to select a tin */
+  fwmark: string;
+  /** Set when shaping in ingress mode */
+  ingress: boolean;
+  /** Set when flow isolation uses post-NAT addresses */
+  nat: boolean;
+  /** Per-packet overhead compensation (bytes) */
+  overhead: number;
+  /** Set when no overhead compensation is applied */
+  raw: boolean;
+  /** Expected round-trip time (microseconds) */
+  rtt: number;
+  /** Set when GSO super-packets are split */
+  splitGso: boolean;
+  /** Set when DSCP markings are cleared on egress */
+  wash: boolean;
+  /** ATM cell compensation mode (absent when raw without ATM or PTM compensation) */
+  atm?: string | null | undefined;
+  /** Automatic rate estimation mode (absent when disabled) */
+  autorate?: string | null | undefined;
+  /** Configured memory limit for queued packets (bytes, absent when unset) */
+  memlimit?: number | null | undefined;
+  /** Minimum packet size (bytes, absent when unset) */
+  mpu?: number | null | undefined;
+}
+export interface ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsItem {
+  /** Total ACKs dropped by the ACK filter */
+  ackDrops: number;
+  /** Average queueing delay (microseconds) */
+  avgDelayUs: number;
+  /** Bytes currently queued */
+  backlogBytes: number;
+  /** Minimum queueing delay (microseconds) */
+  baseDelayUs: number;
+  /** Current number of bulk flows */
+  bulkFlows: number;
+  /** Total packets dropped */
+  drops: number;
+  /** Total packets marked with ECN Congestion Experienced */
+  ecnMark: number;
+  /** Bytes each flow may send per scheduling round */
+  flowQuantum: number;
+  /** AQM interval (microseconds) */
+  intervalUs: number;
+  /** Largest packet seen (bytes) */
+  maxPktLen: number;
+  /** Peak queueing delay (microseconds) */
+  peakDelayUs: number;
+  /** Total bytes sent */
+  sentBytes: number;
+  /** Total packets sent */
+  sentPackets: number;
+  /** Current number of sparse flows */
+  sparseFlows: number;
+  /** Target queueing delay (microseconds) */
+  targetUs: number;
+  /** Rate above which the tin yields to lower-priority tins (bytes per second) */
+  thresholdRate: number;
+  /** Current number of unresponsive flows */
+  unresponsiveFlows: number;
+  /** Total flow hash collisions */
+  wayCollisions: number;
+  /** Total flow hash lookups resolved by set-associative probing */
+  wayIndirectHits: number;
+  /** Total flow hash lookups that allocated a new queue */
+  wayMisses: number;
+}
+export type ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsList =
+  Array<ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsItem>;
+export interface ConnectorsSnapshotsGetResponseQdiscsItemCakeStats {
+  /** Average offset of the network header within packets (bytes) */
+  avgHdrOffset: number;
+  /** Estimated link capacity (bytes per second) */
+  capacityEstimate: number;
+  /** Largest overhead-adjusted packet seen (bytes) */
+  maxAdjSize: number;
+  /** Largest network-layer packet seen (bytes) */
+  maxNetworkSize: number;
+  /** Memory limit for queued packets (bytes) */
+  memoryLimit: number;
+  /** Peak memory used by queued packets (bytes) */
+  memoryUsed: number;
+  /** Smallest overhead-adjusted packet seen (bytes, 65535 until the first packet after creation or an overhead change) */
+  minAdjSize: number;
+  /** Smallest network-layer packet seen (bytes, 65535 until the first packet after creation or an overhead change) */
+  minNetworkSize: number;
+  /** Snapshot Qdisc CAKE Options */
+  options: ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsOptions;
+  tins: ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsList;
+}
+export interface ConnectorsSnapshotsGetResponseQdiscsItem {
+  /** Bytes currently queued */
+  backlog: number;
+  /** Total bytes sent */
+  bytes: number;
+  /** Interface the qdisc is attached to */
+  dev: string;
+  /** Total packets dropped */
+  drops: number;
+  /** Qdisc handle */
+  handle: string;
+  /** Kind of qdisc */
+  kind: string;
+  /** Total times the qdisc was over its limit */
+  overlimits: number;
+  /** Total packets sent */
+  packets: number;
+  /** Packets currently queued */
+  qlen: number;
+  /** Total packets requeued */
+  requeues: number;
+  /** Snapshot Qdisc CAKE */
+  cakeStats?: ConnectorsSnapshotsGetResponseQdiscsItemCakeStats | null | undefined;
+  /** Parent class handle (absent when root) */
+  parent?: string | null | undefined;
+  /** Set when attached at the root of the interface */
+  root?: boolean | null | undefined;
+}
+export type ConnectorsSnapshotsGetResponseQdiscsList =
+  Array<ConnectorsSnapshotsGetResponseQdiscsItem>;
 export interface ConnectorsSnapshotsGetResponseRoutesItem {
   /** Route destination as default or an IPv4 CIDR */
   destination: string;
@@ -3510,6 +3639,7 @@ export interface GetConnectorSnapshotResponse {
   netdevs?: ConnectorsSnapshotsGetResponseNetdevsList | null | undefined;
   /** Platform identifier */
   platform?: string | null | undefined;
+  qdiscs?: ConnectorsSnapshotsGetResponseQdiscsList | null | undefined;
   routes?: ConnectorsSnapshotsGetResponseRoutesList | null | undefined;
   /** Site identifier */
   siteId?: string | null | undefined;
@@ -4600,6 +4730,63 @@ export type ConnectorsSnapshotsLatestListResponseItemsItemNetdevsItem =
   ConnectorsSnapshotsGetResponseNetdevsItem;
 export type ConnectorsSnapshotsLatestListResponseItemsItemNetdevsList =
   Array<ConnectorsSnapshotsGetResponseNetdevsItem>;
+export type ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStatsOptions =
+  ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsOptions;
+export type ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStatsTinsItem =
+  ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsItem;
+export type ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStatsTinsList =
+  Array<ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsItem>;
+export interface ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStats {
+  /** Average offset of the network header within packets (bytes) */
+  avgHdrOffset: number;
+  /** Estimated link capacity (bytes per second) */
+  capacityEstimate: number;
+  /** Largest overhead-adjusted packet seen (bytes) */
+  maxAdjSize: number;
+  /** Largest network-layer packet seen (bytes) */
+  maxNetworkSize: number;
+  /** Memory limit for queued packets (bytes) */
+  memoryLimit: number;
+  /** Peak memory used by queued packets (bytes) */
+  memoryUsed: number;
+  /** Smallest overhead-adjusted packet seen (bytes, 65535 until the first packet after creation or an overhead change) */
+  minAdjSize: number;
+  /** Smallest network-layer packet seen (bytes, 65535 until the first packet after creation or an overhead change) */
+  minNetworkSize: number;
+  /** Snapshot Qdisc CAKE Options */
+  options: ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsOptions;
+  tins: ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStatsTinsList;
+}
+export interface ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItem {
+  /** Bytes currently queued */
+  backlog: number;
+  /** Total bytes sent */
+  bytes: number;
+  /** Interface the qdisc is attached to */
+  dev: string;
+  /** Total packets dropped */
+  drops: number;
+  /** Qdisc handle */
+  handle: string;
+  /** Kind of qdisc */
+  kind: string;
+  /** Total times the qdisc was over its limit */
+  overlimits: number;
+  /** Total packets sent */
+  packets: number;
+  /** Packets currently queued */
+  qlen: number;
+  /** Total packets requeued */
+  requeues: number;
+  /** Snapshot Qdisc CAKE */
+  cakeStats?: ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItemCakeStats | null | undefined;
+  /** Parent class handle (absent when root) */
+  parent?: string | null | undefined;
+  /** Set when attached at the root of the interface */
+  root?: boolean | null | undefined;
+}
+export type ConnectorsSnapshotsLatestListResponseItemsItemQdiscsList =
+  Array<ConnectorsSnapshotsLatestListResponseItemsItemQdiscsItem>;
 export type ConnectorsSnapshotsLatestListResponseItemsItemRoutesItem =
   ConnectorsSnapshotsGetResponseRoutesItem;
 export type ConnectorsSnapshotsLatestListResponseItemsItemRoutesList =
@@ -4815,6 +5002,7 @@ export interface ConnectorsSnapshotsLatestListResponseItemsItem {
   netdevs?: ConnectorsSnapshotsLatestListResponseItemsItemNetdevsList | null | undefined;
   /** Platform identifier */
   platform?: string | null | undefined;
+  qdiscs?: ConnectorsSnapshotsLatestListResponseItemsItemQdiscsList | null | undefined;
   routes?: ConnectorsSnapshotsLatestListResponseItemsItemRoutesList | null | undefined;
   /** Site identifier */
   siteId?: string | null | undefined;
@@ -11775,7 +11963,8 @@ function __c90(j: number): any {
           mounts: S.optional(S.NullOr(__S(2923, __c91, 11))),
           netdevs: S.optional(S.NullOr(__S(2925, __c91, 13))),
           platform: S.optional(S.NullOr(S.String)),
-          routes: S.optional(S.NullOr(__S(2927, __c91, 15))),
+          qdiscs: S.optional(S.NullOr(__S(2931, __c91, 19))),
+          routes: S.optional(S.NullOr(__S(2933, __c91, 21))),
           siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
           snmpIcmpInAddrMaskReps: S.optional(
             S.NullOr(S.Number).pipe(T.Body("snmp_icmp_in_addr_mask_reps")),
@@ -11896,8 +12085,8 @@ function __c90(j: number): any {
             S.NullOr(S.Number).pipe(T.Body("snmp_udp_out_datagrams")),
           ),
           systemBootTimeS: S.optional(S.NullOr(S.Number).pipe(T.Body("system_boot_time_s"))),
-          thermals: S.optional(S.NullOr(__S(2929, __c91, 17))),
-          tunnels: S.optional(S.NullOr(__S(2931, __c91, 19))),
+          thermals: S.optional(S.NullOr(__S(2935, __c91, 23))),
+          tunnels: S.optional(S.NullOr(__S(2937, __c91, 25))),
           uptimeIdleMs: S.optional(S.NullOr(S.Number).pipe(T.Body("uptime_idle_ms"))),
           uptimeTotalMs: S.optional(S.NullOr(S.Number).pipe(T.Body("uptime_total_ms"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -12021,6 +12210,89 @@ function __c91(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
+          ackFilter: S.String.pipe(T.Body("ack_filter")),
+          bandwidth: S.Number,
+          diffserv: S.String,
+          flowmode: S.String,
+          fwmark: S.String,
+          ingress: S.Boolean,
+          nat: S.Boolean,
+          overhead: S.Number,
+          raw: S.Boolean,
+          rtt: S.Number,
+          splitGso: S.Boolean.pipe(T.Body("split_gso")),
+          wash: S.Boolean,
+          atm: S.optional(S.NullOr(S.String)),
+          autorate: S.optional(S.NullOr(S.String)),
+          memlimit: S.optional(S.NullOr(S.Number)),
+          mpu: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsOptions" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          ackDrops: S.Number.pipe(T.Body("ack_drops")),
+          avgDelayUs: S.Number.pipe(T.Body("avg_delay_us")),
+          backlogBytes: S.Number.pipe(T.Body("backlog_bytes")),
+          baseDelayUs: S.Number.pipe(T.Body("base_delay_us")),
+          bulkFlows: S.Number.pipe(T.Body("bulk_flows")),
+          drops: S.Number,
+          ecnMark: S.Number.pipe(T.Body("ecn_mark")),
+          flowQuantum: S.Number.pipe(T.Body("flow_quantum")),
+          intervalUs: S.Number.pipe(T.Body("interval_us")),
+          maxPktLen: S.Number.pipe(T.Body("max_pkt_len")),
+          peakDelayUs: S.Number.pipe(T.Body("peak_delay_us")),
+          sentBytes: S.Number.pipe(T.Body("sent_bytes")),
+          sentPackets: S.Number.pipe(T.Body("sent_packets")),
+          sparseFlows: S.Number.pipe(T.Body("sparse_flows")),
+          targetUs: S.Number.pipe(T.Body("target_us")),
+          thresholdRate: S.Number.pipe(T.Body("threshold_rate")),
+          unresponsiveFlows: S.Number.pipe(T.Body("unresponsive_flows")),
+          wayCollisions: S.Number.pipe(T.Body("way_collisions")),
+          wayIndirectHits: S.Number.pipe(T.Body("way_indirect_hits")),
+          wayMisses: S.Number.pipe(T.Body("way_misses")),
+        }),
+      ).annotate({ identifier: "ConnectorsSnapshotsGetResponseQdiscsItemCakeStatsTinsItem" });
+    case 16:
+      return S.Array(__S(2927, __c91, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          avgHdrOffset: S.Number.pipe(T.Body("avg_hdr_offset")),
+          capacityEstimate: S.Number.pipe(T.Body("capacity_estimate")),
+          maxAdjSize: S.Number.pipe(T.Body("max_adj_size")),
+          maxNetworkSize: S.Number.pipe(T.Body("max_network_size")),
+          memoryLimit: S.Number.pipe(T.Body("memory_limit")),
+          memoryUsed: S.Number.pipe(T.Body("memory_used")),
+          minAdjSize: S.Number.pipe(T.Body("min_adj_size")),
+          minNetworkSize: S.Number.pipe(T.Body("min_network_size")),
+          options: __S(2926, __c91, 14),
+          tins: __S(2928, __c91, 16),
+        }),
+      ).annotate({ identifier: "ConnectorsSnapshotsGetResponseQdiscsItemCakeStats" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          backlog: S.Number,
+          bytes: S.Number,
+          dev: S.String,
+          drops: S.Number,
+          handle: S.String,
+          kind: S.String,
+          overlimits: S.Number,
+          packets: S.Number,
+          qlen: S.Number,
+          requeues: S.Number,
+          cakeStats: S.optional(S.NullOr(__S(2929, __c91, 17)).pipe(T.Body("cake_stats"))),
+          parent: S.optional(S.NullOr(S.String)),
+          root: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "ConnectorsSnapshotsGetResponseQdiscsItem" });
+    case 19:
+      return S.Array(__S(2930, __c91, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
           destination: S.String,
           interfaceName: S.String.pipe(T.Body("interface_name")),
           kind: S.String,
@@ -12029,9 +12301,9 @@ function __c91(j: number): any {
           weight: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ConnectorsSnapshotsGetResponseRoutesItem" });
-    case 15:
-      return S.Array(__S(2926, __c91, 14));
-    case 16:
+    case 21:
+      return S.Array(__S(2932, __c91, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
@@ -12040,9 +12312,9 @@ function __c91(j: number): any {
           maxCelcius: S.optional(S.NullOr(S.Number).pipe(T.Body("max_celcius"))),
         }),
       ).annotate({ identifier: "ConnectorsSnapshotsGetResponseThermalsItem" });
-    case 17:
-      return S.Array(__S(2928, __c91, 16));
-    case 18:
+    case 23:
+      return S.Array(__S(2934, __c91, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           healthState: S.String.pipe(T.Body("health_state")),
@@ -12061,8 +12333,8 @@ function __c91(j: number): any {
           ),
         }),
       ).annotate({ identifier: "ConnectorsSnapshotsGetResponseTunnelsItem" });
-    case 19:
-      return S.Array(__S(2930, __c91, 18));
+    case 25:
+      return S.Array(__S(2936, __c91, 24));
   }
 }
 function __c92(j: number): any {
@@ -12895,7 +13167,8 @@ function __c111(j: number): any {
           mounts: S.optional(S.NullOr(__S(2923, __c91, 11))),
           netdevs: S.optional(S.NullOr(__S(2925, __c91, 13))),
           platform: S.optional(S.NullOr(S.String)),
-          routes: S.optional(S.NullOr(__S(2927, __c91, 15))),
+          qdiscs: S.optional(S.NullOr(__S(2931, __c91, 19))),
+          routes: S.optional(S.NullOr(__S(2933, __c91, 21))),
           siteId: S.optional(S.NullOr(S.String).pipe(T.Body("site_id"))),
           snmpIcmpInAddrMaskReps: S.optional(
             S.NullOr(S.Number).pipe(T.Body("snmp_icmp_in_addr_mask_reps")),
@@ -13016,8 +13289,8 @@ function __c111(j: number): any {
             S.NullOr(S.Number).pipe(T.Body("snmp_udp_out_datagrams")),
           ),
           systemBootTimeS: S.optional(S.NullOr(S.Number).pipe(T.Body("system_boot_time_s"))),
-          thermals: S.optional(S.NullOr(__S(2929, __c91, 17))),
-          tunnels: S.optional(S.NullOr(__S(2931, __c91, 19))),
+          thermals: S.optional(S.NullOr(__S(2935, __c91, 23))),
+          tunnels: S.optional(S.NullOr(__S(2937, __c91, 25))),
           uptimeIdleMs: S.optional(S.NullOr(S.Number).pipe(T.Body("uptime_idle_ms"))),
           uptimeTotalMs: S.optional(S.NullOr(S.Number).pipe(T.Body("uptime_total_ms"))),
         }),

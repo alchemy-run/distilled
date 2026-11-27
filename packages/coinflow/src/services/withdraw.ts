@@ -256,11 +256,13 @@ export interface IWallet {
 }
 export type IWithdrawerWithAccountsWalletsList = Array<IWallet>;
 export type AvailabilityStatus = "Functional" | "Blocked" | "Override";
+export type AvailabilitySource = "duplicate_identity";
 export interface IAvailability {
   status: AvailabilityStatus;
   reason: string;
   editor: string;
   updatedAt: string;
+  source?: AvailabilitySource | undefined;
 }
 export type Currency =
   | "USD"
@@ -554,6 +556,7 @@ export interface PartialRecordWithdrawSpeedWithdrawFeeConfig {
   wire?: WithdrawFeeConfig | undefined;
   interac?: WithdrawFeeConfig | undefined;
   swift?: WithdrawFeeConfig | undefined;
+  npp?: WithdrawFeeConfig | undefined;
   crypto?: WithdrawFeeConfig | undefined;
 }
 export interface IMerchantStringWithdrawFees {
@@ -595,6 +598,7 @@ export interface CustomWithdrawFeesConfig {
   wire?: CustomWithdrawFeeValue | undefined;
   interac?: CustomWithdrawFeeValue | undefined;
   swift?: CustomWithdrawFeeValue | undefined;
+  npp?: CustomWithdrawFeeValue | undefined;
   crypto?: CustomWithdrawFeeValue | undefined;
   global: CustomWithdrawFeeValue;
   lineItemLabel: string;
@@ -638,7 +642,9 @@ export type MerchantScope =
   | "viewer"
   | "seller"
   | "pos_device"
-  | "destructive";
+  | "destructive"
+  | "cardholder"
+  | "accounts_payable";
 export type IMerchantStringApiKeysItemsIpsList = Array<string>;
 export interface IMerchantStringApiKeysItems {
   createdAt?: string | undefined;
@@ -653,7 +659,7 @@ export type IMerchantStringApiKeysList = Array<IMerchantStringApiKeysItems>;
 export type KycType = "person" | "business" | "both";
 export type StableCoin = "USDC" | "SBC" | "EUROe" | "FXUSD" | "HSUSD" | "CFUSD" | "YPUSD";
 export type DirectVendorSettlement = "brale";
-export type MpcWalletProvider = "metakeep" | "brale";
+export type MpcWalletProvider = "metakeep" | "brale" | "turnkey";
 export interface IMerchantStringSettlementAddressesRecipientAddressesItems {
   info?: unknown | undefined;
   createdAt: string;
@@ -676,16 +682,31 @@ export interface IMerchantStringSettlementAddresses {
   recipientAddresses?: IMerchantStringSettlementAddressesRecipientAddressesList | undefined;
   verification?: Verification | undefined;
 }
+export type IMerchantUserPasskeyTransportsList = Array<string>;
+export interface IMerchantUserPasskey {
+  credentialId: string;
+  publicKey: string;
+  counter: number;
+  transports?: IMerchantUserPasskeyTransportsList | undefined;
+  aaguid: string;
+  name: string;
+  rpId: string;
+  createdAt: string;
+  lastUsedAt?: string | undefined;
+}
+export type IMerchantUserPasskeysList = Array<IMerchantUserPasskey>;
 export type SsoProvider = "google";
 export interface IMerchantUser {
   email: string;
   password?: string | Redacted.Redacted<string> | undefined;
   scope: MerchantScope;
   secret?: string | Redacted.Redacted<string> | undefined;
+  passkeys?: IMerchantUserPasskeysList | undefined;
   resetNonce?: string | undefined;
   resetNonceUsed?: boolean | undefined;
   ssoProvider?: SsoProvider | undefined;
   ssoId?: string | undefined;
+  mpcSignerId?: string | undefined;
 }
 export type IMerchantStringUsersList = Array<IMerchantUser>;
 export type UboEntryRejectionReasonsList = Array<string>;
@@ -729,6 +750,11 @@ export interface MerchantGoLiveChecklist {
   applicationSubmitted?: boolean | undefined;
   applicationSubmittedAt?: string | undefined;
   lockIndustry?: boolean | undefined;
+}
+export interface MerchantKybVendorAccount {
+  vendor?: VerificationVendor | undefined;
+  accountId?: string | undefined;
+  referenceId?: string | undefined;
 }
 export type WebhookSettingsWebhookUrlsList = Array<string>;
 export type WebhookSettingsDisabledWebhookUrlsList = Array<string>;
@@ -780,6 +806,7 @@ export type WebhookEventType =
   | "Withdraw On Hold"
   | "Payout Account Linked"
   | "Bank Account Name Match Failed"
+  | "Bank Account Status Updated"
   | "Interac PIN"
   | "Seller Blocked"
   | "Refund"
@@ -1484,6 +1511,8 @@ export interface CashAppSettings {
   merchantEmailNotifications: boolean;
 }
 export type RainCardApplicationStatus =
+  | "notStarted"
+  | "tosNotAccepted"
   | "approved"
   | "pending"
   | "needsInformation"
@@ -1492,6 +1521,71 @@ export type RainCardApplicationStatus =
   | "denied"
   | "locked"
   | "canceled";
+export type CardIssuanceApplicationStatement =
+  | "I accept the E-Sign Consent."
+  | "I accept the Coinflow Card Terms and the Coinflow Spend Cashback Program Terms."
+  | "I accept the Issuer Privacy Policy."
+  | "I certify that the information I have provided is accurate and that I will abide by all the rules and requirements related to my Coinflow Spend Card."
+  | "I acknowledge that applying for the Coinflow Spend Card does not constitute unauthorized solicitation.";
+export type RainCompanyCardsSettingsTermsAcceptedStatementsList =
+  Array<CardIssuanceApplicationStatement>;
+export type USState =
+  | "AL"
+  | "AK"
+  | "AS"
+  | "AZ"
+  | "AR"
+  | "CA"
+  | "CO"
+  | "CT"
+  | "DE"
+  | "DC"
+  | "FL"
+  | "GA"
+  | "GU"
+  | "HI"
+  | "ID"
+  | "IL"
+  | "IN"
+  | "IA"
+  | "KS"
+  | "KY"
+  | "LA"
+  | "ME"
+  | "MD"
+  | "MA"
+  | "MI"
+  | "MN"
+  | "MS"
+  | "MO"
+  | "MT"
+  | "NE"
+  | "NV"
+  | "NH"
+  | "NJ"
+  | "NM"
+  | "NY"
+  | "NC"
+  | "ND"
+  | "MP"
+  | "OH"
+  | "OK"
+  | "OR"
+  | "PA"
+  | "PR"
+  | "RI"
+  | "SC"
+  | "SD"
+  | "TN"
+  | "TX"
+  | "UT"
+  | "VT"
+  | "VA"
+  | "VI"
+  | "WA"
+  | "WV"
+  | "WI"
+  | "WY";
 export type RainContractInfoAdminAddressesList = Array<string>;
 export interface RainAccountDetails {
   beneficiaryName: string;
@@ -1528,6 +1622,10 @@ export interface RainAutoTopUpSettings {
   updatedAt?: string | undefined;
   updatedBy?: string | undefined;
 }
+export interface RainLowBalanceAlert {
+  thresholdUsd: number;
+  armed: boolean;
+}
 export interface RainPendingTopUp {
   amount: number;
   queuedAt: string;
@@ -1555,11 +1653,18 @@ export interface RainCompanyCardsSettings {
   applicationReason?: string | undefined;
   completionLink?: string | undefined;
   submittedAt?: string | undefined;
+  enabledBy?: string | undefined;
+  termsAcceptedAt?: string | undefined;
   termsAcceptedIpAddress?: string | undefined;
   termsAcceptedBy?: string | undefined;
+  termsAcceptedStatements?: RainCompanyCardsSettingsTermsAcceptedStatementsList | undefined;
+  incorporationCountry?: Country | undefined;
+  incorporationState?: USState | undefined;
   lastSyncedAt?: string | undefined;
   contract?: RainContractInfo | undefined;
   autoTopUp?: RainAutoTopUpSettings | undefined;
+  lowBalanceAlert?: RainLowBalanceAlert | undefined;
+  lastAlertedTopUpFailureAt?: string | undefined;
   pendingTopUps?: RainCompanyCardsSettingsPendingTopUpsList | undefined;
   processedSpendTxnIds?: RainCompanyCardsSettingsProcessedSpendTxnIdsList | undefined;
   livenessInquiries?: RainCompanyCardsSettingsLivenessInquiriesList | undefined;
@@ -1642,66 +1747,11 @@ export interface ChargebackFightSettings {
   /** Master enrollment switch. When false, shouldFight is always false. */
   enabled: boolean;
 }
+/** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+export type IMerchantStringBlockConfigBlockedBinsList = Array<string>;
 export type BlockingRuleScope = "WITHDRAWAL" | "CHECKOUT" | "GLOBAL";
 export type BlockingRuleMethod = "KYC_ADDRESS" | "IP" | "BILLING_ADDRESS" | "GEOLOCATION" | "BIN";
 export type BlockingRuleListMode = "DENY" | "ALLOW";
-export type USState =
-  | "AL"
-  | "AK"
-  | "AS"
-  | "AZ"
-  | "AR"
-  | "CA"
-  | "CO"
-  | "CT"
-  | "DE"
-  | "DC"
-  | "FL"
-  | "GA"
-  | "GU"
-  | "HI"
-  | "ID"
-  | "IL"
-  | "IN"
-  | "IA"
-  | "KS"
-  | "KY"
-  | "LA"
-  | "ME"
-  | "MD"
-  | "MA"
-  | "MI"
-  | "MN"
-  | "MS"
-  | "MO"
-  | "MT"
-  | "NE"
-  | "NV"
-  | "NH"
-  | "NJ"
-  | "NM"
-  | "NY"
-  | "NC"
-  | "ND"
-  | "MP"
-  | "OH"
-  | "OK"
-  | "OR"
-  | "PA"
-  | "PR"
-  | "RI"
-  | "SC"
-  | "SD"
-  | "TN"
-  | "TX"
-  | "UT"
-  | "VT"
-  | "VA"
-  | "VI"
-  | "WA"
-  | "WV"
-  | "WI"
-  | "WY";
 export type IBlockingRuleStatesList = Array<USState>;
 export type IBlockingRuleCountriesList = Array<Country>;
 /** A single geo-blocking rule on a merchant. Multiple rules of the same scope are OR-combined: any matching rule blocks the request. When both DENY and ALLOW rules are configured, DENY rules are evaluated first -- a matching DENY blocks the request even if the user is on a separate ALLOW list. `listMode` controls interpretation (defaults to `DENY`): - `DENY`: the listed countries/states are blocked. - `ALLOW`: ONLY the listed countries/states are permitted; everything else is blocked. A rule may specify `countries` (ISO 3166-1 alpha-2 codes), `states` (US state codes), or both. - `scope: GLOBAL` applies to BOTH withdrawal and checkout flows; only valid with `method: IP` (the only method that makes sense for both flows). - `method: KYC_ADDRESS` is only valid with `scope: WITHDRAWAL`. - `method: BILLING_ADDRESS` is only valid with `scope: CHECKOUT`. - `method: IP` is **strictly** fail-closed in both DENY and ALLOW modes: missing IP, failed lookup, or an unresolvable US state resolved from the IP rejects the withdrawal. Both the resolved country and the resolved state (US-only) are evaluated on every request against the rule's `countries` and `states` lists. Skipped on merchant-initiated payouts where no end-user IP exists (`merchantInitiated: true`). - `method: GEOLOCATION` is a **best-effort, optional** signal and only valid with `scope: WITHDRAWAL`. When the caller supplies a fresh, resolvable `userLocation`, the rule enforces strictly against the block list. When the signal is absent (browser permission denied, merchant did not send coords, stale capture, or reverse-geocode failure), enforcement is skipped -- pair with an `IP` rule for hard real-time enforcement. */
@@ -1727,6 +1777,8 @@ export interface IMerchantStringBlockConfig {
   enableNmiSettlement?: boolean | undefined;
   /** When true, disables wallet balance payments for invoices. Merchants must use checkout. */
   disableInvoiceWalletPayment?: boolean | undefined;
+  /** Card BINs declined at checkout before orchestration. Each entry is a 6-8 digit prefix or an inclusive equal-length range (`411100-411199`); see `BlockedBins`. */
+  blockedBins?: IMerchantStringBlockConfigBlockedBinsList | undefined;
   /** Independent geo-blocking rules for withdrawals vs card checkout, with explicit per-rule enforcement methods (KYC address / IP / billing address). Read via `getBlockingRules` so callers transparently see the legacy `bannedWithdrawalStates` for un-migrated merchants. */
   blockingRules?: IMerchantStringBlockConfigBlockingRulesList | undefined;
   bannedWithdrawalStates?: IMerchantStringBlockConfigBannedWithdrawalStatesList | undefined;
@@ -1779,83 +1831,13 @@ export type PixPayoutProvider = "avenia" | "brla" | "mock";
 export type IMerchantStringPixPayoutProvidersList = Array<PixPayoutProvider>;
 export type EftPayoutProvider = "checkbook" | "aptpay" | "mock";
 export type IMerchantStringEftPayoutProvidersList = Array<EftPayoutProvider>;
-export type CardPayoutProvider = "aptpay" | "checkbook" | "shift4" | "citcon" | "crb" | "MOCK";
-export type IMerchantStringP2cPayoutProvidersList = Array<CardPayoutProvider>;
-export type ApplePayPayoutProvider = "aptpay" | "MOCK";
-export type VenmoPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
-export type IMerchantStringVenmoPayoutProvidersList = Array<VenmoPayoutProvider>;
-export type PayPalPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
-export type IMerchantStringPaypalPayoutProvidersList = Array<PayPalPayoutProvider>;
-export type WirePayoutProvider = "MOCK" | "BRAID";
-export type IMerchantStringWirePayoutProviderList = Array<WirePayoutProvider>;
-export type CryptoPayoutProvider = "glide" | "relay" | "direct" | "mock";
-export type IMerchantStringCryptoPayoutProvidersList = Array<CryptoPayoutProvider>;
-export type InteracPayoutProvider = "checkbook" | "mock" | "aptpay";
-export type IMerchantStringInteracPayoutProvidersList = Array<InteracPayoutProvider>;
-export type InteracProcessor = "mock" | "aptpay";
-export interface InteracSettings {
-  rebateBps?: number | undefined;
-  rebateFixed?: Cents | undefined;
-  processor?: InteracProcessor | undefined;
-  feeMode?: FeePayerMode | undefined;
-  fxFeeMode?: FeePayerMode | undefined;
-  fixedFee?: Cents | undefined;
-  feeBps?: number | undefined;
-  minFee?: Cents | undefined;
-  customerEmailNotifications: boolean;
-  merchantEmailNotifications: boolean;
-}
-export type WithdrawSort = "DEFAULT" | "CHEAPEST" | "ORDERED" | "LIMIT_CONSUMPTION";
+export type LocalBankPayoutProvider = "citcon";
+export type PartialRecordLocalRailSpeedLocalBankPayoutProviderArrayNppList =
+  Array<LocalBankPayoutProvider>;
 /** Make all properties in T optional */
-export interface PartialRecordWithdrawSpeedWithdrawSort {
-  asap?: WithdrawSort | undefined;
-  same_day?: WithdrawSort | undefined;
-  standard?: WithdrawSort | undefined;
-  card?: WithdrawSort | undefined;
-  iban?: WithdrawSort | undefined;
-  pix?: WithdrawSort | undefined;
-  eft?: WithdrawSort | undefined;
-  venmo?: WithdrawSort | undefined;
-  paypal?: WithdrawSort | undefined;
-  wire?: WithdrawSort | undefined;
-  interac?: WithdrawSort | undefined;
-  swift?: WithdrawSort | undefined;
-  crypto?: WithdrawSort | undefined;
+export interface PartialRecordLocalRailSpeedLocalBankPayoutProviderArray {
+  npp?: PartialRecordLocalRailSpeedLocalBankPayoutProviderArrayNppList | undefined;
 }
-export type IMerchantStringWithdrawRulesList = Array<string>;
-export type IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList =
-  Array<WirePayoutProvider>;
-export type IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList =
-  Array<PayoutProviderOption>;
-export interface IMerchantStringFirstPartyPayoutOverrides {
-  interacPayoutProvider?: InteracPayoutProvider | undefined;
-  wirePayoutProvider?: IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList | undefined;
-  paypalPayoutProvider?: PayPalPayoutProvider | undefined;
-  venmoPayoutProvider?: VenmoPayoutProvider | undefined;
-  appleP2cPayoutProvider?: ApplePayPayoutProvider | undefined;
-  globalP2cPayoutProvider?: CardPayoutProvider | undefined;
-  p2cPayoutProvider?: CardPayoutProvider | undefined;
-  eftPayoutProvider?: EftPayoutProvider | undefined;
-  pixPayoutProvider?: PixPayoutProvider | undefined;
-  rtpPayoutProvider?: RtpPayoutProvider | undefined;
-  ibanPayoutProvider?: IbanPayoutProvider | undefined;
-  bankPayoutProvider?: IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList | undefined;
-}
-export type OnboardingVersion = "legacy" | "sdd" | "global";
-export type OnboardingStepState = "blocked" | "action_required" | "in_review" | "complete";
-/** Make all properties in T optional */
-export interface PartialRecordOnboardingStepKeyOnboardingStepState {
-  profile?: OnboardingStepState | undefined;
-  corporate_structure?: OnboardingStepState | undefined;
-  verification?: OnboardingStepState | undefined;
-  questions?: OnboardingStepState | undefined;
-  terms?: OnboardingStepState | undefined;
-  application?: OnboardingStepState | undefined;
-  wallet?: OnboardingStepState | undefined;
-  bank_account?: OnboardingStepState | undefined;
-}
-export type SettlementLocations = "circle" | "brale" | "paper" | "brale_youpay" | "bastion";
-export type IMerchantStringWhitelistedAncestorUrlsList = Array<string>;
 /** Make all properties in T optional */
 export interface PartialRecordCurrencyNumber {
   USD?: number | undefined;
@@ -2015,6 +1997,85 @@ export interface PartialRecordCurrencyNumber {
   SSP?: number | undefined;
   VES?: number | undefined;
 }
+export type CardPayoutProvider = "aptpay" | "checkbook" | "shift4" | "citcon" | "crb" | "MOCK";
+export type IMerchantStringP2cPayoutProvidersList = Array<CardPayoutProvider>;
+export type ApplePayPayoutProvider = "aptpay" | "MOCK";
+export type VenmoPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
+export type IMerchantStringVenmoPayoutProvidersList = Array<VenmoPayoutProvider>;
+export type PayPalPayoutProvider = "checkbook" | "citcon" | "mock" | "paypal";
+export type IMerchantStringPaypalPayoutProvidersList = Array<PayPalPayoutProvider>;
+export type WirePayoutProvider = "MOCK" | "BRAID";
+export type IMerchantStringWirePayoutProviderList = Array<WirePayoutProvider>;
+export type CryptoPayoutProvider = "glide" | "relay" | "direct" | "mock";
+export type IMerchantStringCryptoPayoutProvidersList = Array<CryptoPayoutProvider>;
+export type InteracPayoutProvider = "checkbook" | "mock" | "aptpay";
+export type IMerchantStringInteracPayoutProvidersList = Array<InteracPayoutProvider>;
+export type InteracProcessor = "mock" | "aptpay";
+export interface InteracSettings {
+  rebateBps?: number | undefined;
+  rebateFixed?: Cents | undefined;
+  processor?: InteracProcessor | undefined;
+  feeMode?: FeePayerMode | undefined;
+  fxFeeMode?: FeePayerMode | undefined;
+  fixedFee?: Cents | undefined;
+  feeBps?: number | undefined;
+  minFee?: Cents | undefined;
+  customerEmailNotifications: boolean;
+  merchantEmailNotifications: boolean;
+}
+export type WithdrawSort = "DEFAULT" | "CHEAPEST" | "ORDERED" | "LIMIT_CONSUMPTION";
+/** Make all properties in T optional */
+export interface PartialRecordWithdrawSpeedWithdrawSort {
+  asap?: WithdrawSort | undefined;
+  same_day?: WithdrawSort | undefined;
+  standard?: WithdrawSort | undefined;
+  card?: WithdrawSort | undefined;
+  iban?: WithdrawSort | undefined;
+  pix?: WithdrawSort | undefined;
+  eft?: WithdrawSort | undefined;
+  venmo?: WithdrawSort | undefined;
+  paypal?: WithdrawSort | undefined;
+  wire?: WithdrawSort | undefined;
+  interac?: WithdrawSort | undefined;
+  swift?: WithdrawSort | undefined;
+  npp?: WithdrawSort | undefined;
+  crypto?: WithdrawSort | undefined;
+}
+export type IMerchantStringWithdrawRulesList = Array<string>;
+export type IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList =
+  Array<WirePayoutProvider>;
+export type IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList =
+  Array<PayoutProviderOption>;
+export interface IMerchantStringFirstPartyPayoutOverrides {
+  interacPayoutProvider?: InteracPayoutProvider | undefined;
+  wirePayoutProvider?: IMerchantStringFirstPartyPayoutOverridesWirePayoutProviderList | undefined;
+  paypalPayoutProvider?: PayPalPayoutProvider | undefined;
+  venmoPayoutProvider?: VenmoPayoutProvider | undefined;
+  appleP2cPayoutProvider?: ApplePayPayoutProvider | undefined;
+  globalP2cPayoutProvider?: CardPayoutProvider | undefined;
+  p2cPayoutProvider?: CardPayoutProvider | undefined;
+  eftPayoutProvider?: EftPayoutProvider | undefined;
+  pixPayoutProvider?: PixPayoutProvider | undefined;
+  rtpPayoutProvider?: RtpPayoutProvider | undefined;
+  ibanPayoutProvider?: IbanPayoutProvider | undefined;
+  bankPayoutProvider?: IMerchantStringFirstPartyPayoutOverridesBankPayoutProviderList | undefined;
+}
+export type OnboardingVersion = "legacy" | "sdd" | "global";
+export type OnboardingStepState = "blocked" | "action_required" | "in_review" | "complete";
+/** Make all properties in T optional */
+export interface PartialRecordOnboardingStepKeyOnboardingStepState {
+  profile?: OnboardingStepState | undefined;
+  corporate_structure?: OnboardingStepState | undefined;
+  verification?: OnboardingStepState | undefined;
+  questions?: OnboardingStepState | undefined;
+  terms?: OnboardingStepState | undefined;
+  application?: OnboardingStepState | undefined;
+  wallet?: OnboardingStepState | undefined;
+  bank_account?: OnboardingStepState | undefined;
+}
+export type SettlementLocations = "circle" | "brale" | "paper" | "brale_youpay" | "bastion";
+export type IMerchantStringWhitelistedAncestorUrlsList = Array<string>;
+export type DuplicateWithdrawerPolicy = "allow_all" | "block_blocked" | "block_all";
 export type BlockedLevel = "Unverified" | "Suspended";
 export interface BlockedStatus {
   level: BlockedLevel;
@@ -2081,6 +2142,10 @@ export interface VendorSettingsKoard {
   apiKey?: string | Redacted.Redacted<string> | undefined;
   accountId: string;
 }
+export interface VendorSettingsTurnkey {
+  signerTagId?: string | undefined;
+  organizationId: string;
+}
 export interface VendorSettingsPaze {
   name: string;
   profileId?: string | undefined;
@@ -2106,9 +2171,29 @@ export interface VendorSettings {
   conduit?: ConduitSettings | undefined;
   paypal?: PayPalVendorSettings | undefined;
   koard?: VendorSettingsKoard | undefined;
+  turnkey?: VendorSettingsTurnkey | undefined;
   paze?: VendorSettingsPaze | undefined;
   justtSettings?: JusttSettings | undefined;
   verisoul?: VerisoulVendorSettings | undefined;
+}
+export type MpcMigrationStatus = "initial" | "setup" | "transfer" | "complete" | "failed";
+export interface MpcMigrationTransfer {
+  stableCoin: StableCoin;
+  amount?: Cents | undefined;
+  transferredAt?: string | undefined;
+  failedAt?: string | undefined;
+  reason?: string | undefined;
+}
+export type MpcMigrationTransfersList = Array<MpcMigrationTransfer>;
+export interface MpcMigration {
+  status: MpcMigrationStatus;
+  priorAddress: string;
+  priorProvider: MpcWalletProvider;
+  newAddress?: string | undefined;
+  newProvider: MpcWalletProvider;
+  transfers?: MpcMigrationTransfersList | undefined;
+  completedAt?: string | undefined;
+  reason?: string | undefined;
 }
 export interface MerchantBankSettlementOptions {
   token: string | Redacted.Redacted<string>;
@@ -2254,6 +2339,7 @@ export interface IMerchantString {
   ubos: IMerchantStringUbosList;
   goLiveChecklist: MerchantGoLiveChecklist;
   documentRegistrySyncedAt?: string | undefined;
+  kybVendorAccount?: MerchantKybVendorAccount | undefined;
   webhookSettings?: WebhookSettings | undefined;
   cardSettings: CardSettings;
   achSettings: ACHSettings;
@@ -2299,6 +2385,8 @@ export interface IMerchantString {
   pixPayoutProviders?: IMerchantStringPixPayoutProvidersList | undefined;
   pixPayoutProvider?: PixPayoutProvider | undefined;
   eftPayoutProviders?: IMerchantStringEftPayoutProvidersList | undefined;
+  localRailPayoutProviders?: PartialRecordLocalRailSpeedLocalBankPayoutProviderArray | undefined;
+  payoutFxMarkupBps?: PartialRecordCurrencyNumber | undefined;
   eftPayoutProvider?: EftPayoutProvider | undefined;
   p2cPayoutProviders?: IMerchantStringP2cPayoutProvidersList | undefined;
   p2cPayoutProvider?: CardPayoutProvider | undefined;
@@ -2323,8 +2411,11 @@ export interface IMerchantString {
   parent?: string | undefined;
   /** Set on a parent: lets its submerchants' customers inherit each other's fraud-control overrides. */
   inheritCustomerSettingsAcrossSubmerchants?: boolean | undefined;
+  isIsv?: boolean | undefined;
   onboardingVersion?: OnboardingVersion | undefined;
   childDefaultOnboardingVersion?: OnboardingVersion | null | undefined;
+  /** Blueprint chosen at creation; seeds the onboarding profile in place of ISV defaults. */
+  profileBlueprintId?: string | undefined;
   onboardingRequirementsRevision?: number | undefined;
   onboardingStepStates?: PartialRecordOnboardingStepKeyOnboardingStepState | undefined;
   creditSeed: string;
@@ -2334,6 +2425,7 @@ export interface IMerchantString {
   externalVerificationLinks?: boolean | undefined;
   whitelistedAncestorUrls?: IMerchantStringWhitelistedAncestorUrlsList | undefined;
   banDuplicateAccounts?: boolean | undefined;
+  duplicateWithdrawerPolicy?: DuplicateWithdrawerPolicy | undefined;
   fxFees?: PartialRecordCurrencyNumber | undefined;
   blocked?: BlockedStatus | undefined;
   dealOwnerAdminId?: string | undefined;
@@ -2342,6 +2434,7 @@ export interface IMerchantString {
   attioDealRecordId?: string | undefined;
   crmSyncedAt?: string | undefined;
   vendorSettings?: VendorSettings | undefined;
+  mpcMigration?: MpcMigration | undefined;
   generatedDescription?: string | undefined;
   bankSettlementOptions?: MerchantBankSettlementOptions | undefined;
   allowAttestedKyc?: boolean | undefined;
@@ -2384,7 +2477,6 @@ export interface IMerchantString {
   disableForgotPassword?: boolean | undefined;
   mcc?: string | undefined;
   processing?: IMerchantStringProcessing | undefined;
-  experimentalTempoV2Credits?: boolean | undefined;
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
 }
@@ -2514,6 +2606,23 @@ export interface PickIEftAccountExcludeKeyofIEftAccountVendorData {
 }
 export type IWithdrawerWithAccountsEftsList =
   Array<PickIEftAccountExcludeKeyofIEftAccountVendorData>;
+export type PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorDataKind =
+  "localBank";
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorData {
+  country: Country;
+  isDeleted?: boolean | undefined;
+  token: string | Redacted.Redacted<string>;
+  currency: Currency;
+  createdAt?: string | undefined;
+  mask: string;
+  kind: PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorDataKind;
+  accountHolderName: string;
+  bankName: string;
+  fields: unknown;
+}
+export type IWithdrawerWithAccountsLocalBankAccountsList =
+  Array<PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorData>;
 export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
 /** From T, pick a set of properties whose keys are in the union K */
 export interface PickIVenmoExcludeKeyofIVenmoVendorData {
@@ -2567,6 +2676,7 @@ export type WithdrawSpeed =
   | "wire"
   | "interac"
   | "swift"
+  | "npp"
   | "crypto";
 export type IWithdrawerWithAccountsFreeWithdrawSpeedsList = Array<WithdrawSpeed>;
 export interface IWithdrawerWithAccounts {
@@ -2585,6 +2695,8 @@ export interface IWithdrawerWithAccounts {
   geoBlockOverride?: IGeoBlockOverride | undefined;
   /** When true, this withdrawer is exempt from the merchant `banDuplicateAccounts` re-use check, so it may add an account that another withdrawer already uses without being blocked (423 `PAYMENT_METHOD_IN_USE`). */
   blockCardReuseExempt?: boolean | undefined;
+  /** When true, the merchant's `duplicateWithdrawerPolicy` never blocks this withdrawer for sharing a verified identity with another withdrawer. It still counts as a match when checking other withdrawers. */
+  duplicateIdentityExempt?: boolean | undefined;
   createdAt?: string | undefined;
   bankAccounts: IWithdrawerWithAccountsBankAccountsList;
   cards: IWithdrawerWithAccountsCardsList;
@@ -2592,6 +2704,7 @@ export interface IWithdrawerWithAccounts {
   swifts: IWithdrawerWithAccountsSwiftsList;
   pixes: IWithdrawerWithAccountsPixesList;
   efts: IWithdrawerWithAccountsEftsList;
+  localBankAccounts: IWithdrawerWithAccountsLocalBankAccountsList;
   venmo?: PickIVenmoExcludeKeyofIVenmoVendorData | undefined;
   paypal?: PickIPayPalExcludeKeyofIPayPalVendorData | undefined;
   interac?: PickIInteracExcludeKeyofIInteracVendorData | undefined;
@@ -2754,6 +2867,8 @@ export interface IBackwardBusiness {
   geoBlockOverride?: IGeoBlockOverride | undefined;
   /** When true, this withdrawer is exempt from the merchant `banDuplicateAccounts` re-use check, so it may add an account that another withdrawer already uses without being blocked (423 `PAYMENT_METHOD_IN_USE`). */
   blockCardReuseExempt?: boolean | undefined;
+  /** When true, the merchant's `duplicateWithdrawerPolicy` never blocks this withdrawer for sharing a verified identity with another withdrawer. It still counts as a match when checking other withdrawers. */
+  duplicateIdentityExempt?: boolean | undefined;
   createdAt?: string | undefined;
   business: boolean;
   ubos: IBackwardBusinessUbosList;
@@ -2824,6 +2939,8 @@ export interface IBackwardUser {
   geoBlockOverride?: IGeoBlockOverride | undefined;
   /** When true, this withdrawer is exempt from the merchant `banDuplicateAccounts` re-use check, so it may add an account that another withdrawer already uses without being blocked (423 `PAYMENT_METHOD_IN_USE`). */
   blockCardReuseExempt?: boolean | undefined;
+  /** When true, the merchant's `duplicateWithdrawerPolicy` never blocks this withdrawer for sharing a verified identity with another withdrawer. It still counts as a match when checking other withdrawers. */
+  duplicateIdentityExempt?: boolean | undefined;
   createdAt?: string | undefined;
   user: boolean;
   dwolla?: DwollaWithdrawerInfo | undefined;
@@ -2892,6 +3009,15 @@ export interface CreateKycShareTokenRequest {
 export interface WithdrawCreateKycShareTokenResponse200 {
   withdrawer: IBackwardUser;
 }
+export interface CreateLocalBankAccountRequest {
+  /** ISO 3166-1 alpha-2 country of the bank account, e.g. "AU" */
+  country: string;
+  /** Name on the bank account. Must match the withdrawer's verified name. Latin letters only, 35 characters or fewer. */
+  accountHolderName: string;
+  fields: unknown;
+  /** The external identifier of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
+  authUserId: string;
+}
 export interface CreatePixAccountRequest {
   pixKey: string;
   /** The external identifier of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -2928,6 +3054,14 @@ export interface DeleteIbanAccountRequest {
   authUserId: string;
 }
 export interface WithdrawDeleteIbanAccountResponse200 {
+  withdrawer: IWithdrawerWithAccounts;
+}
+export interface DeleteLocalBankAccountRequest {
+  token: string;
+  /** The external identifier of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
+  authUserId: string;
+}
+export interface WithdrawDeleteLocalBankAccountResponse200 {
   withdrawer: IWithdrawerWithAccounts;
 }
 export interface DeletePixAccountRequest {
@@ -3012,18 +3146,28 @@ export interface IUserLocation {
   lat: number;
   lng: number;
 }
+/** How the user authorizes a gasless EVM withdrawal: - `permit` (default): an EIP-2612 Permit for Coinflow's memo contract. - `transferWithAuthorization`: USDC's own EIP-3009 TransferWithAuthorization, sent straight to Coinflow's settlement wallet. USDC only; any other token gets a `permit` message. */
+export type EvmWithdrawAuthorizationType = "permit" | "transferWithAuthorization";
 export interface GetEvmMessageRequest {
   amount: number;
   token?: PickWithdrawTokenMintOrDecimals | undefined;
   userLocation?: IUserLocation | undefined;
+  authorizationType?: EvmWithdrawAuthorizationType | (string & {}) | undefined;
   /** The web3 wallet of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authWallet: string;
   /** The blockchain associated with the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authBlockchain: Blockchain | (string & {});
 }
+export interface EvmTransferWithAuthorizationParams {
+  validAfter: string;
+  validBefore: string;
+  /** bytes32 hex string. */
+  nonce: string;
+}
 export interface GetMessageResponse {
   /** The message that needs to be typed signed by the user's EVM wallet. */
   message: string | null;
+  transferAuthorization?: EvmTransferWithAuthorizationParams | undefined;
 }
 export interface GetExactOutQuoteRequest {
   /** - The fiat payout amount (in cents) the withdrawer should receive. */
@@ -3052,6 +3196,14 @@ export interface CustomFeePresentment {
   currency: Currency;
   label: string;
 }
+export interface LocalPayoutEstimate {
+  estimatedAmount: CurrencyCents;
+  currency: Currency;
+  rate: number;
+  isEstimate: boolean;
+  minimumAmount: CurrencyCents;
+  belowMinimum: boolean;
+}
 /** Represents the fees and limits associated with a withdrawal quote. */
 export interface WithdrawQuoteFeesAndLimit {
   fee: CurrencyCents;
@@ -3062,6 +3214,7 @@ export interface WithdrawQuoteFeesAndLimit {
   expectedDeliveryDateISO?: string | undefined;
   customFee?: CustomFeePresentment | undefined;
   accountIneligible?: boolean | undefined;
+  localEstimate?: LocalPayoutEstimate | undefined;
 }
 /** The result of a destination-amount ("reverse" / exact-out) withdraw quote. Given a target fiat payout (`exactAmountOut`), this reports how much of the input token the merchant needs to send so that -- after swap, gas, and withdraw fees -- the withdrawer nets at least the requested payout. */
 export interface WithdrawExactOutQuote {
@@ -3083,6 +3236,7 @@ export interface RecordWithdrawSpeedWithdrawExactOutQuoteOrUndefined {
   wire: WithdrawExactOutQuote;
   interac: WithdrawExactOutQuote;
   swift: WithdrawExactOutQuote;
+  npp: WithdrawExactOutQuote;
   crypto: WithdrawExactOutQuote;
 }
 export interface GetPaypalLoginStatusRequest {
@@ -3132,6 +3286,7 @@ export interface WithdrawQuote {
   wire: WithdrawQuoteFeesAndLimit;
   interac: WithdrawQuoteFeesAndLimit;
   swift: WithdrawQuoteFeesAndLimit;
+  npp: WithdrawQuoteFeesAndLimit;
   crypto: WithdrawQuoteFeesAndLimit;
   quote: CurrencyCents;
   gasFees?: GasFeeEstimate | undefined;
@@ -3153,6 +3308,7 @@ export type GetWithdrawTransactionRequestBodyAccount =
 export interface EvmTransferAuthorizationData {
   /** The result of the signedTypedData call from the user's wallet. */
   data: string;
+  transferAuthorization?: EvmTransferWithAuthorizationParams | undefined;
 }
 export interface BankAccountConfirmationDetails {
   accountNumber?: string | undefined;
@@ -3259,6 +3415,16 @@ export type WithdrawFailedReturnStatus =
   | "return_in_progress"
   | "return_submitted"
   | "return_completed";
+export type WithdrawalResponseLocalPayoutReceivedAmount = CurrencyCents;
+export type WithdrawalResponseLocalPayoutEstimatedAmount = CurrencyCents;
+export interface WithdrawalResponseLocalPayout {
+  receivedAmount?: CurrencyCents | undefined;
+  rate?: number | undefined;
+  estimatedAmount: CurrencyCents;
+  estimatedRate: number;
+  currency: string;
+  country: string;
+}
 export interface WithdrawalResponseCryptoPayoutInfo {
   deliveryTransactionUrl?: string | undefined;
   deliveryTransactionHash?: string | undefined;
@@ -3278,11 +3444,6 @@ export interface WithdrawalResponseUserLocation {
   lng: number;
   lat: number;
 }
-/** The Coinflow legal entity that owns a transaction. Used for compliance/finance's per-payment entity reporting (#14259). */
-export type CoinflowEntity = "US" | "Poland" | "Canada" | "EU";
-export interface WithdrawalResponseEntityTag {
-  coinflowEntity: CoinflowEntity;
-}
 export type WithdrawStatus = "completed" | "failed" | "pending";
 export type WithdrawReviewStatus = "in_review";
 export type WithdrawStatusWithReview = WithdrawStatus | WithdrawReviewStatus;
@@ -3300,6 +3461,7 @@ export interface WithdrawalResponse {
   merchantPaidFees: WithdrawalResponseMerchantPaidFees;
   outstanding: CurrencyCents;
   returnStatus?: WithdrawFailedReturnStatus | undefined;
+  localPayout?: WithdrawalResponseLocalPayout | undefined;
   unclaimedAt?: string | undefined;
   awaitingProviderReturnAt?: string | undefined;
   cryptoPayoutInfo?: WithdrawalResponseCryptoPayoutInfo | undefined;
@@ -3320,7 +3482,6 @@ export interface WithdrawalResponse {
   idempotencyKey?: string | undefined;
   userLocation?: WithdrawalResponseUserLocation | undefined;
   achTraceId: string;
-  entityTag?: WithdrawalResponseEntityTag | undefined;
   status: WithdrawStatusWithReview;
 }
 export type WithdrawGetWithdrawerHistoryResponse200WithdrawsList = Array<WithdrawalResponse>;
@@ -3411,6 +3572,8 @@ export interface IWithdrawer {
   geoBlockOverride?: IGeoBlockOverride | undefined;
   /** When true, this withdrawer is exempt from the merchant `banDuplicateAccounts` re-use check, so it may add an account that another withdrawer already uses without being blocked (423 `PAYMENT_METHOD_IN_USE`). */
   blockCardReuseExempt?: boolean | undefined;
+  /** When true, the merchant's `duplicateWithdrawerPolicy` never blocks this withdrawer for sharing a verified identity with another withdrawer. It still counts as a match when checking other withdrawers. */
+  duplicateIdentityExempt?: boolean | undefined;
   createdAt?: string | undefined;
 }
 export interface WithdrawerVerificationRequiredResponse {
@@ -3439,8 +3602,8 @@ export const addApplePay: API.OperationMethod<
   AddApplePayError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1289, __c40, 9) as any as S.Schema<AddApplePayRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AddApplePayResponse>,
+  input: __S(1385, __c43, 9) as any as S.Schema<AddApplePayRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<AddApplePayResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3457,8 +3620,8 @@ export const addDebitCard: API.OperationMethod<
   AddDebitCardError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<AddDebitCardRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AddDebitCardResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<AddDebitCardRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<AddDebitCardResponse>,
   errors: [PreconditionFailed],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3475,8 +3638,8 @@ export const addInterac: API.OperationMethod<
   AddInteracError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<AddInteracRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AddInteracResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<AddInteracRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<AddInteracResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3493,8 +3656,8 @@ export const addPaypal: API.OperationMethod<
   AddPaypalError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<AddPaypalRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AddPaypalResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<AddPaypalRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<AddPaypalResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3511,8 +3674,8 @@ export const addVenmo: API.OperationMethod<
   AddVenmoError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<AddVenmoRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AddVenmoResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<AddVenmoRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<AddVenmoResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3547,8 +3710,8 @@ export const createEftAccount: API.OperationMethod<
   CreateEftAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateEftAccountRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<CreateEftAccountResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateEftAccountRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CreateEftAccountResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3565,8 +3728,8 @@ export const createIbanAccount: API.OperationMethod<
   CreateIbanAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateIbanAccountRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<CreateIbanAccountResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateIbanAccountRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CreateIbanAccountResponse>,
   errors: [UpgradeRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3583,8 +3746,8 @@ export const createKyb: API.OperationMethod<
   CreateKybError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(194, __c6, 2) as any as S.Schema<CreateKybRequest>,
-  output: __S(196, __c6, 4) as any as S.Schema<WithdrawCreateKybResponse200>,
+  input: __S(226, __c7, 2) as any as S.Schema<CreateKybRequest>,
+  output: __S(228, __c7, 4) as any as S.Schema<WithdrawCreateKybResponse200>,
   errors: [Conflict, VerificationRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3601,8 +3764,8 @@ export const createKyc: API.OperationMethod<
   CreateKycError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateKycRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycResponse200>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateKycRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<WithdrawCreateKycResponse200>,
   errors: [Conflict, VerificationRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3619,8 +3782,8 @@ export const createKycAttested: API.OperationMethod<
   CreateKycAttestedError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateKycAttestedRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycAttestedResponse200>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateKycAttestedRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<WithdrawCreateKycAttestedResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3637,8 +3800,8 @@ export const createKycDocument: API.OperationMethod<
   CreateKycDocumentError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateKycDocumentRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycDocumentResponse200>,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateKycDocumentRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<WithdrawCreateKycDocumentResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3655,14 +3818,36 @@ export const createKycShareToken: API.OperationMethod<
   CreateKycShareTokenError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateKycShareTokenRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycShareTokenResponse200>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateKycShareTokenRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<WithdrawCreateKycShareTokenResponse200>,
   errors: [BadRequest],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateKycShareToken",
+}));
+
+export type CreateLocalBankAccountError = CoinflowOpError;
+/** Create Local Bank Account Adds a domestic bank account in the withdrawer's country for local bank transfer payouts (`speed: local_bank`). Australia (BSB + account number) is supported for individuals. Returns the saved account without the full account number. Invalid input returns 400 with `code: local_bank_field_invalid` and the offending `field` (`bsb`, `accountNumber`, `accountHolderName`, `address` or `country`). */
+export const createLocalBankAccount: API.OperationMethod<
+  CreateLocalBankAccountRequest,
+  PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorData,
+  CreateLocalBankAccountError,
+  CoinflowOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(416, __c13, 0) as any as S.Schema<CreateLocalBankAccountRequest>,
+  output: __S(
+    64,
+    __c2,
+    0,
+  ) as any as S.Schema<PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorData>,
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
+  protocol: CoinflowProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLocalBankAccount",
 }));
 
 export type CreatePixAccountError = CoinflowOpError;
@@ -3673,8 +3858,8 @@ export const createPixAccount: API.OperationMethod<
   CreatePixAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreatePixAccountRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<CreatePixAccountResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreatePixAccountRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CreatePixAccountResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3691,8 +3876,8 @@ export const createSwiftAccount: API.OperationMethod<
   CreateSwiftAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(417, __c13, 1) as any as S.Schema<CreateSwiftAccountRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<CreateSwiftAccountResponse>,
+  input: __S(481, __c15, 1) as any as S.Schema<CreateSwiftAccountRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<CreateSwiftAccountResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3709,8 +3894,8 @@ export const deleteEftAccount: API.OperationMethod<
   DeleteEftAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteEftAccountRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteEftAccountResponse200>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteEftAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteEftAccountResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3727,14 +3912,32 @@ export const deleteIbanAccount: API.OperationMethod<
   DeleteIbanAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteIbanAccountRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteIbanAccountResponse200>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteIbanAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteIbanAccountResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteIbanAccount",
+}));
+
+export type DeleteLocalBankAccountError = CoinflowOpError;
+/** Delete Withdrawer Local Bank Account Deletes a local bank account for a particular user. Saved payouts to it are unaffected. */
+export const deleteLocalBankAccount: API.OperationMethod<
+  DeleteLocalBankAccountRequest,
+  WithdrawDeleteLocalBankAccountResponse200,
+  DeleteLocalBankAccountError,
+  CoinflowOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteLocalBankAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteLocalBankAccountResponse200>,
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
+  protocol: CoinflowProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLocalBankAccount",
 }));
 
 export type DeletePixAccountError = CoinflowOpError;
@@ -3745,8 +3948,8 @@ export const deletePixAccount: API.OperationMethod<
   DeletePixAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DeletePixAccountRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeletePixAccountResponse200>,
+  input: __S(640, __c20, 0) as any as S.Schema<DeletePixAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeletePixAccountResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3763,8 +3966,8 @@ export const deleteSwiftAccount: API.OperationMethod<
   DeleteSwiftAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteSwiftAccountRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteSwiftAccountResponse200>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteSwiftAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteSwiftAccountResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3781,8 +3984,8 @@ export const deleteWithdrawerAccount: API.OperationMethod<
   DeleteWithdrawerAccountError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteWithdrawerAccountRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerAccountResponse200>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteWithdrawerAccountRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerAccountResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3799,8 +4002,8 @@ export const deleteWithdrawerCard: API.OperationMethod<
   DeleteWithdrawerCardError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteWithdrawerCardRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerCardResponse200>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteWithdrawerCardRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerCardResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3817,8 +4020,8 @@ export const deleteWithdrawerInterac: API.OperationMethod<
   DeleteWithdrawerInteracError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteWithdrawerInteracRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerInteracResponse200>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteWithdrawerInteracRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerInteracResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3835,8 +4038,8 @@ export const deleteWithdrawerMobile: API.OperationMethod<
   DeleteWithdrawerMobileError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteWithdrawerMobileRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerMobileResponse200>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteWithdrawerMobileRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerMobileResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3853,8 +4056,8 @@ export const deleteWithdrawerPaypal: API.OperationMethod<
   DeleteWithdrawerPaypalError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteWithdrawerPaypalRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerPaypalResponse200>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteWithdrawerPaypalRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerPaypalResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3871,8 +4074,8 @@ export const deleteWithdrawerVenmo: API.OperationMethod<
   DeleteWithdrawerVenmoError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteWithdrawerVenmoRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerVenmoResponse200>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteWithdrawerVenmoRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<WithdrawDeleteWithdrawerVenmoResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3889,8 +4092,8 @@ export const getEvmMessage: API.OperationMethod<
   GetEvmMessageError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetEvmMessageRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<GetMessageResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetEvmMessageRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<GetMessageResponse>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3907,10 +4110,10 @@ export const getExactOutQuote: API.OperationMethod<
   GetExactOutQuoteError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetExactOutQuoteRequest>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetExactOutQuoteRequest>,
   output: __S(
-    866,
-    __c27,
+    962,
+    __c30,
     2,
   ) as any as S.Schema<RecordWithdrawSpeedWithdrawExactOutQuoteOrUndefined>,
   errors: [],
@@ -3929,8 +4132,8 @@ export const getPaypalLoginStatus: API.OperationMethod<
   GetPaypalLoginStatusError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetPaypalLoginStatusRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<WithdrawGetPaypalLoginStatusResponse200>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetPaypalLoginStatusRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<WithdrawGetPaypalLoginStatusResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3947,8 +4150,8 @@ export const getQuote: API.OperationMethod<
   GetQuoteError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetQuoteRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<WithdrawQuote>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetQuoteRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<WithdrawQuote>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3965,8 +4168,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetTransactionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetTransactionRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
   errors: [PreconditionFailed, VerificationRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -3983,8 +4186,8 @@ export const getWithdrawBalances: API.OperationMethod<
   GetWithdrawBalancesError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetWithdrawBalancesRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<WithdrawGetWithdrawBalancesResponse200>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetWithdrawBalancesRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<WithdrawGetWithdrawBalancesResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4001,8 +4204,8 @@ export const getWithdrawer: API.OperationMethod<
   GetWithdrawerError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetWithdrawerRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GetWithdrawerResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetWithdrawerRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<GetWithdrawerResponse>,
   errors: [VerificationRequired],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4019,8 +4222,8 @@ export const getWithdrawerHistory: API.OperationMethod<
   GetWithdrawerHistoryError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetWithdrawerHistoryRequest>,
-  output: __S(1161, __c36, 9) as any as S.Schema<WithdrawGetWithdrawerHistoryResponse200>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetWithdrawerHistoryRequest>,
+  output: __S(1257, __c39, 9) as any as S.Schema<WithdrawGetWithdrawerHistoryResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4037,8 +4240,8 @@ export const sendEvmGaslessTransaction: API.OperationMethod<
   SendEvmGaslessTransactionError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<SendEvmGaslessTransactionRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<WithdrawSendEvmGaslessTransactionResponse200>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SendEvmGaslessTransactionRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<WithdrawSendEvmGaslessTransactionResponse200>,
   errors: [PreconditionFailed],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4055,8 +4258,8 @@ export const startPaypalLogin: API.OperationMethod<
   StartPaypalLoginError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<StartPaypalLoginRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<WithdrawStartPaypalLoginResponse200>,
+  input: __S(1312, __c41, 0) as any as S.Schema<StartPaypalLoginRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<WithdrawStartPaypalLoginResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4073,8 +4276,8 @@ export const validateKyc: API.OperationMethod<
   ValidateKycError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ValidateKycRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<WithdrawValidateKycResponse200>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ValidateKycRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<WithdrawValidateKycResponse200>,
   errors: [],
   serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
@@ -4094,7 +4297,7 @@ function __c0(j: number): any {
           accountNumber: S.String,
           wireRoutingNumber: S.optional(S.String),
           type: S.String,
-          address: S.optional(__S(1408, __c44, 0)),
+          address: S.optional(__S(1504, __c47, 0)),
           name: S.optional(S.String),
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
@@ -4104,8 +4307,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          withdrawer: __S(113, __c3, 17),
-          tokensRequiringWireRoutingNumber: S.optional(__S(1312, __c41, 0)),
+          withdrawer: __S(146, __c4, 18),
+          tokensRequiringWireRoutingNumber: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "AddWithdrawMethodResponse" });
   }
@@ -4128,6 +4331,7 @@ function __c1(j: number): any {
           reason: S.String,
           editor: S.String,
           updatedAt: S.String,
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "IAvailability" });
     case 3:
@@ -4141,7 +4345,7 @@ function __c1(j: number): any {
           shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          rejectionReasons: S.optional(__S(1312, __c41, 0)),
+          rejectionReasons: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "Verification" });
     case 4:
@@ -4160,6 +4364,27 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          country: S.String,
+          isDeleted: S.optional(S.Boolean),
+          token: S.String.pipe(T.SensitiveValue({})),
+          currency: S.String,
+          createdAt: S.optional(S.String),
+          mask: S.String,
+          kind: S.String,
+          accountHolderName: S.String,
+          bankName: S.String,
+          fields: S.Unknown,
+        }),
+      ).annotate({
+        identifier: "PickILocalBankAccountExcludeKeyofILocalBankAccountAccountHashOrVendorData",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           address1: S.String,
           address2: S.optional(S.String),
           city: S.String,
@@ -4170,7 +4395,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Address" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -4192,7 +4417,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "SerializedBankAccount" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(129, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4205,18 +4430,18 @@ function __c3(j: number): any {
           nameOnCard: S.optional(S.String),
           createdAt: S.String,
           walletGenus: S.optional(S.String),
-          retiredTokens: S.optional(__S(1312, __c41, 0)),
+          retiredTokens: S.optional(__S(1408, __c44, 0)),
           funding: S.optional(S.String),
           expMonth: S.optional(S.String),
           expYear: S.optional(S.String),
         }),
       ).annotate({ identifier: "IWithdrawerCardAccount" });
     case 4:
-      return S.Array(__S(99, __c3, 3));
+      return S.Array(__S(131, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          accountOwnerNames: S.optional(__S(1312, __c41, 0)),
+          accountOwnerNames: S.optional(__S(1408, __c44, 0)),
           nameMatchStatus: S.optional(S.String),
           accountHash: S.String,
           last4: S.String,
@@ -4231,12 +4456,12 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "PickIIbanAccountExcludeKeyofIIbanAccountVendorData" });
     case 6:
-      return S.Array(__S(101, __c3, 5));
+      return S.Array(__S(133, __c4, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           swiftCode: S.String,
-          bankAddress: __S(64, __c2, 0),
+          bankAddress: __S(96, __c3, 0),
           bankName: S.String,
         }),
       ).annotate({ identifier: "ISwiftAccountIntermediaryBank" });
@@ -4249,13 +4474,13 @@ function __c3(j: number): any {
           last4: S.String,
           accountHash: S.String,
           beneficiaryBankName: S.String,
-          beneficiaryBankAddress: __S(64, __c2, 0),
+          beneficiaryBankAddress: __S(96, __c3, 0),
           swiftCode: S.String,
-          intermediaryBank: S.optional(__S(103, __c3, 7)),
+          intermediaryBank: S.optional(__S(135, __c4, 7)),
         }),
       ).annotate({ identifier: "ISwiftAccount" });
     case 9:
-      return S.Array(__S(104, __c3, 8));
+      return S.Array(__S(136, __c4, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -4265,11 +4490,11 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "IPixAccount" });
     case 11:
-      return S.Array(__S(106, __c3, 10));
+      return S.Array(__S(138, __c4, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          accountOwnerNames: S.optional(__S(1312, __c41, 0)),
+          accountOwnerNames: S.optional(__S(1408, __c44, 0)),
           nameMatchStatus: S.optional(S.String),
           accountHash: S.String,
           isDeleted: S.optional(S.Boolean),
@@ -4286,8 +4511,10 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "PickIEftAccountExcludeKeyofIEftAccountVendorData" });
     case 13:
-      return S.Array(__S(108, __c3, 12));
+      return S.Array(__S(140, __c4, 12));
     case 14:
+      return S.Array(__S(64, __c2, 0));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           isDeleted: S.optional(S.Boolean),
@@ -4296,7 +4523,7 @@ function __c3(j: number): any {
           type: S.String,
         }),
       ).annotate({ identifier: "PickIVenmoExcludeKeyofIVenmoVendorData" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
@@ -4304,16 +4531,16 @@ function __c3(j: number): any {
           type: S.String,
           disbursementStatus: S.optional(S.String),
           currency: S.optional(S.String),
-          retiredTokens: S.optional(__S(1312, __c41, 0)),
+          retiredTokens: S.optional(__S(1408, __c44, 0)),
           genus: S.String,
           deletedAt: S.optional(S.String),
           expMonth: S.optional(S.String),
           expYear: S.optional(S.String),
         }),
       ).annotate({ identifier: "IWithdrawerMobileAccount" });
-    case 16:
-      return S.Array(__S(111, __c3, 15));
     case 17:
+      return S.Array(__S(144, __c4, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
@@ -4330,26 +4557,28 @@ function __c3(j: number): any {
           country: S.String,
           geoBlockOverride: S.optional(__S(36, __c1, 4)),
           blockCardReuseExempt: S.optional(S.Boolean),
+          duplicateIdentityExempt: S.optional(S.Boolean),
           createdAt: S.optional(S.String),
-          bankAccounts: __S(98, __c3, 2),
-          cards: __S(100, __c3, 4),
-          ibans: __S(102, __c3, 6),
-          swifts: __S(105, __c3, 9),
-          pixes: __S(107, __c3, 11),
-          efts: __S(109, __c3, 13),
-          venmo: S.optional(__S(110, __c3, 14)),
-          paypal: S.optional(__S(110, __c3, 14)),
-          interac: S.optional(__S(110, __c3, 14)),
-          mobiles: __S(112, __c3, 16),
+          bankAccounts: __S(130, __c4, 2),
+          cards: __S(132, __c4, 4),
+          ibans: __S(134, __c4, 6),
+          swifts: __S(137, __c4, 9),
+          pixes: __S(139, __c4, 11),
+          efts: __S(141, __c4, 13),
+          localBankAccounts: __S(142, __c4, 14),
+          venmo: S.optional(__S(143, __c4, 15)),
+          paypal: S.optional(__S(143, __c4, 15)),
+          interac: S.optional(__S(143, __c4, 15)),
+          mobiles: __S(145, __c4, 17),
           p2cAvailable: S.Boolean,
           applePayAvailable: S.Boolean,
-          bankCurrencyOptions: __S(96, __c3, 0),
-          freeWithdrawSpeeds: __S(96, __c3, 0),
+          bankCurrencyOptions: __S(128, __c4, 0),
+          freeWithdrawSpeeds: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "IWithdrawerWithAccounts" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4367,7 +4596,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateEftAccountRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4382,7 +4611,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateIbanAccountRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4395,13 +4624,13 @@ function __c6(j: number): any {
           shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          rejectionReasons: S.optional(__S(1312, __c41, 0)),
+          rejectionReasons: S.optional(__S(1408, __c44, 0)),
           ownershipPct: S.optional(S.Number),
           isControllingPerson: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UboEntry" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4427,20 +4656,21 @@ function __c6(j: number): any {
           country: S.String,
           geoBlockOverride: S.optional(__S(36, __c1, 4)),
           blockCardReuseExempt: S.optional(S.Boolean),
+          duplicateIdentityExempt: S.optional(S.Boolean),
           createdAt: S.optional(S.String),
           business: S.Boolean,
-          ubos: __S(193, __c6, 1),
+          ubos: __S(225, __c7, 1),
         }),
       ).annotate({ identifier: "IBackwardBusiness" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          withdrawer: __S(195, __c6, 3),
+          withdrawer: __S(227, __c7, 3),
         }),
       ).annotate({ identifier: "WithdrawCreateKybResponse200" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4451,7 +4681,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateKycRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4479,9 +4709,10 @@ function __c8(j: number): any {
           country: S.String,
           geoBlockOverride: S.optional(__S(36, __c1, 4)),
           blockCardReuseExempt: S.optional(S.Boolean),
+          duplicateIdentityExempt: S.optional(S.Boolean),
           createdAt: S.optional(S.String),
           user: S.Boolean,
-          dwolla: S.optional(__S(256, __c8, 0)),
+          dwolla: S.optional(__S(288, __c9, 0)),
           watchlistExempt: S.String,
           watchlistId: S.optional(S.String),
         }),
@@ -4489,12 +4720,12 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          withdrawer: __S(257, __c8, 1),
+          withdrawer: __S(289, __c9, 1),
         }),
       ).annotate({ identifier: "WithdrawCreateKycResponse200" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4514,7 +4745,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateKycAttestedRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4532,7 +4763,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateKycDocumentRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4543,7 +4774,20 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateKycShareTokenRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          country: S.String,
+          accountHolderName: S.String,
+          fields: S.Unknown,
+          authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
+        }).pipe(T.Http({ method: "POST", uri: "/withdraw/local-bank", code: 200 })),
+      ).annotate({ identifier: "CreateLocalBankAccountRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4554,12 +4798,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreatePixAccountRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bankAddress: __S(64, __c2, 0),
+          bankAddress: __S(96, __c3, 0),
           bankName: S.String,
           swiftCode: S.String,
         }),
@@ -4571,14 +4815,14 @@ function __c13(j: number): any {
           accountNumber: S.String,
           swiftCode: S.String,
           beneficiaryBankName: S.String,
-          beneficiaryBankAddress: __S(64, __c2, 0),
-          intermediaryBank: S.optional(__S(416, __c13, 0)),
+          beneficiaryBankAddress: __S(96, __c3, 0),
+          intermediaryBank: S.optional(__S(480, __c15, 0)),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/swift", code: 200 })),
       ).annotate({ identifier: "CreateSwiftAccountRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4589,17 +4833,17 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteEftAccountRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          withdrawer: __S(113, __c3, 17),
+          withdrawer: __S(146, __c4, 18),
         }),
       ).annotate({ identifier: "WithdrawDeleteEftAccountResponse200" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4610,7 +4854,18 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteIbanAccountRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.Label()),
+          authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
+        }).pipe(T.Http({ method: "DELETE", uri: "/withdraw/local-bank/{token}", code: 200 })),
+      ).annotate({ identifier: "DeleteLocalBankAccountRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4621,7 +4876,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeletePixAccountRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4632,7 +4887,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteSwiftAccountRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4643,7 +4898,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerAccountRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4654,7 +4909,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerCardRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4665,7 +4920,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerInteracRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4676,7 +4931,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerMobileRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4687,7 +4942,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerPaypalRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4698,14 +4953,15 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteWithdrawerVenmoRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           amount: S.Number,
-          token: S.optional(__S(832, __c26, 0)),
-          userLocation: S.optional(__S(833, __c26, 1)),
+          token: S.optional(__S(928, __c29, 0)),
+          userLocation: S.optional(__S(929, __c29, 1)),
+          authorizationType: S.optional(S.String),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/evm/message", code: 200 })),
@@ -4714,11 +4970,12 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.NullOr(S.String),
+          transferAuthorization: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "GetMessageResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4734,9 +4991,17 @@ function __c26(j: number): any {
           lng: S.Number,
         }),
       ).annotate({ identifier: "IUserLocation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          validAfter: S.String,
+          validBefore: S.String,
+          nonce: S.String,
+        }),
+      ).annotate({ identifier: "EvmTransferWithAuthorizationParams" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4755,31 +5020,32 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inputAmount: S.Number,
-          exactAmountOut: __S(928, __c29, 0),
-          quote: __S(897, __c28, 1),
+          exactAmountOut: __S(1024, __c32, 0),
+          quote: __S(994, __c31, 2),
         }),
       ).annotate({ identifier: "WithdrawExactOutQuote" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          asap: __S(865, __c27, 1),
-          same_day: __S(865, __c27, 1),
-          standard: __S(865, __c27, 1),
-          card: __S(865, __c27, 1),
-          iban: __S(865, __c27, 1),
-          pix: __S(865, __c27, 1),
-          eft: __S(865, __c27, 1),
-          venmo: __S(865, __c27, 1),
-          paypal: __S(865, __c27, 1),
-          wire: __S(865, __c27, 1),
-          interac: __S(865, __c27, 1),
-          swift: __S(865, __c27, 1),
-          crypto: __S(865, __c27, 1),
+          asap: __S(961, __c30, 1),
+          same_day: __S(961, __c30, 1),
+          standard: __S(961, __c30, 1),
+          card: __S(961, __c30, 1),
+          iban: __S(961, __c30, 1),
+          pix: __S(961, __c30, 1),
+          eft: __S(961, __c30, 1),
+          venmo: __S(961, __c30, 1),
+          paypal: __S(961, __c30, 1),
+          wire: __S(961, __c30, 1),
+          interac: __S(961, __c30, 1),
+          swift: __S(961, __c30, 1),
+          npp: __S(961, __c30, 1),
+          crypto: __S(961, __c30, 1),
         }),
       ).annotate({ identifier: "RecordWithdrawSpeedWithdrawExactOutQuoteOrUndefined" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4792,19 +5058,31 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fee: __S(928, __c29, 0),
-          merchantFee: S.optional(__S(928, __c29, 0)),
-          limit: __S(928, __c29, 0),
-          finalSettlement: __S(928, __c29, 0),
+          estimatedAmount: __S(1024, __c32, 0),
+          currency: S.String,
+          rate: S.Number,
+          isEstimate: S.Boolean,
+          minimumAmount: __S(1024, __c32, 0),
+          belowMinimum: S.Boolean,
+        }),
+      ).annotate({ identifier: "LocalPayoutEstimate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          fee: __S(1024, __c32, 0),
+          merchantFee: S.optional(__S(1024, __c32, 0)),
+          limit: __S(1024, __c32, 0),
+          finalSettlement: __S(1024, __c32, 0),
           expectedDeliveryDate: S.String,
           expectedDeliveryDateISO: S.optional(S.String),
-          customFee: S.optional(__S(896, __c28, 0)),
+          customFee: S.optional(__S(992, __c31, 0)),
           accountIneligible: S.optional(S.Boolean),
+          localEstimate: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "WithdrawQuoteFeesAndLimit" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4815,7 +5093,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CurrencyCents" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4832,7 +5110,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "WithdrawGetPaypalLoginStatusResponse200" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4850,34 +5128,35 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          gasFees: __S(928, __c29, 0),
+          gasFees: __S(1024, __c32, 0),
           gasFeesWei: S.String,
         }),
       ).annotate({ identifier: "GasFeeEstimate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          asap: __S(897, __c28, 1),
-          same_day: __S(897, __c28, 1),
-          standard: __S(897, __c28, 1),
-          card: __S(897, __c28, 1),
-          iban: __S(897, __c28, 1),
-          pix: __S(897, __c28, 1),
-          eft: __S(897, __c28, 1),
-          venmo: __S(897, __c28, 1),
-          paypal: __S(897, __c28, 1),
-          wire: __S(897, __c28, 1),
-          interac: __S(897, __c28, 1),
-          swift: __S(897, __c28, 1),
-          crypto: __S(897, __c28, 1),
-          quote: __S(928, __c29, 0),
-          gasFees: S.optional(__S(993, __c31, 1)),
-          swapFees: S.optional(__S(928, __c29, 0)),
+          asap: __S(994, __c31, 2),
+          same_day: __S(994, __c31, 2),
+          standard: __S(994, __c31, 2),
+          card: __S(994, __c31, 2),
+          iban: __S(994, __c31, 2),
+          pix: __S(994, __c31, 2),
+          eft: __S(994, __c31, 2),
+          venmo: __S(994, __c31, 2),
+          paypal: __S(994, __c31, 2),
+          wire: __S(994, __c31, 2),
+          interac: __S(994, __c31, 2),
+          swift: __S(994, __c31, 2),
+          npp: __S(994, __c31, 2),
+          crypto: __S(994, __c31, 2),
+          quote: __S(1024, __c32, 0),
+          gasFees: S.optional(__S(1089, __c34, 1)),
+          swapFees: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "WithdrawQuote" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4886,11 +5165,11 @@ function __c32(j: number): any {
           merchantId: S.String,
           speed: S.String,
           account: S.Unknown,
-          token: S.optional(__S(832, __c26, 0)),
-          evmTransferAuthorizationData: S.optional(__S(1056, __c33, 0)),
-          bankAccountDetails: S.optional(__S(1057, __c33, 1)),
-          address: S.optional(__S(1058, __c33, 2)),
-          userLocation: S.optional(__S(833, __c26, 1)),
+          token: S.optional(__S(928, __c29, 0)),
+          evmTransferAuthorizationData: S.optional(__S(1152, __c36, 0)),
+          bankAccountDetails: S.optional(__S(1153, __c36, 1)),
+          address: S.optional(__S(1154, __c36, 2)),
+          userLocation: S.optional(__S(929, __c29, 1)),
           ownerOverride: S.optional(S.String),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
@@ -4899,17 +5178,18 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transactions: __S(1312, __c41, 0),
+          transactions: __S(1408, __c44, 0),
         }),
       ).annotate({ identifier: "GetWithdrawTransactionResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           data: S.String,
+          transferAuthorization: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "EvmTransferAuthorizationData" });
     case 1:
@@ -4932,7 +5212,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AddressOptionalState" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4956,16 +5236,16 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "WithdrawToken" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(1090, __c34, 2),
+          balances: __S(1186, __c37, 2),
         }),
       ).annotate({ identifier: "WithdrawGetWithdrawBalancesResponse200" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4977,7 +5257,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetWithdrawerRequest" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4988,24 +5268,35 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          processingFees: S.optional(__S(928, __c29, 0)),
-          customFees: S.optional(__S(928, __c29, 0)),
-          swapFees: __S(928, __c29, 0),
-          gasFees: __S(928, __c29, 0),
-          fees: __S(928, __c29, 0),
+          processingFees: S.optional(__S(1024, __c32, 0)),
+          customFees: S.optional(__S(1024, __c32, 0)),
+          swapFees: __S(1024, __c32, 0),
+          gasFees: __S(1024, __c32, 0),
+          fees: __S(1024, __c32, 0),
         }),
       ).annotate({ identifier: "WithdrawalResponseUserPaidFees" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          merchantFundedAmount: S.optional(__S(928, __c29, 0)),
+          merchantFundedAmount: S.optional(__S(1024, __c32, 0)),
           settledInline: S.optional(S.Boolean),
-          swapFees: __S(928, __c29, 0),
-          gasFees: __S(928, __c29, 0),
-          fees: __S(928, __c29, 0),
+          swapFees: __S(1024, __c32, 0),
+          gasFees: __S(1024, __c32, 0),
+          fees: __S(1024, __c32, 0),
         }),
       ).annotate({ identifier: "WithdrawalResponseMerchantPaidFees" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          receivedAmount: S.optional(__S(1024, __c32, 0)),
+          rate: S.optional(S.Number),
+          estimatedAmount: __S(1024, __c32, 0),
+          estimatedRate: S.Number,
+          currency: S.String,
+          country: S.String,
+        }),
+      ).annotate({ identifier: "WithdrawalResponseLocalPayout" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           deliveryTransactionUrl: S.optional(S.String),
@@ -5017,14 +5308,14 @@ function __c36(j: number): any {
           chain: S.String,
         }),
       ).annotate({ identifier: "WithdrawalResponseCryptoPayoutInfo" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           merchantId: S.String,
           _id: S.String,
         }),
       ).annotate({ identifier: "WithdrawalResponseMerchant" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           resolvedState: S.optional(S.String),
@@ -5033,12 +5324,6 @@ function __c36(j: number): any {
           lat: S.Number,
         }),
       ).annotate({ identifier: "WithdrawalResponseUserLocation" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          coinflowEntity: S.String,
-        }),
-      ).annotate({ identifier: "WithdrawalResponseEntityTag" });
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -5049,17 +5334,18 @@ function __c36(j: number): any {
           wallet: S.String,
           blockchain: S.String,
           accountId: S.String,
-          amount: __S(928, __c29, 0),
+          amount: __S(1024, __c32, 0),
           usdToForeignExchangeRate: S.Number,
-          userPaidFees: __S(1153, __c36, 1),
-          merchantPaidFees: __S(1154, __c36, 2),
-          outstanding: __S(928, __c29, 0),
+          userPaidFees: __S(1249, __c39, 1),
+          merchantPaidFees: __S(1250, __c39, 2),
+          outstanding: __S(1024, __c32, 0),
           returnStatus: S.optional(S.String),
+          localPayout: S.optional(__S(1251, __c39, 3)),
           unclaimedAt: S.optional(S.String),
           awaitingProviderReturnAt: S.optional(S.String),
-          cryptoPayoutInfo: S.optional(__S(1155, __c36, 3)),
+          cryptoPayoutInfo: S.optional(__S(1252, __c39, 4)),
           expectedDeliveryDate: S.String,
-          merchant: __S(1156, __c36, 4),
+          merchant: __S(1253, __c39, 5),
           updatedAt: S.String,
           speed: S.String,
           returnTransaction: S.optional(S.String),
@@ -5073,36 +5359,35 @@ function __c36(j: number): any {
           payoutInitiated: S.optional(S.Boolean),
           payoutInitiatedAt: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
-          userLocation: S.optional(__S(1157, __c36, 5)),
+          userLocation: S.optional(__S(1254, __c39, 6)),
           achTraceId: S.String,
-          entityTag: S.optional(__S(1158, __c36, 6)),
           status: S.Unknown,
         }),
       ).annotate({ identifier: "WithdrawalResponse" });
     case 8:
-      return S.Array(__S(1159, __c36, 7));
+      return S.Array(__S(1255, __c39, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          withdraws: __S(1160, __c36, 8),
+          withdraws: __S(1256, __c39, 8),
         }),
       ).annotate({ identifier: "WithdrawGetWithdrawerHistoryResponse200" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           merchantId: S.String,
-          token: __S(832, __c26, 0),
+          token: __S(928, __c29, 0),
           amount: S.Number,
           speed: S.String,
           account: S.Unknown,
-          evmTransferAuthorizationData: __S(1056, __c33, 0),
-          bankAccountDetails: S.optional(__S(1057, __c33, 1)),
-          userLocation: S.optional(__S(833, __c26, 1)),
-          address: S.optional(__S(1058, __c33, 2)),
+          evmTransferAuthorizationData: __S(1152, __c36, 0),
+          bankAccountDetails: S.optional(__S(1153, __c36, 1)),
+          userLocation: S.optional(__S(929, __c29, 1)),
+          address: S.optional(__S(1154, __c36, 2)),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/evm/transaction", code: 200 })),
@@ -5115,7 +5400,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "WithdrawSendEvmGaslessTransactionResponse200" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5134,7 +5419,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "WithdrawStartPaypalLoginResponse200" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5150,13 +5435,13 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          invalidFields: __S(1312, __c41, 0),
+          invalidFields: __S(1408, __c44, 0),
           valid: S.Boolean,
         }),
       ).annotate({ identifier: "WithdrawValidateKycResponse200" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5178,7 +5463,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           version: S.String,
-          header: __S(1281, __c40, 1),
+          header: __S(1377, __c43, 1),
           signature: S.String,
           data: S.String,
         }),
@@ -5187,8 +5472,8 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           transactionIdentifier: S.String,
-          paymentMethod: __S(1280, __c40, 0),
-          paymentData: __S(1282, __c40, 2),
+          paymentMethod: __S(1376, __c43, 0),
+          paymentData: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "ApplePayPaymentToken" });
     case 4:
@@ -5196,7 +5481,7 @@ function __c40(j: number): any {
         S.Struct({
           givenName: S.String,
           familyName: S.String,
-          addressLines: __S(1312, __c41, 0),
+          addressLines: __S(1408, __c44, 0),
           country: S.optional(S.String),
           emailAddress: S.optional(S.String),
           postalCode: S.optional(S.String),
@@ -5228,35 +5513,35 @@ function __c40(j: number): any {
           transactionAmount: S.Number,
           deviceManufacturerIdentifier: S.String,
           paymentDataType: S.String,
-          paymentData: __S(1286, __c40, 6),
+          paymentData: __S(1382, __c43, 6),
         }),
       ).annotate({ identifier: "DecryptedApplePayToken" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          token: __S(1283, __c40, 3),
-          billingContact: __S(1284, __c40, 4),
-          shippingContact: S.optional(__S(1285, __c40, 5)),
-          decrypted: S.optional(__S(1287, __c40, 7)),
+          token: __S(1379, __c43, 3),
+          billingContact: __S(1380, __c43, 4),
+          shippingContact: S.optional(__S(1381, __c43, 5)),
+          decrypted: S.optional(__S(1383, __c43, 7)),
         }),
       ).annotate({ identifier: "ApplePayPayment" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          applePayPayment: __S(1288, __c40, 8),
+          applePayPayment: __S(1384, __c43, 8),
           merchantId: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/apple-pay", code: 200 })),
       ).annotate({ identifier: "AddApplePayRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -5264,7 +5549,7 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5273,14 +5558,14 @@ function __c43(j: number): any {
           expMonth: S.String,
           additionalVendorData: S.optional(S.Unknown),
           cardToken: S.String.pipe(T.SensitiveValue({})),
-          address: S.optional(__S(1408, __c44, 0)),
+          address: S.optional(__S(1504, __c47, 0)),
           merchantId: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/debit-card", code: 200 })),
       ).annotate({ identifier: "AddDebitCardRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5293,7 +5578,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "IAccountAddress" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5306,7 +5591,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "AddInteracRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5319,7 +5604,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "AddPaypalRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

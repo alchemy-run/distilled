@@ -96,6 +96,11 @@ export interface CallbackInfo {
   Url: string;
   Secret: string | Redacted.Redacted<string>;
 }
+export interface ExtraSourceInfo {
+  Name: string;
+  Path: string;
+}
+export type ExtraSourceInfoList = Array<ExtraSourceInfo>;
 export interface CreateBatchVideoAnnotationJobRequest {
   InputStorage: BatchS3SourceInfo;
   AnnotationType: number;
@@ -103,6 +108,7 @@ export interface CreateBatchVideoAnnotationJobRequest {
   ProcessParams?: ProcessParams | undefined;
   OutputStorage?: OutputStorage | undefined;
   CallbackInfo?: CallbackInfo | undefined;
+  ExtraSources?: ExtraSourceInfoList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -180,6 +186,7 @@ export interface CreateVideoAnnotationJobRequest {
   ProcessParams?: ProcessParams | undefined;
   OutputInfo?: OutputInfo | undefined;
   CallbackInfo?: CallbackInfo | undefined;
+  ExtraSources?: ExtraSourceInfoList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -834,7 +841,7 @@ export const createBatchVideoAnnotationJob: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(202, __c25, 2) as any as S.Schema<CreateBatchVideoAnnotationJobRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<CreateBatchVideoAnnotationJobResponse>,
+  output: __S(214, __c26, 6) as any as S.Schema<CreateBatchVideoAnnotationJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -902,7 +909,7 @@ export const createVideoAnnotationJob: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(322, __c40, 2) as any as S.Schema<CreateVideoAnnotationJobRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<CreateVideoAnnotationJobResponse>,
+  output: __S(214, __c26, 6) as any as S.Schema<CreateVideoAnnotationJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -2229,6 +2236,7 @@ function __c25(j: number): any {
           ProcessParams: S.optional(__S(210, __c26, 2)),
           OutputStorage: S.optional(__S(201, __c25, 1)),
           CallbackInfo: S.optional(__S(211, __c26, 3)),
+          ExtraSources: S.optional(__S(213, __c26, 5)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -2273,6 +2281,15 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "CallbackInfo" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Path: S.String,
+        }),
+      ).annotate({ identifier: "ExtraSourceInfo" });
+    case 5:
+      return S.Array(__S(212, __c26, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           JobId: S.optional(S.String),
@@ -2588,6 +2605,7 @@ function __c40(j: number): any {
           ProcessParams: S.optional(__S(210, __c26, 2)),
           OutputInfo: S.optional(__S(321, __c40, 1)),
           CallbackInfo: S.optional(__S(211, __c26, 3)),
+          ExtraSources: S.optional(__S(213, __c26, 5)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "trro", version: "2022-03-25", action: "CreateVideoAnnotationJob" }),

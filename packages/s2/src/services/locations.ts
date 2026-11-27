@@ -24,6 +24,17 @@ const TELEMETRY = {
 } as const;
 
 export interface GetDefaultLocationRequest {}
+export interface AwsPrivateNet {
+  /** Private DNS name of the endpoint service. With private DNS enabled on the VPC endpoint, it resolves to the endpoint, and can be used as the account endpoint so that account requests also go over PrivateLink. */
+  private_dns_name?: string | null | undefined;
+  /** AWS PrivateLink endpoint service name, for creating a VPC endpoint. */
+  service_name: string;
+}
+/** AWS PrivateLink. */
+export interface PrivateNet {
+  /** AWS PrivateLink. */
+  aws: AwsPrivateNet;
+}
 /** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
 export type LocationInfoStorageClassesList = Array<string>;
 export interface LocationInfo {
@@ -33,6 +44,7 @@ export interface LocationInfo {
   is_private: boolean;
   /** Location name. */
   name: string;
+  private_net?: PrivateNet | null | undefined;
   /** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
   storage_classes?: LocationInfoStorageClassesList | null | undefined;
 }
@@ -51,7 +63,7 @@ export const getDefaultLocation: API.OperationMethod<
   S2OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetDefaultLocationRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<LocationInfo>,
+  output: __S(7, __c1, 3) as any as S.Schema<LocationInfo>,
   errors: [],
   serviceErrors: S2ServiceErrors,
   protocol: S2Protocol,
@@ -87,7 +99,7 @@ export const setDefaultLocation: API.OperationMethod<
   S2OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<SetDefaultLocationRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<LocationInfo>,
+  output: __S(7, __c1, 3) as any as S.Schema<LocationInfo>,
   errors: [],
   serviceErrors: S2ServiceErrors,
   protocol: S2Protocol,
@@ -108,14 +120,28 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          private_dns_name: S.optional(S.NullOr(S.String)),
+          service_name: S.String,
+        }),
+      ).annotate({ identifier: "AwsPrivateNet" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          aws: __S(4, __c1, 0),
+        }),
+      ).annotate({ identifier: "PrivateNet" });
+    case 2:
+      return S.Array(S.String);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           default_storage_class: S.optional(S.NullOr(S.String)),
           is_private: S.Boolean,
           name: S.String,
-          storage_classes: S.optional(S.NullOr(__S(4, __c1, 0))),
+          private_net: S.optional(S.NullOr(__S(5, __c1, 1))),
+          storage_classes: S.optional(S.NullOr(__S(6, __c1, 2))),
         }),
       ).annotate({ identifier: "LocationInfo" });
   }
@@ -127,7 +153,7 @@ function __c2(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/locations", code: 200 })),
       ).annotate({ identifier: "ListLocationsRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(7, __c1, 3));
     case 2:
       return S.suspend(() => __S(9, __c2, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLocationsResponse",

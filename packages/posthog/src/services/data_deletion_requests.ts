@@ -54,7 +54,7 @@ export type CreateDataDeletionRequestRequestVariablesMap = {
 export interface CreateDataDeletionRequestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** HogQL query that selects one event UUID column. */
+  /** HogQL query that selects one event UUID column. When some of the project's $feature_flag_called events are stored only in posthog.flag_evaluations, a query that reads events must also select uuid from posthog.flag_evaluations, for example with UNION ALL. */
   query: string;
   /** Variables referenced by the HogQL query. */
   variables?: CreateDataDeletionRequestRequestVariablesMap | undefined;
@@ -110,7 +110,7 @@ export type CreateDataDeletionRequestsPreviewRequestVariablesMap = {
 export interface CreateDataDeletionRequestsPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** HogQL query that selects one event UUID column. */
+  /** HogQL query that selects one event UUID column. When some of the project's $feature_flag_called events are stored only in posthog.flag_evaluations, a query that reads events must also select uuid from posthog.flag_evaluations, for example with UNION ALL. */
   query: string;
   /** Variables referenced by the HogQL query. */
   variables?: CreateDataDeletionRequestsPreviewRequestVariablesMap | undefined;

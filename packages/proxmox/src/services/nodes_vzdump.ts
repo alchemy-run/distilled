@@ -34,7 +34,8 @@ export type GetNodesByNodeVzdumpDefaultsResultMode = "snapshot" | "suspend" | "s
 export type GetNodesByNodeVzdumpDefaultsResultNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type GetNodesByNodeVzdumpDefaultsResultPbsChangeDetectionMode =
   | "legacy"
   | "data"
@@ -87,7 +88,8 @@ export type PostNodesByNodeVzdumpRequestMode = "snapshot" | "suspend" | "stop";
 export type PostNodesByNodeVzdumpRequestNotificationMode =
   | "auto"
   | "legacy-sendmail"
-  | "notification-system";
+  | "notification-system"
+  | "none";
 export type PostNodesByNodeVzdumpRequestPbsChangeDetectionMode = "legacy" | "data" | "metadata";
 export interface PostNodesByNodeVzdumpRequest {
   all?: boolean | 0 | 1 | undefined;

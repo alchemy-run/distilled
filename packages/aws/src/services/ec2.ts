@@ -5252,6 +5252,13 @@ export type BlockPublicAccessMode = "off" | "block-bidirectional" | "block-ingre
 export interface BlockPublicAccessStates {
   InternetGatewayBlockMode?: BlockPublicAccessMode | undefined;
 }
+export type NetworkFirewallConnectivityType =
+  | "flexible"
+  | "outbound-only"
+  | "bidirectional"
+  | "exclude"
+  | "az-unsupported"
+  | (string & {});
 export type SubnetState =
   | "pending"
   | "available"
@@ -5275,6 +5282,7 @@ export interface Subnet {
   PrivateDnsNameOptionsOnLaunch?: PrivateDnsNameOptionsOnLaunch | undefined;
   BlockPublicAccessStates?: BlockPublicAccessStates | undefined;
   Type?: string | undefined;
+  NetworkFirewallConnectivityType?: NetworkFirewallConnectivityType | undefined;
   SubnetId?: string | undefined;
   State?: SubnetState | undefined;
   VpcId?: string | undefined;
@@ -5337,6 +5345,15 @@ export interface VpcEncryptionControl {
   ResourceExclusions?: VpcEncryptionControlExclusions | undefined;
   Tags?: Tag[] | undefined;
 }
+export type FirewallArn = string;
+export type FirewallOnboardingStatus = "pending" | "active" | "disabling" | (string & {});
+export type FirewallMode = "monitor" | "enforce" | (string & {});
+export interface NetworkFirewallAssociation {
+  FirewallArn?: string | undefined;
+  FirewallOnboardingStatus?: FirewallOnboardingStatus | undefined;
+  FirewallMode?: FirewallMode | undefined;
+}
+export type NetworkFirewallAssociationSet = NetworkFirewallAssociation[];
 export type VpcState = "pending" | "available" | "deleting" | (string & {});
 export interface Vpc {
   OwnerId?: string | undefined;
@@ -5347,6 +5364,7 @@ export interface Vpc {
   EncryptionControl?: VpcEncryptionControl | undefined;
   Tags?: Tag[] | undefined;
   BlockPublicAccessStates?: BlockPublicAccessStates | undefined;
+  NetworkFirewallAssociations?: NetworkFirewallAssociation[] | undefined;
   VpcId?: string | undefined;
   State?: VpcState | undefined;
   CidrBlock?: string | undefined;
@@ -8121,6 +8139,10 @@ export type RouteOrigin =
   | "Advertisement"
   | (string & {});
 export type RouteState = "active" | "blackhole" | "filtered" | (string & {});
+export interface IgwFirewall {
+  FirewallArn?: string | undefined;
+  Status?: FirewallOnboardingStatus | undefined;
+}
 export interface Route {
   DestinationCidrBlock?: string | undefined;
   DestinationIpv6CidrBlock?: string | undefined;
@@ -8140,6 +8162,7 @@ export interface Route {
   CoreNetworkArn?: string | undefined;
   OdbNetworkArn?: string | undefined;
   IpAddress?: string | undefined;
+  IgwFirewall?: IgwFirewall | undefined;
 }
 export type RouteList = Route[];
 export interface RouteTable {
@@ -10895,7 +10918,14 @@ export interface DescribeAddressesRequest {
   Filters?: Filter[] | undefined;
   AllocationIds?: string[] | undefined;
 }
-export type ServiceManaged = "alb" | "nlb" | "rnat" | "rds" | (string & {});
+export type ServiceManaged =
+  | "alb"
+  | "nlb"
+  | "rnat"
+  | "rds"
+  | "lambda-network-connector"
+  | "igw-firewall"
+  | (string & {});
 export interface Address {
   AllocationId?: string | undefined;
   AssociationId?: string | undefined;
@@ -17917,7 +17947,14 @@ export interface GetDeclarativePoliciesReportSummaryResult {
   NumberOfFailedAccounts?: number | undefined;
   AttributeSummaries?: AttributeSummary[] | undefined;
 }
-export type UnlimitedSupportedInstanceFamily = "t2" | "t3" | "t3a" | "t4g" | "t8i" | (string & {});
+export type UnlimitedSupportedInstanceFamily =
+  | "t2"
+  | "t3"
+  | "t3a"
+  | "t4g"
+  | "t8i"
+  | "t9g"
+  | (string & {});
 export interface GetDefaultCreditSpecificationRequest {
   DryRun?: boolean | undefined;
   InstanceFamily?: UnlimitedSupportedInstanceFamily | undefined;
@@ -18358,7 +18395,14 @@ export interface GetIpamInternetRegistryAssociationCidrsResult {
   NextToken?: string | undefined;
   IpamInternetRegistryAssociationCidrs?: IpamInternetRegistryAssociationCidr[] | undefined;
 }
-export type IpamPolicyResourceType = "alb" | "eip" | "rds" | "rnat" | (string & {});
+export type IpamPolicyResourceType =
+  | "alb"
+  | "eip"
+  | "rds"
+  | "rnat"
+  | "lambda-network-connector"
+  | "igw-firewall"
+  | (string & {});
 export interface GetIpamPolicyAllocationRulesRequest {
   DryRun?: boolean | undefined;
   IpamPolicyId?: string | undefined;
@@ -18615,6 +18659,7 @@ export type IpamRoutingPolicyRegistrationState =
   | "update-complete"
   | "delete-in-progress"
   | "delete-complete"
+  | "disable-complete"
   | (string & {});
 export interface IpamRoutingPolicyRegistration {
   Cidr?: string | undefined;
@@ -58241,6 +58286,10 @@ function __c254(j: number): any {
             .pipe(T.XmlName("blockPublicAccessStates"), T.Ec2QueryName("BlockPublicAccessStates"))
             .annotate({ identifier: "BlockPublicAccessStates" }),
           Type: S.optional(S.String).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
+          NetworkFirewallConnectivityType: S.optional(S.String).pipe(
+            T.XmlName("networkFirewallConnectivityType"),
+            T.Ec2QueryName("NetworkFirewallConnectivityType"),
+          ),
           SubnetId: S.optional(S.String).pipe(T.XmlName("subnetId"), T.Ec2QueryName("SubnetId")),
           State: S.optional(S.String).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
           VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
@@ -58276,7 +58325,7 @@ function __c255(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Vpc: S.optional(__S(8226, __c257, 2))
+          Vpc: S.optional(__S(8228, __c257, 4))
             .pipe(T.XmlName("vpc"), T.Ec2QueryName("Vpc"))
             .annotate({ identifier: "Vpc" }),
         }).pipe(ns),
@@ -58372,6 +58421,29 @@ function __c257(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          FirewallArn: S.optional(S.String).pipe(
+            T.XmlName("firewallArn"),
+            T.Ec2QueryName("FirewallArn"),
+          ),
+          FirewallOnboardingStatus: S.optional(S.String).pipe(
+            T.XmlName("firewallOnboardingStatus"),
+            T.Ec2QueryName("FirewallOnboardingStatus"),
+          ),
+          FirewallMode: S.optional(S.String).pipe(
+            T.XmlName("firewallMode"),
+            T.Ec2QueryName("FirewallMode"),
+          ),
+        }),
+      ).annotate({ identifier: "NetworkFirewallAssociation" });
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ __S(8226, __c257, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("item"))
+          .annotate({ identifier: "NetworkFirewallAssociation" }),
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           OwnerId: S.optional(S.String).pipe(T.XmlName("ownerId"), T.Ec2QueryName("OwnerId")),
           InstanceTenancy: S.optional(S.String).pipe(
             T.XmlName("instanceTenancy"),
@@ -58396,6 +58468,10 @@ function __c257(j: number): any {
           BlockPublicAccessStates: S.optional(__S(8096, __c253, 0))
             .pipe(T.XmlName("blockPublicAccessStates"), T.Ec2QueryName("BlockPublicAccessStates"))
             .annotate({ identifier: "BlockPublicAccessStates" }),
+          NetworkFirewallAssociations: S.optional(__S(8227, __c257, 3)).pipe(
+            T.XmlName("networkFirewallAssociationSet"),
+            T.Ec2QueryName("NetworkFirewallAssociationSet"),
+          ),
           VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
           State: S.optional(S.String).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
           CidrBlock: S.optional(S.String).pipe(T.XmlName("cidrBlock"), T.Ec2QueryName("CidrBlock")),
@@ -64293,7 +64369,7 @@ function __c394(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          RouteTable: S.optional(__S(12646, __c395, 6))
+          RouteTable: S.optional(__S(12647, __c395, 7))
             .pipe(T.XmlName("routeTable"), T.Ec2QueryName("RouteTable"))
             .annotate({ identifier: "RouteTable" }),
           ClientToken: S.optional(S.String).pipe(
@@ -64348,6 +64424,16 @@ function __c395(j: number): any {
           .annotate({ identifier: "PropagatingVgw" }),
       );
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallArn: S.optional(S.String).pipe(
+            T.XmlName("firewallArn"),
+            T.Ec2QueryName("FirewallArn"),
+          ),
+          Status: S.optional(S.String).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
+        }),
+      ).annotate({ identifier: "IgwFirewall" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           DestinationCidrBlock: S.optional(S.String).pipe(
@@ -64410,15 +64496,18 @@ function __c395(j: number): any {
             T.Ec2QueryName("OdbNetworkArn"),
           ),
           IpAddress: S.optional(S.String).pipe(T.XmlName("ipAddress"), T.Ec2QueryName("IpAddress")),
+          IgwFirewall: S.optional(__S(12644, __c395, 4))
+            .pipe(T.XmlName("igwFirewall"), T.Ec2QueryName("IgwFirewall"))
+            .annotate({ identifier: "IgwFirewall" }),
         }),
       ).annotate({ identifier: "Route" });
-    case 5:
+    case 6:
       return S.Array(
-        /*@__PURE__*/ __S(12644, __c395, 4)
+        /*@__PURE__*/ __S(12645, __c395, 5)
           .pipe(/*@__PURE__*/ T.XmlName("item"))
           .annotate({ identifier: "Route" }),
       );
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Associations: S.optional(__S(12641, __c395, 1)).pipe(
@@ -64433,7 +64522,7 @@ function __c395(j: number): any {
             T.XmlName("routeTableId"),
             T.Ec2QueryName("RouteTableId"),
           ),
-          Routes: S.optional(__S(12645, __c395, 5)).pipe(
+          Routes: S.optional(__S(12646, __c395, 6)).pipe(
             T.XmlName("routeSet"),
             T.Ec2QueryName("RouteSet"),
           ),
@@ -66918,7 +67007,7 @@ function __c464(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Vpc: S.optional(__S(8226, __c257, 2))
+          Vpc: S.optional(__S(8228, __c257, 4))
             .pipe(T.XmlName("vpc"), T.Ec2QueryName("Vpc"))
             .annotate({ identifier: "Vpc" }),
         }).pipe(ns),
@@ -81377,7 +81466,7 @@ function __c785(j: number): any {
       ).annotate({ identifier: "DescribeRouteTablesRequest" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(12646, __c395, 6)
+        /*@__PURE__*/ __S(12647, __c395, 7)
           .pipe(/*@__PURE__*/ T.XmlName("item"))
           .annotate({ identifier: "RouteTable" }),
       );
@@ -85201,7 +85290,7 @@ function __c866(j: number): any {
       ).annotate({ identifier: "DescribeVpcsRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(8226, __c257, 2)
+        /*@__PURE__*/ __S(8228, __c257, 4)
           .pipe(/*@__PURE__*/ T.XmlName("item"))
           .annotate({ identifier: "Vpc" }),
       );

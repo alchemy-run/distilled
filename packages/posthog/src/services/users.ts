@@ -786,6 +786,17 @@ export interface OrganizationMemberNotice {
   /** Optional link button shown on the right of the banner. */
   action?: OrganizationMemberNoticeAction | null | undefined;
 }
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type OrganizationIpRestrictionsList = Array<string>;
+export interface OrganizationExternalProjectLink {
+  id: string;
+  /** Name shown for the project in the project switcher. */
+  name: string;
+  /** Full URL of the project on the other PostHog instance. */
+  url: string;
+}
+/** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+export type OrganizationExternalProjectLinksList = Array<OrganizationExternalProjectLink>;
 export interface Organization {
   id?: string | undefined;
   name?: string | undefined;
@@ -820,6 +831,8 @@ export interface Organization {
   member_notice?: OrganizationMemberNotice | null | undefined;
   member_count?: number | undefined;
   is_ai_data_processing_approved?: boolean | null | undefined;
+  /** When True, AI data processing cannot be turned on through the UI or API, and members cannot ask admins to turn it on. Set at the organization's request. */
+  is_ai_data_processing_locked: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null | undefined;
   /** When True, the AI training opt-out setting cannot be modified through the UI or API. */
@@ -840,6 +853,14 @@ export interface Organization {
   is_pending_deletion?: boolean | null | undefined;
   /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
   uses_most_specific_access_resolution?: boolean | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: OrganizationIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
+  /** A warning when the current request's IP address is not in the saved allowlist. */
+  ip_restrictions_warning: string | null;
+  /** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+  external_project_links: OrganizationExternalProjectLinksList;
 }
 /** Serializer for `Organization` model with minimal attributes to speeed up loading and transfer times. Also used for nested serializers. */
 export interface OrganizationBasic {
@@ -879,13 +900,14 @@ export type RoleAtOrganizationEnum =
   | "sales"
   | "student"
   | "other";
-/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner * `connector` - Signed up through an OAuth connector */
+/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner * `connector` - Signed up through an OAuth connector * `device_login` - Signed up through an OAuth device login */
 export type OnboardingSkippedReasonEnum =
   | "delegated"
   | "later"
   | "other"
   | "provisioned"
-  | "connector";
+  | "connector"
+  | "device_login";
 /** Real-time notification types that currently have a live dispatch site. Drives the in-app notifications settings UI. Read-only. */
 export type UserOutputActiveRealtimeNotificationTypesList = Array<string>;
 /** Shape of each item in UserSerializer.pending_invites. */
@@ -1884,7 +1906,7 @@ export const createUsersOnboardingSkip: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateUsersOnboardingSkipRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2015,7 +2037,7 @@ export const getUser: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2307,7 +2329,7 @@ export const updateUser: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2346,7 +2368,7 @@ export const updateUsersPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<UpdateUsersPartialRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2993,7 +3015,7 @@ function __c16(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/users/", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(1521, __c47, 17));
+      return S.Array(__S(1523, __c47, 19));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3723,6 +3745,16 @@ function __c47(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationExternalProjectLink" });
+    case 11:
+      return S.Array(__S(1514, __c47, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           slug: S.optional(S.String),
@@ -3749,6 +3781,7 @@ function __c47(j: number): any {
           member_notice: S.optional(S.NullOr(__S(1513, __c47, 9))),
           member_count: S.optional(S.Number),
           is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
+          is_ai_data_processing_locked: S.NullOr(S.Boolean),
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_locked: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_cta_shown: S.optional(S.NullOr(S.Boolean)),
@@ -3759,9 +3792,13 @@ function __c47(j: number): any {
           is_not_active_reason: S.optional(S.NullOr(S.String)),
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
           uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
+          ip_restrictions: S.optional(__S(1472, __c46, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
+          ip_restrictions_warning: S.NullOr(S.String),
+          external_project_links: __S(1515, __c47, 11),
         }),
       ).annotate({ identifier: "Organization" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3775,18 +3812,18 @@ function __c47(j: number): any {
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "OrganizationBasic" });
-    case 12:
-      return S.Array(__S(1515, __c47, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(1517, __c47, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           scene: S.optional(S.String),
           dashboard: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ScenePersonalisationBasic" });
-    case 14:
-      return S.Array(__S(1517, __c47, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(1519, __c47, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3796,9 +3833,9 @@ function __c47(j: number): any {
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingInvite" });
-    case 16:
-      return S.Array(__S(1519, __c47, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(1521, __c47, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           date_joined: S.optional(S.String),
@@ -3824,14 +3861,14 @@ function __c47(j: number): any {
           sensitive_session_expires_at: S.optional(S.NullOr(S.String)),
           fresh_reauth_expires_at: S.optional(S.NullOr(S.String)),
           team: S.optional(__S(1506, __c47, 2)),
-          organization: S.optional(__S(1514, __c47, 10)),
-          organizations: S.optional(__S(1516, __c47, 12)),
+          organization: S.optional(__S(1516, __c47, 12)),
+          organizations: S.optional(__S(1518, __c47, 14)),
           events_column_config: S.optional(S.Unknown),
           is_2fa_enabled: S.optional(S.Boolean),
           has_social_auth: S.optional(S.Boolean),
           has_sso_enforcement: S.optional(S.Boolean),
           has_seen_product_intro_for: S.optional(S.Unknown),
-          scene_personalisation: S.optional(__S(1518, __c47, 14)),
+          scene_personalisation: S.optional(__S(1520, __c47, 16)),
           theme_mode: S.optional(S.NullOr(S.Unknown)),
           hedgehog_config: S.optional(S.Unknown),
           allow_sidebar_suggestions: S.optional(S.NullOr(S.Boolean)),
@@ -3848,7 +3885,7 @@ function __c47(j: number): any {
           onboarding_delegation_accepted_at: S.optional(S.NullOr(S.String)),
           is_organization_first_user: S.optional(S.NullOr(S.Boolean)),
           active_realtime_notification_types: S.optional(__S(1472, __c46, 0)),
-          pending_invites: S.optional(__S(1520, __c47, 16)),
+          pending_invites: S.optional(__S(1522, __c47, 18)),
           requires_credential_review: S.optional(S.Boolean),
           personal_api_keys_limit: S.Number,
         }),

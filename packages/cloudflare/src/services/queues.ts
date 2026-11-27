@@ -1261,6 +1261,8 @@ export interface ListSubscriptionsRequest {
   page?: number | undefined;
   /** Number of items per page */
   perPage?: number | undefined;
+  /** Filter event subscriptions by destination queue ID. */
+  queueId?: string | undefined;
 }
 export type SubscriptionsListResultItemDestinationType = "queues.queue";
 export interface SubscriptionsListResultItemDestination {
@@ -3262,6 +3264,7 @@ function __c20(j: number): any {
           order: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+          queueId: S.optional(S.String.pipe(T.Query("queue_id"))),
         })
           .pipe(
             T.Http({

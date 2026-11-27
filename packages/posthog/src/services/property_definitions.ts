@@ -58,6 +58,39 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type PropertyDefinitionTypeNameEnum = "event" | "person" | "group" | "session";
+export interface PropertyUsageEntry {
+  /** Property definition type the name belongs to. * `event` - Event * `person` - Person * `group` - Group * `session` - Session */
+  type?: PropertyDefinitionTypeNameEnum | (string & {}) | undefined;
+  /** Property name, for example `$current_url`. */
+  name: string;
+  /** Group type index of a group property. Required when `type` is `group`, otherwise omit it. */
+  group_type_index?: number | null | undefined;
+}
+/** Properties to fetch 30-day query usage for, at most 100 per request. */
+export type CreatePropertyDefinitionsUsageMetricsRequestPropertiesList = Array<PropertyUsageEntry>;
+export interface CreatePropertyDefinitionsUsageMetricsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Properties to fetch 30-day query usage for, at most 100 per request. */
+  properties: CreatePropertyDefinitionsUsageMetricsRequestPropertiesList;
+}
+export interface PropertyUsageMetricsItem {
+  /** Property definition type the name belongs to. * `event` - Event * `person` - Person * `group` - Group * `session` - Session */
+  type: PropertyDefinitionTypeNameEnum;
+  /** Property name. */
+  name: string;
+  /** Group type index of a group property, null for other types. */
+  group_type_index: number | null;
+  /** Number of query executions in the last 30 days that referenced this property, including cached insight views. */
+  query_usage_30_day: number;
+}
+/** One entry per requested property, in request order. */
+export type PropertyUsageMetricsResponseResultsList = Array<PropertyUsageMetricsItem>;
+export interface PropertyUsageMetricsResponse {
+  /** One entry per requested property, in request order. */
+  results: PropertyUsageMetricsResponseResultsList;
+}
 export interface GetPropertyDefinitionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -110,6 +143,10 @@ export interface EnterprisePropertyDefinition {
   hidden?: boolean | null | undefined;
   /** Provenance for a person property populated from a data warehouse source (source/table/column/last synced), or null. Read-only. */
   warehouse_origin?: unknown | undefined;
+  /** Kind of property: an event, person, group or session property. */
+  type: PropertyDefinitionTypeNameEnum;
+  /** Group type index of a group property, null for every other type. */
+  group_type_index: number | null;
 }
 export interface GetPropertyDefinitionsSeenTogetherRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -223,6 +260,24 @@ export interface UpdatePropertyDefinitionsPartialRequest {
   verified?: boolean | undefined;
   hidden?: boolean | null | undefined;
 }
+export type CreatePropertyDefinitionsUsageMetricsError = PosthogOpError;
+/** 30-day query usage for a set of properties Returns how many query executions referenced each property in the last 30 days, including cached insight views. Batched: send up to 100 properties at once. Counts are cached for 24 hours. */
+export const createPropertyDefinitionsUsageMetrics: API.OperationMethod<
+  CreatePropertyDefinitionsUsageMetricsRequest,
+  PropertyUsageMetricsResponse,
+  CreatePropertyDefinitionsUsageMetricsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(10, __c1, 2) as any as S.Schema<CreatePropertyDefinitionsUsageMetricsRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<PropertyUsageMetricsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertyDefinitionsUsageMetrics",
+}));
+
 export type GetPropertyDefinitionError = Forbidden | NotFound | PosthogOpError;
 export const getPropertyDefinition: API.OperationMethod<
   GetPropertyDefinitionRequest,
@@ -230,8 +285,8 @@ export const getPropertyDefinition: API.OperationMethod<
   GetPropertyDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPropertyDefinitionRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<EnterprisePropertyDefinition>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetPropertyDefinitionRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<EnterprisePropertyDefinition>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -248,8 +303,8 @@ export const getPropertyDefinitionsSeenTogether: API.OperationMethod<
   GetPropertyDefinitionsSeenTogetherError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetPropertyDefinitionsSeenTogetherRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<GetPropertyDefinitionsSeenTogetherResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetPropertyDefinitionsSeenTogetherRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<GetPropertyDefinitionsSeenTogetherResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -265,8 +320,8 @@ export const listPropertyDefinitions: API.OperationMethod<
   ListPropertyDefinitionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListPropertyDefinitionsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<PaginatedEnterprisePropertyDefinitionList>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListPropertyDefinitionsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<PaginatedEnterprisePropertyDefinitionList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -287,8 +342,8 @@ export const propertyDefinitionsBulkUpdateTagsCreate: API.OperationMethod<
   PropertyDefinitionsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(42, __c5, 2) as any as S.Schema<PropertyDefinitionsBulkUpdateTagsCreateRequest>,
-  output: __S(47, __c5, 7) as any as S.Schema<BulkUpdateTagsResponse>,
+  input: __S(58, __c7, 2) as any as S.Schema<PropertyDefinitionsBulkUpdateTagsCreateRequest>,
+  output: __S(63, __c7, 7) as any as S.Schema<BulkUpdateTagsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -304,8 +359,8 @@ export const propertyDefinitionsDestroy: API.OperationMethod<
   PropertyDefinitionsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<PropertyDefinitionsDestroyRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<PropertyDefinitionsDestroyResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<PropertyDefinitionsDestroyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PropertyDefinitionsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -321,8 +376,8 @@ export const updatePropertyDefinition: API.OperationMethod<
   UpdatePropertyDefinitionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdatePropertyDefinitionRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<EnterprisePropertyDefinition>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdatePropertyDefinitionRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<EnterprisePropertyDefinition>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -342,8 +397,8 @@ export const updatePropertyDefinitionsPartial: API.OperationMethod<
   UpdatePropertyDefinitionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdatePropertyDefinitionsPartialRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<EnterprisePropertyDefinition>,
+  input: __S(0, __c0, 0) as any as S.Schema<UpdatePropertyDefinitionsPartialRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<EnterprisePropertyDefinition>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -360,6 +415,72 @@ function __c0(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          description: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(24, __c3, 0)),
+          property_type: S.optional(S.NullOr(S.Unknown)),
+          verified: S.optional(S.Boolean),
+          hidden: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/property_definitions/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdatePropertyDefinitionsPartialRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.String,
+          group_type_index: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "PropertyUsageEntry" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          properties: __S(9, __c1, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/property_definitions/usage_metrics/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreatePropertyDefinitionsUsageMetricsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          group_type_index: S.NullOr(S.Number),
+          query_usage_30_day: S.Number,
+        }),
+      ).annotate({ identifier: "PropertyUsageMetricsItem" });
+    case 4:
+      return S.Array(__S(11, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(12, __c1, 4),
+        }),
+      ).annotate({ identifier: "PropertyUsageMetricsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -370,7 +491,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetPropertyDefinitionRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -386,7 +507,7 @@ function __c1(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(9, __c1, 1))),
+          hedgehog_config: S.optional(S.NullOr(__S(25, __c3, 1))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -396,22 +517,24 @@ function __c1(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(8, __c1, 0)),
+          tags: S.optional(__S(24, __c3, 0)),
           is_numerical: S.optional(S.Boolean),
           updated_at: S.optional(S.String),
-          updated_by: S.optional(S.NullOr(__S(10, __c1, 2))),
+          updated_by: S.optional(S.NullOr(__S(26, __c3, 2))),
           is_seen_on_filtered_events: S.optional(S.NullOr(S.Boolean)),
           property_type: S.optional(S.NullOr(S.Unknown)),
           verified: S.optional(S.Boolean),
           verified_at: S.optional(S.NullOr(S.String)),
-          verified_by: S.optional(S.NullOr(__S(10, __c1, 2))),
+          verified_by: S.optional(S.NullOr(__S(26, __c3, 2))),
           hidden: S.optional(S.NullOr(S.Boolean)),
           warehouse_origin: S.optional(S.Unknown),
+          type: S.String,
+          group_type_index: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "EnterprisePropertyDefinition" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -427,7 +550,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetPropertyDefinitionsSeenTogetherRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -435,7 +558,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -465,19 +588,19 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListPropertyDefinitionsRequest" });
     case 1:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(27, __c3, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(33, __c4, 1)),
+          results: S.optional(__S(49, __c6, 1)),
         }),
       ).annotate({ identifier: "PaginatedEnterprisePropertyDefinitionList" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -487,9 +610,9 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          ids: S.optional(__S(40, __c5, 0)),
+          ids: S.optional(__S(56, __c7, 0)),
           action: S.optional(S.String),
-          tags: S.optional(__S(41, __c5, 1)),
+          tags: S.optional(__S(57, __c7, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -502,11 +625,11 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          tags: S.optional(__S(41, __c5, 1)),
+          tags: S.optional(__S(57, __c7, 1)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsItem" });
     case 4:
-      return S.Array(__S(43, __c5, 3));
+      return S.Array(__S(59, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -515,17 +638,17 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "BulkUpdateTagsError" });
     case 6:
-      return S.Array(__S(45, __c5, 5));
+      return S.Array(__S(61, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          updated: S.optional(__S(44, __c5, 4)),
-          skipped: S.optional(__S(46, __c5, 6)),
+          updated: S.optional(__S(60, __c7, 4)),
+          skipped: S.optional(__S(62, __c7, 6)),
         }),
       ).annotate({ identifier: "BulkUpdateTagsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -542,7 +665,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PropertyDefinitionsDestroyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -550,7 +673,7 @@ function __c7(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(8, __c1, 0)),
+          tags: S.optional(__S(24, __c3, 0)),
           property_type: S.optional(S.NullOr(S.Unknown)),
           verified: S.optional(S.Boolean),
           hidden: S.optional(S.NullOr(S.Boolean)),
@@ -562,28 +685,6 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdatePropertyDefinitionRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(8, __c1, 0)),
-          property_type: S.optional(S.NullOr(S.Unknown)),
-          verified: S.optional(S.Boolean),
-          hidden: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/property_definitions/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdatePropertyDefinitionsPartialRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -325,11 +325,13 @@ export interface HogQLQueryModifiers {
   mergeFederatedAggregateJoins?: boolean | null | undefined;
   /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
   negatedPersonFiltersNotIn?: boolean | null | undefined;
+  /** Move eligible non-nullable equality filters from CROSS JOIN queries into ALL INNER JOIN constraints */
+  optimizeCrossJoins?: boolean | null | undefined;
   optimizeJoinedFilters?: boolean | null | undefined;
   optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
   parserMode?: ParserMode | (string & {}) | null | undefined;
-  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. Unset, it applies to a persons join from `posthog.flag_evaluations` or from the union of events and flag_evaluations, and to no other join. */
   personIdPushdown?: boolean | null | undefined;
   personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
   personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
@@ -337,6 +339,8 @@ export interface HogQLQueryModifiers {
   propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
   pushDownPredicates?: boolean | null | undefined;
   s3TableUseInvalidColumns?: boolean | null | undefined;
+  /** Filter the sessions join of an events query by its session property filters and run it as a `GLOBAL LEFT JOIN`, so the sessions are read once instead of once per events shard. Applies only when every session filter is an equality or `IN` against non-empty strings, which are false for an event with no matching session. */
+  sessionFilterGlobalJoin?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
   sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
@@ -349,7 +353,7 @@ export interface HogQLQueryModifiers {
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null | undefined;
   useMaterializedViews?: boolean | null | undefined;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's tab switch or `ph_new_events_schema` cookie applies, then the project. A project reads the native table once PostHog has moved it there. Before that, it can opt in early by storing `true` here in its project settings. A stored `false` is ignored. */
   useNewEventsSchema?: boolean | null | undefined;
   usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
@@ -414,7 +418,13 @@ export type QueryScanFixLocation =
   | "view"
   | "insight_date_range"
   | "dashboard_date_filter";
-export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export type QueryScanFindingKind =
+  | "no_event_filter"
+  | "no_start_date"
+  | "persons_join"
+  | "repeated_cte_expansion"
+  | "cross_join_equality"
+  | "date_arrays_before_breakdown_limit";
 export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
@@ -564,6 +574,22 @@ export interface DataWarehouseSourceUsage {
 }
 export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
+export type WarehouseSuggestionNoteKind = "materialize" | "unmaterialize";
+export interface WarehouseSuggestionNote {
+  /** Whether this user can edit the view, which accepting the suggestion needs. */
+  can_act: boolean;
+  /** The suggestion id to pass to `warehouse-suggestions-get`, `-accept-prepare` or `-dismiss`. */
+  id: string;
+  /** What the suggestion proposes. */
+  kind: WarehouseSuggestionNoteKind | (string & {});
+  /** Plain-language note for the person, with the next step. */
+  message: string;
+  /** Absolute link to the view's page in Models. */
+  url: string;
+  /** The view's current name. */
+  view_name: string;
+}
+export type AccountsTableQueryResponseWarehouseSuggestionsList = Array<WarehouseSuggestionNote>;
 export interface DataWarehouseSyncWarning {
   /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
   data_is_current?: boolean | null | undefined;
@@ -639,6 +665,8 @@ export interface AccountsTableQueryResponse {
     | AccountsTableQueryResponseUsedDataWarehouseSourcesList
     | null
     | undefined;
+  /** Open warehouse suggestions about views this query read. Set only on fresh runs for agent callers; absent when not evaluated, empty when evaluated and none apply. */
+  warehouse_suggestions?: AccountsTableQueryResponseWarehouseSuggestionsList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
   warnings?: AccountsTableQueryResponseWarningsList | null | undefined;
 }
@@ -1271,8 +1299,8 @@ export const createCustomerAnalyticsAccountsTableQuery: API.OperationMethod<
   CreateCustomerAnalyticsAccountsTableQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
-  output: __S(47, __c1, 15) as any as S.Schema<AccountsTableQueryResponse>,
+  input: __S(66, __c2, 2) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
+  output: __S(49, __c1, 17) as any as S.Schema<AccountsTableQueryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1374,6 +1402,7 @@ function __c0(j: number): any {
           materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
           mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
           negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
+          optimizeCrossJoins: S.optional(S.NullOr(S.Boolean)),
           optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
           optimizeProjections: S.optional(S.NullOr(S.Boolean)),
           parserMode: S.optional(S.NullOr(S.String)),
@@ -1384,6 +1413,7 @@ function __c0(j: number): any {
           propertyGroupsMode: S.optional(S.NullOr(S.String)),
           pushDownPredicates: S.optional(S.NullOr(S.Boolean)),
           s3TableUseInvalidColumns: S.optional(S.NullOr(S.Boolean)),
+          sessionFilterGlobalJoin: S.optional(S.NullOr(S.Boolean)),
           sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
           sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
           sessionTableVersion: S.optional(S.NullOr(S.String)),
@@ -1584,8 +1614,21 @@ function __c1(j: number): any {
     case 13:
       return S.Array(__S(44, __c1, 12));
     case 14:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          can_act: S.Boolean,
+          id: S.String,
+          kind: S.String,
+          message: S.String,
+          url: S.String,
+          view_name: S.String,
+        }),
+      ).annotate({ identifier: "WarehouseSuggestionNote" });
     case 15:
+      return S.Array(__S(46, __c1, 14));
+    case 16:
+      return S.Array(S.Unknown);
+    case 17:
       return S.suspend(() =>
         S.Struct({
           columns: S.optional(S.NullOr(__S(18, __c0, 18))),
@@ -1605,17 +1648,18 @@ function __c1(j: number): any {
           results: __S(41, __c1, 9),
           timings: S.optional(S.NullOr(__S(43, __c1, 11))),
           used_data_warehouse_sources: S.optional(S.NullOr(__S(45, __c1, 13))),
-          warnings: S.optional(S.NullOr(__S(46, __c1, 14))),
+          warehouse_suggestions: S.optional(S.NullOr(__S(47, __c1, 15))),
+          warnings: S.optional(S.NullOr(__S(48, __c1, 16))),
         }),
       ).annotate({ identifier: "AccountsTableQueryResponse" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           column: S.Unknown,
           direction: S.String,
         }),
       ).annotate({ identifier: "AccountsTableSort" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
@@ -1624,7 +1668,7 @@ function __c1(j: number): any {
           scene: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryLogTags" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           columns: __S(0, __c0, 0),
@@ -1638,14 +1682,14 @@ function __c1(j: number): any {
           metrics: S.optional(S.NullOr(__S(6, __c0, 6))),
           modifiers: S.optional(S.NullOr(__S(17, __c0, 17))),
           offset: S.optional(S.NullOr(S.Number)),
-          response: S.optional(S.NullOr(__S(47, __c1, 15))),
-          sort: S.optional(S.NullOr(__S(48, __c1, 16))),
-          tags: S.optional(S.NullOr(__S(49, __c1, 17))),
+          response: S.optional(S.NullOr(__S(49, __c1, 17))),
+          sort: S.optional(S.NullOr(__S(50, __c1, 18))),
+          tags: S.optional(S.NullOr(__S(51, __c1, 19))),
           useDefaultColumns: S.optional(S.NullOr(S.Boolean)),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccountsTableQuery2" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           group_type_index: S.optional(S.NullOr(S.Number)),
@@ -1655,9 +1699,9 @@ function __c1(j: number): any {
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Breakdown" });
-    case 20:
-      return S.Array(__S(51, __c1, 19));
-    case 21:
+    case 22:
+      return S.Array(__S(53, __c1, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           breakdown: S.optional(S.NullOr(S.Unknown)),
@@ -1668,17 +1712,17 @@ function __c1(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(52, __c1, 20))),
+          breakdowns: S.optional(S.NullOr(__S(54, __c1, 22))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           compare: S.optional(S.NullOr(S.Boolean)),
           compare_to: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CompareFilter" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -1687,20 +1731,20 @@ function __c1(j: number): any {
           value: S.String,
         }),
       ).annotate({ identifier: "MetricsQueryFilter" });
-    case 24:
-      return S.Array(__S(55, __c1, 23));
-    case 25:
+    case 26:
+      return S.Array(__S(57, __c1, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           all: S.optional(S.NullOr(S.Boolean)),
           values: __S(1, __c0, 1),
         }),
       ).annotate({ identifier: "MetricsDashboardVariableSelection" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           allValue: S.optional(S.NullOr(S.String)),
-          current: S.optional(S.NullOr(__S(57, __c1, 25))),
+          current: S.optional(S.NullOr(__S(59, __c1, 27))),
           customValues: S.optional(S.NullOr(__S(1, __c0, 1))),
           includeAll: S.optional(S.NullOr(S.Boolean)),
           label: S.optional(S.NullOr(S.String)),
@@ -1711,45 +1755,45 @@ function __c1(j: number): any {
           source: S.String,
         }),
       ).annotate({ identifier: "MetricsDashboardVariable" });
-    case 27:
-      return S.Array(__S(58, __c1, 26));
-    case 28:
-      return S.Array(S.Unknown);
     case 29:
+      return S.Array(__S(60, __c1, 28));
+    case 30:
+      return S.Array(S.Unknown);
+    case 31:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(53, __c1, 21))),
-          compareFilter: S.optional(S.NullOr(__S(54, __c1, 22))),
+          breakdown_filter: S.optional(S.NullOr(__S(55, __c1, 23))),
+          compareFilter: S.optional(S.NullOr(__S(56, __c1, 24))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          metricFilters: S.optional(S.NullOr(__S(56, __c1, 24))),
-          metricVariables: S.optional(S.NullOr(__S(59, __c1, 27))),
-          properties: S.optional(S.NullOr(__S(60, __c1, 28))),
+          metricFilters: S.optional(S.NullOr(__S(58, __c1, 26))),
+          metricVariables: S.optional(S.NullOr(__S(61, __c1, 29))),
+          properties: S.optional(S.NullOr(__S(62, __c1, 30))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 30:
-      return S.Record(S.String, S.Unknown);
-    case 31:
-      return S.Record(S.String, __S(62, __c1, 30));
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.Record(S.String, __S(64, __c2, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           async: S.optional(S.NullOr(S.Boolean)),
-          query: __S(50, __c1, 18),
+          query: __S(52, __c1, 20),
           client_query_id: S.optional(S.NullOr(S.String)),
-          filters_override: S.optional(S.NullOr(__S(61, __c1, 29))),
+          filters_override: S.optional(S.NullOr(__S(63, __c1, 31))),
           limit_context: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           refresh: S.optional(S.String),
-          variables_override: S.optional(S.NullOr(__S(63, __c1, 31))),
+          variables_override: S.optional(S.NullOr(__S(65, __c2, 1))),
         }).pipe(
           T.Http({
             method: "POST",

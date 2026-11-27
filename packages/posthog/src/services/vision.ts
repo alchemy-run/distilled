@@ -408,8 +408,6 @@ export interface ObservationRequest {
 export type CreateVisionScannerRequestTagsList = Array<string>;
 /** * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
 export type ScannerCreationMethodEnum = "ai" | "template" | "scratch";
-/** * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-export type SamplingModeEnum = "focused" | "balanced" | "comprehensive";
 /** * `google` - Google */
 export type ScannerProviderEnum = "google";
 /** The experiment a scanner watches. Scans derive their person-scoped exposure filter from this blob at query time, so it is the only place an experiment can enter a scanner's targeting -- which is what lets the write-side access check and read-side redaction cover it. */
@@ -418,6 +416,27 @@ export interface ScannerExperimentTargeting {
   experiment_id: number;
   /** Narrow to sessions of people exposed to this variant. Null means every variant. */
   variant?: string | null | undefined;
+}
+/** * `experiment` - Experiment */
+export type ScannerScopeKindEnum = "experiment";
+/** Every variant the scanner watches, named explicitly, with no repeats. Read them from the experiment first, because a variant added to the experiment later is not watched until it is added here. Absent only on a scope carried over from the older targeting shapes, which watches every variant. */
+export type ScannerExperimentScopeVariantsList = Array<string>;
+/** * `all_at_creation` - Every variant the experiment had when the scanner was made * `user` - A subset someone picked */
+export type VariantsSourceEnum = "all_at_creation" | "user";
+/** An experiment scope: the sessions of people exposed to an experiment, labeled by variant. */
+export interface ScannerExperimentScope {
+  /** The kind of scope. Only `experiment` exists today. * `experiment` - Experiment */
+  kind: ScannerScopeKindEnum | (string & {});
+  /** The experiment whose exposed sessions the scanner watches. */
+  experiment_id: number;
+  /** Every variant the scanner watches, named explicitly, with no repeats. Read them from the experiment first, because a variant added to the experiment later is not watched until it is added here. Absent only on a scope carried over from the older targeting shapes, which watches every variant. */
+  variants?: ScannerExperimentScopeVariantsList | undefined;
+  /** Whether `variants` was the experiment's full variant set when the scanner was made, or a subset someone picked. The launch receiver adds new variants only to the first. * `all_at_creation` - Every variant the experiment had when the scanner was made * `user` - A subset someone picked */
+  variants_source?: VariantsSourceEnum | (string & {}) | undefined;
+  /** Whether the budget is spent about evenly across the watched variants. False samples them proportionally to the experiment's rollout. Defaults to true. */
+  balance?: boolean | undefined;
+  /** Whether a scanner saved off against a draft experiment turns itself on when that experiment launches. Cleared once it starts. Defaults to false. */
+  start_on_launch?: boolean | undefined;
 }
 export interface CreateVisionScannerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -444,11 +463,9 @@ export interface CreateVisionScannerRequest {
   query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
   sampling_rate?: number | undefined;
-  /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null | undefined;
-  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. When they run out it turns off with `disabled_reason` `free_credits_used`. */
   free_only?: boolean | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum | (string & {}) | undefined;
@@ -460,10 +477,18 @@ export interface CreateVisionScannerRequest {
   emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
   experiment_targeting?: ScannerExperimentTargeting | null | undefined;
+  /** Which sessions the scanner watches beyond its filters, and the label it gives each one. Null watches every session the filters match. Set null to remove the scope. */
+  scope?: ScannerExperimentScope | null | undefined;
 }
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
 export type ReplayScannerOutputTagsList = Array<string>;
-export type UnrunnableReasonEnum = "no_ai_consent" | "creator_lost_access";
+/** * `manual` - Turned off by a person * `free_credits_used` - Free credits used * `no_ai_consent` - No AI consent * `creator_lost_access` - Creator lost access * `experiment_deleted` - Experiment deleted */
+export type ScannerDisabledReasonEnum =
+  | "manual"
+  | "free_credits_used"
+  | "no_ai_consent"
+  | "creator_lost_access"
+  | "experiment_deleted";
 /** A Replay Vision scanner: its type, targeting query, and AI configuration. */
 export interface ReplayScannerOutput {
   id: string;
@@ -485,11 +510,9 @@ export interface ReplayScannerOutput {
   query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
   sampling_rate?: number | undefined;
-  /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null | undefined;
-  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. When they run out it turns off with `disabled_reason` `free_credits_used`. */
   free_only?: boolean | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum | undefined;
@@ -501,6 +524,10 @@ export interface ReplayScannerOutput {
   emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
   experiment_targeting?: ScannerExperimentTargeting | null | undefined;
+  /** Which sessions the scanner watches beyond its filters, and the label it gives each one. Null watches every session the filters match. Set null to remove the scope. */
+  scope?: ScannerExperimentScope | null | undefined;
+  /** What this scanner's scope watches, for a reader that cannot see the experiment. */
+  scope_summary: string | null;
   /** Increments on every config-changing save. Observations snapshot this value. */
   scanner_version: number;
   /** Latest projected observations/month for this scanner. Null until first computed. */
@@ -523,6 +550,8 @@ export interface ReplayScannerOutput {
   limit_reached: boolean;
   /** How much the scheduled sweep is slowed to keep this scanner inside its daily ClickHouse read budget. 1 means it checks for new recordings on the normal schedule; N means it checks once every N schedule intervals. Expensive filters raise it. */
   sweep_throttle_factor: number;
+  /** How often, in minutes, the scheduled sweep checks this scanner for new recordings. Null when the scanner is off or its sweep is paused because it cannot scan. Scanners that rarely find recordings, or read a lot of data, are checked less often. Scanners created or edited in the last day, or with an enabled alert, are checked as often as their read budget allows. */
+  sweep_interval_minutes: number | null;
   /** Dashboard created for this scanner with the create_dashboard action. Null when none was created or the user deleted it. */
   dashboard_id: number | null;
   /** Whether to offer the user a dashboard for this scanner: true when the scanner has no dashboard and at least 20 succeeded observations to chart. Offer it once and do not repeat the offer if the user declines. */
@@ -531,8 +560,8 @@ export interface ReplayScannerOutput {
   last_swept_at: string;
   /** Why the scanner's recording filter cannot run, from the last sweep or estimate that tried it. Cleared when the filter changes or a sweep runs it. */
   filter_error: string | null;
-  /** Why the scanner can never run, or null when it can. `no_ai_consent`: the organization has not approved AI data processing. `creator_lost_access`: the creator can no longer view recordings, which the sweep reads as them, so turning the scanner on requires `take_over_as_creator`. The sweep turns an enabled scanner off when either applies. */
-  unrunnable_reason: UnrunnableReasonEnum | null;
+  /** Why the scanner is off, or null when it is on or was created off. `manual`: a person turned it off. `free_credits_used`: a `free_only` scanner stopped when the free credits ran out. `no_ai_consent`: the organization has not approved AI data processing. `creator_lost_access`: the creator can no longer view recordings, which the sweep reads as them, so turning the scanner on requires `take_over_as_creator`. `experiment_deleted`: its experiment was deleted. * `manual` - Turned off by a person * `free_credits_used` - Free credits used * `no_ai_consent` - No AI consent * `creator_lost_access` - Creator lost access * `experiment_deleted` - Experiment deleted */
+  disabled_reason: ScannerDisabledReasonEnum | null;
   created_at: string;
   /** User who created the scanner. */
   created_by: UserBasic | null;
@@ -637,13 +666,13 @@ export interface CreateVisionScannersDraftRequest {
   project_id: string;
   /** What the user wants to accomplish, e.g. 'find out where users get stuck during onboarding'. */
   goal: string;
-  /** Credits a month to spend (1 credit = $0.01). The draft picks the `model`, then solves `sampling_mode` and `sampling_rate` so the projected spend lands on this number, and sets `credit_limit` to it as a hard cap. Ask the person for it rather than guessing. Required unless `free_only` is true, and not allowed with it. */
+  /** Credits a month to spend (1 credit = $0.01). The draft picks the `model`, then solves `sampling_rate` so the projected spend lands on this number, and sets `credit_limit` to it as a hard cap. Ask the person for it rather than guessing. Required unless `free_only` is true, and not allowed with it. */
   monthly_credit_budget?: number | undefined;
-  /** Draft a scanner that runs only on the organization's free monthly credits, so it never adds to the bill and pauses when they run out. The draft is sized to those free credits and comes back with `free_only` true and no `credit_limit`. Use instead of `monthly_credit_budget`. */
+  /** Draft a scanner that runs only on the organization's free monthly credits, so it never adds to the bill and stops when they run out. The draft is sized to those free credits and comes back with `free_only` true and no `credit_limit`. Use instead of `monthly_credit_budget`. */
   free_only?: boolean | undefined;
   /** A launched experiment the person picked for the scanner to watch. The draft is then an `experiment` scanner on it. */
   experiment_id?: number | undefined;
-  /** A `RecordingsQuery` the person already chose, as the replay list holds it. The draft starts from it and never removes or widens it. When the goal asks for narrower recordings, the draft can AND its own page, event, action or cohort filters onto it. It keeps them only when the combined filter still matches recent recordings, returns them in `query_additions`, and sizes the sampling dials against the combined `query`. `experiment_exposure` becomes the scanner's experiment and variants, which the draft keeps as they are. `date_from`/`date_to` are dropped, because a scanner's schedule owns time. `comment_text`, `hide_viewed_recordings` and in-session exposure are refused, because a scanner cannot apply them. A query with no filters starts from every new recording. Omit to let the draft pick the sessions. */
+  /** A `RecordingsQuery` the person already chose, as the replay list holds it. The draft starts from it and never removes or widens it. When the goal asks for narrower recordings, the draft can AND its own page, event, action or cohort filters onto it. It keeps them only when the combined filter still matches recent recordings, returns them in `query_additions`, and sizes the sampling rate against the combined `query`. `experiment_exposure` becomes the scanner's experiment and variants, which the draft keeps as they are. `date_from`/`date_to` are dropped, because a scanner's schedule owns time. `comment_text`, `hide_viewed_recordings` and in-session exposure are refused, because a scanner cannot apply them. A query with no filters starts from every new recording. Omit to let the draft pick the sessions. */
   query?: unknown | undefined;
 }
 /** An AI-drafted scanner configuration, ready to seed the creation wizard. Nothing is persisted. */
@@ -662,9 +691,7 @@ export interface DraftScannerResponse {
   query: unknown;
   /** When the request passed a `query`: the filters the draft ANDed onto it, which `query` already includes. Show them to the person as added by AI. Null when nothing was added or no `query` was passed. */
   query_additions: unknown;
-  /** The quality pre-filter the draft chose for the goal. Null when the costing estimate failed, in which case the wizard keeps its defaults. * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode: SamplingModeEnum | null;
-  /** The random sampling rate solved from `monthly_credit_budget`, 0..1. 1.0 when the budget covers every matching recording. Floored at the minimum rate, so a budget below that floor keeps the minimum. Null whenever `sampling_mode` is. */
+  /** The random sampling rate solved from `monthly_credit_budget`, 0..1. 1.0 when the budget covers every matching recording. Floored at the minimum rate, so a budget below that floor keeps the minimum. Null when the costing estimate failed, in which case the wizard keeps its defaults. */
   sampling_rate: number | null;
   /** The observation model the draft chose for the goal, by how much judgment it needs. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
   model: ScannerModelEnum | null;
@@ -672,7 +699,7 @@ export interface DraftScannerResponse {
   credit_limit: number | null;
   /** Whether the draft runs only on the organization's free monthly credits. Pass it on to create. */
   free_only: boolean;
-  /** Recordings a month the drafted scanner is projected to watch under the solved dials. Its credit cost lands at or under `monthly_credit_budget`, except when the budget is below what the minimum sampling rate can reach, where this is the floor and exceeds the budget. Null whenever `sampling_mode` is. */
+  /** Recordings a month the drafted scanner is projected to watch under the solved rate. Its credit cost lands at or under `monthly_credit_budget`, except when the budget is below what the minimum sampling rate can reach, where this is the floor and exceeds the budget. Null whenever `sampling_rate` is. */
   estimated_monthly_observations: number | null;
 }
 /** The variant keys it watches. Null or omitted means every variant. */
@@ -690,8 +717,6 @@ export interface CreateVisionScannersEstimateRequest {
   query?: unknown | undefined;
   /** 0..1 downsample applied to matched sessions. Defaults to 1.0 (no downsampling). */
   sampling_rate?: number | undefined;
-  /** Quality pre-filter applied to the matched-session count, mirroring the sweep's candidate query. Defaults to comprehensive (no filter). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** The scanner being edited, excluded from `other_enabled_scanners_monthly_credits` so its stored estimate isn't double-counted in the forecast. Omit (or null) when estimating a brand-new scanner. */
   scanner_id?: string | null | undefined;
   /** Proposed model; determines `credits_per_observation` in the response. * `gemini-3.5-flash-lite` - Gemini 3.5 Flash Lite * `gemini-3-flash-preview` - Gemini 3 Flash * `gemini-3.8-flash` - Gemini 3.8 Flash */
@@ -703,11 +728,11 @@ export interface CreateVisionScannersEstimateRequest {
 }
 /** Forward-looking volume and credit-cost estimate for a proposed scanner. */
 export interface EstimateResponse {
-  /** Distinct sessions matching the query within the scanned window (`window_days`), after the sampling_mode quality filter but before random sampling. */
+  /** Distinct sessions matching the query within the scanned window (`window_days`), before random sampling. */
   matched_sessions_in_window: number;
   /** Days of recordings the estimate scanned before scaling to 30. Up to a week (shorter when the query's operand rules out sampling); smaller when the team has fewer days of recordings. */
   window_days: number;
-  /** Projected monthly observations: quality-filtered matched sessions scaled from `window_days` to 30 days, times sampling_rate. */
+  /** Projected monthly observations: matched sessions scaled from `window_days` to 30 days, times sampling_rate. */
   estimated_observations_per_month: number;
   /** Credits one observation costs at the proposed `model` (1 credit = $0.01). */
   credits_per_observation: number;
@@ -804,8 +829,10 @@ export type SignalScoutConfigOptionsStructuredOutputSchemaMap = {
 export type SignalScoutConfigOptionsMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigOptionsReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type SignalScoutConfigOptionsAllowedMcpToolsList = Array<string>;
 /** * `read_only` - Read only * `support_notes` - Support notes */
@@ -840,6 +867,8 @@ export type SignalScoutConfigNetworkAccessEnum = "trusted" | "full";
 export interface SignalScoutConfigOptions {
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id?: string | null | undefined;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
   tags?: SignalScoutConfigOptionsTagsList | undefined;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
@@ -848,8 +877,12 @@ export interface SignalScoutConfigOptions {
   mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList | undefined;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigOptionsRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes?: SignalScoutConfigOptionsWriteScopesList | undefined;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions?: SignalScoutConfigOptionsReportActionsList | undefined;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day?: number | undefined;
   /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
   lifecycle_locked?: boolean | undefined;
   /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
@@ -925,11 +958,12 @@ export type SignalScoutConfigStatusEnum =
   | "pending_pause"
   | "paused_by_system"
   | "paused_by_user";
-/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
+/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `trial_scout_limit` - Free trial scout limit * `retired` - Retired * `background_removed` - Background removed */
 export type SignalScoutConfigPauseReasonEnum =
   | "no_output"
   | "ignored"
   | "repeated_failures"
+  | "trial_scout_limit"
   | "retired"
   | "background_removed";
 /** * `team` - Team * `background` - Background */
@@ -940,8 +974,10 @@ export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknow
 export type SignalScoutConfigMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type SignalScoutConfigAllowedMcpToolsList = Array<string>;
 export type ScoutPrecheckQuerySourceEnum = "config" | "skill_default" | "off";
@@ -970,7 +1006,7 @@ export interface SignalScoutConfig {
   enabled: boolean;
   /** Lifecycle status. `active`: runs on its schedule. `pending_pause`: still running, but flagged by the system to pause soon unless something changes (any config edit clears it). `paused_by_system`: paused automatically, see `pause_reason`; set `enabled=true` to resume. `paused_by_user`: switched off by a person and never resumed automatically. * `active` - Active * `pending_pause` - Pending pause * `paused_by_system` - Paused by system * `paused_by_user` - Paused by user */
   status: SignalScoutConfigStatusEnum;
-  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports -- no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
+  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports -- no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `trial_scout_limit` - Free trial scout limit * `retired` - Retired * `background_removed` - Background removed */
   pause_reason: SignalScoutConfigPauseReasonEnum | null;
   /** Who controls this scout now. `team`: a person set it up or has changed it. `background`: PostHog runs it in the background and no person has edited it yet. Any edit through this API changes `background` to `team`. * `team` - Team * `background` - Background */
   managed_by: SignalScoutConfigManagedByEnum;
@@ -988,12 +1024,18 @@ export interface SignalScoutConfig {
   network_access: SignalScoutConfigNetworkAccessEnum;
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model: string | null;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id: string | null;
   /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
   mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes: SignalScoutConfigWriteScopesList;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions: SignalScoutConfigReportActionsList;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day: number;
   /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
   lifecycle_locked: boolean;
   /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
@@ -1006,7 +1048,7 @@ export interface SignalScoutConfig {
   precheck_disabled: boolean;
   /** The pre-check query the next scheduled run uses: `precheck_query`, or the default the scout's skill ships. Null when no pre-check runs. */
   effective_precheck_query: string | null;
-  /** Where `effective_precheck_query` comes from: `config` (this scout's `precheck_query`), `skill_default` (the default its skill ships), or `off` (no pre-check runs). */
+  /** Where `effective_precheck_query` comes from: `config` (this scout's `precheck_query`), `skill_default` (the default its skill ships), or `off` (no pre-check runs). `skill_default` with a null `effective_precheck_query` means the scout runs a built-in check in code. */
   precheck_query_source: ScoutPrecheckQuerySourceEnum;
   /** When a scheduled run last evaluated this scout's pre-check. A skipped run writes no run row, so this stays recent while `last_run_at` ages. Null if no pre-check has run. */
   last_precheck_at: string | null;
@@ -1070,8 +1112,10 @@ export interface VisionQuota {
   scanners_period_credits: number;
   /** Committed-but-unspent credits of the organization's active backfills. A one-off charge rather than a rate, so it lands in full regardless of how much of the period is left. */
   backfills_committed_credits: number;
-  /** Credits per period included for free. Already counted inside `credit_limit`; only credits beyond this number are billed. */
-  free_monthly_credits: number;
+  /** Credits per period included for free. Already counted inside `credit_limit`; only credits beyond this number are billed. Null when every credit is free. */
+  free_monthly_credits: number | null;
+  /** True while billing has not yet synced this organization's limit and free credits. Nothing can run until it does, which usually takes seconds; poll this endpoint until it turns false. */
+  awaiting_billing_sync: boolean;
 }
 export interface GetEnvironmentVisionQuotaSpendSeriesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1685,8 +1729,6 @@ export interface ObservationVersionMarker {
   query: unknown;
   /** The 0..1 downsample this version ran with. */
   sampling_rate: number | null;
-  /** The session-coverage pre-filter this version ran with. */
-  sampling_mode: string | null;
   /** Thumbs-up ratings on this version's observations. */
   up: number;
   /** Thumbs-down ratings on this version's observations. */
@@ -2084,6 +2126,7 @@ export type ListVisionScannersRequestOrderBy =
   | "sampling_rate"
   | "scanner_type"
   | "updated_at";
+export type ListVisionScannersRequestScopeKind = "experiment";
 export interface ListVisionScannersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2093,7 +2136,7 @@ export interface ListVisionScannersRequest {
   emits_signals?: boolean | undefined;
   /** Filter by enabled state. Accepts `enabled`, `disabled`, a comma-separated list of both, or the boolean form `true`/`false`. Omit to list every scanner. */
   enabled?: string | undefined;
-  /** Filter to scanners whose targeting watches the given experiment. */
+  /** Filter to scanners whose scope watches the given experiment. */
   experiment_id?: string | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
@@ -2103,6 +2146,8 @@ export interface ListVisionScannersRequest {
   order_by?: ListVisionScannersRequestOrderBy | (string & {}) | undefined;
   /** Filter by scanner type (monitor, classifier, scorer, summarizer). Accepts a comma-separated list. */
   scanner_type?: string | undefined;
+  /** Filter to scanners whose scope is of this kind. * `experiment` - Experiment */
+  scope_kind?: ListVisionScannersRequestScopeKind | (string & {}) | undefined;
   /** Case-insensitive substring match across name, description, and the prompt in scanner_config. */
   search?: string | undefined;
   /** Filter to scanners carrying at least one of the given tags (comma-separated). */
@@ -2504,11 +2549,9 @@ export interface UpdateVisionScannersPartialRequest {
   query?: unknown | undefined;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
   sampling_rate?: number | undefined;
-  /** Quality pre-filter applied before random sampling. focused = top sessions only, balanced = drops the lowest-quality, comprehensive = no filter (default). * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
-  sampling_mode?: SamplingModeEnum | (string & {}) | undefined;
   /** Optional cap on this scanner's own credit spend per billing period. Null means no scanner-level cap. When reached, this scanner stops scanning until the period resets. It stays enabled and does not scan the sessions it skipped. */
   credit_limit?: number | null | undefined;
-  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. */
+  /** Run only while the organization has free credits left this billing period, so the scanner never adds spend. When they run out it turns off with `disabled_reason` `free_credits_used`. */
   free_only?: boolean | undefined;
   /** LLM provider. v1 is Google-only. * `google` - Google */
   provider?: ScannerProviderEnum | (string & {}) | undefined;
@@ -2520,6 +2563,8 @@ export interface UpdateVisionScannersPartialRequest {
   emits_signals?: boolean | undefined;
   /** The experiment this scanner's targeting watches, if any. Set null when the experiment targeting is removed. */
   experiment_targeting?: ScannerExperimentTargeting | null | undefined;
+  /** Which sessions the scanner watches beyond its filters, and the label it gives each one. Null watches every session the filters match. Set null to remove the scope. */
+  scope?: ScannerExperimentScope | null | undefined;
 }
 /** HogFunction IDs to delete as one atomic destination group. */
 export type VisionAlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
@@ -2840,7 +2885,7 @@ export const createVisionScanner: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateVisionScannerRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
+  output: __S(97, __c3, 1) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3209,7 +3254,7 @@ export const getVisionScanner: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetVisionScannerRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
+  output: __S(97, __c3, 1) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3696,7 +3741,7 @@ export const updateVisionScannersPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<UpdateVisionScannersPartialRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
+  output: __S(97, __c3, 1) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3983,7 +4028,7 @@ export const visionScannersDuplicateCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<VisionScannersDuplicateCreateRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ReplayScannerOutput>,
+  output: __S(97, __c3, 1) as any as S.Schema<ReplayScannerOutput>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4100,7 +4145,6 @@ function __c1(j: number): any {
           scanner_config: S.Unknown,
           query: S.optional(S.Unknown),
           sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
           credit_limit: S.optional(S.NullOr(S.Number)),
           free_only: S.optional(S.Boolean),
           provider: S.optional(S.String),
@@ -4108,6 +4152,7 @@ function __c1(j: number): any {
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
           experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
+          scope: S.optional(S.NullOr(__S(96, __c3, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 }),
         ),
@@ -4130,6 +4175,17 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          kind: S.String,
+          experiment_id: S.Number,
+          variants: S.optional(__S(1344, __c42, 0)),
+          variants_source: S.optional(S.String),
+          balance: S.optional(S.Boolean),
+          start_on_launch: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ScannerExperimentScope" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
@@ -4140,7 +4196,6 @@ function __c3(j: number): any {
           prompt_question: S.String,
           query: S.optional(S.Unknown),
           sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
           credit_limit: S.optional(S.NullOr(S.Number)),
           free_only: S.optional(S.Boolean),
           provider: S.optional(S.String),
@@ -4148,6 +4203,8 @@ function __c3(j: number): any {
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
           experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
+          scope: S.optional(S.NullOr(__S(96, __c3, 0))),
+          scope_summary: S.NullOr(S.String),
           scanner_version: S.Number,
           estimated_monthly_observations: S.NullOr(S.Number),
           estimated_at: S.NullOr(S.String),
@@ -4159,11 +4216,12 @@ function __c3(j: number): any {
           limit_from_free_credits: S.Boolean,
           limit_reached: S.Boolean,
           sweep_throttle_factor: S.Number,
+          sweep_interval_minutes: S.NullOr(S.Number),
           dashboard_id: S.NullOr(S.Number),
           dashboard_suggested: S.Boolean,
           last_swept_at: S.String,
           filter_error: S.NullOr(S.String),
-          unrunnable_reason: S.NullOr(S.String),
+          disabled_reason: S.NullOr(S.String),
           created_at: S.String,
           created_by: S.NullOr(__S(1249, __c39, 1)),
           updated_at: S.String,
@@ -4306,7 +4364,6 @@ function __c8(j: number): any {
           rationale: S.String,
           query: S.Unknown,
           query_additions: S.Unknown,
-          sampling_mode: S.NullOr(S.String),
           sampling_rate: S.NullOr(S.Number),
           model: S.NullOr(S.String),
           credit_limit: S.NullOr(S.Number),
@@ -4331,7 +4388,6 @@ function __c9(j: number): any {
           project_id: S.String.pipe(T.Label()),
           query: S.optional(S.Unknown),
           sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
           scanner_id: S.optional(S.NullOr(S.String)),
           model: S.optional(S.String),
           experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
@@ -4510,11 +4566,14 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.NullOr(S.String)),
+          custom_image_id: S.optional(S.NullOr(S.String)),
           tags: S.optional(__S(1344, __c42, 0)),
           structured_output_schema: S.optional(S.NullOr(__S(1248, __c39, 0))),
           mcp_gateway_server_ids: S.optional(__S(1344, __c42, 0)),
           repositories: S.optional(__S(1344, __c42, 0)),
           write_scopes: S.optional(__S(1344, __c42, 0)),
+          report_actions: S.optional(__S(1344, __c42, 0)),
+          max_report_actions_per_day: S.optional(S.Number),
           lifecycle_locked: S.optional(S.Boolean),
           allowed_mcp_tools: S.optional(S.NullOr(__S(1344, __c42, 0))),
           tool_preset: S.optional(S.String),
@@ -4579,9 +4638,12 @@ function __c16(j: number): any {
           structured_output_schema: S.NullOr(__S(1248, __c39, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
+          custom_image_id: S.NullOr(S.String),
           mcp_gateway_server_ids: __S(1344, __c42, 0),
           repositories: S.optional(__S(1344, __c42, 0)),
           write_scopes: __S(1344, __c42, 0),
+          report_actions: __S(1344, __c42, 0),
+          max_report_actions_per_day: S.Number,
           lifecycle_locked: S.Boolean,
           allowed_mcp_tools: S.NullOr(__S(1344, __c42, 0)),
           tool_preset: S.NullOr(S.String),
@@ -4644,7 +4706,8 @@ function __c18(j: number): any {
           scanners_monthly_credits: S.Number,
           scanners_period_credits: S.Number,
           backfills_committed_credits: S.Number,
-          free_monthly_credits: S.Number,
+          free_monthly_credits: S.NullOr(S.Number),
+          awaiting_billing_sync: S.Boolean,
         }),
       ).annotate({ identifier: "VisionQuota" });
   }
@@ -5184,7 +5247,6 @@ function __c33(j: number): any {
           emits_signals: S.NullOr(S.Boolean),
           query: S.Unknown,
           sampling_rate: S.NullOr(S.Number),
-          sampling_mode: S.NullOr(S.String),
           up: S.Number,
           down: S.Number,
           total: S.Number,
@@ -5750,6 +5812,7 @@ function __c54(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
           scanner_type: S.optional(S.String.pipe(T.Query())),
+          scope_kind: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -5757,7 +5820,7 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListVisionScannersRequest" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(97, __c3, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6155,7 +6218,6 @@ function __c65(j: number): any {
           scanner_config: S.optional(S.Unknown),
           query: S.optional(S.Unknown),
           sampling_rate: S.optional(S.Number),
-          sampling_mode: S.optional(S.String),
           credit_limit: S.optional(S.NullOr(S.Number)),
           free_only: S.optional(S.Boolean),
           provider: S.optional(S.String),
@@ -6163,6 +6225,7 @@ function __c65(j: number): any {
           enabled: S.optional(S.Boolean),
           emits_signals: S.optional(S.Boolean),
           experiment_targeting: S.optional(S.NullOr(__S(64, __c2, 0))),
+          scope: S.optional(S.NullOr(__S(96, __c3, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",

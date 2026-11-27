@@ -6,7 +6,6 @@ export * as clickStack from "./click_stack.ts";
 export * as notifications from "./notifications.ts";
 export * as organization from "./organization.ts";
 export * as postgres from "./postgres.ts";
-export * as prometheus from "./prometheus.ts";
 export * as service from "./service.ts";
 export * as snapshot from "./snapshot.ts";
 export * as userManagement from "./user_management.ts";

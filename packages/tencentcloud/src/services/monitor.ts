@@ -29,6 +29,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface AddSubnetToManagedClusterRequest {
+  InstanceId: string;
+  SubnetId: string;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface AddSubnetToManagedClusterResponse {
+  RequestId?: string | undefined;
+}
 export interface BindingPolicyObjectDimension {
   Region: string;
   RegionId?: number | undefined;
@@ -631,6 +640,7 @@ export interface PrometheusClusterAgentBasic {
   NotScrape?: boolean | undefined;
   DropAll?: boolean | undefined;
   CollectAll?: boolean | undefined;
+  PrivateLinkIP?: string | undefined;
   OpenDefaultRecord?: boolean | undefined;
 }
 export type PrometheusClusterAgentBasicList = Array<PrometheusClusterAgentBasic>;
@@ -3856,6 +3866,23 @@ export interface UpgradeGrafanaInstanceRequest {
 export interface UpgradeGrafanaInstanceResponse {
   RequestId?: string | undefined;
 }
+export type AddSubnetToManagedClusterError = TencentCloudOpError;
+export const addSubnetToManagedCluster: API.OperationMethod<
+  AddSubnetToManagedClusterRequest,
+  AddSubnetToManagedClusterResponse,
+  AddSubnetToManagedClusterError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<AddSubnetToManagedClusterRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<AddSubnetToManagedClusterResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSubnetToManagedCluster",
+}));
+
 export type BindingPolicyObjectError = TencentCloudOpError;
 export const bindingPolicyObject: API.OperationMethod<
   BindingPolicyObjectRequest,
@@ -3863,7 +3890,7 @@ export const bindingPolicyObject: API.OperationMethod<
   BindingPolicyObjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<BindingPolicyObjectRequest>,
+  input: __S(34, __c2, 2) as any as S.Schema<BindingPolicyObjectRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<BindingPolicyObjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3880,7 +3907,7 @@ export const bindingPolicyTag: API.OperationMethod<
   BindingPolicyTagError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c2, 2) as any as S.Schema<BindingPolicyTagRequest>,
+  input: __S(1810, __c113, 2) as any as S.Schema<BindingPolicyTagRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<BindingPolicyTagResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3897,7 +3924,7 @@ export const bindPrometheusManagedGrafana: API.OperationMethod<
   BindPrometheusManagedGrafanaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<BindPrometheusManagedGrafanaRequest>,
+  input: __S(2096, __c131, 0) as any as S.Schema<BindPrometheusManagedGrafanaRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<BindPrometheusManagedGrafanaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3914,8 +3941,8 @@ export const checkAddressByPrometheus: API.OperationMethod<
   CheckAddressByPrometheusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CheckAddressByPrometheusRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<CheckAddressByPrometheusResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<CheckAddressByPrometheusRequest>,
+  output: __S(2289, __c143, 1) as any as S.Schema<CheckAddressByPrometheusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3931,7 +3958,7 @@ export const cleanGrafanaInstance: API.OperationMethod<
   CleanGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<CleanGrafanaInstanceRequest>,
+  input: __S(2480, __c155, 0) as any as S.Schema<CleanGrafanaInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CleanGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -3948,8 +3975,8 @@ export const createAlarmHistoryShield: API.OperationMethod<
   CreateAlarmHistoryShieldError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<CreateAlarmHistoryShieldRequest>,
-  output: __S(2480, __c155, 0) as any as S.Schema<CreateAlarmHistoryShieldResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<CreateAlarmHistoryShieldRequest>,
+  output: __S(2720, __c170, 0) as any as S.Schema<CreateAlarmHistoryShieldResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3965,8 +3992,8 @@ export const createAlarmNotice: API.OperationMethod<
   CreateAlarmNoticeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<CreateAlarmNoticeRequest>,
-  output: __S(2689, __c168, 1) as any as S.Schema<CreateAlarmNoticeResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<CreateAlarmNoticeRequest>,
+  output: __S(2929, __c183, 1) as any as S.Schema<CreateAlarmNoticeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3982,8 +4009,8 @@ export const createAlarmPolicy: API.OperationMethod<
   CreateAlarmPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<CreateAlarmPolicyRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<CreateAlarmPolicyResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<CreateAlarmPolicyRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<CreateAlarmPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -3999,8 +4026,8 @@ export const createAlarmShield: API.OperationMethod<
   CreateAlarmShieldError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<CreateAlarmShieldRequest>,
-  output: __S(2480, __c155, 0) as any as S.Schema<CreateAlarmShieldResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<CreateAlarmShieldRequest>,
+  output: __S(2720, __c170, 0) as any as S.Schema<CreateAlarmShieldResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4016,8 +4043,8 @@ export const createAlertRule: API.OperationMethod<
   CreateAlertRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<CreateAlertRuleRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<CreateAlertRuleResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateAlertRuleRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<CreateAlertRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4033,8 +4060,8 @@ export const createConditionsTemplate: API.OperationMethod<
   CreateConditionsTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c3, 4) as any as S.Schema<CreateConditionsTemplateRequest>,
-  output: __S(53, __c3, 5) as any as S.Schema<CreateConditionsTemplateResponse>,
+  input: __S(276, __c17, 4) as any as S.Schema<CreateConditionsTemplateRequest>,
+  output: __S(277, __c17, 5) as any as S.Schema<CreateConditionsTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4050,8 +4077,8 @@ export const createExporterIntegration: API.OperationMethod<
   CreateExporterIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateExporterIntegrationRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<CreateExporterIntegrationResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateExporterIntegrationRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<CreateExporterIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4067,8 +4094,8 @@ export const createExternalCluster: API.OperationMethod<
   CreateExternalClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateExternalClusterRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<CreateExternalClusterResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateExternalClusterRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<CreateExternalClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4084,8 +4111,8 @@ export const createGrafanaInstance: API.OperationMethod<
   CreateGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateGrafanaInstanceRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<CreateGrafanaInstanceResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateGrafanaInstanceRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<CreateGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4101,8 +4128,8 @@ export const createGrafanaIntegration: API.OperationMethod<
   CreateGrafanaIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateGrafanaIntegrationRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<CreateGrafanaIntegrationResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateGrafanaIntegrationRequest>,
+  output: __S(1089, __c68, 1) as any as S.Schema<CreateGrafanaIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4118,8 +4145,8 @@ export const createGrafanaNotificationChannel: API.OperationMethod<
   CreateGrafanaNotificationChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateGrafanaNotificationChannelRequest>,
-  output: __S(1073, __c67, 1) as any as S.Schema<CreateGrafanaNotificationChannelResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<CreateGrafanaNotificationChannelRequest>,
+  output: __S(1265, __c79, 1) as any as S.Schema<CreateGrafanaNotificationChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4135,8 +4162,8 @@ export const createOnCallForm: API.OperationMethod<
   CreateOnCallFormError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<CreateOnCallFormRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<CreateOnCallFormResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<CreateOnCallFormRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateOnCallFormResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4152,8 +4179,8 @@ export const createPolicyGroup: API.OperationMethod<
   CreatePolicyGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1458, __c91, 2) as any as S.Schema<CreatePolicyGroupRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<CreatePolicyGroupResponse>,
+  input: __S(1650, __c103, 2) as any as S.Schema<CreatePolicyGroupRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<CreatePolicyGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4169,8 +4196,8 @@ export const createPrometheusAgent: API.OperationMethod<
   CreatePrometheusAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<CreatePrometheusAgentRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<CreatePrometheusAgentResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CreatePrometheusAgentRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<CreatePrometheusAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4186,8 +4213,8 @@ export const createPrometheusAlertGroup: API.OperationMethod<
   CreatePrometheusAlertGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<CreatePrometheusAlertGroupRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<CreatePrometheusAlertGroupResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<CreatePrometheusAlertGroupRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<CreatePrometheusAlertGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4203,8 +4230,8 @@ export const createPrometheusAlertPolicy: API.OperationMethod<
   CreatePrometheusAlertPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<CreatePrometheusAlertPolicyRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<CreatePrometheusAlertPolicyResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreatePrometheusAlertPolicyRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<CreatePrometheusAlertPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4220,7 +4247,7 @@ export const createPrometheusClusterAgent: API.OperationMethod<
   CreatePrometheusClusterAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1877, __c117, 5) as any as S.Schema<CreatePrometheusClusterAgentRequest>,
+  input: __S(1925, __c120, 5) as any as S.Schema<CreatePrometheusClusterAgentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreatePrometheusClusterAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4237,7 +4264,7 @@ export const createPrometheusConfig: API.OperationMethod<
   CreatePrometheusConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<CreatePrometheusConfigRequest>,
+  input: __S(1936, __c121, 0) as any as S.Schema<CreatePrometheusConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreatePrometheusConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4254,8 +4281,8 @@ export const createPrometheusGlobalNotification: API.OperationMethod<
   CreatePrometheusGlobalNotificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<CreatePrometheusGlobalNotificationRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<CreatePrometheusGlobalNotificationResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<CreatePrometheusGlobalNotificationRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<CreatePrometheusGlobalNotificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4272,13 +4299,13 @@ export const createPrometheusMultiTenantInstancePostPayMode: API.OperationMethod
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1936,
-    __c121,
+    1984,
+    __c124,
     0,
   ) as any as S.Schema<CreatePrometheusMultiTenantInstancePostPayModeRequest>,
   output: __S(
-    672,
-    __c42,
+    896,
+    __c56,
     0,
   ) as any as S.Schema<CreatePrometheusMultiTenantInstancePostPayModeResponse>,
   errors: [],
@@ -4296,7 +4323,7 @@ export const createPrometheusRecordRuleYaml: API.OperationMethod<
   CreatePrometheusRecordRuleYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<CreatePrometheusRecordRuleYamlRequest>,
+  input: __S(2000, __c125, 0) as any as S.Schema<CreatePrometheusRecordRuleYamlRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreatePrometheusRecordRuleYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4313,8 +4340,8 @@ export const createPrometheusScrapeJob: API.OperationMethod<
   CreatePrometheusScrapeJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<CreatePrometheusScrapeJobRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<CreatePrometheusScrapeJobResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<CreatePrometheusScrapeJobRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<CreatePrometheusScrapeJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4330,8 +4357,8 @@ export const createPrometheusTemp: API.OperationMethod<
   CreatePrometheusTempError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CreatePrometheusTempRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<CreatePrometheusTempResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<CreatePrometheusTempRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<CreatePrometheusTempResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4347,8 +4374,8 @@ export const createRecordingRule: API.OperationMethod<
   CreateRecordingRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CreateRecordingRuleRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<CreateRecordingRuleResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateRecordingRuleRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<CreateRecordingRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4364,8 +4391,8 @@ export const createSSOAccount: API.OperationMethod<
   CreateSSOAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<CreateSSOAccountRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<CreateSSOAccountResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CreateSSOAccountRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<CreateSSOAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4381,7 +4408,7 @@ export const deleteAlarmHistoryShields: API.OperationMethod<
   DeleteAlarmHistoryShieldsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<DeleteAlarmHistoryShieldsRequest>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DeleteAlarmHistoryShieldsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAlarmHistoryShieldsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4398,7 +4425,7 @@ export const deleteAlarmNotices: API.OperationMethod<
   DeleteAlarmNoticesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2114, __c132, 2) as any as S.Schema<DeleteAlarmNoticesRequest>,
+  input: __S(2162, __c135, 2) as any as S.Schema<DeleteAlarmNoticesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAlarmNoticesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4415,7 +4442,7 @@ export const deleteAlarmPolicy: API.OperationMethod<
   DeleteAlarmPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<DeleteAlarmPolicyRequest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<DeleteAlarmPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAlarmPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4432,7 +4459,7 @@ export const deleteAlarmShields: API.OperationMethod<
   DeleteAlarmShieldsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<DeleteAlarmShieldsRequest>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DeleteAlarmShieldsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAlarmShieldsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4449,7 +4476,7 @@ export const deleteAlertRules: API.OperationMethod<
   DeleteAlertRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<DeleteAlertRulesRequest>,
+  input: __S(2208, __c138, 0) as any as S.Schema<DeleteAlertRulesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAlertRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4466,7 +4493,7 @@ export const deleteExporterIntegration: API.OperationMethod<
   DeleteExporterIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DeleteExporterIntegrationRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<DeleteExporterIntegrationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteExporterIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4483,7 +4510,7 @@ export const deleteGrafanaInstance: API.OperationMethod<
   DeleteGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<DeleteGrafanaInstanceRequest>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteGrafanaInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4500,7 +4527,7 @@ export const deleteGrafanaIntegration: API.OperationMethod<
   DeleteGrafanaIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<DeleteGrafanaIntegrationRequest>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteGrafanaIntegrationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteGrafanaIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4517,7 +4544,7 @@ export const deleteGrafanaNotificationChannel: API.OperationMethod<
   DeleteGrafanaNotificationChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteGrafanaNotificationChannelRequest>,
+  input: __S(2272, __c142, 0) as any as S.Schema<DeleteGrafanaNotificationChannelRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteGrafanaNotificationChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4534,8 +4561,8 @@ export const deleteOnCallForms: API.OperationMethod<
   DeleteOnCallFormsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DeleteOnCallFormsRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<DeleteOnCallFormsResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DeleteOnCallFormsRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<DeleteOnCallFormsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4551,7 +4578,7 @@ export const deletePolicyGroup: API.OperationMethod<
   DeletePolicyGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<DeletePolicyGroupRequest>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DeletePolicyGroupRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePolicyGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4568,7 +4595,7 @@ export const deletePrometheusAlertGroups: API.OperationMethod<
   DeletePrometheusAlertGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<DeletePrometheusAlertGroupsRequest>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DeletePrometheusAlertGroupsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusAlertGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4585,7 +4612,7 @@ export const deletePrometheusAlertPolicy: API.OperationMethod<
   DeletePrometheusAlertPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DeletePrometheusAlertPolicyRequest>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeletePrometheusAlertPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusAlertPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4602,7 +4629,7 @@ export const deletePrometheusClusterAgent: API.OperationMethod<
   DeletePrometheusClusterAgentError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2322, __c145, 2) as any as S.Schema<DeletePrometheusClusterAgentRequest>,
+  input: __S(2370, __c148, 2) as any as S.Schema<DeletePrometheusClusterAgentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusClusterAgentResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4619,7 +4646,7 @@ export const deletePrometheusConfig: API.OperationMethod<
   DeletePrometheusConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DeletePrometheusConfigRequest>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeletePrometheusConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4636,7 +4663,7 @@ export const deletePrometheusRecordRuleYaml: API.OperationMethod<
   DeletePrometheusRecordRuleYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<DeletePrometheusRecordRuleYamlRequest>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DeletePrometheusRecordRuleYamlRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusRecordRuleYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4653,7 +4680,7 @@ export const deletePrometheusScrapeJobs: API.OperationMethod<
   DeletePrometheusScrapeJobsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DeletePrometheusScrapeJobsRequest>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeletePrometheusScrapeJobsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusScrapeJobsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4670,7 +4697,7 @@ export const deletePrometheusTemp: API.OperationMethod<
   DeletePrometheusTempError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<DeletePrometheusTempRequest>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DeletePrometheusTempRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusTempResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4687,7 +4714,7 @@ export const deletePrometheusTempSync: API.OperationMethod<
   DeletePrometheusTempSyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DeletePrometheusTempSyncRequest>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DeletePrometheusTempSyncRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeletePrometheusTempSyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4704,7 +4731,7 @@ export const deleteRecordingRules: API.OperationMethod<
   DeleteRecordingRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<DeleteRecordingRulesRequest>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DeleteRecordingRulesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteRecordingRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4721,7 +4748,7 @@ export const deleteServiceDiscovery: API.OperationMethod<
   DeleteServiceDiscoveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<DeleteServiceDiscoveryRequest>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DeleteServiceDiscoveryRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceDiscoveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4738,7 +4765,7 @@ export const deleteSSOAccount: API.OperationMethod<
   DeleteSSOAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<DeleteSSOAccountRequest>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DeleteSSOAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSSOAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -4755,8 +4782,8 @@ export const describeAccidentEventList: API.OperationMethod<
   DescribeAccidentEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<DescribeAccidentEventListRequest>,
-  output: __S(2531, __c158, 3) as any as S.Schema<DescribeAccidentEventListResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<DescribeAccidentEventListRequest>,
+  output: __S(2547, __c159, 3) as any as S.Schema<DescribeAccidentEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4772,8 +4799,8 @@ export const describeAlarmEvents: API.OperationMethod<
   DescribeAlarmEventsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<DescribeAlarmEventsRequest>,
-  output: __S(2547, __c159, 3) as any as S.Schema<DescribeAlarmEventsResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<DescribeAlarmEventsRequest>,
+  output: __S(2563, __c160, 3) as any as S.Schema<DescribeAlarmEventsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4789,8 +4816,8 @@ export const describeAlarmHistories: API.OperationMethod<
   DescribeAlarmHistoriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2562, __c160, 2) as any as S.Schema<DescribeAlarmHistoriesRequest>,
-  output: __S(2569, __c160, 9) as any as S.Schema<DescribeAlarmHistoriesResponse>,
+  input: __S(2578, __c161, 2) as any as S.Schema<DescribeAlarmHistoriesRequest>,
+  output: __S(2585, __c161, 9) as any as S.Schema<DescribeAlarmHistoriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4806,8 +4833,8 @@ export const describeAlarmHistoryShield: API.OperationMethod<
   DescribeAlarmHistoryShieldError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<DescribeAlarmHistoryShieldRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<DescribeAlarmHistoryShieldResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DescribeAlarmHistoryShieldRequest>,
+  output: __S(2595, __c162, 3) as any as S.Schema<DescribeAlarmHistoryShieldResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4823,8 +4850,8 @@ export const describeAlarmMetrics: API.OperationMethod<
   DescribeAlarmMetricsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<DescribeAlarmMetricsRequest>,
-  output: __S(2596, __c162, 4) as any as S.Schema<DescribeAlarmMetricsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<DescribeAlarmMetricsRequest>,
+  output: __S(2612, __c163, 4) as any as S.Schema<DescribeAlarmMetricsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4840,8 +4867,8 @@ export const describeAlarmNotice: API.OperationMethod<
   DescribeAlarmNoticeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<DescribeAlarmNoticeRequest>,
-  output: __S(2625, __c164, 1) as any as S.Schema<DescribeAlarmNoticeResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<DescribeAlarmNoticeRequest>,
+  output: __S(2641, __c165, 1) as any as S.Schema<DescribeAlarmNoticeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4857,8 +4884,8 @@ export const describeAlarmNoticeCallbacks: API.OperationMethod<
   DescribeAlarmNoticeCallbacksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<DescribeAlarmNoticeCallbacksRequest>,
-  output: __S(2657, __c166, 1) as any as S.Schema<DescribeAlarmNoticeCallbacksResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<DescribeAlarmNoticeCallbacksRequest>,
+  output: __S(2673, __c167, 1) as any as S.Schema<DescribeAlarmNoticeCallbacksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4875,13 +4902,13 @@ export const describeAlarmNoticeOnCallUsersFromPrometheusAlertID: API.OperationM
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2672,
-    __c167,
+    2736,
+    __c171,
     0,
   ) as any as S.Schema<DescribeAlarmNoticeOnCallUsersFromPrometheusAlertIDRequest>,
   output: __S(
-    2679,
-    __c167,
+    2743,
+    __c171,
     7,
   ) as any as S.Schema<DescribeAlarmNoticeOnCallUsersFromPrometheusAlertIDResponse>,
   errors: [],
@@ -4899,8 +4926,8 @@ export const describeAlarmNotices: API.OperationMethod<
   DescribeAlarmNoticesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<DescribeAlarmNoticesRequest>,
-  output: __S(2769, __c173, 1) as any as S.Schema<DescribeAlarmNoticesResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<DescribeAlarmNoticesRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<DescribeAlarmNoticesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4916,8 +4943,8 @@ export const describeAlarmPolicies: API.OperationMethod<
   DescribeAlarmPoliciesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<DescribeAlarmPoliciesRequest>,
-  output: __S(2802, __c175, 2) as any as S.Schema<DescribeAlarmPoliciesResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<DescribeAlarmPoliciesRequest>,
+  output: __S(2786, __c174, 2) as any as S.Schema<DescribeAlarmPoliciesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4933,8 +4960,8 @@ export const describeAlarmPolicy: API.OperationMethod<
   DescribeAlarmPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<DescribeAlarmPolicyRequest>,
-  output: __S(2833, __c177, 1) as any as S.Schema<DescribeAlarmPolicyResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<DescribeAlarmPolicyRequest>,
+  output: __S(2817, __c176, 1) as any as S.Schema<DescribeAlarmPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4950,8 +4977,8 @@ export const describeAlarmSmsQuota: API.OperationMethod<
   DescribeAlarmSmsQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<DescribeAlarmSmsQuotaRequest>,
-  output: __S(2851, __c178, 3) as any as S.Schema<DescribeAlarmSmsQuotaResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<DescribeAlarmSmsQuotaRequest>,
+  output: __S(2835, __c177, 3) as any as S.Schema<DescribeAlarmSmsQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4967,8 +4994,8 @@ export const describeAlertRules: API.OperationMethod<
   DescribeAlertRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<DescribeAlertRulesRequest>,
-  output: __S(2867, __c179, 3) as any as S.Schema<DescribeAlertRulesResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<DescribeAlertRulesRequest>,
+  output: __S(2851, __c178, 3) as any as S.Schema<DescribeAlertRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4984,8 +5011,8 @@ export const describeAllNamespaces: API.OperationMethod<
   DescribeAllNamespacesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<DescribeAllNamespacesRequest>,
-  output: __S(2887, __c180, 7) as any as S.Schema<DescribeAllNamespacesResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<DescribeAllNamespacesRequest>,
+  output: __S(2871, __c179, 7) as any as S.Schema<DescribeAllNamespacesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5001,8 +5028,8 @@ export const describeBaseMetrics: API.OperationMethod<
   DescribeBaseMetricsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<DescribeBaseMetricsRequest>,
-  output: __S(2904, __c181, 8) as any as S.Schema<DescribeBaseMetricsResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<DescribeBaseMetricsRequest>,
+  output: __S(2888, __c180, 8) as any as S.Schema<DescribeBaseMetricsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5018,8 +5045,8 @@ export const describeBasicAlarmList: API.OperationMethod<
   DescribeBasicAlarmListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<DescribeBasicAlarmListRequest>,
-  output: __S(2917, __c182, 5) as any as S.Schema<DescribeBasicAlarmListResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<DescribeBasicAlarmListRequest>,
+  output: __S(2901, __c181, 5) as any as S.Schema<DescribeBasicAlarmListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5035,8 +5062,8 @@ export const describeBindingPolicyObjectList: API.OperationMethod<
   DescribeBindingPolicyObjectListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2930, __c183, 2) as any as S.Schema<DescribeBindingPolicyObjectListRequest>,
-  output: __S(2934, __c183, 6) as any as S.Schema<DescribeBindingPolicyObjectListResponse>,
+  input: __S(2914, __c182, 2) as any as S.Schema<DescribeBindingPolicyObjectListRequest>,
+  output: __S(2918, __c182, 6) as any as S.Schema<DescribeBindingPolicyObjectListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5052,8 +5079,8 @@ export const describeClusterAgentCreatingProgress: API.OperationMethod<
   DescribeClusterAgentCreatingProgressError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<DescribeClusterAgentCreatingProgressRequest>,
-  output: __S(2949, __c184, 5) as any as S.Schema<DescribeClusterAgentCreatingProgressResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<DescribeClusterAgentCreatingProgressRequest>,
+  output: __S(3013, __c188, 5) as any as S.Schema<DescribeClusterAgentCreatingProgressResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5069,8 +5096,8 @@ export const describeConditionsTemplateList: API.OperationMethod<
   DescribeConditionsTemplateListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<DescribeConditionsTemplateListRequest>,
-  output: __S(3067, __c191, 11) as any as S.Schema<DescribeConditionsTemplateListResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<DescribeConditionsTemplateListRequest>,
+  output: __S(3035, __c189, 11) as any as S.Schema<DescribeConditionsTemplateListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5086,8 +5113,8 @@ export const describeDNSConfig: API.OperationMethod<
   DescribeDNSConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<DescribeDNSConfigRequest>,
-  output: __S(3073, __c192, 1) as any as S.Schema<DescribeDNSConfigResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<DescribeDNSConfigRequest>,
+  output: __S(3041, __c190, 1) as any as S.Schema<DescribeDNSConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5103,8 +5130,8 @@ export const describeExporterIntegrations: API.OperationMethod<
   DescribeExporterIntegrationsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<DescribeExporterIntegrationsRequest>,
-  output: __S(3091, __c193, 3) as any as S.Schema<DescribeExporterIntegrationsResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<DescribeExporterIntegrationsRequest>,
+  output: __S(3059, __c191, 3) as any as S.Schema<DescribeExporterIntegrationsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5120,8 +5147,8 @@ export const describeExternalClusterRegisterCommand: API.OperationMethod<
   DescribeExternalClusterRegisterCommandError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<DescribeExternalClusterRegisterCommandRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<DescribeExternalClusterRegisterCommandResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<DescribeExternalClusterRegisterCommandRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<DescribeExternalClusterRegisterCommandResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5137,8 +5164,8 @@ export const describeExternalClusterUninstallCommand: API.OperationMethod<
   DescribeExternalClusterUninstallCommandError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<DescribeExternalClusterUninstallCommandRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<DescribeExternalClusterUninstallCommandResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<DescribeExternalClusterUninstallCommandRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<DescribeExternalClusterUninstallCommandResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5154,8 +5181,8 @@ export const describeGrafanaChannels: API.OperationMethod<
   DescribeGrafanaChannelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<DescribeGrafanaChannelsRequest>,
-  output: __S(3155, __c197, 3) as any as S.Schema<DescribeGrafanaChannelsResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<DescribeGrafanaChannelsRequest>,
+  output: __S(3123, __c195, 3) as any as S.Schema<DescribeGrafanaChannelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5171,8 +5198,8 @@ export const describeGrafanaConfig: API.OperationMethod<
   DescribeGrafanaConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<DescribeGrafanaConfigRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<DescribeGrafanaConfigResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<DescribeGrafanaConfigRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<DescribeGrafanaConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5188,8 +5215,8 @@ export const describeGrafanaEnvironments: API.OperationMethod<
   DescribeGrafanaEnvironmentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<DescribeGrafanaEnvironmentsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<DescribeGrafanaEnvironmentsResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<DescribeGrafanaEnvironmentsRequest>,
+  output: __S(3153, __c197, 1) as any as S.Schema<DescribeGrafanaEnvironmentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5205,8 +5232,8 @@ export const describeGrafanaInstances: API.OperationMethod<
   DescribeGrafanaInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<DescribeGrafanaInstancesRequest>,
-  output: __S(3203, __c200, 3) as any as S.Schema<DescribeGrafanaInstancesResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<DescribeGrafanaInstancesRequest>,
+  output: __S(3171, __c198, 3) as any as S.Schema<DescribeGrafanaInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5222,8 +5249,8 @@ export const describeGrafanaIntegrations: API.OperationMethod<
   DescribeGrafanaIntegrationsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<DescribeGrafanaIntegrationsRequest>,
-  output: __S(3219, __c201, 3) as any as S.Schema<DescribeGrafanaIntegrationsResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<DescribeGrafanaIntegrationsRequest>,
+  output: __S(3283, __c205, 3) as any as S.Schema<DescribeGrafanaIntegrationsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5239,8 +5266,8 @@ export const describeGrafanaNotificationChannels: API.OperationMethod<
   DescribeGrafanaNotificationChannelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<DescribeGrafanaNotificationChannelsRequest>,
-  output: __S(3251, __c203, 3) as any as S.Schema<DescribeGrafanaNotificationChannelsResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<DescribeGrafanaNotificationChannelsRequest>,
+  output: __S(3299, __c206, 3) as any as S.Schema<DescribeGrafanaNotificationChannelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5256,8 +5283,8 @@ export const describeGrafanaVersions: API.OperationMethod<
   DescribeGrafanaVersionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<DescribeGrafanaVersionsRequest>,
-  output: __S(3267, __c204, 3) as any as S.Schema<DescribeGrafanaVersionsResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<DescribeGrafanaVersionsRequest>,
+  output: __S(3315, __c207, 3) as any as S.Schema<DescribeGrafanaVersionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5273,8 +5300,8 @@ export const describeGrafanaWhiteList: API.OperationMethod<
   DescribeGrafanaWhiteListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<DescribeGrafanaWhiteListRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<DescribeGrafanaWhiteListResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<DescribeGrafanaWhiteListRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<DescribeGrafanaWhiteListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5290,8 +5317,8 @@ export const describeInstalledPlugins: API.OperationMethod<
   DescribeInstalledPluginsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<DescribeInstalledPluginsRequest>,
-  output: __S(3312, __c207, 0) as any as S.Schema<DescribeInstalledPluginsResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<DescribeInstalledPluginsRequest>,
+  output: __S(3360, __c210, 0) as any as S.Schema<DescribeInstalledPluginsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5307,8 +5334,8 @@ export const describeMonitorResourceInfo: API.OperationMethod<
   DescribeMonitorResourceInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<DescribeMonitorResourceInfoRequest>,
-  output: __S(3345, __c209, 1) as any as S.Schema<DescribeMonitorResourceInfoResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<DescribeMonitorResourceInfoRequest>,
+  output: __S(3393, __c212, 1) as any as S.Schema<DescribeMonitorResourceInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5324,8 +5351,8 @@ export const describeMonitorTypes: API.OperationMethod<
   DescribeMonitorTypesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<DescribeMonitorTypesRequest>,
-  output: __S(3363, __c210, 3) as any as S.Schema<DescribeMonitorTypesResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<DescribeMonitorTypesRequest>,
+  output: __S(3411, __c213, 3) as any as S.Schema<DescribeMonitorTypesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5342,13 +5369,13 @@ export const describeNotificationContentTemplateSupports: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3376,
-    __c211,
+    3424,
+    __c214,
     0,
   ) as any as S.Schema<DescribeNotificationContentTemplateSupportsRequest>,
   output: __S(
-    3380,
-    __c211,
+    3428,
+    __c214,
     4,
   ) as any as S.Schema<DescribeNotificationContentTemplateSupportsResponse>,
   errors: [],
@@ -5366,8 +5393,8 @@ export const describeOnCallForm: API.OperationMethod<
   DescribeOnCallFormError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<DescribeOnCallFormRequest>,
-  output: __S(3394, __c212, 2) as any as S.Schema<DescribeOnCallFormResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<DescribeOnCallFormRequest>,
+  output: __S(3442, __c215, 2) as any as S.Schema<DescribeOnCallFormResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5383,8 +5410,8 @@ export const describeOnCallForms: API.OperationMethod<
   DescribeOnCallFormsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<DescribeOnCallFormsRequest>,
-  output: __S(3411, __c213, 3) as any as S.Schema<DescribeOnCallFormsResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<DescribeOnCallFormsRequest>,
+  output: __S(3459, __c216, 3) as any as S.Schema<DescribeOnCallFormsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5400,8 +5427,8 @@ export const describePhoneAlarmFlowTotalCount: API.OperationMethod<
   DescribePhoneAlarmFlowTotalCountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<DescribePhoneAlarmFlowTotalCountRequest>,
-  output: __S(3425, __c214, 1) as any as S.Schema<DescribePhoneAlarmFlowTotalCountResponse>,
+  input: __S(3488, __c218, 0) as any as S.Schema<DescribePhoneAlarmFlowTotalCountRequest>,
+  output: __S(3489, __c218, 1) as any as S.Schema<DescribePhoneAlarmFlowTotalCountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5417,8 +5444,8 @@ export const describePluginOverviews: API.OperationMethod<
   DescribePluginOverviewsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<DescribePluginOverviewsRequest>,
-  output: __S(3312, __c207, 0) as any as S.Schema<DescribePluginOverviewsResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<DescribePluginOverviewsRequest>,
+  output: __S(3360, __c210, 0) as any as S.Schema<DescribePluginOverviewsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5434,8 +5461,8 @@ export const describePolicyConditionList: API.OperationMethod<
   DescribePolicyConditionListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<DescribePolicyConditionListRequest>,
-  output: __S(3501, __c218, 13) as any as S.Schema<DescribePolicyConditionListResponse>,
+  input: __S(3520, __c220, 0) as any as S.Schema<DescribePolicyConditionListRequest>,
+  output: __S(3533, __c220, 13) as any as S.Schema<DescribePolicyConditionListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5451,8 +5478,8 @@ export const describePolicyGroupInfo: API.OperationMethod<
   DescribePolicyGroupInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<DescribePolicyGroupInfoRequest>,
-  output: __S(3506, __c219, 2) as any as S.Schema<DescribePolicyGroupInfoResponse>,
+  input: __S(3536, __c221, 0) as any as S.Schema<DescribePolicyGroupInfoRequest>,
+  output: __S(3538, __c221, 2) as any as S.Schema<DescribePolicyGroupInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5468,8 +5495,8 @@ export const describePolicyGroupList: API.OperationMethod<
   DescribePolicyGroupListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<DescribePolicyGroupListRequest>,
-  output: __S(3540, __c221, 4) as any as S.Schema<DescribePolicyGroupListResponse>,
+  input: __S(3568, __c223, 0) as any as S.Schema<DescribePolicyGroupListRequest>,
+  output: __S(3572, __c223, 4) as any as S.Schema<DescribePolicyGroupListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5485,8 +5512,8 @@ export const describePolicyObjectCount: API.OperationMethod<
   DescribePolicyObjectCountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<DescribePolicyObjectCountRequest>,
-  output: __S(3555, __c222, 3) as any as S.Schema<DescribePolicyObjectCountResponse>,
+  input: __S(3584, __c224, 0) as any as S.Schema<DescribePolicyObjectCountRequest>,
+  output: __S(3587, __c224, 3) as any as S.Schema<DescribePolicyObjectCountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5502,8 +5529,8 @@ export const describeProductEventList: API.OperationMethod<
   DescribeProductEventListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<DescribeProductEventListRequest>,
-  output: __S(3576, __c223, 8) as any as S.Schema<DescribeProductEventListResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<DescribeProductEventListRequest>,
+  output: __S(3608, __c225, 8) as any as S.Schema<DescribeProductEventListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5519,8 +5546,8 @@ export const describeProductList: API.OperationMethod<
   DescribeProductListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<DescribeProductListRequest>,
-  output: __S(3587, __c224, 3) as any as S.Schema<DescribeProductListResponse>,
+  input: __S(3616, __c226, 0) as any as S.Schema<DescribeProductListRequest>,
+  output: __S(3619, __c226, 3) as any as S.Schema<DescribeProductListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5536,8 +5563,8 @@ export const describePrometheusAgentInstances: API.OperationMethod<
   DescribePrometheusAgentInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<DescribePrometheusAgentInstancesRequest>,
-  output: __S(3601, __c225, 1) as any as S.Schema<DescribePrometheusAgentInstancesResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<DescribePrometheusAgentInstancesRequest>,
+  output: __S(3633, __c227, 1) as any as S.Schema<DescribePrometheusAgentInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5553,8 +5580,8 @@ export const describePrometheusAgents: API.OperationMethod<
   DescribePrometheusAgentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<DescribePrometheusAgentsRequest>,
-  output: __S(3619, __c226, 3) as any as S.Schema<DescribePrometheusAgentsResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<DescribePrometheusAgentsRequest>,
+  output: __S(3651, __c228, 3) as any as S.Schema<DescribePrometheusAgentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5570,8 +5597,8 @@ export const describePrometheusAlertGroups: API.OperationMethod<
   DescribePrometheusAlertGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<DescribePrometheusAlertGroupsRequest>,
-  output: __S(3635, __c227, 3) as any as S.Schema<DescribePrometheusAlertGroupsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DescribePrometheusAlertGroupsRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<DescribePrometheusAlertGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5587,8 +5614,8 @@ export const describePrometheusAlertmanagerConfig: API.OperationMethod<
   DescribePrometheusAlertmanagerConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DescribePrometheusAlertmanagerConfigRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<DescribePrometheusAlertmanagerConfigResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DescribePrometheusAlertmanagerConfigRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<DescribePrometheusAlertmanagerConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5604,8 +5631,8 @@ export const describePrometheusAlertPolicy: API.OperationMethod<
   DescribePrometheusAlertPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DescribePrometheusAlertPolicyRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<DescribePrometheusAlertPolicyResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DescribePrometheusAlertPolicyRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<DescribePrometheusAlertPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5621,8 +5648,8 @@ export const describePrometheusClusterAgents: API.OperationMethod<
   DescribePrometheusClusterAgentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DescribePrometheusClusterAgentsRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<DescribePrometheusClusterAgentsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribePrometheusClusterAgentsRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<DescribePrometheusClusterAgentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5638,8 +5665,8 @@ export const describePrometheusConfig: API.OperationMethod<
   DescribePrometheusConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DescribePrometheusConfigRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<DescribePrometheusConfigResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DescribePrometheusConfigRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<DescribePrometheusConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5655,8 +5682,8 @@ export const describePrometheusCreateInstanceQuota: API.OperationMethod<
   DescribePrometheusCreateInstanceQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DescribePrometheusCreateInstanceQuotaRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<DescribePrometheusCreateInstanceQuotaResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribePrometheusCreateInstanceQuotaRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<DescribePrometheusCreateInstanceQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5672,8 +5699,8 @@ export const describePrometheusGlobalConfig: API.OperationMethod<
   DescribePrometheusGlobalConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DescribePrometheusGlobalConfigRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DescribePrometheusGlobalConfigResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DescribePrometheusGlobalConfigRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DescribePrometheusGlobalConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5689,8 +5716,8 @@ export const describePrometheusGlobalNotification: API.OperationMethod<
   DescribePrometheusGlobalNotificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DescribePrometheusGlobalNotificationRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<DescribePrometheusGlobalNotificationResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DescribePrometheusGlobalNotificationRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<DescribePrometheusGlobalNotificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5706,8 +5733,8 @@ export const describePrometheusInstanceDetail: API.OperationMethod<
   DescribePrometheusInstanceDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DescribePrometheusInstanceDetailRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<DescribePrometheusInstanceDetailResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DescribePrometheusInstanceDetailRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<DescribePrometheusInstanceDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5723,8 +5750,8 @@ export const describePrometheusInstanceInitStatus: API.OperationMethod<
   DescribePrometheusInstanceInitStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DescribePrometheusInstanceInitStatusRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<DescribePrometheusInstanceInitStatusResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribePrometheusInstanceInitStatusRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<DescribePrometheusInstanceInitStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5740,8 +5767,8 @@ export const describePrometheusInstances: API.OperationMethod<
   DescribePrometheusInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DescribePrometheusInstancesRequest>,
-  output: __S(244, __c15, 4) as any as S.Schema<DescribePrometheusInstancesResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DescribePrometheusInstancesRequest>,
+  output: __S(292, __c18, 4) as any as S.Schema<DescribePrometheusInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5757,8 +5784,8 @@ export const describePrometheusInstancesOverview: API.OperationMethod<
   DescribePrometheusInstancesOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DescribePrometheusInstancesOverviewRequest>,
-  output: __S(275, __c17, 3) as any as S.Schema<DescribePrometheusInstancesOverviewResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DescribePrometheusInstancesOverviewRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<DescribePrometheusInstancesOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5774,8 +5801,8 @@ export const describePrometheusInstanceUsage: API.OperationMethod<
   DescribePrometheusInstanceUsageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DescribePrometheusInstanceUsageRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<DescribePrometheusInstanceUsageResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DescribePrometheusInstanceUsageRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<DescribePrometheusInstanceUsageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5791,8 +5818,8 @@ export const describePrometheusIntegrationMetrics: API.OperationMethod<
   DescribePrometheusIntegrationMetricsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DescribePrometheusIntegrationMetricsRequest>,
-  output: __S(309, __c19, 5) as any as S.Schema<DescribePrometheusIntegrationMetricsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DescribePrometheusIntegrationMetricsRequest>,
+  output: __S(341, __c21, 5) as any as S.Schema<DescribePrometheusIntegrationMetricsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5808,8 +5835,8 @@ export const describePrometheusRecordRules: API.OperationMethod<
   DescribePrometheusRecordRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DescribePrometheusRecordRulesRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<DescribePrometheusRecordRulesResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DescribePrometheusRecordRulesRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<DescribePrometheusRecordRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5825,8 +5852,8 @@ export const describePrometheusRegions: API.OperationMethod<
   DescribePrometheusRegionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DescribePrometheusRegionsRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<DescribePrometheusRegionsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DescribePrometheusRegionsRequest>,
+  output: __S(371, __c23, 3) as any as S.Schema<DescribePrometheusRegionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5842,8 +5869,8 @@ export const describePrometheusScrapeJobs: API.OperationMethod<
   DescribePrometheusScrapeJobsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DescribePrometheusScrapeJobsRequest>,
-  output: __S(355, __c22, 3) as any as S.Schema<DescribePrometheusScrapeJobsResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DescribePrometheusScrapeJobsRequest>,
+  output: __S(387, __c24, 3) as any as S.Schema<DescribePrometheusScrapeJobsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5859,8 +5886,8 @@ export const describePrometheusScrapeStatistics: API.OperationMethod<
   DescribePrometheusScrapeStatisticsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DescribePrometheusScrapeStatisticsRequest>,
-  output: __S(377, __c23, 9) as any as S.Schema<DescribePrometheusScrapeStatisticsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DescribePrometheusScrapeStatisticsRequest>,
+  output: __S(409, __c25, 9) as any as S.Schema<DescribePrometheusScrapeStatisticsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5876,8 +5903,8 @@ export const describePrometheusTargetsTMP: API.OperationMethod<
   DescribePrometheusTargetsTMPError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DescribePrometheusTargetsTMPRequest>,
-  output: __S(389, __c24, 5) as any as S.Schema<DescribePrometheusTargetsTMPResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DescribePrometheusTargetsTMPRequest>,
+  output: __S(421, __c26, 5) as any as S.Schema<DescribePrometheusTargetsTMPResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5893,8 +5920,8 @@ export const describePrometheusTemp: API.OperationMethod<
   DescribePrometheusTempError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DescribePrometheusTempRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<DescribePrometheusTempResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DescribePrometheusTempRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<DescribePrometheusTempResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5910,8 +5937,8 @@ export const describePrometheusTempSync: API.OperationMethod<
   DescribePrometheusTempSyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DescribePrometheusTempSyncRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<DescribePrometheusTempSyncResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<DescribePrometheusTempSyncRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<DescribePrometheusTempSyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5927,8 +5954,8 @@ export const describePrometheusZones: API.OperationMethod<
   DescribePrometheusZonesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DescribePrometheusZonesRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<DescribePrometheusZonesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DescribePrometheusZonesRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<DescribePrometheusZonesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5944,8 +5971,8 @@ export const describeRecordingRules: API.OperationMethod<
   DescribeRecordingRulesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DescribeRecordingRulesRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<DescribeRecordingRulesResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<DescribeRecordingRulesRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<DescribeRecordingRulesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5961,8 +5988,8 @@ export const describeRemoteURLs: API.OperationMethod<
   DescribeRemoteURLsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<DescribeRemoteURLsRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<DescribeRemoteURLsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<DescribeRemoteURLsRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<DescribeRemoteURLsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5978,8 +6005,8 @@ export const describeRemoteWrites: API.OperationMethod<
   DescribeRemoteWritesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<DescribeRemoteWritesRequest>,
-  output: __S(531, __c33, 3) as any as S.Schema<DescribeRemoteWritesResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<DescribeRemoteWritesRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<DescribeRemoteWritesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5995,8 +6022,8 @@ export const describeSSOAccount: API.OperationMethod<
   DescribeSSOAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<DescribeSSOAccountRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<DescribeSSOAccountResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<DescribeSSOAccountRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<DescribeSSOAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6012,8 +6039,8 @@ export const describeStatisticData: API.OperationMethod<
   DescribeStatisticDataError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(562, __c35, 2) as any as S.Schema<DescribeStatisticDataRequest>,
-  output: __S(569, __c35, 9) as any as S.Schema<DescribeStatisticDataResponse>,
+  input: __S(578, __c36, 2) as any as S.Schema<DescribeStatisticDataRequest>,
+  output: __S(585, __c36, 9) as any as S.Schema<DescribeStatisticDataResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6029,7 +6056,7 @@ export const destroyPrometheusInstance: API.OperationMethod<
   DestroyPrometheusInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DestroyPrometheusInstanceRequest>,
+  input: __S(608, __c38, 0) as any as S.Schema<DestroyPrometheusInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DestroyPrometheusInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6046,7 +6073,7 @@ export const enableGrafanaInternet: API.OperationMethod<
   EnableGrafanaInternetError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<EnableGrafanaInternetRequest>,
+  input: __S(624, __c39, 0) as any as S.Schema<EnableGrafanaInternetRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EnableGrafanaInternetResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6063,7 +6090,7 @@ export const enableGrafanaSSO: API.OperationMethod<
   EnableGrafanaSSOError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<EnableGrafanaSSORequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<EnableGrafanaSSORequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EnableGrafanaSSOResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6080,7 +6107,7 @@ export const enablePredefinedPolicies: API.OperationMethod<
   EnablePredefinedPoliciesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<EnablePredefinedPoliciesRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<EnablePredefinedPoliciesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EnablePredefinedPoliciesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6250,7 +6277,7 @@ export const modifyAlarmPolicyInfo: API.OperationMethod<
   ModifyAlarmPolicyInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ModifyAlarmPolicyInfoRequest>,
+  input: __S(928, __c58, 0) as any as S.Schema<ModifyAlarmPolicyInfoRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyAlarmPolicyInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6267,7 +6294,7 @@ export const modifyAlarmPolicyNotice: API.OperationMethod<
   ModifyAlarmPolicyNoticeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ModifyAlarmPolicyNoticeRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<ModifyAlarmPolicyNoticeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyAlarmPolicyNoticeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6284,7 +6311,7 @@ export const modifyAlarmPolicyStatus: API.OperationMethod<
   ModifyAlarmPolicyStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ModifyAlarmPolicyStatusRequest>,
+  input: __S(960, __c60, 0) as any as S.Schema<ModifyAlarmPolicyStatusRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyAlarmPolicyStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6301,7 +6328,7 @@ export const modifyAlarmPolicyTasks: API.OperationMethod<
   ModifyAlarmPolicyTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ModifyAlarmPolicyTasksRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<ModifyAlarmPolicyTasksRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyAlarmPolicyTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6318,7 +6345,7 @@ export const modifyAlarmReceivers: API.OperationMethod<
   ModifyAlarmReceiversError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(962, __c60, 2) as any as S.Schema<ModifyAlarmReceiversRequest>,
+  input: __S(994, __c62, 2) as any as S.Schema<ModifyAlarmReceiversRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyAlarmReceiversResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6335,7 +6362,7 @@ export const modifyGrafanaInstance: API.OperationMethod<
   ModifyGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ModifyGrafanaInstanceRequest>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ModifyGrafanaInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6352,8 +6379,8 @@ export const modifyPolicyGroup: API.OperationMethod<
   ModifyPolicyGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(994, __c62, 2) as any as S.Schema<ModifyPolicyGroupRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<ModifyPolicyGroupResponse>,
+  input: __S(1026, __c64, 2) as any as S.Schema<ModifyPolicyGroupRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<ModifyPolicyGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6369,7 +6396,7 @@ export const modifyPrometheusAgentExternalLabels: API.OperationMethod<
   ModifyPrometheusAgentExternalLabelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ModifyPrometheusAgentExternalLabelsRequest>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ModifyPrometheusAgentExternalLabelsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusAgentExternalLabelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6386,7 +6413,7 @@ export const modifyPrometheusAlertPolicy: API.OperationMethod<
   ModifyPrometheusAlertPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ModifyPrometheusAlertPolicyRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ModifyPrometheusAlertPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusAlertPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6403,7 +6430,7 @@ export const modifyPrometheusConfig: API.OperationMethod<
   ModifyPrometheusConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ModifyPrometheusConfigRequest>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ModifyPrometheusConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6420,7 +6447,7 @@ export const modifyPrometheusGlobalNotification: API.OperationMethod<
   ModifyPrometheusGlobalNotificationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ModifyPrometheusGlobalNotificationRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ModifyPrometheusGlobalNotificationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusGlobalNotificationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6437,7 +6464,7 @@ export const modifyPrometheusInstanceAccessPoints: API.OperationMethod<
   ModifyPrometheusInstanceAccessPointsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ModifyPrometheusInstanceAccessPointsRequest>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ModifyPrometheusInstanceAccessPointsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusInstanceAccessPointsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6454,7 +6481,7 @@ export const modifyPrometheusInstanceAttributes: API.OperationMethod<
   ModifyPrometheusInstanceAttributesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ModifyPrometheusInstanceAttributesRequest>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ModifyPrometheusInstanceAttributesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusInstanceAttributesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6471,7 +6498,7 @@ export const modifyPrometheusRecordRuleYaml: API.OperationMethod<
   ModifyPrometheusRecordRuleYamlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ModifyPrometheusRecordRuleYamlRequest>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ModifyPrometheusRecordRuleYamlRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusRecordRuleYamlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6488,7 +6515,7 @@ export const modifyPrometheusTemp: API.OperationMethod<
   ModifyPrometheusTempError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c71, 1) as any as S.Schema<ModifyPrometheusTempRequest>,
+  input: __S(1169, __c73, 1) as any as S.Schema<ModifyPrometheusTempRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyPrometheusTempResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6505,7 +6532,7 @@ export const modifyRemoteURLs: API.OperationMethod<
   ModifyRemoteURLsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ModifyRemoteURLsRequest>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ModifyRemoteURLsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyRemoteURLsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6522,7 +6549,7 @@ export const replacePrometheusAlertmanagerConfig: API.OperationMethod<
   ReplacePrometheusAlertmanagerConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ReplacePrometheusAlertmanagerConfigRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<ReplacePrometheusAlertmanagerConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ReplacePrometheusAlertmanagerConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6539,7 +6566,7 @@ export const resumeGrafanaInstance: API.OperationMethod<
   ResumeGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ResumeGrafanaInstanceRequest>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ResumeGrafanaInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResumeGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6556,7 +6583,7 @@ export const routePrometheusDynamicAPI: API.OperationMethod<
   RoutePrometheusDynamicAPIError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<RoutePrometheusDynamicAPIRequest>,
+  input: __S(1232, __c77, 0) as any as S.Schema<RoutePrometheusDynamicAPIRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<RoutePrometheusDynamicAPIResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6573,7 +6600,7 @@ export const runPrometheusInstance: API.OperationMethod<
   RunPrometheusInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<RunPrometheusInstanceRequest>,
+  input: __S(1248, __c78, 0) as any as S.Schema<RunPrometheusInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RunPrometheusInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6590,7 +6617,7 @@ export const setDefaultAlarmPolicy: API.OperationMethod<
   SetDefaultAlarmPolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<SetDefaultAlarmPolicyRequest>,
+  input: __S(1280, __c80, 0) as any as S.Schema<SetDefaultAlarmPolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SetDefaultAlarmPolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6760,7 +6787,7 @@ export const updateDNSConfig: API.OperationMethod<
   UpdateDNSConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdateDNSConfigRequest>,
+  input: __S(1488, __c93, 0) as any as S.Schema<UpdateDNSConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateDNSConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6777,7 +6804,7 @@ export const updateExporterIntegration: API.OperationMethod<
   UpdateExporterIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<UpdateExporterIntegrationRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<UpdateExporterIntegrationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateExporterIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6794,7 +6821,7 @@ export const updateGrafanaConfig: API.OperationMethod<
   UpdateGrafanaConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UpdateGrafanaConfigRequest>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateGrafanaConfigRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateGrafanaConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6811,7 +6838,7 @@ export const updateGrafanaEnvironments: API.OperationMethod<
   UpdateGrafanaEnvironmentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UpdateGrafanaEnvironmentsRequest>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateGrafanaEnvironmentsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateGrafanaEnvironmentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6828,7 +6855,7 @@ export const updateGrafanaIntegration: API.OperationMethod<
   UpdateGrafanaIntegrationError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<UpdateGrafanaIntegrationRequest>,
+  input: __S(1552, __c97, 0) as any as S.Schema<UpdateGrafanaIntegrationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateGrafanaIntegrationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6845,7 +6872,7 @@ export const updateGrafanaNotificationChannel: API.OperationMethod<
   UpdateGrafanaNotificationChannelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UpdateGrafanaNotificationChannelRequest>,
+  input: __S(1568, __c98, 0) as any as S.Schema<UpdateGrafanaNotificationChannelRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateGrafanaNotificationChannelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6862,7 +6889,7 @@ export const updateGrafanaWhiteList: API.OperationMethod<
   UpdateGrafanaWhiteListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<UpdateGrafanaWhiteListRequest>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UpdateGrafanaWhiteListRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateGrafanaWhiteListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6879,8 +6906,8 @@ export const updateOnCallForm: API.OperationMethod<
   UpdateOnCallFormError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<UpdateOnCallFormRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<UpdateOnCallFormResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdateOnCallFormRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateOnCallFormResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6896,7 +6923,7 @@ export const updatePrometheusAgentStatus: API.OperationMethod<
   UpdatePrometheusAgentStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<UpdatePrometheusAgentStatusRequest>,
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdatePrometheusAgentStatusRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdatePrometheusAgentStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6913,8 +6940,8 @@ export const updatePrometheusAlertGroup: API.OperationMethod<
   UpdatePrometheusAlertGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdatePrometheusAlertGroupRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<UpdatePrometheusAlertGroupResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<UpdatePrometheusAlertGroupRequest>,
+  output: __S(1856, __c116, 0) as any as S.Schema<UpdatePrometheusAlertGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6930,7 +6957,7 @@ export const updatePrometheusAlertGroupState: API.OperationMethod<
   UpdatePrometheusAlertGroupStateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<UpdatePrometheusAlertGroupStateRequest>,
+  input: __S(1680, __c105, 0) as any as S.Schema<UpdatePrometheusAlertGroupStateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdatePrometheusAlertGroupStateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6947,7 +6974,7 @@ export const updatePrometheusScrapeJob: API.OperationMethod<
   UpdatePrometheusScrapeJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<UpdatePrometheusScrapeJobRequest>,
+  input: __S(1696, __c106, 0) as any as S.Schema<UpdatePrometheusScrapeJobRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdatePrometheusScrapeJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6964,8 +6991,8 @@ export const updateRecordingRule: API.OperationMethod<
   UpdateRecordingRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<UpdateRecordingRuleResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<UpdateRecordingRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6981,8 +7008,8 @@ export const updateServiceDiscovery: API.OperationMethod<
   UpdateServiceDiscoveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UpdateServiceDiscoveryRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<UpdateServiceDiscoveryResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateServiceDiscoveryRequest>,
+  output: __S(1730, __c108, 2) as any as S.Schema<UpdateServiceDiscoveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6998,7 +7025,7 @@ export const updateSSOAccount: API.OperationMethod<
   UpdateSSOAccountError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<UpdateSSOAccountRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateSSOAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateSSOAccountResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -7015,7 +7042,7 @@ export const upgradeGrafanaDashboard: API.OperationMethod<
   UpgradeGrafanaDashboardError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UpgradeGrafanaDashboardRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UpgradeGrafanaDashboardRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpgradeGrafanaDashboardResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -7032,7 +7059,7 @@ export const upgradeGrafanaInstance: API.OperationMethod<
   UpgradeGrafanaInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpgradeGrafanaInstanceRequest>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpgradeGrafanaInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpgradeGrafanaInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -7048,29 +7075,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Region: S.String,
-          RegionId: S.optional(S.Number),
-          Dimensions: S.optional(S.String),
-          EventDimensions: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BindingPolicyObjectDimension" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          GroupId: S.optional(S.Number),
-          PolicyId: S.optional(S.String),
-          InstanceGroupId: S.optional(S.Number),
-          Dimensions: S.optional(__S(1, __c0, 1)),
-          EbSubject: S.optional(S.String),
-          EbEventFlag: S.optional(S.Number),
+          InstanceId: S.String,
+          SubnetId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "BindingPolicyObject" }),
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "AddSubnetToManagedCluster",
+          }),
         ),
-      ).annotate({ identifier: "BindingPolicyObjectRequest" });
+      ).annotate({ identifier: "AddSubnetToManagedClusterRequest" });
   }
 }
 function __c1(j: number): any {
@@ -7080,7 +7095,7 @@ function __c1(j: number): any {
         S.Struct({
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BindingPolicyObjectResponse" });
+      ).annotate({ identifier: "AddSubnetToManagedClusterResponse" });
   }
 }
 function __c2(j: number): any {
@@ -7088,30 +7103,29 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Key: S.NullOr(S.String),
-          Value: S.NullOr(S.String),
+          Region: S.String,
+          RegionId: S.optional(S.Number),
+          Dimensions: S.optional(S.String),
+          EventDimensions: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PolicyTag" });
+      ).annotate({ identifier: "BindingPolicyObjectDimension" });
     case 1:
       return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
-          PolicyId: S.String,
-          GroupId: S.String,
-          ServiceType: S.String,
-          Tag: S.optional(__S(32, __c2, 0)),
+          GroupId: S.optional(S.Number),
+          PolicyId: S.optional(S.String),
           InstanceGroupId: S.optional(S.Number),
-          BatchTag: S.optional(__S(33, __c2, 1)),
-          EbEventFlag: S.optional(S.Number),
+          Dimensions: S.optional(__S(33, __c2, 1)),
           EbSubject: S.optional(S.String),
-          TagOperation: S.optional(S.String),
+          EbEventFlag: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "BindingPolicyTag" }),
+          T.Action({ service: "monitor", version: "2018-07-24", action: "BindingPolicyObject" }),
         ),
-      ).annotate({ identifier: "BindingPolicyTagRequest" });
+      ).annotate({ identifier: "BindingPolicyObjectRequest" });
   }
 }
 function __c3(j: number): any {
@@ -7119,59 +7133,79 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CalcPeriod: S.String,
-          CalcType: S.String,
-          ContinuePeriod: S.String,
-          MetricID: S.Number,
-          CalcValue: S.String,
-          AlarmNotifyPeriod: S.optional(S.String),
-          AlarmNotifyType: S.optional(S.Number),
-          RuleID: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ModifyConditionsTemplateRequestCondition" });
-    case 1:
-      return S.Array(__S(48, __c3, 0));
-    case 2:
+          InstanceId: S.String,
+          RuleName: S.String,
+          Expr: S.String,
+          Receivers: __S(2704, __c169, 0),
+          RuleState: S.optional(S.Number),
+          Duration: S.optional(S.String),
+          Labels: S.optional(__S(2993, __c187, 1)),
+          Annotations: S.optional(__S(2993, __c187, 1)),
+          Type: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlertRule" })),
+      ).annotate({ identifier: "CreateAlertRuleRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          MetricName: S.optional(S.String),
-          Description: S.optional(S.String),
+          RuleId: S.optional(S.NullOr(S.String)),
+          RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ModifyConditionsTemplateRequestEventCondition" });
-    case 3:
-      return S.Array(__S(50, __c3, 2));
-    case 4:
+      ).annotate({ identifier: "CreateAlertRuleResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          Module: S.String,
-          ViewName: S.String,
-          GroupName: S.String,
-          IsUnionRule: S.optional(S.Number),
-          Remark: S.optional(S.String),
-          ParentGroupID: S.optional(S.Number),
-          IsShielded: S.optional(S.Number),
-          ComplexExpression: S.optional(S.String),
-          Conditions: S.optional(__S(49, __c3, 1)),
-          EventConditions: S.optional(__S(51, __c3, 3)),
+          InstanceId: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          GroupId: S.optional(S.String),
+          GroupName: S.optional(S.String),
+          Labels: S.optional(__S(2993, __c187, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
             service: "monitor",
             version: "2018-07-24",
-            action: "CreateConditionsTemplate",
+            action: "DescribePrometheusAlertGroups",
           }),
         ),
-      ).annotate({ identifier: "CreateConditionsTemplateRequest" });
-    case 5:
+      ).annotate({ identifier: "DescribePrometheusAlertGroupsRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          GroupID: S.optional(S.Number),
+          GroupId: S.optional(S.NullOr(S.String)),
+          GroupName: S.optional(S.NullOr(S.String)),
+          AMPReceivers: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          CustomReceiver: S.optional(S.NullOr(__S(1842, __c115, 2))),
+          RepeatInterval: S.optional(S.NullOr(S.String)),
+          TemplateId: S.optional(S.NullOr(S.String)),
+          Rules: S.optional(S.NullOr(__S(1844, __c115, 4))),
+          CreatedAt: S.optional(S.NullOr(S.String)),
+          UpdatedAt: S.optional(S.NullOr(S.String)),
+          LastModifySubAccountUin: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusAlertGroupSet" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AlertGroupSet: S.optional(S.NullOr(__S(82, __c5, 2))),
+          TotalCount: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateConditionsTemplateResponse" });
+      ).annotate({ identifier: "DescribePrometheusAlertGroupsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7189,33 +7223,33 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AlertmanagerConfig: S.optional(__S(82, __c5, 2)),
+          AlertmanagerConfig: S.optional(__S(114, __c7, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusAlertmanagerConfigResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SourceMatchers: S.NullOr(__S(2464, __c154, 0)),
-          TargetMatchers: S.NullOr(__S(2464, __c154, 0)),
-          Equal: S.NullOr(__S(2464, __c154, 0)),
+          SourceMatchers: S.NullOr(__S(2704, __c169, 0)),
+          TargetMatchers: S.NullOr(__S(2704, __c169, 0)),
+          Equal: S.NullOr(__S(2704, __c169, 0)),
         }),
       ).annotate({ identifier: "PrometheusAlertmanagerConfigInhibitRule" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          InhibitRules: S.optional(S.NullOr(__S(81, __c5, 1))),
+          InhibitRules: S.optional(S.NullOr(__S(113, __c7, 1))),
         }),
       ).annotate({ identifier: "PrometheusAlertmanagerConfigV2" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7223,7 +7257,7 @@ function __c6(j: number): any {
           InstanceId: S.String,
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(113, __c7, 1)),
+          Filters: S.optional(__S(145, __c9, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7236,14 +7270,14 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AlertRules: S.optional(S.NullOr(__S(2000, __c125, 0))),
+          AlertRules: S.optional(S.NullOr(__S(2048, __c128, 0))),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusAlertPolicyResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7252,14 +7286,14 @@ function __c7(j: number): any {
           Key: S.optional(S.String),
           Value: S.optional(S.String),
           Name: S.optional(S.String),
-          Values: S.optional(__S(2464, __c154, 0)),
+          Values: S.optional(__S(2704, __c169, 0)),
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(144, __c9, 0));
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7267,8 +7301,8 @@ function __c8(j: number): any {
           InstanceId: S.String,
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          ClusterIds: S.optional(__S(2464, __c154, 0)),
-          ClusterTypes: S.optional(__S(2464, __c154, 0)),
+          ClusterIds: S.optional(__S(2704, __c169, 0)),
+          ClusterTypes: S.optional(__S(2704, __c169, 0)),
           ClusterName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -7286,7 +7320,7 @@ function __c8(j: number): any {
           ClusterId: S.optional(S.String),
           Status: S.optional(S.String),
           ClusterName: S.optional(S.String),
-          ExternalLabels: S.optional(S.NullOr(__S(449, __c28, 1))),
+          ExternalLabels: S.optional(S.NullOr(__S(673, __c42, 1))),
           Region: S.optional(S.NullOr(S.String)),
           VpcId: S.optional(S.NullOr(S.String)),
           FailedReason: S.optional(S.NullOr(S.String)),
@@ -7297,11 +7331,11 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusAgentOverview" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Agents: S.optional(__S(130, __c8, 2)),
+          Agents: S.optional(__S(162, __c10, 2)),
           Total: S.optional(S.Number),
           IsFirstBind: S.optional(S.Boolean),
           ImageNeedUpdate: S.optional(S.Boolean),
@@ -7310,7 +7344,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DescribePrometheusClusterAgentsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7331,17 +7365,17 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Config: S.optional(S.String),
-          ServiceMonitors: S.optional(__S(1906, __c119, 2)),
-          PodMonitors: S.optional(__S(1906, __c119, 2)),
-          RawJobs: S.optional(__S(1906, __c119, 2)),
-          Probes: S.optional(__S(1906, __c119, 2)),
+          ServiceMonitors: S.optional(__S(1954, __c122, 2)),
+          PodMonitors: S.optional(__S(1954, __c122, 2)),
+          RawJobs: S.optional(__S(1954, __c122, 2)),
+          Probes: S.optional(__S(1954, __c122, 2)),
           ImageNeedUpdate: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusConfigResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7366,13 +7400,13 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          QuotaDetail: S.optional(__S(161, __c10, 1)),
+          QuotaDetail: S.optional(__S(193, __c12, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusCreateInstanceQuotaResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7392,16 +7426,16 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Config: S.optional(S.String),
-          ServiceMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          PodMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          RawJobs: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          Probes: S.optional(S.NullOr(__S(1906, __c119, 2))),
+          ServiceMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          PodMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          RawJobs: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          Probes: S.optional(S.NullOr(__S(1954, __c122, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusGlobalConfigResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7419,13 +7453,13 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Notification: S.optional(S.NullOr(__S(1841, __c115, 1))),
+          Notification: S.optional(S.NullOr(__S(1889, __c118, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusGlobalNotificationResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7461,7 +7495,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DescribePrometheusInstanceDetailResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7487,12 +7521,12 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "TaskStepInfo" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.NullOr(S.String)),
-          Steps: S.optional(S.NullOr(__S(226, __c14, 2))),
+          Steps: S.optional(S.NullOr(__S(258, __c16, 2))),
           EksClusterId: S.optional(S.NullOr(S.String)),
           SecurityGroupId: S.optional(S.NullOr(S.String)),
           RequestId: S.optional(S.String),
@@ -7500,17 +7534,74 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DescribePrometheusInstanceInitStatusResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: S.optional(__S(2464, __c154, 0)),
-          InstanceStatus: S.optional(__S(2704, __c169, 0)),
+          CalcPeriod: S.String,
+          CalcType: S.String,
+          ContinuePeriod: S.String,
+          MetricID: S.Number,
+          CalcValue: S.String,
+          AlarmNotifyPeriod: S.optional(S.String),
+          AlarmNotifyType: S.optional(S.Number),
+          RuleID: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ModifyConditionsTemplateRequestCondition" });
+    case 1:
+      return S.Array(__S(272, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MetricName: S.optional(S.String),
+          Description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModifyConditionsTemplateRequestEventCondition" });
+    case 3:
+      return S.Array(__S(274, __c17, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          ViewName: S.String,
+          GroupName: S.String,
+          IsUnionRule: S.optional(S.Number),
+          Remark: S.optional(S.String),
+          ParentGroupID: S.optional(S.Number),
+          IsShielded: S.optional(S.Number),
+          ComplexExpression: S.optional(S.String),
+          Conditions: S.optional(__S(273, __c17, 1)),
+          EventConditions: S.optional(__S(275, __c17, 3)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "CreateConditionsTemplate",
+          }),
+        ),
+      ).annotate({ identifier: "CreateConditionsTemplateRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          GroupID: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateConditionsTemplateResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceIds: S.optional(__S(2704, __c169, 0)),
+          InstanceStatus: S.optional(__S(2944, __c184, 0)),
           InstanceName: S.optional(S.String),
-          Zones: S.optional(__S(2464, __c154, 0)),
-          TagFilters: S.optional(__S(689, __c43, 1)),
-          IPv4Address: S.optional(__S(2464, __c154, 0)),
+          Zones: S.optional(__S(2704, __c169, 0)),
+          TagFilters: S.optional(__S(913, __c57, 1)),
+          IPv4Address: S.optional(__S(2704, __c169, 0)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           InstanceChargeType: S.optional(S.Number),
@@ -7550,7 +7641,7 @@ function __c15(j: number): any {
           CreatedAt: S.optional(S.String),
           EnableGrafana: S.optional(S.Number),
           IPv4Address: S.optional(S.NullOr(S.String)),
-          TagSpecification: S.optional(S.NullOr(__S(689, __c43, 1))),
+          TagSpecification: S.optional(S.NullOr(__S(913, __c57, 1))),
           ExpireTime: S.optional(S.NullOr(S.String)),
           ChargeStatus: S.optional(S.NullOr(S.Number)),
           SpecName: S.optional(S.NullOr(S.String)),
@@ -7562,62 +7653,34 @@ function __c15(j: number): any {
           ProxyAddress: S.optional(S.NullOr(S.String)),
           GrafanaStatus: S.optional(S.NullOr(S.Number)),
           GrafanaIpWhiteList: S.optional(S.NullOr(S.String)),
-          Grant: S.optional(S.NullOr(__S(241, __c15, 1))),
+          Grant: S.optional(S.NullOr(__S(289, __c18, 1))),
           GrafanaInstanceId: S.optional(S.NullOr(S.String)),
           AlertRuleLimit: S.optional(S.NullOr(S.Number)),
           RecordingRuleLimit: S.optional(S.NullOr(S.Number)),
           MigrationType: S.optional(S.NullOr(S.Number)),
-          InstanceAttributes: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          InstanceAttributes: S.optional(S.NullOr(__S(2993, __c187, 1))),
         }),
       ).annotate({ identifier: "PrometheusInstancesItem" });
     case 3:
-      return S.Array(__S(242, __c15, 2));
+      return S.Array(__S(290, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          InstanceSet: S.optional(S.NullOr(__S(243, __c15, 3))),
+          InstanceSet: S.optional(S.NullOr(__S(291, __c18, 3))),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusInstancesResponse" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Kind: S.String,
-          Content: S.String,
-          KubeType: S.optional(S.Number),
-          ClusterId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "CreateExporterIntegration",
-          }),
-        ),
-      ).annotate({ identifier: "CreateExporterIntegrationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Names: S.optional(__S(2464, __c154, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateExporterIntegrationResponse" });
-  }
-}
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(113, __c7, 1)),
+          Filters: S.optional(__S(145, __c9, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7650,23 +7713,23 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusInstancesOverview" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Instances: S.optional(__S(274, __c17, 2)),
+          Instances: S.optional(__S(306, __c19, 2)),
           Total: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusInstancesOverviewResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(2464, __c154, 0),
+          InstanceIds: __S(2704, __c169, 0),
           StartCalcDate: S.String,
           EndCalcDate: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7689,17 +7752,17 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusInstanceTenantUsage" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          UsageSet: S.optional(S.NullOr(__S(290, __c18, 2))),
+          UsageSet: S.optional(S.NullOr(__S(322, __c20, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusInstanceUsageResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7725,27 +7788,27 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationMetric" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Group: S.optional(S.String),
-          Metrics: S.optional(__S(306, __c19, 2)),
+          Metrics: S.optional(__S(338, __c21, 2)),
           GroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntegrationMetricGroup" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(339, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          IntegrationMetricSet: S.optional(__S(308, __c19, 4)),
+          IntegrationMetricSet: S.optional(__S(340, __c21, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusIntegrationMetricsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7753,7 +7816,7 @@ function __c20(j: number): any {
           InstanceId: S.String,
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
-          Filters: S.optional(__S(113, __c7, 1)),
+          Filters: S.optional(__S(145, __c9, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -7777,18 +7840,18 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusRecordRuleYamlItem" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Records: S.optional(__S(322, __c20, 2)),
+          Records: S.optional(__S(354, __c22, 2)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusRecordRulesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7816,17 +7879,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusRegionItem" });
     case 2:
-      return S.Array(__S(337, __c21, 1));
+      return S.Array(__S(369, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RegionSet: S.optional(__S(338, __c21, 2)),
+          RegionSet: S.optional(__S(370, __c23, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusRegionsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7834,7 +7897,7 @@ function __c22(j: number): any {
           InstanceId: S.String,
           AgentId: S.String,
           Name: S.optional(S.String),
-          JobIds: S.optional(__S(2464, __c154, 0)),
+          JobIds: S.optional(__S(2704, __c169, 0)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7856,23 +7919,23 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusScrapeJob" });
     case 2:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ScrapeJobSet: S.optional(S.NullOr(__S(354, __c22, 2))),
+          ScrapeJobSet: S.optional(S.NullOr(__S(386, __c24, 2))),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusScrapeJobsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(2464, __c154, 0),
+          InstanceIds: __S(2704, __c169, 0),
           ClusterId: S.optional(S.String),
           JobType: S.optional(S.String),
           Job: S.optional(S.String),
@@ -7895,52 +7958,52 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusMetricScrapeStatistics" });
     case 2:
-      return S.Array(__S(369, __c23, 1));
+      return S.Array(__S(401, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           JobName: S.optional(S.String),
           ScrapedRate: S.optional(S.Number),
-          Metrics: S.optional(S.NullOr(__S(370, __c23, 2))),
+          Metrics: S.optional(S.NullOr(__S(402, __c25, 2))),
           JobType: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrometheusJobScrapeStatistics" });
     case 4:
-      return S.Array(__S(371, __c23, 3));
+      return S.Array(__S(403, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ClusterID: S.optional(S.String),
           ScrapedRate: S.optional(S.NullOr(S.Number)),
-          Jobs: S.optional(S.NullOr(__S(372, __c23, 4))),
+          Jobs: S.optional(S.NullOr(__S(404, __c25, 4))),
           SamplesRate: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "PrometheusClusterScrapeStatistics" });
     case 6:
-      return S.Array(__S(373, __c23, 5));
+      return S.Array(__S(405, __c25, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
           ScrapedRate: S.optional(S.Number),
-          Clusters: S.optional(__S(374, __c23, 6)),
-          Global: S.optional(S.NullOr(__S(374, __c23, 6))),
+          Clusters: S.optional(__S(406, __c25, 6)),
+          Global: S.optional(S.NullOr(__S(406, __c25, 6))),
           SamplesRate: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PrometheusInstanceScrapeStatistics" });
     case 8:
-      return S.Array(__S(375, __c23, 7));
+      return S.Array(__S(407, __c25, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.NullOr(S.Number)),
-          InstanceResults: S.optional(S.NullOr(__S(376, __c23, 8))),
+          InstanceResults: S.optional(S.NullOr(__S(408, __c25, 8))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusScrapeStatisticsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7948,7 +8011,7 @@ function __c24(j: number): any {
           InstanceId: S.String,
           ClusterId: S.String,
           ClusterType: S.optional(S.String),
-          Filters: S.optional(__S(113, __c7, 1)),
+          Filters: S.optional(__S(145, __c9, 1)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -7968,33 +8031,33 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusTarget" });
     case 2:
-      return S.Array(__S(385, __c24, 1));
+      return S.Array(__S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Targets: S.optional(__S(386, __c24, 2)),
+          Targets: S.optional(__S(418, __c26, 2)),
           JobName: S.optional(S.String),
           Total: S.optional(S.Number),
           Up: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PrometheusJobTargets" });
     case 4:
-      return S.Array(__S(387, __c24, 3));
+      return S.Array(__S(419, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Jobs: S.optional(__S(388, __c24, 4)),
+          Jobs: S.optional(__S(420, __c26, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusTargetsTMPResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(113, __c7, 1)),
+          Filters: S.optional(__S(145, __c9, 1)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -8003,18 +8066,46 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "DescribePrometheusTempRequest" });
     case 1:
-      return S.Array(__S(2016, __c126, 0));
+      return S.Array(__S(2064, __c129, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Templates: S.optional(__S(401, __c25, 1)),
+          Templates: S.optional(__S(433, __c27, 1)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusTempResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Kind: S.String,
+          Content: S.String,
+          KubeType: S.optional(S.Number),
+          ClusterId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "CreateExporterIntegration",
+          }),
+        ),
+      ).annotate({ identifier: "CreateExporterIntegrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Names: S.optional(__S(2704, __c169, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateExporterIntegrationResponse" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8032,52 +8123,13 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Targets: S.optional(S.NullOr(__S(2417, __c151, 1))),
+          Targets: S.optional(S.NullOr(__S(2465, __c154, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusTempSyncResponse" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ClusterRegion: S.String,
-          ClusterName: S.optional(S.String),
-          ClusterId: S.optional(S.String),
-          ExternalLabels: S.optional(__S(449, __c28, 1)),
-          OpenDefaultRecord: S.optional(S.Boolean),
-          EnableExternal: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateExternalCluster" }),
-        ),
-      ).annotate({ identifier: "CreateExternalClusterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateExternalClusterResponse" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          Value: S.String,
-        }),
-      ).annotate({ identifier: "Label" });
-    case 1:
-      return S.Array(__S(448, __c28, 0));
-  }
-}
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8105,17 +8157,17 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusZoneItem" });
     case 2:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ZoneSet: S.optional(S.NullOr(__S(466, __c29, 2))),
+          ZoneSet: S.optional(S.NullOr(__S(482, __c30, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusZonesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8145,25 +8197,25 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "RecordingRuleSet" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(497, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          RecordingRuleSet: S.optional(S.NullOr(__S(482, __c30, 2))),
+          RecordingRuleSet: S.optional(S.NullOr(__S(498, __c31, 2))),
           TotalRuleCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRecordingRulesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          RemoteURLs: S.optional(__S(2464, __c154, 0)),
+          RemoteURLs: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeRemoteURLs" }),
@@ -8172,13 +8224,13 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          RemoteWrites: S.optional(__S(516, __c32, 4)),
+          RemoteWrites: S.optional(__S(532, __c33, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRemoteURLsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8195,22 +8247,22 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "RemoteWriteHeader" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           URL: S.String,
           URLRelabelConfig: S.optional(S.NullOr(S.String)),
-          BasicAuth: S.optional(S.NullOr(__S(512, __c32, 0))),
-          Headers: S.optional(S.NullOr(__S(514, __c32, 2))),
+          BasicAuth: S.optional(S.NullOr(__S(528, __c33, 0))),
+          Headers: S.optional(S.NullOr(__S(530, __c33, 2))),
           RemoteWriteType: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "RemoteWrite" });
     case 4:
-      return S.Array(__S(515, __c32, 3));
+      return S.Array(__S(531, __c33, 3));
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8230,18 +8282,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "WriteDestination" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Count: S.optional(S.Number),
-          RemoteWrites: S.optional(__S(530, __c33, 2)),
+          RemoteWrites: S.optional(__S(546, __c34, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRemoteWritesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8257,7 +8309,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           UserId: S.optional(S.String),
-          Role: S.optional(__S(2065, __c129, 1)),
+          Role: S.optional(__S(2129, __c133, 1)),
           Notes: S.optional(S.String),
           CreateAt: S.optional(S.String),
           InstanceId: S.optional(S.NullOr(S.String)),
@@ -8265,39 +8317,39 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaAccountInfo" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AccountSet: S.optional(S.NullOr(__S(546, __c34, 2))),
+          AccountSet: S.optional(S.NullOr(__S(562, __c35, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSSOAccountResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Key: S.String,
           Operator: S.String,
-          Value: __S(2464, __c154, 0),
+          Value: __S(2704, __c169, 0),
         }),
       ).annotate({ identifier: "MidQueryCondition" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
           Namespace: S.String,
-          MetricNames: __S(2464, __c154, 0),
-          Conditions: S.optional(__S(561, __c35, 1)),
+          MetricNames: __S(2704, __c169, 0),
+          Conditions: S.optional(__S(577, __c36, 1)),
           Period: S.optional(S.Number),
           StartTime: S.optional(S.String),
           EndTime: S.optional(S.String),
-          GroupBys: S.optional(__S(2464, __c154, 0)),
+          GroupBys: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeStatisticData" }),
@@ -8311,38 +8363,38 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "Point" });
     case 4:
-      return S.Array(__S(563, __c35, 3));
+      return S.Array(__S(579, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: S.optional(__S(577, __c36, 1)),
-          Values: S.optional(__S(564, __c35, 4)),
+          Dimensions: S.optional(__S(593, __c37, 1)),
+          Values: S.optional(__S(580, __c36, 4)),
         }),
       ).annotate({ identifier: "MetricDataPoint" });
     case 6:
-      return S.Array(__S(565, __c35, 5));
+      return S.Array(__S(581, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           MetricName: S.optional(S.String),
-          Points: S.optional(__S(566, __c35, 6)),
+          Points: S.optional(__S(582, __c36, 6)),
         }),
       ).annotate({ identifier: "MetricData" });
     case 8:
-      return S.Array(__S(567, __c35, 7));
+      return S.Array(__S(583, __c36, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           Period: S.optional(S.Number),
           StartTime: S.optional(S.String),
           EndTime: S.optional(S.String),
-          Data: S.optional(__S(568, __c35, 8)),
+          Data: S.optional(__S(584, __c36, 8)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeStatisticDataResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8352,10 +8404,10 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "Dimension" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(592, __c37, 0));
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8372,7 +8424,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DestroyPrometheusInstanceRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8386,7 +8438,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "EnableGrafanaInternetRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,14 +8452,53 @@ function __c39(j: number): any {
       ).annotate({ identifier: "EnableGrafanaSSORequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          ClusterRegion: S.String,
+          ClusterName: S.optional(S.String),
+          ClusterId: S.optional(S.String),
+          ExternalLabels: S.optional(__S(673, __c42, 1)),
+          OpenDefaultRecord: S.optional(S.Boolean),
+          EnableExternal: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateExternalCluster" }),
+        ),
+      ).annotate({ identifier: "CreateExternalClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateExternalClusterResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Value: S.String,
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(672, __c42, 0));
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           PredefinedConfigID: S.optional(S.String),
           PredefinedGroupID: S.optional(S.String),
-          NoticeIDs: S.optional(__S(2464, __c154, 0)),
+          NoticeIDs: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -8417,50 +8508,6 @@ function __c40(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EnablePredefinedPoliciesRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceName: S.String,
-          VpcId: S.String,
-          SubnetIds: __S(2464, __c154, 0),
-          EnableInternet: S.Boolean,
-          GrafanaInitPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          TagSpecification: S.optional(__S(689, __c43, 1)),
-          DockerImage: S.optional(S.String),
-          AutoVoucher: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateGrafanaInstance" }),
-        ),
-      ).annotate({ identifier: "CreateGrafanaInstanceRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateGrafanaInstanceResponse" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Key: S.String,
-          Value: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "PrometheusTag" });
-    case 1:
-      return S.Array(__S(688, __c43, 0));
   }
 }
 function __c44(j: number): any {
@@ -8486,7 +8533,7 @@ function __c45(j: number): any {
           Method: S.String,
           Path: S.String,
           RequestBody: S.optional(S.String),
-          Headers: S.optional(__S(2753, __c172, 1)),
+          Headers: S.optional(__S(2993, __c187, 1)),
           SelfMonitor: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -8535,12 +8582,12 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: S.optional(__S(577, __c36, 1)),
-          Timestamps: S.optional(__S(2704, __c169, 0)),
-          Values: S.optional(__S(2704, __c169, 0)),
-          MaxValues: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          MinValues: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          AvgValues: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Dimensions: S.optional(__S(593, __c37, 1)),
+          Timestamps: S.optional(__S(2944, __c184, 0)),
+          Values: S.optional(__S(2944, __c184, 0)),
+          MaxValues: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          MinValues: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          AvgValues: S.optional(S.NullOr(__S(2944, __c184, 0))),
         }),
       ).annotate({ identifier: "DataPoint" });
     case 2:
@@ -8564,7 +8611,7 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: __S(577, __c36, 1),
+          Dimensions: __S(593, __c37, 1),
         }),
       ).annotate({ identifier: "Instance" });
     case 1:
@@ -8626,7 +8673,7 @@ function __c50(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: S.optional(S.NullOr(__S(577, __c36, 1))),
+          Dimensions: S.optional(S.NullOr(__S(593, __c37, 1))),
           Value: S.optional(S.NullOr(S.Number)),
           Timestamp: S.optional(S.NullOr(S.Number)),
           Order: S.optional(S.NullOr(S.Number)),
@@ -8652,7 +8699,7 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Plugins: __S(3329, __c208, 1),
+          Plugins: __S(3377, __c211, 1),
           InstanceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "InstallPlugins" })),
@@ -8660,7 +8707,7 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PluginIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          PluginIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstallPluginsResponse" });
@@ -8678,7 +8725,7 @@ function __c52(j: number): any {
           ShieldTimeType: S.String,
           ShieldPolicyId: S.String,
           NameSpace: S.optional(S.String),
-          ShieldObject: S.optional(__S(2464, __c154, 0)),
+          ShieldObject: S.optional(__S(2704, __c169, 0)),
           MetricName: S.optional(S.String),
           StartTime: S.optional(S.Number),
           EndTime: S.optional(S.Number),
@@ -8708,10 +8755,10 @@ function __c53(j: number): any {
           NoticeType: S.String,
           NoticeLanguage: S.String,
           NoticeId: S.String,
-          UserNotices: S.optional(__S(2737, __c171, 1)),
-          URLNotices: S.optional(__S(2721, __c170, 1)),
-          CLSNotices: S.optional(__S(2739, __c171, 3)),
-          PolicyIds: S.optional(__S(2464, __c154, 0)),
+          UserNotices: S.optional(__S(2977, __c186, 1)),
+          URLNotices: S.optional(__S(2961, __c185, 1)),
+          CLSNotices: S.optional(__S(2979, __c186, 3)),
+          PolicyIds: S.optional(__S(2704, __c169, 0)),
           IsLoginFree: S.optional(S.Number),
           TimeZoneName: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -8729,12 +8776,12 @@ function __c54(j: number): any {
           Module: S.String,
           PolicyId: S.String,
           ConditionTemplateId: S.optional(S.Number),
-          Condition: S.optional(__S(2995, __c187, 3)),
-          EventCondition: S.optional(__S(2996, __c187, 4)),
-          Filter: S.optional(__S(2992, __c187, 0)),
-          GroupBy: S.optional(__S(2464, __c154, 0)),
-          LogAlarmReqInfo: S.optional(__S(2978, __c186, 2)),
-          NoticeIds: S.optional(__S(2464, __c154, 0)),
+          Condition: S.optional(__S(3219, __c201, 3)),
+          EventCondition: S.optional(__S(3220, __c201, 4)),
+          Filter: S.optional(__S(3216, __c201, 0)),
+          GroupBy: S.optional(__S(2704, __c169, 0)),
+          LogAlarmReqInfo: S.optional(__S(3202, __c200, 2)),
+          NoticeIds: S.optional(__S(2704, __c169, 0)),
           Enable: S.optional(S.Number),
           PolicyName: S.optional(S.String),
           EbSubject: S.optional(S.String),
@@ -8754,6 +8801,50 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceName: S.String,
+          VpcId: S.String,
+          SubnetIds: __S(2704, __c169, 0),
+          EnableInternet: S.Boolean,
+          GrafanaInitPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          TagSpecification: S.optional(__S(913, __c57, 1)),
+          DockerImage: S.optional(S.String),
+          AutoVoucher: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateGrafanaInstance" }),
+        ),
+      ).annotate({ identifier: "CreateGrafanaInstanceRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateGrafanaInstanceResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.String,
+          Value: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PrometheusTag" });
+    case 1:
+      return S.Array(__S(912, __c57, 0));
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Module: S.String,
           PolicyId: S.String,
           Key: S.String,
@@ -8765,7 +8856,204 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ModifyAlarmPolicyInfoRequest" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyId: S.optional(S.String),
+          NoticeIds: S.optional(__S(2704, __c169, 0)),
+          PolicyIds: S.optional(__S(2704, __c169, 0)),
+          HierarchicalNotices: S.optional(__S(3233, __c202, 1)),
+          NoticeContentTmplBindInfos: S.optional(__S(3235, __c202, 3)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "ModifyAlarmPolicyNotice",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyAlarmPolicyNoticeRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyId: S.String,
+          Enable: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "ModifyAlarmPolicyStatus",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyAlarmPolicyStatusRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyId: S.String,
+          TriggerTasks: S.optional(__S(3249, __c203, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyAlarmPolicyTasks" }),
+        ),
+      ).annotate({ identifier: "ModifyAlarmPolicyTasksRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.Number,
+          EndTime: S.Number,
+          NotifyWay: __S(2704, __c169, 0),
+          ReceiverType: S.String,
+          Id: S.optional(S.Number),
+          SendFor: S.optional(__S(2704, __c169, 0)),
+          UidList: S.optional(__S(2944, __c184, 0)),
+          RoundNumber: S.optional(S.Number),
+          PersonInterval: S.optional(S.Number),
+          RoundInterval: S.optional(S.Number),
+          RecoverNotify: S.optional(__S(2704, __c169, 0)),
+          NeedSendNotice: S.optional(S.Number),
+          ReceiverGroupList: S.optional(__S(2944, __c184, 0)),
+          ReceiverUserList: S.optional(__S(2944, __c184, 0)),
+          ReceiveLanguage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReceiverInfo" });
+    case 1:
+      return S.Array(__S(992, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GroupId: S.Number,
+          Module: S.String,
+          ReceiverInfos: S.optional(__S(993, __c62, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyAlarmReceivers" }),
+        ),
+      ).annotate({ identifier: "ModifyAlarmReceiversRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          InstanceName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyGrafanaInstance" }),
+        ),
+      ).annotate({ identifier: "ModifyGrafanaInstanceRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MetricId: S.Number,
+          CalcType: S.Number,
+          CalcValue: S.String,
+          CalcPeriod: S.Number,
+          ContinuePeriod: S.Number,
+          AlarmNotifyType: S.Number,
+          AlarmNotifyPeriod: S.Number,
+          RuleId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ModifyPolicyGroupCondition" });
+    case 1:
+      return S.Array(__S(1024, __c64, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          GroupId: S.Number,
+          ViewName: S.String,
+          GroupName: S.String,
+          IsUnionRule: S.Number,
+          Conditions: S.optional(__S(1025, __c64, 1)),
+          EventConditions: S.optional(__S(1665, __c104, 1)),
+          ConditionTempGroupId: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyPolicyGroup" }),
+        ),
+      ).annotate({ identifier: "ModifyPolicyGroupRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          ClusterId: S.String,
+          ExternalLabels: __S(673, __c42, 1),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "ModifyPrometheusAgentExternalLabels",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyPrometheusAgentExternalLabelsRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          AlertRule: __S(1906, __c119, 2),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "ModifyPrometheusAlertPolicy",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyPrometheusAlertPolicyRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          ClusterType: S.String,
+          ClusterId: S.String,
+          ServiceMonitors: S.optional(__S(1954, __c122, 2)),
+          PodMonitors: S.optional(__S(1954, __c122, 2)),
+          RawJobs: S.optional(__S(1954, __c122, 2)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyPrometheusConfig" }),
+        ),
+      ).annotate({ identifier: "ModifyPrometheusConfigRequest" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8791,210 +9079,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateGrafanaIntegrationResponse" });
   }
 }
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          PolicyId: S.optional(S.String),
-          NoticeIds: S.optional(__S(2464, __c154, 0)),
-          PolicyIds: S.optional(__S(2464, __c154, 0)),
-          HierarchicalNotices: S.optional(__S(3009, __c188, 1)),
-          NoticeContentTmplBindInfos: S.optional(__S(3011, __c188, 3)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "ModifyAlarmPolicyNotice",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyAlarmPolicyNoticeRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          PolicyId: S.String,
-          Enable: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "ModifyAlarmPolicyStatus",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyAlarmPolicyStatusRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          PolicyId: S.String,
-          TriggerTasks: S.optional(__S(3025, __c189, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyAlarmPolicyTasks" }),
-        ),
-      ).annotate({ identifier: "ModifyAlarmPolicyTasksRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StartTime: S.Number,
-          EndTime: S.Number,
-          NotifyWay: __S(2464, __c154, 0),
-          ReceiverType: S.String,
-          Id: S.optional(S.Number),
-          SendFor: S.optional(__S(2464, __c154, 0)),
-          UidList: S.optional(__S(2704, __c169, 0)),
-          RoundNumber: S.optional(S.Number),
-          PersonInterval: S.optional(S.Number),
-          RoundInterval: S.optional(S.Number),
-          RecoverNotify: S.optional(__S(2464, __c154, 0)),
-          NeedSendNotice: S.optional(S.Number),
-          ReceiverGroupList: S.optional(__S(2704, __c169, 0)),
-          ReceiverUserList: S.optional(__S(2704, __c169, 0)),
-          ReceiveLanguage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReceiverInfo" });
-    case 1:
-      return S.Array(__S(960, __c60, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          GroupId: S.Number,
-          Module: S.String,
-          ReceiverInfos: S.optional(__S(961, __c60, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyAlarmReceivers" }),
-        ),
-      ).annotate({ identifier: "ModifyAlarmReceiversRequest" });
-  }
-}
-function __c61(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          InstanceName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyGrafanaInstance" }),
-        ),
-      ).annotate({ identifier: "ModifyGrafanaInstanceRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MetricId: S.Number,
-          CalcType: S.Number,
-          CalcValue: S.String,
-          CalcPeriod: S.Number,
-          ContinuePeriod: S.Number,
-          AlarmNotifyType: S.Number,
-          AlarmNotifyPeriod: S.Number,
-          RuleId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ModifyPolicyGroupCondition" });
-    case 1:
-      return S.Array(__S(992, __c62, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          GroupId: S.Number,
-          ViewName: S.String,
-          GroupName: S.String,
-          IsUnionRule: S.Number,
-          Conditions: S.optional(__S(993, __c62, 1)),
-          EventConditions: S.optional(__S(1473, __c92, 1)),
-          ConditionTempGroupId: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyPolicyGroup" }),
-        ),
-      ).annotate({ identifier: "ModifyPolicyGroupRequest" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ClusterId: S.String,
-          ExternalLabels: __S(449, __c28, 1),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "ModifyPrometheusAgentExternalLabels",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyPrometheusAgentExternalLabelsRequest" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          AlertRule: __S(1858, __c116, 2),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "ModifyPrometheusAlertPolicy",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyPrometheusAlertPolicyRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ClusterType: S.String,
-          ClusterId: S.String,
-          ServiceMonitors: S.optional(__S(1906, __c119, 2)),
-          PodMonitors: S.optional(__S(1906, __c119, 2)),
-          RawJobs: S.optional(__S(1906, __c119, 2)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyPrometheusConfig" }),
-        ),
-      ).annotate({ identifier: "ModifyPrometheusConfigRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Notification: __S(1841, __c115, 1),
+          Notification: __S(1889, __c118, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9006,36 +9097,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ModifyPrometheusGlobalNotificationRequest" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ChannelName: S.String,
-          Receivers: __S(2464, __c154, 0),
-          OrgId: S.optional(S.Number),
-          ExtraOrgIds: S.optional(__S(2464, __c154, 0)),
-          OrganizationIds: S.optional(__S(2464, __c154, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "CreateGrafanaNotificationChannel",
-          }),
-        ),
-      ).annotate({ identifier: "CreateGrafanaNotificationChannelRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ChannelId: S.optional(S.NullOr(S.String)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateGrafanaNotificationChannelResponse" });
-  }
-}
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9051,7 +9113,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ModifyPrometheusInstanceAccessPointsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9059,7 +9121,7 @@ function __c69(j: number): any {
           InstanceId: S.String,
           InstanceName: S.optional(S.String),
           DataRetentionTime: S.optional(S.Number),
-          InstanceAttributes: S.optional(__S(2753, __c172, 1)),
+          InstanceAttributes: S.optional(__S(2993, __c187, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9071,7 +9133,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ModifyPrometheusInstanceAttributesRequest" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9090,25 +9152,25 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ModifyPrometheusRecordRuleYamlRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           Describe: S.optional(S.NullOr(S.String)),
-          ServiceMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          PodMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          RawJobs: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          RecordRules: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          AlertDetailRules: S.optional(S.NullOr(__S(2000, __c125, 0))),
+          ServiceMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          PodMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          RawJobs: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          RecordRules: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          AlertDetailRules: S.optional(S.NullOr(__S(2048, __c128, 0))),
         }),
       ).annotate({ identifier: "PrometheusTempModify" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           TemplateId: S.String,
-          Template: __S(1136, __c71, 0),
+          Template: __S(1168, __c73, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyPrometheusTemp" }),
@@ -9116,13 +9178,13 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ModifyPrometheusTempRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          RemoteWrites: S.optional(__S(516, __c32, 4)),
+          RemoteWrites: S.optional(__S(532, __c33, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "ModifyRemoteURLs" }),
@@ -9130,13 +9192,13 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ModifyRemoteURLsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          AlertmanagerConfig: S.optional(__S(82, __c5, 2)),
+          AlertmanagerConfig: S.optional(__S(114, __c7, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9148,7 +9210,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ReplacePrometheusAlertmanagerConfigRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9161,7 +9223,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ResumeGrafanaInstanceRequest" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9170,7 +9232,7 @@ function __c75(j: number): any {
           Method: S.String,
           Path: S.String,
           RequestBody: S.optional(S.String),
-          Headers: S.optional(__S(2753, __c172, 1)),
+          Headers: S.optional(__S(2993, __c187, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9182,7 +9244,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RoutePrometheusDynamicAPIRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9196,7 +9258,36 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RunPrometheusInstanceRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          ChannelName: S.String,
+          Receivers: __S(2704, __c169, 0),
+          OrgId: S.optional(S.Number),
+          ExtraOrgIds: S.optional(__S(2704, __c169, 0)),
+          OrganizationIds: S.optional(__S(2704, __c169, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "CreateGrafanaNotificationChannel",
+          }),
+        ),
+      ).annotate({ identifier: "CreateGrafanaNotificationChannelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelId: S.optional(S.NullOr(S.String)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateGrafanaNotificationChannelResponse" });
+  }
+}
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9210,69 +9301,13 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SetDefaultAlarmPolicyRequest" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          OnCallFormName: S.String,
-          StaffInfos: __S(1281, __c80, 1),
-          RotationType: S.String,
-          ShiftTime: S.String,
-          EffectiveStartTime: S.Number,
-          EffectiveEndTime: S.Number,
-          TimeZone: S.Number,
-          OnCallFormDesc: S.optional(S.String),
-          CoverStaffInfos: S.optional(__S(1283, __c80, 3)),
-          Tags: S.optional(__S(2753, __c172, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateOnCallForm" }),
-        ),
-      ).annotate({ identifier: "CreateOnCallFormRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          OnCallFormID: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateOnCallFormResponse" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          StaffIDs: S.optional(S.NullOr(__S(2464, __c154, 0))),
-        }),
-      ).annotate({ identifier: "StaffInfo" });
-    case 1:
-      return S.Array(__S(1280, __c80, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          CoverStaffIDs: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          CoverStartTime: S.optional(S.NullOr(S.Number)),
-          CoverEndTime: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CoverStaffInfo" });
-    case 3:
-      return S.Array(__S(1282, __c80, 2));
-  }
-}
 function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateId: S.String,
-          Targets: __S(2417, __c151, 1),
+          Targets: __S(2465, __c154, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "SyncPrometheusTemp" }),
@@ -9285,7 +9320,7 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(2464, __c154, 0),
+          InstanceIds: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9325,7 +9360,7 @@ function __c84(j: number): any {
         S.Struct({
           Module: S.String,
           GroupId: S.Number,
-          UniqueId: __S(2464, __c154, 0),
+          UniqueId: __S(2704, __c169, 0),
           InstanceGroupId: S.optional(S.Number),
           PolicyId: S.optional(S.String),
           EbSubject: S.optional(S.String),
@@ -9361,7 +9396,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          IntegrationCodes: S.optional(__S(2464, __c154, 0)),
+          IntegrationCodes: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9378,7 +9413,7 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PluginIds: __S(2464, __c154, 0),
+          PluginIds: __S(2704, __c169, 0),
           InstanceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9402,9 +9437,9 @@ function __c88(j: number): any {
           RuleName: S.String,
           Expr: S.String,
           Duration: S.String,
-          Receivers: __S(2464, __c154, 0),
-          Labels: S.optional(__S(2753, __c172, 1)),
-          Annotations: S.optional(__S(2753, __c172, 1)),
+          Receivers: __S(2704, __c169, 0),
+          Labels: S.optional(__S(2993, __c187, 1)),
+          Annotations: S.optional(__S(2993, __c187, 1)),
           Type: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "UpdateAlertRule" })),
@@ -9423,7 +9458,7 @@ function __c89(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RuleIds: __S(2464, __c154, 0),
+          RuleIds: __S(2704, __c169, 0),
           InstanceId: S.String,
           RuleState: S.Number,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9438,11 +9473,22 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceId: S.String,
-          NameServers: __S(2464, __c154, 0),
+          Module: S.String,
+          OnCallFormName: S.String,
+          StaffInfos: __S(1473, __c92, 1),
+          RotationType: S.String,
+          ShiftTime: S.String,
+          EffectiveStartTime: S.Number,
+          EffectiveEndTime: S.Number,
+          TimeZone: S.Number,
+          OnCallFormDesc: S.optional(S.String),
+          CoverStaffInfos: S.optional(__S(1475, __c92, 3)),
+          Tags: S.optional(__S(2993, __c187, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "UpdateDNSConfig" })),
-      ).annotate({ identifier: "UpdateDNSConfigRequest" });
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateOnCallForm" }),
+        ),
+      ).annotate({ identifier: "CreateOnCallFormRequest" });
   }
 }
 function __c91(j: number): any {
@@ -9450,38 +9496,10 @@ function __c91(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          MetricId: S.Number,
-          AlarmNotifyType: S.Number,
-          AlarmNotifyPeriod: S.Number,
-          CalcType: S.optional(S.Number),
-          CalcValue: S.optional(S.Number),
-          CalcPeriod: S.optional(S.Number),
-          ContinuePeriod: S.optional(S.Number),
-          RuleId: S.optional(S.Number),
+          OnCallFormID: S.optional(S.String),
+          RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreatePolicyGroupCondition" });
-    case 1:
-      return S.Array(__S(1456, __c91, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          GroupName: S.String,
-          Module: S.String,
-          ViewName: S.optional(S.String),
-          ProjectId: S.optional(S.Number),
-          ConditionTempGroupId: S.optional(S.Number),
-          IsShielded: S.optional(S.Number),
-          Remark: S.optional(S.String),
-          InsertTime: S.optional(S.Number),
-          Conditions: S.optional(__S(1457, __c91, 1)),
-          EventConditions: S.optional(__S(1473, __c92, 1)),
-          BackEndCall: S.optional(S.Number),
-          IsUnionRule: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePolicyGroup" }),
-        ),
-      ).annotate({ identifier: "CreatePolicyGroupRequest" });
+      ).annotate({ identifier: "CreateOnCallFormResponse" });
   }
 }
 function __c92(j: number): any {
@@ -9489,24 +9507,36 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EventId: S.Number,
-          AlarmNotifyType: S.Number,
-          AlarmNotifyPeriod: S.Number,
-          RuleId: S.optional(S.Number),
+          StaffIDs: S.optional(S.NullOr(__S(2704, __c169, 0))),
         }),
-      ).annotate({ identifier: "CreatePolicyGroupEventCondition" });
+      ).annotate({ identifier: "StaffInfo" });
     case 1:
       return S.Array(__S(1472, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          GroupId: S.optional(S.Number),
-          RequestId: S.optional(S.String),
+          CoverStaffIDs: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          CoverStartTime: S.optional(S.NullOr(S.Number)),
+          CoverEndTime: S.optional(S.NullOr(S.Number)),
         }),
-      ).annotate({ identifier: "CreatePolicyGroupResponse" });
+      ).annotate({ identifier: "CoverStaffInfo" });
+    case 3:
+      return S.Array(__S(1474, __c92, 2));
   }
 }
 function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          NameServers: __S(2704, __c169, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "UpdateDNSConfig" })),
+      ).annotate({ identifier: "UpdateDNSConfigRequest" });
+  }
+}
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9528,7 +9558,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateExporterIntegrationRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9542,7 +9572,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaConfigRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9560,7 +9590,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaEnvironmentsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9580,17 +9610,17 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaIntegrationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ChannelId: S.String,
           InstanceId: S.String,
-          Receivers: __S(2464, __c154, 0),
+          Receivers: __S(2704, __c169, 0),
           ChannelName: S.optional(S.String),
-          ExtraOrgIds: S.optional(__S(2464, __c154, 0)),
-          OrganizationIds: S.optional(__S(2464, __c154, 0)),
+          ExtraOrgIds: S.optional(__S(2704, __c169, 0)),
+          OrganizationIds: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9602,13 +9632,13 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaNotificationChannelRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          Whitelist: __S(2464, __c154, 0),
+          Whitelist: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "UpdateGrafanaWhiteList" }),
@@ -9616,7 +9646,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaWhiteListRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9624,14 +9654,14 @@ function __c99(j: number): any {
           Module: S.String,
           OnCallFormID: S.String,
           OnCallFormName: S.String,
-          StaffInfos: __S(1281, __c80, 1),
+          StaffInfos: __S(1473, __c92, 1),
           RotationType: S.String,
           ShiftTime: S.String,
           EffectiveStartTime: S.Number,
           EffectiveEndTime: S.Number,
           TimeZone: S.Number,
           OnCallFormDesc: S.optional(S.String),
-          CoverStaffInfos: S.optional(__S(1283, __c80, 3)),
+          CoverStaffInfos: S.optional(__S(1475, __c92, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "UpdateOnCallForm" }),
@@ -9639,13 +9669,13 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateOnCallFormRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          AgentIds: __S(2464, __c154, 0),
+          AgentIds: __S(2704, __c169, 0),
           Status: S.Number,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9658,7 +9688,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdatePrometheusAgentStatusRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9667,10 +9697,10 @@ function __c101(j: number): any {
           GroupId: S.optional(S.String),
           GroupName: S.optional(S.String),
           GroupState: S.optional(S.Number),
-          AMPReceivers: S.optional(__S(2464, __c154, 0)),
-          CustomReceiver: S.optional(__S(1794, __c112, 2)),
+          AMPReceivers: S.optional(__S(2704, __c169, 0)),
+          CustomReceiver: S.optional(__S(1842, __c115, 2)),
           RepeatInterval: S.optional(S.String),
-          Rules: S.optional(__S(1796, __c112, 4)),
+          Rules: S.optional(__S(1844, __c115, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9682,13 +9712,74 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdatePrometheusAlertGroupRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MetricId: S.Number,
+          AlarmNotifyType: S.Number,
+          AlarmNotifyPeriod: S.Number,
+          CalcType: S.optional(S.Number),
+          CalcValue: S.optional(S.Number),
+          CalcPeriod: S.optional(S.Number),
+          ContinuePeriod: S.optional(S.Number),
+          RuleId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreatePolicyGroupCondition" });
+    case 1:
+      return S.Array(__S(1648, __c103, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GroupName: S.String,
+          Module: S.String,
+          ViewName: S.optional(S.String),
+          ProjectId: S.optional(S.Number),
+          ConditionTempGroupId: S.optional(S.Number),
+          IsShielded: S.optional(S.Number),
+          Remark: S.optional(S.String),
+          InsertTime: S.optional(S.Number),
+          Conditions: S.optional(__S(1649, __c103, 1)),
+          EventConditions: S.optional(__S(1665, __c104, 1)),
+          BackEndCall: S.optional(S.Number),
+          IsUnionRule: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePolicyGroup" }),
+        ),
+      ).annotate({ identifier: "CreatePolicyGroupRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EventId: S.Number,
+          AlarmNotifyType: S.Number,
+          AlarmNotifyPeriod: S.Number,
+          RuleId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreatePolicyGroupEventCondition" });
+    case 1:
+      return S.Array(__S(1664, __c104, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GroupId: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreatePolicyGroupResponse" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          GroupIds: S.optional(__S(2464, __c154, 0)),
+          GroupIds: S.optional(__S(2704, __c169, 0)),
           GroupState: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9701,28 +9792,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdatePrometheusAlertGroupStateRequest" });
   }
 }
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Name: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePrometheusAgent" }),
-        ),
-      ).annotate({ identifier: "CreatePrometheusAgentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          AgentId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreatePrometheusAgentResponse" });
-  }
-}
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9742,7 +9812,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdatePrometheusScrapeJobRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9759,7 +9829,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UpdateRecordingRuleRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9789,20 +9859,20 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ServiceDiscovery: S.optional(__S(1697, __c106, 1)),
+          ServiceDiscovery: S.optional(__S(1729, __c108, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateServiceDiscoveryResponse" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           UserId: S.String,
-          Role: S.optional(__S(2065, __c129, 1)),
+          Role: S.optional(__S(2129, __c133, 1)),
           Notes: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9811,13 +9881,13 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateSSOAccountRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          IntegrationCodes: S.optional(__S(2464, __c154, 0)),
+          IntegrationCodes: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9829,7 +9899,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpgradeGrafanaDashboardRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9843,7 +9913,59 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpgradeGrafanaInstanceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Name: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePrometheusAgent" }),
+        ),
+      ).annotate({ identifier: "CreatePrometheusAgentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AgentId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreatePrometheusAgentResponse" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.NullOr(S.String),
+          Value: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PolicyTag" });
+    case 1:
+      return S.Array(__S(1808, __c113, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyId: S.String,
+          GroupId: S.String,
+          ServiceType: S.String,
+          Tag: S.optional(__S(1808, __c113, 0)),
+          InstanceGroupId: S.optional(S.Number),
+          BatchTag: S.optional(__S(1809, __c113, 1)),
+          EbEventFlag: S.optional(S.Number),
+          EbSubject: S.optional(S.String),
+          TagOperation: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "BindingPolicyTag" }),
+        ),
+      ).annotate({ identifier: "BindingPolicyTagRequest" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9851,10 +9973,10 @@ function __c110(j: number): any {
           InstanceId: S.optional(S.String),
           GroupName: S.optional(S.String),
           GroupState: S.optional(S.Number),
-          AMPReceivers: S.optional(__S(2464, __c154, 0)),
-          CustomReceiver: S.optional(__S(1794, __c112, 2)),
+          AMPReceivers: S.optional(__S(2704, __c169, 0)),
+          CustomReceiver: S.optional(__S(1842, __c115, 2)),
           RepeatInterval: S.optional(S.String),
-          Rules: S.optional(__S(1796, __c112, 4)),
+          Rules: S.optional(__S(1844, __c115, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9866,7 +9988,43 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreatePrometheusAlertGroupRequest" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Start: S.optional(S.NullOr(S.String)),
+          End: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PrometheusAlertAllowTimeRange" });
+    case 1:
+      return S.Array(__S(1840, __c115, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.NullOr(S.String)),
+          Url: S.optional(S.NullOr(S.String)),
+          AllowedTimeRanges: S.optional(S.NullOr(__S(1841, __c115, 1))),
+          ClusterId: S.optional(S.NullOr(S.String)),
+          ClusterType: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PrometheusAlertCustomReceiver" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          RuleName: S.optional(S.NullOr(S.String)),
+          Labels: S.optional(S.NullOr(__S(2993, __c187, 1))),
+          Annotations: S.optional(S.NullOr(__S(2993, __c187, 1))),
+          Duration: S.optional(S.NullOr(S.String)),
+          Expr: S.optional(S.NullOr(S.String)),
+          State: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "PrometheusAlertGroupRuleSet" });
+    case 4:
+      return S.Array(__S(1843, __c115, 3));
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9877,67 +10035,13 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreatePrometheusAlertGroupResponse" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Start: S.optional(S.NullOr(S.String)),
-          End: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "PrometheusAlertAllowTimeRange" });
-    case 1:
-      return S.Array(__S(1792, __c112, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.optional(S.NullOr(S.String)),
-          Url: S.optional(S.NullOr(S.String)),
-          AllowedTimeRanges: S.optional(S.NullOr(__S(1793, __c112, 1))),
-          ClusterId: S.optional(S.NullOr(S.String)),
-          ClusterType: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "PrometheusAlertCustomReceiver" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          RuleName: S.optional(S.NullOr(S.String)),
-          Labels: S.optional(S.NullOr(__S(2753, __c172, 1))),
-          Annotations: S.optional(S.NullOr(__S(2753, __c172, 1))),
-          Duration: S.optional(S.NullOr(S.String)),
-          Expr: S.optional(S.NullOr(S.String)),
-          State: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "PrometheusAlertGroupRuleSet" });
-    case 4:
-      return S.Array(__S(1795, __c112, 3));
-  }
-}
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          GrafanaId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "BindPrometheusManagedGrafana",
-          }),
-        ),
-      ).annotate({ identifier: "BindPrometheusManagedGrafanaRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          AlertRule: __S(1858, __c116, 2),
+          AlertRule: __S(1906, __c119, 2),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9956,7 +10060,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CreatePrometheusAlertPolicyResponse" });
   }
 }
-function __c115(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9972,13 +10076,13 @@ function __c115(j: number): any {
           Enabled: S.Boolean,
           Type: S.String,
           WebHook: S.optional(S.NullOr(S.String)),
-          AlertManager: S.optional(S.NullOr(__S(1840, __c115, 0))),
+          AlertManager: S.optional(S.NullOr(__S(1888, __c118, 0))),
           RepeatInterval: S.optional(S.String),
           TimeRangeStart: S.optional(S.String),
           TimeRangeEnd: S.optional(S.String),
-          NotifyWay: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          ReceiverGroups: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          PhoneNotifyOrder: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          NotifyWay: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          ReceiverGroups: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          PhoneNotifyOrder: S.optional(S.NullOr(__S(2944, __c184, 0))),
           PhoneCircleTimes: S.optional(S.NullOr(S.Number)),
           PhoneInnerInterval: S.optional(S.NullOr(S.Number)),
           PhoneCircleInterval: S.optional(S.NullOr(S.Number)),
@@ -9987,38 +10091,38 @@ function __c115(j: number): any {
       ).annotate({ identifier: "PrometheusNotificationItem" });
   }
 }
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Rule: S.String,
-          Labels: __S(449, __c28, 1),
+          Labels: __S(673, __c42, 1),
           Template: S.String,
           For: S.String,
           Describe: S.optional(S.NullOr(S.String)),
-          Annotations: S.optional(S.NullOr(__S(449, __c28, 1))),
+          Annotations: S.optional(S.NullOr(__S(673, __c42, 1))),
           RuleState: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "PrometheusAlertRule" });
     case 1:
-      return S.Array(__S(1856, __c116, 0));
+      return S.Array(__S(1904, __c119, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Rules: __S(1857, __c116, 1),
+          Rules: __S(1905, __c119, 1),
           Id: S.optional(S.NullOr(S.String)),
           TemplateId: S.optional(S.NullOr(S.String)),
-          Notification: S.optional(S.NullOr(__S(1841, __c115, 1))),
+          Notification: S.optional(S.NullOr(__S(1889, __c118, 1))),
           UpdatedAt: S.optional(S.NullOr(S.String)),
           ClusterId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PrometheusAlertPolicyItem" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10029,13 +10133,13 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "Toleration" });
     case 1:
-      return S.Array(__S(1872, __c117, 0));
+      return S.Array(__S(1920, __c120, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           HostNet: S.optional(S.Boolean),
-          NodeSelector: S.optional(__S(449, __c28, 1)),
-          Tolerations: S.optional(__S(1873, __c117, 1)),
+          NodeSelector: S.optional(__S(673, __c42, 1)),
+          Tolerations: S.optional(__S(1921, __c120, 1)),
         }),
       ).annotate({ identifier: "PrometheusClusterAgentPodConfig" });
     case 3:
@@ -10045,22 +10149,23 @@ function __c117(j: number): any {
           ClusterType: S.String,
           ClusterId: S.String,
           EnableExternal: S.Boolean,
-          InClusterPodConfig: S.optional(__S(1874, __c117, 2)),
-          ExternalLabels: S.optional(__S(449, __c28, 1)),
+          InClusterPodConfig: S.optional(__S(1922, __c120, 2)),
+          ExternalLabels: S.optional(__S(673, __c42, 1)),
           NotInstallBasicScrape: S.optional(S.Boolean),
           NotScrape: S.optional(S.Boolean),
           DropAll: S.optional(S.Boolean),
           CollectAll: S.optional(S.Boolean),
+          PrivateLinkIP: S.optional(S.String),
           OpenDefaultRecord: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PrometheusClusterAgentBasic" });
     case 4:
-      return S.Array(__S(1875, __c117, 3));
+      return S.Array(__S(1923, __c120, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          Agents: __S(1876, __c117, 4),
+          Agents: __S(1924, __c120, 4),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10072,7 +10177,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreatePrometheusClusterAgentRequest" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10080,9 +10185,9 @@ function __c118(j: number): any {
           InstanceId: S.String,
           ClusterType: S.String,
           ClusterId: S.String,
-          ServiceMonitors: S.optional(__S(1906, __c119, 2)),
-          PodMonitors: S.optional(__S(1906, __c119, 2)),
-          RawJobs: S.optional(__S(1906, __c119, 2)),
+          ServiceMonitors: S.optional(__S(1954, __c122, 2)),
+          PodMonitors: S.optional(__S(1954, __c122, 2)),
+          RawJobs: S.optional(__S(1954, __c122, 2)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePrometheusConfig" }),
@@ -10090,7 +10195,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CreatePrometheusConfigRequest" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10107,20 +10212,20 @@ function __c119(j: number): any {
           Name: S.String,
           Config: S.String,
           TemplateId: S.optional(S.NullOr(S.String)),
-          Targets: S.optional(S.NullOr(__S(1904, __c119, 0))),
+          Targets: S.optional(S.NullOr(__S(1952, __c122, 0))),
         }),
       ).annotate({ identifier: "PrometheusConfigItem" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(1953, __c122, 1));
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          Notification: __S(1841, __c115, 1),
+          Notification: __S(1889, __c118, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10139,7 +10244,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreatePrometheusGlobalNotificationResponse" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10149,9 +10254,9 @@ function __c121(j: number): any {
           SubnetId: S.String,
           DataRetentionTime: S.Number,
           Zone: S.String,
-          TagSpecification: S.optional(__S(689, __c43, 1)),
+          TagSpecification: S.optional(__S(913, __c57, 1)),
           GrafanaInstanceId: S.optional(S.String),
-          InstanceAttributes: S.optional(__S(2753, __c172, 1)),
+          InstanceAttributes: S.optional(__S(2993, __c187, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10163,7 +10268,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreatePrometheusMultiTenantInstancePostPayModeRequest" });
   }
 }
-function __c122(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10182,7 +10287,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CreatePrometheusRecordRuleYamlRequest" });
   }
 }
-function __c123(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10208,12 +10313,12 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreatePrometheusScrapeJobResponse" });
   }
 }
-function __c124(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Template: __S(2016, __c126, 0),
+          Template: __S(2064, __c129, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "CreatePrometheusTemp" }),
@@ -10228,13 +10333,13 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreatePrometheusTempResponse" });
   }
 }
-function __c125(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1858, __c116, 2));
+      return S.Array(__S(1906, __c119, 2));
   }
 }
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10242,21 +10347,21 @@ function __c126(j: number): any {
           Name: S.String,
           Level: S.String,
           Describe: S.optional(S.NullOr(S.String)),
-          RecordRules: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          ServiceMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          PodMonitors: S.optional(S.NullOr(__S(1906, __c119, 2))),
-          RawJobs: S.optional(S.NullOr(__S(1906, __c119, 2))),
+          RecordRules: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          ServiceMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          PodMonitors: S.optional(S.NullOr(__S(1954, __c122, 2))),
+          RawJobs: S.optional(S.NullOr(__S(1954, __c122, 2))),
           TemplateId: S.optional(S.NullOr(S.String)),
           UpdateTime: S.optional(S.NullOr(S.String)),
           Version: S.optional(S.NullOr(S.String)),
           IsDefault: S.optional(S.NullOr(S.Boolean)),
-          AlertDetailRules: S.optional(S.NullOr(__S(2000, __c125, 0))),
+          AlertDetailRules: S.optional(S.NullOr(__S(2048, __c128, 0))),
           TargetsTotal: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "PrometheusTemp" });
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10272,14 +10377,32 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateRecordingRuleRequest" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          GrafanaId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "BindPrometheusManagedGrafana",
+          }),
+        ),
+      ).annotate({ identifier: "BindPrometheusManagedGrafanaRequest" });
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           UserId: S.String,
-          Role: __S(2065, __c129, 1),
+          Role: __S(2129, __c133, 1),
           Notes: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10295,7 +10418,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateSSOAccountResponse" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10305,10 +10428,166 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaAccountRole" });
     case 1:
-      return S.Array(__S(2064, __c129, 0));
+      return S.Array(__S(2128, __c133, 0));
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          Shields: __S(2704, __c169, 0),
+          MonitorType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "DeleteAlarmHistoryShields",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteAlarmHistoryShieldsRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NoticeId: S.optional(S.String),
+          PolicyIds: S.optional(__S(2704, __c169, 0)),
+        }),
+      ).annotate({ identifier: "NoticeBindPolicys" });
+    case 1:
+      return S.Array(__S(2160, __c135, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          NoticeIds: __S(2704, __c169, 0),
+          NoticeBindPolicys: S.optional(__S(2161, __c135, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmNotices" }),
+        ),
+      ).annotate({ identifier: "DeleteAlarmNoticesRequest" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyIds: __S(2704, __c169, 0),
+          PromInsIds: S.optional(__S(2704, __c169, 0)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmPolicy" }),
+        ),
+      ).annotate({ identifier: "DeleteAlarmPolicyRequest" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          Shields: __S(2704, __c169, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmShields" }),
+        ),
+      ).annotate({ identifier: "DeleteAlarmShieldsRequest" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleIds: __S(2704, __c169, 0),
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlertRules" }),
+        ),
+      ).annotate({ identifier: "DeleteAlertRulesRequest" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Kind: S.String,
+          Name: S.String,
+          KubeType: S.optional(S.Number),
+          ClusterId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "DeleteExporterIntegration",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteExporterIntegrationRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceIDs: __S(2704, __c169, 0),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteGrafanaInstance" }),
+        ),
+      ).annotate({ identifier: "DeleteGrafanaInstanceRequest" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          IntegrationId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "DeleteGrafanaIntegration",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteGrafanaIntegrationRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ChannelIDs: __S(2704, __c169, 0),
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "DeleteGrafanaNotificationChannel",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteGrafanaNotificationChannelRequest" });
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10336,169 +10615,13 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CheckAddressByPrometheusResponse" });
   }
 }
-function __c131(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
-          Shields: __S(2464, __c154, 0),
-          MonitorType: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "DeleteAlarmHistoryShields",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteAlarmHistoryShieldsRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NoticeId: S.optional(S.String),
-          PolicyIds: S.optional(__S(2464, __c154, 0)),
-        }),
-      ).annotate({ identifier: "NoticeBindPolicys" });
-    case 1:
-      return S.Array(__S(2112, __c132, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          NoticeIds: __S(2464, __c154, 0),
-          NoticeBindPolicys: S.optional(__S(2113, __c132, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmNotices" }),
-        ),
-      ).annotate({ identifier: "DeleteAlarmNoticesRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          PolicyIds: __S(2464, __c154, 0),
-          PromInsIds: S.optional(__S(2464, __c154, 0)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmPolicy" }),
-        ),
-      ).annotate({ identifier: "DeleteAlarmPolicyRequest" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          Shields: __S(2464, __c154, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlarmShields" }),
-        ),
-      ).annotate({ identifier: "DeleteAlarmShieldsRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RuleIds: __S(2464, __c154, 0),
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteAlertRules" }),
-        ),
-      ).annotate({ identifier: "DeleteAlertRulesRequest" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Kind: S.String,
-          Name: S.String,
-          KubeType: S.optional(S.Number),
-          ClusterId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "DeleteExporterIntegration",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteExporterIntegrationRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceIDs: __S(2464, __c154, 0),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteGrafanaInstance" }),
-        ),
-      ).annotate({ identifier: "DeleteGrafanaInstanceRequest" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          IntegrationId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "DeleteGrafanaIntegration",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteGrafanaIntegrationRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ChannelIDs: __S(2464, __c154, 0),
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "DeleteGrafanaNotificationChannel",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteGrafanaNotificationChannelRequest" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          OnCallFormIDs: __S(2464, __c154, 0),
+          OnCallFormIDs: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DeleteOnCallForms" }),
@@ -10507,33 +10630,20 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FailedOnCallFormIDs: S.optional(__S(2464, __c154, 0)),
-          SuccessOnCallFormIDs: S.optional(__S(2464, __c154, 0)),
+          FailedOnCallFormIDs: S.optional(__S(2704, __c169, 0)),
+          SuccessOnCallFormIDs: S.optional(__S(2704, __c169, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteOnCallFormsResponse" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CleanGrafanaInstance" }),
-        ),
-      ).annotate({ identifier: "CleanGrafanaInstanceRequest" });
-  }
-}
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
-          GroupId: __S(2704, __c169, 0),
+          GroupId: __S(2944, __c184, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DeletePolicyGroup" }),
@@ -10541,13 +10651,13 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeletePolicyGroupRequest" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          GroupIds: S.optional(__S(2464, __c154, 0)),
+          GroupIds: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10559,14 +10669,14 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeletePrometheusAlertGroupsRequest" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          AlertIds: __S(2464, __c154, 0),
-          Names: S.optional(__S(2464, __c154, 0)),
+          AlertIds: __S(2704, __c169, 0),
+          Names: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10578,7 +10688,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeletePrometheusAlertPolicyRequest" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10589,11 +10699,11 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusAgentInfo" });
     case 1:
-      return S.Array(__S(2320, __c145, 0));
+      return S.Array(__S(2368, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Agents: __S(2321, __c145, 1),
+          Agents: __S(2369, __c148, 1),
           InstanceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10606,7 +10716,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeletePrometheusClusterAgentRequest" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10614,9 +10724,9 @@ function __c146(j: number): any {
           InstanceId: S.String,
           ClusterType: S.String,
           ClusterId: S.String,
-          ServiceMonitors: S.optional(__S(2464, __c154, 0)),
-          PodMonitors: S.optional(__S(2464, __c154, 0)),
-          RawJobs: S.optional(__S(2464, __c154, 0)),
+          ServiceMonitors: S.optional(__S(2704, __c169, 0)),
+          PodMonitors: S.optional(__S(2704, __c169, 0)),
+          RawJobs: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DeletePrometheusConfig" }),
@@ -10624,13 +10734,13 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeletePrometheusConfigRequest" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          Names: __S(2464, __c154, 0),
+          Names: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10642,14 +10752,14 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeletePrometheusRecordRuleYamlRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           AgentId: S.String,
-          JobIds: __S(2464, __c154, 0),
+          JobIds: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10661,7 +10771,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DeletePrometheusScrapeJobsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10674,13 +10784,13 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DeletePrometheusTempRequest" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateId: S.String,
-          Targets: __S(2417, __c151, 1),
+          Targets: __S(2465, __c154, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10692,7 +10802,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DeletePrometheusTempSyncRequest" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10708,15 +10818,28 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusTemplateSyncTarget" });
     case 1:
-      return S.Array(__S(2416, __c151, 0));
+      return S.Array(__S(2464, __c154, 0));
   }
 }
-function __c152(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RuleIds: __S(2464, __c154, 0),
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CleanGrafanaInstance" }),
+        ),
+      ).annotate({ identifier: "CleanGrafanaInstanceRequest" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleIds: __S(2704, __c169, 0),
           InstanceId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10725,57 +10848,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DeleteRecordingRulesRequest" });
   }
 }
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          Name: S.String,
-          MonitorType: S.String,
-          ShieldPolicyId: S.String,
-          ShieldTimeType: S.String,
-          NameSpace: S.optional(S.String),
-          ShieldObject: S.optional(__S(2464, __c154, 0)),
-          MetricName: S.optional(S.String),
-          ShieldMetric: S.optional(__S(2464, __c154, 0)),
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          LoopStartDate: S.optional(S.Number),
-          LoopEndDate: S.optional(S.Number),
-          ShieldAlarmLevel: S.optional(S.String),
-          Description: S.optional(S.String),
-          TimeZone: S.optional(S.Number),
-          SessionId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "CreateAlarmHistoryShield",
-          }),
-        ),
-      ).annotate({ identifier: "CreateAlarmHistoryShieldRequest" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ShieldId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAlarmHistoryShieldResponse" });
-  }
-}
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10792,7 +10865,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DeleteServiceDiscoveryRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10806,7 +10879,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "DeleteSSOAccountRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10818,10 +10891,10 @@ function __c158(j: number): any {
           Offset: S.optional(S.Number),
           UpdateTimeOrder: S.optional(S.String),
           OccurTimeOrder: S.optional(S.String),
-          AccidentType: S.optional(__S(2704, __c169, 0)),
-          AccidentEvent: S.optional(__S(2704, __c169, 0)),
-          AccidentStatus: S.optional(__S(2704, __c169, 0)),
-          AccidentRegion: S.optional(__S(2464, __c154, 0)),
+          AccidentType: S.optional(__S(2944, __c184, 0)),
+          AccidentEvent: S.optional(__S(2944, __c184, 0)),
+          AccidentStatus: S.optional(__S(2944, __c184, 0)),
+          AccidentRegion: S.optional(__S(2704, __c169, 0)),
           AffectResource: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -10846,18 +10919,18 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "DescribeAccidentEventListAlarms" });
     case 2:
-      return S.Array(__S(2529, __c158, 1));
+      return S.Array(__S(2545, __c159, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Alarms: S.optional(S.NullOr(__S(2530, __c158, 2))),
+          Alarms: S.optional(S.NullOr(__S(2546, __c159, 2))),
           Total: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAccidentEventListResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10879,17 +10952,17 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "AlarmEvent" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2561, __c160, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(__S(2546, __c159, 2)),
+          Events: S.optional(__S(2562, __c160, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmEventsResponse" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10899,7 +10972,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "MonitorTypeNamespace" });
     case 1:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10909,22 +10982,22 @@ function __c160(j: number): any {
           Order: S.optional(S.String),
           StartTime: S.optional(S.Number),
           EndTime: S.optional(S.Number),
-          MonitorTypes: S.optional(__S(2464, __c154, 0)),
+          MonitorTypes: S.optional(__S(2704, __c169, 0)),
           AlarmObject: S.optional(S.String),
-          AlarmStatus: S.optional(__S(2464, __c154, 0)),
-          ProjectIds: S.optional(__S(2704, __c169, 0)),
-          InstanceGroupIds: S.optional(__S(2704, __c169, 0)),
-          Namespaces: S.optional(__S(2561, __c160, 1)),
-          MetricNames: S.optional(__S(2464, __c154, 0)),
+          AlarmStatus: S.optional(__S(2704, __c169, 0)),
+          ProjectIds: S.optional(__S(2944, __c184, 0)),
+          InstanceGroupIds: S.optional(__S(2944, __c184, 0)),
+          Namespaces: S.optional(__S(2577, __c161, 1)),
+          MetricNames: S.optional(__S(2704, __c169, 0)),
           PolicyName: S.optional(S.String),
           Content: S.optional(S.String),
-          ReceiverUids: S.optional(__S(2704, __c169, 0)),
-          ReceiverGroups: S.optional(__S(2704, __c169, 0)),
-          PolicyIds: S.optional(__S(2464, __c154, 0)),
-          AlarmLevels: S.optional(__S(2464, __c154, 0)),
-          ConvergenceHistoryIDs: S.optional(__S(2464, __c154, 0)),
-          AlarmTypes: S.optional(__S(2464, __c154, 0)),
-          ShieldStatus: S.optional(__S(2464, __c154, 0)),
+          ReceiverUids: S.optional(__S(2944, __c184, 0)),
+          ReceiverGroups: S.optional(__S(2944, __c184, 0)),
+          PolicyIds: S.optional(__S(2704, __c169, 0)),
+          AlarmLevels: S.optional(__S(2704, __c169, 0)),
+          ConvergenceHistoryIDs: S.optional(__S(2704, __c169, 0)),
+          AlarmTypes: S.optional(__S(2704, __c169, 0)),
+          ShieldStatus: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeAlarmHistories" }),
@@ -10938,7 +11011,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "InstanceGroups" });
     case 4:
-      return S.Array(__S(2563, __c160, 3));
+      return S.Array(__S(2579, __c161, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10950,7 +11023,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "AlarmHistoryMetric" });
     case 6:
-      return S.Array(__S(2565, __c160, 5));
+      return S.Array(__S(2581, __c161, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -10967,16 +11040,16 @@ function __c160(j: number): any {
           VPC: S.optional(S.String),
           ProjectId: S.optional(S.Number),
           ProjectName: S.optional(S.String),
-          InstanceGroup: S.optional(__S(2564, __c160, 4)),
-          ReceiverUids: S.optional(__S(2704, __c169, 0)),
-          ReceiverGroups: S.optional(__S(2704, __c169, 0)),
-          NoticeWays: S.optional(__S(2464, __c154, 0)),
+          InstanceGroup: S.optional(__S(2580, __c161, 4)),
+          ReceiverUids: S.optional(__S(2944, __c184, 0)),
+          ReceiverGroups: S.optional(__S(2944, __c184, 0)),
+          NoticeWays: S.optional(__S(2704, __c169, 0)),
           OriginId: S.optional(S.String),
           AlarmType: S.optional(S.String),
           EventId: S.optional(S.Number),
           Region: S.optional(S.String),
           PolicyExists: S.optional(S.Number),
-          MetricsInfo: S.optional(S.NullOr(__S(2566, __c160, 6))),
+          MetricsInfo: S.optional(S.NullOr(__S(2582, __c161, 6))),
           Dimensions: S.optional(S.NullOr(S.String)),
           AlarmLevel: S.optional(S.NullOr(S.String)),
           ShieldFlag: S.optional(S.NullOr(S.Number)),
@@ -10991,25 +11064,25 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "AlarmHistory" });
     case 8:
-      return S.Array(__S(2567, __c160, 7));
+      return S.Array(__S(2583, __c161, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Histories: S.optional(__S(2568, __c160, 8)),
+          Histories: S.optional(__S(2584, __c161, 8)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmHistoriesResponse" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
           ShieldPolicyId: S.String,
-          ShieldObject: S.optional(__S(2464, __c154, 0)),
+          ShieldObject: S.optional(__S(2704, __c169, 0)),
           MetricName: S.optional(S.String),
           ShieldId: S.optional(S.String),
           ShieldAlarmLevel: S.optional(S.String),
@@ -11032,7 +11105,7 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "ShieldMetric" });
     case 2:
-      return S.Array(__S(2577, __c161, 1));
+      return S.Array(__S(2593, __c162, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11043,8 +11116,8 @@ function __c161(j: number): any {
           MonitorTypeShowName: S.optional(S.String),
           NameSpace: S.optional(S.String),
           NameSpaceShowName: S.optional(S.String),
-          ShieldObject: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          ShieldMetric: S.optional(S.NullOr(__S(2578, __c161, 2))),
+          ShieldObject: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          ShieldMetric: S.optional(S.NullOr(__S(2594, __c162, 2))),
           ShieldTimeType: S.optional(S.String),
           StartTime: S.optional(S.NullOr(S.Number)),
           EndTime: S.optional(S.NullOr(S.Number)),
@@ -11052,7 +11125,7 @@ function __c161(j: number): any {
           LoopEndDate: S.optional(S.NullOr(S.Number)),
           CurrentStatus: S.optional(S.String),
           ShieldPolicyId: S.optional(S.NullOr(S.String)),
-          ShieldAlarmLevel: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          ShieldAlarmLevel: S.optional(S.NullOr(__S(2704, __c169, 0))),
           ShieldTag: S.optional(S.NullOr(S.String)),
           MetricName: S.optional(S.String),
           TimeZone: S.optional(S.NullOr(S.Number)),
@@ -11062,7 +11135,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "DescribeAlarmHistoryShieldResponse" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11078,9 +11151,9 @@ function __c162(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Operator: S.optional(__S(2464, __c154, 0)),
-          Period: S.optional(__S(2704, __c169, 0)),
-          ContinuePeriod: S.optional(__S(2704, __c169, 0)),
+          Operator: S.optional(__S(2704, __c169, 0)),
+          Period: S.optional(__S(2944, __c184, 0)),
+          ContinuePeriod: S.optional(__S(2944, __c184, 0)),
         }),
       ).annotate({ identifier: "MetricConfig" });
     case 2:
@@ -11091,29 +11164,29 @@ function __c162(j: number): any {
           Description: S.optional(S.String),
           Min: S.optional(S.Number),
           Max: S.optional(S.Number),
-          Dimensions: S.optional(__S(2464, __c154, 0)),
+          Dimensions: S.optional(__S(2704, __c169, 0)),
           Unit: S.optional(S.String),
-          MetricConfig: S.optional(S.NullOr(__S(2593, __c162, 1))),
+          MetricConfig: S.optional(S.NullOr(__S(2609, __c163, 1))),
           IsAdvanced: S.optional(S.NullOr(S.Number)),
           IsOpen: S.optional(S.NullOr(S.Number)),
           ProductId: S.optional(S.NullOr(S.Number)),
-          Operators: S.optional(S.NullOr(__S(2609, __c163, 1))),
-          Periods: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Operators: S.optional(S.NullOr(__S(2625, __c164, 1))),
+          Periods: S.optional(S.NullOr(__S(2944, __c184, 0))),
           IsLatenessMetric: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "Metric" });
     case 3:
-      return S.Array(__S(2594, __c162, 2));
+      return S.Array(__S(2610, __c163, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Metrics: S.optional(__S(2595, __c162, 3)),
+          Metrics: S.optional(__S(2611, __c163, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmMetricsResponse" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11123,10 +11196,10 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "Operator" });
     case 1:
-      return S.Array(__S(2608, __c163, 0));
+      return S.Array(__S(2624, __c164, 0));
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11141,13 +11214,13 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Notice: S.optional(__S(2640, __c165, 0)),
+          Notice: S.optional(__S(2656, __c166, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmNoticeResponse" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11157,21 +11230,21 @@ function __c165(j: number): any {
           UpdatedAt: S.optional(S.NullOr(S.String)),
           UpdatedBy: S.optional(S.NullOr(S.String)),
           NoticeType: S.optional(S.NullOr(S.String)),
-          UserNotices: S.optional(S.NullOr(__S(2737, __c171, 1))),
-          URLNotices: S.optional(S.NullOr(__S(2721, __c170, 1))),
+          UserNotices: S.optional(S.NullOr(__S(2977, __c186, 1))),
+          URLNotices: S.optional(S.NullOr(__S(2961, __c185, 1))),
           IsPreset: S.optional(S.NullOr(S.Number)),
           NoticeLanguage: S.optional(S.NullOr(S.String)),
-          PolicyIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          PolicyIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
           AMPConsumerId: S.optional(S.NullOr(S.String)),
-          CLSNotices: S.optional(S.NullOr(__S(2739, __c171, 3))),
-          Tags: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          CLSNotices: S.optional(S.NullOr(__S(2979, __c186, 3))),
+          Tags: S.optional(S.NullOr(__S(2993, __c187, 1))),
           IsLoginFree: S.optional(S.Number),
           TimeZoneName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlarmNotice" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11189,13 +11262,63 @@ function __c166(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          URLNotices: S.optional(S.NullOr(__S(2721, __c170, 1))),
+          URLNotices: S.optional(S.NullOr(__S(2961, __c185, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmNoticeCallbacksResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          Name: S.String,
+          MonitorType: S.String,
+          ShieldPolicyId: S.String,
+          ShieldTimeType: S.String,
+          NameSpace: S.optional(S.String),
+          ShieldObject: S.optional(__S(2704, __c169, 0)),
+          MetricName: S.optional(S.String),
+          ShieldMetric: S.optional(__S(2704, __c169, 0)),
+          StartTime: S.optional(S.Number),
+          EndTime: S.optional(S.Number),
+          LoopStartDate: S.optional(S.Number),
+          LoopEndDate: S.optional(S.Number),
+          ShieldAlarmLevel: S.optional(S.String),
+          Description: S.optional(S.String),
+          TimeZone: S.optional(S.Number),
+          SessionId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "monitor",
+            version: "2018-07-24",
+            action: "CreateAlarmHistoryShield",
+          }),
+        ),
+      ).annotate({ identifier: "CreateAlarmHistoryShieldRequest" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ShieldId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAlarmHistoryShieldResponse" });
+  }
+}
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11218,138 +11341,35 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "NoticeUserInfo" });
     case 2:
-      return S.Array(__S(2673, __c167, 1));
+      return S.Array(__S(2737, __c171, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ReceiverType: S.optional(S.String),
-          Users: S.optional(__S(2674, __c167, 2)),
+          Users: S.optional(__S(2738, __c171, 2)),
         }),
       ).annotate({ identifier: "NoticeSendGroup" });
     case 4:
-      return S.Array(__S(2675, __c167, 3));
+      return S.Array(__S(2739, __c171, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           NoticeId: S.optional(S.String),
-          SendGroups: S.optional(__S(2676, __c167, 4)),
+          SendGroups: S.optional(__S(2740, __c171, 4)),
         }),
       ).annotate({ identifier: "NoticeOnCallUsersInfo" });
     case 6:
-      return S.Array(__S(2677, __c167, 5));
+      return S.Array(__S(2741, __c171, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Notices: S.optional(__S(2678, __c167, 6)),
+          Notices: S.optional(__S(2742, __c171, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmNoticeOnCallUsersFromPrometheusAlertIDResponse" });
   }
 }
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          Name: S.String,
-          NoticeType: S.String,
-          NoticeLanguage: S.String,
-          UserNotices: S.optional(__S(2737, __c171, 1)),
-          URLNotices: S.optional(__S(2721, __c170, 1)),
-          CLSNotices: S.optional(__S(2739, __c171, 3)),
-          Tags: S.optional(__S(2753, __c172, 1)),
-          IsLoginFree: S.optional(S.Number),
-          TimeZoneName: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmNotice" }),
-        ),
-      ).annotate({ identifier: "CreateAlarmNoticeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          NoticeId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAlarmNoticeResponse" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          URL: S.NullOr(S.String),
-          IsValid: S.optional(S.NullOr(S.Number)),
-          ValidationCode: S.optional(S.NullOr(S.String)),
-          StartTime: S.optional(S.NullOr(S.Number)),
-          EndTime: S.optional(S.NullOr(S.Number)),
-          Weekday: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          GroupMembers: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "URLNotice" });
-    case 1:
-      return S.Array(__S(2720, __c170, 0));
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ReceiverType: S.NullOr(S.String),
-          StartTime: S.NullOr(S.Number),
-          EndTime: S.NullOr(S.Number),
-          NoticeWay: S.NullOr(__S(2464, __c154, 0)),
-          UserIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          GroupIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          PhoneOrder: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          PhoneCircleTimes: S.optional(S.NullOr(S.Number)),
-          PhoneInnerInterval: S.optional(S.NullOr(S.Number)),
-          PhoneCircleInterval: S.optional(S.NullOr(S.Number)),
-          NeedPhoneArriveNotice: S.optional(S.NullOr(S.Number)),
-          PhoneCallType: S.optional(S.NullOr(S.String)),
-          Weekday: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          OnCallFormIDs: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          VoiceConfirmKey: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "UserNotice" });
-    case 1:
-      return S.Array(__S(2736, __c171, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Region: S.String,
-          LogSetId: S.String,
-          TopicId: S.String,
-          Enable: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CLSNotice" });
-    case 3:
-      return S.Array(__S(2738, __c171, 2));
-  }
-}
 function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Key: S.String,
-          Value: S.String,
-        }),
-      ).annotate({ identifier: "Tag" });
-    case 1:
-      return S.Array(__S(2752, __c172, 0));
-  }
-}
-function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11361,11 +11381,11 @@ function __c173(j: number): any {
           OwnerUid: S.optional(S.Number),
           Name: S.optional(S.String),
           ReceiverType: S.optional(S.String),
-          UserIds: S.optional(__S(2704, __c169, 0)),
-          GroupIds: S.optional(__S(2704, __c169, 0)),
-          NoticeIds: S.optional(__S(2464, __c154, 0)),
-          Tags: S.optional(__S(2753, __c172, 1)),
-          OnCallFormIDs: S.optional(__S(2464, __c154, 0)),
+          UserIds: S.optional(__S(2944, __c184, 0)),
+          GroupIds: S.optional(__S(2944, __c184, 0)),
+          NoticeIds: S.optional(__S(2704, __c169, 0)),
+          Tags: S.optional(__S(2993, __c187, 1)),
+          OnCallFormIDs: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeAlarmNotices" }),
@@ -11375,19 +11395,19 @@ function __c173(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Notices: S.optional(__S(2784, __c174, 0)),
+          Notices: S.optional(__S(2768, __c173, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmNoticesResponse" });
   }
 }
-function __c174(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2640, __c165, 0));
+      return S.Array(__S(2656, __c166, 0));
   }
 }
-function __c175(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11396,29 +11416,29 @@ function __c175(j: number): any {
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           PolicyName: S.optional(S.String),
-          MonitorTypes: S.optional(__S(2464, __c154, 0)),
-          Namespaces: S.optional(__S(2464, __c154, 0)),
+          MonitorTypes: S.optional(__S(2704, __c169, 0)),
+          Namespaces: S.optional(__S(2704, __c169, 0)),
           Dimensions: S.optional(S.String),
-          ReceiverUids: S.optional(__S(2704, __c169, 0)),
-          ReceiverGroups: S.optional(__S(2704, __c169, 0)),
-          PolicyType: S.optional(__S(2464, __c154, 0)),
+          ReceiverUids: S.optional(__S(2944, __c184, 0)),
+          ReceiverGroups: S.optional(__S(2944, __c184, 0)),
+          PolicyType: S.optional(__S(2704, __c169, 0)),
           Field: S.optional(S.String),
           Order: S.optional(S.String),
-          ProjectIds: S.optional(__S(2704, __c169, 0)),
-          NoticeIds: S.optional(__S(2464, __c154, 0)),
-          RuleTypes: S.optional(__S(2464, __c154, 0)),
-          Enable: S.optional(__S(2704, __c169, 0)),
+          ProjectIds: S.optional(__S(2944, __c184, 0)),
+          NoticeIds: S.optional(__S(2704, __c169, 0)),
+          RuleTypes: S.optional(__S(2704, __c169, 0)),
+          Enable: S.optional(__S(2944, __c184, 0)),
           NotBindingNoticeRule: S.optional(S.Number),
           InstanceGroupId: S.optional(S.Number),
           NeedCorrespondence: S.optional(S.Number),
-          TriggerTasks: S.optional(__S(3025, __c189, 1)),
-          OneClickPolicyType: S.optional(__S(2464, __c154, 0)),
+          TriggerTasks: S.optional(__S(3249, __c203, 1)),
+          OneClickPolicyType: S.optional(__S(2704, __c169, 0)),
           NotBindAll: S.optional(S.Number),
           NotInstanceGroup: S.optional(S.Number),
-          Tags: S.optional(__S(2753, __c172, 1)),
+          Tags: S.optional(__S(2993, __c187, 1)),
           PromInsId: S.optional(S.String),
-          ReceiverOnCallFormIDs: S.optional(__S(2464, __c154, 0)),
-          NoticeContentTmplIDs: S.optional(__S(2464, __c154, 0)),
+          ReceiverOnCallFormIDs: S.optional(__S(2704, __c169, 0)),
+          NoticeContentTmplIDs: S.optional(__S(2704, __c169, 0)),
           IsPredefined: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11426,25 +11446,25 @@ function __c175(j: number): any {
         ),
       ).annotate({ identifier: "DescribeAlarmPoliciesRequest" });
     case 1:
-      return S.Array(__S(2822, __c176, 6));
+      return S.Array(__S(2806, __c175, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Policies: S.optional(__S(2801, __c175, 1)),
+          Policies: S.optional(__S(2785, __c174, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmPoliciesResponse" });
   }
 }
-function __c176(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TemplateName: S.optional(S.NullOr(S.String)),
-          Condition: S.optional(S.NullOr(__S(2995, __c187, 3))),
-          EventCondition: S.optional(S.NullOr(__S(2996, __c187, 4))),
+          Condition: S.optional(S.NullOr(__S(3219, __c201, 3))),
+          EventCondition: S.optional(S.NullOr(__S(3220, __c201, 4))),
         }),
       ).annotate({ identifier: "ConditionsTemp" });
     case 1:
@@ -11460,7 +11480,7 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "TagInstance" });
     case 2:
-      return S.Array(__S(2817, __c176, 1));
+      return S.Array(__S(2801, __c175, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11477,7 +11497,7 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "AlarmGroupByItem" });
     case 5:
-      return S.Array(__S(2820, __c176, 4));
+      return S.Array(__S(2804, __c175, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11491,16 +11511,16 @@ function __c176(j: number): any {
           ProjectName: S.optional(S.NullOr(S.String)),
           Namespace: S.optional(S.NullOr(S.String)),
           ConditionTemplateId: S.optional(S.NullOr(S.String)),
-          Condition: S.optional(S.NullOr(__S(2995, __c187, 3))),
-          EventCondition: S.optional(S.NullOr(__S(2996, __c187, 4))),
-          NoticeIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          Notices: S.optional(S.NullOr(__S(2784, __c174, 0))),
-          TriggerTasks: S.optional(S.NullOr(__S(3025, __c189, 1))),
-          ConditionsTemp: S.optional(S.NullOr(__S(2816, __c176, 0))),
+          Condition: S.optional(S.NullOr(__S(3219, __c201, 3))),
+          EventCondition: S.optional(S.NullOr(__S(3220, __c201, 4))),
+          NoticeIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Notices: S.optional(S.NullOr(__S(2768, __c173, 0))),
+          TriggerTasks: S.optional(S.NullOr(__S(3249, __c203, 1))),
+          ConditionsTemp: S.optional(S.NullOr(__S(2800, __c175, 0))),
           LastEditUin: S.optional(S.NullOr(S.String)),
           UpdateTime: S.optional(S.NullOr(S.Number)),
           InsertTime: S.optional(S.NullOr(S.Number)),
-          Region: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          Region: S.optional(S.NullOr(__S(2704, __c169, 0))),
           NamespaceShowName: S.optional(S.NullOr(S.String)),
           IsDefault: S.optional(S.NullOr(S.Number)),
           CanSetDefault: S.optional(S.NullOr(S.Number)),
@@ -11509,26 +11529,26 @@ function __c176(j: number): any {
           InstanceGroupName: S.optional(S.NullOr(S.String)),
           RuleType: S.optional(S.NullOr(S.String)),
           OriginId: S.optional(S.NullOr(S.String)),
-          TagInstances: S.optional(S.NullOr(__S(2818, __c176, 2))),
-          Filter: S.optional(S.NullOr(__S(2819, __c176, 3))),
-          GroupBy: S.optional(S.NullOr(__S(2821, __c176, 5))),
+          TagInstances: S.optional(S.NullOr(__S(2802, __c175, 2))),
+          Filter: S.optional(S.NullOr(__S(2803, __c175, 3))),
+          GroupBy: S.optional(S.NullOr(__S(2805, __c175, 5))),
           FilterDimensionsParam: S.optional(S.NullOr(S.String)),
           IsOneClick: S.optional(S.NullOr(S.Number)),
           OneClickStatus: S.optional(S.NullOr(S.Number)),
           AdvancedMetricNumber: S.optional(S.NullOr(S.Number)),
           IsBindAll: S.optional(S.NullOr(S.Number)),
-          Tags: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          Tags: S.optional(S.NullOr(__S(2993, __c187, 1))),
           IsSupportAlarmTag: S.optional(S.NullOr(S.Number)),
           TagOperation: S.optional(S.NullOr(S.String)),
-          NoticeTmplBindInfos: S.optional(__S(3011, __c188, 3)),
-          HierarchicalNotices: S.optional(S.NullOr(__S(3009, __c188, 1))),
-          NoticeContentTmplBindInfos: S.optional(S.NullOr(__S(3011, __c188, 3))),
+          NoticeTmplBindInfos: S.optional(__S(3235, __c202, 3)),
+          HierarchicalNotices: S.optional(S.NullOr(__S(3233, __c202, 1))),
+          NoticeContentTmplBindInfos: S.optional(S.NullOr(__S(3235, __c202, 3))),
           PredefinedConfigID: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AlarmPolicy" });
   }
 }
-function __c177(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11543,13 +11563,13 @@ function __c177(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Policy: S.optional(__S(2822, __c176, 6)),
+          Policy: S.optional(__S(2806, __c175, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmPolicyResponse" });
   }
 }
-function __c178(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11571,19 +11591,19 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "DescribeAlarmSmsQuotaQuota" });
     case 2:
-      return S.Array(__S(2849, __c178, 1));
+      return S.Array(__S(2833, __c177, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
           Used: S.optional(S.Number),
-          QuotaList: S.optional(S.NullOr(__S(2850, __c178, 2))),
+          QuotaList: S.optional(S.NullOr(__S(2834, __c177, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlarmSmsQuotaResponse" });
   }
 }
-function __c179(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11607,37 +11627,37 @@ function __c179(j: number): any {
           RuleName: S.optional(S.String),
           RuleState: S.optional(S.Number),
           Type: S.optional(S.NullOr(S.String)),
-          Labels: S.optional(S.NullOr(__S(2753, __c172, 1))),
-          Annotations: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          Labels: S.optional(S.NullOr(__S(2993, __c187, 1))),
+          Annotations: S.optional(S.NullOr(__S(2993, __c187, 1))),
           Expr: S.optional(S.NullOr(S.String)),
           Duration: S.optional(S.NullOr(S.String)),
-          Receivers: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          Receivers: S.optional(S.NullOr(__S(2704, __c169, 0))),
           Health: S.optional(S.String),
           CreatedAt: S.optional(S.NullOr(S.String)),
           UpdatedAt: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "PrometheusRuleSet" });
     case 2:
-      return S.Array(__S(2865, __c179, 1));
+      return S.Array(__S(2849, __c178, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          AlertRuleSet: S.optional(S.NullOr(__S(2866, __c179, 2))),
+          AlertRuleSet: S.optional(S.NullOr(__S(2850, __c178, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAlertRulesResponse" });
   }
 }
-function __c180(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SceneType: S.String,
           Module: S.String,
-          MonitorTypes: S.optional(__S(2464, __c154, 0)),
-          Ids: S.optional(__S(2464, __c154, 0)),
+          MonitorTypes: S.optional(__S(2704, __c169, 0)),
+          Ids: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeAllNamespaces" }),
@@ -11651,20 +11671,20 @@ function __c180(j: number): any {
           Value: S.optional(S.String),
           ProductName: S.optional(S.String),
           Config: S.optional(S.String),
-          AvailableRegions: S.optional(__S(2464, __c154, 0)),
+          AvailableRegions: S.optional(__S(2704, __c169, 0)),
           SortId: S.optional(S.Number),
           DashboardId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommonNamespace" });
     case 2:
-      return S.Array(__S(2881, __c180, 1));
+      return S.Array(__S(2865, __c179, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
           Name: S.optional(S.String),
           IsRequired: S.optional(S.Boolean),
-          Operators: S.optional(__S(2609, __c163, 1)),
+          Operators: S.optional(__S(2625, __c164, 1)),
           IsMultiple: S.optional(S.Boolean),
           IsMutable: S.optional(S.Boolean),
           IsVisible: S.optional(S.Boolean),
@@ -11676,39 +11696,39 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "DimensionNew" });
     case 4:
-      return S.Array(__S(2883, __c180, 3));
+      return S.Array(__S(2867, __c179, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
           MonitorType: S.optional(S.String),
-          Dimensions: S.optional(__S(2884, __c180, 4)),
+          Dimensions: S.optional(__S(2868, __c179, 4)),
         }),
       ).annotate({ identifier: "CommonNamespaceNew" });
     case 6:
-      return S.Array(__S(2885, __c180, 5));
+      return S.Array(__S(2869, __c179, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          QceNamespaces: S.optional(__S(2881, __c180, 1)),
-          CustomNamespaces: S.optional(__S(2881, __c180, 1)),
-          QceNamespacesNew: S.optional(__S(2882, __c180, 2)),
-          CustomNamespacesNew: S.optional(__S(2882, __c180, 2)),
-          CommonNamespaces: S.optional(S.NullOr(__S(2886, __c180, 6))),
+          QceNamespaces: S.optional(__S(2865, __c179, 1)),
+          CustomNamespaces: S.optional(__S(2865, __c179, 1)),
+          QceNamespacesNew: S.optional(__S(2866, __c179, 2)),
+          CustomNamespacesNew: S.optional(__S(2866, __c179, 2)),
+          CommonNamespaces: S.optional(S.NullOr(__S(2870, __c179, 6))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAllNamespacesResponse" });
   }
 }
-function __c181(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Namespace: S.String,
           MetricName: S.optional(S.String),
-          Dimensions: S.optional(__S(2464, __c154, 0)),
+          Dimensions: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeBaseMetrics" }),
@@ -11718,11 +11738,11 @@ function __c181(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Period: S.optional(S.String),
-          StatType: S.optional(__S(2464, __c154, 0)),
+          StatType: S.optional(__S(2704, __c169, 0)),
         }),
       ).annotate({ identifier: "PeriodsSt" });
     case 2:
-      return S.Array(__S(2897, __c181, 1));
+      return S.Array(__S(2881, __c180, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11733,11 +11753,11 @@ function __c181(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: S.optional(__S(2464, __c154, 0)),
+          Dimensions: S.optional(__S(2704, __c169, 0)),
         }),
       ).annotate({ identifier: "DimensionsDesc" });
     case 5:
-      return S.Array(__S(2900, __c181, 4));
+      return S.Array(__S(2884, __c180, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11745,26 +11765,26 @@ function __c181(j: number): any {
           MetricName: S.optional(S.String),
           Unit: S.optional(S.String),
           UnitCname: S.optional(S.String),
-          Period: S.optional(__S(2704, __c169, 0)),
-          Periods: S.optional(__S(2898, __c181, 2)),
-          Meaning: S.optional(__S(2899, __c181, 3)),
-          Dimensions: S.optional(__S(2901, __c181, 5)),
+          Period: S.optional(__S(2944, __c184, 0)),
+          Periods: S.optional(__S(2882, __c180, 2)),
+          Meaning: S.optional(__S(2883, __c180, 3)),
+          Dimensions: S.optional(__S(2885, __c180, 5)),
           MetricCName: S.optional(S.NullOr(S.String)),
           MetricEName: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MetricSet" });
     case 7:
-      return S.Array(__S(2902, __c181, 6));
+      return S.Array(__S(2886, __c180, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          MetricSet: S.optional(__S(2903, __c181, 7)),
+          MetricSet: S.optional(__S(2887, __c180, 7)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBaseMetricsResponse" });
   }
 }
-function __c182(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11775,12 +11795,12 @@ function __c182(j: number): any {
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           OccurTimeOrder: S.optional(S.String),
-          ProjectIds: S.optional(__S(2704, __c169, 0)),
-          ViewNames: S.optional(__S(2464, __c154, 0)),
-          AlarmStatus: S.optional(__S(2704, __c169, 0)),
+          ProjectIds: S.optional(__S(2944, __c184, 0)),
+          ViewNames: S.optional(__S(2704, __c169, 0)),
+          AlarmStatus: S.optional(__S(2944, __c184, 0)),
           ObjLike: S.optional(S.String),
-          InstanceGroupIds: S.optional(__S(2704, __c169, 0)),
-          MetricNames: S.optional(__S(2464, __c154, 0)),
+          InstanceGroupIds: S.optional(__S(2944, __c184, 0)),
+          MetricNames: S.optional(__S(2704, __c169, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "monitor", version: "2018-07-24", action: "DescribeBasicAlarmList" }),
@@ -11794,7 +11814,7 @@ function __c182(j: number): any {
         }),
       ).annotate({ identifier: "InstanceGroup" });
     case 2:
-      return S.Array(__S(2913, __c182, 1));
+      return S.Array(__S(2897, __c181, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11818,16 +11838,16 @@ function __c182(j: number): any {
           AlarmType: S.optional(S.NullOr(S.Number)),
           Region: S.optional(S.NullOr(S.String)),
           Dimensions: S.optional(S.NullOr(S.String)),
-          NotifyWay: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          InstanceGroup: S.optional(S.NullOr(__S(2914, __c182, 2))),
+          NotifyWay: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          InstanceGroup: S.optional(S.NullOr(__S(2898, __c181, 2))),
         }),
       ).annotate({ identifier: "DescribeBasicAlarmListAlarms" });
     case 4:
-      return S.Array(__S(2915, __c182, 3));
+      return S.Array(__S(2899, __c181, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Alarms: S.optional(S.NullOr(__S(2916, __c182, 4))),
+          Alarms: S.optional(S.NullOr(__S(2900, __c181, 4))),
           Total: S.optional(S.NullOr(S.Number)),
           Warning: S.optional(S.NullOr(S.String)),
           RequestId: S.optional(S.String),
@@ -11835,7 +11855,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "DescribeBasicAlarmListResponse" });
   }
 }
-function __c183(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11847,7 +11867,7 @@ function __c183(j: number): any {
         }),
       ).annotate({ identifier: "DescribeBindingPolicyObjectListDimension" });
     case 1:
-      return S.Array(__S(2928, __c183, 0));
+      return S.Array(__S(2912, __c182, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11856,7 +11876,7 @@ function __c183(j: number): any {
           PolicyId: S.optional(S.String),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
-          Dimensions: S.optional(__S(2929, __c183, 1)),
+          Dimensions: S.optional(__S(2913, __c182, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11876,7 +11896,7 @@ function __c183(j: number): any {
         }),
       ).annotate({ identifier: "DescribeBindingPolicyObjectListInstance" });
     case 4:
-      return S.Array(__S(2931, __c183, 3));
+      return S.Array(__S(2915, __c182, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11887,28 +11907,131 @@ function __c183(j: number): any {
           InstanceSum: S.optional(S.Number),
           UpdateTime: S.optional(S.Number),
           InsertTime: S.optional(S.Number),
-          Regions: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          Regions: S.optional(S.NullOr(__S(2704, __c169, 0))),
         }),
       ).annotate({ identifier: "DescribeBindingPolicyObjectListInstanceGroup" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(S.NullOr(__S(2932, __c183, 4))),
+          List: S.optional(S.NullOr(__S(2916, __c182, 4))),
           Total: S.optional(S.Number),
           NoShieldedSum: S.optional(S.Number),
-          InstanceGroup: S.optional(S.NullOr(__S(2933, __c183, 5))),
+          InstanceGroup: S.optional(S.NullOr(__S(2917, __c182, 5))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBindingPolicyObjectListResponse" });
   }
 }
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          Name: S.String,
+          NoticeType: S.String,
+          NoticeLanguage: S.String,
+          UserNotices: S.optional(__S(2977, __c186, 1)),
+          URLNotices: S.optional(__S(2961, __c185, 1)),
+          CLSNotices: S.optional(__S(2979, __c186, 3)),
+          Tags: S.optional(__S(2993, __c187, 1)),
+          IsLoginFree: S.optional(S.Number),
+          TimeZoneName: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmNotice" }),
+        ),
+      ).annotate({ identifier: "CreateAlarmNoticeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NoticeId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAlarmNoticeResponse" });
+  }
+}
 function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          URL: S.NullOr(S.String),
+          IsValid: S.optional(S.NullOr(S.Number)),
+          ValidationCode: S.optional(S.NullOr(S.String)),
+          StartTime: S.optional(S.NullOr(S.Number)),
+          EndTime: S.optional(S.NullOr(S.Number)),
+          Weekday: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          GroupMembers: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "URLNotice" });
+    case 1:
+      return S.Array(__S(2960, __c185, 0));
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReceiverType: S.NullOr(S.String),
+          StartTime: S.NullOr(S.Number),
+          EndTime: S.NullOr(S.Number),
+          NoticeWay: S.NullOr(__S(2704, __c169, 0)),
+          UserIds: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          GroupIds: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          PhoneOrder: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          PhoneCircleTimes: S.optional(S.NullOr(S.Number)),
+          PhoneInnerInterval: S.optional(S.NullOr(S.Number)),
+          PhoneCircleInterval: S.optional(S.NullOr(S.Number)),
+          NeedPhoneArriveNotice: S.optional(S.NullOr(S.Number)),
+          PhoneCallType: S.optional(S.NullOr(S.String)),
+          Weekday: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          OnCallFormIDs: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          VoiceConfirmKey: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UserNotice" });
+    case 1:
+      return S.Array(__S(2976, __c186, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Region: S.String,
+          LogSetId: S.String,
+          TopicId: S.String,
+          Enable: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CLSNotice" });
+    case 3:
+      return S.Array(__S(2978, __c186, 2));
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.String,
+          Value: S.String,
+        }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(2992, __c187, 0));
+  }
+}
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          ClusterIds: __S(2464, __c154, 0),
+          ClusterIds: __S(2704, __c169, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11929,190 +12052,27 @@ function __c184(j: number): any {
         }),
       ).annotate({ identifier: "BindProgressStep" });
     case 2:
-      return S.Array(__S(2945, __c184, 1));
+      return S.Array(__S(3009, __c188, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Steps: S.optional(S.NullOr(__S(2946, __c184, 2))),
+          Steps: S.optional(S.NullOr(__S(3010, __c188, 2))),
           ClusterId: S.optional(S.NullOr(S.String)),
           Status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BindProgressResponse" });
     case 4:
-      return S.Array(__S(2947, __c184, 3));
+      return S.Array(__S(3011, __c188, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Response: S.optional(__S(2948, __c184, 4)),
+          Response: S.optional(__S(3012, __c188, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterAgentCreatingProgressResponse" });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          PolicyName: S.String,
-          MonitorType: S.String,
-          Namespace: S.String,
-          Remark: S.optional(S.String),
-          Enable: S.optional(S.Number),
-          ProjectId: S.optional(S.Number),
-          ConditionTemplateId: S.optional(S.Number),
-          Condition: S.optional(__S(2995, __c187, 3)),
-          EventCondition: S.optional(__S(2996, __c187, 4)),
-          NoticeIds: S.optional(__S(2464, __c154, 0)),
-          TriggerTasks: S.optional(__S(3025, __c189, 1)),
-          Filter: S.optional(__S(2992, __c187, 0)),
-          GroupBy: S.optional(__S(2464, __c154, 0)),
-          IsBindAll: S.optional(S.Number),
-          Tags: S.optional(__S(2753, __c172, 1)),
-          LogAlarmReqInfo: S.optional(__S(2978, __c186, 2)),
-          HierarchicalNotices: S.optional(__S(3009, __c188, 1)),
-          MigrateFlag: S.optional(S.Number),
-          EbSubject: S.optional(S.String),
-          AdditionalAlarmContent: S.optional(S.String),
-          NoticeContentTmplBindInfos: S.optional(__S(3011, __c188, 3)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmPolicy" }),
-        ),
-      ).annotate({ identifier: "CreateAlarmPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          PolicyId: S.optional(S.String),
-          OriginId: S.optional(S.String),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAlarmPolicyResponse" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Key: S.String,
-          Operator: S.String,
-          Value: S.String,
-        }),
-      ).annotate({ identifier: "LogFilterInfo" });
-    case 1:
-      return S.Array(__S(2976, __c186, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          Filter: __S(2977, __c186, 1),
-          AlarmMerge: S.String,
-          AlarmMergeTime: S.String,
-        }),
-      ).annotate({ identifier: "LogAlarmReq" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.NullOr(S.String),
-          Dimensions: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AlarmPolicyFilter" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          MetricName: S.optional(S.NullOr(S.String)),
-          Period: S.optional(S.NullOr(S.Number)),
-          Operator: S.optional(S.NullOr(S.String)),
-          Value: S.optional(S.NullOr(S.String)),
-          ContinuePeriod: S.optional(S.NullOr(S.Number)),
-          NoticeFrequency: S.optional(S.NullOr(S.Number)),
-          IsPowerNotice: S.optional(S.NullOr(S.Number)),
-          Filter: S.optional(S.NullOr(__S(2992, __c187, 0))),
-          Description: S.optional(S.NullOr(S.String)),
-          Unit: S.optional(S.NullOr(S.String)),
-          RuleType: S.optional(S.NullOr(S.String)),
-          IsAdvanced: S.optional(S.NullOr(S.Number)),
-          IsOpen: S.optional(S.NullOr(S.Number)),
-          ProductId: S.optional(S.NullOr(S.String)),
-          ValueMax: S.optional(S.NullOr(S.Number)),
-          ValueMin: S.optional(S.NullOr(S.Number)),
-          HierarchicalValue: S.optional(S.NullOr(__S(3040, __c190, 0))),
-          IsLatenessMetric: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "AlarmPolicyRule" });
-    case 2:
-      return S.Array(__S(2993, __c187, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          IsUnionRule: S.NullOr(S.Number),
-          Rules: S.NullOr(__S(2994, __c187, 2)),
-          ComplexExpression: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AlarmPolicyCondition" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          Rules: S.NullOr(__S(2994, __c187, 2)),
-        }),
-      ).annotate({ identifier: "AlarmPolicyEventCondition" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NoticeId: S.optional(S.NullOr(S.String)),
-          Classification: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          PolicyId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AlarmHierarchicalNotice" });
-    case 1:
-      return S.Array(__S(3008, __c188, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ContentTmplID: S.optional(S.String),
-          NoticeID: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NoticeContentTmplBindInfo" });
-    case 3:
-      return S.Array(__S(3010, __c188, 2));
-  }
-}
 function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Type: S.NullOr(S.String),
-          TaskConfig: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "AlarmPolicyTriggerTask" });
-    case 1:
-      return S.Array(__S(3024, __c189, 0));
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Remind: S.optional(S.NullOr(S.String)),
-          Warn: S.optional(S.NullOr(S.String)),
-          Serious: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AlarmHierarchicalValue" });
-  }
-}
-function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12150,12 +12110,12 @@ function __c191(j: number): any {
           IsAdvanced: S.optional(S.Number),
           IsOpen: S.optional(S.Number),
           ProductId: S.optional(S.NullOr(S.String)),
-          HierarchicalValue: S.optional(S.NullOr(__S(3040, __c190, 0))),
+          HierarchicalValue: S.optional(S.NullOr(__S(3264, __c204, 0))),
           RuleType: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Condition" });
     case 2:
-      return S.Array(__S(3057, __c191, 1));
+      return S.Array(__S(3025, __c189, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12168,27 +12128,27 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "EventCondition" });
     case 4:
-      return S.Array(__S(3059, __c191, 3));
+      return S.Array(__S(3027, __c189, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           EndTime: S.optional(S.Number),
           NeedSendNotice: S.optional(S.Number),
-          NotifyWay: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          NotifyWay: S.optional(S.NullOr(__S(2704, __c169, 0))),
           PersonInterval: S.optional(S.Number),
-          ReceiverGroupList: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          ReceiverGroupList: S.optional(S.NullOr(__S(2944, __c184, 0))),
           ReceiverType: S.optional(S.String),
-          ReceiverUserList: S.optional(S.NullOr(__S(2704, __c169, 0))),
-          RecoverNotify: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          ReceiverUserList: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          RecoverNotify: S.optional(S.NullOr(__S(2704, __c169, 0))),
           RoundInterval: S.optional(S.Number),
           RoundNumber: S.optional(S.Number),
-          SendFor: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          SendFor: S.optional(S.NullOr(__S(2704, __c169, 0))),
           StartTime: S.optional(S.Number),
-          UIDList: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          UIDList: S.optional(S.NullOr(__S(2944, __c184, 0))),
         }),
       ).annotate({ identifier: "PolicyGroupReceiverInfo" });
     case 6:
-      return S.Array(__S(3061, __c191, 5));
+      return S.Array(__S(3029, __c189, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12202,7 +12162,7 @@ function __c191(j: number): any {
           NoShieldedInstanceCount: S.optional(S.Number),
           ParentGroupID: S.optional(S.Number),
           ProjectID: S.optional(S.Number),
-          ReceiverInfos: S.optional(S.NullOr(__S(3062, __c191, 6))),
+          ReceiverInfos: S.optional(S.NullOr(__S(3030, __c189, 6))),
           Remark: S.optional(S.String),
           UpdateTime: S.optional(S.Number),
           TotalInstanceCount: S.optional(S.Number),
@@ -12211,13 +12171,13 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "PolicyGroup" });
     case 8:
-      return S.Array(__S(3063, __c191, 7));
+      return S.Array(__S(3031, __c189, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Conditions: S.optional(S.NullOr(__S(3058, __c191, 2))),
-          EventConditions: S.optional(S.NullOr(__S(3060, __c191, 4))),
-          PolicyGroups: S.optional(S.NullOr(__S(3064, __c191, 8))),
+          Conditions: S.optional(S.NullOr(__S(3026, __c189, 2))),
+          EventConditions: S.optional(S.NullOr(__S(3028, __c189, 4))),
+          PolicyGroups: S.optional(S.NullOr(__S(3032, __c189, 8))),
           GroupID: S.optional(S.Number),
           GroupName: S.optional(S.String),
           InsertTime: S.optional(S.Number),
@@ -12229,18 +12189,18 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "TemplateGroup" });
     case 10:
-      return S.Array(__S(3065, __c191, 9));
+      return S.Array(__S(3033, __c189, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          TemplateGroupList: S.optional(S.NullOr(__S(3066, __c191, 10))),
+          TemplateGroupList: S.optional(S.NullOr(__S(3034, __c189, 10))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeConditionsTemplateListResponse" });
   }
 }
-function __c192(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12254,13 +12214,13 @@ function __c192(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NameServers: S.optional(__S(2464, __c154, 0)),
+          NameServers: S.optional(__S(2704, __c169, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDNSConfigResponse" });
   }
 }
-function __c193(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12292,17 +12252,17 @@ function __c193(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationConfiguration" });
     case 2:
-      return S.Array(__S(3089, __c193, 1));
+      return S.Array(__S(3057, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          IntegrationSet: S.optional(__S(3090, __c193, 2)),
+          IntegrationSet: S.optional(__S(3058, __c191, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeExporterIntegrationsResponse" });
   }
 }
-function __c194(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12320,7 +12280,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DescribeExternalClusterRegisterCommandRequest" });
   }
 }
-function __c195(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12331,7 +12291,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DescribeExternalClusterRegisterCommandResponse" });
   }
 }
-function __c196(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12349,7 +12309,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DescribeExternalClusterUninstallCommandRequest" });
   }
 }
-function __c197(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12358,7 +12318,7 @@ function __c197(j: number): any {
           Offset: S.Number,
           Limit: S.Number,
           ChannelName: S.optional(S.String),
-          ChannelIds: S.optional(__S(2464, __c154, 0)),
+          ChannelIds: S.optional(__S(2704, __c169, 0)),
           ChannelState: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12374,24 +12334,24 @@ function __c197(j: number): any {
         S.Struct({
           ChannelId: S.optional(S.String),
           ChannelName: S.optional(S.String),
-          Receivers: S.optional(__S(2464, __c154, 0)),
+          Receivers: S.optional(__S(2704, __c169, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
-          OrganizationIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          OrganizationIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
         }),
       ).annotate({ identifier: "GrafanaChannel" });
     case 2:
-      return S.Array(__S(3153, __c197, 1));
+      return S.Array(__S(3121, __c195, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          NotificationChannelSet: S.optional(__S(3154, __c197, 2)),
+          NotificationChannelSet: S.optional(__S(3122, __c195, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaChannelsResponse" });
   }
 }
-function __c198(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12411,7 +12371,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DescribeGrafanaConfigResponse" });
   }
 }
-function __c199(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12435,17 +12395,17 @@ function __c199(j: number): any {
       ).annotate({ identifier: "DescribeGrafanaEnvironmentsResponse" });
   }
 }
-function __c200(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Offset: S.Number,
           Limit: S.Number,
-          InstanceIds: S.optional(__S(2464, __c154, 0)),
+          InstanceIds: S.optional(__S(2704, __c169, 0)),
           InstanceName: S.optional(S.String),
-          InstanceStatus: S.optional(__S(2704, __c169, 0)),
-          TagFilters: S.optional(__S(689, __c43, 1)),
+          InstanceStatus: S.optional(__S(2944, __c184, 0)),
+          TagFilters: S.optional(__S(913, __c57, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12462,12 +12422,12 @@ function __c200(j: number): any {
           InstanceId: S.optional(S.String),
           Region: S.optional(S.String),
           VpcId: S.optional(S.String),
-          SubnetIds: S.optional(__S(2464, __c154, 0)),
+          SubnetIds: S.optional(__S(2704, __c169, 0)),
           InternetUrl: S.optional(S.String),
           InternalUrl: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           InstanceStatus: S.optional(S.Number),
-          TagSpecification: S.optional(__S(689, __c43, 1)),
+          TagSpecification: S.optional(__S(913, __c57, 1)),
           Zone: S.optional(S.String),
           InstanceChargeType: S.optional(S.Number),
           VpcName: S.optional(S.String),
@@ -12480,19 +12440,182 @@ function __c200(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaInstanceInfo" });
     case 2:
-      return S.Array(__S(3201, __c200, 1));
+      return S.Array(__S(3169, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InstanceSet: S.optional(__S(3202, __c200, 2)),
+          InstanceSet: S.optional(__S(3170, __c198, 2)),
           TotalCount: S.optional(S.Number),
-          Instances: S.optional(__S(3202, __c200, 2)),
+          Instances: S.optional(__S(3170, __c198, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaInstancesResponse" });
   }
 }
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          PolicyName: S.String,
+          MonitorType: S.String,
+          Namespace: S.String,
+          Remark: S.optional(S.String),
+          Enable: S.optional(S.Number),
+          ProjectId: S.optional(S.Number),
+          ConditionTemplateId: S.optional(S.Number),
+          Condition: S.optional(__S(3219, __c201, 3)),
+          EventCondition: S.optional(__S(3220, __c201, 4)),
+          NoticeIds: S.optional(__S(2704, __c169, 0)),
+          TriggerTasks: S.optional(__S(3249, __c203, 1)),
+          Filter: S.optional(__S(3216, __c201, 0)),
+          GroupBy: S.optional(__S(2704, __c169, 0)),
+          IsBindAll: S.optional(S.Number),
+          Tags: S.optional(__S(2993, __c187, 1)),
+          LogAlarmReqInfo: S.optional(__S(3202, __c200, 2)),
+          HierarchicalNotices: S.optional(__S(3233, __c202, 1)),
+          MigrateFlag: S.optional(S.Number),
+          EbSubject: S.optional(S.String),
+          AdditionalAlarmContent: S.optional(S.String),
+          NoticeContentTmplBindInfos: S.optional(__S(3235, __c202, 3)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmPolicy" }),
+        ),
+      ).annotate({ identifier: "CreateAlarmPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.optional(S.String),
+          OriginId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateAlarmPolicyResponse" });
+  }
+}
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.String,
+          Operator: S.String,
+          Value: S.String,
+        }),
+      ).annotate({ identifier: "LogFilterInfo" });
+    case 1:
+      return S.Array(__S(3200, __c200, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          Filter: __S(3201, __c200, 1),
+          AlarmMerge: S.String,
+          AlarmMergeTime: S.String,
+        }),
+      ).annotate({ identifier: "LogAlarmReq" });
+  }
+}
 function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.NullOr(S.String),
+          Dimensions: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AlarmPolicyFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MetricName: S.optional(S.NullOr(S.String)),
+          Period: S.optional(S.NullOr(S.Number)),
+          Operator: S.optional(S.NullOr(S.String)),
+          Value: S.optional(S.NullOr(S.String)),
+          ContinuePeriod: S.optional(S.NullOr(S.Number)),
+          NoticeFrequency: S.optional(S.NullOr(S.Number)),
+          IsPowerNotice: S.optional(S.NullOr(S.Number)),
+          Filter: S.optional(S.NullOr(__S(3216, __c201, 0))),
+          Description: S.optional(S.NullOr(S.String)),
+          Unit: S.optional(S.NullOr(S.String)),
+          RuleType: S.optional(S.NullOr(S.String)),
+          IsAdvanced: S.optional(S.NullOr(S.Number)),
+          IsOpen: S.optional(S.NullOr(S.Number)),
+          ProductId: S.optional(S.NullOr(S.String)),
+          ValueMax: S.optional(S.NullOr(S.Number)),
+          ValueMin: S.optional(S.NullOr(S.Number)),
+          HierarchicalValue: S.optional(S.NullOr(__S(3264, __c204, 0))),
+          IsLatenessMetric: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "AlarmPolicyRule" });
+    case 2:
+      return S.Array(__S(3217, __c201, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          IsUnionRule: S.NullOr(S.Number),
+          Rules: S.NullOr(__S(3218, __c201, 2)),
+          ComplexExpression: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AlarmPolicyCondition" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Rules: S.NullOr(__S(3218, __c201, 2)),
+        }),
+      ).annotate({ identifier: "AlarmPolicyEventCondition" });
+  }
+}
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NoticeId: S.optional(S.NullOr(S.String)),
+          Classification: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          PolicyId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AlarmHierarchicalNotice" });
+    case 1:
+      return S.Array(__S(3232, __c202, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ContentTmplID: S.optional(S.String),
+          NoticeID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NoticeContentTmplBindInfo" });
+    case 3:
+      return S.Array(__S(3234, __c202, 2));
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.NullOr(S.String),
+          TaskConfig: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AlarmPolicyTriggerTask" });
+    case 1:
+      return S.Array(__S(3248, __c203, 0));
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Remind: S.optional(S.NullOr(S.String)),
+          Warn: S.optional(S.NullOr(S.String)),
+          Serious: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "AlarmHierarchicalValue" });
+  }
+}
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12520,48 +12643,17 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaIntegrationConfig" });
     case 2:
-      return S.Array(__S(3217, __c201, 1));
+      return S.Array(__S(3281, __c205, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          IntegrationSet: S.optional(__S(3218, __c201, 2)),
+          IntegrationSet: S.optional(__S(3282, __c205, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaIntegrationsResponse" });
   }
 }
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Module: S.String,
-          Name: S.String,
-          MonitorType: S.String,
-          NameSpace: S.String,
-          ShieldTimeType: S.String,
-          ShieldObject: S.optional(__S(2464, __c154, 0)),
-          ShieldMetric: S.optional(__S(2464, __c154, 0)),
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          LoopStartDate: S.optional(S.Number),
-          LoopEndDate: S.optional(S.Number),
-          ShieldPolicyId: S.optional(S.String),
-          ShieldAlarmLevel: S.optional(__S(2464, __c154, 0)),
-          VersionTag: S.optional(S.String),
-          Description: S.optional(S.String),
-          TimeZone: S.optional(S.Number),
-          ShieldEvent: S.optional(__S(2464, __c154, 0)),
-          ShieldMetricFlag: S.optional(S.Number),
-          ShieldEventFlag: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmShield" }),
-        ),
-      ).annotate({ identifier: "CreateAlarmShieldRequest" });
-  }
-}
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12570,7 +12662,7 @@ function __c203(j: number): any {
           Offset: S.Number,
           Limit: S.Number,
           ChannelName: S.optional(S.String),
-          ChannelIDs: S.optional(__S(2464, __c154, 0)),
+          ChannelIDs: S.optional(__S(2704, __c169, 0)),
           ChannelState: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12586,27 +12678,27 @@ function __c203(j: number): any {
         S.Struct({
           ChannelId: S.optional(S.String),
           ChannelName: S.optional(S.String),
-          Receivers: S.optional(__S(2464, __c154, 0)),
+          Receivers: S.optional(__S(2704, __c169, 0)),
           CreatedAt: S.optional(S.String),
           UpdatedAt: S.optional(S.String),
           OrgId: S.optional(S.String),
-          ExtraOrgIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          OrgIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          OrganizationIds: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          ExtraOrgIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          OrgIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          OrganizationIds: S.optional(S.NullOr(__S(2704, __c169, 0))),
         }),
       ).annotate({ identifier: "GrafanaNotificationChannel" });
     case 2:
-      return S.Array(__S(3249, __c203, 1));
+      return S.Array(__S(3297, __c206, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          NotificationChannelSet: S.optional(__S(3250, __c203, 2)),
+          NotificationChannelSet: S.optional(__S(3298, __c206, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaNotificationChannelsResponse" });
   }
 }
-function __c204(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12628,17 +12720,17 @@ function __c204(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaVersion" });
     case 2:
-      return S.Array(__S(3265, __c204, 1));
+      return S.Array(__S(3313, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Versions: S.optional(__S(3266, __c204, 2)),
+          Versions: S.optional(__S(3314, __c207, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaVersionsResponse" });
   }
 }
-function __c205(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12656,13 +12748,13 @@ function __c205(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          WhiteList: S.optional(__S(2464, __c154, 0)),
+          WhiteList: S.optional(__S(2704, __c169, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeGrafanaWhiteListResponse" });
   }
 }
-function __c206(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12680,18 +12772,18 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DescribeInstalledPluginsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PluginSet: S.optional(__S(3329, __c208, 1)),
+          PluginSet: S.optional(__S(3377, __c211, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstalledPluginsResponse" });
   }
 }
-function __c208(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12701,10 +12793,10 @@ function __c208(j: number): any {
         }),
       ).annotate({ identifier: "GrafanaPlugin" });
     case 1:
-      return S.Array(__S(3328, __c208, 0));
+      return S.Array(__S(3376, __c211, 0));
   }
 }
-function __c209(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12730,7 +12822,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DescribeMonitorResourceInfoResponse" });
   }
 }
-function __c210(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12750,18 +12842,18 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "MonitorTypeInfo" });
     case 2:
-      return S.Array(__S(3361, __c210, 1));
+      return S.Array(__S(3409, __c213, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MonitorTypes: S.optional(__S(2464, __c154, 0)),
-          MonitorTypeInfos: S.optional(__S(3362, __c210, 2)),
+          MonitorTypes: S.optional(__S(2704, __c169, 0)),
+          MonitorTypeInfos: S.optional(__S(3410, __c213, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeMonitorTypesResponse" });
   }
 }
-function __c211(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12785,25 +12877,25 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "NotificationContentTemplateSupportDetail" });
     case 2:
-      return S.Array(__S(3377, __c211, 1));
+      return S.Array(__S(3425, __c214, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           MonitorType: S.optional(S.String),
-          Variables: S.optional(S.NullOr(__S(3378, __c211, 2))),
-          Functions: S.optional(S.NullOr(__S(3378, __c211, 2))),
+          Variables: S.optional(S.NullOr(__S(3426, __c214, 2))),
+          Functions: S.optional(S.NullOr(__S(3426, __c214, 2))),
         }),
       ).annotate({ identifier: "NotificationContentTemplateSupport" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Support: S.optional(S.NullOr(__S(3379, __c211, 3))),
+          Support: S.optional(S.NullOr(__S(3427, __c214, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeNotificationContentTemplateSupportsResponse" });
   }
 }
-function __c212(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12821,26 +12913,26 @@ function __c212(j: number): any {
           OnCallFormID: S.optional(S.NullOr(S.String)),
           OnCallFormName: S.optional(S.NullOr(S.String)),
           OnCallFormDesc: S.optional(S.NullOr(S.String)),
-          StaffInfos: S.optional(S.NullOr(__S(1281, __c80, 1))),
+          StaffInfos: S.optional(S.NullOr(__S(1473, __c92, 1))),
           RotationType: S.optional(S.NullOr(S.String)),
           ShiftTime: S.optional(S.NullOr(S.String)),
           EffectiveStartTime: S.optional(S.NullOr(S.Number)),
           EffectiveEndTime: S.optional(S.NullOr(S.Number)),
           TimeZone: S.optional(S.NullOr(S.Number)),
-          CoverStaffInfos: S.optional(S.NullOr(__S(1283, __c80, 3))),
-          Tags: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          CoverStaffInfos: S.optional(S.NullOr(__S(1475, __c92, 3))),
+          Tags: S.optional(S.NullOr(__S(2993, __c187, 1))),
         }),
       ).annotate({ identifier: "OneOnCallForm" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          OnCallForm: S.optional(__S(3393, __c212, 1)),
+          OnCallForm: S.optional(__S(3441, __c215, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeOnCallFormResponse" });
   }
 }
-function __c213(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12848,7 +12940,7 @@ function __c213(j: number): any {
           Module: S.String,
           Offset: S.Number,
           Limit: S.Number,
-          OnCallFormStaffIDs: S.optional(__S(2464, __c154, 0)),
+          OnCallFormStaffIDs: S.optional(__S(2704, __c169, 0)),
           RotationType: S.optional(S.String),
           Order: S.optional(S.String),
           OnCallFormName: S.optional(S.String),
@@ -12868,23 +12960,54 @@ function __c213(j: number): any {
           EffectiveStartTime: S.optional(S.NullOr(S.Number)),
           EffectiveEndTime: S.optional(S.NullOr(S.Number)),
           TimeZone: S.optional(S.NullOr(S.Number)),
-          CurrOnCallStaffs: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          Tags: S.optional(S.NullOr(__S(2753, __c172, 1))),
+          CurrOnCallStaffs: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Tags: S.optional(S.NullOr(__S(2993, __c187, 1))),
         }),
       ).annotate({ identifier: "OnCallForm" });
     case 2:
-      return S.Array(__S(3409, __c213, 1));
+      return S.Array(__S(3457, __c216, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OnCallForms: S.optional(__S(3410, __c213, 2)),
+          OnCallForms: S.optional(__S(3458, __c216, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeOnCallFormsResponse" });
   }
 }
-function __c214(j: number): any {
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Module: S.String,
+          Name: S.String,
+          MonitorType: S.String,
+          NameSpace: S.String,
+          ShieldTimeType: S.String,
+          ShieldObject: S.optional(__S(2704, __c169, 0)),
+          ShieldMetric: S.optional(__S(2704, __c169, 0)),
+          StartTime: S.optional(S.Number),
+          EndTime: S.optional(S.Number),
+          LoopStartDate: S.optional(S.Number),
+          LoopEndDate: S.optional(S.Number),
+          ShieldPolicyId: S.optional(S.String),
+          ShieldAlarmLevel: S.optional(__S(2704, __c169, 0)),
+          VersionTag: S.optional(S.String),
+          Description: S.optional(S.String),
+          TimeZone: S.optional(S.Number),
+          ShieldEvent: S.optional(__S(2704, __c169, 0)),
+          ShieldMetricFlag: S.optional(S.Number),
+          ShieldEventFlag: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlarmShield" }),
+        ),
+      ).annotate({ identifier: "CreateAlarmShieldRequest" });
+  }
+}
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12909,37 +13032,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "DescribePhoneAlarmFlowTotalCountResponse" });
   }
 }
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          RuleName: S.String,
-          Expr: S.String,
-          Receivers: __S(2464, __c154, 0),
-          RuleState: S.optional(S.Number),
-          Duration: S.optional(S.String),
-          Labels: S.optional(__S(2753, __c172, 1)),
-          Annotations: S.optional(__S(2753, __c172, 1)),
-          Type: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "monitor", version: "2018-07-24", action: "CreateAlertRule" })),
-      ).annotate({ identifier: "CreateAlertRuleRequest" });
-  }
-}
-function __c216(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RuleId: S.optional(S.NullOr(S.String)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAlertRuleResponse" });
-  }
-}
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12955,7 +13048,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "DescribePluginOverviewsRequest" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12980,11 +13073,11 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "DescribePolicyConditionListEventMetric" });
     case 2:
-      return S.Array(__S(3489, __c218, 1));
+      return S.Array(__S(3521, __c220, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Keys: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Keys: S.optional(S.NullOr(__S(2944, __c184, 0))),
           Need: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListConfigManualCalcType" });
@@ -13002,7 +13095,7 @@ function __c218(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Default: S.optional(S.NullOr(S.Number)),
-          Keys: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          Keys: S.optional(S.NullOr(__S(2944, __c184, 0))),
           Need: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListConfigManualContinueTime" });
@@ -13022,30 +13115,30 @@ function __c218(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          CalcType: S.optional(S.NullOr(__S(3491, __c218, 3))),
-          CalcValue: S.optional(S.NullOr(__S(3492, __c218, 4))),
-          ContinueTime: S.optional(S.NullOr(__S(3493, __c218, 5))),
-          Period: S.optional(S.NullOr(__S(3493, __c218, 5))),
-          PeriodNum: S.optional(S.NullOr(__S(3493, __c218, 5))),
-          StatType: S.optional(S.NullOr(__S(3494, __c218, 6))),
+          CalcType: S.optional(S.NullOr(__S(3523, __c220, 3))),
+          CalcValue: S.optional(S.NullOr(__S(3524, __c220, 4))),
+          ContinueTime: S.optional(S.NullOr(__S(3525, __c220, 5))),
+          Period: S.optional(S.NullOr(__S(3525, __c220, 5))),
+          PeriodNum: S.optional(S.NullOr(__S(3525, __c220, 5))),
+          StatType: S.optional(S.NullOr(__S(3526, __c220, 6))),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListConfigManual" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ConfigManual: S.optional(S.NullOr(__S(3495, __c218, 7))),
+          ConfigManual: S.optional(S.NullOr(__S(3527, __c220, 7))),
           MetricId: S.optional(S.Number),
           MetricShowName: S.optional(S.String),
           MetricUnit: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListMetric" });
     case 9:
-      return S.Array(__S(3496, __c218, 8));
+      return S.Array(__S(3528, __c220, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           Hidden: S.optional(S.NullOr(S.Boolean)),
-          NewViewNames: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          NewViewNames: S.optional(S.NullOr(__S(2704, __c169, 0))),
           Description: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListResponseDeprecatingInfo" });
@@ -13053,28 +13146,28 @@ function __c218(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PolicyViewName: S.optional(S.String),
-          EventMetrics: S.optional(S.NullOr(__S(3490, __c218, 2))),
+          EventMetrics: S.optional(S.NullOr(__S(3522, __c220, 2))),
           IsSupportMultiRegion: S.optional(S.Boolean),
-          Metrics: S.optional(S.NullOr(__S(3497, __c218, 9))),
+          Metrics: S.optional(S.NullOr(__S(3529, __c220, 9))),
           Name: S.optional(S.String),
           SortId: S.optional(S.Number),
           SupportDefault: S.optional(S.Boolean),
-          SupportRegions: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          DeprecatingInfo: S.optional(S.NullOr(__S(3498, __c218, 10))),
+          SupportRegions: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          DeprecatingInfo: S.optional(S.NullOr(__S(3530, __c220, 10))),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListCondition" });
     case 12:
-      return S.Array(__S(3499, __c218, 11));
+      return S.Array(__S(3531, __c220, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          Conditions: S.optional(__S(3500, __c218, 12)),
+          Conditions: S.optional(__S(3532, __c220, 12)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePolicyConditionListResponse" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13109,13 +13202,13 @@ function __c219(j: number): any {
           ShowName: S.optional(S.String),
           LastEditUin: S.optional(S.String),
           UpdateTime: S.optional(S.String),
-          Region: S.optional(__S(2464, __c154, 0)),
-          DimensionGroup: S.optional(__S(2464, __c154, 0)),
-          ConditionsConfig: S.optional(S.NullOr(__S(3521, __c220, 1))),
-          EventConfig: S.optional(S.NullOr(__S(3523, __c220, 3))),
-          ReceiverInfos: S.optional(S.NullOr(__S(3525, __c220, 5))),
-          Callback: S.optional(S.NullOr(__S(3505, __c219, 1))),
-          ConditionsTemp: S.optional(S.NullOr(__S(3526, __c220, 6))),
+          Region: S.optional(__S(2704, __c169, 0)),
+          DimensionGroup: S.optional(__S(2704, __c169, 0)),
+          ConditionsConfig: S.optional(S.NullOr(__S(3553, __c222, 1))),
+          EventConfig: S.optional(S.NullOr(__S(3555, __c222, 3))),
+          ReceiverInfos: S.optional(S.NullOr(__S(3557, __c222, 5))),
+          Callback: S.optional(S.NullOr(__S(3537, __c221, 1))),
+          ConditionsTemp: S.optional(S.NullOr(__S(3558, __c222, 6))),
           CanSetDefault: S.optional(S.Boolean),
           IsUnionRule: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
@@ -13123,7 +13216,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "DescribePolicyGroupInfoResponse" });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13142,7 +13235,7 @@ function __c220(j: number): any {
         }),
       ).annotate({ identifier: "DescribePolicyGroupInfoCondition" });
     case 1:
-      return S.Array(__S(3520, __c220, 0));
+      return S.Array(__S(3552, __c222, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13154,28 +13247,28 @@ function __c220(j: number): any {
         }),
       ).annotate({ identifier: "DescribePolicyGroupInfoEventCondition" });
     case 3:
-      return S.Array(__S(3522, __c220, 2));
+      return S.Array(__S(3554, __c222, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ReceiverGroupList: S.optional(__S(2704, __c169, 0)),
-          ReceiverUserList: S.optional(__S(2704, __c169, 0)),
+          ReceiverGroupList: S.optional(__S(2944, __c184, 0)),
+          ReceiverUserList: S.optional(__S(2944, __c184, 0)),
           StartTime: S.optional(S.Number),
           EndTime: S.optional(S.Number),
           ReceiverType: S.optional(S.String),
-          NotifyWay: S.optional(__S(2464, __c154, 0)),
-          UidList: S.optional(S.NullOr(__S(2704, __c169, 0))),
+          NotifyWay: S.optional(__S(2704, __c169, 0)),
+          UidList: S.optional(S.NullOr(__S(2944, __c184, 0))),
           RoundNumber: S.optional(S.Number),
           RoundInterval: S.optional(S.Number),
           PersonInterval: S.optional(S.Number),
           NeedSendNotice: S.optional(S.Number),
-          SendFor: S.optional(__S(2464, __c154, 0)),
-          RecoverNotify: S.optional(__S(2464, __c154, 0)),
+          SendFor: S.optional(__S(2704, __c169, 0)),
+          RecoverNotify: S.optional(__S(2704, __c169, 0)),
           ReceiveLanguage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "DescribePolicyGroupInfoReceiverInfo" });
     case 5:
-      return S.Array(__S(3524, __c220, 4));
+      return S.Array(__S(3556, __c222, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13191,7 +13284,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "DescribePolicyGroupInfoConditionTpl" });
   }
 }
-function __c221(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13202,11 +13295,11 @@ function __c221(j: number): any {
           Like: S.optional(S.String),
           InstanceGroupId: S.optional(S.Number),
           UpdateTimeOrder: S.optional(S.String),
-          ProjectIds: S.optional(__S(2704, __c169, 0)),
-          ViewNames: S.optional(__S(2464, __c154, 0)),
+          ProjectIds: S.optional(__S(2944, __c184, 0)),
+          ViewNames: S.optional(__S(2704, __c169, 0)),
           FilterUnuseReceiver: S.optional(S.Number),
-          Receivers: S.optional(__S(2464, __c154, 0)),
-          ReceiverUserList: S.optional(__S(2464, __c154, 0)),
+          Receivers: S.optional(__S(2704, __c169, 0)),
+          ReceiverUserList: S.optional(__S(2704, __c169, 0)),
           Dimensions: S.optional(S.String),
           ConditionTempGroupId: S.optional(S.String),
           ReceiverType: S.optional(S.String),
@@ -13249,20 +13342,20 @@ function __c221(j: number): any {
           ParentGroupId: S.optional(S.Number),
           Remark: S.optional(S.String),
           ProjectId: S.optional(S.Number),
-          Conditions: S.optional(S.NullOr(__S(3521, __c220, 1))),
-          EventConditions: S.optional(S.NullOr(__S(3523, __c220, 3))),
-          ReceiverInfos: S.optional(S.NullOr(__S(3525, __c220, 5))),
-          ConditionsTemp: S.optional(S.NullOr(__S(3526, __c220, 6))),
-          InstanceGroup: S.optional(S.NullOr(__S(3537, __c221, 1))),
+          Conditions: S.optional(S.NullOr(__S(3553, __c222, 1))),
+          EventConditions: S.optional(S.NullOr(__S(3555, __c222, 3))),
+          ReceiverInfos: S.optional(S.NullOr(__S(3557, __c222, 5))),
+          ConditionsTemp: S.optional(S.NullOr(__S(3558, __c222, 6))),
+          InstanceGroup: S.optional(S.NullOr(__S(3569, __c223, 1))),
           IsUnionRule: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "DescribePolicyGroupListGroup" });
     case 3:
-      return S.Array(__S(3538, __c221, 2));
+      return S.Array(__S(3570, __c223, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          GroupList: S.optional(S.NullOr(__S(3539, __c221, 3))),
+          GroupList: S.optional(S.NullOr(__S(3571, __c223, 3))),
           Total: S.optional(S.Number),
           Warning: S.optional(S.NullOr(S.String)),
           RequestId: S.optional(S.String),
@@ -13270,7 +13363,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "DescribePolicyGroupListResponse" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13294,31 +13387,31 @@ function __c222(j: number): any {
         }),
       ).annotate({ identifier: "RegionPolicyObjectCount" });
     case 2:
-      return S.Array(__S(3553, __c222, 1));
+      return S.Array(__S(3585, __c224, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           IsMultiRegion: S.optional(S.NullOr(S.Boolean)),
-          RegionList: S.optional(S.NullOr(__S(3554, __c222, 2))),
+          RegionList: S.optional(S.NullOr(__S(3586, __c224, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePolicyObjectCountResponse" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Module: S.String,
-          ProductName: S.optional(__S(2464, __c154, 0)),
-          EventName: S.optional(__S(2464, __c154, 0)),
-          InstanceId: S.optional(__S(2464, __c154, 0)),
-          Dimensions: S.optional(__S(449, __c28, 1)),
-          RegionList: S.optional(__S(2464, __c154, 0)),
-          Type: S.optional(__S(2464, __c154, 0)),
-          Status: S.optional(__S(2464, __c154, 0)),
-          Project: S.optional(__S(2464, __c154, 0)),
+          ProductName: S.optional(__S(2704, __c169, 0)),
+          EventName: S.optional(__S(2704, __c169, 0)),
+          InstanceId: S.optional(__S(2704, __c169, 0)),
+          Dimensions: S.optional(__S(673, __c42, 1)),
+          RegionList: S.optional(__S(2704, __c169, 0)),
+          Type: S.optional(__S(2704, __c169, 0)),
+          Status: S.optional(__S(2704, __c169, 0)),
+          Project: S.optional(__S(2704, __c169, 0)),
           IsAlarmConfig: S.optional(S.Number),
           TimeOrder: S.optional(S.String),
           StartTime: S.optional(S.Number),
@@ -13343,7 +13436,7 @@ function __c223(j: number): any {
         }),
       ).annotate({ identifier: "DescribeProductEventListEventsDimensions" });
     case 2:
-      return S.Array(__S(3569, __c223, 1));
+      return S.Array(__S(3601, __c225, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13352,7 +13445,7 @@ function __c223(j: number): any {
         }),
       ).annotate({ identifier: "DescribeProductEventListEventsGroupInfo" });
     case 4:
-      return S.Array(__S(3571, __c223, 3));
+      return S.Array(__S(3603, __c225, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13372,15 +13465,15 @@ function __c223(j: number): any {
           Type: S.optional(S.NullOr(S.String)),
           StartTime: S.optional(S.NullOr(S.Number)),
           UpdateTime: S.optional(S.NullOr(S.Number)),
-          Dimensions: S.optional(S.NullOr(__S(3570, __c223, 2))),
-          AdditionMsg: S.optional(S.NullOr(__S(3570, __c223, 2))),
+          Dimensions: S.optional(S.NullOr(__S(3602, __c225, 2))),
+          AdditionMsg: S.optional(S.NullOr(__S(3602, __c225, 2))),
           IsAlarmConfig: S.optional(S.NullOr(S.Number)),
-          GroupInfo: S.optional(S.NullOr(__S(3572, __c223, 4))),
+          GroupInfo: S.optional(S.NullOr(__S(3604, __c225, 4))),
           ViewName: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "DescribeProductEventListEvents" });
     case 6:
-      return S.Array(__S(3573, __c223, 5));
+      return S.Array(__S(3605, __c225, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13393,15 +13486,15 @@ function __c223(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Events: S.optional(S.NullOr(__S(3574, __c223, 6))),
-          OverView: S.optional(__S(3575, __c223, 7)),
+          Events: S.optional(S.NullOr(__S(3606, __c225, 6))),
+          OverView: S.optional(__S(3607, __c225, 7)),
           Total: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProductEventListResponse" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13424,18 +13517,18 @@ function __c224(j: number): any {
         }),
       ).annotate({ identifier: "ProductSimple" });
     case 2:
-      return S.Array(__S(3585, __c224, 1));
+      return S.Array(__S(3617, __c226, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ProductList: S.optional(S.NullOr(__S(3586, __c224, 2))),
+          ProductList: S.optional(S.NullOr(__S(3618, __c226, 2))),
           TotalCount: S.optional(S.NullOr(S.Number)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProductListResponse" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13453,20 +13546,20 @@ function __c225(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Instances: S.optional(S.NullOr(__S(2464, __c154, 0))),
+          Instances: S.optional(S.NullOr(__S(2704, __c169, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusAgentInstancesResponse" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           Name: S.optional(S.String),
-          AgentIds: S.optional(__S(2464, __c154, 0)),
+          AgentIds: S.optional(__S(2704, __c169, 0)),
           Offset: S.optional(S.Number),
           Limit: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -13492,62 +13585,15 @@ function __c226(j: number): any {
         }),
       ).annotate({ identifier: "PrometheusAgent" });
     case 2:
-      return S.Array(__S(3617, __c226, 1));
+      return S.Array(__S(3649, __c228, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AgentSet: S.optional(S.NullOr(__S(3618, __c226, 2))),
+          AgentSet: S.optional(S.NullOr(__S(3650, __c228, 2))),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribePrometheusAgentsResponse" });
-  }
-}
-function __c227(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.optional(S.String),
-          Limit: S.optional(S.Number),
-          Offset: S.optional(S.Number),
-          GroupId: S.optional(S.String),
-          GroupName: S.optional(S.String),
-          Labels: S.optional(__S(2753, __c172, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "monitor",
-            version: "2018-07-24",
-            action: "DescribePrometheusAlertGroups",
-          }),
-        ),
-      ).annotate({ identifier: "DescribePrometheusAlertGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          GroupId: S.optional(S.NullOr(S.String)),
-          GroupName: S.optional(S.NullOr(S.String)),
-          AMPReceivers: S.optional(S.NullOr(__S(2464, __c154, 0))),
-          CustomReceiver: S.optional(S.NullOr(__S(1794, __c112, 2))),
-          RepeatInterval: S.optional(S.NullOr(S.String)),
-          TemplateId: S.optional(S.NullOr(S.String)),
-          Rules: S.optional(S.NullOr(__S(1796, __c112, 4))),
-          CreatedAt: S.optional(S.NullOr(S.String)),
-          UpdatedAt: S.optional(S.NullOr(S.String)),
-          LastModifySubAccountUin: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrometheusAlertGroupSet" });
-    case 2:
-      return S.Array(__S(3633, __c227, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          AlertGroupSet: S.optional(S.NullOr(__S(3634, __c227, 2))),
-          TotalCount: S.optional(S.NullOr(S.Number)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribePrometheusAlertGroupsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

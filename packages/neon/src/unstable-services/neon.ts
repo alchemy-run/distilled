@@ -103,13 +103,19 @@ export class NotFound
     | string;
 }
 
-export type NeonAuthOauthProviderId = "google" | "github" | "microsoft" | "vercel" | "apple";
+export type NeonAuthOauthProviderId =
+  | "google"
+  | "github"
+  | "microsoft"
+  | "vercel"
+  | "apple"
+  | "discord";
 export interface AddBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
   /** The Neon branch ID */
   branch_id: string;
-  /** OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`, `vercel`, `apple`. `apple` requires custom credentials: set `client_id` to the Services ID, `client_secret` to the contents of the `.p8` private key, and supply `apple_team_id` and `apple_key_id`. */
+  /** OAuth provider to configure for Neon Auth. Known values: `google`, `github`, `microsoft`, `vercel`, `apple`, `discord`. `discord` requires custom credentials: set `client_id` and `client_secret` from your Discord application. `apple` requires custom credentials: set `client_id` to the Services ID, `client_secret` to the contents of the `.p8` private key, and supply `apple_team_id` and `apple_key_id`. */
   id: NeonAuthOauthProviderId | (string & {});
   /** The client ID issued by the OAuth provider for your application. Used to identify the application during the OAuth flow. */
   client_id?: string | undefined;
@@ -192,6 +198,8 @@ export interface CreateCredentialRequest {
   scopes: CreateCredentialRequestScopesList;
   /** Principal type for the credential. Only `user` is customer-managed and accepted here. `function` and `system` credentials are platform-internal (e.g. function-serve auto-mint, presign signer) and are never issued through the customer-facing API. */
   principal_type: CreateCredentialRequestPrincipalType | (string & {});
+  /** When the credential stops working. Omit it for a credential that doesn't expire. Must be at least 1 minute and at most 365 days from now. Rotating the credential keeps the same expiry, and an expired credential can't be rotated. */
+  expires_at?: string | undefined;
 }
 /** A single capability a credential actually carries, as reported by responses that describe an existing credential. This set is a superset of `CredentialScope` (the requestable set) because a credential's scopes are not limited to what this API offers: the platform accepts additional scopes for customer-managed (`user`) credentials, so one may exist on your branch that was not issued through this endpoint. Responses must be able to report such a credential rather than fail to describe it -- a client that rejected the value would, on rotate, discard the replacement secret after the rotation had already committed. Treat unknown values as opaque. */
 export type GrantedCredentialScope =
@@ -451,7 +459,8 @@ export type DeleteBranchNeonAuthOauthProviderRequestOauthProviderId =
   | "github"
   | "microsoft"
   | "vercel"
-  | "apple";
+  | "apple"
+  | "discord";
 export interface DeleteBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
@@ -589,83 +598,6 @@ export interface EnableProjectBranchRealtimeRequest {
   allowed_origins?: EnableProjectBranchRealtimeRequestAllowedOriginsList | undefined;
 }
 export interface EnableProjectBranchRealtimeResponse {}
-export type GetConsumptionHistoryPerBranchV2RequestProjectIdsList = Array<string>;
-export type GetConsumptionHistoryPerBranchV2RequestBranchIdsList = Array<string>;
-export type ConsumptionHistoryGranularity = "hourly" | "daily" | "monthly";
-export type ConsumptionHistoryQueryMetrics = Array<string>;
-export interface GetConsumptionHistoryPerBranchV2Request {
-  /** Cursor from the previous response (`pagination.cursor`). Pass it to fetch the next page of branches. Pages are ordered by project ID, then branch ID. */
-  cursor?: string | undefined;
-  /** Maximum number of branches per page. Allowed range: 1 to 1000. Default: 100. */
-  limit?: number | undefined;
-  /** Project IDs to include (required, 1 to 100). Returns metrics for branches in these projects. Pass multiple IDs as repeated query parameters or a comma-separated list: - `project_ids=cold-poetry-09157238&project_ids=quiet-snow-71788278` - `project_ids=cold-poetry-09157238,quiet-snow-71788278` */
-  project_ids: GetConsumptionHistoryPerBranchV2RequestProjectIdsList;
-  /** Optional branch IDs to filter the response (up to 100). If omitted, all branches in the listed projects are included. Pass multiple IDs as repeated query parameters or a comma-separated list: - `branch_ids=br-aged-salad-637688&branch_ids=br-sweet-breeze-497520` - `branch_ids=br-aged-salad-637688,br-sweet-breeze-497520` */
-  branch_ids?: GetConsumptionHistoryPerBranchV2RequestBranchIdsList | undefined;
-  /** Specify the start `date-time` for the consumption period. The `date-time` value is rounded according to the specified `granularity`. For example, `2024-03-15T15:30:00Z` for `daily` granularity will be rounded to `2024-03-15T00:00:00Z`. The specified `date-time` value must respect the specified `granularity`: - For `hourly`, consumption metrics are limited to the last 168 hours. - For `daily`, consumption metrics are limited to the last 60 days. - For `monthly`, consumption metrics are limited to the last year. Branch-level metrics are returned from when the account first ingests branch-level consumption data. Periods before that time contain no branch metrics. */
-  from: string;
-  /** Specify the end `date-time` for the consumption period. The `date-time` value is rounded according to the specified `granularity`. For example, `2024-03-15T15:30:00Z` for `daily` granularity will be rounded to `2024-03-15T00:00:00Z`. The specified `date-time` value must respect the specified `granularity`: - For `hourly`, consumption metrics are limited to the last 168 hours. - For `daily`, consumption metrics are limited to the last 60 days. - For `monthly`, consumption metrics are limited to the last year. */
-  to: string;
-  /** Specify the granularity of consumption metrics. Hourly, daily, and monthly metrics are available for the last 168 hours, 60 days, and 1 year, respectively. */
-  granularity: ConsumptionHistoryGranularity | (string & {});
-  /** Organization ID. Metrics are returned for projects in this organization. */
-  org_id: string;
-  /** Required. List the metrics to return. Only these values are supported: - `compute_unit_seconds` - `root_branch_bytes_month` - `child_branch_bytes_month` - `instant_restore_bytes_month` - `public_network_transfer_bytes` - `private_network_transfer_bytes` - `functions_active_capacity_microseconds` - `functions_waiting_capacity_microseconds` - `functions_invocations` - `functions_egress_bytes` Not supported on this endpoint: `extra_branches_month`, `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Pass multiple values as repeated query parameters or a comma-separated list: - `metrics=compute_unit_seconds&metrics=public_network_transfer_bytes` - `metrics=compute_unit_seconds,public_network_transfer_bytes` */
-  metrics: ConsumptionHistoryQueryMetrics;
-}
-export interface ConsumptionMetricValue {
-  /** Name of the consumption metric, such as compute_time or data_storage_bytes_hour. */
-  metric_name: string;
-  /** Measured quantity for the metric named by `metric_name`. */
-  value: number;
-}
-/** Consumption metric values recorded for the timeframe. */
-export type ConsumptionHistoryPerTimeframeV2MetricsList = Array<ConsumptionMetricValue>;
-export interface ConsumptionHistoryPerTimeframeV2 {
-  /** The specified start date-time for the reported consumption. */
-  timeframe_start?: string | undefined;
-  /** The specified end date-time for the reported consumption. */
-  timeframe_end?: string | undefined;
-  /** Consumption metric values recorded for the timeframe. */
-  metrics?: ConsumptionHistoryPerTimeframeV2MetricsList | undefined;
-}
-/** Consumption metric records for the billing period. */
-export type ConsumptionHistoryPerPeriodV2ConsumptionList = Array<ConsumptionHistoryPerTimeframeV2>;
-export interface ConsumptionHistoryPerPeriodV2 {
-  /** The ID assigned to the specified billing period. */
-  period_id: string;
-  /** The billing plan applicable during the billing period. */
-  period_plan: string;
-  /** The start date-time of the billing period. */
-  period_start: string;
-  /** The end date-time of the billing period, available for the past periods only. */
-  period_end?: string | undefined;
-  /** Consumption metric records for the billing period. */
-  consumption: ConsumptionHistoryPerPeriodV2ConsumptionList;
-}
-/** Consumption history records for the branch, grouped by billing period. */
-export type ConsumptionHistoryPerBranchV2PeriodsList = Array<ConsumptionHistoryPerPeriodV2>;
-export interface ConsumptionHistoryPerBranchV2 {
-  /** The ID of the project that owns this branch. */
-  project_id: string;
-  /** The Neon branch ID. Returned as `id` from `GET /projects/{project_id}/branches`. */
-  branch_id: string;
-  /** Consumption history records for the branch, grouped by billing period. */
-  periods: ConsumptionHistoryPerBranchV2PeriodsList;
-}
-/** Per-branch consumption history records returned for the requested time range. */
-export type GetConsumptionHistoryPerBranchV2ResponseBranchesList =
-  Array<ConsumptionHistoryPerBranchV2>;
-/** Cursor-based pagination. The `cursor` value reflects the endpoint's sort field (for example, an ID or timestamp), so pass it back unchanged. */
-export interface Pagination {
-  /** Cursor marking the last item in this response. Pass it unchanged as the `cursor` query parameter to fetch the next page. */
-  cursor: string;
-}
-export interface GetConsumptionHistoryPerBranchV2Response {
-  /** Per-branch consumption history records returned for the requested time range. */
-  branches: GetConsumptionHistoryPerBranchV2ResponseBranchesList;
-  pagination?: Pagination | undefined;
-}
 export interface GetNeonAuthRequest {
   /** The Neon project ID */
   project_id: string;
@@ -761,7 +693,7 @@ export interface GetOrganizationSpendingLimitRequest {
   org_id: string;
 }
 export interface SpendingLimitResponse {
-  /** Monthly spending cap in cents. `null` indicates that no limit is currently configured. */
+  /** Monthly spending notification threshold in cents. `null` indicates that no threshold is currently configured. */
   spending_limit_cents: number | null;
 }
 /** Category of an advisor issue */
@@ -915,6 +847,19 @@ export interface GetProjectBranchTriggerRequest {
   branch_id: string;
   /** The opaque, project-wide trigger ID */
   trigger_id: string;
+}
+export interface GetRegionVPCEndpointServicesRequest {
+  /** Cloud region (for example, `aws-us-east-1`). */
+  region_id: string;
+  /** Organization ID. When provided, the region must be available to this organization. Recommended for accurate region availability. */
+  org_id?: string | undefined;
+}
+/** Fully-qualified AWS VPC endpoint service names. Always empty for non-AWS regions, and for AWS regions without PrivateLink. */
+export type RegionVPCEndpointServicesResponseVpcEndpointServiceNamesList = Array<string>;
+export interface RegionVPCEndpointServicesResponse {
+  region_id: string;
+  /** Fully-qualified AWS VPC endpoint service names. Always empty for non-AWS regions, and for AWS regions without PrivateLink. */
+  vpc_endpoint_service_names: RegionVPCEndpointServicesResponseVpcEndpointServiceNamesList;
 }
 export interface ListBranchNeonAuthOauthProvidersRequest {
   /** The Neon project ID */
@@ -1107,7 +1052,7 @@ export interface ProjectBranchLogFieldsResponse {
   fields: ProjectBranchLogFieldsResponseFieldsList;
 }
 /** The Neon service that emitted the log record. */
-export type ProjectBranchLogSource = "function" | "storage" | "pg_endpoint";
+export type ProjectBranchLogSource = "function" | "storage" | "pg_endpoint" | "neon_auth";
 export interface ListProjectBranchLogFieldValuesRequest {
   /** The Neon project ID */
   project_id: string;
@@ -1121,7 +1066,7 @@ export interface ListProjectBranchLogFieldValuesRequest {
   start_time?: string | undefined;
   /** Exclusive end of the lookup window. Defaults to the current time. */
   end_time?: string | undefined;
-  /** Only consider records emitted by this Neon service. */
+  /** Only consider records emitted by this Neon service. `neon_auth` returns a 404 `telemetry_not_enabled` response when Neon Auth logs are not enabled for this project. */
   source?: ProjectBranchLogSource | (string & {}) | undefined;
   /** Maximum number of distinct values to return. The response sets `is_truncated` when this bound, or the server's own scan cap, cut the list short. */
   limit?: number | undefined;
@@ -1776,7 +1721,7 @@ export interface SendNeonAuthTestEmailResponse {
 export interface SetOrganizationSpendingLimitRequest {
   /** The Neon organization ID */
   org_id: string;
-  /** Monthly spending cap in cents. Must be positive. To remove a previously configured limit, send a DELETE request to the spending_limit endpoint -- `0` and `null` are rejected here. The cap is alert-only: notifications fire at 80% and 100%, but computes are not suspended. Setting a cap below the period's already-accrued spend is permitted and will trigger the over-limit notification on the next worker run. */
+  /** Monthly spending notification threshold in cents. Must be positive. To remove a previously configured threshold, send a DELETE request to the spending_limit endpoint -- `0` and `null` are rejected here. The threshold is alert-only: notifications are sent at 80% and 100%, but computes are not suspended. Setting a threshold below the period's already-accrued spend is permitted and triggers the over-limit notification on the next worker run. */
   spending_limit_cents: number;
 }
 export type UpdateBranchNeonAuthOauthProviderRequestOauthProviderId =
@@ -1784,7 +1729,8 @@ export type UpdateBranchNeonAuthOauthProviderRequestOauthProviderId =
   | "github"
   | "microsoft"
   | "vercel"
-  | "apple";
+  | "apple"
+  | "discord";
 export interface UpdateBranchNeonAuthOauthProviderRequest {
   /** The Neon project ID */
   project_id: string;
@@ -2217,7 +2163,7 @@ export const deleteNeonAuthOAuthClient: API.OperationMethod<
 }));
 
 export type DeleteOrganizationSpendingLimitError = NeonOpError;
-/** Remove organization spending limit Removes the configured monthly spending limit for the specified organization. Idempotent -- removing an already-unset limit still succeeds. Available to organization admins on Launch and Scale plans only. */
+/** Remove organization spending notification threshold Removes the organization's monthly spending notification threshold, which stops the spending notification emails. Idempotent: removing an already-unset threshold still succeeds. Available to organization admins on Launch and Scale plans only. Other plans return `422`. */
 export const deleteOrganizationSpendingLimit: API.OperationMethod<
   DeleteOrganizationSpendingLimitRequest,
   DeleteOrganizationSpendingLimitResponse,
@@ -2396,34 +2342,6 @@ export const enableProjectBranchRealtime: API.OperationMethod<
   span: "EnableProjectBranchRealtime",
 }));
 
-export type GetConsumptionHistoryPerBranchV2Error = Forbidden | NotFound | NeonOpError;
-/** Retrieve branch consumption metrics Returns consumption metrics for each branch across one or more projects listed in `project_ids` (1 to 100 projects). Available for accounts on paid usage-based Launch, Scale, Agent, and Enterprise plans. History starts when the account first ingests branch-level consumption data. The `metrics` query parameter is required. These values are supported on this endpoint: `compute_unit_seconds`, `root_branch_bytes_month`, `child_branch_bytes_month`, `instant_restore_bytes_month`, `public_network_transfer_bytes`, `private_network_transfer_bytes`, `functions_active_capacity_microseconds`, `functions_waiting_capacity_microseconds`, `functions_invocations`, `functions_egress_bytes`. This endpoint does not support `extra_branches_month` or `snapshot_storage_bytes_month`. Use `GET /consumption_history/v2/projects` for those. Consumption metrics within each branch are returned in ascending time order (oldest first). This request does not wake project computes. */
-export const getConsumptionHistoryPerBranchV2: API.PaginatedOperationMethod<
-  GetConsumptionHistoryPerBranchV2Request,
-  GetConsumptionHistoryPerBranchV2Response,
-  GetConsumptionHistoryPerBranchV2Error,
-  NeonOpContext,
-  ConsumptionHistoryPerBranchV2
-> = /*@__PURE__*/ API.makePaginated(
-  () => ({
-    input: __S(400, __c25, 0) as any as S.Codec<GetConsumptionHistoryPerBranchV2Request>,
-    output: __S(410, __c25, 10) as any as S.Codec<GetConsumptionHistoryPerBranchV2Response>,
-    errors: [Forbidden, NotFound],
-    serviceErrors: NeonServiceErrors,
-    protocol: NeonProtocol,
-    retry: Retry.Retry,
-    telemetry: TELEMETRY,
-    span: "GetConsumptionHistoryPerBranchV2",
-    pagination: {
-      mode: "cursor",
-      inputToken: "cursor",
-      outputToken: "pagination.cursor",
-      items: "branches",
-    } as const,
-  }),
-  paginateCursor,
-) as any;
-
 export type GetNeonAuthError = NeonOpError;
 /** Retrieve Neon Auth details for the branch Retrieves the Neon Auth integration details for the specified branch, including the auth provider type and integration status. */
 export const getNeonAuth: API.OperationMethod<
@@ -2432,8 +2350,8 @@ export const getNeonAuth: API.OperationMethod<
   GetNeonAuthError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Codec<GetNeonAuthRequest>,
-  output: __S(417, __c26, 1) as any as S.Codec<NeonAuthIntegration>,
+  input: __S(400, __c25, 0) as any as S.Codec<GetNeonAuthRequest>,
+  output: __S(401, __c25, 1) as any as S.Codec<NeonAuthIntegration>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2450,8 +2368,8 @@ export const getNeonAuthOAuthClient: API.OperationMethod<
   GetNeonAuthOAuthClientError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Codec<GetNeonAuthOAuthClientRequest>,
-  output: __S(448, __c28, 0) as any as S.Codec<NeonAuthOAuthClient>,
+  input: __S(416, __c26, 0) as any as S.Codec<GetNeonAuthOAuthClientRequest>,
+  output: __S(432, __c27, 0) as any as S.Codec<NeonAuthOAuthClient>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2468,8 +2386,8 @@ export const getNeonAuthOAuthProviderPlugin: API.OperationMethod<
   GetNeonAuthOAuthProviderPluginError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Codec<GetNeonAuthOAuthProviderPluginRequest>,
-  output: __S(483, __c30, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
+  input: __S(448, __c28, 0) as any as S.Codec<GetNeonAuthOAuthProviderPluginRequest>,
+  output: __S(467, __c29, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2479,15 +2397,15 @@ export const getNeonAuthOAuthProviderPlugin: API.OperationMethod<
 }));
 
 export type GetOrganizationSpendingLimitError = NeonOpError;
-/** Retrieve organization spending limit Returns the configured monthly spending limit for the specified organization. `spending_limit_cents: null` indicates that no limit is currently set. Available to organization members with read access on Launch and Scale plans only. */
+/** Retrieve organization spending notification threshold Returns the organization's monthly spending notification threshold, in cents. Neon emails organization admins when monthly charges reach 80% and 100% of the threshold. The threshold is an alert only: it doesn't cap spending or suspend computes. `spending_limit_cents: null` indicates that no threshold is set. Available to organization members with read access on Launch and Scale plans only. Other plans return `422`. See [Spending notifications](https://neon.com/docs/introduction/spending-notifications). */
 export const getOrganizationSpendingLimit: API.OperationMethod<
   GetOrganizationSpendingLimitRequest,
   SpendingLimitResponse,
   GetOrganizationSpendingLimitError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Codec<GetOrganizationSpendingLimitRequest>,
-  output: __S(512, __c32, 0) as any as S.Codec<SpendingLimitResponse>,
+  input: __S(480, __c30, 0) as any as S.Codec<GetOrganizationSpendingLimitRequest>,
+  output: __S(496, __c31, 0) as any as S.Codec<SpendingLimitResponse>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2504,8 +2422,8 @@ export const getProjectAdvisorSecurityIssues: API.OperationMethod<
   GetProjectAdvisorSecurityIssuesError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>,
-  output: __S(531, __c33, 3) as any as S.Codec<GetProjectAdvisorSecurityIssuesResponse>,
+  input: __S(512, __c32, 0) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>,
+  output: __S(515, __c32, 3) as any as S.Codec<GetProjectAdvisorSecurityIssuesResponse>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2522,8 +2440,8 @@ export const getProjectBranchAiGateway: API.OperationMethod<
   GetProjectBranchAiGatewayError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Codec<GetProjectBranchAiGatewayRequest>,
-  output: __S(561, __c35, 1) as any as S.Codec<BranchAiGateway>,
+  input: __S(544, __c34, 0) as any as S.Codec<GetProjectBranchAiGatewayRequest>,
+  output: __S(545, __c34, 1) as any as S.Codec<BranchAiGateway>,
   errors: [NotFound],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2540,8 +2458,8 @@ export const getProjectBranchBucketObject: API.OperationMethod<
   GetProjectBranchBucketObjectError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Codec<GetProjectBranchBucketObjectRequest>,
-  output: __S(577, __c36, 1) as any as S.Codec<GetProjectBranchBucketObjectResponse>,
+  input: __S(560, __c35, 0) as any as S.Codec<GetProjectBranchBucketObjectRequest>,
+  output: __S(561, __c35, 1) as any as S.Codec<GetProjectBranchBucketObjectResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2558,8 +2476,8 @@ export const getProjectBranchFunction: API.OperationMethod<
   GetProjectBranchFunctionError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Codec<GetProjectBranchFunctionRequest>,
-  output: __S(624, __c39, 0) as any as S.Codec<NeonFunctionResponse>,
+  input: __S(576, __c36, 0) as any as S.Codec<GetProjectBranchFunctionRequest>,
+  output: __S(608, __c38, 0) as any as S.Codec<NeonFunctionResponse>,
   errors: [NotFound],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2576,8 +2494,8 @@ export const getProjectBranchRealtime: API.OperationMethod<
   GetProjectBranchRealtimeError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Codec<GetProjectBranchRealtimeRequest>,
-  output: __S(641, __c40, 1) as any as S.Codec<Realtime>,
+  input: __S(624, __c39, 0) as any as S.Codec<GetProjectBranchRealtimeRequest>,
+  output: __S(625, __c39, 1) as any as S.Codec<Realtime>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2594,8 +2512,8 @@ export const getProjectBranchRealtimeSecret: API.OperationMethod<
   GetProjectBranchRealtimeSecretError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Codec<GetProjectBranchRealtimeSecretRequest>,
-  output: __S(657, __c41, 1) as any as S.Codec<RealtimeSecret>,
+  input: __S(640, __c40, 0) as any as S.Codec<GetProjectBranchRealtimeSecretRequest>,
+  output: __S(641, __c40, 1) as any as S.Codec<RealtimeSecret>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2612,8 +2530,8 @@ export const getProjectBranchStorage: API.OperationMethod<
   GetProjectBranchStorageError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Codec<GetProjectBranchStorageRequest>,
-  output: __S(673, __c42, 1) as any as S.Codec<BranchStorage>,
+  input: __S(656, __c41, 0) as any as S.Codec<GetProjectBranchStorageRequest>,
+  output: __S(657, __c41, 1) as any as S.Codec<BranchStorage>,
   errors: [NotFound],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -2630,7 +2548,7 @@ export const getProjectBranchTrigger: API.OperationMethod<
   GetProjectBranchTriggerError,
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Codec<GetProjectBranchTriggerRequest>,
+  input: __S(672, __c42, 0) as any as S.Codec<GetProjectBranchTriggerRequest>,
   output: __S(160, __c10, 0) as any as S.Codec<TriggerResponse>,
   errors: [NotFound],
   serviceErrors: NeonServiceErrors,
@@ -2638,6 +2556,24 @@ export const getProjectBranchTrigger: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectBranchTrigger",
+}));
+
+export type GetRegionVPCEndpointServicesError = NeonOpError;
+/** List VPC endpoint service names for a region Lists the AWS VPC endpoint service names Neon currently offers in the given region, for PrivateLink / Neon Private Networking. Add every name returned for your region when configuring your VPC endpoint. The list is always empty for non-AWS regions, and for AWS regions without PrivateLink. **Note:** Not all regions are available to all organizations. Pass the `org_id` parameter to check region availability for your organization. Unknown regions, and regions not available to the caller, return 404. */
+export const getRegionVPCEndpointServices: API.OperationMethod<
+  GetRegionVPCEndpointServicesRequest,
+  RegionVPCEndpointServicesResponse,
+  GetRegionVPCEndpointServicesError,
+  NeonOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(720, __c45, 0) as any as S.Codec<GetRegionVPCEndpointServicesRequest>,
+  output: __S(721, __c45, 1) as any as S.Codec<RegionVPCEndpointServicesResponse>,
+  errors: [],
+  serviceErrors: NeonServiceErrors,
+  protocol: NeonProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionVPCEndpointServices",
 }));
 
 export type ListBranchNeonAuthOauthProvidersError = NeonOpError;
@@ -2877,7 +2813,7 @@ export const presignProjectBranchBucketObject: API.OperationMethod<
 }));
 
 export type QueryProjectBranchLogsError = BadRequest | NotFound | NeonOpError;
-/** Query branch logs Returns logs emitted by services running on the specified branch, ordered by timestamp according to `sort_order`. All supplied filters are combined with `AND`: a record is returned only when it matches every filter. `minimum_severity` and `severity_text` are independent filters, so setting both requires a record to clear the severity floor *and* match the exact severity text. Supply `logql` instead of the structured filters to run a raw LogQL expression. Combining it with any structured filter is rejected rather than silently ignored; `limit`, `sort_order`, and the time window still apply, because those bound the query rather than form part of the expression. Give the window either as `since` -- a duration ending at `end_time`, or at the current time when `end_time` is omitted -- or as an explicit `start_time`. Supplying both is rejected. A single response holds at most 1,000 records. When `is_truncated` is `true`, pass the returned `next_cursor` back as `cursor` to fetch the next page, repeating the time range and every filter unchanged. If no time range is supplied, the query covers the previous hour. The maximum supported time range is seven days. `end_time` is exclusive. **Note**: This endpoint is currently in Private Beta. */
+/** Query branch logs Returns logs emitted by services running on the specified branch, ordered by timestamp according to `sort_order`. All supplied filters are combined with `AND`: a record is returned only when it matches every filter. `minimum_severity` and `severity_text` are independent filters, so setting both requires a record to clear the severity floor *and* match the exact severity text. Supply `logql` instead of the structured filters to run a raw LogQL expression. Combining it with any structured filter is rejected rather than silently ignored; `limit`, `sort_order`, and the time window still apply, because those bound the query rather than form part of the expression. `source=neon_auth` returns a 404 `telemetry_not_enabled` response when Neon Auth logs are not enabled for this project. Give the window either as `since` -- a duration ending at `end_time`, or at the current time when `end_time` is omitted -- or as an explicit `start_time`. Supplying both is rejected. A single response holds at most 1,000 records. When `is_truncated` is `true`, pass the returned `next_cursor` back as `cursor` to fetch the next page, repeating the time range and every filter unchanged. If no time range is supplied, the query covers the previous hour. The maximum supported time range is seven days. `end_time` is exclusive. **Note**: This endpoint is currently in Private Beta. */
 export const queryProjectBranchLogs: API.OperationMethod<
   QueryProjectBranchLogsRequest,
   ProjectBranchLogsQueryResponse,
@@ -3057,7 +2993,7 @@ export const sendNeonAuthEmailProviderTest: API.OperationMethod<
 }));
 
 export type SetOrganizationSpendingLimitError = NeonOpError;
-/** Set organization spending limit Sets the monthly spending limit for the specified organization. To remove a previously configured limit, send a DELETE request to this endpoint. When a limit is configured, email notifications are sent at 80% and 100% of the limit. Computes are not suspended when the limit is reached. Available to organization admins on Launch and Scale plans only. */
+/** Set organization spending notification threshold Sets a monthly spending notification threshold for the organization, in cents. Neon emails organization admins when monthly charges reach 80% and 100% of the threshold. The threshold is an alert only: computes keep running when it's reached. To remove the threshold, send a DELETE request to this endpoint. Available to organization admins on Launch and Scale plans only. Other plans return `422`. See [Spending notifications](https://neon.com/docs/introduction/spending-notifications). */
 export const setOrganizationSpendingLimit: API.OperationMethod<
   SetOrganizationSpendingLimitRequest,
   SpendingLimitResponse,
@@ -3065,7 +3001,7 @@ export const setOrganizationSpendingLimit: API.OperationMethod<
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Codec<SetOrganizationSpendingLimitRequest>,
-  output: __S(512, __c32, 0) as any as S.Codec<SpendingLimitResponse>,
+  output: __S(496, __c31, 0) as any as S.Codec<SpendingLimitResponse>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -3119,7 +3055,7 @@ export const updateNeonAuthOAuthClient: API.OperationMethod<
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Codec<UpdateNeonAuthOAuthClientRequest>,
-  output: __S(448, __c28, 0) as any as S.Codec<NeonAuthOAuthClient>,
+  output: __S(432, __c27, 0) as any as S.Codec<NeonAuthOAuthClient>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -3137,7 +3073,7 @@ export const updateNeonAuthOAuthProviderPlugin: API.OperationMethod<
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1265, __c79, 1) as any as S.Codec<UpdateNeonAuthOAuthProviderPluginRequest>,
-  output: __S(483, __c30, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
+  output: __S(467, __c29, 3) as any as S.Codec<NeonAuthOAuthProviderConfig>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -3155,7 +3091,7 @@ export const updateProjectBranchFunction: API.OperationMethod<
   NeonOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Codec<UpdateProjectBranchFunctionRequest>,
-  output: __S(624, __c39, 0) as any as S.Codec<NeonFunctionResponse>,
+  output: __S(608, __c38, 0) as any as S.Codec<NeonFunctionResponse>,
   errors: [],
   serviceErrors: NeonServiceErrors,
   protocol: NeonProtocol,
@@ -3719,78 +3655,6 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          project_ids: __S(48, __c3, 0).pipe(T.Query()),
-          branch_ids: S.optional(__S(48, __c3, 0).pipe(T.Query())),
-          from: S.String.pipe(T.Query()),
-          to: S.String.pipe(T.Query()),
-          granularity: S.String.pipe(T.Query()),
-          org_id: S.String.pipe(T.Query()),
-          metrics: __S(48, __c3, 0).pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/consumption_history/v2/branches", code: 200 })),
-      ).annotate({ identifier: "GetConsumptionHistoryPerBranchV2Request" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          metric_name: S.String,
-          value: S.Number,
-        }),
-      ).annotate({ identifier: "ConsumptionMetricValue" });
-    case 2:
-      return S.Array(__S(401, __c25, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          timeframe_start: S.optional(S.String),
-          timeframe_end: S.optional(S.String),
-          metrics: S.optional(__S(402, __c25, 2)),
-        }),
-      ).annotate({ identifier: "ConsumptionHistoryPerTimeframeV2" });
-    case 4:
-      return S.Array(__S(403, __c25, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          period_id: S.String,
-          period_plan: S.String,
-          period_start: S.String,
-          period_end: S.optional(S.String),
-          consumption: __S(404, __c25, 4),
-        }),
-      ).annotate({ identifier: "ConsumptionHistoryPerPeriodV2" });
-    case 6:
-      return S.Array(__S(405, __c25, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String,
-          branch_id: S.String,
-          periods: __S(406, __c25, 6),
-        }),
-      ).annotate({ identifier: "ConsumptionHistoryPerBranchV2" });
-    case 8:
-      return S.Array(__S(407, __c25, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.String,
-        }),
-      ).annotate({ identifier: "Pagination" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          branches: __S(408, __c25, 8),
-          pagination: S.optional(__S(409, __c25, 9)),
-        }),
-      ).annotate({ identifier: "GetConsumptionHistoryPerBranchV2Response" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           project_id: S.String.pipe(T.Label()),
           branch_id: S.String.pipe(T.Label()),
         }).pipe(
@@ -3818,7 +3682,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "NeonAuthIntegration" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3836,7 +3700,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetNeonAuthOAuthClientRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3853,7 +3717,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "NeonAuthOAuthClient" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3870,7 +3734,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetNeonAuthOAuthProviderPluginRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3887,20 +3751,20 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "NeonAuthOAuthProviderResource" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           login_page: S.optional(S.String),
           consent_page: S.optional(S.String),
-          mcp: S.optional(__S(480, __c30, 0)),
-          resources: S.optional(__S(482, __c30, 2)),
+          mcp: S.optional(__S(464, __c29, 0)),
+          resources: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "NeonAuthOAuthProviderConfig" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3916,7 +3780,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetOrganizationSpendingLimitRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3926,7 +3790,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SpendingLimitResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3949,27 +3813,27 @@ function __c33(j: number): any {
           description: S.String,
           detail: S.String,
           remediation: S.String,
-          metadata: __S(544, __c34, 0),
+          metadata: __S(528, __c33, 0),
           cache_key: S.String,
         }),
       ).annotate({ identifier: "AdvisorIssue" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          issues: __S(530, __c33, 2),
+          issues: __S(514, __c32, 2),
         }),
       ).annotate({ identifier: "GetProjectAdvisorSecurityIssuesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3993,7 +3857,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "BranchAiGateway" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4019,7 +3883,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetProjectBranchBucketObjectResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4037,7 +3901,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetProjectBranchFunctionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4053,17 +3917,17 @@ function __c38(j: number): any {
       ).annotate({ identifier: "NeonFunction" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          function: __S(608, __c38, 0),
+          function: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "NeonFunctionResponse" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4090,7 +3954,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "Realtime" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4116,7 +3980,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "RealtimeSecret" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4140,6 +4004,24 @@ function __c42(j: number): any {
           force_path_style: S.Boolean,
         }),
       ).annotate({ identifier: "BranchStorage" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          branch_id: S.String.pipe(T.Label()),
+          trigger_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/branches/{branch_id}/triggers/{trigger_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectBranchTriggerRequest" });
   }
 }
 function __c43(j: number): any {
@@ -4194,17 +4076,19 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          branch_id: S.String.pipe(T.Label()),
-          trigger_id: S.String.pipe(T.Label()),
+          region_id: S.String.pipe(T.Label()),
+          org_id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/branches/{branch_id}/triggers/{trigger_id}",
-            code: 200,
-          }),
+          T.Http({ method: "GET", uri: "/regions/{region_id}/vpc_endpoint_services", code: 200 }),
         ),
-      ).annotate({ identifier: "GetProjectBranchTriggerRequest" });
+      ).annotate({ identifier: "GetRegionVPCEndpointServicesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          region_id: S.String,
+          vpc_endpoint_service_names: __S(48, __c3, 0),
+        }),
+      ).annotate({ identifier: "RegionVPCEndpointServicesResponse" });
   }
 }
 function __c46(j: number): any {
@@ -4321,7 +4205,7 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListNeonAuthOAuthClientsRequest" });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(432, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4473,7 +4357,7 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectBranchFunctionsRequest" });
     case 1:
-      return S.Array(__S(608, __c38, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4669,7 +4553,7 @@ function __c63(j: number): any {
           severity_text: S.optional(S.String),
           trace_id: S.optional(S.String),
           span_id: S.optional(S.String),
-          attributes: __S(544, __c34, 0),
+          attributes: __S(528, __c33, 0),
         }),
       ).annotate({ identifier: "ProjectBranchLogRecord" });
     case 2:
@@ -5264,7 +5148,7 @@ function __c79(j: number): any {
           login_page: S.optional(S.String),
           consent_page: S.optional(S.String),
           mcp: S.optional(__S(1264, __c79, 0)),
-          resources: S.optional(__S(482, __c30, 2)),
+          resources: S.optional(__S(466, __c29, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5372,6 +5256,7 @@ function __c83(j: number): any {
           name: S.optional(S.String),
           scopes: __S(1344, __c84, 0),
           principal_type: S.String,
+          expires_at: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

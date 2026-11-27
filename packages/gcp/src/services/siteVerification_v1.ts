@@ -112,10 +112,10 @@ export interface SiteVerificationWebResourceGettokenRequestSite {
   type?: string | undefined;
 }
 export interface SiteVerificationWebResourceGettokenRequest {
-  /** The site for which a verification token will be generated. */
-  site?: SiteVerificationWebResourceGettokenRequestSite | undefined;
   /** The verification method that will be used to verify this site. For sites, 'FILE' or 'META' methods may be used. For domains, only 'DNS' may be used. */
   verificationMethod?: string | undefined;
+  /** The site for which a verification token will be generated. */
+  site?: SiteVerificationWebResourceGettokenRequestSite | undefined;
 }
 export interface GetTokenWebResourceRequest extends SiteVerificationWebResourceGettokenRequest {}
 export interface SiteVerificationWebResourceGettokenResponse {
@@ -128,20 +128,20 @@ export interface GetWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
 }
+export type StringList = Array<string>;
 export interface SiteVerificationWebResourceResourceSite {
   /** The site type. Can be SITE or INET_DOMAIN (domain name). */
   type?: string | undefined;
   /** The site identifier. If the type is set to SITE, the identifier is a URL. If the type is set to INET_DOMAIN, the site identifier is a domain name. */
   identifier?: string | undefined;
 }
-export type StringList = Array<string>;
 export interface SiteVerificationWebResourceResource {
+  /** The email addresses of all verified owners. */
+  owners?: StringList | undefined;
   /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
   id?: string | undefined;
   /** The address and type of a site that is verified or will be verified. */
   site?: SiteVerificationWebResourceResourceSite | undefined;
-  /** The email addresses of all verified owners. */
-  owners?: StringList | undefined;
 }
 export interface InsertWebResourceRequest extends SiteVerificationWebResourceResource {
   /** The method to use for verifying a site or domain. */
@@ -394,8 +394,8 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          site: S.optional(__S(12, __c3, 0)),
           verificationMethod: S.optional(S.String),
+          site: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceGettokenRequest" });
     case 2:
@@ -436,20 +436,20 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           identifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceResourceSite" });
-    case 1:
-      return S.Array(S.String);
     case 2:
       return S.suspend(() =>
         S.Struct({
+          owners: S.optional(__S(20, __c5, 0)),
           id: S.optional(S.String),
-          site: S.optional(__S(20, __c5, 0)),
-          owners: S.optional(__S(21, __c5, 1)),
+          site: S.optional(__S(21, __c5, 1)),
         }),
       ).annotate({ identifier: "SiteVerificationWebResourceResource" });
   }

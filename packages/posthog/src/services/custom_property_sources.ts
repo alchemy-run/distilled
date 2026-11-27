@@ -24,6 +24,8 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** * `keep` - Keep the last synced values * `remove` - Remove mapped properties */
+export type WarehousePersonPropertyMissingRowBehaviorEnum = "keep" | "remove";
 export interface CreateCustomPropertySourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -39,6 +41,8 @@ export interface CreateCustomPropertySourceRequest {
   column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
   column_descriptions?: unknown | undefined;
+  /** Person sources only: keep the last synced values, or remove mapped properties when a key is absent from a complete table read. Existing sources default to 'keep'. * `keep` - Keep the last synced values * `remove` - Remove mapped properties */
+  missing_row_behavior?: WarehousePersonPropertyMissingRowBehaviorEnum | (string & {}) | undefined;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
   /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
@@ -59,9 +63,9 @@ export interface CustomPropertySyncRun {
   sync_phase: SyncPhaseEnum | null;
   /** Latest Temporal activity attempt for the current account sync phase. */
   attempt: number | null;
-  /** Temporal workflow identifier associated with the current account sync phase. */
+  /** Staff-only Temporal workflow identifier of the run. Null for non-staff users. */
   workflow_id: string | null;
-  /** Temporal run identifier associated with the current account sync phase. */
+  /** Identifier of the worker job that executed the run. Person and group runs use it to find the run's progress log lines. Null for runs recorded before it was stored. */
   workflow_run_id: string | null;
   /** Staff-only link to this run in Temporal. Null for non-staff users and runs without a Temporal ID. */
   temporal_url: string | null;
@@ -81,6 +85,8 @@ export interface CustomPropertySyncRun {
   existing: number;
   /** Property updates written or produced to the ingestion pipeline. */
   produced: number;
+  /** People whose mapped properties were removed after they left the source table. */
+  removed: number;
   /** Changed rows skipped because no existing account, person, or group matched the key column value. */
   skipped_missing_person: number;
   /** Error summary if the run failed, else null. */
@@ -103,6 +109,8 @@ export interface CustomPropertySource {
   column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
   column_descriptions?: unknown | undefined;
+  /** Person sources only: keep the last synced values, or remove mapped properties when a key is absent from a complete table read. Existing sources default to 'keep'. * `keep` - Keep the last synced values * `remove` - Remove mapped properties */
+  missing_row_behavior?: WarehousePersonPropertyMissingRowBehaviorEnum | undefined;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
   /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
@@ -197,6 +205,8 @@ export interface UpdateCustomPropertySourceRequest {
   column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
   column_descriptions?: unknown | undefined;
+  /** Person sources only: keep the last synced values, or remove mapped properties when a key is absent from a complete table read. * `keep` - Keep the last synced values * `remove` - Remove mapped properties */
+  missing_row_behavior?: WarehousePersonPropertyMissingRowBehaviorEnum | (string & {}) | undefined;
   /** Whether the source syncs; re-enabling it resets the failure count. */
   is_enabled?: boolean | undefined;
 }
@@ -212,6 +222,8 @@ export interface UpdateCustomPropertySourcesPartialRequest {
   column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
   column_descriptions?: unknown | undefined;
+  /** Person sources only: keep the last synced values, or remove mapped properties when a key is absent from a complete table read. * `keep` - Keep the last synced values * `remove` - Remove mapped properties */
+  missing_row_behavior?: WarehousePersonPropertyMissingRowBehaviorEnum | (string & {}) | undefined;
   /** Whether the source syncs; re-enabling it resets the failure count. */
   is_enabled?: boolean | undefined;
 }
@@ -384,6 +396,7 @@ function __c0(j: number): any {
           source_column: S.optional(S.NullOr(S.String)),
           column_property_map: S.optional(S.Unknown),
           column_descriptions: S.optional(S.Unknown),
+          missing_row_behavior: S.optional(S.String),
           key_column: S.String,
           is_enabled: S.optional(S.Boolean),
         }).pipe(
@@ -417,6 +430,7 @@ function __c1(j: number): any {
           changed: S.Number,
           existing: S.Number,
           produced: S.Number,
+          removed: S.Number,
           skipped_missing_person: S.Number,
           error: S.NullOr(S.String),
           created_at: S.String,
@@ -436,6 +450,7 @@ function __c2(j: number): any {
           source_column: S.optional(S.NullOr(S.String)),
           column_property_map: S.optional(S.Unknown),
           column_descriptions: S.optional(S.Unknown),
+          missing_row_behavior: S.optional(S.String),
           key_column: S.String,
           is_enabled: S.optional(S.Boolean),
           consecutive_failures: S.Number,
@@ -601,6 +616,7 @@ function __c10(j: number): any {
           key_column: S.optional(S.String),
           column_property_map: S.optional(S.Unknown),
           column_descriptions: S.optional(S.Unknown),
+          missing_row_behavior: S.optional(S.String),
           is_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -623,6 +639,7 @@ function __c11(j: number): any {
           key_column: S.optional(S.String),
           column_property_map: S.optional(S.Unknown),
           column_descriptions: S.optional(S.Unknown),
+          missing_row_behavior: S.optional(S.String),
           is_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({

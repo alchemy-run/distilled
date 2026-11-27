@@ -496,6 +496,7 @@ export type MitigationsListRequestEntityType =
   | "url_pattern"
   | "account"
   | "zone"
+  | "domain"
   | "custom_expression";
 export type MitigationsListRequestSort =
   | "type,asc"
@@ -536,6 +537,7 @@ export type MitigationsListResponseMitigationsItemEntityType =
   | "url_pattern"
   | "account"
   | "zone"
+  | "domain"
   | "custom_expression";
 export type MitigationsListResponseMitigationsItemStatus =
   | "pending"
@@ -555,6 +557,8 @@ export interface MitigationsListResponseMitigationsItem {
   status: MitigationsListResponseMitigationsItemStatus;
   /** The type of mitigation applied to a reported entity. */
   type: string;
+  /** Date when the mitigation is scheduled to be removed. Present only when a removal is scheduled, for example after an approved counter notice. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html) */
+  scheduledRemovalDate?: string | null | undefined;
 }
 export type MitigationsListResponseMitigationsList = Array<MitigationsListResponseMitigationsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -710,6 +714,7 @@ export type MitigationsReviewResultItemEntityType =
   | "url_pattern"
   | "account"
   | "zone"
+  | "domain"
   | "custom_expression";
 export type MitigationsReviewResultItemStatus =
   | "pending"
@@ -729,6 +734,8 @@ export interface MitigationsReviewResultItem {
   status: MitigationsReviewResultItemStatus;
   /** The type of mitigation applied to a reported entity. */
   type: string;
+  /** Date when the mitigation is scheduled to be removed. Present only when a removal is scheduled, for example after an approved counter notice. Time in RFC 3339 format (https://www.rfc-editor.org/rfc/rfc3339.html) */
+  scheduledRemovalDate?: string | null | undefined;
 }
 export type MitigationsReviewResultList = Array<MitigationsReviewResultItem>;
 export interface ReviewMitigationResponse {
@@ -1196,6 +1203,9 @@ function __c9(j: number): any {
           entityType: S.String.pipe(T.Body("entity_type")),
           status: S.String,
           type: S.String,
+          scheduledRemovalDate: S.optional(
+            S.NullOr(S.String).pipe(T.Body("scheduled_removal_date")),
+          ),
         }),
       ).annotate({ identifier: "MitigationsListResponseMitigationsItem" });
     case 1:

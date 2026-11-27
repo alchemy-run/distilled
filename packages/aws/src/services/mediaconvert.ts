@@ -1615,6 +1615,8 @@ export type AudioCodec =
   | "AIFF"
   | "AC3"
   | "AC4"
+  | "DTSX"
+  | "DTSC"
   | "EAC3"
   | "EAC3_ATMOS"
   | "VORBIS"
@@ -1622,6 +1624,18 @@ export type AudioCodec =
   | "PASSTHROUGH"
   | "FLAC"
   | (string & {});
+export type __integerMin768000Max768000 = number;
+export interface DtscSettings {
+  Bitrate?: number | undefined;
+  SampleRate?: number | undefined;
+}
+export type __integerMin160000Max448000 = number;
+export type DtsxCodingMode = "CODING_MODE_5_1" | "CODING_MODE_5_1_4" | (string & {});
+export interface DtsxSettings {
+  Bitrate?: number | undefined;
+  CodingMode?: DtsxCodingMode | undefined;
+  SampleRate?: number | undefined;
+}
 export type __integerMin384000Max1024000 = number;
 export type Eac3AtmosBitstreamMode = "COMPLETE_MAIN" | (string & {});
 export type Eac3AtmosCodingMode =
@@ -1800,6 +1814,8 @@ export interface AudioCodecSettings {
   Ac4Settings?: Ac4Settings | undefined;
   AiffSettings?: AiffSettings | undefined;
   Codec?: AudioCodec | undefined;
+  DtscSettings?: DtscSettings | undefined;
+  DtsxSettings?: DtsxSettings | undefined;
   Eac3AtmosSettings?: Eac3AtmosSettings | undefined;
   Eac3Settings?: Eac3Settings | undefined;
   FlacSettings?: FlacSettings | undefined;
@@ -1827,7 +1843,7 @@ export interface AudioDescription {
   StreamName?: string | undefined;
 }
 export type __listOfAudioDescription = AudioDescription[];
-const __listOfAudioDescription = /*@__PURE__*/ __L.at(__c3, 26);
+const __listOfAudioDescription = /*@__PURE__*/ __L.at(__c3, 28);
 export type __stringPatternAZaZ23AZaZ = string;
 export type BurninSubtitleAlignment = "CENTERED" | "LEFT" | "AUTO" | (string & {});
 export type BurninSubtitleApplyFontColor = "WHITE_TEXT_ONLY" | "ALL_TEXT" | (string & {});
@@ -2378,6 +2394,7 @@ export type AntiAlias = "DISABLED" | "ENABLED" | (string & {});
 export type ChromaPositionMode = "AUTO" | "FORCE_CENTER" | "FORCE_TOP_LEFT" | (string & {});
 export type Av1AdaptiveQuantization =
   | "OFF"
+  | "AUTO"
   | "LOW"
   | "MEDIUM"
   | "HIGH"
@@ -2386,6 +2403,7 @@ export type Av1AdaptiveQuantization =
   | (string & {});
 export type Av1BitDepth = "BIT_8" | "BIT_10" | (string & {});
 export type __integerMin1000Max1152000000 = number;
+export type Av1FastDecode = "DISABLED" | "ENABLED" | (string & {});
 export type Av1FilmGrainSynthesis = "DISABLED" | "ENABLED" | (string & {});
 export type Av1FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export type Av1FramerateConversionAlgorithm =
@@ -2394,6 +2412,7 @@ export type Av1FramerateConversionAlgorithm =
   | "FRAMEFORMER"
   | "MAINTAIN_FRAME_COUNT"
   | (string & {});
+export type Av1GopSizeUnits = "FRAMES" | "SECONDS" | (string & {});
 export type __integerMin0Max15 = number;
 export type __integerMin1Max10 = number;
 export type __doubleMin0Max1 = number;
@@ -2405,16 +2424,19 @@ export type Av1RateControlMode = "CBR" | "QVBR" | (string & {});
 export type Av1SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
 export type __integerMin1000Max3000 = number;
 export type Av1SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
+export type Av1TemporalAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export interface Av1Settings {
   AdaptiveQuantization?: Av1AdaptiveQuantization | undefined;
   BitDepth?: Av1BitDepth | undefined;
   Bitrate?: number | undefined;
+  FastDecode?: Av1FastDecode | undefined;
   FilmGrainSynthesis?: Av1FilmGrainSynthesis | undefined;
   FramerateControl?: Av1FramerateControl | undefined;
   FramerateConversionAlgorithm?: Av1FramerateConversionAlgorithm | undefined;
   FramerateDenominator?: number | undefined;
   FramerateNumerator?: number | undefined;
   GopSize?: number | undefined;
+  GopSizeUnits?: Av1GopSizeUnits | undefined;
   MaxBitrate?: number | undefined;
   NumberBFramesBetweenReferenceFrames?: number | undefined;
   PerFrameMetrics?: FrameMetricType[] | undefined;
@@ -2425,6 +2447,7 @@ export interface Av1Settings {
   SlidingWindowMs?: number | undefined;
   SlidingWindowPeakBitrate?: number | undefined;
   SpatialAdaptiveQuantization?: Av1SpatialAdaptiveQuantization | undefined;
+  TemporalAdaptiveQuantization?: Av1TemporalAdaptiveQuantization | undefined;
 }
 export type AvcIntraClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | "CLASS_4K_2K" | (string & {});
 export type AvcIntraUhdQualityTuningLevel = "SINGLE_PASS" | "MULTI_PASS" | (string & {});
@@ -3145,6 +3168,13 @@ export interface VideoCodecSettings {
 }
 export type ColorMetadata = "IGNORE" | "INSERT" | (string & {});
 export type DropFrameTimecode = "DISABLED" | "ENABLED" | (string & {});
+export type DynamicMultiviewSettingsEnabled = "DISABLED" | "ENABLED" | (string & {});
+export type __listOfRectangle = Rectangle[];
+const __listOfRectangle = /*@__PURE__*/ __L.at(__c5, 10);
+export interface DynamicMultiviewSettings {
+  Enabled?: DynamicMultiviewSettingsEnabled | undefined;
+  Regions?: Rectangle[] | undefined;
+}
 export type RespondToAfd = "NONE" | "RESPOND" | "PASSTHROUGH" | (string & {});
 export type ScalingBehavior =
   | "DEFAULT"
@@ -3329,6 +3359,7 @@ export interface VideoDescription {
   ColorMetadata?: ColorMetadata | undefined;
   Crop?: Rectangle | undefined;
   DropFrameTimecode?: DropFrameTimecode | undefined;
+  DynamicMultiviewSettings?: DynamicMultiviewSettings | undefined;
   FixedAfd?: number | undefined;
   Height?: number | undefined;
   Position?: Rectangle | undefined;
@@ -5925,6 +5956,22 @@ function __c3(j: number): any {
       ).annotate({ identifier: "AiffSettings" });
     case 17:
       return S.suspend(() =>
+        S.Struct({ Bitrate: S.optional(S.Number), SampleRate: S.optional(S.Number) }).pipe(
+          S.encodeKeys({ Bitrate: "bitrate", SampleRate: "sampleRate" }),
+        ),
+      ).annotate({ identifier: "DtscSettings" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Bitrate: S.optional(S.Number),
+          CodingMode: S.optional(S.String),
+          SampleRate: S.optional(S.Number),
+        }).pipe(
+          S.encodeKeys({ Bitrate: "bitrate", CodingMode: "codingMode", SampleRate: "sampleRate" }),
+        ),
+      ).annotate({ identifier: "DtsxSettings" });
+    case 19:
+      return S.suspend(() =>
         S.Struct({
           Bitrate: S.optional(S.Number),
           BitstreamMode: S.optional(S.String),
@@ -5965,7 +6012,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Eac3AtmosSettings" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           AttenuationControl: S.optional(S.String),
@@ -6015,7 +6062,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Eac3Settings" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AudioDescriptionMix: S.optional(S.String),
@@ -6031,7 +6078,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mp2Settings" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Bitrate: S.optional(S.Number),
@@ -6049,7 +6096,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mp3Settings" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           Bitrate: S.optional(S.Number),
@@ -6059,7 +6106,7 @@ function __c3(j: number): any {
           S.encodeKeys({ Bitrate: "bitrate", Channels: "channels", SampleRate: "sampleRate" }),
         ),
       ).annotate({ identifier: "OpusSettings" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           Channels: S.optional(S.Number),
@@ -6073,7 +6120,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VorbisSettings" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           BitDepth: S.optional(S.Number),
@@ -6089,7 +6136,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "WavSettings" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           AacSettings: S.optional(__S(109, __c3, 13)),
@@ -6097,14 +6144,16 @@ function __c3(j: number): any {
           Ac4Settings: S.optional(__S(111, __c3, 15)),
           AiffSettings: S.optional(__S(112, __c3, 16)),
           Codec: S.optional(S.String),
-          Eac3AtmosSettings: S.optional(__S(113, __c3, 17)),
-          Eac3Settings: S.optional(__S(114, __c3, 18)),
+          DtscSettings: S.optional(__S(113, __c3, 17)),
+          DtsxSettings: S.optional(__S(114, __c3, 18)),
+          Eac3AtmosSettings: S.optional(__S(115, __c3, 19)),
+          Eac3Settings: S.optional(__S(116, __c3, 20)),
           FlacSettings: S.optional(__S(112, __c3, 16)),
-          Mp2Settings: S.optional(__S(115, __c3, 19)),
-          Mp3Settings: S.optional(__S(116, __c3, 20)),
-          OpusSettings: S.optional(__S(117, __c3, 21)),
-          VorbisSettings: S.optional(__S(118, __c3, 22)),
-          WavSettings: S.optional(__S(119, __c3, 23)),
+          Mp2Settings: S.optional(__S(117, __c3, 21)),
+          Mp3Settings: S.optional(__S(118, __c3, 22)),
+          OpusSettings: S.optional(__S(119, __c3, 23)),
+          VorbisSettings: S.optional(__S(120, __c3, 24)),
+          WavSettings: S.optional(__S(121, __c3, 25)),
         }).pipe(
           S.encodeKeys({
             AacSettings: "aacSettings",
@@ -6112,6 +6161,8 @@ function __c3(j: number): any {
             Ac4Settings: "ac4Settings",
             AiffSettings: "aiffSettings",
             Codec: "codec",
+            DtscSettings: "dtscSettings",
+            DtsxSettings: "dtsxSettings",
             Eac3AtmosSettings: "eac3AtmosSettings",
             Eac3Settings: "eac3Settings",
             FlacSettings: "flacSettings",
@@ -6123,7 +6174,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AudioCodecSettings" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           AudioChannelTaggingSettings: S.optional(__S(106, __c3, 10)),
@@ -6132,7 +6183,7 @@ function __c3(j: number): any {
           AudioSourceName: S.optional(S.String),
           AudioType: S.optional(S.Number),
           AudioTypeControl: S.optional(S.String),
-          CodecSettings: S.optional(__S(120, __c3, 24)),
+          CodecSettings: S.optional(__S(122, __c3, 26)),
           CustomLanguageCode: S.optional(S.String),
           LanguageCode: S.optional(S.String),
           LanguageCodeControl: S.optional(S.String),
@@ -6155,9 +6206,9 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AudioDescription" });
-    case 26:
-      return S.Array(__S(121, __c3, 25));
-    case 27:
+    case 28:
+      return S.Array(__S(123, __c3, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           Alignment: S.optional(S.String),
@@ -6217,7 +6268,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BurninDestinationSettings" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           Alignment: S.optional(S.String),
@@ -6287,7 +6338,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DvbSubDestinationSettings" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           Destination608ChannelNumber: S.optional(S.Number),
@@ -6299,7 +6350,11 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EmbeddedDestinationSettings" });
-    case 30:
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           Accessibility: S.optional(S.String),
@@ -6308,30 +6363,26 @@ function __c3(j: number): any {
           S.encodeKeys({ Accessibility: "accessibility", StylePassthrough: "stylePassthrough" }),
         ),
       ).annotate({ identifier: "ImscDestinationSettings" });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({ Framerate: S.optional(S.String) }).pipe(
           S.encodeKeys({ Framerate: "framerate" }),
         ),
       ).annotate({ identifier: "SccDestinationSettings" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({ StylePassthrough: S.optional(S.String) }).pipe(
           S.encodeKeys({ StylePassthrough: "stylePassthrough" }),
         ),
       ).annotate({ identifier: "SrtDestinationSettings" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           PageNumber: S.optional(S.String),
           PageTypes: S.optional(__listOfTeletextPageType),
         }).pipe(S.encodeKeys({ PageNumber: "pageNumber", PageTypes: "pageTypes" })),
       ).annotate({ identifier: "TeletextDestinationSettings" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           BackgroundColor: S.optional(S.String),
@@ -6357,19 +6408,19 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TtmlDestinationSettings" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          BurninDestinationSettings: S.optional(__S(123, __c3, 27)),
+          BurninDestinationSettings: S.optional(__S(125, __c3, 29)),
           DestinationType: S.optional(S.String),
-          DvbSubDestinationSettings: S.optional(__S(124, __c3, 28)),
-          EmbeddedDestinationSettings: S.optional(__S(125, __c3, 29)),
-          ImscDestinationSettings: S.optional(__S(126, __c3, 30)),
-          SccDestinationSettings: S.optional(__S(127, __c3, 31)),
-          SrtDestinationSettings: S.optional(__S(128, __c4, 0)),
-          TeletextDestinationSettings: S.optional(__S(129, __c4, 1)),
-          TtmlDestinationSettings: S.optional(__S(130, __c4, 2)),
-          WebvttDestinationSettings: S.optional(__S(126, __c3, 30)),
+          DvbSubDestinationSettings: S.optional(__S(126, __c3, 30)),
+          EmbeddedDestinationSettings: S.optional(__S(127, __c3, 31)),
+          ImscDestinationSettings: S.optional(__S(128, __c4, 0)),
+          SccDestinationSettings: S.optional(__S(129, __c4, 1)),
+          SrtDestinationSettings: S.optional(__S(130, __c4, 2)),
+          TeletextDestinationSettings: S.optional(__S(131, __c4, 3)),
+          TtmlDestinationSettings: S.optional(__S(132, __c4, 4)),
+          WebvttDestinationSettings: S.optional(__S(128, __c4, 0)),
         }).pipe(
           S.encodeKeys({
             BurninDestinationSettings: "burninDestinationSettings",
@@ -6385,7 +6436,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CaptionDestinationSettings" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           AudioDuration: S.optional(S.String),
@@ -6427,13 +6478,13 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CmfcSettings" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({ MoovPlacement: S.optional(S.String) }).pipe(
           S.encodeKeys({ MoovPlacement: "moovPlacement" }),
         ),
       ).annotate({ identifier: "F4vSettings" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           NetworkId: S.optional(S.Number),
@@ -6447,7 +6498,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DvbNitSettings" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           OutputSdt: S.optional(S.String),
@@ -6463,19 +6514,19 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DvbSdtSettings" });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({ TdtInterval: S.optional(S.Number) }).pipe(
           S.encodeKeys({ TdtInterval: "tdtInterval" }),
         ),
       ).annotate({ identifier: "DvbTdtSettings" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({ Scte35EsamPid: S.optional(S.Number) }).pipe(
           S.encodeKeys({ Scte35EsamPid: "scte35EsamPid" }),
         ),
       ).annotate({ identifier: "M2tsScte35Esam" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           AudioBufferModel: S.optional(S.String),
@@ -6486,10 +6537,10 @@ function __c4(j: number): any {
           Bitrate: S.optional(S.Number),
           BufferModel: S.optional(S.String),
           DataPTSControl: S.optional(S.String),
-          DvbNitSettings: S.optional(__S(134, __c4, 6)),
-          DvbSdtSettings: S.optional(__S(135, __c4, 7)),
+          DvbNitSettings: S.optional(__S(136, __c4, 8)),
+          DvbSdtSettings: S.optional(__S(137, __c4, 9)),
           DvbSubPids: S.optional(__listOf__integerMin32Max8182),
-          DvbTdtSettings: S.optional(__S(136, __c4, 8)),
+          DvbTdtSettings: S.optional(__S(138, __c4, 10)),
           DvbTeletextPid: S.optional(S.Number),
           EbpAudioInterval: S.optional(S.String),
           EbpPlacement: S.optional(S.String),
@@ -6512,7 +6563,7 @@ function __c4(j: number): any {
           PtsOffset: S.optional(S.Number),
           PtsOffsetMode: S.optional(S.String),
           RateMode: S.optional(S.String),
-          Scte35Esam: S.optional(__S(137, __c4, 9)),
+          Scte35Esam: S.optional(__S(139, __c4, 11)),
           Scte35Pid: S.optional(S.Number),
           Scte35Source: S.optional(S.String),
           SegmentationMarkers: S.optional(S.String),
@@ -6569,7 +6620,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "M2tsSettings" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           AudioDuration: S.optional(S.String),
@@ -6621,7 +6672,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "M3u8Settings" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           AudioDuration: S.optional(S.String),
@@ -6641,7 +6692,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MovSettings" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           AudioDuration: S.optional(S.String),
@@ -6667,7 +6718,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mp4Settings" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           AccessibilityCaptionHints: S.optional(S.String),
@@ -6703,19 +6754,19 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MpdSettings" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({ DurationMode: S.optional(S.String), MaxAncDataSize: S.optional(S.Number) }).pipe(
           S.encodeKeys({ DurationMode: "durationMode", MaxAncDataSize: "maxAncDataSize" }),
         ),
       ).annotate({ identifier: "MxfXavcProfileSettings" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           AfdSignaling: S.optional(S.String),
           Profile: S.optional(S.String),
           UncompressedAudioWrapping: S.optional(S.String),
-          XavcProfileSettings: S.optional(__S(143, __c4, 15)),
+          XavcProfileSettings: S.optional(__S(145, __c4, 17)),
         }).pipe(
           S.encodeKeys({
             AfdSignaling: "afdSignaling",
@@ -6725,18 +6776,18 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MxfSettings" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          CmfcSettings: S.optional(__S(132, __c4, 4)),
+          CmfcSettings: S.optional(__S(134, __c4, 6)),
           Container: S.optional(S.String),
-          F4vSettings: S.optional(__S(133, __c4, 5)),
-          M2tsSettings: S.optional(__S(138, __c4, 10)),
-          M3u8Settings: S.optional(__S(139, __c4, 11)),
-          MovSettings: S.optional(__S(140, __c4, 12)),
-          Mp4Settings: S.optional(__S(141, __c4, 13)),
-          MpdSettings: S.optional(__S(142, __c4, 14)),
-          MxfSettings: S.optional(__S(144, __c4, 16)),
+          F4vSettings: S.optional(__S(135, __c4, 7)),
+          M2tsSettings: S.optional(__S(140, __c4, 12)),
+          M3u8Settings: S.optional(__S(141, __c4, 13)),
+          MovSettings: S.optional(__S(142, __c4, 14)),
+          Mp4Settings: S.optional(__S(143, __c4, 15)),
+          MpdSettings: S.optional(__S(144, __c4, 16)),
+          MxfSettings: S.optional(__S(146, __c4, 18)),
         }).pipe(
           S.encodeKeys({
             CmfcSettings: "cmfcSettings",
@@ -6751,7 +6802,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ContainerSettings" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           QvbrQualityLevel: S.optional(S.Number),
@@ -6763,39 +6814,44 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Av1QvbrSettings" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
           BitDepth: S.optional(S.String),
           Bitrate: S.optional(S.Number),
+          FastDecode: S.optional(S.String),
           FilmGrainSynthesis: S.optional(S.String),
           FramerateControl: S.optional(S.String),
           FramerateConversionAlgorithm: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
           FramerateNumerator: S.optional(S.Number),
           GopSize: S.optional(S.Number),
+          GopSizeUnits: S.optional(S.String),
           MaxBitrate: S.optional(S.Number),
           NumberBFramesBetweenReferenceFrames: S.optional(S.Number),
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
-          QvbrSettings: S.optional(__S(146, __c4, 18)),
+          QvbrSettings: S.optional(__S(148, __c4, 20)),
           RateControlMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
           SlidingWindowMs: S.optional(S.Number),
           SlidingWindowPeakBitrate: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
+          TemporalAdaptiveQuantization: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
             BitDepth: "bitDepth",
             Bitrate: "bitrate",
+            FastDecode: "fastDecode",
             FilmGrainSynthesis: "filmGrainSynthesis",
             FramerateControl: "framerateControl",
             FramerateConversionAlgorithm: "framerateConversionAlgorithm",
             FramerateDenominator: "framerateDenominator",
             FramerateNumerator: "framerateNumerator",
             GopSize: "gopSize",
+            GopSizeUnits: "gopSizeUnits",
             MaxBitrate: "maxBitrate",
             NumberBFramesBetweenReferenceFrames: "numberBFramesBetweenReferenceFrames",
             PerFrameMetrics: "perFrameMetrics",
@@ -6806,20 +6862,21 @@ function __c4(j: number): any {
             SlidingWindowMs: "slidingWindowMs",
             SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
+            TemporalAdaptiveQuantization: "temporalAdaptiveQuantization",
           }),
         ),
       ).annotate({ identifier: "Av1Settings" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({ QualityTuningLevel: S.optional(S.String) }).pipe(
           S.encodeKeys({ QualityTuningLevel: "qualityTuningLevel" }),
         ),
       ).annotate({ identifier: "AvcIntraUhdSettings" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           AvcIntraClass: S.optional(S.String),
-          AvcIntraUhdSettings: S.optional(__S(148, __c4, 20)),
+          AvcIntraUhdSettings: S.optional(__S(150, __c4, 22)),
           FramerateControl: S.optional(S.String),
           FramerateConversionAlgorithm: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
@@ -6845,7 +6902,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AvcIntraSettings" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           FramerateDenominator: S.optional(S.Number),
@@ -6861,7 +6918,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FrameCaptureSettings" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           FramerateControl: S.optional(S.String),
@@ -6877,13 +6934,13 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GifSettings" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({ Sharpening: S.optional(S.String), Strength: S.optional(S.String) }).pipe(
           S.encodeKeys({ Sharpening: "sharpening", Strength: "strength" }),
         ),
       ).annotate({ identifier: "BandwidthReductionFilter" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           MaxAverageBitrate: S.optional(S.Number),
@@ -6897,11 +6954,11 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H264QvbrSettings" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
-          BandwidthReductionFilter: S.optional(__S(152, __c4, 24)),
+          BandwidthReductionFilter: S.optional(__S(154, __c4, 26)),
           Bitrate: S.optional(S.Number),
           CodecLevel: S.optional(S.String),
           CodecProfile: S.optional(S.String),
@@ -6932,7 +6989,7 @@ function __c4(j: number): any {
           ParNumerator: S.optional(S.Number),
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           QualityTuningLevel: S.optional(S.String),
-          QvbrSettings: S.optional(__S(153, __c4, 25)),
+          QvbrSettings: S.optional(__S(155, __c4, 27)),
           RateControlMode: S.optional(S.String),
           RepeatPps: S.optional(S.String),
           SaliencyAwareEncoding: S.optional(S.String),
@@ -7003,12 +7060,12 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H264Settings" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
           AlternateTransferFunctionSei: S.optional(S.String),
-          BandwidthReductionFilter: S.optional(__S(152, __c4, 24)),
+          BandwidthReductionFilter: S.optional(__S(154, __c4, 26)),
           Bitrate: S.optional(S.Number),
           CodecLevel: S.optional(S.String),
           CodecProfile: S.optional(S.String),
@@ -7039,7 +7096,7 @@ function __c4(j: number): any {
           ParNumerator: S.optional(S.Number),
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           QualityTuningLevel: S.optional(S.String),
-          QvbrSettings: S.optional(__S(153, __c4, 25)),
+          QvbrSettings: S.optional(__S(155, __c4, 27)),
           RateControlMode: S.optional(S.String),
           SampleAdaptiveOffsetFilterMode: S.optional(S.String),
           ScanTypeConversionMode: S.optional(S.String),
@@ -7117,7 +7174,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H265Settings" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -7197,7 +7254,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mpeg2Settings" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           FrameControl: S.optional(S.String),
@@ -7213,7 +7270,11 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PassthroughSettings" });
-    case 30:
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           ChromaSampling: S.optional(S.String),
@@ -7249,7 +7310,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ProresSettings" });
-    case 31:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           Fourcc: S.optional(S.String),
@@ -7275,11 +7336,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UncompressedSettings" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           FramerateControl: S.optional(S.String),
@@ -7305,7 +7362,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Vc3Settings" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           Bitrate: S.optional(S.Number),
@@ -7339,13 +7396,13 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Vp8Settings" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({ XavcClass: S.optional(S.String) }).pipe(
           S.encodeKeys({ XavcClass: "xavcClass" }),
         ),
       ).annotate({ identifier: "Xavc4kIntraCbgProfileSettings" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           BitrateClass: S.optional(S.String),
@@ -7369,13 +7426,13 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Xavc4kProfileSettings" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({ InterlaceMode: S.optional(S.String), XavcClass: S.optional(S.String) }).pipe(
           S.encodeKeys({ InterlaceMode: "interlaceMode", XavcClass: "xavcClass" }),
         ),
       ).annotate({ identifier: "XavcHdIntraCbgProfileSettings" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           BitrateClass: S.optional(S.String),
@@ -7401,7 +7458,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "XavcHdProfileSettings" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -7416,11 +7473,11 @@ function __c5(j: number): any {
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
           TemporalAdaptiveQuantization: S.optional(S.String),
-          Xavc4kIntraCbgProfileSettings: S.optional(__S(162, __c5, 2)),
-          Xavc4kIntraVbrProfileSettings: S.optional(__S(162, __c5, 2)),
-          Xavc4kProfileSettings: S.optional(__S(163, __c5, 3)),
-          XavcHdIntraCbgProfileSettings: S.optional(__S(164, __c5, 4)),
-          XavcHdProfileSettings: S.optional(__S(165, __c5, 5)),
+          Xavc4kIntraCbgProfileSettings: S.optional(__S(164, __c5, 4)),
+          Xavc4kIntraVbrProfileSettings: S.optional(__S(164, __c5, 4)),
+          Xavc4kProfileSettings: S.optional(__S(165, __c5, 5)),
+          XavcHdIntraCbgProfileSettings: S.optional(__S(166, __c5, 6)),
+          XavcHdProfileSettings: S.optional(__S(167, __c5, 7)),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
@@ -7443,24 +7500,24 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "XavcSettings" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          Av1Settings: S.optional(__S(147, __c4, 19)),
-          AvcIntraSettings: S.optional(__S(149, __c4, 21)),
+          Av1Settings: S.optional(__S(149, __c4, 21)),
+          AvcIntraSettings: S.optional(__S(151, __c4, 23)),
           Codec: S.optional(S.String),
-          FrameCaptureSettings: S.optional(__S(150, __c4, 22)),
-          GifSettings: S.optional(__S(151, __c4, 23)),
-          H264Settings: S.optional(__S(154, __c4, 26)),
-          H265Settings: S.optional(__S(155, __c4, 27)),
-          Mpeg2Settings: S.optional(__S(156, __c4, 28)),
-          PassthroughSettings: S.optional(__S(157, __c4, 29)),
-          ProresSettings: S.optional(__S(158, __c4, 30)),
-          UncompressedSettings: S.optional(__S(159, __c4, 31)),
-          Vc3Settings: S.optional(__S(160, __c5, 0)),
-          Vp8Settings: S.optional(__S(161, __c5, 1)),
-          Vp9Settings: S.optional(__S(161, __c5, 1)),
-          XavcSettings: S.optional(__S(166, __c5, 6)),
+          FrameCaptureSettings: S.optional(__S(152, __c4, 24)),
+          GifSettings: S.optional(__S(153, __c4, 25)),
+          H264Settings: S.optional(__S(156, __c4, 28)),
+          H265Settings: S.optional(__S(157, __c4, 29)),
+          Mpeg2Settings: S.optional(__S(158, __c4, 30)),
+          PassthroughSettings: S.optional(__S(159, __c4, 31)),
+          ProresSettings: S.optional(__S(160, __c5, 0)),
+          UncompressedSettings: S.optional(__S(161, __c5, 1)),
+          Vc3Settings: S.optional(__S(162, __c5, 2)),
+          Vp8Settings: S.optional(__S(163, __c5, 3)),
+          Vp9Settings: S.optional(__S(163, __c5, 3)),
+          XavcSettings: S.optional(__S(168, __c5, 8)),
         }).pipe(
           S.encodeKeys({
             Av1Settings: "av1Settings",
@@ -7481,7 +7538,15 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoCodecSettings" });
-    case 8:
+    case 10:
+      return S.Array(__S(100, __c3, 4));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.String), Regions: S.optional(__listOfRectangle) }).pipe(
+          S.encodeKeys({ Enabled: "enabled", Regions: "regions" }),
+        ),
+      ).annotate({ identifier: "DynamicMultiviewSettings" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           MaximumRGBTolerance: S.optional(S.Number),
@@ -7497,11 +7562,11 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ClipLimits" });
-    case 9:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           Brightness: S.optional(S.Number),
-          ClipLimits: S.optional(__S(168, __c5, 8)),
+          ClipLimits: S.optional(__S(172, __c5, 12)),
           ColorSpaceConversion: S.optional(S.String),
           Contrast: S.optional(S.Number),
           Hdr10Metadata: S.optional(__S(104, __c3, 8)),
@@ -7527,7 +7592,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ColorCorrector" });
-    case 10:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           Algorithm: S.optional(S.String),
@@ -7535,17 +7600,17 @@ function __c5(j: number): any {
           Mode: S.optional(S.String),
         }).pipe(S.encodeKeys({ Algorithm: "algorithm", Control: "control", Mode: "mode" })),
       ).annotate({ identifier: "Deinterlacer" });
-    case 11:
+    case 15:
       return S.suspend(() =>
         S.Struct({ MaxCll: S.optional(S.Number), MaxFall: S.optional(S.Number) }).pipe(
           S.encodeKeys({ MaxCll: "maxCll", MaxFall: "maxFall" }),
         ),
       ).annotate({ identifier: "DolbyVisionLevel6Metadata" });
-    case 12:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           Compatibility: S.optional(S.String),
-          L6Metadata: S.optional(__S(171, __c5, 11)),
+          L6Metadata: S.optional(__S(175, __c5, 15)),
           L6Mode: S.optional(S.String),
           Mapping: S.optional(S.String),
           Profile: S.optional(S.String),
@@ -7559,7 +7624,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DolbyVision" });
-    case 13:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           IntegerDurationMaximumCompressionDenominator: S.optional(S.Number),
@@ -7575,7 +7640,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DurationControl" });
-    case 14:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           MasteringMonitorNits: S.optional(S.Number),
@@ -7587,11 +7652,11 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Hdr10Plus" });
-    case 15:
+    case 19:
       return S.suspend(() =>
         S.Struct({ Strength: S.optional(S.Number) }).pipe(S.encodeKeys({ Strength: "strength" })),
       ).annotate({ identifier: "NoiseReducerFilterSettings" });
-    case 16:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           PostFilterSharpenStrength: S.optional(S.Number),
@@ -7605,7 +7670,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NoiseReducerSpatialFilterSettings" });
-    case 17:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AggressiveMode: S.optional(S.Number),
@@ -7623,13 +7688,13 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NoiseReducerTemporalFilterSettings" });
-    case 18:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Filter: S.optional(S.String),
-          FilterSettings: S.optional(__S(175, __c5, 15)),
-          SpatialFilterSettings: S.optional(__S(176, __c5, 16)),
-          TemporalFilterSettings: S.optional(__S(177, __c5, 17)),
+          FilterSettings: S.optional(__S(179, __c5, 19)),
+          SpatialFilterSettings: S.optional(__S(180, __c5, 20)),
+          TemporalFilterSettings: S.optional(__S(181, __c5, 21)),
         }).pipe(
           S.encodeKeys({
             Filter: "filter",
@@ -7639,7 +7704,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NoiseReducer" });
-    case 19:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           License: S.optional(S.String),
@@ -7655,13 +7720,13 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "NexGuardFileMarkerSettings" });
-    case 20:
+    case 24:
       return S.suspend(() =>
-        S.Struct({ NexguardFileMarkerSettings: S.optional(__S(179, __c5, 19)) }).pipe(
+        S.Struct({ NexguardFileMarkerSettings: S.optional(__S(183, __c5, 23)) }).pipe(
           S.encodeKeys({ NexguardFileMarkerSettings: "nexguardFileMarkerSettings" }),
         ),
       ).annotate({ identifier: "PartnerWatermarking" });
-    case 21:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           FontSize: S.optional(S.Number),
@@ -7669,18 +7734,18 @@ function __c5(j: number): any {
           Prefix: S.optional(S.String),
         }).pipe(S.encodeKeys({ FontSize: "fontSize", Position: "position", Prefix: "prefix" })),
       ).annotate({ identifier: "TimecodeBurnin" });
-    case 22:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          ColorCorrector: S.optional(__S(169, __c5, 9)),
-          Deinterlacer: S.optional(__S(170, __c5, 10)),
-          DolbyVision: S.optional(__S(172, __c5, 12)),
-          DurationControl: S.optional(__S(173, __c5, 13)),
-          Hdr10Plus: S.optional(__S(174, __c5, 14)),
+          ColorCorrector: S.optional(__S(173, __c5, 13)),
+          Deinterlacer: S.optional(__S(174, __c5, 14)),
+          DolbyVision: S.optional(__S(176, __c5, 16)),
+          DurationControl: S.optional(__S(177, __c5, 17)),
+          Hdr10Plus: S.optional(__S(178, __c5, 18)),
           ImageInserter: S.optional(__S(103, __c3, 7)),
-          NoiseReducer: S.optional(__S(178, __c5, 18)),
-          PartnerWatermarking: S.optional(__S(180, __c5, 20)),
-          TimecodeBurnin: S.optional(__S(181, __c5, 21)),
+          NoiseReducer: S.optional(__S(182, __c5, 22)),
+          PartnerWatermarking: S.optional(__S(184, __c5, 24)),
+          TimecodeBurnin: S.optional(__S(185, __c5, 25)),
         }).pipe(
           S.encodeKeys({
             ColorCorrector: "colorCorrector",
@@ -7695,16 +7760,17 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoPreprocessor" });
-    case 23:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           AfdSignaling: S.optional(S.String),
           AntiAlias: S.optional(S.String),
           ChromaPositionMode: S.optional(S.String),
-          CodecSettings: S.optional(__S(167, __c5, 7)),
+          CodecSettings: S.optional(__S(169, __c5, 9)),
           ColorMetadata: S.optional(S.String),
           Crop: S.optional(__S(100, __c3, 4)),
           DropFrameTimecode: S.optional(S.String),
+          DynamicMultiviewSettings: S.optional(__S(171, __c5, 11)),
           FixedAfd: S.optional(S.Number),
           Height: S.optional(S.Number),
           Position: S.optional(__S(100, __c3, 4)),
@@ -7713,7 +7779,7 @@ function __c5(j: number): any {
           Sharpness: S.optional(S.Number),
           TimecodeInsertion: S.optional(S.String),
           TimecodeTrack: S.optional(S.String),
-          VideoPreprocessors: S.optional(__S(182, __c5, 22)),
+          VideoPreprocessors: S.optional(__S(186, __c5, 26)),
           Width: S.optional(S.Number),
         }).pipe(
           S.encodeKeys({
@@ -7724,6 +7790,7 @@ function __c5(j: number): any {
             ColorMetadata: "colorMetadata",
             Crop: "crop",
             DropFrameTimecode: "dropFrameTimecode",
+            DynamicMultiviewSettings: "dynamicMultiviewSettings",
             FixedAfd: "fixedAfd",
             Height: "height",
             Position: "position",
@@ -8834,7 +8901,7 @@ function __c9(j: number): any {
           AudioSourceNames: S.optional(__listOf__stringMin1),
           CaptionSelectorName: S.optional(S.String),
           CustomLanguageCode: S.optional(S.String),
-          DestinationSettings: S.optional(__S(131, __c4, 3)),
+          DestinationSettings: S.optional(__S(133, __c4, 5)),
           LanguageCode: S.optional(S.String),
           LanguageDescription: S.optional(S.String),
           Source: S.optional(S.String),
@@ -8885,12 +8952,12 @@ function __c9(j: number): any {
         S.Struct({
           AudioDescriptions: S.optional(__listOfAudioDescription),
           CaptionDescriptions: S.optional(__listOfCaptionDescription),
-          ContainerSettings: S.optional(__S(145, __c4, 17)),
+          ContainerSettings: S.optional(__S(147, __c4, 19)),
           Extension: S.optional(S.String),
           NameModifier: S.optional(S.String),
           OutputSettings: S.optional(__S(308, __c9, 20)),
           Preset: S.optional(S.String),
-          VideoDescription: S.optional(__S(183, __c5, 23)),
+          VideoDescription: S.optional(__S(187, __c5, 27)),
         }).pipe(
           S.encodeKeys({
             AudioDescriptions: "audioDescriptions",
@@ -9515,7 +9582,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CustomLanguageCode: S.optional(S.String),
-          DestinationSettings: S.optional(__S(131, __c4, 3)),
+          DestinationSettings: S.optional(__S(133, __c4, 5)),
           LanguageCode: S.optional(S.String),
           LanguageDescription: S.optional(S.String),
         }).pipe(
@@ -9534,8 +9601,8 @@ function __c16(j: number): any {
         S.Struct({
           AudioDescriptions: S.optional(__listOfAudioDescription),
           CaptionDescriptions: S.optional(__listOfCaptionDescriptionPreset),
-          ContainerSettings: S.optional(__S(145, __c4, 17)),
-          VideoDescription: S.optional(__S(183, __c5, 23)),
+          ContainerSettings: S.optional(__S(147, __c4, 19)),
+          VideoDescription: S.optional(__S(187, __c5, 27)),
         }).pipe(
           S.encodeKeys({
             AudioDescriptions: "audioDescriptions",

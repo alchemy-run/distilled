@@ -116,6 +116,10 @@ export interface UpdateOrganizationMemberRoleRequest {
   role: string;
 }
 export type UpdateOrganizationMemberRoleResponse = unknown;
+export interface UpdateOrganizationSensitiveActionVerificationRequest {
+  enabled: boolean;
+}
+export type UpdateOrganizationSensitiveActionVerificationResponse = unknown;
 export interface ErrorBADREQUESTIssuesItem {
   message: string;
 }
@@ -161,8 +165,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<CreateOrganizationResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<CreateOrganizationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -178,8 +182,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -195,8 +199,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<GetOrganizationResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -212,8 +216,8 @@ export const getOrganizationActive: API.OperationMethod<
   GetOrganizationActiveError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetOrganizationActiveRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<GetOrganizationActiveResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetOrganizationActiveRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<GetOrganizationActiveResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -229,8 +233,8 @@ export const inviteOrganizationMember: API.OperationMethod<
   InviteOrganizationMemberError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<InviteOrganizationMemberRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<InviteOrganizationMemberResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<InviteOrganizationMemberRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<InviteOrganizationMemberResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -246,8 +250,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   ListOrganizationInvitationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<ListOrganizationInvitationsResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ListOrganizationInvitationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -263,8 +267,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<ListOrganizationsResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<ListOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -281,7 +285,7 @@ export const removeOrganizationInvitation: API.OperationMethod<
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<RemoveOrganizationInvitationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<RemoveOrganizationInvitationResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<RemoveOrganizationInvitationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -298,7 +302,7 @@ export const setOrganizationDefault: API.OperationMethod<
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<SetOrganizationDefaultRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<SetOrganizationDefaultResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<SetOrganizationDefaultResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -315,7 +319,7 @@ export const updateOrganization: API.OperationMethod<
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateOrganizationResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
@@ -332,13 +336,37 @@ export const updateOrganizationMemberRole: API.OperationMethod<
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<UpdateOrganizationMemberRoleRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateOrganizationMemberRoleResponse>,
+  output: __S(28, __c7, 0) as any as S.Schema<UpdateOrganizationMemberRoleResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrganizationMemberRole",
+}));
+
+export type UpdateOrganizationSensitiveActionVerificationError =
+  | BadRequest
+  | Forbidden
+  | DokployOpError;
+export const updateOrganizationSensitiveActionVerification: API.OperationMethod<
+  UpdateOrganizationSensitiveActionVerificationRequest,
+  UpdateOrganizationSensitiveActionVerificationResponse,
+  UpdateOrganizationSensitiveActionVerificationError,
+  DokployOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateOrganizationSensitiveActionVerificationRequest>,
+  output: __S(
+    28,
+    __c7,
+    0,
+  ) as any as S.Schema<UpdateOrganizationSensitiveActionVerificationResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
+  protocol: DokployProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationSensitiveActionVerification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -411,13 +439,29 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          enabled: S.Boolean,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organization.updateSensitiveActionVerification",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateOrganizationSensitiveActionVerificationRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           logo: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/organization.create", code: 200 })),
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -425,7 +469,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -435,7 +479,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -445,7 +489,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -453,7 +497,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetOrganizationActiveRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -464,7 +508,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "InviteOrganizationMemberRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -474,7 +518,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListOrganizationInvitationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

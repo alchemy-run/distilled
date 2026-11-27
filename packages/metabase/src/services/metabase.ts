@@ -1416,6 +1416,8 @@ export interface MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions {
   js_int_to_string_?: boolean | null | undefined;
   /** Should we skip persisting `result_metadata` to a saved Card while still returning it in query results? Used by `metabase.query-processor.middleware.results-metadata`; default `false`. Has no effect when `skip-results-metadata?` is true. */
   skip_result_metadata_persistence_?: boolean | undefined;
+  /** Whether this query is a card that a native query references, e.g. with `{{#123}}`. The compiled query goes inside the native query, so SQL drivers compile it without stage CTEs. */
+  card_reference_?: boolean | undefined;
   /** Whether the results should be laid out as a pivot table. Set by `metabase.query-processor.api` from the `format_rows`/pivot download options and read by `metabase.query-processor.middleware.pivot-export` and the streaming writers; default `false`. */
   pivot_?: boolean | null | undefined;
   /** Disable the MBQL->native middleware. If you do this, the query will not work at all, so there are no cases where you should set this yourself. This is only used by the `metabase.query-processor.preprocess/preprocess` function to get the fully pre-processed query without attempting to convert it to native. */
@@ -3535,8 +3537,8 @@ export interface MetabaseEnterpriseTransformTestingSchemaColumn {
 }
 export type MetabaseEnterpriseTransformTestingSchemaExpectationEqualsCase1ColumnsList =
   Array<MetabaseEnterpriseTransformTestingSchemaColumn>;
-export type MetabaseEnterpriseTransformTestingSchemaRowValue = boolean | number | string;
-/** A row of inline test data, keyed by column name. */
+export type MetabaseEnterpriseTransformTestingSchemaRowValue = string | boolean | number;
+/** A row of inline test data, keyed by column name, with `:string` first so request decoding keeps every cell as sent. */
 export type MetabaseEnterpriseTransformTestingSchemaRow = {
   [key: string]: MetabaseEnterpriseTransformTestingSchemaRowValue | null | undefined;
 };
@@ -4230,6 +4232,7 @@ export interface MetabaseLibSchemaStageNative {
     | undefined;
   template_tags?: MetabaseLibSchemaTemplateTagTemplateTags | undefined;
   qp_added_implicit_fields_?: boolean | undefined;
+  metabase_driver_sql_query_processor_cte_name?: string | undefined;
   qp_stage_is_from_source_card?: number | undefined;
   query_permissions_sandboxed_table?: number | undefined;
 }
@@ -4520,6 +4523,7 @@ export interface MetabaseLibSchemaPage {
 }
 /** The `:expressions` definition map as found as a top-level key in an MBQL stage. */
 export type MetabaseLibSchemaExpressionExpressions = Array<unknown>;
+/** If an MBQL query stage specifies `:page`, it should not also specify `:limit` */
 export interface MetabaseLibSchemaStageMbql {
   qp_stage_had_source_card?: number | undefined;
   source_query_native_model_?: boolean | null | undefined;
@@ -4558,6 +4562,7 @@ export interface MetabaseLibSchemaStageMbql {
   page?: MetabaseLibSchemaPage | undefined;
   parameters?: MetabaseLibSchemaParameterParameters | undefined;
   qp_added_implicit_fields_?: boolean | undefined;
+  metabase_driver_sql_query_processor_cte_name?: string | undefined;
   qp_stage_is_from_source_card?: number | undefined;
   query_permissions_sandboxed_table?: number | undefined;
   expressions?: MetabaseLibSchemaExpressionExpressions | undefined;
@@ -27613,6 +27618,7 @@ function __c158(j: number): any {
           skip_result_metadata_persistence_: S.optional(
             S.Boolean.pipe(T.Body("skip-result-metadata-persistence?")),
           ),
+          card_reference_: S.optional(S.Boolean.pipe(T.Body("card-reference?"))),
           pivot_: S.optional(S.NullOr(S.Boolean).pipe(T.Body("pivot?"))),
           disable_mbql__native_: S.optional(S.Boolean.pipe(T.Body("disable-mbql->native?"))),
           userland_query_: S.optional(S.NullOr(S.Boolean).pipe(T.Body("userland-query?"))),

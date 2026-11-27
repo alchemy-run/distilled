@@ -78,11 +78,7 @@ export interface Login {
   /** Whether the login attempt expects a MFA token. */
   mfa_required?: boolean | undefined;
 }
-export type OAuth2IdentityProvider =
-  | "unknown_identity_provider"
-  | "google"
-  | "microsoft"
-  | "github";
+export type OAuth2IdentityProvider = "unknown_identity_provider" | "google" | "github";
 export interface CreateOAuth2LoginRequest {
   /** The UUID of the organization on which to login. */
   organization_id?: string | undefined;

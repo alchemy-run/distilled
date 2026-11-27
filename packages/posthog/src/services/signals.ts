@@ -51,14 +51,18 @@ export class Conflict
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   )
 {
-  declare readonly body?: SignalReportTaskActionError | string;
+  declare readonly body?: SignalReportTaskActionError | RememberConflict | string;
 }
 
 export class Forbidden
@@ -69,7 +73,8 @@ export class Forbidden
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(1984, __c62, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(2816, __c88, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(2816, __c88, 0)),
           S.String,
         ]),
       ),
@@ -78,7 +83,11 @@ export class Forbidden
     [{ status: 403 }],
   )
 {
-  declare readonly body?: SignalReportTaskActionError | PullRequestChecksPermissionError | string;
+  declare readonly body?:
+    | SignalReportTaskActionError
+    | GitHubInstallationUnavailableError
+    | PullRequestChecksPermissionError
+    | string;
 }
 
 export class NotFound
@@ -578,6 +587,8 @@ export type ReportMetricKindEnum =
 export type RoleEnum = "primary" | "supporting";
 /** Trailing per-bucket values of the live query, oldest first, saved with the value snapshot so a list row can draw the trend without running the query; at most 14 points. Null when no snapshot series is available to this viewer. */
 export type ReportMetricSeriesList = Array<number>;
+/** The Trends bucket label of each `series` point, oldest first, such as `2026-11-09` or `2026-11-09 10:00:00` in the project's timezone. Null when the snapshot did not record them or `series` is null for this viewer. */
+export type ReportMetricSeriesBucketsList = Array<string>;
 /** * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
 export type ValueFormatEnum =
   | "number"
@@ -606,6 +617,8 @@ export interface ReportMetric {
   value_at?: string | null | undefined;
   /** Trailing per-bucket values of the live query, oldest first, saved with the value snapshot so a list row can draw the trend without running the query; at most 14 points. Null when no snapshot series is available to this viewer. */
   series?: ReportMetricSeriesList | null | undefined;
+  /** The Trends bucket label of each `series` point, oldest first, such as `2026-11-09` or `2026-11-09 10:00:00` in the project's timezone. Null when the snapshot did not record them or `series` is null for this viewer. */
+  series_buckets?: ReportMetricSeriesBucketsList | null | undefined;
   /** How to format the numeric value; semantic meaning remains in kind. `percentage` uses percentage points, so 34 renders as 34%; `percentage_scaled` uses a 0-1 ratio, so 0.34 renders as 34%. Sessions and occurrences use count; duration uses duration with an ms/s unit; revenue uses currency with an ISO currency unit. * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
   value_format?: ValueFormatEnum | undefined;
   /** Optional short suffix or currency code, such as `users`, `ms`, or `USD`. */
@@ -643,6 +656,77 @@ export interface ReportSourceSuggestion {
   /** One sentence on what the product would have shown for this report. */
   reason: string;
 }
+/** * `user` - User * `task` - Task * `agent` - Agent * `system` - System */
+export type SignalActorKindEnum = "user" | "task" | "agent" | "system";
+export interface User {
+  id?: number | undefined;
+  uuid?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+}
+export interface ReportDecisionSetBy {
+  /** Who set the value. `user`: a person in PostHog. `agent`: a person's external coding agent. `task`: a PostHog agent task, such as report research. `system`: the pipeline, or an older row with no recorded attribution. * `user` - User * `task` - Task * `agent` - Agent * `system` - System */
+  kind: SignalActorKindEnum;
+  /** The person who set the value, or whose external agent did. Null for task and system writes. */
+  user: User | null;
+  /** External agent client name when kind is `agent`, otherwise null. */
+  agent: string | null;
+  /** PostHog task that set the value when kind is `task`. */
+  task_id: string | null;
+}
+export interface ReportRepositoryDecision {
+  /** The reason stored with the value by whoever set it. Null when none was stored. */
+  reason: string | null;
+  /** Who set the current value. */
+  set_by: ReportDecisionSetBy;
+  /** When the current value was set. */
+  set_at: string;
+  /** 'owner/repo' the report's work targets. Null when repository selection chose no repository. */
+  value: string | null;
+}
+/** * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+export type AutonomyPriorityEnum = "P0" | "P1" | "P2" | "P3" | "P4";
+export interface ReportPriorityDecision {
+  /** The reason stored with the value by whoever set it. Null when none was stored. */
+  reason: string | null;
+  /** Who set the current value. */
+  set_by: ReportDecisionSetBy;
+  /** When the current value was set. */
+  set_at: string;
+  /** Report priority, from P0 (critical) to P4. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  value: AutonomyPriorityEnum | null;
+}
+export interface ReportActionabilityDecision {
+  /** The reason stored with the value by whoever set it. Null when none was stored. */
+  reason: string | null;
+  /** Who set the current value. */
+  set_by: ReportDecisionSetBy;
+  /** When the current value was set. */
+  set_at: string;
+  /** `immediately_actionable`, `requires_human_input`, or `not_actionable`: whether the report can be acted on now, needs a person's input first, or needs no action. */
+  value: string | null;
+}
+export interface ReportAlreadyAddressedDecision {
+  /** The reason stored with the value by whoever set it. Null when none was stored. */
+  reason: string | null;
+  /** Who set the current value. */
+  set_by: ReportDecisionSetBy;
+  /** When the current value was set. */
+  set_at: string;
+  /** Whether the issue is already fixed, or has a fix in flight that someone else is working on. */
+  value: boolean | null;
+}
+export interface ReportDecisions {
+  /** From the latest repo_selection artefact. Null when there is none. */
+  repository: ReportRepositoryDecision | null;
+  /** From the latest priority_judgment artefact. Null when there is none. */
+  priority: ReportPriorityDecision | null;
+  /** From the latest actionability_judgment artefact. Null when there is none. */
+  actionability: ReportActionabilityDecision | null;
+  /** From the latest actionability_judgment artefact, so it shares the reason and the setter with actionability. Null when there is none. */
+  already_addressed: ReportAlreadyAddressedDecision | null;
+}
 export type SignalReportSuppressionSourceEnum =
   | "dismissed"
   | "safety_judge"
@@ -672,14 +756,6 @@ export type SignalReportPullRequestReviewDecisionEnum =
   | "approved"
   | "changes_requested"
   | "review_required";
-export type SignalActorKindEnum = "user" | "task" | "agent" | "system";
-export interface User {
-  id?: number | undefined;
-  uuid?: string | undefined;
-  first_name?: string | undefined;
-  last_name?: string | undefined;
-  email?: string | undefined;
-}
 export interface SignalReportPullRequestAttachedBy {
   /** Kind of actor who attached the PR. Null when legacy attribution is unknown. * `user` - User * `task` - Task * `agent` - Agent * `system` - System */
   kind: SignalActorKindEnum | null;
@@ -778,7 +854,7 @@ export interface ReportRankingPrediction {
 /** The served model's predictions, one per public outcome that it scored. A prediction says what may happen, never what did: the report's status and its PR fields say whether it was resolved. */
 export type ReportRankingPredictionsList = Array<ReportRankingPrediction>;
 export interface ReportRanking {
-  /** scored: the predictions describe the current text. stale: the title or summary changed after the text the model read, so the predictions describe the old text and the model sorts and filters treat the report as unscored. unscored: the model has not scored the report yet, or skipped it. This does not mean a low score. not_available: you cannot see the ranking model's output, so every other field is empty. * `scored` - scored * `stale` - stale * `unscored` - unscored * `not_available` - not_available */
+  /** scored: the predictions describe the current text. stale: the title or summary changed after the text the model read, so the predictions describe the old text. The model sorts and filters still use them. unscored: the model has not scored the report yet, or skipped it. This does not mean a low score. not_available: you cannot see the ranking model's output, so every other field is empty. * `scored` - scored * `stale` - stale * `unscored` - unscored * `not_available` - not_available */
   status: RankingStatusEnum;
   /** Key of the served model that wrote the score, as `<model_name>@<model_version>`. Do not compare predictions from different keys. */
   model: string | null;
@@ -829,6 +905,8 @@ export interface SignalReport {
   status: SignalReportStatusEnum;
   /** Original implementation-complete time for this Monitoring period, null before entry. Present only when Monitoring is enabled. */
   monitoring_started_at?: string | null | undefined;
+  /** When this Monitoring period ended in resolved or closed. Null while Monitoring continues, when it was archived (archiving pauses it), and after the report is reopened. Present only when Monitoring is enabled. */
+  monitoring_ended_at?: string | null | undefined;
   total_weight: number;
   signal_count: number;
   signals_at_run: number;
@@ -855,6 +933,8 @@ export interface SignalReport {
   actionability: string | null;
   /** Whether the issue is already being handled -- fixed in recent changes, or with a fix in flight (an open PR, a recently active branch, an assigned / in-progress issue or agent task) -- from the actionability judgment artefact. */
   already_addressed: boolean | null;
+  /** The current value of each decision made about the report (repository, priority, actionability, already addressed), with the reason stored with it and who set it. Always null in list responses. */
+  decisions: ReportDecisions | null;
   /** Reason code from the latest dismissal artefact, set when the report was suppressed (when present). */
   dismissal_reason: string | null;
   /** Free-form note captured alongside the dismissal reason (when present). */
@@ -894,6 +974,8 @@ export interface SignalReport {
   work_state: SignalReportWorkStateEnum;
   /** Current user, internal task, or external agent claim owner. Null when unclaimed. */
   assignee: SignalReportAssignee | null;
+  /** Whether an implementation run for this report is still working. A new implementation run cannot start until it settles. */
+  implementation_in_flight: boolean;
   /** The report's PR refund, when one exists. One refund per report, ever. */
   refund: SignalReportRefund | null;
   /** Why refunding this report's PR would be rejected right now, or null when a refund would be accepted (see the field's schema for the reason values). */
@@ -907,8 +989,59 @@ export interface SignalReport {
   /** The plan this report leads or is a step of, with every step in it. A report that other reports link to with `part_of` is a plan. Null when the report is in no plan, and always null in list responses, because finding a plan's steps costs several queries per report. */
   plan: ReportPlan | null;
 }
-/** * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
-export type AutonomyPriorityEnum = "P0" | "P1" | "P2" | "P3" | "P4";
+/** * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
+export type AnomalyIntervalEnum = "hour" | "day" | "week" | "month";
+export interface AnomalySeriesRef {
+  /** The numeric id of the insight, from an anomaly search row. */
+  insight_id: number;
+  /** The `series_key` of an anomaly search row. */
+  series_key: string;
+  /** The `interval` of the anomaly search row. It sets the length of the chart window. * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
+  interval: AnomalyIntervalEnum | (string & {});
+}
+/** The series to read points for, usually one page of anomaly search rows. At most 100. */
+export type CreateSignalsAnomaliesPointRequestSeriesList = Array<AnomalySeriesRef>;
+export interface CreateSignalsAnomaliesPointRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The series to read points for, usually one page of anomaly search rows. At most 100. */
+  series: CreateSignalsAnomaliesPointRequestSeriesList;
+}
+export interface AnomalySeriesPoint {
+  /** The start of the scored bucket, in the project timezone. */
+  bucket_start: string;
+  /** The series value of the bucket at scoring time. */
+  value: number | null;
+  /** Whether the detector flagged the bucket. */
+  flag: boolean;
+}
+/** The scored buckets of the series in the chart window, oldest first. A bucket that was not scored, or only has a warm-up row, has no point: it is unknown, not 0. */
+export type AnomalySeriesPointsPointsList = Array<AnomalySeriesPoint>;
+export interface AnomalySeriesPoints {
+  /** The numeric id of the insight. */
+  insight_id: number;
+  /** Identifies the series. */
+  series_key: string;
+  /** The interval the chart window uses. * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
+  interval: AnomalyIntervalEnum;
+  /** The start of the chart window, in the project timezone: 7 days before `date_to` for `hour`, 14 days for `day`, 26 weeks for `week` and 24 months for `month`. */
+  date_from: string;
+  /** The scored buckets of the series in the chart window, oldest first. A bucket that was not scored, or only has a warm-up row, has no point: it is unknown, not 0. */
+  points: AnomalySeriesPointsPointsList;
+}
+/** One entry per requested series, in request order. A series whose insight does not exist, or that the caller cannot read, is left out. A series with no scored bucket in its chart window has no points. */
+export type AnomalyPointsResponseSeriesList = Array<AnomalySeriesPoints>;
+export interface AnomalyPointsResponse {
+  /** The end of every chart window: the time of the request, in the project timezone. */
+  date_to: string;
+  /** One entry per requested series, in request order. A series whose insight does not exist, or that the caller cannot read, is left out. A series with no scored bucket in its chart window has no points. */
+  series: AnomalyPointsResponseSeriesList;
+}
+export type BlankEnum = "";
+/** Minimum report priority for the project's team Slack channel. P0 is highest. Null includes all reports, including reports without a priority. A set threshold excludes reports without a priority. Personal notification settings are separate. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+export type CreateSignalsConfigRequestDefaultSlackNotificationMinPriority =
+  | AutonomyPriorityEnum
+  | BlankEnum;
 /** Per-repository base branch overrides for auto-started inbox PRs, keyed by 'organization/repository'. The branch is what the auto-PR targets; omit a repo (or send {}) to keep targeting the repo default branch. */
 export type CreateSignalsConfigRequestAutostartBaseBranchesMap = {
   [key: string]: string | undefined;
@@ -924,9 +1057,15 @@ export interface CreateSignalsConfigRequest {
   project_id: string;
   /** Master switch for autonomous inbox PRs. Null (never set) leaves autostart on; set false to opt out, so actionable reports still generate and notify but the team never auto-starts an implementation task or opens a PR -- reviewers open PRs manually. */
   autostart_enabled?: boolean | null | undefined;
+  /** Lowest report priority that agents open PRs for, from P0 (highest) to P4 (every priority). Reads as P2 for a project that never set autostart_enabled and still stores the P4 default. Setting autostart_enabled on such a project stores P2, and choosing P4 here also sets autostart_enabled to true. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   default_autostart_priority?: AutonomyPriorityEnum | (string & {}) | undefined;
   /** Default Slack channel for this team's signal inbox notifications, in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null means no team-level default; per-user channels still apply. */
   default_slack_notification_channel?: string | null | undefined;
+  /** Minimum report priority for the project's team Slack channel. P0 is highest. Null includes all reports, including reports without a priority. A set threshold excludes reports without a priority. Personal notification settings are separate. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  default_slack_notification_min_priority?:
+    | CreateSignalsConfigRequestDefaultSlackNotificationMinPriority
+    | null
+    | undefined;
   /** Connected Slack integration that owns `default_slack_notification_channel`. Send it together with the channel. A channel saved without it is routed through the team's oldest Slack integration, and clearing the channel clears this too. */
   default_slack_notification_integration?: number | null | undefined;
   /** Per-repository base branch overrides for auto-started inbox PRs, keyed by 'organization/repository'. The branch is what the auto-PR targets; omit a repo (or send {}) to keep targeting the repo default branch. */
@@ -937,6 +1076,12 @@ export interface CreateSignalsConfigRequest {
   research_instructions?: string | undefined;
   /** Project-level instructions for agents implementing signal reports. Other agent roles do not receive them. Blank uses project instructions only. */
   implementation_instructions?: string | undefined;
+  /** ID of a project-shared custom sandbox image that scout runs without their own image start from. Null uses the standard image. Only a project admin with editor access to skills can set it. An image that is missing or not ready at run time falls back to the standard image. */
+  scout_custom_image_id?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image that report research and monitoring assessment runs start from. Null uses the standard image. Only a project admin can change it. An image that is missing or not ready at run time falls back to the standard image. */
+  research_custom_image_id?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image that report implementation runs start from. Null uses the standard image. Only a project admin can change it. An image that is missing or not ready at run time falls back to the standard image. */
+  implementation_custom_image_id?: string | null | undefined;
   /** Connected GitHub, GitLab, Linear, or Jira integration that self-driving opens a tracker issue in for each pull request it makes. Null turns tracker issues off, which is the default. */
   issue_tracking_integration?: number | null | undefined;
   /** Where in the tracker the issues land. Required keys depend on the integration kind: github -> {repository}; linear -> {team_id}; jira -> {project_key}; gitlab needs none, because its integration is already bound to one project. An optional 'label' is applied to created GitHub issues. */
@@ -958,6 +1103,8 @@ export interface CreateSignalsConfigRequest {
   /** Whether anomaly scoring runs while the Product analytics source (analytics / anomaly_investigation) is on. Scoring checks this project's active trends insights for anomalies and writes the results as $anomaly_score events, which are not billed. True by default. False stops new scores and keeps alert signals; events written before stay. Turning the source off stops scoring whatever this value is, and turning the source on again keeps this value. Turning it on does not enroll a project that anomaly_scoring_available reports as not covered. */
   anomaly_scoring_enabled?: boolean | undefined;
 }
+/** Minimum report priority for the project's team Slack channel. P0 is highest. Null includes all reports, including reports without a priority. A set threshold excludes reports without a priority. Personal notification settings are separate. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+export type SignalTeamConfigDefaultSlackNotificationMinPriority = AutonomyPriorityEnum | BlankEnum;
 /** Per-repository base branch overrides for auto-started inbox PRs, keyed by 'organization/repository'. The branch is what the auto-PR targets; omit a repo (or send {}) to keep targeting the repo default branch. */
 export type SignalTeamConfigAutostartBaseBranchesMap = { [key: string]: string | undefined };
 /** Where in the tracker the issues land. Required keys depend on the integration kind: github -> {repository}; linear -> {team_id}; jira -> {project_key}; gitlab needs none, because its integration is already bound to one project. An optional 'label' is applied to created GitHub issues. */
@@ -968,9 +1115,15 @@ export interface SignalTeamConfig {
   id: string;
   /** Master switch for autonomous inbox PRs. Null (never set) leaves autostart on; set false to opt out, so actionable reports still generate and notify but the team never auto-starts an implementation task or opens a PR -- reviewers open PRs manually. */
   autostart_enabled?: boolean | null | undefined;
+  /** Lowest report priority that agents open PRs for, from P0 (highest) to P4 (every priority). Reads as P2 for a project that never set autostart_enabled and still stores the P4 default. Setting autostart_enabled on such a project stores P2, and choosing P4 here also sets autostart_enabled to true. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   default_autostart_priority?: AutonomyPriorityEnum | undefined;
   /** Default Slack channel for this team's signal inbox notifications, in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null means no team-level default; per-user channels still apply. */
   default_slack_notification_channel?: string | null | undefined;
+  /** Minimum report priority for the project's team Slack channel. P0 is highest. Null includes all reports, including reports without a priority. A set threshold excludes reports without a priority. Personal notification settings are separate. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  default_slack_notification_min_priority?:
+    | SignalTeamConfigDefaultSlackNotificationMinPriority
+    | null
+    | undefined;
   /** Connected Slack integration that owns `default_slack_notification_channel`. Send it together with the channel. A channel saved without it is routed through the team's oldest Slack integration, and clearing the channel clears this too. */
   default_slack_notification_integration?: number | null | undefined;
   /** Per-repository base branch overrides for auto-started inbox PRs, keyed by 'organization/repository'. The branch is what the auto-PR targets; omit a repo (or send {}) to keep targeting the repo default branch. */
@@ -981,6 +1134,12 @@ export interface SignalTeamConfig {
   research_instructions?: string | undefined;
   /** Project-level instructions for agents implementing signal reports. Other agent roles do not receive them. Blank uses project instructions only. */
   implementation_instructions?: string | undefined;
+  /** ID of a project-shared custom sandbox image that scout runs without their own image start from. Null uses the standard image. Only a project admin with editor access to skills can set it. An image that is missing or not ready at run time falls back to the standard image. */
+  scout_custom_image_id?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image that report research and monitoring assessment runs start from. Null uses the standard image. Only a project admin can change it. An image that is missing or not ready at run time falls back to the standard image. */
+  research_custom_image_id?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image that report implementation runs start from. Null uses the standard image. Only a project admin can change it. An image that is missing or not ready at run time falls back to the standard image. */
+  implementation_custom_image_id?: string | null | undefined;
   /** Connected GitHub, GitLab, Linear, or Jira integration that self-driving opens a tracker issue in for each pull request it makes. Null turns tracker issues off, which is the default. */
   issue_tracking_integration?: number | null | undefined;
   /** Where in the tracker the issues land. Required keys depend on the integration kind: github -> {repository}; linear -> {team_id}; jira -> {project_key}; gitlab needs none, because its integration is already bound to one project. An optional 'label' is applied to created GitHub issues. */
@@ -1008,13 +1167,33 @@ export interface SignalTeamConfig {
   created_at: string;
   updated_at: string;
 }
+export interface CreateSignalsMonitorPrRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub pull request URL for a branch in a repository connected to this project's GitHub integration. Open, draft, and merged PRs within the last 90 days are supported. */
+  pr_url: string;
+  /** Optional team-visible steering context about what to monitor, such as a conversion step, error rate, or affected audience. Omit when the research agent should identify the key metric from the pull request and project data. */
+  note?: string | undefined;
+}
+export interface MonitorPRResponse {
+  /** The report assigned to the person who requested monitoring. */
+  report_id: string;
+  /** Open the report to follow research and monitoring. */
+  report_url: string;
+  /** Current report status. Research runs asynchronously; monitoring starts after research and PR merge. * `potential` - Potential * `candidate` - Candidate * `in_progress` - In Progress * `pending_input` - Pending Input * `ready` - Ready * `monitoring` - Monitoring * `resolved` - Resolved * `closed` - Closed * `failed` - Failed * `deleted` - Deleted * `suppressed` - Suppressed */
+  status: SignalReportStatusEnum;
+  /** True when this person already requested monitoring for this PR in this project. */
+  idempotent_replay: boolean;
+}
+/** * `app` - App * `agent` - Agent */
+export type InboxOnboardingOriginEnum = "app" | "agent";
 /** * `github_optional` - GitHub optional */
 export type InboxActivationModeEnum = "github_optional";
 /** * `signals` - Signals * `scouts` - Scouts * `github` - GitHub */
 export type InboxOnboardingStepEnum = "signals" | "scouts" | "github";
 /** * `quick` - Quick * `guided` - Guided */
 export type InboxOnboardingSetupModeEnum = "quick" | "guided";
-/** * `session_replay` - Session replay * `llm_analytics` - LLM analytics * `github` - GitHub * `linear` - Linear * `jira` - Jira * `zendesk` - Zendesk * `conversations` - Conversations * `error_tracking` - Error tracking * `pganalyze` - pganalyze * `signals_scout` - Signals scout * `signals_check` - Report check * `user_authored` - Team member * `logs` - Logs * `health_checks` - Health checks * `endpoints` - Endpoints * `replay_vision` - Replay Vision * `analytics` - Product analytics * `freshdesk` - Freshdesk * `freshservice` - Freshservice * `front` - Front * `gorgias` - Gorgias * `kustomer` - Kustomer * `dixa` - Dixa * `plain` - Plain * `gitlab` - GitLab * `gitea` - Gitea * `shortcut` - Shortcut * `sentry` - Sentry * `rollbar` - Rollbar * `bugsnag` - Bugsnag * `honeybadger` - Honeybadger * `raygun` - Raygun * `datadog` - Datadog * `snyk` - Snyk * `sonarqube` - SonarQube * `semgrep` - Semgrep * `rapid7_insightvm` - Rapid7 InsightVM * `featurebase` - Featurebase * `frill` - Frill * `aha` - Aha * `uservoice` - UserVoice * `productboard` - Productboard * `canny` - Canny * `asknicely` - AskNicely * `retently` - Retently * `appfigures` - Appfigures * `appfollow` - AppFollow * `judgeme_reviews` - Judge.me * `intercom` - Intercom * `hubspot` - HubSpot * `engineering_analytics` - Engineering analytics * `google_search_console` - Google Search Console * `pagerduty` - PagerDuty * `opsgenie` - Opsgenie * `incident_io` - incident.io * `firehydrant` - FireHydrant * `squadcast` - Squadcast * `servicenow` - ServiceNow * `solarwinds_service_desk` - SolarWinds Service Desk * `grafana_irm` - Grafana IRM * `xmatters` - xMatters * `betterstack` - Better Stack * `newrelic` - New Relic * `trigger_dev` - Trigger.dev * `checkly` - Checkly * `roark` - Roark * `monte_carlo` - Monte Carlo * `bigeye` - Bigeye * `aws_security_hub` - AWS Security Hub * `aws_guardduty` - AWS GuardDuty * `aws_inspector` - AWS Inspector * `microsoft_defender_cloud_apps` - Microsoft Defender for Cloud Apps * `clickup` - ClickUp * `wrike` - Wrike * `trello` - Trello * `bugherd` - BugHerd * `dynamics365` - Dynamics 365 * `zoho_crm` - Zoho CRM * `planhat` - Planhat * `trustpilot` - Trustpilot * `okendo` - Okendo * `sleekplan` - Sleekplan * `bettermode` - Bettermode * `discourse` - Discourse * `mintlify` - Mintlify * `langsmith` - LangSmith * `sprig` - Sprig * `gainsight_px` - Gainsight PX * `dynatrace` - Dynatrace * `statuspage` - Statuspage * `cronitor` - Cronitor * `instatus` - Instatus * `asana` - Asana * `monday` - monday.com * `plane` - Plane * `azure_devops` - Azure DevOps * `helpscout` - Help Scout * `decagon` - Decagon * `vitally` - Vitally * `usersnap` - Usersnap * `typeform` - Typeform * `qualtrics` - Qualtrics * `surveymonkey` - SurveyMonkey * `formbricks` - Formbricks * `survicate` - Survicate * `surveysparrow` - SurveySparrow * `lacework` - Lacework * `orca_security` - Orca Security * `tenable_vulnerability_management` - Tenable Vulnerability Management * `google_play_console` - Google Play Console * `azure_application_insights` - Azure Application Insights * `appsignal` - AppSignal * `cursor` - Cursor */
+/** * `session_replay` - Session replay * `llm_analytics` - LLM analytics * `github` - GitHub * `linear` - Linear * `jira` - Jira * `zendesk` - Zendesk * `conversations` - Conversations * `error_tracking` - Error tracking * `pganalyze` - pganalyze * `signals_scout` - Signals scout * `signals_check` - Report check * `user_authored` - Team member * `logs` - Logs * `health_checks` - Health checks * `endpoints` - Endpoints * `replay_vision` - Replay Vision * `analytics` - Product analytics * `slack` - Slack * `freshdesk` - Freshdesk * `freshservice` - Freshservice * `front` - Front * `gorgias` - Gorgias * `kustomer` - Kustomer * `dixa` - Dixa * `plain` - Plain * `gitlab` - GitLab * `gitea` - Gitea * `shortcut` - Shortcut * `sentry` - Sentry * `rollbar` - Rollbar * `bugsnag` - Bugsnag * `honeybadger` - Honeybadger * `raygun` - Raygun * `datadog` - Datadog * `snyk` - Snyk * `sonarqube` - SonarQube * `semgrep` - Semgrep * `rapid7_insightvm` - Rapid7 InsightVM * `featurebase` - Featurebase * `frill` - Frill * `aha` - Aha * `uservoice` - UserVoice * `productboard` - Productboard * `canny` - Canny * `asknicely` - AskNicely * `retently` - Retently * `appfigures` - Appfigures * `appfollow` - AppFollow * `judgeme_reviews` - Judge.me * `intercom` - Intercom * `hubspot` - HubSpot * `engineering_analytics` - Engineering analytics * `google_search_console` - Google Search Console * `bing_webmaster_tools` - Bing Webmaster Tools * `ahrefs` - Ahrefs * `semrush` - Semrush * `pagerduty` - PagerDuty * `opsgenie` - Opsgenie * `incident_io` - incident.io * `firehydrant` - FireHydrant * `squadcast` - Squadcast * `servicenow` - ServiceNow * `solarwinds_service_desk` - SolarWinds Service Desk * `grafana_irm` - Grafana IRM * `xmatters` - xMatters * `betterstack` - Better Stack * `newrelic` - New Relic * `trigger_dev` - Trigger.dev * `checkly` - Checkly * `roark` - Roark * `monte_carlo` - Monte Carlo * `bigeye` - Bigeye * `aws_security_hub` - AWS Security Hub * `aws_guardduty` - AWS GuardDuty * `aws_inspector` - AWS Inspector * `microsoft_defender_cloud_apps` - Microsoft Defender for Cloud Apps * `clickup` - ClickUp * `wrike` - Wrike * `trello` - Trello * `bugherd` - BugHerd * `dynamics365` - Dynamics 365 * `zoho_crm` - Zoho CRM * `planhat` - Planhat * `trustpilot` - Trustpilot * `okendo` - Okendo * `sleekplan` - Sleekplan * `bettermode` - Bettermode * `discourse` - Discourse * `mintlify` - Mintlify * `langsmith` - LangSmith * `sprig` - Sprig * `gainsight_px` - Gainsight PX * `dynatrace` - Dynatrace * `statuspage` - Statuspage * `cronitor` - Cronitor * `instatus` - Instatus * `rootly` - Rootly * `zenduty` - Zenduty * `splunk_observability_cloud` - Splunk Observability Cloud * `uptimerobot` - UptimeRobot * `rootly_alerts` - Rootly alerts * `incident_io_alerts` - incident.io alerts * `firehydrant_alerts` - FireHydrant alerts * `grafana_irm_alert_groups` - Grafana IRM alert groups * `asana` - Asana * `monday` - monday.com * `plane` - Plane * `azure_devops` - Azure DevOps * `helpscout` - Help Scout * `decagon` - Decagon * `vitally` - Vitally * `intercom_tickets` - Intercom tickets * `pylon` - Pylon * `usersnap` - Usersnap * `typeform` - Typeform * `qualtrics` - Qualtrics * `surveymonkey` - SurveyMonkey * `formbricks` - Formbricks * `survicate` - Survicate * `surveysparrow` - SurveySparrow * `lacework` - Lacework * `orca_security` - Orca Security * `tenable_vulnerability_management` - Tenable Vulnerability Management * `google_play_console` - Google Play Console * `azure_application_insights` - Azure Application Insights * `appsignal` - AppSignal * `cursor` - Cursor * `github_dependabot` - GitHub Dependabot * `github_code_scanning` - GitHub code scanning * `github_secret_scanning` - GitHub secret scanning * `beamer` - Beamer * `beamer_nps` - Beamer NPS * `chameleon` - Chameleon * `etsy` - Etsy * `featurebase_surveys` - Featurebase surveys * `g2` - G2 * `gumroad` - Gumroad * `trustpilot_product_reviews` - Trustpilot product reviews * `uservoice_nps` - UserVoice NPS * `vitally_nps` - Vitally NPS * `woocommerce` - WooCommerce * `yotpo` - Yotpo * `airbrake` - Airbrake * `amazon_cloudwatch` - Amazon CloudWatch * `logicmonitor` - LogicMonitor * `mux` - Mux * `sonarcloud` - SonarCloud * `checkmarx` - Checkmarx * `veracode` - Veracode * `veracode_sca` - Veracode SCA * `semgrep_sca` - Semgrep Supply Chain * `gitguardian` - GitGuardian * `infisical` - Infisical * `aws_macie` - AWS Macie * `sentinelone` - SentinelOne * `jfrog_xray` - JFrog Xray * `dynatrace_security` - Dynatrace Application Security * `app_store_connect` - App Store Connect * `sentry_feedback` - Sentry user feedback */
 export type SignalSourceProductEnum =
   | "session_replay"
   | "llm_analytics"
@@ -1033,6 +1212,7 @@ export type SignalSourceProductEnum =
   | "endpoints"
   | "replay_vision"
   | "analytics"
+  | "slack"
   | "freshdesk"
   | "freshservice"
   | "front"
@@ -1068,6 +1248,9 @@ export type SignalSourceProductEnum =
   | "hubspot"
   | "engineering_analytics"
   | "google_search_console"
+  | "bing_webmaster_tools"
+  | "ahrefs"
+  | "semrush"
   | "pagerduty"
   | "opsgenie"
   | "incident_io"
@@ -1108,6 +1291,14 @@ export type SignalSourceProductEnum =
   | "statuspage"
   | "cronitor"
   | "instatus"
+  | "rootly"
+  | "zenduty"
+  | "splunk_observability_cloud"
+  | "uptimerobot"
+  | "rootly_alerts"
+  | "incident_io_alerts"
+  | "firehydrant_alerts"
+  | "grafana_irm_alert_groups"
   | "asana"
   | "monday"
   | "plane"
@@ -1115,6 +1306,8 @@ export type SignalSourceProductEnum =
   | "helpscout"
   | "decagon"
   | "vitally"
+  | "intercom_tickets"
+  | "pylon"
   | "usersnap"
   | "typeform"
   | "qualtrics"
@@ -1128,7 +1321,39 @@ export type SignalSourceProductEnum =
   | "google_play_console"
   | "azure_application_insights"
   | "appsignal"
-  | "cursor";
+  | "cursor"
+  | "github_dependabot"
+  | "github_code_scanning"
+  | "github_secret_scanning"
+  | "beamer"
+  | "beamer_nps"
+  | "chameleon"
+  | "etsy"
+  | "featurebase_surveys"
+  | "g2"
+  | "gumroad"
+  | "trustpilot_product_reviews"
+  | "uservoice_nps"
+  | "vitally_nps"
+  | "woocommerce"
+  | "yotpo"
+  | "airbrake"
+  | "amazon_cloudwatch"
+  | "logicmonitor"
+  | "mux"
+  | "sonarcloud"
+  | "checkmarx"
+  | "veracode"
+  | "veracode_sca"
+  | "semgrep_sca"
+  | "gitguardian"
+  | "infisical"
+  | "aws_macie"
+  | "sentinelone"
+  | "jfrog_xray"
+  | "dynatrace_security"
+  | "app_store_connect"
+  | "sentry_feedback";
 /** * `session_analysis_cluster` - Session analysis cluster * `evaluation_report` - Evaluation report * `issue` - Issue * `ticket` - Ticket * `issue_created` - Issue created * `issue_reopened` - Issue reopened * `issue_spiking` - Issue spiking * `cross_source_issue` - Cross source issue * `alert_state_change` - Alert state change * `health_issue` - Health issue * `endpoint_execution_failed` - Endpoint execution failed * `endpoint_breakdown_limit_exceeded` - Endpoint breakdown limit exceeded * `scanner_finding` - Scanner finding * `anomaly_investigation` - Anomaly investigation * `feedback` - Feedback * `review` - Review * `ci_flaky_check` - CI flaky check * `ci_broken_default_branch` - CI broken default branch * `ci_duration_regression` - CI duration regression * `search_opportunity` - Search opportunity * `incident` - Incident */
 export type SignalSourceConfigSourceTypeEnum =
   | "session_analysis_cluster"
@@ -1153,7 +1378,7 @@ export type SignalSourceConfigSourceTypeEnum =
   | "search_opportunity"
   | "incident";
 export interface InboxOnboardingSource {
-  /** Source product selected during setup. * `session_replay` - Session replay * `llm_analytics` - LLM analytics * `github` - GitHub * `linear` - Linear * `jira` - Jira * `zendesk` - Zendesk * `conversations` - Conversations * `error_tracking` - Error tracking * `pganalyze` - pganalyze * `signals_scout` - Signals scout * `signals_check` - Report check * `user_authored` - Team member * `logs` - Logs * `health_checks` - Health checks * `endpoints` - Endpoints * `replay_vision` - Replay Vision * `analytics` - Product analytics * `freshdesk` - Freshdesk * `freshservice` - Freshservice * `front` - Front * `gorgias` - Gorgias * `kustomer` - Kustomer * `dixa` - Dixa * `plain` - Plain * `gitlab` - GitLab * `gitea` - Gitea * `shortcut` - Shortcut * `sentry` - Sentry * `rollbar` - Rollbar * `bugsnag` - Bugsnag * `honeybadger` - Honeybadger * `raygun` - Raygun * `datadog` - Datadog * `snyk` - Snyk * `sonarqube` - SonarQube * `semgrep` - Semgrep * `rapid7_insightvm` - Rapid7 InsightVM * `featurebase` - Featurebase * `frill` - Frill * `aha` - Aha * `uservoice` - UserVoice * `productboard` - Productboard * `canny` - Canny * `asknicely` - AskNicely * `retently` - Retently * `appfigures` - Appfigures * `appfollow` - AppFollow * `judgeme_reviews` - Judge.me * `intercom` - Intercom * `hubspot` - HubSpot * `engineering_analytics` - Engineering analytics * `google_search_console` - Google Search Console * `pagerduty` - PagerDuty * `opsgenie` - Opsgenie * `incident_io` - incident.io * `firehydrant` - FireHydrant * `squadcast` - Squadcast * `servicenow` - ServiceNow * `solarwinds_service_desk` - SolarWinds Service Desk * `grafana_irm` - Grafana IRM * `xmatters` - xMatters * `betterstack` - Better Stack * `newrelic` - New Relic * `trigger_dev` - Trigger.dev * `checkly` - Checkly * `roark` - Roark * `monte_carlo` - Monte Carlo * `bigeye` - Bigeye * `aws_security_hub` - AWS Security Hub * `aws_guardduty` - AWS GuardDuty * `aws_inspector` - AWS Inspector * `microsoft_defender_cloud_apps` - Microsoft Defender for Cloud Apps * `clickup` - ClickUp * `wrike` - Wrike * `trello` - Trello * `bugherd` - BugHerd * `dynamics365` - Dynamics 365 * `zoho_crm` - Zoho CRM * `planhat` - Planhat * `trustpilot` - Trustpilot * `okendo` - Okendo * `sleekplan` - Sleekplan * `bettermode` - Bettermode * `discourse` - Discourse * `mintlify` - Mintlify * `langsmith` - LangSmith * `sprig` - Sprig * `gainsight_px` - Gainsight PX * `dynatrace` - Dynatrace * `statuspage` - Statuspage * `cronitor` - Cronitor * `instatus` - Instatus * `asana` - Asana * `monday` - monday.com * `plane` - Plane * `azure_devops` - Azure DevOps * `helpscout` - Help Scout * `decagon` - Decagon * `vitally` - Vitally * `usersnap` - Usersnap * `typeform` - Typeform * `qualtrics` - Qualtrics * `surveymonkey` - SurveyMonkey * `formbricks` - Formbricks * `survicate` - Survicate * `surveysparrow` - SurveySparrow * `lacework` - Lacework * `orca_security` - Orca Security * `tenable_vulnerability_management` - Tenable Vulnerability Management * `google_play_console` - Google Play Console * `azure_application_insights` - Azure Application Insights * `appsignal` - AppSignal * `cursor` - Cursor */
+  /** Source product selected during setup. * `session_replay` - Session replay * `llm_analytics` - LLM analytics * `github` - GitHub * `linear` - Linear * `jira` - Jira * `zendesk` - Zendesk * `conversations` - Conversations * `error_tracking` - Error tracking * `pganalyze` - pganalyze * `signals_scout` - Signals scout * `signals_check` - Report check * `user_authored` - Team member * `logs` - Logs * `health_checks` - Health checks * `endpoints` - Endpoints * `replay_vision` - Replay Vision * `analytics` - Product analytics * `slack` - Slack * `freshdesk` - Freshdesk * `freshservice` - Freshservice * `front` - Front * `gorgias` - Gorgias * `kustomer` - Kustomer * `dixa` - Dixa * `plain` - Plain * `gitlab` - GitLab * `gitea` - Gitea * `shortcut` - Shortcut * `sentry` - Sentry * `rollbar` - Rollbar * `bugsnag` - Bugsnag * `honeybadger` - Honeybadger * `raygun` - Raygun * `datadog` - Datadog * `snyk` - Snyk * `sonarqube` - SonarQube * `semgrep` - Semgrep * `rapid7_insightvm` - Rapid7 InsightVM * `featurebase` - Featurebase * `frill` - Frill * `aha` - Aha * `uservoice` - UserVoice * `productboard` - Productboard * `canny` - Canny * `asknicely` - AskNicely * `retently` - Retently * `appfigures` - Appfigures * `appfollow` - AppFollow * `judgeme_reviews` - Judge.me * `intercom` - Intercom * `hubspot` - HubSpot * `engineering_analytics` - Engineering analytics * `google_search_console` - Google Search Console * `bing_webmaster_tools` - Bing Webmaster Tools * `ahrefs` - Ahrefs * `semrush` - Semrush * `pagerduty` - PagerDuty * `opsgenie` - Opsgenie * `incident_io` - incident.io * `firehydrant` - FireHydrant * `squadcast` - Squadcast * `servicenow` - ServiceNow * `solarwinds_service_desk` - SolarWinds Service Desk * `grafana_irm` - Grafana IRM * `xmatters` - xMatters * `betterstack` - Better Stack * `newrelic` - New Relic * `trigger_dev` - Trigger.dev * `checkly` - Checkly * `roark` - Roark * `monte_carlo` - Monte Carlo * `bigeye` - Bigeye * `aws_security_hub` - AWS Security Hub * `aws_guardduty` - AWS GuardDuty * `aws_inspector` - AWS Inspector * `microsoft_defender_cloud_apps` - Microsoft Defender for Cloud Apps * `clickup` - ClickUp * `wrike` - Wrike * `trello` - Trello * `bugherd` - BugHerd * `dynamics365` - Dynamics 365 * `zoho_crm` - Zoho CRM * `planhat` - Planhat * `trustpilot` - Trustpilot * `okendo` - Okendo * `sleekplan` - Sleekplan * `bettermode` - Bettermode * `discourse` - Discourse * `mintlify` - Mintlify * `langsmith` - LangSmith * `sprig` - Sprig * `gainsight_px` - Gainsight PX * `dynatrace` - Dynatrace * `statuspage` - Statuspage * `cronitor` - Cronitor * `instatus` - Instatus * `rootly` - Rootly * `zenduty` - Zenduty * `splunk_observability_cloud` - Splunk Observability Cloud * `uptimerobot` - UptimeRobot * `rootly_alerts` - Rootly alerts * `incident_io_alerts` - incident.io alerts * `firehydrant_alerts` - FireHydrant alerts * `grafana_irm_alert_groups` - Grafana IRM alert groups * `asana` - Asana * `monday` - monday.com * `plane` - Plane * `azure_devops` - Azure DevOps * `helpscout` - Help Scout * `decagon` - Decagon * `vitally` - Vitally * `intercom_tickets` - Intercom tickets * `pylon` - Pylon * `usersnap` - Usersnap * `typeform` - Typeform * `qualtrics` - Qualtrics * `surveymonkey` - SurveyMonkey * `formbricks` - Formbricks * `survicate` - Survicate * `surveysparrow` - SurveySparrow * `lacework` - Lacework * `orca_security` - Orca Security * `tenable_vulnerability_management` - Tenable Vulnerability Management * `google_play_console` - Google Play Console * `azure_application_insights` - Azure Application Insights * `appsignal` - AppSignal * `cursor` - Cursor * `github_dependabot` - GitHub Dependabot * `github_code_scanning` - GitHub code scanning * `github_secret_scanning` - GitHub secret scanning * `beamer` - Beamer * `beamer_nps` - Beamer NPS * `chameleon` - Chameleon * `etsy` - Etsy * `featurebase_surveys` - Featurebase surveys * `g2` - G2 * `gumroad` - Gumroad * `trustpilot_product_reviews` - Trustpilot product reviews * `uservoice_nps` - UserVoice NPS * `vitally_nps` - Vitally NPS * `woocommerce` - WooCommerce * `yotpo` - Yotpo * `airbrake` - Airbrake * `amazon_cloudwatch` - Amazon CloudWatch * `logicmonitor` - LogicMonitor * `mux` - Mux * `sonarcloud` - SonarCloud * `checkmarx` - Checkmarx * `veracode` - Veracode * `veracode_sca` - Veracode SCA * `semgrep_sca` - Semgrep Supply Chain * `gitguardian` - GitGuardian * `infisical` - Infisical * `aws_macie` - AWS Macie * `sentinelone` - SentinelOne * `jfrog_xray` - JFrog Xray * `dynatrace_security` - Dynatrace Application Security * `app_store_connect` - App Store Connect * `sentry_feedback` - Sentry user feedback */
   source_product: SignalSourceProductEnum | (string & {});
   /** Signal type selected during setup. * `session_analysis_cluster` - Session analysis cluster * `evaluation_report` - Evaluation report * `issue` - Issue * `ticket` - Ticket * `issue_created` - Issue created * `issue_reopened` - Issue reopened * `issue_spiking` - Issue spiking * `cross_source_issue` - Cross source issue * `alert_state_change` - Alert state change * `health_issue` - Health issue * `endpoint_execution_failed` - Endpoint execution failed * `endpoint_breakdown_limit_exceeded` - Endpoint breakdown limit exceeded * `scanner_finding` - Scanner finding * `anomaly_investigation` - Anomaly investigation * `feedback` - Feedback * `review` - Review * `ci_flaky_check` - CI flaky check * `ci_broken_default_branch` - CI broken default branch * `ci_duration_regression` - CI duration regression * `search_opportunity` - Search opportunity * `incident` - Incident */
   source_type: SignalSourceConfigSourceTypeEnum | (string & {});
@@ -1203,6 +1428,8 @@ export type CreateSignalsOnboardingRequestActivationScoutsList = Array<string>;
 export interface CreateSignalsOnboardingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Where setup started: the app or a link from an agent. * `app` - App * `agent` - Agent */
+  onboarding_origin?: InboxOnboardingOriginEnum | (string & {}) | undefined;
   /** Activate the GitHub-optional pilot. Requires project eligibility and leaves automatic implementation off. * `github_optional` - GitHub optional */
   activation_mode?: InboxActivationModeEnum | (string & {}) | undefined;
   /** Step to resume after returning. * `signals` - Signals * `scouts` - Scouts * `github` - GitHub */
@@ -1222,6 +1449,8 @@ export interface CreateSignalsOnboardingRequest {
   /** Lowest priority to implement automatically; P1 includes P0 and P1. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   implementation_priority: AutonomyPriorityEnum | (string & {});
 }
+/** Canonical scout skill names that quick setup enables for this project, with the general scout first. */
+export type InboxOnboardingStateSetupDefaultSkillsList = Array<string>;
 /** * `pending` - Pending * `running` - Running * `no_data` - No data * `report_created` - Report created * `insufficient_data` - Insufficient data * `no_actionable_finding` - No actionable finding * `incomplete` - Incomplete */
 export type FirstReportStatusEnum =
   | "pending"
@@ -1270,6 +1499,8 @@ export type InboxOnboardingDraftSuggestionsList = Array<ScoutSuggestionItem>;
 /** Scouts enabled by an unfinished activation, retained to undo later deselections. */
 export type InboxOnboardingDraftActivationScoutsList = Array<string>;
 export interface InboxOnboardingDraft {
+  /** Where setup started: the app or a link from an agent. * `app` - App * `agent` - Agent */
+  onboarding_origin?: InboxOnboardingOriginEnum | undefined;
   /** Activate the GitHub-optional pilot. Requires project eligibility and leaves automatic implementation off. * `github_optional` - GitHub optional */
   activation_mode?: InboxActivationModeEnum | undefined;
   /** Step to resume after returning. * `signals` - Signals * `scouts` - Scouts * `github` - GitHub */
@@ -1292,6 +1523,8 @@ export interface InboxOnboardingDraft {
 export interface InboxOnboardingState {
   /** Whether this project can activate Self-driving without connecting GitHub. */
   github_optional_available?: boolean | undefined;
+  /** Canonical scout skill names that quick setup enables for this project, with the general scout first. */
+  setup_default_skills?: InboxOnboardingStateSetupDefaultSkillsList | undefined;
   /** Whether the current user can receive an in-app notification when this investigation finishes. */
   first_report_completion_notification?: boolean | undefined;
   /** The current user's email when enrolled for a first-report notification. */
@@ -1316,6 +1549,8 @@ export type CreateSignalsOnboardingCompleteRequestActivationScoutsList = Array<s
 export interface CreateSignalsOnboardingCompleteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Where setup started: the app or a link from an agent. * `app` - App * `agent` - Agent */
+  onboarding_origin?: InboxOnboardingOriginEnum | (string & {}) | undefined;
   /** Activate the GitHub-optional pilot. Requires project eligibility and leaves automatic implementation off. * `github_optional` - GitHub optional */
   activation_mode?: InboxActivationModeEnum | (string & {}) | undefined;
   /** Step to resume after returning. * `signals` - Signals * `scouts` - Scouts * `github` - GitHub */
@@ -1338,6 +1573,8 @@ export interface CreateSignalsOnboardingCompleteRequest {
 export interface CreateSignalsOnboardingExposeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Where setup started: the app or a link from an agent. * `app` - App * `agent` - Agent */
+  onboarding_origin?: InboxOnboardingOriginEnum | (string & {}) | undefined;
 }
 /** One observation backing an authored report -- becomes a bound signal row on the report. */
 export interface ReportEvidence {
@@ -1447,7 +1684,7 @@ export interface CreateSignalsReportRequest {
   actionability: ActionabilityEnum | (string & {});
   /** Whether the issue is already being handled -- fixed in recent changes, or with a fix in flight (an open PR, a recently active branch, an assigned / in-progress issue or agent task). Gates autostart of a scout report, so a wrong `false` opens a duplicate PR. Tracked separately. */
   already_addressed?: boolean | undefined;
-  /** Optional repo for opening a draft PR, by autostart of a scout report or by a person from the inbox. Pass `owner/repo` whenever you can say where a fix would land. Omit the field when you can't, which triggers free-form selection across the team's repos (the slow path on a many-repo team). Keep the `NO_REPO` sentinel for the rare report where nothing under version control could change, since a skill body, a config file, or a doc still lives in a repo. */
+  /** Optional repo for opening a draft PR, by autostart of a scout report or by a person from the inbox. Pass `owner/repo` whenever you can say where a fix would land. Nothing selects a repository for you: omit the field when you can't tell, and the report records no repository unless its text links exactly one connected repo, so it cannot autostart a draft PR. Keep the `NO_REPO` sentinel for the rare report where nothing under version control could change, since a skill body, a config file, or a doc still lives in a repo. */
   repository?: string | null | undefined;
   /** Optional priority (`P0`-`P4`). Required for autostart; pair with `priority_explanation`. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   priority?: AutonomyPriorityEnum | (string & {}) | null | undefined;
@@ -1470,14 +1707,30 @@ export interface CreateSignalsReportRequest {
   /** Optional name for this emission, unique within a scout's run or within a person's own reports. Reuse it verbatim to retry a call whose outcome you don't know (a timeout, a dropped connection): the retry returns the report the first call authored, with `idempotent_replay` true, instead of a second report. Omit it and the report's own content is the key, which covers a retry of the identical call -- pass one when a retry might reword the report. */
   idempotency_key?: string | null | undefined;
 }
+/** * `repair` - repair * `hint` - hint */
+export type ReportQualityHintSeverityEnum = "repair" | "hint";
+/** * `title` - title * `summary` - summary */
+export type ReportQualityHintFieldEnum = "title" | "summary";
+export interface ReportQualityHint {
+  /** Stable id of the quality check, e.g. `literal_newline_escapes`. */
+  check_id: string;
+  /** `repair`: the text was fixed before it was stored. `hint`: the text was stored as sent. * `repair` - repair * `hint` - hint */
+  severity: ReportQualityHintSeverityEnum;
+  /** The field the check matched. * `title` - title * `summary` - summary */
+  field: ReportQualityHintFieldEnum;
+  /** What the check found and what to do next time. */
+  message: string;
+}
+/** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+export type EmitReportResponseQualityHintsList = Array<ReportQualityHint>;
 export interface EmitReportResponse {
-  /** The authored report's id (null only when a preflight gate skipped the call). Returned even when suppressed, so you can edit/dedup against it. */
+  /** The authored report's id (null only when a preflight gate skipped the call). Returned even when suppressed, so you can edit/dedup against it. With `source_issue_already_reported`, the id of the open report that already names the issue: edit that report. */
   report_id: string | null;
-  /** Birth status: `ready` | `pending_input` | `suppressed`, or null when gate-skipped. */
+  /** Birth status: `ready` | `pending_input` | `suppressed`, or null when gate-skipped. With `source_issue_already_reported`, the current status of the open report. */
   report_status: string | null;
   /** True when the report actually surfaced in the inbox (READY or PENDING_INPUT). */
   emitted: boolean;
-  /** `scout_config_missing` | `scout_emit_disabled` | `ai_processing_not_approved` | `source_disabled` | null when not gate-skipped. */
+  /** `scout_config_missing` | `scout_emit_disabled` | `ai_processing_not_approved` | `source_disabled` | `source_issue_already_reported` | null when a report was authored. `source_issue_already_reported` means an open report already names one of your `source_issues`, so no report was created: add your findings to the report in `report_id` with edit-report. */
   skipped_reason: string | null;
   /** When the safety judge suppressed the report, why; null when safe. */
   safety_explanation: string | null;
@@ -1485,6 +1738,8 @@ export interface EmitReportResponse {
   remediation: string | null;
   /** True when this call authored nothing because the emission had already landed -- the fields above describe that first report. Expected on a retry; treat the report as filed and don't send it again. */
   idempotent_replay: boolean;
+  /** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+  quality_hints: EmitReportResponseQualityHintsList;
 }
 /** * `selected` - Selected * `no_suitable_owner` - No suitable owner * `lookup_failed` - Lookup failed */
 export type ReviewerSelectionOutcomeEnum = "selected" | "no_suitable_owner" | "lookup_failed";
@@ -1620,10 +1875,12 @@ export interface CreateSignalsReportPrReviewCommentReactionRequest {
 export interface PullRequestReviewCommentReactionCreateResponse {
   reaction: PullRequestCommentReaction;
 }
-/** * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `suggested_prompt` - Suggested prompt * `ask` - Ask */
+/** * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `resolve_conflicts` - Resolve conflicts * `implement` - Implement * `suggested_prompt` - Suggested prompt * `ask` - Ask */
 export type ReportTaskActionKindEnum =
   | "get_it_merged"
   | "make_it_green"
+  | "resolve_conflicts"
+  | "implement"
   | "suggested_prompt"
   | "ask";
 export interface CreateSignalsReportsActionsRunRequest {
@@ -1631,12 +1888,14 @@ export interface CreateSignalsReportsActionsRunRequest {
   project_id: string;
   /** A UUID string identifying this signal report. */
   id: string;
-  /** The action to run. Use a value from the actions list, or `ask` to send your own `message`. * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `suggested_prompt` - Suggested prompt * `ask` - Ask */
+  /** The action to run. Use a value from the actions list, or `ask` to send your own `message`. * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `resolve_conflicts` - Resolve conflicts * `implement` - Implement * `suggested_prompt` - Suggested prompt * `ask` - Ask */
   action: ReportTaskActionKindEnum | (string & {});
   /** Required for `suggested_prompt`: the `suggested_prompt_index` from the actions list. */
   suggested_prompt_index?: number | undefined;
-  /** Your own request for the run. Required for `ask`, where it is the question or the work you want done on the report. Optional for `get_it_merged` and `make_it_green`, where it replaces the action's fixed request and keeps its instructions and gates: pass it when you know something the report does not, such as a merge order, a failure that is already on the base branch, or an expected conflict. Not accepted for `suggested_prompt`. */
+  /** Your own request for the run. Required for `ask`, where it is the question or the work you want done on the report. Optional for `get_it_merged`, `make_it_green`, and `resolve_conflicts`, where it replaces the action's fixed request and keeps its instructions and gates: pass it when you know something the report does not, such as a merge order, a failure that is already on the base branch, or an expected conflict. Optional for `implement`, where it is added to the prompt as extra instructions. Not accepted for `suggested_prompt`. */
   message?: string | undefined;
+  /** Only for `implement`: the repository to implement in, in 'owner/repo' format (case-insensitive). It must be connected to the project, and it becomes the report's repo selection. Omit it to use the report's own repository. A report whose repository cannot be resolved returns `report_implementation_repository_unresolved`. */
+  repository?: string | undefined;
 }
 export interface SignalReportTaskActionRunResponse {
   /** The task the action created. It is linked to the report. */
@@ -1693,6 +1952,20 @@ export interface SignalReportMergeResponse {
   report: SignalReport;
   /** One result per merged source, in request order (after de-duplication). */
   sources: SignalReportMergeResponseSourcesList;
+}
+/** Ids of steps already in this plan that the new step builds on. Omit when it builds on none. At most 10. */
+export type CreateSignalsReportsPlanStepRequestDependsOnList = Array<string>;
+export interface CreateSignalsReportsPlanStepRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this signal report. */
+  id: string;
+  /** Id of the report to add as a step of this plan. It must be a live report in this project that is not already a step of a plan. The report itself is unchanged. */
+  report_id: string;
+  /** Ids of steps already in this plan that the new step builds on. Omit when it builds on none. At most 10. */
+  depends_on?: CreateSignalsReportsPlanStepRequestDependsOnList | undefined;
+  /** Optional one-line note on why. Recorded on the links this call writes, or on the work-log note it leaves. Capped at 500 characters. */
+  reason?: string | undefined;
 }
 export interface CreateSignalsReportsRefundRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1779,8 +2052,13 @@ export interface SignalReportSourceMetadataResponse {
   /** One entry per requested id, in request order, duplicates removed. An id with no signals in this project, including one that is not a report here, gets empty values. */
   reports: SignalReportSourceMetadataResponseReportsList;
 }
-/** * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring */
-export type SignalReportStateEnum = "suppressed" | "potential" | "resolved" | "monitoring";
+/** * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring * `ready` - ready */
+export type SignalReportStateEnum =
+  | "suppressed"
+  | "potential"
+  | "resolved"
+  | "monitoring"
+  | "ready";
 /** * `already_fixed` - Already fixed * `report_unclear` - Report is unclear to me * `analysis_wrong` - Agent's analysis is wrong * `wrong_assignee` - Wrong assignee * `wrong_repo` - Agent picked the wrong repository * `wontfix_intentional` - Won't fix - intentional behavior * `wontfix_irrelevant` - Not relevant to this project * `fixed_outside_posthog` - Fixed outside PostHog * `verified_manually` - Verified manually * `no_action_needed` - No action needed * `pr_merged` - PR was merged * `other` - Something else... */
 export type DismissalReasonEnum =
   | "already_fixed"
@@ -1800,7 +2078,7 @@ export interface CreateSignalsReportsStateRequest {
   project_id: string;
   /** A UUID string identifying this signal report. */
   id: string;
-  /** Target state for the report. Use 'suppressed' to dismiss the report from the inbox, 'potential' to snooze/reopen it for later review, or 'resolved' when the report is finished. Resolving is allowed from ready, pending_input, failed, closed, or monitoring, or from a suppressed report that previously held one of those statuses or resolved. Resolving an already resolved report succeeds. Other statuses return 409 (skipped in bulk). Dismissing or resolving closes the report's open implementation PR, if it has one. Use 'monitoring' when implementation is complete and outcome verification is pending. Entry requires the organization rollout and snapshots this report's pending or active, unexpired checks. Without applicable checks the report resolves directly. Manual completion records caller attribution, stops remaining follow-up checks, and does not claim automatic verification or an evidence amendment. * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring */
+  /** Target state for the report. Use 'suppressed' to dismiss the report from the inbox, 'potential' to snooze it or restore it from the archive, or 'resolved' when the report is finished. Resolving is allowed from ready, pending_input, failed, closed, or monitoring, or from a suppressed report that previously held one of those statuses or resolved. Resolving an already resolved report succeeds. Other statuses return 409 (skipped in bulk). Dismissing or resolving closes the report's open implementation PR, if it has one. Use 'monitoring' when implementation is complete and outcome verification is pending. Entry requires the organization rollout and snapshots this report's pending or active, unexpired checks. Without applicable checks the report resolves directly. Manual completion records caller attribution, stops remaining follow-up checks, and does not claim automatic verification or an evidence amendment. Use 'ready' to reopen a report in monitoring or closed. It returns to ready with its research, pull requests, and follow-up checks kept, and its Monitoring period ends. Completing implementation again starts a new period. Reopening is refused for other statuses and for refunded reports. * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring * `ready` - ready */
   state: SignalReportStateEnum | (string & {});
   /** Optional canonical reason code recorded with the transition. Must be one of: already_fixed, report_unclear, analysis_wrong, wrong_assignee, wrong_repo, wontfix_intentional, wontfix_irrelevant, fixed_outside_posthog, verified_manually, no_action_needed, pr_merged, other -- these match the inbox UI so the rationale renders as a labelled chip rather than a raw code. When the work this report asked for is done, the honest transition is state='resolved' with 'fixed_outside_posthog' (the fix landed without a pull request), 'pr_merged' (a pull request with the fix was merged but did not resolve the report on its own), or 'already_fixed' (it was fixed before the report was filed). Use 'no_action_needed' with state='resolved' when the report was useful but needs no implementation. A report that failed in processing resolves too, so a fix that landed is recorded as a fix rather than as a dismissal. These three codes claim the issue is gone, so a later signal about the same issue starts a fresh report linked to this one. Fixed reason codes require state='suppressed' or state='resolved', not 'potential'. The dismissal codes (report_unclear, analysis_wrong, wrong_assignee, wontfix_*) go with state='suppressed' and absorb later signals silently. 'wrong_assignee' is accepted from older clients, but a report sent to the wrong person still holds work: remove the person from the report's reviewers with a removal_reason instead of suppressing it. 'wrong_repo' when the agent picked the wrong repository for this report, ideally with corrected_repository naming the right one. The report stays suppressed, but a later matching signal starts a fresh linked report with a new repository selection informed by the project's correction feedback, even when no corrected_repository was supplied. Use 'verified_manually' with state='resolved' to stop Monitoring after manual verification. It requires Monitoring to be enabled and a report with a Monitoring period, and records no automatic verification result or evidence amendment. Use 'other' together with a dismissal_note for anything that doesn't fit a code. * `already_fixed` - Already fixed * `report_unclear` - Report is unclear to me * `analysis_wrong` - Agent's analysis is wrong * `wrong_assignee` - Wrong assignee * `wrong_repo` - Agent picked the wrong repository * `wontfix_intentional` - Won't fix - intentional behavior * `wontfix_irrelevant` - Not relevant to this project * `fixed_outside_posthog` - Fixed outside PostHog * `verified_manually` - Verified manually * `no_action_needed` - No action needed * `pr_merged` - PR was merged * `other` - Something else... */
   dismissal_reason?: DismissalReasonEnum | (string & {}) | undefined;
@@ -1880,8 +2158,10 @@ export type SignalScoutConfigOptionsStructuredOutputSchemaMap = {
 export type SignalScoutConfigOptionsMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigOptionsWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigOptionsReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type SignalScoutConfigOptionsAllowedMcpToolsList = Array<string>;
 /** * `read_only` - Read only * `support_notes` - Support notes */
@@ -1916,6 +2196,8 @@ export type SignalScoutConfigNetworkAccessEnum = "trusted" | "full";
 export interface SignalScoutConfigOptions {
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id?: string | null | undefined;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
   tags?: SignalScoutConfigOptionsTagsList | undefined;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
@@ -1924,8 +2206,12 @@ export interface SignalScoutConfigOptions {
   mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList | undefined;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigOptionsRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes?: SignalScoutConfigOptionsWriteScopesList | undefined;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions?: SignalScoutConfigOptionsReportActionsList | undefined;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day?: number | undefined;
   /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
   lifecycle_locked?: boolean | undefined;
   /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
@@ -2003,7 +2289,6 @@ export type RoleAtOrganizationEnum =
   | "sales"
   | "student"
   | "other";
-export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
   id?: number | undefined;
@@ -2024,11 +2309,12 @@ export type SignalScoutConfigStatusEnum =
   | "pending_pause"
   | "paused_by_system"
   | "paused_by_user";
-/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
+/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `trial_scout_limit` - Free trial scout limit * `retired` - Retired * `background_removed` - Background removed */
 export type SignalScoutConfigPauseReasonEnum =
   | "no_output"
   | "ignored"
   | "repeated_failures"
+  | "trial_scout_limit"
   | "retired"
   | "background_removed";
 /** * `team` - Team * `background` - Background */
@@ -2039,8 +2325,10 @@ export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknow
 export type SignalScoutConfigMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type SignalScoutConfigRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type SignalScoutConfigWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type SignalScoutConfigAllowedMcpToolsList = Array<string>;
 export type ScoutPrecheckQuerySourceEnum = "config" | "skill_default" | "off";
@@ -2069,7 +2357,7 @@ export interface SignalScoutConfig {
   enabled: boolean;
   /** Lifecycle status. `active`: runs on its schedule. `pending_pause`: still running, but flagged by the system to pause soon unless something changes (any config edit clears it). `paused_by_system`: paused automatically, see `pause_reason`; set `enabled=true` to resume. `paused_by_user`: switched off by a person and never resumed automatically. * `active` - Active * `pending_pause` - Pending pause * `paused_by_system` - Paused by system * `paused_by_user` - Paused by user */
   status: SignalScoutConfigStatusEnum;
-  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports -- no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
+  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports -- no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `trial_scout_limit` - Free trial scout limit * `retired` - Retired * `background_removed` - Background removed */
   pause_reason: SignalScoutConfigPauseReasonEnum | null;
   /** Who controls this scout now. `team`: a person set it up or has changed it. `background`: PostHog runs it in the background and no person has edited it yet. Any edit through this API changes `background` to `team`. * `team` - Team * `background` - Background */
   managed_by: SignalScoutConfigManagedByEnum;
@@ -2087,12 +2375,18 @@ export interface SignalScoutConfig {
   network_access: SignalScoutConfigNetworkAccessEnum;
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model: string | null;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id: string | null;
   /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
   mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: SignalScoutConfigRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes: SignalScoutConfigWriteScopesList;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions: SignalScoutConfigReportActionsList;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day: number;
   /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
   lifecycle_locked: boolean;
   /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
@@ -2105,7 +2399,7 @@ export interface SignalScoutConfig {
   precheck_disabled: boolean;
   /** The pre-check query the next scheduled run uses: `precheck_query`, or the default the scout's skill ships. Null when no pre-check runs. */
   effective_precheck_query: string | null;
-  /** Where `effective_precheck_query` comes from: `config` (this scout's `precheck_query`), `skill_default` (the default its skill ships), or `off` (no pre-check runs). */
+  /** Where `effective_precheck_query` comes from: `config` (this scout's `precheck_query`), `skill_default` (the default its skill ships), or `off` (no pre-check runs). `skill_default` with a null `effective_precheck_query` means the scout runs a built-in check in code. */
   precheck_query_source: ScoutPrecheckQuerySourceEnum;
   /** When a scheduled run last evaluated this scout's pre-check. A skipped run writes no run row, so this stays recent while `last_run_at` ages. Null if no pre-check has run. */
   last_precheck_at: string | null;
@@ -2165,8 +2459,10 @@ export type CreateSignalsScoutConfigRequestStructuredOutputSchemaMap = {
 export type CreateSignalsScoutConfigRequestMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type CreateSignalsScoutConfigRequestRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type CreateSignalsScoutConfigRequestWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type CreateSignalsScoutConfigRequestReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type CreateSignalsScoutConfigRequestAllowedMcpToolsList = Array<string>;
 export interface CreateSignalsScoutConfigRequest {
@@ -2174,6 +2470,8 @@ export interface CreateSignalsScoutConfigRequest {
   project_id: string;
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id?: string | null | undefined;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
   tags?: CreateSignalsScoutConfigRequestTagsList | undefined;
   /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` -- e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit -- a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
@@ -2185,8 +2483,12 @@ export interface CreateSignalsScoutConfigRequest {
   mcp_gateway_server_ids?: CreateSignalsScoutConfigRequestMcpGatewayServerIdsList | undefined;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: CreateSignalsScoutConfigRequestRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes?: CreateSignalsScoutConfigRequestWriteScopesList | undefined;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions?: CreateSignalsScoutConfigRequestReportActionsList | undefined;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day?: number | undefined;
   /** Opt-in guard on this scout's lifecycle. Off by default, so anyone with scout write access may pause, resume, switch the scout to dry run, or delete it. On, only the person the scout's runs act as or a project admin may do any of those, or change this flag. Use it on a scout whose output people depend on: `signal_scout:write` is a project-wide scope held by people and by unattended agents alike, and a resume has to pass the project's enabled-scout maximum that a pause does not, so a bulk pause is not undone in one step. The lock never stops an automatic pause, such as the inactivity sweep or the repeated-failure breaker. */
   lifecycle_locked?: boolean | undefined;
   /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
@@ -2397,6 +2699,30 @@ export interface CreateSignalsScoutReportCheckRequest {
   /** The report the check attaches to. */
   report_id: string;
 }
+/** Ids of the channels to read, at most 20. Every channel must already have synced its message table. */
+export type CreateSignalsSlackChannelScoutRequestChannelIdsList = Array<string>;
+export interface CreateSignalsSlackChannelScoutRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Name shown wherever people identify this scout. The scout's skill name is generated from it. */
+  display_name: string;
+  /** Id of the Slack data warehouse source to read. */
+  source_id: string;
+  /** Ids of the channels to read, at most 20. Every channel must already have synced its message table. */
+  channel_ids: CreateSignalsSlackChannelScoutRequestChannelIdsList;
+  /** What the scout looks for in the messages, in plain words. Blank uses a default focus on bug reports, repeated requests, and complaints. */
+  steer?: string | undefined;
+  /** Optional five-field cron expression evaluated in the project timezone, e.g. '0 9 * * 1-5'. Occurrences must be at least 30 minutes apart. Omit for the daily default. */
+  run_cron_schedule?: string | null | undefined;
+  /** Whether the scout files reports in the inbox. False is a dry run: it runs and logs only. */
+  emit?: boolean | undefined;
+}
+export interface SlackChannelScoutCreateResponse {
+  /** True when this request created the scout. */
+  created: boolean;
+  /** The new scout's skill name, its permanent identifier. Its config records the Slack source as owner. */
+  skill_name: string;
+}
 /** Per-source settings as a JSON object. Keys read by the emission actionability gate on sources that define one (most data warehouse imports, and Conversations): `steering` (string, max 2000 characters) holds the team's preferences about this source's records in plain language: what matters, what to skip, what's out of scope. The emission actionability gate applies it when deciding which records become signals; rules apply from the next sync and nothing already emitted is retracted. `default_not_actionable` (boolean, default false) flips the gate's default: instead of keeping every record the steering rules don't exclude, only records that clearly match the team's preferences are kept. Other sources store these keys without reading them yet; future pipeline stages will consume the same steering text. Some sources read additional keys, for example `recording_filters` and `sample_rate` for session analysis. The Linear issue source (`source_product=linear`, `source_type=issue`) reads `linear_team_ids` (list of Linear team id strings, max 100): the warehouse still syncs the whole Linear workspace, but only issues from those teams become signals. Omit the key or pass an empty list to use every team. Get the ids from the Linear integration's teams endpoint. The error tracking sources (`source_product=error_tracking`) read `issue_filters`: an object with a `properties` list of event property filters, the same shape error tracking alert filters use. The filter sees the issue's own fields (`name`, `description`, `severity`, `assignee`) and the properties of one exception: the first one for a new issue, the reopening one, or an example for a spike. Only issues that match become signals. The server compiles the filter and ignores any bytecode sent with it. Save the same filter on all three error tracking rows with `config_set`, and remove it with `config_remove`. Filters apply to future signals only, and they decide which issues are eligible. They are not a spend cap. The product analytics source (`source_product=analytics`, `source_type=anomaly_investigation`) accepts `alert_scope`: `investigated_only` (default) turns only insight alerts that the investigation agent confirmed into signals, `all_firing_alerts` also includes alerts without the investigation agent, and `off` turns no alerts into signals. Alert checks, notifications, and investigations still run with `off`. It also accepts `alert_allow_patterns` and `alert_block_patterns` (lists of up to 20 regex patterns, max 200 characters each). A pattern matches when it finds a match anywhere in the alert name or the insight name, and matching is case sensitive unless the pattern uses the `(?i)` flag. When allow patterns are set, an alert must match one of them. An alert that matches a block pattern is dropped, also when it matches an allow pattern. Patterns use RE2 syntax, which has no lookaround and no backreferences. Both keys apply to either `all_firing_alerts` or `investigated_only`. Other sources reject these keys. */
 export type CreateSignalsSourceConfigRequestConfigMap = { [key: string]: unknown | undefined };
 /** Top-level config keys to set atomically on update. Unspecified keys are preserved. Cannot be combined with config. */
@@ -2419,6 +2745,24 @@ export interface CreateSignalsSourceConfigRequest {
 /** Per-source settings as a JSON object. Keys read by the emission actionability gate on sources that define one (most data warehouse imports, and Conversations): `steering` (string, max 2000 characters) holds the team's preferences about this source's records in plain language: what matters, what to skip, what's out of scope. The emission actionability gate applies it when deciding which records become signals; rules apply from the next sync and nothing already emitted is retracted. `default_not_actionable` (boolean, default false) flips the gate's default: instead of keeping every record the steering rules don't exclude, only records that clearly match the team's preferences are kept. Other sources store these keys without reading them yet; future pipeline stages will consume the same steering text. Some sources read additional keys, for example `recording_filters` and `sample_rate` for session analysis. The Linear issue source (`source_product=linear`, `source_type=issue`) reads `linear_team_ids` (list of Linear team id strings, max 100): the warehouse still syncs the whole Linear workspace, but only issues from those teams become signals. Omit the key or pass an empty list to use every team. Get the ids from the Linear integration's teams endpoint. The error tracking sources (`source_product=error_tracking`) read `issue_filters`: an object with a `properties` list of event property filters, the same shape error tracking alert filters use. The filter sees the issue's own fields (`name`, `description`, `severity`, `assignee`) and the properties of one exception: the first one for a new issue, the reopening one, or an example for a spike. Only issues that match become signals. The server compiles the filter and ignores any bytecode sent with it. Save the same filter on all three error tracking rows with `config_set`, and remove it with `config_remove`. Filters apply to future signals only, and they decide which issues are eligible. They are not a spend cap. The product analytics source (`source_product=analytics`, `source_type=anomaly_investigation`) accepts `alert_scope`: `investigated_only` (default) turns only insight alerts that the investigation agent confirmed into signals, `all_firing_alerts` also includes alerts without the investigation agent, and `off` turns no alerts into signals. Alert checks, notifications, and investigations still run with `off`. It also accepts `alert_allow_patterns` and `alert_block_patterns` (lists of up to 20 regex patterns, max 200 characters each). A pattern matches when it finds a match anywhere in the alert name or the insight name, and matching is case sensitive unless the pattern uses the `(?i)` flag. When allow patterns are set, an alert must match one of them. An alert that matches a block pattern is dropped, also when it matches an allow pattern. Patterns use RE2 syntax, which has no lookaround and no backreferences. Both keys apply to either `all_firing_alerts` or `investigated_only`. Other sources reject these keys. */
 export type SignalSourceConfigOutputConfigMap = { [key: string]: unknown | undefined };
 export type SignalSourceSyncStatusEnum = "running" | "completed" | "failed";
+/** * `ok` - ok * `failing` - failing */
+export type SourceFilterRunStateEnum = "ok" | "failing";
+export interface SourceFilterRunStatus {
+  /** `failing` when the last fetch of this source's records failed because of its saved filter or the query it builds. Nothing from the source reaches the inbox until a fetch succeeds, and the next successful fetch reads the missed records again. `ok` otherwise. * `ok` - ok * `failing` - failing */
+  state: SourceFilterRunStateEnum;
+  /** Why the last fetch failed, such as `unknown_field`, `type`, `catalog_missing` or `query_failed`. Null unless `state` is `failing`. */
+  error_code: string | null;
+  /** A readable explanation of the failure, or the error type for a failed query. It never carries record values. Null unless `state` is `failing`. */
+  error_message: string | null;
+  /** When the most recent failure happened. Null unless `state` is `failing`. */
+  failed_at: string | null;
+  /** Records created since this time wait to be read again once a fetch succeeds. Null when none wait. */
+  unread_since: string | null;
+  /** When a fetch of this source last succeeded with the filter. Null if never. */
+  last_success_at: string | null;
+  /** Records in the last successful fetch that the filter excluded because a field it reads held a value that could not be read. */
+  malformed_count: number;
+}
 export interface SignalSourceConfigOutput {
   id?: string | undefined;
   source_product?: SignalSourceProductEnum | undefined;
@@ -2430,6 +2774,193 @@ export interface SignalSourceConfigOutput {
   updated_at?: string | undefined;
   /** Sync state of the warehouse import behind this source: `running`, `failed`, or `completed`. Null for a source that imports nothing from the warehouse, for an import that has never synced, and when the sync state could not be read. */
   status?: SignalSourceSyncStatusEnum | null | undefined;
+  /** How emission last went for this source's saved `hogql_filter`. Null when the source has no saved filter, or before the first fetch with it. */
+  filter_status: SourceFilterRunStatus | null;
+}
+/** Allow patterns to try, as they would be saved in `config.alert_allow_patterns`. */
+export type CreateSignalsSourceConfigsAlertPatternPreviewRequestAlertAllowPatternsList =
+  Array<string>;
+/** Block patterns to try, as they would be saved in `config.alert_block_patterns`. */
+export type CreateSignalsSourceConfigsAlertPatternPreviewRequestAlertBlockPatternsList =
+  Array<string>;
+export interface CreateSignalsSourceConfigsAlertPatternPreviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Allow patterns to try, as they would be saved in `config.alert_allow_patterns`. */
+  alert_allow_patterns?:
+    | CreateSignalsSourceConfigsAlertPatternPreviewRequestAlertAllowPatternsList
+    | undefined;
+  /** Block patterns to try, as they would be saved in `config.alert_block_patterns`. */
+  alert_block_patterns?:
+    | CreateSignalsSourceConfigsAlertPatternPreviewRequestAlertBlockPatternsList
+    | undefined;
+}
+/** * `passed` - passed * `blocked` - blocked * `not_allowed` - not_allowed */
+export type AlertPatternPreviewOutcomeEnum = "passed" | "blocked" | "not_allowed";
+export interface AlertPatternPreviewAlert {
+  /** The alert's id. */
+  id: string;
+  /** The alert's name. Empty when the alert has no name. */
+  name: string;
+  /** The insight's name, or its derived name when it has none. */
+  insight_name: string | null;
+  /** Short id of the insight the alert watches. */
+  insight_short_id: string;
+  /** `passed` when the patterns let the alert through, `blocked` when it matches a block pattern, and `not_allowed` when allow patterns are set and it matches none of them. * `passed` - passed * `blocked` - blocked * `not_allowed` - not_allowed */
+  outcome: AlertPatternPreviewOutcomeEnum;
+}
+/** The project's enabled alerts on insights you can view, newest first, each with what the patterns do to it. Empty while either pattern list has an error. */
+export type AlertPatternPreviewResponseAlertsList = Array<AlertPatternPreviewAlert>;
+export interface AlertPatternPreviewResponse {
+  /** Why the allow patterns could not be saved, or null when they are valid. */
+  alert_allow_patterns_error: string | null;
+  /** Why the block patterns could not be saved, or null when they are valid. */
+  alert_block_patterns_error: string | null;
+  /** The project's enabled alerts on insights you can view, newest first, each with what the patterns do to it. Empty while either pattern list has an error. */
+  alerts: AlertPatternPreviewResponseAlertsList;
+  /** True when the project has more enabled alerts than `alerts` lists. */
+  has_more: boolean;
+}
+/** The source's record allowlist as it would be saved, to preview it before saving. For Linear issues, these are the Linear team ids saved in `config.linear_team_ids`. Omit it or pass null to use the saved allowlist, pass an empty list to read every team, or pass a list of non-empty ids (at most 100) to read only those. Sources without an allowlist ignore it. */
+export type CreateSignalsSourceConfigsFilterPreviewRequestScopeIdsList = Array<string>;
+export interface CreateSignalsSourceConfigsFilterPreviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Source product of the filter, as listed by `inbox-source-filter-catalogs-list`. */
+  source_product: string;
+  /** Source type of the filter, as listed by `inbox-source-filter-catalogs-list`. */
+  source_type: string;
+  /** Filter expression to try, as it would be saved in `config.hogql_filter`: a boolean expression over the fields `inbox-source-filter-catalogs-list` returns, for example `project_name = 'Core' AND assignee_id IS NULL`. An empty expression lets every record through. */
+  expression: string;
+  /** The source's record allowlist as it would be saved, to preview it before saving. For Linear issues, these are the Linear team ids saved in `config.linear_team_ids`. Omit it or pass null to use the saved allowlist, pass an empty list to read every team, or pass a list of non-empty ids (at most 100) to read only those. Sources without an allowlist ignore it. */
+  scope_ids?: CreateSignalsSourceConfigsFilterPreviewRequestScopeIdsList | null | undefined;
+}
+/** * `ok` - ok * `invalid_expression` - invalid_expression * `not_connected` - not_connected * `not_synced` - not_synced * `access_denied` - access_denied * `incompatible_table` - incompatible_table * `query_failed` - query_failed */
+export type SourceFilterPreviewStatusEnum =
+  | "ok"
+  | "invalid_expression"
+  | "not_connected"
+  | "not_synced"
+  | "access_denied"
+  | "incompatible_table"
+  | "query_failed";
+export type SourceFilterPreviewRecordFieldValuesValueCase2List = Array<string>;
+export type SourceFilterPreviewRecordFieldValuesValue =
+  | string
+  | number
+  | SourceFilterPreviewRecordFieldValuesValueCase2List;
+/** Each catalog field's value for this record. A malformed value reads as null, or an empty array. */
+export type SourceFilterPreviewRecordFieldValuesMap = {
+  [key: string]: SourceFilterPreviewRecordFieldValuesValue | null | undefined;
+};
+/** For an excluded record, the conditions of the expression that the record does not pass, as written in the expression and in expression order. The conditions are the operands of a top-level AND, or the whole expression when it is one condition. A condition that reads a malformed value fails. Null for records that pass, and for every record when the expression's top level is OR or the expression has more than 8 conditions. */
+export type SourceFilterPreviewRecordFailedConditionsList = Array<string>;
+export interface SourceFilterPreviewRecord {
+  /** The record's id in the source. */
+  id: string;
+  /** Short identifier people use for the record. */
+  identifier: string | null;
+  /** The record's title. */
+  title: string | null;
+  /** Link to the record in the source. */
+  url: string | null;
+  /** When the record was created, as emission reads it. */
+  created_at: string | null;
+  /** True when a field the expression uses holds a value that cannot be read, so the record never passes. */
+  malformed: boolean;
+  /** Each catalog field's value for this record. A malformed value reads as null, or an empty array. */
+  field_values: SourceFilterPreviewRecordFieldValuesMap;
+  /** For an excluded record, the conditions of the expression that the record does not pass, as written in the expression and in expression order. The conditions are the operands of a top-level AND, or the whole expression when it is one condition. A condition that reads a malformed value fails. Null for records that pass, and for every record when the expression's top level is OR or the expression has more than 8 conditions. */
+  failed_conditions: SourceFilterPreviewRecordFailedConditionsList | null;
+}
+/** The newest records that pass the filter, at most 10. */
+export type SourceFilterPreviewResponsePassingList = Array<SourceFilterPreviewRecord>;
+/** The newest records that the filter excludes, at most 10. */
+export type SourceFilterPreviewResponseExcludedList = Array<SourceFilterPreviewRecord>;
+export interface SourceFilterPreviewResponse {
+  /** Machine-readable reason the expression is invalid, for example `syntax`, `unknown_field`, `type`, `boolean_required` or `expression_limit`. Null when the expression is valid. */
+  error_code: string | null;
+  /** 0-based character offset in `expression` where the invalid part starts. Null when the expression is valid, or when the error has no position, for example an expression that is too long. */
+  error_start: number | null;
+  /** 0-based character offset in `expression` just after the invalid part, so the part is `expression[error_start:error_end]`. Equal to `error_start` when the error is at one point, for example an expression that ends too early. Null when `error_start` is null. */
+  error_end: number | null;
+  /** `ok` when the counts and records are filled in. `invalid_expression` when the expression cannot be saved. `not_connected` when the project has no syncing import for the source. `not_synced` when the import has not finished a first sync. `access_denied` when you cannot read the source's warehouse table. `incompatible_table` when the table does not have the columns the filter fields read. `query_failed` when the preview query did not run. * `ok` - ok * `invalid_expression` - invalid_expression * `not_connected` - not_connected * `not_synced` - not_synced * `access_denied` - access_denied * `incompatible_table` - incompatible_table * `query_failed` - query_failed */
+  status: SourceFilterPreviewStatusEnum;
+  /** Why the status is not `ok`, when there is a reason. */
+  error: string | null;
+  /** Catalog version the expression was checked against. */
+  catalog_version: number;
+  /** The preview reads records created in this many past days. */
+  lookback_days: number;
+  /** Records in the window that emission would read before the filter. Leaves out records that never become signals, such as Linear issues without a description. 0 unless `status` is `ok`. */
+  total_count: number;
+  /** Records in the window that pass the filter. */
+  passing_count: number;
+  /** Records in the window that the filter excludes. */
+  excluded_count: number;
+  /** Excluded records that hold a value the filter cannot read. Included in `excluded_count`. */
+  malformed_count: number;
+  /** The newest records that pass the filter, at most 10. */
+  passing: SourceFilterPreviewResponsePassingList;
+  /** The newest records that the filter excludes, at most 10. */
+  excluded: SourceFilterPreviewResponseExcludedList;
+}
+export interface CreateSignalsTrialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** * `not_claimed` - Not claimed * `active` - Active * `exhausted` - Exhausted */
+export type TrialGrantStatusEnum = "not_claimed" | "active" | "exhausted";
+/** * `continue_paid` - Continue under existing paid authorization * `add_payment_method` - Add a payment method * `increase_limit` - Increase the Self-driving spending limit * `enable_self_driving` - Enable paid Self-driving * `unavailable` - Billing status unavailable */
+export type TrialContinuationEnum =
+  | "continue_paid"
+  | "add_payment_method"
+  | "increase_limit"
+  | "enable_self_driving"
+  | "unavailable";
+export interface SelfDrivingTrialStatus {
+  /** Whether the one-time trial rollout is enabled for this organization. */
+  enabled: boolean;
+  /** Whether the current rollout check succeeded. */
+  flag_confirmed: boolean;
+  /** Effective trial policy version. */
+  policy_version: number;
+  /** Whether the legacy reports-only trial still prevents implementation for this project. */
+  legacy_pr_restricted: boolean;
+  /** Whether the current Self-driving plan has no recurring free allowance. */
+  billing_ready: boolean;
+  /** Whether this project can explicitly claim its lifetime grant. */
+  eligible: boolean;
+  /** Whether the current user has project-management permission to activate. */
+  can_activate: boolean;
+  /** Unclaimed lifetime project grants in the organization. */
+  organization_grants_remaining: number;
+  /** Lifetime project grant, shared with its environments. */
+  grant_id: string | null;
+  /** The project's lifetime trial state. * `not_claimed` - Not claimed * `active` - Active * `exhausted` - Exhausted */
+  grant_status: TrialGrantStatusEnum;
+  /** Why the trial completed: cost_limit or report_limit. */
+  exhaustion_reason: string;
+  /** Qualifying reports delivered since the claim, including hidden or deleted reports. */
+  reports_delivered: number;
+  /** Admitted reports that have not yet qualified as delivered. */
+  reports_in_progress: number;
+  /** Report limit for admitting new work; accepted pipelines may finish beyond it. */
+  report_limit: number;
+  /** One-time allowance in millionths of a US dollar. */
+  allowance_microusd: number;
+  /** Settled and known running costs, capped at the trial allowance. */
+  used_microusd: number;
+  /** Whether the shared trial and billing limits block new work. */
+  new_work_paused: boolean;
+  /** Enabled scouts across this project's environments. */
+  enabled_scouts: number;
+  /** Maximum enabled scouts allowed for the project. */
+  scout_limit: number;
+  /** Number of scouts paused when the trial starts. */
+  scouts_to_pause: number;
+  /** What happens to new work after the trial. * `continue_paid` - Continue under existing paid authorization * `add_payment_method` - Add a payment method * `increase_limit` - Increase the Self-driving spending limit * `enable_self_driving` - Enable paid Self-driving * `unavailable` - Billing status unavailable */
+  paid_continuation: TrialContinuationEnum;
 }
 export interface DismissSignalsScoutSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2451,6 +2982,8 @@ export type EditSignalsScoutReportRequestSuggestedPromptsList = Array<string>;
 export type EditSignalsScoutReportRequestLinksList = Array<ReportLinkWrite>;
 /** The GitHub issues this report is about, when the finding came from an issue tracker. Pass the issue whenever the report is about one, so the report links back to it: a GitHub issue signal for the same issue then joins this report instead of opening a second one. When the project turned on GitHub issue comments, the issue gets one comment that links the report once its GitHub source ingests the issue. At most 5 per call. Additive: issues join the ones the report already names, and an issue it already names is skipped. Only a newly added issue gets a comment. */
 export type EditSignalsScoutReportRequestSourceIssuesList = Array<SourceIssueWrite>;
+/** GitHub pull request URLs (`https://github.com/<owner>/<repo>/pull/<number>`) that fix what this report describes, when you found a fix that a person or another agent already opened. A linked pull request is the report's implementation: the report resolves on its own when every linked pull request is closed or merged and at least one merged, and a merged pull request resolves it at once. Additive: a pull request the report already links is skipped. Linking does not claim the report and does not change the pull request itself (no labels, reviewers, or ready-for-review). Link only a pull request whose diff targets this report's cause. The edit refuses a pull request outside the report's repository, one GitHub cannot read, and one closed without merging. At most 5 per call. */
+export type EditSignalsScoutReportRequestPullRequestsList = Array<string>;
 /** The report's full set of slug tags, at most 10. Replaces the report's tags rather than adding to them, so send every tag you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to remove them. Reuse a slug the project already uses before you coin a new one. */
 export type EditSignalsScoutReportRequestTagsList = Array<string>;
 export interface EditSignalsScoutReportRequest {
@@ -2492,6 +3025,8 @@ export interface EditSignalsScoutReportRequest {
   links?: EditSignalsScoutReportRequestLinksList | undefined;
   /** The GitHub issues this report is about, when the finding came from an issue tracker. Pass the issue whenever the report is about one, so the report links back to it: a GitHub issue signal for the same issue then joins this report instead of opening a second one. When the project turned on GitHub issue comments, the issue gets one comment that links the report once its GitHub source ingests the issue. At most 5 per call. Additive: issues join the ones the report already names, and an issue it already names is skipped. Only a newly added issue gets a comment. */
   source_issues?: EditSignalsScoutReportRequestSourceIssuesList | undefined;
+  /** GitHub pull request URLs (`https://github.com/<owner>/<repo>/pull/<number>`) that fix what this report describes, when you found a fix that a person or another agent already opened. A linked pull request is the report's implementation: the report resolves on its own when every linked pull request is closed or merged and at least one merged, and a merged pull request resolves it at once. Additive: a pull request the report already links is skipped. Linking does not claim the report and does not change the pull request itself (no labels, reviewers, or ready-for-review). Link only a pull request whose diff targets this report's cause. The edit refuses a pull request outside the report's repository, one GitHub cannot read, and one closed without merging. At most 5 per call. */
+  pull_requests?: EditSignalsScoutReportRequestPullRequestsList | undefined;
   /** The report's full set of slug tags, at most 10. Replaces the report's tags rather than adding to them, so send every tag you want kept. Omit the field (or send null) to leave them untouched, and send an empty list to remove them. Reuse a slug the project already uses before you coin a new one. */
   tags?: EditSignalsScoutReportRequestTagsList | null | undefined;
   /** Set this only when your rewrite changes what the fix should be: a different root cause, a different file or layer, a materially wider or narrower scope. More evidence for the same fix is not a reason, because the report's open pull request already implements it: put that in `append_note`. Setting it true records a replacement decision for a ready report. Policy and eligibility checks gate the replacement. The existing pull request closes only after a successful, verified replacement. Technical failures retry automatically; policy blocks wait for a new edit or research trigger. Only honored alongside a `title` or `summary` that actually changes, and only within the first four content revisions, including revisions that did not request replacement. When the flag is not applied, `warnings` says why. */
@@ -2519,6 +3054,8 @@ export interface EditReportWarning {
 }
 /** Request fields the edit did not apply, each with the reason. Empty when every field applied. */
 export type EditReportResponseWarningsList = Array<EditReportWarning>;
+/** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+export type EditReportResponseQualityHintsList = Array<ReportQualityHint>;
 export interface EditReportResponse {
   /** Id of the edited report. */
   report_id: string;
@@ -2532,6 +3069,8 @@ export interface EditReportResponse {
   links_appended: number;
   /** How many source issues this edit added that the report did not name yet; 0 if none. */
   source_issues_appended: number;
+  /** How many pull requests this edit linked that the report did not link yet; 0 if none. */
+  pull_requests_linked: number;
   /** Whether the report's suggested reviewers were replaced. */
   reviewers_set: boolean;
   /** Whether the report's repository was replaced (true for a cleared target too). */
@@ -2556,6 +3095,8 @@ export interface EditReportResponse {
   decision_fields_set: EditReportResponseDecisionFieldsSetList;
   /** Request fields the edit did not apply, each with the reason. Empty when every field applied. */
   warnings: EditReportResponseWarningsList;
+  /** Quality checks the title or summary matched. A `repair` hint means the stored text differs from what you sent: escape the JSON one time only next time. A `hint` means the text was stored as sent: correct it with edit_report if the hint applies. Empty when no check matched. */
+  quality_hints: EditReportResponseQualityHintsList;
   /** Whether your note raised the report's corroboration count instead of landing as its own entry. Only notes marked corroboration_only can collapse; free-form notes remain in the work log. */
   corroboration_collapsed: boolean;
 }
@@ -2757,8 +3298,6 @@ export interface GetSignalsAnomaliesInsightRequest {
   /** Only this series, by the `series_key` of an anomaly search row. */
   series_key?: string | undefined;
 }
-/** * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
-export type AnomalyIntervalEnum = "hour" | "day" | "week" | "month";
 /** Detector-specific values for the bucket. The keys depend on the detector. */
 export type AnomalyBucketDetailsMap = { [key: string]: unknown | undefined };
 export interface AnomalyBucket {
@@ -2792,8 +3331,6 @@ export interface AnomalyInsightSeries {
   flagged_buckets: number;
   /** `flagged_buckets / scored_buckets`. */
   anomaly_rate: number | null;
-  /** The anomaly rate over the 30 days before the range. Null when no bucket was scored then. */
-  baseline_rate: number | null;
   /** Completed buckets in the range, scored or not. */
   expected_buckets: number;
   /** `scored_buckets / expected_buckets`. */
@@ -3154,6 +3691,7 @@ export interface SignalReportRefundSummaryResponse {
 }
 export type GetSignalsReportsSectionCountRequestAssignee = "me" | "mine";
 export type GetSignalsReportsSectionCountRequestExcludeList = Array<string>;
+export type GetSignalsReportsSectionCountRequestTagsList = Array<string>;
 export interface GetSignalsReportsSectionCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -3165,6 +3703,8 @@ export interface GetSignalsReportsSectionCountRequest {
   assignee?: GetSignalsReportsSectionCountRequestAssignee | (string & {}) | undefined;
   /** Narrow to reports assigned to one space (channel). Absent or empty means all reports regardless of assignment. */
   channel_id?: string | undefined;
+  /** Comma-separated ways the requesting user is connected to a report; a report matching any of them is kept. 'assigned': the user claimed it, themselves or through their MCP agents, as with assignee=mine. 'suggested_reviewer': it names the user as a suggested reviewer, as with scope=for_me. */
+  connected?: string | undefined;
   /** ISO 8601 datetime. Keeps reports created at or after this time. */
   created_after?: string | undefined;
   /** ISO 8601 datetime. Keeps reports created before this time. Use it for reports older than a cutoff, instead of reading every page. */
@@ -3173,11 +3713,15 @@ export interface GetSignalsReportsSectionCountRequest {
   exclude?: GetSignalsReportsSectionCountRequestExcludeList | undefined;
   /** Include reports kept out of the shared inbox. A report is kept out when the scout that authored it turned off its `inbox` output destination. Defaults to false. Fetching a report by id always works, whatever this value is. */
   include_unlisted?: boolean | undefined;
+  /** 'true' keeps only the reports that need the requesting user: the ones waiting on their input (pending_input and naming them as a suggested reviewer) and the ones they claimed, themselves or through their MCP agents. 'false' leaves those out. Combine with sort=personal to order them by the user's personal ranking. */
+  needs_you?: boolean | undefined;
+  /** Requires task_id. When true, keeps only the reports that the task's pull requests and commits link to: its source report, the reports the task attached a pull request to, and its pipeline, legacy and assignment associations. A report that the task only claimed is kept only when the task has no other report. */
+  pr_targets?: boolean | undefined;
   /** Comma-separated list of priorities to include. Valid values: P0, P1, P2, P3, P4. Reports without a priority assignment are excluded when this filter is set. */
   priority?: string | undefined;
-  /** Comma-separated <outcome>:<lift> pairs, e.g. fix:2,open:1.5. Keeps reports whose served ranking lift is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. Unscored and stale reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
+  /** Comma-separated <outcome>:<lift> pairs, e.g. fix:2,open:1.5. Keeps reports whose served ranking lift is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. A report edited after its last score matches on that score. Unscored reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
   ranking_min_lift?: string | undefined;
-  /** Comma-separated <outcome>:<probability> pairs, e.g. fix:0.3. Keeps reports whose served ranking probability is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. Unscored and stale reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
+  /** Comma-separated <outcome>:<probability> pairs, e.g. fix:0.3. Keeps reports whose served ranking probability is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. A report edited after its last score matches on that score. Unscored reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
   ranking_min_probability?: string | undefined;
   /** Reviewer scope: for_me, entire_project, or teammate. Pass teammate_uuid with teammate. */
   scope?: string | undefined;
@@ -3193,11 +3737,13 @@ export interface GetSignalsReportsSectionCountRequest {
   source_product?: string | undefined;
   /** Comma-separated list of PostHog user UUIDs. Reports are kept if their suggested reviewers include any of the given users. */
   suggested_reviewers?: string | undefined;
+  /** Keep only reports that carry at least one of these tags, as repeated parameters or comma-separated, for example `billing,on-call`. Values are normalized the same way stored tags are, so `On Call` matches `on-call`. At most 10. Omit for reports with any tags or none. */
+  tags?: GetSignalsReportsSectionCountRequestTagsList | undefined;
   /** Only reports associated with this task (via the report's task associations). */
   task_id?: string | undefined;
   /** PostHog user UUID used when scope=teammate. */
   teammate_uuid?: string | undefined;
-  /** Filter by whether the report has no owner and no draft, open, or unknown PR. Resolved reports are never unclaimed. */
+  /** Filter by whether the report has no active claim and no draft, open, or unknown PR. True returns the reports with no work in progress. Suggested reviewers do not count as a claim. Resolved reports are never unclaimed. A suppressed report can be unclaimed, but it cannot be claimed until it is restored. */
   unclaimed?: boolean | undefined;
   /** Filter by the current user's report read state. */
   unread?: boolean | undefined;
@@ -3218,7 +3764,7 @@ export interface GetSignalsReportsSignalRequest {
 }
 /** Pipeline stages with generations whose spend could not be accounted for. Cleared when accounting recovers. */
 export type SignalNodeSpendAccountingFailedStagesList = Array<string>;
-/** * `session_replay` - session_replay * `llm_analytics` - llm_analytics * `github` - github * `linear` - linear * `jira` - jira * `zendesk` - zendesk * `conversations` - conversations * `error_tracking` - error_tracking * `endpoints` - endpoints * `pganalyze` - pganalyze * `signals_scout` - signals_scout * `signals_check` - signals_check * `user_authored` - user_authored * `logs` - logs * `health_checks` - health_checks * `replay_vision` - replay_vision * `analytics` - analytics * `freshdesk` - freshdesk * `freshservice` - freshservice * `front` - front * `gorgias` - gorgias * `kustomer` - kustomer * `dixa` - dixa * `plain` - plain * `gitlab` - gitlab * `gitea` - gitea * `shortcut` - shortcut * `sentry` - sentry * `rollbar` - rollbar * `bugsnag` - bugsnag * `honeybadger` - honeybadger * `raygun` - raygun * `datadog` - datadog * `snyk` - snyk * `sonarqube` - sonarqube * `semgrep` - semgrep * `rapid7_insightvm` - rapid7_insightvm * `featurebase` - featurebase * `frill` - frill * `aha` - aha * `uservoice` - uservoice * `productboard` - productboard * `canny` - canny * `asknicely` - asknicely * `retently` - retently * `appfigures` - appfigures * `appfollow` - appfollow * `judgeme_reviews` - judgeme_reviews * `intercom` - intercom * `hubspot` - hubspot * `engineering_analytics` - engineering_analytics * `google_search_console` - google_search_console * `pagerduty` - pagerduty * `opsgenie` - opsgenie * `incident_io` - incident_io * `firehydrant` - firehydrant * `squadcast` - squadcast * `servicenow` - servicenow * `solarwinds_service_desk` - solarwinds_service_desk * `grafana_irm` - grafana_irm * `xmatters` - xmatters * `betterstack` - betterstack * `newrelic` - newrelic * `trigger_dev` - trigger_dev * `checkly` - checkly * `roark` - roark * `monte_carlo` - monte_carlo * `bigeye` - bigeye * `aws_security_hub` - aws_security_hub * `aws_guardduty` - aws_guardduty * `aws_inspector` - aws_inspector * `microsoft_defender_cloud_apps` - microsoft_defender_cloud_apps * `clickup` - clickup * `wrike` - wrike * `trello` - trello * `bugherd` - bugherd * `dynamics365` - dynamics365 * `zoho_crm` - zoho_crm * `planhat` - planhat * `trustpilot` - trustpilot * `okendo` - okendo * `sleekplan` - sleekplan * `bettermode` - bettermode * `discourse` - discourse * `mintlify` - mintlify * `langsmith` - langsmith * `sprig` - sprig * `gainsight_px` - gainsight_px * `dynatrace` - dynatrace * `statuspage` - statuspage * `cronitor` - cronitor * `instatus` - instatus * `asana` - asana * `monday` - monday * `plane` - plane * `azure_devops` - azure_devops * `helpscout` - helpscout * `decagon` - decagon * `vitally` - vitally * `usersnap` - usersnap * `typeform` - typeform * `qualtrics` - qualtrics * `surveymonkey` - surveymonkey * `formbricks` - formbricks * `survicate` - survicate * `surveysparrow` - surveysparrow * `lacework` - lacework * `orca_security` - orca_security * `tenable_vulnerability_management` - tenable_vulnerability_management * `google_play_console` - google_play_console * `azure_application_insights` - azure_application_insights * `appsignal` - appsignal * `cursor` - cursor */
+/** * `session_replay` - session_replay * `llm_analytics` - llm_analytics * `github` - github * `linear` - linear * `jira` - jira * `zendesk` - zendesk * `conversations` - conversations * `error_tracking` - error_tracking * `endpoints` - endpoints * `pganalyze` - pganalyze * `signals_scout` - signals_scout * `signals_check` - signals_check * `user_authored` - user_authored * `logs` - logs * `health_checks` - health_checks * `replay_vision` - replay_vision * `analytics` - analytics * `slack` - slack * `freshdesk` - freshdesk * `freshservice` - freshservice * `front` - front * `gorgias` - gorgias * `kustomer` - kustomer * `dixa` - dixa * `plain` - plain * `gitlab` - gitlab * `gitea` - gitea * `shortcut` - shortcut * `sentry` - sentry * `rollbar` - rollbar * `bugsnag` - bugsnag * `honeybadger` - honeybadger * `raygun` - raygun * `datadog` - datadog * `snyk` - snyk * `sonarqube` - sonarqube * `semgrep` - semgrep * `rapid7_insightvm` - rapid7_insightvm * `featurebase` - featurebase * `frill` - frill * `aha` - aha * `uservoice` - uservoice * `productboard` - productboard * `canny` - canny * `asknicely` - asknicely * `retently` - retently * `appfigures` - appfigures * `appfollow` - appfollow * `judgeme_reviews` - judgeme_reviews * `intercom` - intercom * `hubspot` - hubspot * `engineering_analytics` - engineering_analytics * `google_search_console` - google_search_console * `bing_webmaster_tools` - bing_webmaster_tools * `ahrefs` - ahrefs * `semrush` - semrush * `pagerduty` - pagerduty * `opsgenie` - opsgenie * `incident_io` - incident_io * `firehydrant` - firehydrant * `squadcast` - squadcast * `servicenow` - servicenow * `solarwinds_service_desk` - solarwinds_service_desk * `grafana_irm` - grafana_irm * `xmatters` - xmatters * `betterstack` - betterstack * `newrelic` - newrelic * `trigger_dev` - trigger_dev * `checkly` - checkly * `roark` - roark * `monte_carlo` - monte_carlo * `bigeye` - bigeye * `aws_security_hub` - aws_security_hub * `aws_guardduty` - aws_guardduty * `aws_inspector` - aws_inspector * `microsoft_defender_cloud_apps` - microsoft_defender_cloud_apps * `clickup` - clickup * `wrike` - wrike * `trello` - trello * `bugherd` - bugherd * `dynamics365` - dynamics365 * `zoho_crm` - zoho_crm * `planhat` - planhat * `trustpilot` - trustpilot * `okendo` - okendo * `sleekplan` - sleekplan * `bettermode` - bettermode * `discourse` - discourse * `mintlify` - mintlify * `langsmith` - langsmith * `sprig` - sprig * `gainsight_px` - gainsight_px * `dynatrace` - dynatrace * `statuspage` - statuspage * `cronitor` - cronitor * `instatus` - instatus * `rootly` - rootly * `zenduty` - zenduty * `splunk_observability_cloud` - splunk_observability_cloud * `uptimerobot` - uptimerobot * `rootly_alerts` - rootly_alerts * `incident_io_alerts` - incident_io_alerts * `firehydrant_alerts` - firehydrant_alerts * `grafana_irm_alert_groups` - grafana_irm_alert_groups * `asana` - asana * `monday` - monday * `plane` - plane * `azure_devops` - azure_devops * `helpscout` - helpscout * `decagon` - decagon * `vitally` - vitally * `intercom_tickets` - intercom_tickets * `pylon` - pylon * `usersnap` - usersnap * `typeform` - typeform * `qualtrics` - qualtrics * `surveymonkey` - surveymonkey * `formbricks` - formbricks * `survicate` - survicate * `surveysparrow` - surveysparrow * `lacework` - lacework * `orca_security` - orca_security * `tenable_vulnerability_management` - tenable_vulnerability_management * `google_play_console` - google_play_console * `azure_application_insights` - azure_application_insights * `appsignal` - appsignal * `cursor` - cursor * `github_dependabot` - github_dependabot * `github_code_scanning` - github_code_scanning * `github_secret_scanning` - github_secret_scanning * `beamer` - beamer * `beamer_nps` - beamer_nps * `chameleon` - chameleon * `etsy` - etsy * `featurebase_surveys` - featurebase_surveys * `g2` - g2 * `gumroad` - gumroad * `trustpilot_product_reviews` - trustpilot_product_reviews * `uservoice_nps` - uservoice_nps * `vitally_nps` - vitally_nps * `woocommerce` - woocommerce * `yotpo` - yotpo * `airbrake` - airbrake * `amazon_cloudwatch` - amazon_cloudwatch * `logicmonitor` - logicmonitor * `mux` - mux * `sonarcloud` - sonarcloud * `checkmarx` - checkmarx * `veracode` - veracode * `veracode_sca` - veracode_sca * `semgrep_sca` - semgrep_sca * `gitguardian` - gitguardian * `infisical` - infisical * `aws_macie` - aws_macie * `sentinelone` - sentinelone * `jfrog_xray` - jfrog_xray * `dynatrace_security` - dynatrace_security * `app_store_connect` - app_store_connect * `sentry_feedback` - sentry_feedback */
 export type SignalSourceProduct =
   | "session_replay"
   | "llm_analytics"
@@ -3237,6 +3783,7 @@ export type SignalSourceProduct =
   | "health_checks"
   | "replay_vision"
   | "analytics"
+  | "slack"
   | "freshdesk"
   | "freshservice"
   | "front"
@@ -3272,6 +3819,9 @@ export type SignalSourceProduct =
   | "hubspot"
   | "engineering_analytics"
   | "google_search_console"
+  | "bing_webmaster_tools"
+  | "ahrefs"
+  | "semrush"
   | "pagerduty"
   | "opsgenie"
   | "incident_io"
@@ -3312,6 +3862,14 @@ export type SignalSourceProduct =
   | "statuspage"
   | "cronitor"
   | "instatus"
+  | "rootly"
+  | "zenduty"
+  | "splunk_observability_cloud"
+  | "uptimerobot"
+  | "rootly_alerts"
+  | "incident_io_alerts"
+  | "firehydrant_alerts"
+  | "grafana_irm_alert_groups"
   | "asana"
   | "monday"
   | "plane"
@@ -3319,6 +3877,8 @@ export type SignalSourceProduct =
   | "helpscout"
   | "decagon"
   | "vitally"
+  | "intercom_tickets"
+  | "pylon"
   | "usersnap"
   | "typeform"
   | "qualtrics"
@@ -3332,7 +3892,39 @@ export type SignalSourceProduct =
   | "google_play_console"
   | "azure_application_insights"
   | "appsignal"
-  | "cursor";
+  | "cursor"
+  | "github_dependabot"
+  | "github_code_scanning"
+  | "github_secret_scanning"
+  | "beamer"
+  | "beamer_nps"
+  | "chameleon"
+  | "etsy"
+  | "featurebase_surveys"
+  | "g2"
+  | "gumroad"
+  | "trustpilot_product_reviews"
+  | "uservoice_nps"
+  | "vitally_nps"
+  | "woocommerce"
+  | "yotpo"
+  | "airbrake"
+  | "amazon_cloudwatch"
+  | "logicmonitor"
+  | "mux"
+  | "sonarcloud"
+  | "checkmarx"
+  | "veracode"
+  | "veracode_sca"
+  | "semgrep_sca"
+  | "gitguardian"
+  | "infisical"
+  | "aws_macie"
+  | "sentinelone"
+  | "jfrog_xray"
+  | "dynatrace_security"
+  | "app_store_connect"
+  | "sentry_feedback";
 /** * `session_analysis_cluster` - session_analysis_cluster * `session_problem` - session_problem * `evaluation` - evaluation * `evaluation_report` - evaluation_report * `issue` - issue * `ticket` - ticket * `issue_created` - issue_created * `issue_reopened` - issue_reopened * `issue_spiking` - issue_spiking * `endpoint_execution_failed` - endpoint_execution_failed * `endpoint_breakdown_limit_exceeded` - endpoint_breakdown_limit_exceeded * `cross_source_issue` - cross_source_issue * `alert_state_change` - alert_state_change * `health_issue` - health_issue * `scanner_finding` - scanner_finding * `anomaly_investigation` - anomaly_investigation * `alert_firing` - alert_firing * `feedback` - feedback * `review` - review * `ci_flaky_check` - ci_flaky_check * `ci_broken_default_branch` - ci_broken_default_branch * `ci_duration_regression` - ci_duration_regression * `search_opportunity` - search_opportunity * `check_failed` - check_failed * `monitoring_unresolved` - monitoring_unresolved * `incident` - incident */
 export type SignalSourceType =
   | "session_analysis_cluster"
@@ -4005,6 +4597,28 @@ export interface GoogleSearchConsoleSearchOpportunitySignalExtra {
   ctr: number;
   position: number;
 }
+export interface BingWebmasterToolsSearchOpportunitySignalExtra {
+  site_url: string | null;
+  issue_flag: string | null;
+  issue: string | null;
+  affected_urls: string | null;
+  example_url: string | null;
+  inbound_links: string | null;
+}
+export interface AhrefsSearchOpportunitySignalExtra {
+  project_id: string | null;
+  issue_id: string | null;
+  issue_category: string | null;
+  issue_importance: string | null;
+  affected_urls: string | null;
+}
+export interface SemrushSearchOpportunitySignalExtra {
+  project_id: string | null;
+  issue_id: string | null;
+  affected_pages: string | null;
+  example_url: string | null;
+  audit_snapshot_id: string | null;
+}
 export interface HelpscoutConversationSignalExtra {
   number: string | null;
   status: string | null;
@@ -4020,6 +4634,20 @@ export interface DecagonConversationSignalExtra {
 }
 export interface VitallyConversationSignalExtra {
   external_url: string | null;
+  created_at: string | null;
+}
+export interface IntercomTicketsTicketSignalExtra {
+  ticket_id: string | null;
+  category: string | null;
+  ticket_state_category: string | null;
+  ticket_type_name: string | null;
+  created_at: string | null;
+}
+export interface PylonTicketSignalExtra {
+  number: string | null;
+  state: string | null;
+  type: string | null;
+  link: string | null;
   created_at: string | null;
 }
 export interface PagerdutyIncidentSignalExtra {
@@ -4180,6 +4808,50 @@ export interface InstatusIncidentSignalExtra {
   started: string | null;
   components: InstatusIncidentSignalExtraComponentsList;
 }
+export interface RootlyIncidentSignalExtra {
+  status: string | null;
+  severity_name: string | null;
+  kind: string | null;
+  url: string | null;
+  created_at: string | null;
+}
+export interface ZendutyIncidentSignalExtra {
+  incident_number: string | null;
+  status: string | null;
+  urgency: string | null;
+  creation_date: string | null;
+}
+export interface SplunkObservabilityCloudIncidentSignalExtra {
+  severity: string | null;
+  anomaly_state: string | null;
+  triggered_at: string | null;
+}
+export interface UptimerobotIncidentSignalExtra {
+  status: string | null;
+  type: string | null;
+  started_at: string | null;
+}
+export interface RootlyAlertsIncidentSignalExtra {
+  status: string | null;
+  source: string | null;
+  url: string | null;
+  created_at: string | null;
+}
+export interface IncidentIoAlertsIncidentSignalExtra {
+  status: string | null;
+  alert_source_id: string | null;
+  created_at: string | null;
+}
+export interface FirehydrantAlertsIncidentSignalExtra {
+  status: string | null;
+  starts_at: string | null;
+}
+export interface GrafanaIrmAlertGroupsIncidentSignalExtra {
+  state: string | null;
+  alerts_count: string | null;
+  integration_id: string | null;
+  created_at: string | null;
+}
 export interface GooglePlayConsoleIssueSignalExtra {
   issue_type: string | null;
   code_location: string | null;
@@ -4198,6 +4870,7 @@ export interface AzureApplicationInsightsIssueSignalExtra {
   first_seen: string | null;
   last_seen: string | null;
 }
+export type AppsignalIssueSignalExtraKind = "performance_incident" | "anomaly_incident";
 export interface AppsignalIssueSignalExtra {
   state: string | null;
   severity: string | null;
@@ -4205,6 +4878,10 @@ export interface AppsignalIssueSignalExtra {
   occurrence_count: string | null;
   created_at: string | null;
   last_occurred_at: string | null;
+  kind?: AppsignalIssueSignalExtraKind | null | undefined;
+  mean_duration_ms?: string | null | undefined;
+  alert_state?: string | null | undefined;
+  metric_name?: string | null | undefined;
 }
 export interface CursorIssueSignalExtra {
   repo: string | null;
@@ -4213,6 +4890,99 @@ export interface CursorIssueSignalExtra {
   bugs_found: string | null;
   publication_status: string | null;
   timestamp: string | null;
+}
+export interface AppStoreConnectReviewSignalExtra {
+  app_id: string | null;
+  rating: string | null;
+  territory: string | null;
+  created_date: string | null;
+}
+export interface SentryFeedbackSignalExtra {
+  project_slug: string | null;
+  event_id: string | null;
+  date_created: string | null;
+}
+export type SonarcloudScannerFindingSignalExtra = SonarqubeScannerFindingSignalExtra;
+export interface CheckmarxScannerFindingSignalExtra {
+  result_type: string | null;
+  finding_severity: string | null;
+  finding_state: string | null;
+  first_seen: string | null;
+  scans: string | null;
+}
+export interface VeracodeScannerFindingSignalExtra {
+  application_guid: string | null;
+  scan_type: string | null;
+  finding_severity: string | null;
+  violates_policy: string | null;
+  cwe_id: string | null;
+  finding_category: string | null;
+  finding_state: string | null;
+  resolution_status: string | null;
+  first_found_date: string | null;
+}
+export interface VeracodeScaScannerFindingSignalExtra {
+  cve_name: string | null;
+  component_filename: string | null;
+  component_version: string | null;
+  max_severity: string | null;
+  affected_applications: string | null;
+  first_seen: string | null;
+}
+export interface SemgrepScaScannerFindingSignalExtra {
+  vulnerability_identifier: string | null;
+  package_name: string | null;
+  ecosystem: string | null;
+  finding_severity: string | null;
+  reachability_state: string | null;
+  affected_findings: string | null;
+  first_seen: string | null;
+}
+export interface GitguardianScannerFindingSignalExtra {
+  severity: string | null;
+  validity: string | null;
+  status: string | null;
+  occurrences_count: string | null;
+  gitguardian_url: string | null;
+  date: string | null;
+}
+export interface InfisicalScannerFindingSignalExtra {
+  rule: string | null;
+  resource_name: string | null;
+  resource_type: string | null;
+  data_source_type: string | null;
+  severity: string | null;
+  status: string | null;
+  created_at: string | null;
+}
+export interface AwsMacieScannerFindingSignalExtra {
+  type: string | null;
+  category: string | null;
+  severity_level: string | null;
+  region: string | null;
+  created_at: string | null;
+}
+export interface SentineloneScannerFindingSignalExtra {
+  classification: string | null;
+  confidence_level: string | null;
+  analyst_verdict: string | null;
+  incident_status: string | null;
+  threat_mitigation_status: string | null;
+  detection_type: string | null;
+  created_at: string | null;
+}
+export interface JfrogXrayScannerFindingSignalExtra {
+  issue_id: string | null;
+  violation_severity: string | null;
+  violation_type: string | null;
+  violations: string | null;
+  first_seen: string | null;
+}
+export interface DynatraceSecurityScannerFindingSignalExtra {
+  display_id: string | null;
+  vulnerability_type: string | null;
+  status: string | null;
+  first_seen_timestamp: string | null;
 }
 export interface TriggerDevErrorSignalExtra {
   task_identifier: string | null;
@@ -4290,6 +5060,73 @@ export interface OkendoReviewSignalExtra {
   is_recommended: string | null;
   date_created: string | null;
 }
+export interface BeamerFeedbackSignalExtra {
+  status: string | null;
+  category: string | null;
+  votes_count: string | null;
+  comments_count: string | null;
+  date: string | null;
+  permalink: string | null;
+}
+export interface BeamerNpsFeedbackSignalExtra {
+  score: string | null;
+  date: string | null;
+}
+export interface ChameleonFeedbackSignalExtra {
+  button_text: string | null;
+  survey_id: string | null;
+  created_at: string | null;
+}
+export interface FeaturebaseSurveysFeedbackSignalExtra {
+  survey_id: string | null;
+  created_at: string | null;
+}
+export interface UservoiceNpsFeedbackSignalExtra {
+  rating: string | null;
+  created_at: string | null;
+}
+export interface VitallyNpsFeedbackSignalExtra {
+  score: string | null;
+  nps_type: string | null;
+  created_at: string | null;
+}
+export interface EtsyReviewSignalExtra {
+  rating: string | null;
+  listing_id: string | null;
+  language: string | null;
+  created_timestamp: string | null;
+}
+export interface G2ReviewSignalExtra {
+  star_rating: string | null;
+  product_name: string | null;
+  url: string | null;
+  submitted_at: string | null;
+}
+export interface GumroadReviewSignalExtra {
+  rating: string | null;
+  product_id: string | null;
+  created_at: string | null;
+}
+export interface TrustpilotProductReviewsReviewSignalExtra {
+  stars: string | null;
+  language: string | null;
+  state: string | null;
+  product_name: string | null;
+  created_at: string | null;
+}
+export interface WoocommerceReviewSignalExtra {
+  rating: string | null;
+  status: string | null;
+  verified: string | null;
+  product_id: string | null;
+  date_created_gmt: string | null;
+}
+export interface YotpoReviewSignalExtra {
+  score: string | null;
+  sku: string | null;
+  deleted: string | null;
+  created_at: string | null;
+}
 export interface AwsSecurityHubScannerFindingSignalExtra {
   severity_label: string | null;
   compliance_status: string | null;
@@ -4317,6 +5154,90 @@ export interface MicrosoftDefenderCloudAppsScannerFindingSignalExtra {
   severity_value: string | null;
   resolution_status_value: string | null;
   timestamp: string | null;
+}
+export interface GithubDependabotScannerFindingSignalExtra {
+  number: string | null;
+  state: string | null;
+  severity: string | null;
+  ghsa_id: string | null;
+  cve_id: string | null;
+  package_ecosystem: string | null;
+  package_name: string | null;
+  vulnerable_version_range: string | null;
+  first_patched_version: string | null;
+  manifest_path: string | null;
+  dependency_scope: string | null;
+  html_url: string | null;
+  created_at: string | null;
+  repository: string | null;
+}
+export interface GithubCodeScanningScannerFindingSignalExtra {
+  number: string | null;
+  state: string | null;
+  rule_id: string | null;
+  rule_severity: string | null;
+  security_severity_level: string | null;
+  tool_name: string | null;
+  location_path: string | null;
+  location_start_line: string | null;
+  html_url: string | null;
+  created_at: string | null;
+  repository: string | null;
+}
+export interface GithubSecretScanningScannerFindingSignalExtra {
+  number: string | null;
+  state: string | null;
+  secret_type: string | null;
+  validity: string | null;
+  html_url: string | null;
+  created_at: string | null;
+  repository: string | null;
+}
+export type NewrelicIssueSignalExtraKindEnum =
+  | "alert_issue"
+  | "javascript_error"
+  | "transaction_error";
+export interface NewrelicIssueSignalExtra {
+  kind: NewrelicIssueSignalExtraKindEnum;
+  issue_id?: string | null | undefined;
+  priority?: string | null | undefined;
+  activated_at?: string | null | undefined;
+  app_name?: string | null | undefined;
+  error_class?: string | null | undefined;
+  sample_transaction?: string | null | undefined;
+  occurrences?: string | null | undefined;
+  first_seen?: string | null | undefined;
+  last_seen?: string | null | undefined;
+}
+export interface AmazonCloudwatchIncidentSignalExtra {
+  alarm_name: string | null;
+  alarm_kind: string | null;
+  transitions: string | null;
+  first_seen: string | null;
+  last_seen: string | null;
+}
+export interface LogicmonitorIncidentSignalExtra {
+  severity: string | null;
+  acked: string | null;
+  monitor_object_name: string | null;
+  datasource: string | null;
+  instance_name: string | null;
+  data_point_name: string | null;
+  start_epoch: string | null;
+}
+export interface AirbrakeIssueSignalExtra {
+  project_id: string | null;
+  environment: string | null;
+  notice_total_count: string | null;
+  created_at: string | null;
+  last_notice_at: string | null;
+}
+export interface MuxIssueSignalExtra {
+  error_id: string | null;
+  error_code: string | null;
+  view_count: string | null;
+  view_share: string | null;
+  last_seen_at: string | null;
 }
 export type SignalExtra =
   | SessionProblemSignalExtra
@@ -4389,9 +5310,14 @@ export type SignalExtra =
   | Dynamics365TicketSignalExtra
   | ZohoCrmTicketSignalExtra
   | GoogleSearchConsoleSearchOpportunitySignalExtra
+  | BingWebmasterToolsSearchOpportunitySignalExtra
+  | AhrefsSearchOpportunitySignalExtra
+  | SemrushSearchOpportunitySignalExtra
   | HelpscoutConversationSignalExtra
   | DecagonConversationSignalExtra
   | VitallyConversationSignalExtra
+  | IntercomTicketsTicketSignalExtra
+  | PylonTicketSignalExtra
   | PagerdutyIncidentSignalExtra
   | OpsgenieAlertSignalExtra
   | IncidentIoIncidentSignalExtra
@@ -4415,10 +5341,31 @@ export type SignalExtra =
   | StatuspageIncidentSignalExtra
   | CronitorIncidentSignalExtra
   | InstatusIncidentSignalExtra
+  | RootlyIncidentSignalExtra
+  | ZendutyIncidentSignalExtra
+  | SplunkObservabilityCloudIncidentSignalExtra
+  | UptimerobotIncidentSignalExtra
+  | RootlyAlertsIncidentSignalExtra
+  | IncidentIoAlertsIncidentSignalExtra
+  | FirehydrantAlertsIncidentSignalExtra
+  | GrafanaIrmAlertGroupsIncidentSignalExtra
   | GooglePlayConsoleIssueSignalExtra
   | AzureApplicationInsightsIssueSignalExtra
   | AppsignalIssueSignalExtra
   | CursorIssueSignalExtra
+  | AppStoreConnectReviewSignalExtra
+  | SentryFeedbackSignalExtra
+  | SonarqubeScannerFindingSignalExtra
+  | CheckmarxScannerFindingSignalExtra
+  | VeracodeScannerFindingSignalExtra
+  | VeracodeScaScannerFindingSignalExtra
+  | SemgrepScaScannerFindingSignalExtra
+  | GitguardianScannerFindingSignalExtra
+  | InfisicalScannerFindingSignalExtra
+  | AwsMacieScannerFindingSignalExtra
+  | SentineloneScannerFindingSignalExtra
+  | JfrogXrayScannerFindingSignalExtra
+  | DynatraceSecurityScannerFindingSignalExtra
   | TriggerDevErrorSignalExtra
   | ChecklyErrorGroupSignalExtra
   | RoarkIssueSignalExtra
@@ -4431,10 +5378,30 @@ export type SignalExtra =
   | GainsightPxFeedbackSignalExtra
   | TrustpilotReviewSignalExtra
   | OkendoReviewSignalExtra
+  | BeamerFeedbackSignalExtra
+  | BeamerNpsFeedbackSignalExtra
+  | ChameleonFeedbackSignalExtra
+  | FeaturebaseSurveysFeedbackSignalExtra
+  | UservoiceNpsFeedbackSignalExtra
+  | VitallyNpsFeedbackSignalExtra
+  | EtsyReviewSignalExtra
+  | G2ReviewSignalExtra
+  | GumroadReviewSignalExtra
+  | TrustpilotProductReviewsReviewSignalExtra
+  | WoocommerceReviewSignalExtra
+  | YotpoReviewSignalExtra
   | AwsSecurityHubScannerFindingSignalExtra
   | AwsGuarddutyScannerFindingSignalExtra
   | AwsInspectorScannerFindingSignalExtra
-  | MicrosoftDefenderCloudAppsScannerFindingSignalExtra;
+  | MicrosoftDefenderCloudAppsScannerFindingSignalExtra
+  | GithubDependabotScannerFindingSignalExtra
+  | GithubCodeScanningScannerFindingSignalExtra
+  | GithubSecretScanningScannerFindingSignalExtra
+  | NewrelicIssueSignalExtra
+  | AmazonCloudwatchIncidentSignalExtra
+  | LogicmonitorIncidentSignalExtra
+  | AirbrakeIssueSignalExtra
+  | MuxIssueSignalExtra;
 export interface SpecificityMetadata {
   /** Title of the PR the specificity gate evaluated. */
   pr_title: string;
@@ -4473,7 +5440,7 @@ export interface SignalNode {
   signal_id: string;
   /** The signal's human-readable description. */
   content: string;
-  /** Product that emitted the signal. * `session_replay` - session_replay * `llm_analytics` - llm_analytics * `github` - github * `linear` - linear * `jira` - jira * `zendesk` - zendesk * `conversations` - conversations * `error_tracking` - error_tracking * `endpoints` - endpoints * `pganalyze` - pganalyze * `signals_scout` - signals_scout * `signals_check` - signals_check * `user_authored` - user_authored * `logs` - logs * `health_checks` - health_checks * `replay_vision` - replay_vision * `analytics` - analytics * `freshdesk` - freshdesk * `freshservice` - freshservice * `front` - front * `gorgias` - gorgias * `kustomer` - kustomer * `dixa` - dixa * `plain` - plain * `gitlab` - gitlab * `gitea` - gitea * `shortcut` - shortcut * `sentry` - sentry * `rollbar` - rollbar * `bugsnag` - bugsnag * `honeybadger` - honeybadger * `raygun` - raygun * `datadog` - datadog * `snyk` - snyk * `sonarqube` - sonarqube * `semgrep` - semgrep * `rapid7_insightvm` - rapid7_insightvm * `featurebase` - featurebase * `frill` - frill * `aha` - aha * `uservoice` - uservoice * `productboard` - productboard * `canny` - canny * `asknicely` - asknicely * `retently` - retently * `appfigures` - appfigures * `appfollow` - appfollow * `judgeme_reviews` - judgeme_reviews * `intercom` - intercom * `hubspot` - hubspot * `engineering_analytics` - engineering_analytics * `google_search_console` - google_search_console * `pagerduty` - pagerduty * `opsgenie` - opsgenie * `incident_io` - incident_io * `firehydrant` - firehydrant * `squadcast` - squadcast * `servicenow` - servicenow * `solarwinds_service_desk` - solarwinds_service_desk * `grafana_irm` - grafana_irm * `xmatters` - xmatters * `betterstack` - betterstack * `newrelic` - newrelic * `trigger_dev` - trigger_dev * `checkly` - checkly * `roark` - roark * `monte_carlo` - monte_carlo * `bigeye` - bigeye * `aws_security_hub` - aws_security_hub * `aws_guardduty` - aws_guardduty * `aws_inspector` - aws_inspector * `microsoft_defender_cloud_apps` - microsoft_defender_cloud_apps * `clickup` - clickup * `wrike` - wrike * `trello` - trello * `bugherd` - bugherd * `dynamics365` - dynamics365 * `zoho_crm` - zoho_crm * `planhat` - planhat * `trustpilot` - trustpilot * `okendo` - okendo * `sleekplan` - sleekplan * `bettermode` - bettermode * `discourse` - discourse * `mintlify` - mintlify * `langsmith` - langsmith * `sprig` - sprig * `gainsight_px` - gainsight_px * `dynatrace` - dynatrace * `statuspage` - statuspage * `cronitor` - cronitor * `instatus` - instatus * `asana` - asana * `monday` - monday * `plane` - plane * `azure_devops` - azure_devops * `helpscout` - helpscout * `decagon` - decagon * `vitally` - vitally * `usersnap` - usersnap * `typeform` - typeform * `qualtrics` - qualtrics * `surveymonkey` - surveymonkey * `formbricks` - formbricks * `survicate` - survicate * `surveysparrow` - surveysparrow * `lacework` - lacework * `orca_security` - orca_security * `tenable_vulnerability_management` - tenable_vulnerability_management * `google_play_console` - google_play_console * `azure_application_insights` - azure_application_insights * `appsignal` - appsignal * `cursor` - cursor */
+  /** Product that emitted the signal. * `session_replay` - session_replay * `llm_analytics` - llm_analytics * `github` - github * `linear` - linear * `jira` - jira * `zendesk` - zendesk * `conversations` - conversations * `error_tracking` - error_tracking * `endpoints` - endpoints * `pganalyze` - pganalyze * `signals_scout` - signals_scout * `signals_check` - signals_check * `user_authored` - user_authored * `logs` - logs * `health_checks` - health_checks * `replay_vision` - replay_vision * `analytics` - analytics * `slack` - slack * `freshdesk` - freshdesk * `freshservice` - freshservice * `front` - front * `gorgias` - gorgias * `kustomer` - kustomer * `dixa` - dixa * `plain` - plain * `gitlab` - gitlab * `gitea` - gitea * `shortcut` - shortcut * `sentry` - sentry * `rollbar` - rollbar * `bugsnag` - bugsnag * `honeybadger` - honeybadger * `raygun` - raygun * `datadog` - datadog * `snyk` - snyk * `sonarqube` - sonarqube * `semgrep` - semgrep * `rapid7_insightvm` - rapid7_insightvm * `featurebase` - featurebase * `frill` - frill * `aha` - aha * `uservoice` - uservoice * `productboard` - productboard * `canny` - canny * `asknicely` - asknicely * `retently` - retently * `appfigures` - appfigures * `appfollow` - appfollow * `judgeme_reviews` - judgeme_reviews * `intercom` - intercom * `hubspot` - hubspot * `engineering_analytics` - engineering_analytics * `google_search_console` - google_search_console * `bing_webmaster_tools` - bing_webmaster_tools * `ahrefs` - ahrefs * `semrush` - semrush * `pagerduty` - pagerduty * `opsgenie` - opsgenie * `incident_io` - incident_io * `firehydrant` - firehydrant * `squadcast` - squadcast * `servicenow` - servicenow * `solarwinds_service_desk` - solarwinds_service_desk * `grafana_irm` - grafana_irm * `xmatters` - xmatters * `betterstack` - betterstack * `newrelic` - newrelic * `trigger_dev` - trigger_dev * `checkly` - checkly * `roark` - roark * `monte_carlo` - monte_carlo * `bigeye` - bigeye * `aws_security_hub` - aws_security_hub * `aws_guardduty` - aws_guardduty * `aws_inspector` - aws_inspector * `microsoft_defender_cloud_apps` - microsoft_defender_cloud_apps * `clickup` - clickup * `wrike` - wrike * `trello` - trello * `bugherd` - bugherd * `dynamics365` - dynamics365 * `zoho_crm` - zoho_crm * `planhat` - planhat * `trustpilot` - trustpilot * `okendo` - okendo * `sleekplan` - sleekplan * `bettermode` - bettermode * `discourse` - discourse * `mintlify` - mintlify * `langsmith` - langsmith * `sprig` - sprig * `gainsight_px` - gainsight_px * `dynatrace` - dynatrace * `statuspage` - statuspage * `cronitor` - cronitor * `instatus` - instatus * `rootly` - rootly * `zenduty` - zenduty * `splunk_observability_cloud` - splunk_observability_cloud * `uptimerobot` - uptimerobot * `rootly_alerts` - rootly_alerts * `incident_io_alerts` - incident_io_alerts * `firehydrant_alerts` - firehydrant_alerts * `grafana_irm_alert_groups` - grafana_irm_alert_groups * `asana` - asana * `monday` - monday * `plane` - plane * `azure_devops` - azure_devops * `helpscout` - helpscout * `decagon` - decagon * `vitally` - vitally * `intercom_tickets` - intercom_tickets * `pylon` - pylon * `usersnap` - usersnap * `typeform` - typeform * `qualtrics` - qualtrics * `surveymonkey` - surveymonkey * `formbricks` - formbricks * `survicate` - survicate * `surveysparrow` - surveysparrow * `lacework` - lacework * `orca_security` - orca_security * `tenable_vulnerability_management` - tenable_vulnerability_management * `google_play_console` - google_play_console * `azure_application_insights` - azure_application_insights * `appsignal` - appsignal * `cursor` - cursor * `github_dependabot` - github_dependabot * `github_code_scanning` - github_code_scanning * `github_secret_scanning` - github_secret_scanning * `beamer` - beamer * `beamer_nps` - beamer_nps * `chameleon` - chameleon * `etsy` - etsy * `featurebase_surveys` - featurebase_surveys * `g2` - g2 * `gumroad` - gumroad * `trustpilot_product_reviews` - trustpilot_product_reviews * `uservoice_nps` - uservoice_nps * `vitally_nps` - vitally_nps * `woocommerce` - woocommerce * `yotpo` - yotpo * `airbrake` - airbrake * `amazon_cloudwatch` - amazon_cloudwatch * `logicmonitor` - logicmonitor * `mux` - mux * `sonarcloud` - sonarcloud * `checkmarx` - checkmarx * `veracode` - veracode * `veracode_sca` - veracode_sca * `semgrep_sca` - semgrep_sca * `gitguardian` - gitguardian * `infisical` - infisical * `aws_macie` - aws_macie * `sentinelone` - sentinelone * `jfrog_xray` - jfrog_xray * `dynatrace_security` - dynatrace_security * `app_store_connect` - app_store_connect * `sentry_feedback` - sentry_feedback */
   source_product: SignalSourceProduct;
   /** Signal type within the source product. * `session_analysis_cluster` - session_analysis_cluster * `session_problem` - session_problem * `evaluation` - evaluation * `evaluation_report` - evaluation_report * `issue` - issue * `ticket` - ticket * `issue_created` - issue_created * `issue_reopened` - issue_reopened * `issue_spiking` - issue_spiking * `endpoint_execution_failed` - endpoint_execution_failed * `endpoint_breakdown_limit_exceeded` - endpoint_breakdown_limit_exceeded * `cross_source_issue` - cross_source_issue * `alert_state_change` - alert_state_change * `health_issue` - health_issue * `scanner_finding` - scanner_finding * `anomaly_investigation` - anomaly_investigation * `alert_firing` - alert_firing * `feedback` - feedback * `review` - review * `ci_flaky_check` - ci_flaky_check * `ci_broken_default_branch` - ci_broken_default_branch * `ci_duration_regression` - ci_duration_regression * `search_opportunity` - search_opportunity * `check_failed` - check_failed * `monitoring_unresolved` - monitoring_unresolved * `incident` - incident */
   source_type: SignalSourceType;
@@ -4496,6 +5463,16 @@ export interface ReportSignalsResponse {
   report: SignalReport;
   /** All signals contributing to the report. */
   signals: ReportSignalsResponseSignalsList;
+}
+export interface GetSignalsReportsTagOptionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** The team's most-used report tags, most-used first, counted over its newest reports. Empty when no report has tags. */
+export type SignalReportTagOptionsTagsList = Array<string>;
+export interface SignalReportTagOptions {
+  /** The team's most-used report tags, most-used first, counted over its newest reports. Empty when no report has tags. */
+  tags: SignalReportTagOptionsTagsList;
 }
 export interface GetSignalsReviewerExclusionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -5196,6 +6173,14 @@ export type SignalScoutRunDetailEmittedReportIdsList = Array<string>;
 /** The `SignalReport` ids this run mutated via the `edit_report` channel (rewrote title/summary and/or appended a note), deduped. Distinct from `emitted_report_ids`: edit can target any inbox report, so these are generally not reports the run authored. Empty for runs that edited no report. */
 export type SignalScoutRunDetailEditedReportIdsList = Array<string>;
 export type SignalScoutRunDetailMetadataWriteScopesList = Array<string>;
+export type SignalScoutRunDetailMetadataReportActionsList = Array<string>;
+export interface SignalScoutRunDetailMetadataReportActionStartsItem {
+  at?: string | undefined;
+  report_id?: string | undefined;
+  action?: string | undefined;
+}
+export type SignalScoutRunDetailMetadataReportActionStartsList =
+  Array<SignalScoutRunDetailMetadataReportActionStartsItem>;
 export interface SignalScoutRunDetailMetadataDerived {
   has_emit_report: boolean;
   has_edit_report: boolean;
@@ -5205,7 +6190,7 @@ export interface SignalScoutRunDetailMetadataDerived {
   has_structured_output: boolean;
   has_not_in_use_closeout: boolean;
 }
-/** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
+/** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), `report_actions` (the report actions the run could start, when the scout was granted any), `report_action_starts` (each report action the run started, with `at`, `report_id`, and `action`), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
 export interface SignalScoutRunDetailMetadata {
   harness_prompt_version?: string | undefined;
   report_channel?: string | undefined;
@@ -5218,6 +6203,8 @@ export interface SignalScoutRunDetailMetadata {
   service_tier?: string | undefined;
   network_access?: string | undefined;
   write_scopes?: SignalScoutRunDetailMetadataWriteScopesList | undefined;
+  report_actions?: SignalScoutRunDetailMetadataReportActionsList | undefined;
+  report_action_starts?: SignalScoutRunDetailMetadataReportActionStartsList | undefined;
   triggered_by?: string | undefined;
   run_note?: string | undefined;
   derived?: SignalScoutRunDetailMetadataDerived | undefined;
@@ -5261,14 +6248,85 @@ export interface SignalScoutRunDetail {
   emitted_report_ids: SignalScoutRunDetailEmittedReportIdsList;
   /** The `SignalReport` ids this run mutated via the `edit_report` channel (rewrote title/summary and/or appended a note), deduped. Distinct from `emitted_report_ids`: edit can target any inbox report, so these are generally not reports the run authored. Empty for runs that edited no report. */
   edited_report_ids: SignalScoutRunDetailEditedReportIdsList;
-  /** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
+  /** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), `report_actions` (the report actions the run could start, when the scout was granted any), `report_action_starts` (each report action the run started, with `at`, `report_id`, and `action`), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
   metadata: SignalScoutRunDetailMetadata;
+}
+export interface GetSignalsSlackChannelScoutsChannelRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface SlackScoutChannel {
+  /** The Slack channel id, which is also the name of its warehouse schema. */
+  id: string;
+  /** The channel name, without the leading #. */
+  name: string;
+  /** HogQL name of the channel's message table. Null until the channel's first sync writes the table. */
+  table_name: string | null;
+}
+/** Channels the source syncs, ordered by name. */
+export type SlackScoutChannelSourceChannelsList = Array<SlackScoutChannel>;
+export interface SlackScoutChannelSource {
+  /** Id of the Slack data warehouse source. */
+  id: string;
+  /** Channels the source syncs, ordered by name. */
+  channels: SlackScoutChannelSourceChannelsList;
+}
+/** The project's Slack data warehouse sources. Empty when the project has not connected Slack. */
+export type SlackScoutChannelSourcesSourcesList = Array<SlackScoutChannelSource>;
+export interface SlackScoutChannelSources {
+  /** The project's Slack data warehouse sources. Empty when the project has not connected Slack. */
+  sources: SlackScoutChannelSourcesSourcesList;
 }
 export interface GetSignalsSourceConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this signal source config. */
   id: string;
+}
+export interface GetSignalsSourceConfigsFilterCatalogRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** * `string` - string * `integer` - integer * `number` - number * `boolean` - boolean * `datetime` - datetime * `array<string>` - array<string> * `array<integer>` - array<integer> * `array<number>` - array<number> * `array<boolean>` - array<boolean> */
+export type SignalFilterFieldTypeEnum =
+  | "string"
+  | "integer"
+  | "number"
+  | "boolean"
+  | "datetime"
+  | "array<string>"
+  | "array<integer>"
+  | "array<number>"
+  | "array<boolean>";
+export interface SourceFilterCatalogField {
+  /** Name to use for this field in a filter expression. */
+  name: string;
+  /** Type of the field's value. Compare it with values of the same type. * `string` - string * `integer` - integer * `number` - number * `boolean` - boolean * `datetime` - datetime * `array<string>` - array<string> * `array<integer>` - array<integer> * `array<number>` - array<number> * `array<boolean>` - array<boolean> */
+  type: SignalFilterFieldTypeEnum;
+  /** What the field holds, and its value when the record has none (null, or an empty array). */
+  description: string;
+}
+/** Fields a filter expression can use. */
+export type SourceFilterCatalogFilterFieldsList = Array<SourceFilterCatalogField>;
+/** Example expressions that are valid for this source. */
+export type SourceFilterCatalogStarterExpressionsList = Array<string>;
+export interface SourceFilterCatalog {
+  /** Source product the filter applies to, for example `linear`. */
+  source_product: string;
+  /** Source type the filter applies to, for example `issue`. */
+  source_type: string;
+  /** Catalog version a filter saved now is pinned to. A saved filter keeps the meaning of its version. */
+  catalog_version: number;
+  /** Fields a filter expression can use. */
+  filter_fields: SourceFilterCatalogFilterFieldsList;
+  /** Example expressions that are valid for this source. */
+  starter_expressions: SourceFilterCatalogStarterExpressionsList;
+}
+/** One entry per source whose filter this project can set. A source that is missing does not take a filter. */
+export type SourceFilterCatalogListResultsList = Array<SourceFilterCatalog>;
+export interface SourceFilterCatalogList {
+  /** One entry per source whose filter this project can set. A source that is missing does not take a filter. */
+  results: SourceFilterCatalogListResultsList;
 }
 export interface ListSignalsActivitySummaryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -5307,6 +6365,27 @@ export interface ActivitySummary {
 export interface ListSignalsConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+}
+export interface ListSignalsInboxStatusRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** * `not_started` - Not started * `in_progress` - In progress * `active` - Active * `paused` - Paused * `ai_disabled` - AI data processing disabled */
+export type InboxSetupStateEnum =
+  | "not_started"
+  | "in_progress"
+  | "active"
+  | "paused"
+  | "ai_disabled";
+export interface InboxStatus {
+  /** Current project setup state. * `not_started` - Not started * `in_progress` - In progress * `active` - Active * `paused` - Paused * `ai_disabled` - AI data processing disabled */
+  setup_state: InboxSetupStateEnum;
+  /** Whether a report has surfaced in this project, including reports already handled or assigned to someone else. */
+  has_report_history: boolean;
+  /** First investigation outcome, when known and the project has no report history. Does not expose scout run details. * `pending` - Pending * `running` - Running * `no_data` - No data * `report_created` - Report created * `insufficient_data` - Insufficient data * `no_actionable_finding` - No actionable finding * `incomplete` - Incomplete */
+  first_report_status: FirstReportStatusEnum | null;
+  /** Whether the user has inbox and scout configuration access on the web. Integration and organization settings may require additional permissions. */
+  can_configure: boolean;
 }
 export interface ListSignalsInboxSummaryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -5369,6 +6448,52 @@ export interface PaginatedPauseStateResponseList {
   previous?: string | null | undefined;
   results?: PaginatedPauseStateResponseListResultsList | undefined;
 }
+export interface ListSignalsPullRequestsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+/** * `open` - Open * `closed` - Closed * `merged` - Merged */
+export type PRStateEnum = "open" | "closed" | "merged";
+export interface PRBrowserReport {
+  /** Monitoring report assigned to the caller. */
+  id: string;
+  /** Current report status, including research and waiting for merge. * `potential` - Potential * `candidate` - Candidate * `in_progress` - In Progress * `pending_input` - Pending Input * `ready` - Ready * `monitoring` - Monitoring * `resolved` - Resolved * `closed` - Closed * `failed` - Failed * `deleted` - Deleted * `suppressed` - Suppressed */
+  status: SignalReportStatusEnum;
+}
+export interface PRBrowserItem {
+  /** GitHub URL. */
+  url: string;
+  /** Repository registered with this project, in owner/name format. */
+  repository: string;
+  /** GitHub pull request number. */
+  number: number;
+  /** Pull request title. */
+  title: string;
+  /** Current GitHub pull request state. * `open` - Open * `closed` - Closed * `merged` - Merged */
+  state: PRStateEnum;
+  /** Whether this is a draft pull request. */
+  draft: boolean;
+  /** GitHub login of the author. */
+  author: string;
+  /** When the PR was opened. */
+  created_at: string;
+  /** When GitHub last updated the PR. */
+  updated_at: string;
+  /** The caller's monitoring report, or null when not requested. */
+  report: PRBrowserReport | null;
+  /** Why monitoring or retrying is unavailable for this pull request, or null when eligible. */
+  monitoring_disabled_reason?: string | null | undefined;
+}
+/** Recent authored pull requests ordered by creation time, newest first. */
+export type PRBrowserPageResultsList = Array<PRBrowserItem>;
+export interface PRBrowserPage {
+  /** Recent authored pull requests ordered by creation time, newest first. */
+  results: PRBrowserPageResultsList;
+  /** The caller's connected GitHub identity, or null if not connected. */
+  github_login: string | null;
+  /** Whether the project has a GitHub installation. */
+  has_integration: boolean;
+}
 export interface ListSignalsReportArtefactsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -5378,6 +6503,8 @@ export interface ListSignalsReportArtefactsRequest {
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** Comma-separated artefact types to return, for example `signal_finding,note`. Omit it to return every type. `signal_finding` holds the evidence behind the report, `note` holds free-form notes such as the `## Verification plan`, and `task_run` records research and implementation runs. Values match the `type` of the returned artefacts. `count` and pagination cover only the matching artefacts. An unknown type returns 400 with the accepted values. */
+  type?: string | undefined;
 }
 export type PaginatedSignalReportArtefactListResultsList = Array<SignalReportArtefact>;
 export interface PaginatedSignalReportArtefactList {
@@ -5405,6 +6532,7 @@ export interface PaginatedSignalReportCheckList {
 }
 export type ListSignalsReportsRequestAssignee = "me" | "mine";
 export type ListSignalsReportsRequestExcludeList = Array<string>;
+export type ListSignalsReportsRequestTagsList = Array<string>;
 export interface ListSignalsReportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -5416,6 +6544,8 @@ export interface ListSignalsReportsRequest {
   assignee?: ListSignalsReportsRequestAssignee | (string & {}) | undefined;
   /** Narrow to reports assigned to one space (channel). Absent or empty means all reports regardless of assignment. */
   channel_id?: string | undefined;
+  /** Comma-separated ways the requesting user is connected to a report; a report matching any of them is kept. 'assigned': the user claimed it, themselves or through their MCP agents, as with assignee=mine. 'suggested_reviewer': it names the user as a suggested reviewer, as with scope=for_me. */
+  connected?: string | undefined;
   /** Return the filtered total with an empty results page. Skips report ordering, serialization, and decorative metadata lookups. Defaults to false. */
   count_only?: boolean | undefined;
   /** ISO 8601 datetime. Keeps reports created at or after this time. */
@@ -5434,17 +6564,23 @@ export interface ListSignalsReportsRequest {
   include_unlisted?: boolean | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
+  /** 'true' keeps only the reports that need the requesting user: the ones waiting on their input (pending_input and naming them as a suggested reviewer) and the ones they claimed, themselves or through their MCP agents. 'false' leaves those out. Combine with sort=personal to order them by the user's personal ranking. */
+  needs_you?: boolean | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
   /** Comma-separated ordering clauses. Each clause is a field name optionally prefixed with '-' for descending. Allowed fields: status, is_suggested_reviewer, signal_count, total_weight, priority, created_at, updated_at, id, ranking_open, ranking_action, ranking_fix. Defaults to '-is_suggested_reviewer,status,-updated_at'. Each ranking_<outcome> field sorts by the served ranking model's probability for that public outcome, with unscored reports last in either direction. Read inbox-ranking-outcomes-list for what each outcome means. The ranking fields need staff or the inbox model sort rollout: other users get a 400. */
   ordering?: string | undefined;
+  /** Keep only the steps of this plan report, in plan order: the same reports, in the same order, as `plan.steps` on the plan report. Archived steps are included without `include_all_statuses`. Other filters still apply. A report with no steps returns an empty page. */
+  plan?: string | undefined;
+  /** Requires task_id. When true, keeps only the reports that the task's pull requests and commits link to: its source report, the reports the task attached a pull request to, and its pipeline, legacy and assignment associations. A report that the task only claimed is kept only when the task has no other report. */
+  pr_targets?: boolean | undefined;
   /** Comma-separated list of priorities to include. Valid values: P0, P1, P2, P3, P4. Reports without a priority assignment are excluded when this filter is set. */
   priority?: string | undefined;
-  /** For sort=personal: the ranking_id of the first page. Pass it on later pages, so a new personal ranking does not reorder them. When that ranking no longer exists, the latest one applies. */
+  /** For sort=recommended and sort=personal when the ranker is personal: the ranking_id of the first page. Pass it on later pages, so a new personal ranking does not reorder them. When that ranking no longer exists, the latest one applies. */
   ranking_id?: string | undefined;
-  /** Comma-separated <outcome>:<lift> pairs, e.g. fix:2,open:1.5. Keeps reports whose served ranking lift is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. Unscored and stale reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
+  /** Comma-separated <outcome>:<lift> pairs, e.g. fix:2,open:1.5. Keeps reports whose served ranking lift is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. A report edited after its last score matches on that score. Unscored reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
   ranking_min_lift?: string | undefined;
-  /** Comma-separated <outcome>:<probability> pairs, e.g. fix:0.3. Keeps reports whose served ranking probability is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. Unscored and stale reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
+  /** Comma-separated <outcome>:<probability> pairs, e.g. fix:0.3. Keeps reports whose served ranking probability is at least the value for every named outcome. Outcomes: open, action, fix. Read inbox-ranking-outcomes-list for what each outcome means. A report edited after its last score matches on that score. Unscored reports never match. Needs staff or the inbox model sort rollout: other users get a 400. */
   ranking_min_probability?: string | undefined;
   /** Reviewer scope: for_me, entire_project, or teammate. Pass teammate_uuid with teammate. */
   scope?: string | undefined;
@@ -5454,33 +6590,37 @@ export interface ListSignalsReportsRequest {
   scout_prefix?: string | undefined;
   /** Case-insensitive substring match against report title and summary. */
   search?: string | undefined;
-  /** Inbox sort preset: priority, recommended, personal, last_updated, newest, or oldest. Ignored when ordering is supplied. recommended resolves per user to a ranker: the priority order, or the open, action or fix outcome of the served ranking model, highest score first, with unscored and stale reports in priority order after the scored ones. The response's ranker field names the one used, and its ranking_pill field says whether to show score pills. personal puts the reports of your stored personal ranking first, by rank, then the reports it folded, then every other report in your recommended order. It only reads the stored ranking and never starts a build. With no stored personal ranking, it is the recommended order. */
+  /** Inbox sort preset: priority, recommended, personal, last_updated, newest, or oldest. Ignored when ordering is supplied. recommended and personal put the reports of a stored personal ranking first, by rank, then the reports it folded, then every other report in priority order. With scope=teammate they read the teammate's stored ranking, else yours. They only read the stored ranking and never start a build. With no stored personal ranking, or a teammate outside the organization, they give the priority order. The response's ranker field names the order used, and its ranking_pill field says whether to show score pills. */
   sort?: string | undefined;
   /** Comma-separated list of source record ids. Reports are kept if at least one of their contributing signals came from one of these records -- e.g. pass a support ticket's UUID to see what the inbox already found for that ticket. Requires exactly one source_product, since a source id is only unique within its product. */
   source_id?: string | undefined;
   /** Comma-separated list of source products to include. Reports are kept if at least one of their contributing signals comes from one of these products (e.g. error_tracking, session_replay). */
   source_product?: string | undefined;
-  /** Comma-separated list of statuses to include. Valid values: potential, candidate, in_progress, pending_input, ready, resolved, failed, suppressed. Defaults to all statuses except suppressed. */
+  /** Comma-separated list of statuses to include. Valid values: potential, candidate, in_progress, pending_input, ready, monitoring, resolved, closed, failed, suppressed. Defaults to all statuses except suppressed. */
   status?: string | undefined;
   /** Comma-separated list of PostHog user UUIDs. Reports are kept if their suggested reviewers include any of the given users. */
   suggested_reviewers?: string | undefined;
+  /** Keep only reports that carry at least one of these tags, as repeated parameters or comma-separated, for example `billing,on-call`. Values are normalized the same way stored tags are, so `On Call` matches `on-call`. At most 10. Omit for reports with any tags or none. */
+  tags?: ListSignalsReportsRequestTagsList | undefined;
   /** Only reports associated with this task (via the report's task associations). */
   task_id?: string | undefined;
   /** PostHog user UUID used when scope=teammate. */
   teammate_uuid?: string | undefined;
-  /** Filter by whether the report has no owner and no draft, open, or unknown PR. Resolved reports are never unclaimed. */
+  /** Filter by whether the report has no active claim and no draft, open, or unknown PR. True returns the reports with no work in progress. Suggested reviewers do not count as a claim. Resolved reports are never unclaimed. A suppressed report can be unclaimed, but it cannot be claimed until it is restored. */
   unclaimed?: boolean | undefined;
   /** Filter by the current user's report read state. */
   unread?: boolean | undefined;
   /** When true and priority is omitted, include priorities at or above the requesting user's personal PR-generation threshold, falling back to the project threshold. */
   use_priority_preference?: boolean | undefined;
-  /** Apply an inbox view: actionable, for_you, needs_input, needs_decision, monitoring, resolved, dismissed, held_back, not_actionable, or all. Each view applies the corresponding status, actionability, and implementation-PR filters. for_you holds the open, actionable reports that wait for the requesting user's input, that they claimed, or that name them as a suggested reviewer. needs_decision also includes failed reports without a judgment. dismissed and held_back split the suppressed reports: dismissed holds the ones a person or agent dismissed, merged, or whose pull request closed without merging; held_back holds the ones the safety or actionability judge suppressed before anyone saw them. Each row's suppression_source says which. */
+  /** Apply an inbox view: actionable, for_you, needs_input, needs_decision, monitoring, monitoring_recent, resolved, closed, dismissed, held_back, not_actionable, or all. Each view applies the corresponding status, actionability, and implementation-PR filters. monitoring holds the reports whose outcome is being verified after implementation. monitoring_recent adds the resolved and closed reports whose Monitoring ended in the last 14 days, each with its `monitoring_outcome` and the final state of every check. for_you holds the open, actionable reports that wait for the requesting user's input, that they claimed, or that name them as a suggested reviewer. needs_decision also includes failed reports without a judgment. dismissed and held_back split the suppressed reports: dismissed holds the ones a person or agent dismissed, merged, or whose pull request closed without merging; held_back holds the ones the safety or actionability judge suppressed before anyone saw them. Each row's suppression_source says which. */
   view?: string | undefined;
 }
 /** Charts the report shows, in the order they were written. The summary places one with a `[label](chart:<chart_id>)` link; the rest render below it. */
 export type SignalReportListChartsList = Array<ReportChart>;
 /** Trailing per-bucket values of the live query, oldest first, saved with the value snapshot so a list row can draw the trend without running the query; at most 14 points. Null when no snapshot series is available to this viewer. */
 export type ReportMetricListSeriesList = Array<number>;
+/** The Trends bucket label of each `series` point, oldest first, such as `2026-11-09` or `2026-11-09 10:00:00` in the project's timezone. Null when the snapshot did not record them or `series` is null for this viewer. */
+export type ReportMetricListSeriesBucketsList = Array<string>;
 /** Snapshot-only metric shape for report lists. Omitting query definitions keeps the paginated inbox payload bounded. */
 export interface ReportMetricList {
   /** Stable slug for this metric within the report: lowercase letters, numbers, underscores, and hyphens, starting with a letter or number. */
@@ -5497,6 +6637,8 @@ export interface ReportMetricList {
   value_at?: string | null | undefined;
   /** Trailing per-bucket values of the live query, oldest first, saved with the value snapshot so a list row can draw the trend without running the query; at most 14 points. Null when no snapshot series is available to this viewer. */
   series?: ReportMetricListSeriesList | null | undefined;
+  /** The Trends bucket label of each `series` point, oldest first, such as `2026-11-09` or `2026-11-09 10:00:00` in the project's timezone. Null when the snapshot did not record them or `series` is null for this viewer. */
+  series_buckets?: ReportMetricListSeriesBucketsList | null | undefined;
   /** How to format the numeric value; semantic meaning remains in kind. `percentage` uses percentage points, so 34 renders as 34%; `percentage_scaled` uses a 0-1 ratio, so 0.34 renders as 34%. Sessions and occurrences use count; duration uses duration with an ms/s unit; revenue uses currency with an ISO currency unit. * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
   value_format?: ValueFormatEnum | undefined;
   /** Optional short suffix or currency code, such as `users`, `ms`, or `USD`. */
@@ -5513,6 +6655,8 @@ export interface ReportMetricList {
   decision_window_days?: number | null | undefined;
   /** Optional number of qualifying observations before assessing impact. */
   minimum_data_points?: number | null | undefined;
+  /** Bucket size of `series`: `minute`, `hour`, `day`, `week`, or `month`; `day` when the stored query names none, as in Trends. Null when the query smooths its buckets into moving averages, whose values mix neighbouring buckets, or is not a Trends query. */
+  interval: string | null;
 }
 /** Snapshot-only impact measurements for inbox rows. Live query definitions and authored comparisons are available from the report detail endpoint. */
 export type SignalReportListMetricsList = Array<ReportMetricList>;
@@ -5526,6 +6670,171 @@ export type SignalReportListSourceProductsList = Array<string>;
 export type SignalReportListPullRequestsList = Array<SignalReportPullRequest>;
 /** URLs of the external issues this report is about, as recorded by the scout or person that filed it, oldest first. Normalized to `https://github.com/<owner>/<repo>/issues/<number>`. Empty when the report names none. Issues the report learned about from a GitHub issue signal are not listed here. */
 export type SignalReportListSourceIssuesList = Array<string>;
+/** * `not_on_track` - Not on track * `on_track` - On track * `awaiting_reading` - Awaiting first reading * `readings_hidden` - Readings hidden * `final_check_only` - Final check only * `window_ended` - Window ended */
+export type MonitoringSummaryStateEnum =
+  | "not_on_track"
+  | "on_track"
+  | "awaiting_reading"
+  | "readings_hidden"
+  | "final_check_only"
+  | "window_ended";
+export interface MonitoringReading {
+  /** When this interim reading was measured. */
+  measured_at: string;
+  /** Whether the reading met the target at that point in the window. Null when the measurement failed or this viewer may not read the check's data. */
+  matches: boolean | null;
+  /** Value measured from Monitoring start to `measured_at`. Null when the measurement failed or this viewer may not read the check's data. */
+  observed_value: number | null;
+  /** Target the reading was compared with, scaled to elapsed time when the check scales linearly. Null for a `between` target, a failed measurement, or a viewer who may not read the check's data. */
+  threshold: number | null;
+}
+/** Interim readings in this Monitoring period, oldest first. */
+export type MonitoringLeadCheckReadingsList = Array<MonitoringReading>;
+export interface MonitoringLeadCheck {
+  /** The follow-up check this summary is drawn from. */
+  check_id: string;
+  /** The check's short label. */
+  title: string;
+  /** The report metric the check measures, matching `metrics[].metric_id`. Null when the check names none, or the report metric with that id no longer runs the check's query. */
+  metric_id: string | null;
+  /** What the measured value means, when the check names it. * `affected_users` - affected_users * `affected_sessions` - affected_sessions * `occurrences` - occurrences * `conversion_rate` - conversion_rate * `error_rate` - error_rate * `duration` - duration * `revenue` - revenue * `custom` - custom */
+  metric_kind: ReportMetricKindEnum | null;
+  /** How to format measured values, matching a report metric's `value_format`. * `number` - number * `count` - count * `percentage` - percentage * `percentage_scaled` - percentage_scaled * `duration` - duration * `currency` - currency */
+  value_format: ValueFormatEnum | null;
+  /** Optional value suffix, such as `users`. */
+  unit: string | null;
+  /** What the measured value must satisfy over the reference period. */
+  comparison: CheckComparison;
+  /** The target's reference period and whether it scales with elapsed time. */
+  monitoring: MonitoringMetricConfig;
+  /** The value before the fix, over `monitoring.baseline_period_minutes`. Null when absent or redacted. */
+  baseline_value: number | null;
+  /** End of this check's observation window. */
+  ends_at: string;
+  /** When the next interim reading is scheduled, if one falls inside the window. */
+  next_measurement_at: string | null;
+  /** Interim readings in this Monitoring period, oldest first. */
+  readings: MonitoringLeadCheckReadingsList;
+}
+/** * `passed` - Passed * `failed` - Failed * `cancelled` - Cancelled * `not_on_track` - Not on track * `on_track` - On track * `awaiting_reading` - Awaiting first reading * `readings_hidden` - Readings hidden * `final_check_only` - Final check only */
+export type MonitoringCheckStateEnum =
+  | "passed"
+  | "failed"
+  | "cancelled"
+  | "not_on_track"
+  | "on_track"
+  | "awaiting_reading"
+  | "readings_hidden"
+  | "final_check_only";
+export interface MonitoringCheckSummary {
+  /** The follow-up check. */
+  check_id: string;
+  /** The check's short label. */
+  title: string;
+  /** `metric_threshold` compares a query result with a target; `agent` runs a scout that judges the claim. * `metric_threshold` - Metric Threshold * `agent` - Agent */
+  kind: SignalReportCheckKindEnum;
+  /** Where this check stands. `passed` and `failed`: final verification recorded a verdict. `cancelled`: removed from verification. `on_track` and `not_on_track`: whether its latest interim reading meets its target. `awaiting_reading`: it takes interim readings and has none yet. `readings_hidden`: this viewer may not read its data. `final_check_only`: it takes no interim readings and is judged when its window ends. * `passed` - Passed * `failed` - Failed * `cancelled` - Cancelled * `not_on_track` - Not on track * `on_track` - On track * `awaiting_reading` - Awaiting first reading * `readings_hidden` - Readings hidden * `final_check_only` - Final check only */
+  state: MonitoringCheckStateEnum;
+  /** End of this check's observation window. */
+  ends_at: string;
+}
+/** Every check this Monitoring period is verified with, oldest first, including cancelled ones. */
+export type ReportMonitoringSummaryChecksList = Array<MonitoringCheckSummary>;
+export interface ReportMonitoringSummary {
+  /** Where the Monitoring period stands. `not_on_track`: a check's latest interim reading misses its target. `awaiting_reading`: a metric check has no interim reading yet. `readings_hidden`: this viewer may not read the data of a metric check whose readings would decide the state. `on_track`: every metric check's latest reading meets its target. `final_check_only`: no metric check takes interim readings, so the outcome waits for the final checks. `window_ended`: every observation window has ended and final verification is due or running. * `not_on_track` - Not on track * `on_track` - On track * `awaiting_reading` - Awaiting first reading * `readings_hidden` - Readings hidden * `final_check_only` - Final check only * `window_ended` - Window ended */
+  state: MonitoringSummaryStateEnum;
+  /** When this Monitoring period started. */
+  started_at: string;
+  /** When the last open check's observation window ends. */
+  ends_at: string;
+  /** The metric check that best stands for the report: the first one this viewer can see is off track, otherwise the first metric check that takes interim readings. Null when none does. */
+  lead_check: MonitoringLeadCheck | null;
+  /** Every check this Monitoring period is verified with, oldest first, including cancelled ones. */
+  checks: ReportMonitoringSummaryChecksList;
+}
+/** * `resolved` - Resolved * `resolved_by_assessment` - Resolved by assessment * `resolved_manually` - Resolved manually * `resolved_unverified` - Resolved without verification * `closed` - Closed */
+export type MonitoringOutcomeKindEnum =
+  | "resolved"
+  | "resolved_by_assessment"
+  | "resolved_manually"
+  | "resolved_unverified"
+  | "closed";
+export interface MonitoringFollowUp {
+  /** The follow-up report researching why the fix was not shown to work. */
+  report_id: string;
+  /** The follow-up report's title. Null until research names it. */
+  title: string | null;
+  /** The follow-up report's current status. * `potential` - Potential * `candidate` - Candidate * `in_progress` - In Progress * `pending_input` - Pending Input * `ready` - Ready * `monitoring` - Monitoring * `resolved` - Resolved * `closed` - Closed * `failed` - Failed * `deleted` - Deleted * `suppressed` - Suppressed */
+  status: SignalReportStatusEnum;
+}
+export interface ReportMonitoringOutcome {
+  /** How Monitoring ended. `resolved`: every check passed. `resolved_by_assessment`: the checks were inconclusive and a report-level assessment established the fix worked. `resolved_manually`: a person resolved it; `dismissal_reason` says why. `resolved_unverified`: every check was cancelled, so nothing verified the fix. `closed`: the fix was not shown to work, and follow-up research was requested. * `resolved` - Resolved * `resolved_by_assessment` - Resolved by assessment * `resolved_manually` - Resolved manually * `resolved_unverified` - Resolved without verification * `closed` - Closed */
+  kind: MonitoringOutcomeKindEnum;
+  /** When Monitoring ended. */
+  ended_at: string;
+  /** The report researching why this Monitoring period did not establish the fix. Null until grouping places its research signal. */
+  follow_up: MonitoringFollowUp | null;
+}
+/** * `part_of` - Part of * `plan` - Plan * `recurrence_of` - Recurrence of * `duplicate_of` - Duplicate of * `depends_on` - Depends on * `follow_up_of` - Follow-up of */
+export type LinkStripKindEnum =
+  | "part_of"
+  | "plan"
+  | "recurrence_of"
+  | "duplicate_of"
+  | "depends_on"
+  | "follow_up_of";
+export interface LinkedReportRef {
+  /** The linked report's id. */
+  id: string;
+  /** The linked report's title. */
+  title: string | null;
+  /** The linked report's status. Monitoring reads as resolved when its rollout is disabled. * `potential` - Potential * `candidate` - Candidate * `in_progress` - In Progress * `pending_input` - Pending Input * `ready` - Ready * `monitoring` - Monitoring * `resolved` - Resolved * `closed` - Closed * `failed` - Failed * `deleted` - Deleted * `suppressed` - Suppressed */
+  status: SignalReportStatusEnum;
+  /** The linked report's primary implementation pull request, if one is attached. */
+  implementation_pr_url: string | null;
+  /** Latest known state of that pull request: unknown, draft, open, closed, or merged. * `unknown` - Unknown * `draft` - Draft * `open` - Open * `closed` - Closed * `merged` - Merged */
+  implementation_pr_state: SignalReportAssignmentPrStateEnum | null;
+}
+/** * `merged` - Merged * `in_review` - In review * `waiting` - Waiting * `dismissed` - Dismissed */
+export type PlanStepStateEnum = "merged" | "in_review" | "waiting" | "dismissed";
+export interface LinkPlanStep {
+  /** The step's report id. */
+  id: string;
+  /** The step's report title. */
+  title: string | null;
+  /** `merged`: the step's pull request merged or the step resolved. `in_review`: the step has a pull request that is not closed. `waiting`: no work is in flight yet. `dismissed`: the step was archived. * `merged` - Merged * `in_review` - In review * `waiting` - Waiting * `dismissed` - Dismissed */
+  state: PlanStepStateEnum;
+}
+/** The reports linked to the plan with `part_of`, in the order they were linked. Deleted steps are left out. */
+export type LinkPlanSummaryStepsList = Array<LinkPlanStep>;
+export interface LinkPlanSummary {
+  /** The plan's report id. */
+  id: string;
+  /** The plan's report title. */
+  title: string | null;
+  /** The reports linked to the plan with `part_of`, in the order they were linked. Deleted steps are left out. */
+  steps: LinkPlanSummaryStepsList;
+  /** The step to show for the whole plan: the first step in review, else the first waiting step, else the last step. */
+  lead_step_id: string;
+}
+export interface OtherReportLink {
+  /** How this report relates to the other. * `depends_on` - Depends on * `part_of` - Part of * `follow_up_of` - Follow-up of * `duplicate_of` - Duplicate of * `recurrence_of` - Recurrence of */
+  kind: ReportLinkKindEnum;
+  /** The other report. */
+  report: LinkedReportRef;
+}
+/** This report's other outgoing links to live reports, oldest first. Links inside the same plan are left out, and so is a `follow_up_of` to the report a `recurrence_of` strip names. */
+export type ReportLinkSummaryOtherLinksList = Array<OtherReportLink>;
+export interface ReportLinkSummary {
+  /** The link the inbox row shows. `part_of`: this report is a step of `plan`. `plan`: this report is the plan, and `plan` lists its steps. Other values name an outgoing link to `report`. The order of preference is plan, `recurrence_of`, `duplicate_of`, `depends_on`, `follow_up_of`. * `part_of` - Part of * `plan` - Plan * `recurrence_of` - Recurrence of * `duplicate_of` - Duplicate of * `depends_on` - Depends on * `follow_up_of` - Follow-up of */
+  kind: LinkStripKindEnum;
+  /** The report the link points at. For `part_of` this is the plan. Null when `kind` is `plan`. */
+  report: LinkedReportRef | null;
+  /** The plan, when `kind` is `part_of` or `plan`. Null otherwise. */
+  plan: LinkPlanSummary | null;
+  /** This report's other outgoing links to live reports, oldest first. Links inside the same plan are left out, and so is a `follow_up_of` to the report a `recurrence_of` strip names. */
+  other_links: ReportLinkSummaryOtherLinksList;
+}
 export interface SignalReportList {
   id: string;
   title: string | null;
@@ -5538,6 +6847,8 @@ export interface SignalReportList {
   status: SignalReportStatusEnum;
   /** Original implementation-complete time for this Monitoring period, null before entry. Present only when Monitoring is enabled. */
   monitoring_started_at?: string | null | undefined;
+  /** When this Monitoring period ended in resolved or closed. Null while Monitoring continues, when it was archived (archiving pauses it), and after the report is reopened. Present only when Monitoring is enabled. */
+  monitoring_ended_at?: string | null | undefined;
   total_weight: number;
   signal_count: number;
   signals_at_run: number;
@@ -5564,6 +6875,8 @@ export interface SignalReportList {
   actionability: string | null;
   /** Whether the issue is already being handled -- fixed in recent changes, or with a fix in flight (an open PR, a recently active branch, an assigned / in-progress issue or agent task) -- from the actionability judgment artefact. */
   already_addressed: boolean | null;
+  /** The current value of each decision made about the report (repository, priority, actionability, already addressed), with the reason stored with it and who set it. Always null in list responses. */
+  decisions: ReportDecisions | null;
   /** Reason code from the latest dismissal artefact, set when the report was suppressed (when present). */
   dismissal_reason: string | null;
   /** Free-form note captured alongside the dismissal reason (when present). */
@@ -5603,6 +6916,8 @@ export interface SignalReportList {
   work_state: SignalReportWorkStateEnum;
   /** Current user, internal task, or external agent claim owner. Null when unclaimed. */
   assignee: SignalReportAssignee | null;
+  /** Whether an implementation run for this report is still working. A new implementation run cannot start until it settles. */
+  implementation_in_flight: boolean;
   /** The report's PR refund, when one exists. One refund per report, ever. */
   refund: SignalReportRefund | null;
   /** Why refunding this report's PR would be rejected right now, or null when a refund would be accepted (see the field's schema for the reason values). */
@@ -5615,27 +6930,60 @@ export interface SignalReportList {
   ranking: ReportRanking;
   /** The plan this report leads or is a step of, with every step in it. A report that other reports link to with `part_of` is a plan. Null when the report is in no plan, and always null in list responses, because finding a plan's steps costs several queries per report. */
   plan: ReportPlan | null;
-  /** Sort key from the ranker named by the list response's ranker field, for sort=recommended and sort=personal only. Lower keys rank first, so rows from several requests merge in the order of one request. For an outcome ranker (open, action or fix), a scored report gets 1 minus its score, from 0 to 1, and a report without a usable score gets 2 plus its priority rank. The priority ranker uses the priority rank only, from 0 (P0) to 5 (no priority). For the personal ranker, a report in the stored personal ranking gets its position in that ranking from 0, and every other report gets the number of those positions plus its key from the recommended ranker. Null for every other sort. */
+  /** Sort key from the ranker named by the list response's ranker field, for sort=recommended and sort=personal only. Lower keys rank first, so rows from several requests merge in the order of one request. The priority ranker uses the priority rank only, from 0 (P0) to 5 (no priority). For the personal ranker, a report in the stored personal ranking gets its position in that ranking from 0, and every other report gets the number of those positions plus its priority rank. Null for every other sort. */
   inbox_merge_key: number | null;
-  /** The tier your personal ranking gave this report, for sort=personal. Null when the language model did not rank the report, and for every other sort. */
+  /** The tier your personal ranking gave this report, when the list response's ranker is personal. Null when the language model did not rank the report, and for every other ranker. */
   personal_tier: string | null;
-  /** Why your personal ranking put this report where it is, for sort=personal. Null when the language model did not rank the report, and for every other sort. */
+  /** Why your personal ranking put this report where it is, when the list response's ranker is personal. Null when the language model did not rank the report, and for every other ranker. */
   personal_reason: string | null;
+  /** Progress of the current Monitoring period, for the inbox row. Null unless the report is in Monitoring with follow-up checks, or, with `view=monitoring_recent`, left Monitoring in the last 14 days. */
+  monitoring_summary: ReportMonitoringSummary | null;
+  /** How Monitoring ended, for a resolved or closed report that went through it. Null otherwise, and when Monitoring is disabled. */
+  monitoring_outcome: ReportMonitoringOutcome | null;
+  /** The one link the inbox row shows, read for the whole page at once. Null when the report links to no live report, is no plan, or the inbox card links rollout is off for the organization. */
+  link_summary: ReportLinkSummary | null;
 }
 export type PaginatedSignalReportListListResultsList = Array<SignalReportList>;
+/** real: the model personalized 2 or more reports, so the ranking can reorder the list. one_report: it personalized a single report. not_personalized: the build finished without personalizing. empty: the build had no reports to rank. fallback: the build kept the default order, see fallback_reason. none: no ranking is stored. */
+export type PaginatedSignalReportListListPersonalRankingStatusState =
+  | "real"
+  | "one_report"
+  | "not_personalized"
+  | "empty"
+  | "fallback"
+  | "none";
+/** Your own stored personal ranking, for every sort and also with scope=teammate. Read on the first page only. Null on later pages and when personal ranking is off for you. */
+export interface PaginatedSignalReportListListPersonalRankingStatus {
+  /** real: the model personalized 2 or more reports, so the ranking can reorder the list. one_report: it personalized a single report. not_personalized: the build finished without personalizing. empty: the build had no reports to rank. fallback: the build kept the default order, see fallback_reason. none: no ranking is stored. */
+  state: PaginatedSignalReportListListPersonalRankingStatusState;
+  /** Reports in the stored ranking. Null when state is none. */
+  size: number | null;
+  /** Minutes since the ranking was built. Null when state is none. */
+  age_minutes: number | null;
+  /** Minutes since a build or the scheduled check last confirmed the ranking's inputs. Null when state is none. */
+  checked_age_minutes: number | null;
+  /** Why the build kept the default order, when state is fallback. Else null. */
+  fallback_reason: string | null;
+  /** True when no ranking is stored and a build of yours is queued or running. The web and desktop inbox start that build on the first page of sort=recommended or sort=personal, unless the request passes ordering or scope=teammate. Else false. */
+  building: boolean;
+}
 export interface PaginatedSignalReportListList {
   count: number;
   next?: string | null | undefined;
   previous?: string | null | undefined;
   results: PaginatedSignalReportListListResultsList;
-  /** The ranker that ordered the page when sort=recommended or sort=personal: priority, or open, action or fix for that outcome of the served ranking model. For sort=personal it is personal when your stored personal ranking ordered the page. Null for every other sort. Each row's inbox_merge_key belongs to this ranker. */
+  /** The ranker that ordered the page when sort=recommended or sort=personal: personal when a stored personal ranking ordered the page, else priority. With scope=teammate that is the teammate's ranking, else yours. Null for every other sort. Each row's inbox_merge_key belongs to this ranker. */
   ranker?: string | null | undefined;
-  /** The stored personal ranking that ordered the page when sort=personal. Pass it back as ranking_id on later pages, so a new ranking does not reorder them. Null when no personal ranking applied, and for every other sort. */
+  /** The stored personal ranking that ordered the page, when the ranker is personal. Pass it back as ranking_id on later pages, so a new ranking does not reorder them. Null when no personal ranking applied, and for every other sort. */
   ranking_id?: string | null | undefined;
+  /** Your own stored personal ranking, for every sort and also with scope=teammate. Read on the first page only. Null on later pages and when personal ranking is off for you. */
+  personal_ranking_status?: PaginatedSignalReportListListPersonalRankingStatus | null | undefined;
   /** True when `count` stopped at a cap, so it is a lower bound and `next` keeps paging past it. Only a search with a full page can cap the count. */
   count_is_capped?: boolean | undefined;
-  /** Whether the client shows a ranking score pill on each card, when sort=recommended or sort=personal. The same flag arm sets this and the ranker. Null for every other sort. */
+  /** Whether the client shows a ranking score pill on each card, when sort=recommended or sort=personal. True when a stored personal ranking ordered the page. Null for every other sort. */
   ranking_pill?: boolean | null | undefined;
+  /** Whether the rows carry their source metadata. False when the request passed include_source_metadata=false, or when the ClickHouse read failed or took too long. Then each row has an empty source_products and a null scout_name that do not mean the report has none. Load them with source_metadata. */
+  source_metadata_available?: boolean | undefined;
 }
 export interface ListSignalsReportsActionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -5645,7 +6993,7 @@ export interface ListSignalsReportsActionsRequest {
 }
 /** One report action that starts an agent run, with whether the report offers it now. */
 export interface SignalReportTaskAction {
-  /** The action. `get_it_merged` fixes CI on the report's open, approved pull request and merges it. `make_it_green` fixes failing CI on the report's open pull request and stops without merging it. `suggested_prompt` sends one of the prompts the report suggests. * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `suggested_prompt` - Suggested prompt * `ask` - Ask */
+  /** The action. `get_it_merged` fixes CI on the report's open, approved pull request and merges it. `make_it_green` fixes failing CI and resolves merge conflicts on the report's open pull request, and stops without merging it. `resolve_conflicts` updates the report's open pull request from its base branch, resolves the conflicts, pushes, and stops without merging it or fixing unrelated CI. `implement` starts the run the inbox's Implement button starts: it claims the report, implements the fix, and opens a pull request that is attached to the report. `suggested_prompt` sends one of the prompts the report suggests. * `get_it_merged` - Get it merged * `make_it_green` - Make it green * `resolve_conflicts` - Resolve conflicts * `implement` - Implement * `suggested_prompt` - Suggested prompt * `ask` - Ask */
   action: ReportTaskActionKindEnum;
   /** Whether a run of this action can start now. */
   available: boolean;
@@ -5705,6 +7053,8 @@ export interface ListSignalsScoutConfigRequest {
   project_id: string;
   /** Case-insensitive substring filter over a scout's display name and its skill name. A scout matches on either, so a person who knows the label and a caller who knows the identifier both find it. Omit for the whole fleet. */
   search?: string | undefined;
+  /** Returns only the scouts another product stood up for one of its own objects, e.g. `slack` for Slack channel scouts or `replay_vision` for Replay Vision scanner scouts. Omit for the whole fleet. */
+  source_product?: string | undefined;
   /** Comma-separated tags, e.g. `revenue,on-call`. Returns the scouts carrying at least one of them. Values are normalized the same way stored tags are, so `On Call` matches `on-call`. Omit for the whole fleet. */
   tags?: string | undefined;
 }
@@ -5819,6 +7169,57 @@ export interface ListSignalsScoutReportChecksRequest {
 }
 export type ListSignalsScoutReportChecksResponseBodyList = Array<ScoutCheckSummary>;
 export type ListSignalsScoutReportChecksResponse = ListSignalsScoutReportChecksResponseBodyList;
+export interface ListSignalsScoutReportDiscussionsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Maximum rows to return, newest first. Defaults to 20. */
+  limit?: number | undefined;
+  /** Narrow to discussions on one report. Returns nothing for a report your scout never emitted or edited. */
+  report_id?: string | undefined;
+  /** Only discussions started or updated at or after this time, so a discussion that began earlier but concluded since is included. Defaults to 14 days ago. Pass the `completed_at` of your newest completed run to read only what changed since then. */
+  since?: string | undefined;
+}
+/** * `authored` - Authored * `edited` - Edited */
+export type ReportInvolvementEnum = "authored" | "edited";
+/** * `inbox` - Inbox * `slack` - Slack */
+export type DiscussionSourceEnum = "inbox" | "slack";
+/** The project member who started a discussion. */
+export interface ScoutDiscussionStarter {
+  /** The member's stable PostHog user UUID, the same `user_uuid` `scout-members-list` returns. */
+  user_uuid: string;
+  /** The member's first name (may be empty). */
+  first_name: string;
+  /** The member's last name (may be empty). */
+  last_name: string;
+}
+/** One discussion a person opened on a report your scout emitted or edited. */
+export interface ScoutReportDiscussion {
+  /** The report the discussion is about. */
+  report_id: string;
+  /** The report's title, truncated. */
+  report_title: string;
+  /** `authored` when your scout emitted the report, `edited` when it only edited it. * `authored` - Authored * `edited` - Edited */
+  involvement: ReportInvolvementEnum;
+  /** `inbox` when the discussion started from Ask AI in the inbox, `slack` when it started from a reply in the report's Slack thread. * `inbox` - Inbox * `slack` - Slack */
+  source: DiscussionSourceEnum;
+  /** The discussion task. */
+  task_id: string;
+  /** When the discussion started. */
+  created_at: string;
+  /** When the discussion last changed, for example when a run wrote its summary. Rows sort by it, newest first. */
+  active_at: string;
+  /** Status of the discussion's latest run, for example `in_progress` or `completed`. Null before it runs. */
+  status: string | null;
+  /** The latest run's summary of the conversation and its outcome. Null when no run has written one yet, or when the summary could have been written by someone who may not steer scouts on this project. For a `slack` discussion, other people in the public thread can shape the summary, so it is returned when the person who started the discussion may steer scouts. */
+  task_summary: string | null;
+  /** For a `slack` discussion, the message that started it, in the person's own words. Null when that person may not steer scouts on this project, or started a later Slack discussion on the same report. Always null for an `inbox` discussion, because a scout note carried its question. */
+  question: string | null;
+  /** The member who opened the discussion: who opened Ask AI on an `inbox` discussion, or whose message started a `slack` discussion. Not the author of `task_summary`: any project member can rewrite an `inbox` summary, and others in a Slack thread can shape a `slack` one. Null when the discussion has no creator, or when the creator no longer has access to this project. */
+  started_by: ScoutDiscussionStarter | null;
+}
+export type ListSignalsScoutReportDiscussionsResponseBodyList = Array<ScoutReportDiscussion>;
+export type ListSignalsScoutReportDiscussionsResponse =
+  ListSignalsScoutReportDiscussionsResponseBodyList;
 export interface ListSignalsScoutRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -5844,8 +7245,13 @@ export type SignalScoutRunSummaryEmittedReportIdsList = Array<string>;
 /** The `SignalReport` ids this run mutated via the `edit_report` channel (rewrote title/summary and/or appended a note), deduped. Distinct from `emitted_report_ids`: edit can target any inbox report, so these are generally not reports the run authored. Empty for runs that edited no report. */
 export type SignalScoutRunSummaryEditedReportIdsList = Array<string>;
 export type SignalScoutRunSummaryMetadataWriteScopesList = Array<string>;
+export type SignalScoutRunSummaryMetadataReportActionsList = Array<string>;
+export type SignalScoutRunSummaryMetadataReportActionStartsItem =
+  SignalScoutRunDetailMetadataReportActionStartsItem;
+export type SignalScoutRunSummaryMetadataReportActionStartsList =
+  Array<SignalScoutRunDetailMetadataReportActionStartsItem>;
 export type SignalScoutRunSummaryMetadataDerived = SignalScoutRunDetailMetadataDerived;
-/** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
+/** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), `report_actions` (the report actions the run could start, when the scout was granted any), `report_action_starts` (each report action the run started, with `at`, `report_id`, and `action`), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
 export interface SignalScoutRunSummaryMetadata {
   harness_prompt_version?: string | undefined;
   report_channel?: string | undefined;
@@ -5858,6 +7264,8 @@ export interface SignalScoutRunSummaryMetadata {
   service_tier?: string | undefined;
   network_access?: string | undefined;
   write_scopes?: SignalScoutRunSummaryMetadataWriteScopesList | undefined;
+  report_actions?: SignalScoutRunSummaryMetadataReportActionsList | undefined;
+  report_action_starts?: SignalScoutRunSummaryMetadataReportActionStartsList | undefined;
   triggered_by?: string | undefined;
   run_note?: string | undefined;
   derived?: SignalScoutRunDetailMetadataDerived | undefined;
@@ -5901,7 +7309,7 @@ export interface SignalScoutRunSummary {
   emitted_report_ids: SignalScoutRunSummaryEmittedReportIdsList;
   /** The `SignalReport` ids this run mutated via the `edit_report` channel (rewrote title/summary and/or appended a note), deduped. Distinct from `emitted_report_ids`: edit can target any inbox report, so these are generally not reports the run authored. Empty for runs that edited no report. */
   edited_report_ids: SignalScoutRunSummaryEditedReportIdsList;
-  /** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
+  /** Scout-owned per-run context, in two regions. Top-level keys are stamped by the runner at run start. Always present: `harness_prompt_version` (id of the harness prompt build the run was given), `report_channel` (which report tools the run held: `none`, `emit`, `edit`, or `both`), `skill_origin` (`canonical` or `custom`), `github_guidance` (whether the run got the GitHub evidence section), and `business_knowledge_maintained` (whether the run got the business-knowledge section: the product flag is on and the team's knowledge base looks maintained) -- the provenance set that says which instructions the run actually got, so runs are only compared against runs of the same shape. Present only when the run departed from a default: `model`, `runtime_adapter`, and `reasoning_effort` (routing overrode the agent-server default), `network_access` (`full` when the scout's config lifted the trusted-domain network restriction for this run), `write_scopes` (the extra write access the run's token carried, when the scout was granted any), `report_actions` (the report actions the run could start, when the scout was granted any), `report_action_starts` (each report action the run started, with `at`, `report_id`, and `action`), and `triggered_by` (`manual` or `workflow` when the run was fired off-schedule; absent means the run came from the coordinator's schedule). The nested `derived` object is the harness's own map of boolean run dimensions, computed server-side at finalize: `has_emit_report`, `has_edit_report`, `has_self_improvement`, `has_chart`, `has_self_validation`, `has_structured_output`, and `has_not_in_use_closeout` (the run wrote a `not-in-use:` scratchpad entry and produced no report, finding, or structured output). Use `derived` to answer 'what kind of run was this?' instead of parsing the `summary` prose. Note the flags describe the reports the run authored as they stand now, so charts attached to someone else's report via an edit are not counted. A missing `derived` object is unknown, not all-false: the run predates the field, never finalized, or its stamp failed. */
   metadata: SignalScoutRunSummaryMetadata;
 }
 export type ListSignalsScoutRunsResponseBodyList = Array<SignalScoutRunSummary>;
@@ -5947,6 +7355,10 @@ export interface PaginatedSignalSourceConfigListOutput {
   next?: string | null | undefined;
   previous?: string | null | undefined;
   results?: PaginatedSignalSourceConfigListOutputResultsList | undefined;
+}
+export interface ListSignalsTrialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
 }
 export interface PauseSignalsProcessingDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -6003,6 +7415,14 @@ export interface RunSignalsScoutConfigRequest {
 }
 export interface RunSignalsScoutConfigResponse {}
 export type SearchSignalsActivitySummaryMemberRequestExcludeUserUuidsList = Array<string>;
+export type SearchSignalsActivitySummaryMemberRequestMode =
+  | "building"
+  | "analyzing"
+  | "monitoring"
+  | "investigating"
+  | "operating"
+  | "experimenting";
+export type SearchSignalsActivitySummaryMemberRequestObjectRelation = "any" | "owned" | "watched";
 export type SearchSignalsActivitySummaryMemberRequestProduct =
   | "product_analytics"
   | "dashboards"
@@ -6033,21 +7453,39 @@ export type SearchSignalsActivitySummaryMemberRequestProduct =
   | "canvases"
   | "support";
 export type SearchSignalsActivitySummaryMemberRequestSearchMode = "hybrid" | "semantic" | "keyword";
+export type SearchSignalsActivitySummaryMemberRequestUserUuidsList = Array<string>;
 export interface SearchSignalsActivitySummaryMemberRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only members with a theme or an object seen in this many days. */
+  active_since_days?: number | undefined;
   /** Members to leave out, such as people you already checked. */
   exclude_user_uuids?: SearchSignalsActivitySummaryMemberRequestExcludeUserUuidsList | undefined;
   /** Add the one-page markdown profile to each result. Set it only for the people you want to read. */
   include_profile?: boolean | undefined;
   /** The most results to return, best match first. */
   limit?: number | undefined;
+  /** Only members who work in this mode, overall or on one of their themes. * `building` - Building * `analyzing` - Analyzing * `monitoring` - Monitoring * `investigating` - Investigating * `operating` - Operating * `experimenting` - Experimenting */
+  mode?: SearchSignalsActivitySummaryMemberRequestMode | (string & {}) | undefined;
+  /** Only members who changed or often open this object. Requires `object_type`. Use the short id for an insight, a notebook or a replay playlist (the id in its URL, such as `aBc123Xy`), and the numeric or UUID primary key for every other type. */
+  object_id?: string | undefined;
+  /** With `object_type` or `object_id`: `owned` matches members who changed the object, `watched` members who opened it on many days, and `any` both. * `any` - Any * `owned` - Owned * `watched` - Watched */
+  object_relation?:
+    | SearchSignalsActivitySummaryMemberRequestObjectRelation
+    | (string & {})
+    | undefined;
+  /** Only members who changed or often open an object of this type, such as `insight`, `dashboard`, `feature_flag`, `experiment`, `notebook` or `hog_function`. Combine with `object_id` for one object. */
+  object_type?: string | undefined;
+  /** The number of results to skip, for the next page. Compare with `total`. */
+  offset?: number | undefined;
   /** Only members who work in or visit this product. * `product_analytics` - Product Analytics * `dashboards` - Dashboards * `web_analytics` - Web Analytics * `session_replay` - Session Replay * `heatmaps` - Heatmaps * `error_tracking` - Error Tracking * `experiments` - Experiments * `feature_flags` - Feature Flags * `early_access_features` - Early Access Features * `surveys` - Surveys * `product_tours` - Product Tours * `notebooks` - Notebooks * `cohorts` - Cohorts * `persons` - Persons * `data_management` - Data Management * `data_warehouse` - Data Warehouse * `data_pipelines` - Data Pipelines * `workflows` - Workflows * `ai_observability` - Ai Observability * `mcp_analytics` - Mcp Analytics * `logs` - Logs * `tracing` - Tracing * `endpoints` - Endpoints * `revenue_analytics` - Revenue Analytics * `customer_analytics` - Customer Analytics * `inbox` - Inbox * `canvases` - Canvases * `support` - Support */
   product?: SearchSignalsActivitySummaryMemberRequestProduct | (string & {}) | undefined;
   /** Natural language or keywords, such as an object name, a topic or a product area. Without a query, the search lists members with a summary, the newest summary first. */
   query?: string | undefined;
   /** `hybrid` merges the keyword and semantic rankings. `semantic` ranks by meaning only, and returns 503 when the vector search fails. `keyword` matches query terms in the profile, the headline, the theme labels and the names of owned and watched objects. * `hybrid` - Hybrid * `semantic` - Semantic * `keyword` - Keyword */
   search_mode?: SearchSignalsActivitySummaryMemberRequestSearchMode | (string & {}) | undefined;
+  /** Only these members. With no query, this reads their summaries directly. */
+  user_uuids?: SearchSignalsActivitySummaryMemberRequestUserUuidsList | undefined;
 }
 /** * `semantic` - Semantic * `headline` - Headline * `themes` - Themes * `owned` - Owned * `watched` - Watched * `profile` - Profile */
 export type MatchKindEnum = "semantic" | "headline" | "themes" | "owned" | "watched" | "profile";
@@ -6059,10 +7497,42 @@ export interface ActivitySummarySearchMatch {
 }
 /** Why this member matched. */
 export type ActivitySummarySearchHitMatchedOnList = Array<ActivitySummarySearchMatch>;
+/** * `owned` - Owned * `watched` - Watched */
+export type SummaryObjectRelationEnum = "owned" | "watched";
+export interface ActivitySummarySearchObject {
+  /** `owned` when the member changed the object, `watched` when they opened it on many days. * `owned` - Owned * `watched` - Watched */
+  relation: SummaryObjectRelationEnum;
+  /** The object type, such as `insight` or `dashboard`. */
+  type: string;
+  /** The short id for an insight, a notebook or a replay playlist, else the primary key. */
+  id: string;
+  /** The object name. */
+  name: string;
+  /** Days the member changed the object. Set on an owned object only. */
+  edit_days: number | null;
+  /** Days the member opened the object. Set on a watched object only. */
+  open_days: number | null;
+  /** The last day of the change or the view, as YYYY-MM-DD. */
+  last_at: string | null;
+  /** True when someone else created the watched object. Null on an owned object. */
+  not_theirs: boolean | null;
+}
+/** The member's owned and watched objects that matched the object filter, or whose name matched a query term. */
+export type ActivitySummarySearchHitObjectsList = Array<ActivitySummarySearchObject>;
 /** The main threads of the member's work. */
 export type ActivitySummarySearchHitThemesList = Array<ActivitySummaryTheme>;
 /** How the member works in this project overall, the main mode first. */
 export type ActivitySummarySearchHitModesList = Array<ActivitySummaryModeEnum>;
+/** Products the member changed something in, the most active first. */
+export type ActivitySummarySearchProductsWorksInList = Array<ActivitySummaryProductEnum>;
+/** Products the member only opened, the most opened first. */
+export type ActivitySummarySearchProductsVisitsList = Array<ActivitySummaryProductEnum>;
+export interface ActivitySummarySearchProducts {
+  /** Products the member changed something in, the most active first. */
+  works_in: ActivitySummarySearchProductsWorksInList;
+  /** Products the member only opened, the most opened first. */
+  visits: ActivitySummarySearchProductsVisitsList;
+}
 export interface ActivitySummarySearchHit {
   /** The member. Use it in `suggested_reviewers`. */
   user_uuid: string;
@@ -6076,12 +7546,16 @@ export interface ActivitySummarySearchHit {
   score: number | null;
   /** Why this member matched. */
   matched_on: ActivitySummarySearchHitMatchedOnList;
+  /** The member's owned and watched objects that matched the object filter, or whose name matched a query term. */
+  objects: ActivitySummarySearchHitObjectsList;
   /** One or two sentences about what the member works on in this project. */
   headline: string | null;
   /** The main threads of the member's work. */
   themes: ActivitySummarySearchHitThemesList;
   /** How the member works in this project overall, the main mode first. */
   modes: ActivitySummarySearchHitModesList;
+  /** The products the member works in or visits. */
+  products: ActivitySummarySearchProducts;
   /** When this summary was written. */
   generated_at: string | null;
   /** True when a newer version will replace this summary soon. */
@@ -6094,10 +7568,63 @@ export type ActivitySummarySearchResultResultsList = Array<ActivitySummarySearch
 export interface ActivitySummarySearchResult {
   /** The matching members, best match first. */
   results: ActivitySummarySearchResultResultsList;
+  /** All the members that matched, before `offset` and `limit`. */
+  total: number;
   /** False when the search used keywords only: a `keyword` search, a request with no query, or a `hybrid` search whose vector search failed. */
   semantic_used: boolean;
   /** Members with access to the project and no summary yet. The search cannot find them. */
   not_ready_count: number;
+}
+export type SearchSignalsReportRequestSearchMode = "hybrid" | "semantic" | "keyword";
+export interface SearchSignalsReportRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** ISO 8601 datetime. Keeps reports created at or after this time. */
+  created_after?: string | undefined;
+  /** Include reports kept out of the shared inbox. A report is kept out when the scout that authored it turned off its `inbox` output destination. Defaults to false. */
+  include_unlisted?: boolean | undefined;
+  /** The most results to return, best match first. */
+  limit?: number | undefined;
+  /** What to look for: natural language, such as a description of the issue, or an exact string, such as an error message or an entity name. */
+  query: string;
+  /** `hybrid` merges the keyword and semantic rankings. `semantic` ranks by meaning only, and returns 503 when the semantic search fails. `keyword` requires every query word in the title or the summary. Words such as `a` or `is` are too short to look up, so the keyword search leaves them out. * `hybrid` - Hybrid * `semantic` - Semantic * `keyword` - Keyword */
+  search_mode?: SearchSignalsReportRequestSearchMode | (string & {}) | undefined;
+  /** Comma-separated statuses to include. Valid values: potential, candidate, in_progress, pending_input, ready, monitoring, resolved, failed, suppressed. Defaults to every status, dismissed reports included. */
+  status?: string | undefined;
+}
+/** * `keyword` - Keyword * `semantic` - Semantic */
+export type ReportMatchKindEnum = "keyword" | "semantic";
+/** How the report matched: `keyword`, `semantic`, or both. */
+export type SignalReportSearchHitMatchKindsList = Array<ReportMatchKindEnum>;
+export interface SignalReportSearchHit {
+  /** The report id. Pass it to inbox-reports-retrieve for the full report. */
+  id: string;
+  /** The report title. */
+  title: string | null;
+  /** The report status. * `potential` - Potential * `candidate` - Candidate * `in_progress` - In Progress * `pending_input` - Pending Input * `ready` - Ready * `monitoring` - Monitoring * `resolved` - Resolved * `closed` - Closed * `failed` - Failed * `deleted` - Deleted * `suppressed` - Suppressed */
+  status: SignalReportStatusEnum;
+  /** The report priority, P0 to P4, or null. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  priority: AutonomyPriorityEnum | null;
+  /** When the report last changed. */
+  updated_at: string;
+  /** A short excerpt of the summary, around the first query word it holds, or the summary's opening when it holds none. */
+  summary_snippet: string;
+  /** The reason code from the latest dismissal of the report, or null. */
+  dismissal_reason: string | null;
+  /** The note a person wrote with the latest dismissal, or null. */
+  dismissal_note: string | null;
+  /** How the report matched: `keyword`, `semantic`, or both. */
+  match_kinds: SignalReportSearchHitMatchKindsList;
+  /** The reciprocal rank fusion score. Higher is a better match. Compare it only within one response. */
+  score: number;
+}
+/** The matching reports, best match first. */
+export type SignalReportSearchResponseResultsList = Array<SignalReportSearchHit>;
+export interface SignalReportSearchResponse {
+  /** The matching reports, best match first. */
+  results: SignalReportSearchResponseResultsList;
+  /** False when the results come from keywords only: a `keyword` search, or a `hybrid` search whose semantic search failed. */
+  semantic_available: boolean;
 }
 export interface SearchSignalsScoutScratchpadRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -6110,8 +7637,12 @@ export interface SearchSignalsScoutScratchpadRequest {
   date_to?: string | undefined;
   /** Include entries whose `expires_at` has passed. Off by default so a time-boxed memory retires itself; turn it on to audit what the fleet remembered and when it lapsed. */
   include_expired?: boolean | undefined;
-  /** Exact key match -- returns the single entry with this key, or nothing. Use this to re-read a known entry; `text` searches key *and* content, so it can push the row you asked for past the limit. */
+  /** With `key`, also return the entry's earlier versions, newest first: what each `remember` that changed it replaced, and what a `forget` deleted, with who changed it and when. Versions are kept for two weeks, at most 10 per key. Works for a deleted key too. To restore one, `remember` its content. */
+  include_revisions?: boolean | undefined;
+  /** Exact key match -- returns the single entry with this key, or nothing. Use this to re-read a known entry; `text` searches key *and* content, so it can push the row you asked for past the limit. An entry hidden only by its expiry comes back with `expired=true` and a blank `content`, and every entry it returns carries `last_changed_by_skill` / `last_changed_at`. */
   key?: string | undefined;
+  /** Return only the entries whose key starts with this prefix, case-sensitive, with `%` and `_` matched literally. Use it to read one family of keys, such as `followup:<skill-name>:`; unlike `text`, it ignores what entry bodies say. Combines with every other filter. */
+  key_prefix?: string | undefined;
   /** When true, blank each entry's `content` and return only keys + metadata. Use to scan which memories exist without pulling their (potentially large) bodies, then re-query the ones worth a full read. Takes precedence over `content_max_chars`. */
   keys_only?: boolean | undefined;
   /** Max rows to return (default 20, hard cap 1000). */
@@ -6120,6 +7651,36 @@ export interface SearchSignalsScoutScratchpadRequest {
   skill_name?: string | undefined;
   /** ILIKE substring match against `content` and `key`. Must contain 3 letters or digits in a row, or 2 next to a symbol such as `ai_` or `pr:`. Omit to return the most recent entries. */
   text?: string | undefined;
+}
+/** * `overwrite` - Overwrite * `forget` - Forget */
+export type SignalScratchpadRevisionChangeEnum = "overwrite" | "forget";
+/** The state a scratchpad entry held before one write replaced or deleted it. */
+export interface ScratchpadRevision {
+  /** The entry's content before the change. */
+  content: string;
+  /** The entry's ISO-8601 expiry before the change, or null if it was durable. */
+  expires_at: string | null;
+  /** `overwrite` when a `remember` or the daily report-pointer sweep replaced this state, `forget` when a delete removed it. * `overwrite` - Overwrite * `forget` - Forget */
+  change: SignalScratchpadRevisionChangeEnum;
+  /** ISO-8601 time of the change. */
+  changed_at: string;
+  /** Scout run that made the change, or null when a pipeline stage or a person did. */
+  changed_by_run_id: string | null;
+  /** Who made the change: the skill name of the scout run, the report-pipeline stage (`pipeline:report-research`, `pipeline:implementation`), or `system:report-pointer-sweep` when the daily sweep expired a `report:` pointer to a deleted report. Null when a person deleted the entry. */
+  changed_by_skill: string | null;
+  /** Relative Tasks UI deep-link to the run that made the change, or null. */
+  changed_by_run_url: string | null;
+}
+/** Earlier versions of this entry, newest first, when the search set `include_revisions`; null otherwise. For a key that was deleted, the entry has blank `content` and null `created_at`, and the newest revision is the deleted state. */
+export type ScratchpadEntryRevisionsList = Array<ScratchpadRevision>;
+/** The expiry a `remember` overruled when it wrote onto an expired entry. */
+export interface ScratchpadRevivedExpiry {
+  /** ISO-8601 expiry the entry had before this write replaced it. */
+  expires_at: string;
+  /** Who set that expiry: a scout skill name, a `pipeline:*` stage, or `system:report-pointer-sweep`. Null when the entry was created with the expiry or no saved version shows who set it. */
+  set_by_skill: string | null;
+  /** ISO-8601 time the expiry was set, or null. */
+  set_at: string | null;
 }
 /** `SignalScratchpad` projection used by `search-memory` and `remember`. */
 export interface ScratchpadEntry {
@@ -6139,11 +7700,23 @@ export interface ScratchpadEntry {
   created_by_skill?: string | null | undefined;
   /** Relative Tasks UI deep-link to the run that created this entry, or null if the run linkage isn't captured. */
   created_by_run_url?: string | null | undefined;
+  /** Earlier versions of this entry, newest first, when the search set `include_revisions`; null otherwise. For a key that was deleted, the entry has blank `content` and null `created_at`, and the newest revision is the deleted state. */
+  revisions?: ScratchpadEntryRevisionsList | null | undefined;
+  /** True when an exact `key` search found the entry but its `expires_at` has passed. `content` is blank. Another writer or a time limit retired the entry on purpose, so read it with `include_expired=true` and weigh why before you rebuild it. The body stays readable until the janitor deletes the entry. */
+  expired?: boolean | undefined;
+  /** Exact `key` searches only. Who last changed the entry after its creator wrote it: a scout skill name, a `pipeline:*` stage, or `system:report-pointer-sweep`. When `expired` is true, it names who set the expiry. Null when no saved version shows a writer, and on every other search. */
+  last_changed_by_skill?: string | null | undefined;
+  /** Exact `key` searches only. ISO-8601 time of the change `last_changed_by_skill` describes, or null when no saved version records one. */
+  last_changed_at?: string | null | undefined;
+  /** Set on a `remember` response when the write landed on an entry whose `expires_at` had passed. The write succeeded and replaced that expiry. Null otherwise. */
+  revived_expiry?: ScratchpadRevivedExpiry | null | undefined;
 }
 export type SearchSignalsScoutScratchpadResponseBodyList = Array<ScratchpadEntry>;
 export type SearchSignalsScoutScratchpadResponse = SearchSignalsScoutScratchpadResponseBodyList;
 export type SignalsAnomaliesSearchRetrieveRequestGroupBy = "series" | "insight";
 export type SignalsAnomaliesSearchRetrieveRequestInterval = "hour" | "day" | "week" | "month";
+export type SignalsAnomaliesSearchRetrieveRequestOrder = "unusual" | "recent";
+export type SignalsAnomaliesSearchRetrieveRequestViewedWithinDays = 7 | 14 | 30 | 45 | 90;
 export interface SignalsAnomaliesSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -6155,17 +7728,42 @@ export interface SignalsAnomaliesSearchRetrieveRequest {
   date_to?: string | undefined;
   /** `series` returns one row per series in `series`. `insight` returns one row per insight in `insights`. * `series` - Series * `insight` - Insight */
   group_by?: SignalsAnomaliesSearchRetrieveRequestGroupBy | (string & {}) | undefined;
+  /** Add `points` to each series row: its scored buckets in the chart window of its interval, oldest first. The chart window ends at `date_to` and does not follow `date_from`: 7 days for `hour`, 14 days for `day`, 26 weeks for `week` and 24 months for `month`. Costs one more query. Has no effect with `group_by: insight`. */
+  include_points?: boolean | undefined;
   /** Only the series of this insight, by numeric id. */
   insight_id?: number | undefined;
   /** Only series with this interval. * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
   interval?: SignalsAnomaliesSearchRetrieveRequestInterval | (string & {}) | undefined;
   /** The most rows to return. */
   limit?: number | undefined;
+  /** Rows to skip in the sorted result. Pass the previous `offset` plus `limit` when `has_more` is true. */
+  offset?: number | undefined;
   /** Only series, or insights, with at least one flagged bucket in the range. Set false to also list quiet ones. */
   only_flagged?: boolean | undefined;
+  /** `unusual` puts flagged series first, and among them the series that flagged the smallest share of the scored buckets in the chart window of its interval, because a flag on a series that rarely flags is the surprising one. A series with fewer than 10 scored buckets in its chart window sorts after the series with a share. The chart window ends at `date_to` and does not follow `date_from`. `recent` puts the series whose newest flagged bucket ended last first, whatever its interval, so an hour flagged this morning sorts above a day flagged yesterday. Series whose flagged buckets ended at the same time sort as `unusual`. With `group_by: insight`, each insight sorts by its first series. * `unusual` - Unusual * `recent` - Recent */
+  order?: SignalsAnomaliesSearchRetrieveRequestOrder | (string & {}) | undefined;
+  /** Only insights whose name contains this text, ignoring case. */
+  search?: string | undefined;
+  /** Only the insights the caller viewed in this many days: insights they opened, and insights on the dashboards they opened, with the tiles those dashboards have now. Views count only in the web app, not through the API or an MCP tool. Without it the search covers every insight in the project. When the caller viewed no insight in the window, the search covers every insight and `viewed_scope_empty` is true. * `7` - 7 * `14` - 14 * `30` - 30 * `45` - 45 * `90` - 90 */
+  viewed_within_days?:
+    | SignalsAnomaliesSearchRetrieveRequestViewedWithinDays
+    | (number & {})
+    | undefined;
 }
+export interface AnomalyIntervalRange {
+  /** The bucket interval. * `hour` - Hour * `day` - Day * `week` - Week * `month` - Month */
+  interval: AnomalyIntervalEnum;
+  /** The applied start of the range for series of this interval, in the project timezone. For `week` it is never later than the start of the last 2 completed weeks, and for `month` the start of the last completed month, so a short range still checks them. For `hour` and `day` it is the requested start. */
+  date_from: string;
+  /** The applied end of the range, in the project timezone. */
+  date_to: string;
+}
+/** The range applied to the series of each interval the search covers, from `hour` to `month`. Only the requested `interval` when one was passed. Every count of a series row covers the range of its interval. */
+export type AnomalySearchResponseIntervalRangesList = Array<AnomalyIntervalRange>;
 /** * `series` - Series * `insight` - Insight */
 export type AnomalyGroupByEnum = "series" | "insight";
+/** * `unusual` - Unusual * `recent` - Recent */
+export type AnomalyOrderEnum = "unusual" | "recent";
 export interface AnomalyFlaggedPoint {
   /** The start of the flagged bucket, in the project timezone. */
   bucket_start: string;
@@ -6176,6 +7774,16 @@ export interface AnomalyFlaggedPoint {
 }
 /** Up to 5 flagged buckets in the range, newest first. */
 export type AnomalySeriesFlaggedPointsList = Array<AnomalyFlaggedPoint>;
+export interface AnomalyDashboard {
+  /** The numeric id of the dashboard. */
+  id: number;
+  /** The name of the dashboard. Null when it has none. */
+  name: string | null;
+}
+/** The dashboards the insight sits on that the caller may view, oldest tile first. Empty when none. */
+export type AnomalySeriesDashboardsList = Array<AnomalyDashboard>;
+/** Only with `include_points`. The scored buckets of the series in the chart window of its interval, oldest first. The chart window can start before `date_from`, so the points do not match `scored_buckets`. A bucket that was not scored, or only has a warm-up row, has no point: it is unknown, not 0. */
+export type AnomalySeriesPointsList = Array<AnomalySeriesPoint>;
 export interface AnomalySeries {
   /** The numeric id of the insight. */
   insight_id: number;
@@ -6203,16 +7811,18 @@ export interface AnomalySeries {
   coverage: number | null;
   /** The newest scored bucket in the range. Buckets after it were not checked yet. */
   scored_through: string | null;
-  /** The anomaly rate over the 30 days before the range. Null when no bucket was scored then. */
-  baseline_rate: number | null;
   /** The oldest flagged bucket in the range, in the project timezone. */
   first_flagged_bucket: string | null;
   /** The newest flagged bucket in the range, in the project timezone. */
   last_flagged_bucket: string | null;
   /** Up to 5 flagged buckets in the range, newest first. */
   flagged_points: AnomalySeriesFlaggedPointsList;
+  /** The dashboards the insight sits on that the caller may view, oldest tile first. Empty when none. */
+  dashboards: AnomalySeriesDashboardsList;
+  /** Only with `include_points`. The scored buckets of the series in the chart window of its interval, oldest first. The chart window can start before `date_from`, so the points do not match `scored_buckets`. A bucket that was not scored, or only has a warm-up row, has no point: it is unknown, not 0. */
+  points?: AnomalySeriesPointsList | undefined;
 }
-/** One row per series, most anomalous first. Empty unless `group_by` is `series`. */
+/** One row per series, in the requested `order`. Empty unless `group_by` is `series`. */
 export type AnomalySearchResponseSeriesList = Array<AnomalySeries>;
 export interface AnomalyTopSeries {
   /** Identifies the series. */
@@ -6227,10 +7837,8 @@ export interface AnomalyTopSeries {
   flagged_buckets: number;
   /** `flagged_buckets / scored_buckets`. */
   anomaly_rate: number | null;
-  /** The anomaly rate over the 30 days before the range. */
-  baseline_rate: number | null;
 }
-/** Up to 3 flagged series, most anomalous first. */
+/** Up to 3 flagged series, in the requested `order`. */
 export type AnomalyInsightRowTopSeriesList = Array<AnomalyTopSeries>;
 export interface AnomalyInsightRow {
   /** The numeric id of the insight. */
@@ -6251,10 +7859,10 @@ export interface AnomalyInsightRow {
   anomaly_rate: number | null;
   /** The newest flagged bucket of any series. */
   last_flagged_bucket: string | null;
-  /** Up to 3 flagged series, most anomalous first. */
+  /** Up to 3 flagged series, in the requested `order`. */
   top_series: AnomalyInsightRowTopSeriesList;
 }
-/** One row per insight, most anomalous first. Empty unless `group_by` is `insight`. */
+/** One row per insight, in the requested `order`. Empty unless `group_by` is `insight`. */
 export type AnomalySearchResponseInsightsList = Array<AnomalyInsightRow>;
 export interface AnomalySearchResponse {
   /** Whether anomaly scoring scores this project now. False when scoring does not cover the project, or when the project turned it off in its Product analytics source. Scores written before scoring was turned off are still returned. */
@@ -6263,20 +7871,38 @@ export interface AnomalySearchResponse {
   watched_insights: number;
   /** Insights with at least one scored bucket in the range. Results cover only these insights. */
   insights_scored_in_range: number;
-  /** The applied start of the range, in the project timezone. */
+  /** Distinct UTC days with a scored daily bucket of any insight series in the last 28 days. It does not follow the requested range, and it counts scores written before scoring was turned off. */
+  scored_days: number;
+  /** True when `scored_days` is 14 or more. Until then the project has too little scored history to rely on its scores, even when `scoring_enabled` is true. */
+  scored_history_ready: boolean;
+  /** The requested start of the range, in the project timezone. Weekly and monthly series can use an earlier start: see `interval_ranges`. */
   date_from: string;
   /** The applied end of the range, in the project timezone. */
   date_to: string;
+  /** The range applied to the series of each interval the search covers, from `hour` to `month`. Only the requested `interval` when one was passed. Every count of a series row covers the range of its interval. */
+  interval_ranges: AnomalySearchResponseIntervalRangesList;
   /** The applied grouping. * `series` - Series * `insight` - Insight */
   group_by: AnomalyGroupByEnum;
-  /** One row per series, most anomalous first. Empty unless `group_by` is `series`. */
+  /** The applied order. * `unusual` - Unusual * `recent` - Recent */
+  order: AnomalyOrderEnum;
+  /** One row per series, in the requested `order`. Empty unless `group_by` is `series`. */
   series: AnomalySearchResponseSeriesList;
-  /** One row per insight, most anomalous first. Empty unless `group_by` is `insight`. */
+  /** One row per insight, in the requested `order`. Empty unless `group_by` is `insight`. */
   insights: AnomalySearchResponseInsightsList;
+  /** True when rows exist after this page. Read them with `offset` set to `offset + limit`. */
+  has_more: boolean;
   /** True when `limit` or a read cap left rows out. */
   truncated: boolean;
+  /** True when the project has more scored series in the range than one search reads (10,000), so some series that match the filters are missing from every page. Narrow the range or the filters to see them. With `only_flagged`, series with a flagged bucket are read first, so this is true only when flagged series alone pass the cap. */
+  series_capped: boolean;
   /** Says why the result is empty. Null when it is not. */
   message: string | null;
+  /** The newest scored bucket of any series that matches the filters, in the project timezone. It does not depend on `order`, `only_flagged` or the page. Null when no bucket in the range was scored. */
+  scored_through: string | null;
+  /** The `viewed_within_days` of the request. Null when it passed none, so the result covers every insight in the project. When `viewed_scope_empty` is true, the result covers every insight too. */
+  viewed_within_days: number | null;
+  /** True when the request passed `viewed_within_days` and the caller viewed no insight or dashboard with an insight in that window, so the result covers every insight in the project instead. */
+  viewed_scope_empty: boolean;
 }
 /** One citation attached to a finding. Mirrors `SignalsScoutEvidenceEntry`. */
 export interface EvidenceEntry {
@@ -6336,7 +7962,7 @@ export interface EmitFindingResponse {
 export interface SignalsMonthlyUsageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** UTC calendar month in YYYY-MM format, from 2026-10 onward. Defaults to the current month. Usage is grouped by finalization time. */
+  /** UTC calendar month in YYYY-MM format, from 2026-10 onward and entirely within the last three calendar months. Defaults to the current month. Usage is grouped by finalization time. */
   month?: string | undefined;
 }
 export interface MonthlySourceUsage {
@@ -6529,6 +8155,8 @@ export type PullRequestChecksResponseChecksList = Array<PullRequestCheck>;
 /** Response for the PR checks endpoint -- the CI status of a report's implementation PR. */
 export interface PullRequestChecksResponse {
   checks: PullRequestChecksResponseChecksList;
+  /** True when GitHub reports that the pull request conflicts with its base branch. False while GitHub is still computing it. */
+  has_conflict: boolean;
 }
 export interface SignalsReportPrCommentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -6548,7 +8176,7 @@ export type SignalsReportsBulkStateCreateRequestIdsList = Array<string>;
 export interface SignalsReportsBulkStateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Target state for the report. Use 'suppressed' to dismiss the report from the inbox, 'potential' to snooze/reopen it for later review, or 'resolved' when the report is finished. Resolving is allowed from ready, pending_input, failed, closed, or monitoring, or from a suppressed report that previously held one of those statuses or resolved. Resolving an already resolved report succeeds. Other statuses return 409 (skipped in bulk). Dismissing or resolving closes the report's open implementation PR, if it has one. Use 'monitoring' when implementation is complete and outcome verification is pending. Entry requires the organization rollout and snapshots this report's pending or active, unexpired checks. Without applicable checks the report resolves directly. Manual completion records caller attribution, stops remaining follow-up checks, and does not claim automatic verification or an evidence amendment. * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring */
+  /** Target state for the report. Use 'suppressed' to dismiss the report from the inbox, 'potential' to snooze it or restore it from the archive, or 'resolved' when the report is finished. Resolving is allowed from ready, pending_input, failed, closed, or monitoring, or from a suppressed report that previously held one of those statuses or resolved. Resolving an already resolved report succeeds. Other statuses return 409 (skipped in bulk). Dismissing or resolving closes the report's open implementation PR, if it has one. Use 'monitoring' when implementation is complete and outcome verification is pending. Entry requires the organization rollout and snapshots this report's pending or active, unexpired checks. Without applicable checks the report resolves directly. Manual completion records caller attribution, stops remaining follow-up checks, and does not claim automatic verification or an evidence amendment. Use 'ready' to reopen a report in monitoring or closed. It returns to ready with its research, pull requests, and follow-up checks kept, and its Monitoring period ends. Completing implementation again starts a new period. Reopening is refused for other statuses and for refunded reports. * `suppressed` - suppressed * `potential` - potential * `resolved` - resolved * `monitoring` - monitoring * `ready` - ready */
   state: SignalReportStateEnum | (string & {});
   /** Optional canonical reason code recorded with the transition. Must be one of: already_fixed, report_unclear, analysis_wrong, wrong_assignee, wrong_repo, wontfix_intentional, wontfix_irrelevant, fixed_outside_posthog, verified_manually, no_action_needed, pr_merged, other -- these match the inbox UI so the rationale renders as a labelled chip rather than a raw code. When the work this report asked for is done, the honest transition is state='resolved' with 'fixed_outside_posthog' (the fix landed without a pull request), 'pr_merged' (a pull request with the fix was merged but did not resolve the report on its own), or 'already_fixed' (it was fixed before the report was filed). Use 'no_action_needed' with state='resolved' when the report was useful but needs no implementation. A report that failed in processing resolves too, so a fix that landed is recorded as a fix rather than as a dismissal. These three codes claim the issue is gone, so a later signal about the same issue starts a fresh report linked to this one. Fixed reason codes require state='suppressed' or state='resolved', not 'potential'. The dismissal codes (report_unclear, analysis_wrong, wrong_assignee, wontfix_*) go with state='suppressed' and absorb later signals silently. 'wrong_assignee' is accepted from older clients, but a report sent to the wrong person still holds work: remove the person from the report's reviewers with a removal_reason instead of suppressing it. 'wrong_repo' when the agent picked the wrong repository for this report, ideally with corrected_repository naming the right one. The report stays suppressed, but a later matching signal starts a fresh linked report with a new repository selection informed by the project's correction feedback, even when no corrected_repository was supplied. Use 'verified_manually' with state='resolved' to stop Monitoring after manual verification. It requires Monitoring to be enabled and a report with a Monitoring period, and records no automatic verification result or evidence amendment. Use 'other' together with a dismissal_note for anything that doesn't fit a code. * `already_fixed` - Already fixed * `report_unclear` - Report is unclear to me * `analysis_wrong` - Agent's analysis is wrong * `wrong_assignee` - Wrong assignee * `wrong_repo` - Agent picked the wrong repository * `wontfix_intentional` - Won't fix - intentional behavior * `wontfix_irrelevant` - Not relevant to this project * `fixed_outside_posthog` - Fixed outside PostHog * `verified_manually` - Verified manually * `no_action_needed` - No action needed * `pr_merged` - PR was merged * `other` - Something else... */
   dismissal_reason?: DismissalReasonEnum | (string & {}) | undefined;
@@ -6619,6 +8247,18 @@ export interface ReportSpend {
   implementation: SpendAmount;
   /** Full usage of scout runs that authored this report. Shared with all other output of those runs. */
   shared_scout_runs: SpendAmount;
+  /** Whether a scout run authored this report directly. Such a report has no generation usage of its own. */
+  scout_authored: boolean;
+}
+export interface SignalsReportsPlanStepsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this signal report. */
+  id: string;
+  /** Id of a report that is a step of this plan. */
+  step_id: string;
+  /** Optional one-line note on why. Recorded on the links this call writes, or on the work-log note it leaves. Capped at 500 characters. */
+  reason?: string | undefined;
 }
 export interface SignalsReportsPrCiStatusesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -7016,7 +8656,7 @@ export interface SignalsScoutEmitReportRequest {
   actionability: ActionabilityEnum | (string & {});
   /** Whether the issue is already being handled -- fixed in recent changes, or with a fix in flight (an open PR, a recently active branch, an assigned / in-progress issue or agent task). Gates autostart of a scout report, so a wrong `false` opens a duplicate PR. Tracked separately. */
   already_addressed?: boolean | undefined;
-  /** Optional repo for opening a draft PR, by autostart of a scout report or by a person from the inbox. Pass `owner/repo` whenever you can say where a fix would land. Omit the field when you can't, which triggers free-form selection across the team's repos (the slow path on a many-repo team). Keep the `NO_REPO` sentinel for the rare report where nothing under version control could change, since a skill body, a config file, or a doc still lives in a repo. */
+  /** Optional repo for opening a draft PR, by autostart of a scout report or by a person from the inbox. Pass `owner/repo` whenever you can say where a fix would land. Nothing selects a repository for you: omit the field when you can't tell, and the report records no repository unless its text links exactly one connected repo, so it cannot autostart a draft PR. Keep the `NO_REPO` sentinel for the rare report where nothing under version control could change, since a skill body, a config file, or a doc still lives in a repo. */
   repository?: string | null | undefined;
   /** Optional priority (`P0`-`P4`). Required for autostart; pair with `priority_explanation`. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   priority?: AutonomyPriorityEnum | (string & {}) | null | undefined;
@@ -7269,7 +8909,7 @@ export interface SignalsScoutRunsRecentPerScoutRequest {
 }
 export type SignalsScoutRunsRecentPerScoutResponseBodyList = Array<SignalScoutRunSummary>;
 export type SignalsScoutRunsRecentPerScoutResponse = SignalsScoutRunsRecentPerScoutResponseBodyList;
-export interface SignalsScoutScratchpadForgetRequest {
+export interface SignalsScoutScratchpadDiscardRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Memory key to delete. */
@@ -7279,10 +8919,16 @@ export interface ForgetResponse {
   /** Whether a row was actually removed (false if the key didn't exist). */
   deleted: boolean;
 }
+export interface SignalsScoutScratchpadForgetRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Memory key to delete. */
+  key: string;
+}
 export interface SignalsScoutScratchpadRememberRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Agent-chosen semantic key, unique per team; re-using a key overwrites the entry in place. Key off the *stable identity* of what you're tracking -- never embed a date, timestamp, or run id (that mints a new row every run and breaks dedupe). For run state/cursors, use one fixed key and keep the timestamp in `content`. */
+  /** Short stable ID for what you're tracking, e.g. `noise:<fingerprint>`; max 300 chars, the note goes in `content`. Unique per team; re-using a key overwrites the entry. Never embed a date, timestamp, or run id (that mints a new row every run). For run state, use one fixed key and keep the timestamp in `content`. */
   key: string;
   /** Markdown to write. Future prompts read it verbatim and people read it directly, so structured Markdown (headings, bullets, inline code for ids) is easier to skim than a wall of prose. */
   content: string;
@@ -7290,6 +8936,8 @@ export interface SignalsScoutScratchpadRememberRequest {
   run_id?: string | null | undefined;
   /** Optional ISO-8601 expiry for a memory that's only true for a while (a cooldown, a window you're watching). After this time the entry drops out of searches, so you don't have to come back and forget it. Omit for a durable memory -- every write sets the whole entry, so omitting it on a later write clears an expiry set earlier. Best-effort -- a value that can't be parsed or is already in the past is dropped (the memory stays durable), not rejected, so the memory write is never lost. */
   expires_at?: string | null | undefined;
+  /** Optional precondition: the `updated_at` you read for this key from `scout-scratchpad-search`, sent back unchanged. The write happens only when the stored entry still has this `updated_at`. When the entry changed since you read it, or no entry has this key, nothing is written and the call returns 409 with the entry's current `updated_at`. Read the entry again and decide. Omit it to overwrite unconditionally. A value that can't be parsed is rejected, not dropped. */
+  if_updated_at?: string | undefined;
 }
 export interface SignalsSourceConfigsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -7298,6 +8946,34 @@ export interface SignalsSourceConfigsDestroyRequest {
   id: string;
 }
 export interface SignalsSourceConfigsDestroyResponse {}
+/** The source's record allowlist as it would be saved, to preview it before saving. For Linear issues, these are the Linear team ids saved in `config.linear_team_ids`. Omit it or pass null to use the saved allowlist, pass an empty list to read every team, or pass a list of non-empty ids (at most 100) to read only those. Sources without an allowlist ignore it. */
+export type SignalsSourceConfigsFilterValidateCreateRequestScopeIdsList = Array<string>;
+export interface SignalsSourceConfigsFilterValidateCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Source product of the filter, as listed by `inbox-source-filter-catalogs-list`. */
+  source_product: string;
+  /** Source type of the filter, as listed by `inbox-source-filter-catalogs-list`. */
+  source_type: string;
+  /** Filter expression to try, as it would be saved in `config.hogql_filter`: a boolean expression over the fields `inbox-source-filter-catalogs-list` returns, for example `project_name = 'Core' AND assignee_id IS NULL`. An empty expression lets every record through. */
+  expression: string;
+  /** The source's record allowlist as it would be saved, to preview it before saving. For Linear issues, these are the Linear team ids saved in `config.linear_team_ids`. Omit it or pass null to use the saved allowlist, pass an empty list to read every team, or pass a list of non-empty ids (at most 100) to read only those. Sources without an allowlist ignore it. */
+  scope_ids?: SignalsSourceConfigsFilterValidateCreateRequestScopeIdsList | null | undefined;
+}
+export interface SourceFilterValidateResponse {
+  /** Machine-readable reason the expression is invalid, for example `syntax`, `unknown_field`, `type`, `boolean_required` or `expression_limit`. Null when the expression is valid. */
+  error_code: string | null;
+  /** 0-based character offset in `expression` where the invalid part starts. Null when the expression is valid, or when the error has no position, for example an expression that is too long. */
+  error_start: number | null;
+  /** 0-based character offset in `expression` just after the invalid part, so the part is `expression[error_start:error_end]`. Equal to `error_start` when the error is at one point, for example an expression that ends too early. Null when `error_start` is null. */
+  error_end: number | null;
+  /** True when the expression can be saved as the source's filter. */
+  valid: boolean;
+  /** Catalog version the expression was checked against. */
+  catalog_version: number;
+  /** Why the expression is invalid, as a message for people. Null when it is valid. */
+  error: string | null;
+}
 export interface SignalsSourceSpendRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -7337,6 +9013,12 @@ export interface SpendOverview {
   scouts: SpendOverviewScoutsList;
   /** Total scout run usage in the period. */
   scout_spend: SpendAmount;
+}
+export interface StopSignalsScoutConfigRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this Signal scout config. */
+  id: string;
 }
 /** * `sufficient` - Sufficient * `insufficient` - Insufficient * `unsupported` - Unsupported * `errored` - Errored */
 export type SignalReportMonitoringResultEvidenceStatusEnum =
@@ -7440,6 +9122,16 @@ export interface UpdateSignalsReportPrReviewCommentRequest {
   /** New comment body (GitHub-flavored markdown). */
   body?: string | undefined;
 }
+export interface UpdateSignalsReportsActionabilityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this signal report. */
+  id: string;
+  /** `immediately_actionable`, `requires_human_input`, or `not_actionable`. Omit to keep the current value. Required when the report has no actionability yet. */
+  actionability?: string | undefined;
+  /** Whether the issue is already fixed, or has a fix in flight that someone else is working on. Omit to keep the current value. */
+  already_addressed?: boolean | undefined;
+}
 export interface UpdateSignalsReportsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -7450,6 +9142,20 @@ export interface UpdateSignalsReportsPartialRequest {
   /** New summary (the report's description) explaining what the report is about. Omit to leave the summary unchanged. */
   summary?: string | undefined;
 }
+/** Ids of the other steps of this plan that this step builds on, replacing the current set. Pass an empty list for a step that builds on none. At most 10. */
+export type UpdateSignalsReportsPlanStepsDependsOnRequestDependsOnList = Array<string>;
+export interface UpdateSignalsReportsPlanStepsDependsOnRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this signal report. */
+  id: string;
+  /** Id of a report that is a step of this plan. */
+  step_id: string;
+  /** Ids of the other steps of this plan that this step builds on, replacing the current set. Pass an empty list for a step that builds on none. At most 10. */
+  depends_on: UpdateSignalsReportsPlanStepsDependsOnRequestDependsOnList;
+  /** Optional one-line note on why. Recorded on the links this call writes, or on the work-log note it leaves. Capped at 500 characters. */
+  reason?: string | undefined;
+}
 export interface UpdateSignalsReportsPriorityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -7457,6 +9163,14 @@ export interface UpdateSignalsReportsPriorityRequest {
   id: string;
   /** New report priority, from P0 (critical) to P4 (minimal). * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   priority: AutonomyPriorityEnum | (string & {});
+}
+export interface UpdateSignalsReportsRepositoryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this signal report. */
+  id: string;
+  /** Repository the report's work targets, in 'owner/repo' format (case-insensitive). It must be a repository the project's GitHub integration can reach. Later implementation runs use it. */
+  repository: string;
 }
 /** * `add` - Add * `remove` - Remove * `replace` - Replace * `confirm` - Confirm */
 export type ReviewerEditActionEnum = "add" | "remove" | "replace" | "confirm";
@@ -7595,8 +9309,10 @@ export type UpdateSignalsScoutConfigRequestTagsList = Array<string>;
 export type UpdateSignalsScoutConfigRequestMcpGatewayServerIdsList = Array<string>;
 /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
 export type UpdateSignalsScoutConfigRequestRepositoriesList = Array<string>;
-/** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+/** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
 export type UpdateSignalsScoutConfigRequestWriteScopesList = Array<string>;
+/** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+export type UpdateSignalsScoutConfigRequestReportActionsList = Array<string>;
 /** Exact MCP tool names selected for this scout, excluding its built-in run context tools. Null means no tool restriction; an empty list selects no additional tools. Write access is derived from selected write tools. Clearing to null preserves the last write scopes. Send this field or tool_preset, never both. Requires the scouts-tool-access feature flag. */
 export type UpdateSignalsScoutConfigRequestAllowedMcpToolsList = Array<string>;
 export interface UpdateSignalsScoutConfigRequest {
@@ -7625,6 +9341,8 @@ export interface UpdateSignalsScoutConfigRequest {
   network_access?: SignalScoutConfigNetworkAccessEnum | (string & {}) | undefined;
   /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
   model?: string | null | undefined;
+  /** ID of a project-shared custom sandbox image this scout's runs start from. Null uses the project's default scout image, or the standard image when no default is set. Only the scout's author or a project admin can change it. Setting an image requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access), since the image can supply agent instructions. An image that is missing or not ready at run time falls back to the standard image. */
+  custom_image_id?: string | null | undefined;
   /** Exempt this scout from the inactivity sweep, meaning both the `ignored` pause and the `no_output` quiet warning. Set it on watchdog scouts whose value is staying quiet. */
   auto_pause_exempt?: boolean | undefined;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set -- a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
@@ -7633,8 +9351,12 @@ export interface UpdateSignalsScoutConfigRequest {
   mcp_gateway_server_ids?: UpdateSignalsScoutConfigRequestMcpGatewayServerIdsList | undefined;
   /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
   repositories?: UpdateSignalsScoutConfigRequestRepositoriesList | undefined;
-  /** Write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
+  /** Write access granted to this one scout, as scope strings. The grantable set is `account_note:write`, `alert:write`, `annotation:write`, `canvas:write`, `customer_task:write`, `dashboard:write`, `event_definition:write`, `experiment:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `notebook:write`, `replay_scanner:write`, `ticket:write`, `warehouse_table:write`, `warehouse_view:write`. A new scout starts with `notebook:write` when this field is omitted. Empty means the scout reads the project and writes only its findings and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. `ticket:write` lets the scout update tickets, manage saved views, and add private notes. Scouts cannot send public replies, compose emails, change existing notes, or change customer identity fields. Ticket changes can start workflows that message customers. `event_definition:write` lets the scout change the tags on event definitions and nothing else. `account_note:write` lets the scout write and retag notes on Customer analytics accounts. Its notes are always tagged `scout` and with its skill name, and the account notes API refuses its deletes. Account notes are also notebooks, so `notebook:write` can still edit or trash one. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant, and a run that acts as a project member other than the author holds only the default scopes. Applies from the scout's next run. */
   write_scopes?: UpdateSignalsScoutConfigRequestWriteScopesList | undefined;
+  /** Report actions this scout may start on inbox reports, from `make_it_green` and `resolve_conflicts`. Empty by default. A scout cannot send its own message with an action. Each action starts an agent run with the full access of the person the scout's runs act as, so only that person can add one. A project admin can remove one. A scoped API key needs `inbox:write` and `task:write`. A dry run never holds the grant. Applies from the scout's next run. */
+  report_actions?: UpdateSignalsScoutConfigRequestReportActionsList | undefined;
+  /** Report actions this scout may start per rolling 24 hours, across all its runs. Defaults to 3. Only the person the scout's runs act as can raise it. A project admin can lower it. */
+  max_report_actions_per_day?: number | undefined;
   /** Optional HogQL `SELECT` a scheduled run evaluates before it starts. When it returns no rows, or one row with one false value (`false`, `0`, null or empty), the run is skipped: no sandbox, no model call, and no run row. Any other result starts the run, and the scout reads the rows. A query error also starts the run. Use `{since}` (the start of the last run that ran, or when the scout was created) and `{now}` to look only at what is new, e.g. `SELECT count() FROM events WHERE event = '$exception' AND timestamp > {since}`. To run at least once a week however quiet it is, add `OR {since} < {now} - INTERVAL 7 DAY` to the condition. Only scheduled runs evaluate it: a manual or workflow run always starts. `{interval_minutes}` is the gap between two scheduled runs, so a backstop can follow the schedule: `{since} < {now} - toIntervalMinute(greatest(1440, 2 * {interval_minutes}))` runs at least daily and never more often than every two intervals. The query stops after 10 seconds and reads at most 50 rows. Try a query with `scout-config-precheck-test` before you save it. Null or blank uses the default pre-check the scout's skill ships, if any. To turn every pre-check off, set `precheck_disabled`. */
   precheck_query?: string | null | undefined;
   /** True turns off the pre-check, both `precheck_query` and the default the skill ships, so every scheduled run starts. False (the default) uses `precheck_query`, or the skill default when that is null. */
@@ -7722,6 +9444,21 @@ export interface ReviewerExclusionError {
   /** Why the request failed. */
   detail: string;
 }
+export interface RememberConflict {
+  /** Why nothing was written. */
+  detail: string;
+  /** The stored entry's current ISO-8601 `updated_at`, or null when no entry has this key. */
+  updated_at: string | null;
+}
+/** Response when the team's GitHub App installation is suspended or uninstalled. */
+export interface GitHubInstallationUnavailableError {
+  /** Stable code for a suspended or uninstalled GitHub App installation. */
+  code: string;
+  /** What happened to the GitHub connection, and who can fix it. */
+  error: string;
+  /** Project integrations settings where a project admin can reconnect GitHub. */
+  remediation_url: string;
+}
 /** Response when the GitHub App cannot read pull request checks. */
 export interface PullRequestChecksPermissionError {
   /** Stable code for a missing GitHub Checks permission. */
@@ -7739,8 +9476,8 @@ export const archiveSignalsScoutConfigTrialComparison: API.OperationMethod<
   ArchiveSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ArchiveSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<ScoutTrialComparison>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ArchiveSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3842, __c120, 2) as any as S.Schema<ScoutTrialComparison>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7757,8 +9494,8 @@ export const bulkSignalsReportClaim: API.OperationMethod<
   BulkSignalsReportClaimError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<BulkSignalsReportClaimRequest>,
-  output: __S(3587, __c112, 3) as any as S.Schema<SignalReportBulkClaimResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<BulkSignalsReportClaimRequest>,
+  output: __S(4451, __c139, 3) as any as S.Schema<SignalReportBulkClaimResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7775,8 +9512,8 @@ export const cancelSignalsScoutReportCheck: API.OperationMethod<
   CancelSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<CancelSignalsScoutReportCheckRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<ScoutCheckSummary>,
+  input: __S(4800, __c150, 0) as any as S.Schema<CancelSignalsScoutReportCheckRequest>,
+  output: __S(4832, __c151, 0) as any as S.Schema<ScoutCheckSummary>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7793,8 +9530,8 @@ export const checkSignalsScoutRecordResult: API.OperationMethod<
   CheckSignalsScoutRecordResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<CheckSignalsScoutRecordResultRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<RecordCheckResultResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<CheckSignalsScoutRecordResultRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<RecordCheckResultResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7811,14 +9548,32 @@ export const claimSignalsReport: API.OperationMethod<
   ClaimSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ClaimSignalsReportRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<SignalReport>,
+  input: __S(5696, __c178, 0) as any as S.Schema<ClaimSignalsReportRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ClaimSignalsReport",
+}));
+
+export type CreateSignalsAnomaliesPointError = PosthogOpError;
+/** Get the chart points of anomaly series Read-only anomaly rates of the saved trends insights that anomaly scoring checks. */
+export const createSignalsAnomaliesPoint: API.OperationMethod<
+  CreateSignalsAnomaliesPointRequest,
+  AnomalyPointsResponse,
+  CreateSignalsAnomaliesPointError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6370, __c199, 2) as any as S.Schema<CreateSignalsAnomaliesPointRequest>,
+  output: __S(6373, __c199, 5) as any as S.Schema<AnomalyPointsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsAnomaliesPoint",
 }));
 
 export type CreateSignalsConfigError = PosthogOpError;
@@ -7829,14 +9584,32 @@ export const createSignalsConfig: API.OperationMethod<
   CreateSignalsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<CreateSignalsConfigRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<SignalTeamConfig>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateSignalsConfigRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<SignalTeamConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSignalsConfig",
+}));
+
+export type CreateSignalsMonitorPrError = PosthogOpError;
+/** Monitor a pull request */
+export const createSignalsMonitorPr: API.OperationMethod<
+  CreateSignalsMonitorPrRequest,
+  MonitorPRResponse,
+  CreateSignalsMonitorPrError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<CreateSignalsMonitorPrRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<MonitorPRResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsMonitorPr",
 }));
 
 export type CreateSignalsOnboardingError = PosthogOpError;
@@ -7846,8 +9619,8 @@ export const createSignalsOnboarding: API.OperationMethod<
   CreateSignalsOnboardingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateSignalsOnboardingRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<InboxOnboardingState>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateSignalsOnboardingRequest>,
+  output: __S(933, __c29, 5) as any as S.Schema<InboxOnboardingState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7863,8 +9636,8 @@ export const createSignalsOnboardingComplete: API.OperationMethod<
   CreateSignalsOnboardingCompleteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateSignalsOnboardingCompleteRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<InboxOnboardingState>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateSignalsOnboardingCompleteRequest>,
+  output: __S(933, __c29, 5) as any as S.Schema<InboxOnboardingState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7880,8 +9653,8 @@ export const createSignalsOnboardingExpose: API.OperationMethod<
   CreateSignalsOnboardingExposeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateSignalsOnboardingExposeRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<InboxOnboardingState>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateSignalsOnboardingExposeRequest>,
+  output: __S(933, __c29, 5) as any as S.Schema<InboxOnboardingState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7898,8 +9671,8 @@ export const createSignalsReport: API.OperationMethod<
   CreateSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateSignalsReportRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<EmitReportResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateSignalsReportRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<EmitReportResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7916,8 +9689,8 @@ export const createSignalsReportArtefact: API.OperationMethod<
   CreateSignalsReportArtefactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateSignalsReportArtefactRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<SignalReportArtefactWriteResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateSignalsReportArtefactRequest>,
+  output: __S(2560, __c80, 0) as any as S.Schema<SignalReportArtefactWriteResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7938,8 +9711,8 @@ export const createSignalsReportPrReviewComment: API.OperationMethod<
   CreateSignalsReportPrReviewCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7956,8 +9729,8 @@ export const createSignalsReportPrReviewCommentReaction: API.OperationMethod<
   CreateSignalsReportPrReviewCommentReactionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentReactionRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<PullRequestReviewCommentReactionCreateResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateSignalsReportPrReviewCommentReactionRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<PullRequestReviewCommentReactionCreateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7972,15 +9745,15 @@ export type CreateSignalsReportsActionsRunError =
   | NotFound
   | Conflict
   | PosthogOpError;
-/** Start a report action as a background agent run Create a task linked to the report and start its first run in the background, with the instructions the inbox uses for the same action. `ask` sends your own message with the framing of the inbox's Ask AI. The run shows in the report's runs and counts toward the report's task limit. Nobody can answer questions in a background run, so the agent writes a note to the report's work log when it needs a decision. */
+/** Start a report action as a background agent run Create a task linked to the report and start its first run in the background, with the instructions the inbox uses for the same action. `ask` sends your own message with the framing of the inbox's Ask AI. `implement` starts the run the inbox's Implement button starts: it claims the report, and the pull request it opens is attached to the report. The run shows in the report's runs and counts toward the report's task limit. Nobody can answer questions in a background run, so the agent writes a note to the report's work log when it needs a decision. A task sandbox cannot start an action, except a scout run that a person granted the action in the scout's settings. */
 export const createSignalsReportsActionsRun: API.OperationMethod<
   CreateSignalsReportsActionsRunRequest,
   SignalReportTaskActionRunResponse,
   CreateSignalsReportsActionsRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateSignalsReportsActionsRunRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<SignalReportTaskActionRunResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CreateSignalsReportsActionsRunRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<SignalReportTaskActionRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -7997,8 +9770,8 @@ export const createSignalsReportsFeedback: API.OperationMethod<
   CreateSignalsReportsFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CreateSignalsReportsFeedbackRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<SignalReportFeedbackResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateSignalsReportsFeedbackRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<SignalReportFeedbackResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8015,14 +9788,32 @@ export const createSignalsReportsMerge: API.OperationMethod<
   CreateSignalsReportsMergeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<CreateSignalsReportsMergeRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<SignalReportMergeResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateSignalsReportsMergeRequest>,
+  output: __S(2883, __c90, 3) as any as S.Schema<SignalReportMergeResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSignalsReportsMerge",
+}));
+
+export type CreateSignalsReportsPlanStepError = BadRequest | NotFound | Conflict | PosthogOpError;
+/** Add a step to this plan Link an existing report to this report as a plan step, with `part_of`. A report becomes a plan when it gets its first step. The step goes last in plan order. When the step is already resolved or archived and every other step is too, the plan closes the same way a plan closes when its last step does. */
+export const createSignalsReportsPlanStep: API.OperationMethod<
+  CreateSignalsReportsPlanStepRequest,
+  SignalReport,
+  CreateSignalsReportsPlanStepError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateSignalsReportsPlanStepRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsPlanStep",
 }));
 
 export type CreateSignalsReportsRefundError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8033,8 +9824,8 @@ export const createSignalsReportsRefund: API.OperationMethod<
   CreateSignalsReportsRefundError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateSignalsReportsRefundRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<SignalReportRefundResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateSignalsReportsRefundRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<SignalReportRefundResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8051,8 +9842,8 @@ export const createSignalsReportsReingest: API.OperationMethod<
   CreateSignalsReportsReingestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateSignalsReportsReingestRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<SignalReportReingestionStatus>,
+  input: __S(2976, __c93, 0) as any as S.Schema<CreateSignalsReportsReingestRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<SignalReportReingestionStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8069,8 +9860,8 @@ export const createSignalsReportsReviewersMe: API.OperationMethod<
   CreateSignalsReportsReviewersMeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<CreateSignalsReportsReviewersMeRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<CreateSignalsReportsReviewersMeResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateSignalsReportsReviewersMeRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<CreateSignalsReportsReviewersMeResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8087,8 +9878,8 @@ export const createSignalsReportsSourceMetadata: API.OperationMethod<
   CreateSignalsReportsSourceMetadataError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateSignalsReportsSourceMetadataRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<SignalReportSourceMetadataResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateSignalsReportsSourceMetadataRequest>,
+  output: __S(3107, __c97, 3) as any as S.Schema<SignalReportSourceMetadataResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8098,15 +9889,15 @@ export const createSignalsReportsSourceMetadata: API.OperationMethod<
 }));
 
 export type CreateSignalsReportsStateError = PosthogOpError;
-/** Transition a report to a new state. The model validates allowed transitions, except that a verdict the report already holds (dismissing a suppressed report, resolving a resolved one) is a 200 that records the dismissal feedback without touching the status. The request body is validated by SignalReportStateRequestSerializer -- only the fields it declares (state, dismissal_reason, dismissal_note, corrected_repository, snooze_for) are read, and only snooze_for is ever forwarded to transition_to. Any other key is ignored, so internal transition_to kwargs (reset_weight, error, ...) can't be injected. Body: { "state": "suppressed" | "potential" | "resolved", # Optional dismissal feedback (honored when state == "suppressed", "potential", or "resolved"): "dismissal_reason": "<canonical reason code, see SIGNAL_REPORT_DISMISSAL_REASON_CHOICES>", "dismissal_note": "free-form text", # Optional, only allowed with dismissal_reason == "wrong_repo": "corrected_repository": "owner/repo the report should have targeted", # Optional, only honored for state == "potential": "snooze_for": <number of additional signals before re-promotion>, } */
+/** Transition a report to a new state. The model validates allowed transitions, except that a verdict the report already holds (dismissing a suppressed report, resolving a resolved one) is a 200 that records the dismissal feedback without touching the status. The request body is validated by SignalReportStateRequestSerializer -- only the fields it declares (state, dismissal_reason, dismissal_note, corrected_repository, snooze_for) are read, and only snooze_for is ever forwarded to transition_to. Any other key is ignored, so internal transition_to kwargs (reset_weight, error, ...) can't be injected. Body: { "state": "suppressed" | "potential" | "resolved" | "monitoring" | "ready", # Optional dismissal feedback (honored when state == "suppressed", "potential", or "resolved"): "dismissal_reason": "<canonical reason code, see SIGNAL_REPORT_DISMISSAL_REASON_CHOICES>", "dismissal_note": "free-form text", # Optional, only allowed with dismissal_reason == "wrong_repo": "corrected_repository": "owner/repo the report should have targeted", # Optional, only honored for state == "potential": "snooze_for": <number of additional signals before re-promotion>, } */
 export const createSignalsReportsState: API.OperationMethod<
   CreateSignalsReportsStateRequest,
   SignalReport,
   CreateSignalsReportsStateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<CreateSignalsReportsStateRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<SignalReport>,
+  input: __S(3136, __c98, 0) as any as S.Schema<CreateSignalsReportsStateRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8123,8 +9914,8 @@ export const createSignalsReportsViewed: API.OperationMethod<
   CreateSignalsReportsViewedError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CreateSignalsReportsViewedRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<CreateSignalsReportsViewedResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateSignalsReportsViewedRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<CreateSignalsReportsViewedResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8141,8 +9932,8 @@ export const createSignalsReviewerExclusion: API.OperationMethod<
   CreateSignalsReviewerExclusionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateSignalsReviewerExclusionRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ReviewerExclusionCreateResult>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CreateSignalsReviewerExclusionRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<ReviewerExclusionCreateResult>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8159,8 +9950,8 @@ export const createSignalsScout: API.OperationMethod<
   CreateSignalsScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2339, __c73, 3) as any as S.Schema<CreateSignalsScoutRequest>,
-  output: __S(2341, __c73, 5) as any as S.Schema<SignalScoutCreateResponse>,
+  input: __S(3267, __c102, 3) as any as S.Schema<CreateSignalsScoutRequest>,
+  output: __S(3269, __c102, 5) as any as S.Schema<SignalScoutCreateResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8177,8 +9968,8 @@ export const createSignalsScoutChatTask: API.OperationMethod<
   CreateSignalsScoutChatTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CreateSignalsScoutChatTaskRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<ScoutChatTask>,
+  input: __S(3392, __c106, 0) as any as S.Schema<CreateSignalsScoutChatTaskRequest>,
+  output: __S(3393, __c106, 1) as any as S.Schema<ScoutChatTask>,
   errors: [Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8195,8 +9986,8 @@ export const createSignalsScoutConfig: API.OperationMethod<
   CreateSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreateSignalsScoutConfigRequest>,
-  output: __S(2437, __c76, 5) as any as S.Schema<SignalScoutConfig>,
+  input: __S(3424, __c107, 0) as any as S.Schema<CreateSignalsScoutConfigRequest>,
+  output: __S(3365, __c105, 5) as any as S.Schema<SignalScoutConfig>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8213,8 +10004,8 @@ export const createSignalsScoutConfigTrialComparison: API.OperationMethod<
   CreateSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2530, __c79, 2) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonResponse>,
+  input: __S(3458, __c108, 2) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<CreateSignalsScoutConfigTrialComparisonResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8231,8 +10022,8 @@ export const createSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   CreateSignalsScoutConfigTrialEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<CreateSignalsScoutConfigTrialEvaluationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8249,8 +10040,8 @@ export const createSignalsScoutNote: API.OperationMethod<
   CreateSignalsScoutNoteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<CreateSignalsScoutNoteRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<ScoutNote>,
+  input: __S(3520, __c110, 0) as any as S.Schema<CreateSignalsScoutNoteRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<ScoutNote>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8267,14 +10058,32 @@ export const createSignalsScoutReportCheck: API.OperationMethod<
   CreateSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<CreateSignalsScoutReportCheckRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<ScoutCheckSummary>,
+  input: __S(3584, __c112, 0) as any as S.Schema<CreateSignalsScoutReportCheckRequest>,
+  output: __S(4832, __c151, 0) as any as S.Schema<ScoutCheckSummary>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSignalsScoutReportCheck",
+}));
+
+export type CreateSignalsSlackChannelScoutError = BadRequest | Forbidden | PosthogOpError;
+/** Create a Slack channel scout Create a scout that reads the messages of the given Slack channels from the data warehouse and files inbox reports about the problems and requests people raise there. A scheduled run is skipped when none of the channels has a new message. */
+export const createSignalsSlackChannelScout: API.OperationMethod<
+  CreateSignalsSlackChannelScoutRequest,
+  SlackChannelScoutCreateResponse,
+  CreateSignalsSlackChannelScoutError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3616, __c113, 0) as any as S.Schema<CreateSignalsSlackChannelScoutRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<SlackChannelScoutCreateResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsSlackChannelScout",
 }));
 
 export type CreateSignalsSourceConfigError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -8284,14 +10093,71 @@ export const createSignalsSourceConfig: API.OperationMethod<
   CreateSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<CreateSignalsSourceConfigRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(3648, __c114, 0) as any as S.Schema<CreateSignalsSourceConfigRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSignalsSourceConfig",
+}));
+
+export type CreateSignalsSourceConfigsAlertPatternPreviewError = PosthogOpError;
+/** Preview product analytics alert patterns Check allow and block patterns for the product analytics source before saving them. Returns why each list would be rejected, and what the patterns do to the project's enabled alerts: which ones they let through and which ones they drop. Saves nothing. */
+export const createSignalsSourceConfigsAlertPatternPreview: API.OperationMethod<
+  CreateSignalsSourceConfigsAlertPatternPreviewRequest,
+  AlertPatternPreviewResponse,
+  CreateSignalsSourceConfigsAlertPatternPreviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    3712,
+    __c116,
+    0,
+  ) as any as S.Schema<CreateSignalsSourceConfigsAlertPatternPreviewRequest>,
+  output: __S(3715, __c116, 3) as any as S.Schema<AlertPatternPreviewResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsSourceConfigsAlertPatternPreview",
+}));
+
+export type CreateSignalsSourceConfigsFilterPreviewError = PosthogOpError;
+/** Preview a source filter Check a filter expression before saving it, and see what it does to the source's records created in the last 7 days: how many pass and how many it excludes, with the newest of each. Reads the records emission would read, with the source's saved team allowlist or the unsaved one in `scope_ids`, and runs with your own warehouse access. Leaves out records that never become signals, such as Linear issues without a description. Records that pass can still be skipped later by guidance or deduplication. Saves nothing and calls no AI. */
+export const createSignalsSourceConfigsFilterPreview: API.OperationMethod<
+  CreateSignalsSourceConfigsFilterPreviewRequest,
+  SourceFilterPreviewResponse,
+  CreateSignalsSourceConfigsFilterPreviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3936, __c123, 0) as any as S.Schema<CreateSignalsSourceConfigsFilterPreviewRequest>,
+  output: __S(3940, __c123, 4) as any as S.Schema<SourceFilterPreviewResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsSourceConfigsFilterPreview",
+}));
+
+export type CreateSignalsTrialError = PosthogOpError;
+export const createSignalsTrial: API.OperationMethod<
+  CreateSignalsTrialRequest,
+  SelfDrivingTrialStatus,
+  CreateSignalsTrialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3968, __c124, 0) as any as S.Schema<CreateSignalsTrialRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<SelfDrivingTrialStatus>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsTrial",
 }));
 
 export type DismissSignalsScoutSuggestionError = NotFound | PosthogOpError;
@@ -8302,8 +10168,8 @@ export const dismissSignalsScoutSuggestion: API.OperationMethod<
   DismissSignalsScoutSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DismissSignalsScoutSuggestionRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<ScoutSuggestionItem>,
+  input: __S(4032, __c126, 0) as any as S.Schema<DismissSignalsScoutSuggestionRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ScoutSuggestionItem>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8313,15 +10179,15 @@ export const dismissSignalsScoutSuggestion: API.OperationMethod<
 }));
 
 export type EditSignalsScoutReportError = BadRequest | NotFound | PosthogOpError;
-/** Edit an existing report for a run Rewrite a report's title/summary, append a note or fresh evidence, set its suggested reviewers, and/or point it at another repository. Can target ANY of the project's inbox reports, not just scout-authored ones -- so the edit is attributed to this scout. Reviewers and repository are how you rescue a report that surfaced routed to no one or against the wrong codebase: each replaces what the report holds and re-runs autostart, so a report that was missing a qualifying reviewer or a repository can open a draft PR. The response carries the repository the report holds after the edit, and the call fails when a repository it named did not land. Set `actionability` and/or `priority` (each with its explanation) when new evidence changed your judgment: each replaces the report's decision and re-runs autostart, without changing the report's inbox status. `tags` replaces the report's slug tags, and an omitted `tags` keeps them. Title/summary edits are best-effort: the pipeline may later re-research them. Set `supersedes_implementation` alongside a rewrite when the fix changed. Verified automated predecessor PRs close only after the replacement completes with verified open PRs. */
+/** Edit an existing report for a run Rewrite a report's title/summary, append a note or fresh evidence, set its suggested reviewers, and/or point it at another repository. Can target ANY of the project's inbox reports, not just scout-authored ones -- so the edit is attributed to this scout. Reviewers and repository are how you rescue a report that surfaced routed to no one or against the wrong codebase: each replaces what the report holds and re-runs autostart, so a report that was missing a qualifying reviewer or a repository can open a draft PR. The response carries the repository the report holds after the edit, and the call fails when a repository it named did not land. Set `actionability` and/or `priority` (each with its explanation) when new evidence changed your judgment: each replaces the report's decision and re-runs autostart, without changing the report's inbox status. `tags` replaces the report's slug tags, and an omitted `tags` keeps them. Title/summary edits are best-effort: the pipeline may later re-research them. Set `supersedes_implementation` alongside a rewrite when the fix changed. Verified automated predecessor PRs close only after the replacement completes with verified open PRs. Set `pull_requests` to link a fix that already exists, so the report resolves when it merges. */
 export const editSignalsScoutReport: API.OperationMethod<
   EditSignalsScoutReportRequest,
   EditReportResponse,
   EditSignalsScoutReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<EditSignalsScoutReportRequest>,
-  output: __S(2787, __c87, 3) as any as S.Schema<EditReportResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<EditSignalsScoutReportRequest>,
+  output: __S(4067, __c127, 3) as any as S.Schema<EditReportResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8337,8 +10203,8 @@ export const generateSignalsScoutRubric: API.OperationMethod<
   GenerateSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GenerateSignalsScoutRubricRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<GenerateSignalsScoutRubricResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GenerateSignalsScoutRubricRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<GenerateSignalsScoutRubricResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8355,8 +10221,8 @@ export const getSignalsActivitySummaryVersion: API.OperationMethod<
   GetSignalsActivitySummaryVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetSignalsActivitySummaryVersionRequest>,
-  output: __S(2851, __c89, 3) as any as S.Schema<GetSignalsActivitySummaryVersionResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetSignalsActivitySummaryVersionRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<GetSignalsActivitySummaryVersionResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8373,8 +10239,8 @@ export const getSignalsAnomaliesInsight: API.OperationMethod<
   GetSignalsAnomaliesInsightError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetSignalsAnomaliesInsightRequest>,
-  output: __S(2981, __c93, 5) as any as S.Schema<AnomalyInsightResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetSignalsAnomaliesInsightRequest>,
+  output: __S(4261, __c133, 5) as any as S.Schema<AnomalyInsightResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8390,8 +10256,8 @@ export const getSignalsReport: API.OperationMethod<
   GetSignalsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetSignalsReportRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<SignalReport>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetSignalsReportRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8408,8 +10274,8 @@ export const getSignalsReportArtefact: API.OperationMethod<
   GetSignalsReportArtefactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetSignalsReportArtefactRequest>,
-  output: __S(3264, __c102, 0) as any as S.Schema<SignalReportArtefact>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetSignalsReportArtefactRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<SignalReportArtefact>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8426,8 +10292,8 @@ export const getSignalsReportCheck: API.OperationMethod<
   GetSignalsReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetSignalsReportCheckRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetSignalsReportCheckRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8444,8 +10310,8 @@ export const getSignalsReportsAvailableReviewer: API.OperationMethod<
   GetSignalsReportsAvailableReviewerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetSignalsReportsAvailableReviewerRequest>,
-  output: __S(3363, __c105, 3) as any as S.Schema<GetSignalsReportsAvailableReviewerResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetSignalsReportsAvailableReviewerRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<GetSignalsReportsAvailableReviewerResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8461,8 +10327,8 @@ export const getSignalsReportsFeedbackState: API.OperationMethod<
   GetSignalsReportsFeedbackStateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetSignalsReportsFeedbackStateRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<SignalReportFeedbackState>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetSignalsReportsFeedbackStateRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<SignalReportFeedbackState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8479,8 +10345,8 @@ export const getSignalsReportsForMe: API.OperationMethod<
   GetSignalsReportsForMeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetSignalsReportsForMeRequest>,
-  output: __S(3431, __c107, 7) as any as S.Schema<PersonalRanking>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetSignalsReportsForMeRequest>,
+  output: __S(4551, __c142, 7) as any as S.Schema<PersonalRanking>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8497,8 +10363,8 @@ export const getSignalsReportsRefundSummary: API.OperationMethod<
   GetSignalsReportsRefundSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetSignalsReportsRefundSummaryRequest>,
-  output: __S(3457, __c108, 1) as any as S.Schema<SignalReportRefundSummaryResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetSignalsReportsRefundSummaryRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<SignalReportRefundSummaryResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8515,8 +10381,8 @@ export const getSignalsReportsSectionCount: API.OperationMethod<
   GetSignalsReportsSectionCountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetSignalsReportsSectionCountRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<SignalReportSectionCounts>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetSignalsReportsSectionCountRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<SignalReportSectionCounts>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8533,14 +10399,32 @@ export const getSignalsReportsSignal: API.OperationMethod<
   GetSignalsReportsSignalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetSignalsReportsSignalRequest>,
-  output: __S(3523, __c110, 3) as any as S.Schema<ReportSignalsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetSignalsReportsSignalRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<ReportSignalsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSignalsReportsSignal",
+}));
+
+export type GetSignalsReportsTagOptionError = PosthogOpError;
+/** List the team's most-used report tags */
+export const getSignalsReportsTagOption: API.OperationMethod<
+  GetSignalsReportsTagOptionRequest,
+  SignalReportTagOptions,
+  GetSignalsReportsTagOptionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4672, __c146, 0) as any as S.Schema<GetSignalsReportsTagOptionRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<SignalReportTagOptions>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportsTagOption",
 }));
 
 export type GetSignalsReviewerExclusionError = PosthogOpError;
@@ -8551,8 +10435,8 @@ export const getSignalsReviewerExclusion: API.OperationMethod<
   GetSignalsReviewerExclusionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetSignalsReviewerExclusionRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetSignalsReviewerExclusionRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8569,8 +10453,8 @@ export const getSignalsScoutConfigTrialComparison: API.OperationMethod<
   GetSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<ScoutTrialComparison>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3842, __c120, 2) as any as S.Schema<ScoutTrialComparison>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8587,8 +10471,8 @@ export const getSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   GetSignalsScoutConfigTrialEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetSignalsScoutConfigTrialEvaluationRequest>,
-  output: __S(3158, __c98, 22) as any as S.Schema<ScoutTrialEvaluation>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetSignalsScoutConfigTrialEvaluationRequest>,
+  output: __S(3894, __c121, 22) as any as S.Schema<ScoutTrialEvaluation>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8605,8 +10489,8 @@ export const getSignalsScoutMetadata: API.OperationMethod<
   GetSignalsScoutMetadataError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetSignalsScoutMetadataRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<ScoutMetadata>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetSignalsScoutMetadataRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<ScoutMetadata>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8623,8 +10507,8 @@ export const getSignalsScoutProjectProfile: API.OperationMethod<
   GetSignalsScoutProjectProfileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetSignalsScoutProjectProfileRequest>,
-  output: __S(3770, __c117, 26) as any as S.Schema<ProjectProfile>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetSignalsScoutProjectProfileRequest>,
+  output: __S(4954, __c154, 26) as any as S.Schema<ProjectProfile>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8640,8 +10524,8 @@ export const getSignalsScoutRubric: API.OperationMethod<
   GetSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetSignalsScoutRubricRequest>,
-  output: __S(3812, __c119, 4) as any as S.Schema<ScoutRubricDocument>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetSignalsScoutRubricRequest>,
+  output: __S(4996, __c156, 4) as any as S.Schema<ScoutRubricDocument>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8658,14 +10542,32 @@ export const getSignalsScoutRun: API.OperationMethod<
   GetSignalsScoutRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetSignalsScoutRunRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<SignalScoutRunDetail>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetSignalsScoutRunRequest>,
+  output: __S(5060, __c158, 4) as any as S.Schema<SignalScoutRunDetail>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSignalsScoutRun",
+}));
+
+export type GetSignalsSlackChannelScoutsChannelError = PosthogOpError;
+/** List Slack channels for scouts The Slack data warehouse sources of this project and the channels each one syncs. */
+export const getSignalsSlackChannelScoutsChannel: API.OperationMethod<
+  GetSignalsSlackChannelScoutsChannelRequest,
+  SlackScoutChannelSources,
+  GetSignalsSlackChannelScoutsChannelError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5088, __c159, 0) as any as S.Schema<GetSignalsSlackChannelScoutsChannelRequest>,
+  output: __S(5093, __c159, 5) as any as S.Schema<SlackScoutChannelSources>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsSlackChannelScoutsChannel",
 }));
 
 export type GetSignalsSourceConfigError = Forbidden | NotFound | PosthogOpError;
@@ -8675,14 +10577,32 @@ export const getSignalsSourceConfig: API.OperationMethod<
   GetSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetSignalsSourceConfigRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetSignalsSourceConfigRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSignalsSourceConfig",
+}));
+
+export type GetSignalsSourceConfigsFilterCatalogError = PosthogOpError;
+/** List source filter catalogs List the sources whose filter this project can set, each with the fields a filter expression can use and example expressions. A filter is a boolean expression saved in a source config's `config.hogql_filter`. It excludes records before any AI processing. Available before the source is connected or synced. */
+export const getSignalsSourceConfigsFilterCatalog: API.OperationMethod<
+  GetSignalsSourceConfigsFilterCatalogRequest,
+  SourceFilterCatalogList,
+  GetSignalsSourceConfigsFilterCatalogError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5152, __c161, 0) as any as S.Schema<GetSignalsSourceConfigsFilterCatalogRequest>,
+  output: __S(5157, __c161, 5) as any as S.Schema<SourceFilterCatalogList>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsSourceConfigsFilterCatalog",
 }));
 
 export type ListSignalsActivitySummaryError = PosthogOpError;
@@ -8693,8 +10613,8 @@ export const listSignalsActivitySummary: API.OperationMethod<
   ListSignalsActivitySummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ListSignalsActivitySummaryRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<ActivitySummary>,
+  input: __S(5184, __c162, 0) as any as S.Schema<ListSignalsActivitySummaryRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<ActivitySummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8711,14 +10631,31 @@ export const listSignalsConfig: API.OperationMethod<
   ListSignalsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ListSignalsConfigRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<SignalTeamConfig>,
+  input: __S(5216, __c163, 0) as any as S.Schema<ListSignalsConfigRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<SignalTeamConfig>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSignalsConfig",
+}));
+
+export type ListSignalsInboxStatusError = PosthogOpError;
+export const listSignalsInboxStatus: API.OperationMethod<
+  ListSignalsInboxStatusRequest,
+  InboxStatus,
+  ListSignalsInboxStatusError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5248, __c164, 0) as any as S.Schema<ListSignalsInboxStatusRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<InboxStatus>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsInboxStatus",
 }));
 
 export type ListSignalsInboxSummaryError = PosthogOpError;
@@ -8728,8 +10665,8 @@ export const listSignalsInboxSummary: API.OperationMethod<
   ListSignalsInboxSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListSignalsInboxSummaryRequest>,
-  output: __S(4005, __c125, 5) as any as S.Schema<InboxSummary>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListSignalsInboxSummaryRequest>,
+  output: __S(5317, __c166, 5) as any as S.Schema<InboxSummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8745,8 +10682,8 @@ export const listSignalsOnboarding: API.OperationMethod<
   ListSignalsOnboardingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListSignalsOnboardingRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<InboxOnboardingState>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListSignalsOnboardingRequest>,
+  output: __S(933, __c29, 5) as any as S.Schema<InboxOnboardingState>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8763,8 +10700,8 @@ export const listSignalsProcessing: API.OperationMethod<
   ListSignalsProcessingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListSignalsProcessingRequest>,
-  output: __S(4131, __c129, 3) as any as S.Schema<PaginatedPauseStateResponseList>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListSignalsProcessingRequest>,
+  output: __S(5379, __c168, 3) as any as S.Schema<PaginatedPauseStateResponseList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8773,16 +10710,34 @@ export const listSignalsProcessing: API.OperationMethod<
   span: "ListSignalsProcessing",
 }));
 
+export type ListSignalsPullRequestsError = PosthogOpError;
+/** List recent authored pull requests */
+export const listSignalsPullRequests: API.OperationMethod<
+  ListSignalsPullRequestsRequest,
+  PRBrowserPage,
+  ListSignalsPullRequestsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5408, __c169, 0) as any as S.Schema<ListSignalsPullRequestsRequest>,
+  output: __S(5412, __c169, 4) as any as S.Schema<PRBrowserPage>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsPullRequests",
+}));
+
 export type ListSignalsReportArtefactsError = PosthogOpError;
-/** List a report's artefacts List every artefact on a report -- the full work log: signal findings (the evidence behind the report), status judgments (safety / actionability / priority, repo selection, suggested reviewers -- the newest row of each status type is canonical), and log entries (code references, commits, task runs, notes). `suggested_reviewers` content is enriched with PostHog user info at read time. `ranking_score` content keeps only the head fields of each model's metadata; get the artefact by id for the full metadata. */
+/** List a report's artefacts List every artefact on a report -- the full work log: signal findings (the evidence behind the report), status judgments (safety / actionability / priority, repo selection, suggested reviewers -- the newest row of each status type is canonical), and log entries (code references, commits, task runs, notes). Pass `type` to keep only some artefact types. `suggested_reviewers` content is enriched with PostHog user info at read time. `ranking_score` content keeps only the head fields of each model's metadata; get the artefact by id for the full metadata. */
 export const listSignalsReportArtefacts: API.OperationMethod<
   ListSignalsReportArtefactsRequest,
   PaginatedSignalReportArtefactList,
   ListSignalsReportArtefactsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<ListSignalsReportArtefactsRequest>,
-  output: __S(4162, __c130, 2) as any as S.Schema<PaginatedSignalReportArtefactList>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListSignalsReportArtefactsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<PaginatedSignalReportArtefactList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8799,8 +10754,8 @@ export const listSignalsReportChecks: API.OperationMethod<
   ListSignalsReportChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListSignalsReportChecksRequest>,
-  output: __S(4194, __c131, 2) as any as S.Schema<PaginatedSignalReportCheckList>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ListSignalsReportChecksRequest>,
+  output: __S(5474, __c171, 2) as any as S.Schema<PaginatedSignalReportCheckList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8816,8 +10771,8 @@ export const listSignalsReports: API.OperationMethod<
   ListSignalsReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListSignalsReportsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<PaginatedSignalReportListList>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListSignalsReportsRequest>,
+  output: __S(5523, __c172, 19) as any as S.Schema<PaginatedSignalReportListList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8827,15 +10782,15 @@ export const listSignalsReports: API.OperationMethod<
 }));
 
 export type ListSignalsReportsActionsError = PosthogOpError;
-/** List the report actions that start an agent run List the actions on this report that start an agent run, read from the report's current state. `get_it_merged` is available only while the report has an open, approved pull request. `make_it_green` is available only while CI fails on the report's open pull request. `suggested_prompt` has one entry per prompt the report suggests. Start one with the run endpoint. */
+/** List the report actions that start an agent run List the actions on this report that start an agent run, read from the report's current state. `get_it_merged` is available only while the report has an open, approved pull request. `make_it_green` is available only while CI fails on the report's open pull request, or while it conflicts with its base branch. `resolve_conflicts` is available only while the report's open pull request conflicts with its base branch. `implement` is available only while the report is ready and actionable, or waiting on input, has no pull request, is not a plan, has no implementation run in progress, and nobody else holds its claim. `suggested_prompt` has one entry per prompt the report suggests. Start one with the run endpoint. */
 export const listSignalsReportsActions: API.OperationMethod<
   ListSignalsReportsActionsRequest,
   SignalReportTaskActionListResponse,
   ListSignalsReportsActionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListSignalsReportsActionsRequest>,
-  output: __S(4291, __c134, 3) as any as S.Schema<SignalReportTaskActionListResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ListSignalsReportsActionsRequest>,
+  output: __S(5603, __c175, 3) as any as S.Schema<SignalReportTaskActionListResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8852,8 +10807,8 @@ export const listSignalsReportsRankingOutcomes: API.OperationMethod<
   ListSignalsReportsRankingOutcomesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<ListSignalsReportsRankingOutcomesRequest>,
-  output: __S(4323, __c135, 3) as any as S.Schema<RankingOutcomesResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<ListSignalsReportsRankingOutcomesRequest>,
+  output: __S(5635, __c176, 3) as any as S.Schema<RankingOutcomesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8870,8 +10825,8 @@ export const listSignalsReviewerExclusions: API.OperationMethod<
   ListSignalsReviewerExclusionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ListSignalsReviewerExclusionsRequest>,
-  output: __S(4354, __c136, 2) as any as S.Schema<ListSignalsReviewerExclusionsResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<ListSignalsReviewerExclusionsRequest>,
+  output: __S(5666, __c177, 2) as any as S.Schema<ListSignalsReviewerExclusionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8881,15 +10836,15 @@ export const listSignalsReviewerExclusions: API.OperationMethod<
 }));
 
 export type ListSignalsScoutConfigError = PosthogOpError;
-/** List scout configs List the per-(team, skill) scout configs for this project. Each row includes its `display_name` (the label people read), its `skill_name` (the permanent identifier), its schedule (rolling `run_interval_minutes`, or a project-local `run_cron_schedule` when set), `enabled`, `emit` posture, and `tags`. A freshly authored scout skill appears here once its config is registered, either explicitly via create or by the coordinator's next tick. Pass `tags` to narrow the fleet to the scouts carrying at least one of the given labels, and `search` to narrow it to the scouts matching a substring of either name. */
+/** List scout configs List the per-(team, skill) scout configs for this project. Each row includes its `display_name` (the label people read), its `skill_name` (the permanent identifier), its schedule (rolling `run_interval_minutes`, or a project-local `run_cron_schedule` when set), `enabled`, `emit` posture, and `tags`. A freshly authored scout skill appears here once its config is registered, either explicitly via create or by the coordinator's next tick. Pass `tags` to narrow the fleet to the scouts carrying at least one of the given labels, `search` to narrow it to the scouts matching a substring of either name, and `source_product` to narrow it to the scouts another product stood up, such as Slack channel scouts. */
 export const listSignalsScoutConfig: API.OperationMethod<
   ListSignalsScoutConfigRequest,
   ListSignalsScoutConfigResponse,
   ListSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListSignalsScoutConfigRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<ListSignalsScoutConfigResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<ListSignalsScoutConfigRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<ListSignalsScoutConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8906,8 +10861,8 @@ export const listSignalsScoutMembers: API.OperationMethod<
   ListSignalsScoutMembersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListSignalsScoutMembersRequest>,
-  output: __S(4456, __c139, 8) as any as S.Schema<ListSignalsScoutMembersResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ListSignalsScoutMembersRequest>,
+  output: __S(6024, __c188, 8) as any as S.Schema<ListSignalsScoutMembersResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8924,8 +10879,8 @@ export const listSignalsScoutNotes: API.OperationMethod<
   ListSignalsScoutNotesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListSignalsScoutNotesRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<ListSignalsScoutNotesResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<ListSignalsScoutNotesRequest>,
+  output: __S(6050, __c189, 2) as any as S.Schema<ListSignalsScoutNotesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8942,8 +10897,8 @@ export const listSignalsScoutReportCheck: API.OperationMethod<
   ListSignalsScoutReportCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListSignalsScoutReportCheckRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<ListSignalsScoutReportCheckResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<ListSignalsScoutReportCheckRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<ListSignalsScoutReportCheckResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8960,14 +10915,32 @@ export const listSignalsScoutReportChecks: API.OperationMethod<
   ListSignalsScoutReportChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListSignalsScoutReportChecksRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<ListSignalsScoutReportChecksResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ListSignalsScoutReportChecksRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<ListSignalsScoutReportChecksResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSignalsScoutReportChecks",
+}));
+
+export type ListSignalsScoutReportDiscussionsError = Forbidden | PosthogOpError;
+/** List discussions on your scout's reports Return the discussions people opened with Ask AI or in a report's Slack thread on inbox reports your scout emitted or edited, newest first, each with the latest summary of the conversation and its outcome. Callable only from a scout run, which is read from the run's credential. */
+export const listSignalsScoutReportDiscussions: API.OperationMethod<
+  ListSignalsScoutReportDiscussionsRequest,
+  ListSignalsScoutReportDiscussionsResponse,
+  ListSignalsScoutReportDiscussionsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6176, __c193, 0) as any as S.Schema<ListSignalsScoutReportDiscussionsRequest>,
+  output: __S(6180, __c193, 4) as any as S.Schema<ListSignalsScoutReportDiscussionsResponse>,
+  errors: [Forbidden],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutReportDiscussions",
 }));
 
 export type ListSignalsScoutRunsError = PosthogOpError;
@@ -8978,8 +10951,8 @@ export const listSignalsScoutRuns: API.OperationMethod<
   ListSignalsScoutRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ListSignalsScoutRunsRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<ListSignalsScoutRunsResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ListSignalsScoutRunsRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<ListSignalsScoutRunsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -8996,8 +10969,8 @@ export const listSignalsScoutSuggestions: API.OperationMethod<
   ListSignalsScoutSuggestionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListSignalsScoutSuggestionsRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<ScoutSuggestionSet>,
+  input: __S(6272, __c196, 0) as any as S.Schema<ListSignalsScoutSuggestionsRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<ScoutSuggestionSet>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9013,14 +10986,31 @@ export const listSignalsSourceConfigs: API.OperationMethod<
   ListSignalsSourceConfigsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListSignalsSourceConfigsRequest>,
-  output: __S(4738, __c148, 2) as any as S.Schema<PaginatedSignalSourceConfigListOutput>,
+  input: __S(6304, __c197, 0) as any as S.Schema<ListSignalsSourceConfigsRequest>,
+  output: __S(6306, __c197, 2) as any as S.Schema<PaginatedSignalSourceConfigListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSignalsSourceConfigs",
+}));
+
+export type ListSignalsTrialError = PosthogOpError;
+export const listSignalsTrial: API.OperationMethod<
+  ListSignalsTrialRequest,
+  SelfDrivingTrialStatus,
+  ListSignalsTrialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6336, __c198, 0) as any as S.Schema<ListSignalsTrialRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<SelfDrivingTrialStatus>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsTrial",
 }));
 
 export type PauseSignalsProcessingDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -9031,8 +11021,8 @@ export const pauseSignalsProcessingDestroy: API.OperationMethod<
   PauseSignalsProcessingDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<PauseSignalsProcessingDestroyRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<PauseResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<PauseSignalsProcessingDestroyRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<PauseResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9049,8 +11039,8 @@ export const refreshSignalsScoutSuggestion: API.OperationMethod<
   RefreshSignalsScoutSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<RefreshSignalsScoutSuggestionRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<RefreshSignalsScoutSuggestionResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<RefreshSignalsScoutSuggestionRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<RefreshSignalsScoutSuggestionResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9067,8 +11057,8 @@ export const resumeSignalsScoutConfigTrialComparison: API.OperationMethod<
   ResumeSignalsScoutConfigTrialComparisonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ResumeSignalsScoutConfigTrialComparisonResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9085,8 +11075,8 @@ export const reviewSignalsReportPrCommentDestroy: API.OperationMethod<
   ReviewSignalsReportPrCommentDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ReviewSignalsReportPrCommentDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9107,13 +11097,13 @@ export const reviewSignalsReportPrCommentReactionDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5184,
-    __c162,
+    6592,
+    __c206,
     0,
   ) as any as S.Schema<ReviewSignalsReportPrCommentReactionDestroyRequest>,
   output: __S(
-    2144,
-    __c67,
+    3072,
+    __c96,
     0,
   ) as any as S.Schema<ReviewSignalsReportPrCommentReactionDestroyResponse>,
   errors: [Forbidden, NotFound],
@@ -9137,8 +11127,8 @@ export const runSignalsScoutConfig: API.OperationMethod<
   RunSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<RunSignalsScoutConfigRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<RunSignalsScoutConfigResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<RunSignalsScoutConfigRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<RunSignalsScoutConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9155,8 +11145,8 @@ export const searchSignalsActivitySummaryMember: API.OperationMethod<
   SearchSignalsActivitySummaryMemberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<SearchSignalsActivitySummaryMemberRequest>,
-  output: __S(5253, __c164, 5) as any as S.Schema<ActivitySummarySearchResult>,
+  input: __S(6656, __c208, 0) as any as S.Schema<SearchSignalsActivitySummaryMemberRequest>,
+  output: __S(6663, __c208, 7) as any as S.Schema<ActivitySummarySearchResult>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9165,16 +11155,34 @@ export const searchSignalsActivitySummaryMember: API.OperationMethod<
   span: "SearchSignalsActivitySummaryMember",
 }));
 
+export type SearchSignalsReportError = NotFound | PosthogOpError;
+/** Search inbox reports Rank the project's inbox reports by how well they match a query, best match first. A hybrid search merges keyword matches on the title and summary with semantic matches on the report's meaning. Reports older than 3 months can match on keywords only. Returns at most 25 results, with no total count and no pages: rephrase the query for different results. */
+export const searchSignalsReport: API.OperationMethod<
+  SearchSignalsReportRequest,
+  SignalReportSearchResponse,
+  SearchSignalsReportError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6688, __c209, 0) as any as S.Schema<SearchSignalsReportRequest>,
+  output: __S(6691, __c209, 3) as any as S.Schema<SignalReportSearchResponse>,
+  errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSignalsReport",
+}));
+
 export type SearchSignalsScoutScratchpadError = PosthogOpError;
-/** Search the scout scratchpad Return `SignalScratchpad` entries for this project, newest-first. ILIKE matches on `content` and `key`; pass `key` instead for an exact single-entry lookup, and `skill_name` to keep the entries one scout (or `pipeline:*` stage) created. `date_from` / `date_to` are a half-open window on `updated_at` (`>= date_from`, `< date_to`); pass `date_to` (the `updated_at` of the oldest entry seen) on subsequent calls to walk past the cap. Entries whose `expires_at` has passed are excluded unless `include_expired=true`, and are hard-deleted by a daily janitor once their expiry is more than two weeks in the past. Pass `keys_only=true` to scan keys without pulling entry bodies, or `content_max_chars` to cap each `content` to a preview -- both keep a wide orientation scan from returning every entry's full prose. Results capped at 1000. */
+/** Search the scout scratchpad Return `SignalScratchpad` entries for this project, newest-first. ILIKE matches on `content` and `key`; pass `key` instead for an exact single-entry lookup, `key_prefix` to keep the entries whose key starts with a prefix, and `skill_name` to keep the entries one scout (or `pipeline:*` stage) created. `date_from` / `date_to` are a half-open window on `updated_at` (`>= date_from`, `< date_to`); pass `date_to` (the `updated_at` of the oldest entry seen) on subsequent calls to walk past the cap. Entries whose `expires_at` has passed are excluded unless `include_expired=true`, and are hard-deleted by a daily janitor once their expiry is more than two weeks in the past. Pass `keys_only=true` to scan keys without pulling entry bodies, or `content_max_chars` to cap each `content` to a preview -- both keep a wide orientation scan from returning every entry's full prose. Pass `include_revisions=true` with `key` to also get the entry's earlier versions, newest first, including those of a deleted key. A `key` search also reports who last changed the entry, and returns an entry hidden only by its expiry as an `expired` marker with blank `content` instead of nothing. Results capped at 1000. */
 export const searchSignalsScoutScratchpad: API.OperationMethod<
   SearchSignalsScoutScratchpadRequest,
   SearchSignalsScoutScratchpadResponse,
   SearchSignalsScoutScratchpadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<SearchSignalsScoutScratchpadRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<SearchSignalsScoutScratchpadResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<SearchSignalsScoutScratchpadRequest>,
+  output: __S(6722, __c210, 2) as any as S.Schema<SearchSignalsScoutScratchpadResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9191,8 +11199,8 @@ export const signalsAnomaliesSearchRetrieve: API.OperationMethod<
   SignalsAnomaliesSearchRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<SignalsAnomaliesSearchRetrieveRequest>,
-  output: __S(5353, __c167, 9) as any as S.Schema<AnomalySearchResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<SignalsAnomaliesSearchRetrieveRequest>,
+  output: __S(6797, __c212, 13) as any as S.Schema<AnomalySearchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9209,8 +11217,8 @@ export const signalSignalsScoutEmit: API.OperationMethod<
   SignalSignalsScoutEmitError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5379, __c168, 3) as any as S.Schema<SignalSignalsScoutEmitRequest>,
-  output: __S(5380, __c168, 4) as any as S.Schema<EmitFindingResponse>,
+  input: __S(163, __c5, 3) as any as S.Schema<SignalSignalsScoutEmitRequest>,
+  output: __S(164, __c5, 4) as any as S.Schema<EmitFindingResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9226,8 +11234,8 @@ export const signalsMonthlyUsage: API.OperationMethod<
   SignalsMonthlyUsageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<SignalsMonthlyUsageRequest>,
-  output: __S(5414, __c169, 6) as any as S.Schema<MonthlyUsage>,
+  input: __S(192, __c6, 0) as any as S.Schema<SignalsMonthlyUsageRequest>,
+  output: __S(198, __c6, 6) as any as S.Schema<MonthlyUsage>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9244,8 +11252,8 @@ export const signalsReportArtefactsDestroy: API.OperationMethod<
   SignalsReportArtefactsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<SignalsReportArtefactsDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsReportArtefactsDestroyResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<SignalsReportArtefactsDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsReportArtefactsDestroyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9254,7 +11262,7 @@ export const signalsReportArtefactsDestroy: API.OperationMethod<
   span: "SignalsReportArtefactsDestroy",
 }));
 
-export type SignalsReportArtefactsDiffError = BadRequest | NotFound | PosthogOpError;
+export type SignalsReportArtefactsDiffError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Fetch the diff for a commit artefact Fetch the unified diff for a `commit` artefact via the team's GitHub integration. A commit linked to a report pull request uses GitHub's durable pull request diff. A commit without that link compares the branch's current tip with the default branch. */
 export const signalsReportArtefactsDiff: API.OperationMethod<
   SignalsReportArtefactsDiffRequest,
@@ -9262,9 +11270,9 @@ export const signalsReportArtefactsDiff: API.OperationMethod<
   SignalsReportArtefactsDiffError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<SignalsReportArtefactsDiffRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<CommitDiffResponse>,
-  errors: [BadRequest, NotFound],
+  input: __S(256, __c8, 0) as any as S.Schema<SignalsReportArtefactsDiffRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<CommitDiffResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9280,8 +11288,8 @@ export const signalsReportChecksApproveCreate: API.OperationMethod<
   SignalsReportChecksApproveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<SignalsReportChecksApproveCreateRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(288, __c9, 0) as any as S.Schema<SignalsReportChecksApproveCreateRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9298,8 +11306,8 @@ export const signalsReportChecksDestroy: API.OperationMethod<
   SignalsReportChecksDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<SignalsReportChecksDestroyRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(320, __c10, 0) as any as S.Schema<SignalsReportChecksDestroyRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9316,8 +11324,8 @@ export const signalsReportChecksReplaceCreate: API.OperationMethod<
   SignalsReportChecksReplaceCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5636, __c176, 4) as any as S.Schema<SignalsReportChecksReplaceCreateRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<SignalReportCheck>,
+  input: __S(353, __c11, 1) as any as S.Schema<SignalsReportChecksReplaceCreateRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<SignalReportCheck>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9334,8 +11342,8 @@ export const signalsReportPrChecks: API.OperationMethod<
   SignalsReportPrChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<SignalsReportPrChecksRequest>,
-  output: __S(5667, __c177, 3) as any as S.Schema<PullRequestChecksResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<SignalsReportPrChecksRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<PullRequestChecksResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9344,7 +11352,7 @@ export const signalsReportPrChecks: API.OperationMethod<
   span: "SignalsReportPrChecks",
 }));
 
-export type SignalsReportPrCommentsError = NotFound | PosthogOpError;
+export type SignalsReportPrCommentsError = Forbidden | NotFound | PosthogOpError;
 /** Fetch comments for a report's implementation PR Fetch the pull request's conversation comments and inline review comments, merged chronologically, via the team's GitHub integration. */
 export const signalsReportPrComments: API.OperationMethod<
   SignalsReportPrCommentsRequest,
@@ -9352,9 +11360,9 @@ export const signalsReportPrComments: API.OperationMethod<
   SignalsReportPrCommentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<SignalsReportPrCommentsRequest>,
-  output: __S(5698, __c178, 2) as any as S.Schema<PullRequestCommentsResponse>,
-  errors: [NotFound],
+  input: __S(416, __c13, 0) as any as S.Schema<SignalsReportPrCommentsRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<PullRequestCommentsResponse>,
+  errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9370,8 +11378,8 @@ export const signalsReportsBulkStateCreate: API.OperationMethod<
   SignalsReportsBulkStateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<SignalsReportsBulkStateCreateRequest>,
-  output: __S(5731, __c179, 3) as any as S.Schema<SignalReportBulkStateResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<SignalsReportsBulkStateCreateRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<SignalReportBulkStateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9388,8 +11396,8 @@ export const signalsReportsDestroy: API.OperationMethod<
   SignalsReportsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<SignalsReportsDestroyRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<SignalReportDeletionStatus>,
+  input: __S(512, __c16, 0) as any as S.Schema<SignalsReportsDestroyRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<SignalReportDeletionStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9405,14 +11413,32 @@ export const signalsReportSpend: API.OperationMethod<
   SignalsReportSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<SignalsReportSpendRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<ReportSpend>,
+  input: __S(544, __c17, 0) as any as S.Schema<SignalsReportSpendRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ReportSpend>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignalsReportSpend",
+}));
+
+export type SignalsReportsPlanStepsDestroyError = BadRequest | NotFound | Conflict | PosthogOpError;
+/** Remove a step from this plan Remove the step's `part_of` link to this plan, and every `depends_on` link between the step and the plan's other steps. The step report keeps its status, pull requests and claim. A note on the step and on the plan records the removal. When every step left is resolved or archived, the plan closes. */
+export const signalsReportsPlanStepsDestroy: API.OperationMethod<
+  SignalsReportsPlanStepsDestroyRequest,
+  SignalReport,
+  SignalsReportsPlanStepsDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c19, 0) as any as S.Schema<SignalsReportsPlanStepsDestroyRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsPlanStepsDestroy",
 }));
 
 export type SignalsReportsPrCiStatusesError = BadRequest | PosthogOpError;
@@ -9423,8 +11449,8 @@ export const signalsReportsPrCiStatuses: API.OperationMethod<
   SignalsReportsPrCiStatusesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<SignalsReportsPrCiStatusesRequest>,
-  output: __S(5859, __c183, 3) as any as S.Schema<PullRequestCiStatusesResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<SignalsReportsPrCiStatusesRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<PullRequestCiStatusesResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9440,8 +11466,8 @@ export const signalsReportsReadStateCreate: API.OperationMethod<
   SignalsReportsReadStateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<SignalsReportsReadStateCreateRequest>,
-  output: __S(5890, __c184, 2) as any as S.Schema<ReportReadStateResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<SignalsReportsReadStateCreateRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ReportReadStateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9451,15 +11477,15 @@ export const signalsReportsReadStateCreate: API.OperationMethod<
 }));
 
 export type SignalsReportsRefreshMetricsCreateError = PosthogOpError;
-/** Refresh the saved metric snapshots of the reports on screen Re-run the stored metric queries of the given reports through the query cache and save the newest values as their snapshots. Call it when a person opens the inbox list or a report, with the ids on screen. Report titles and summaries are point-in-time text and never change here; only value, value_at, and series do, and legacy comparisons are cleared. A snapshot measured in the last 15 minutes is served as is. Each call runs at most 40 source series inside a 20-second budget, row metrics first; the rest keep their previous snapshot until the next open. Returns snapshot-only metrics for every requested report the caller can read whose status is ready or pending_input. A report in any other status is left out of the response, and its saved snapshots stay as they are. */
+/** Refresh the saved metric snapshots of the reports on screen Re-run the stored metric queries of the given reports through the query cache and save the newest values as their snapshots. Call it when a person opens the inbox list or a report, with the ids on screen. Report titles and summaries are point-in-time text and never change here; only value, value_at, and series do, and legacy comparisons are cleared. A snapshot measured in the last 15 minutes is served as is. Each call runs at most 40 source series inside a 20-second budget, row metrics first; the rest keep their previous snapshot until the next open. Returns snapshot-only metrics for every requested report the caller can read whose status is ready or pending_input, or monitoring when Monitoring is enabled. A report in any other status is left out of the response, and its saved snapshots stay as they are. */
 export const signalsReportsRefreshMetricsCreate: API.OperationMethod<
   SignalsReportsRefreshMetricsCreateRequest,
   SignalReportMetricRefreshResponse,
   SignalsReportsRefreshMetricsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<SignalsReportsRefreshMetricsCreateRequest>,
-  output: __S(5923, __c185, 3) as any as S.Schema<SignalReportMetricRefreshResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<SignalsReportsRefreshMetricsCreateRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<SignalReportMetricRefreshResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9476,8 +11502,8 @@ export const signalsReportsReviewersMeDestroy: API.OperationMethod<
   SignalsReportsReviewersMeDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsReportsReviewersMeDestroyResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9494,8 +11520,8 @@ export const signalsReviewerExclusionsRevokeCreate: API.OperationMethod<
   SignalsReviewerExclusionsRevokeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<SignalsReviewerExclusionsRevokeCreateRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(768, __c24, 0) as any as S.Schema<SignalsReviewerExclusionsRevokeCreateRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9512,8 +11538,8 @@ export const signalsScoutConfigDestroy: API.OperationMethod<
   SignalsScoutConfigDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<SignalsScoutConfigDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsScoutConfigDestroyResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<SignalsScoutConfigDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsScoutConfigDestroyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9530,8 +11556,8 @@ export const signalsScoutConfigToolCatalogue: API.OperationMethod<
   SignalsScoutConfigToolCatalogueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<SignalsScoutConfigToolCatalogueRequest>,
-  output: __S(295, __c9, 7) as any as S.Schema<ScoutToolCatalogue>,
+  input: __S(832, __c26, 0) as any as S.Schema<SignalsScoutConfigToolCatalogueRequest>,
+  output: __S(839, __c26, 7) as any as S.Schema<ScoutToolCatalogue>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9548,8 +11574,8 @@ export const signalsScoutConfigTrial: API.OperationMethod<
   SignalsScoutConfigTrialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SignalsScoutConfigTrialRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsScoutConfigTrialResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<SignalsScoutConfigTrialRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsScoutConfigTrialResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9566,8 +11592,8 @@ export const signalsScoutConfigTrialComparisonHistory: API.OperationMethod<
   SignalsScoutConfigTrialComparisonHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<SignalsScoutConfigTrialComparisonHistoryRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ScoutTrialComparisonHistory>,
+  input: __S(1024, __c32, 0) as any as S.Schema<SignalsScoutConfigTrialComparisonHistoryRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<ScoutTrialComparisonHistory>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9584,8 +11610,8 @@ export const signalsScoutConfigTrialHistory: API.OperationMethod<
   SignalsScoutConfigTrialHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<SignalsScoutConfigTrialHistoryRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<ScoutTrialHistory>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SignalsScoutConfigTrialHistoryRequest>,
+  output: __S(1059, __c33, 3) as any as S.Schema<ScoutTrialHistory>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9602,8 +11628,8 @@ export const signalsScoutConfigTrialResult: API.OperationMethod<
   SignalsScoutConfigTrialResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<SignalsScoutConfigTrialResultRequest>,
-  output: __S(421, __c13, 5) as any as S.Schema<ScoutTrialResult>,
+  input: __S(1088, __c34, 0) as any as S.Schema<SignalsScoutConfigTrialResultRequest>,
+  output: __S(1093, __c34, 5) as any as S.Schema<ScoutTrialResult>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9620,8 +11646,8 @@ export const signalsScoutConfigTrialSetup: API.OperationMethod<
   SignalsScoutConfigTrialSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<SignalsScoutConfigTrialSetupRequest>,
-  output: __S(451, __c14, 3) as any as S.Schema<ScoutTrialSetup>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SignalsScoutConfigTrialSetupRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<ScoutTrialSetup>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9631,15 +11657,15 @@ export const signalsScoutConfigTrialSetup: API.OperationMethod<
 }));
 
 export type SignalsScoutEmitReportError = BadRequest | NotFound | PosthogOpError;
-/** Author a full report for a run The second emit channel: author a complete `SignalReport` directly instead of emitting a weak signal. The report passes the safety judge, then surfaces at the status the scout's `actionability` call implies (or is suppressed). Backing `evidence` is written as bound signals so the report behaves like a pipeline report. Safe to retry: resending an emission returns the report the first call authored (`idempotent_replay` true) rather than a second one, keyed on `idempotency_key` or, without one, on the report's content. Use `reports` to find a report from an earlier run and `edit-report` to update it instead of authoring a near-duplicate. */
+/** Author a full report for a run The second emit channel: author a complete `SignalReport` directly instead of emitting a weak signal. The report passes the safety judge, then surfaces at the status the scout's `actionability` call implies (or is suppressed). Backing `evidence` is written as bound signals so the report behaves like a pipeline report. Safe to retry: resending an emission returns the report the first call authored (`idempotent_replay` true) rather than a second one, keyed on `idempotency_key` or, without one, on the report's content. Use `reports` to find a report from an earlier run and `edit-report` to update it instead of authoring a near-duplicate. A report for a GitHub issue that an open report already names is refused with `source_issue_already_reported` and that report's id, unless a `follow_up_of`, `part_of`, `depends_on` or `recurrence_of` link names it. */
 export const signalsScoutEmitReport: API.OperationMethod<
   SignalsScoutEmitReportRequest,
   EmitReportResponse,
   SignalsScoutEmitReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<SignalsScoutEmitReportRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<EmitReportResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SignalsScoutEmitReportRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<EmitReportResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9656,8 +11682,8 @@ export const signalsScoutLighthouseAudit: API.OperationMethod<
   SignalsScoutLighthouseAuditError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<SignalsScoutLighthouseAuditRequest>,
-  output: __S(551, __c17, 7) as any as S.Schema<LighthouseAuditResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<SignalsScoutLighthouseAuditRequest>,
+  output: __S(1191, __c37, 7) as any as S.Schema<LighthouseAuditResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9674,8 +11700,8 @@ export const signalsScoutNotesDestroy: API.OperationMethod<
   SignalsScoutNotesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SignalsScoutNotesDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsScoutNotesDestroyResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<SignalsScoutNotesDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsScoutNotesDestroyResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9692,8 +11718,8 @@ export const signalsScoutRecordOutput: API.OperationMethod<
   SignalsScoutRecordOutputError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c19, 2) as any as S.Schema<SignalsScoutRecordOutputRequest>,
-  output: __S(611, __c19, 3) as any as S.Schema<RecordStructuredOutputResponse>,
+  input: __S(1250, __c39, 2) as any as S.Schema<SignalsScoutRecordOutputRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<RecordStructuredOutputResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9710,8 +11736,8 @@ export const signalsScoutRunsEmissionReports: API.OperationMethod<
   SignalsScoutRunsEmissionReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9728,8 +11754,8 @@ export const signalsScoutRunsEmissionReportsBatch: API.OperationMethod<
   SignalsScoutRunsEmissionReportsBatchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<SignalsScoutRunsEmissionReportsBatchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9746,8 +11772,8 @@ export const signalsScoutRunsEmissions: API.OperationMethod<
   SignalsScoutRunsEmissionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<SignalsScoutRunsEmissionsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<SignalsScoutRunsEmissionsResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<SignalsScoutRunsEmissionsRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<SignalsScoutRunsEmissionsResponse>,
   errors: [NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9764,8 +11790,8 @@ export const signalsScoutRunsEmissionsBatch: API.OperationMethod<
   SignalsScoutRunsEmissionsBatchError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<SignalsScoutRunsEmissionsBatchRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<SignalsScoutRunsEmissionsBatchResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SignalsScoutRunsEmissionsBatchRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<SignalsScoutRunsEmissionsBatchResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9782,8 +11808,8 @@ export const signalsScoutRunsFindingsSummary: API.OperationMethod<
   SignalsScoutRunsFindingsSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<SignalsScoutRunsFindingsSummaryRequest>,
-  output: __S(833, __c26, 1) as any as S.Schema<FleetFindingsSummary>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SignalsScoutRunsFindingsSummaryRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<FleetFindingsSummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9800,8 +11826,8 @@ export const signalsScoutRunsRecentEmissions: API.OperationMethod<
   SignalsScoutRunsRecentEmissionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<SignalsScoutRunsRecentEmissionsRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<SignalsScoutRunsRecentEmissionsResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SignalsScoutRunsRecentEmissionsRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<SignalsScoutRunsRecentEmissionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9818,14 +11844,32 @@ export const signalsScoutRunsRecentPerScout: API.OperationMethod<
   SignalsScoutRunsRecentPerScoutError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<SignalsScoutRunsRecentPerScoutRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<SignalsScoutRunsRecentPerScoutResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SignalsScoutRunsRecentPerScoutRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<SignalsScoutRunsRecentPerScoutResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignalsScoutRunsRecentPerScout",
+}));
+
+export type SignalsScoutScratchpadDiscardError = Forbidden | PosthogOpError;
+/** Delete a scratchpad entry by key Delete one scout memory by its exact key, so no scout reads it again. Use this to prune entries a skill change left stale. Returns `deleted=false` if no entry has that key. Requires editor access to skills, because the scratchpad steers the scout agents. */
+export const signalsScoutScratchpadDiscard: API.OperationMethod<
+  SignalsScoutScratchpadDiscardRequest,
+  ForgetResponse,
+  SignalsScoutScratchpadDiscardError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1600, __c50, 0) as any as S.Schema<SignalsScoutScratchpadDiscardRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<ForgetResponse>,
+  errors: [Forbidden],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutScratchpadDiscard",
 }));
 
 export type SignalsScoutScratchpadForgetError = PosthogOpError;
@@ -9836,8 +11880,8 @@ export const signalsScoutScratchpadForget: API.OperationMethod<
   SignalsScoutScratchpadForgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SignalsScoutScratchpadForgetRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<ForgetResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<SignalsScoutScratchpadForgetRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<ForgetResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9846,17 +11890,17 @@ export const signalsScoutScratchpadForget: API.OperationMethod<
   span: "SignalsScoutScratchpadForget",
 }));
 
-export type SignalsScoutScratchpadRememberError = BadRequest | PosthogOpError;
-/** Remember a scratchpad entry Upsert a memory keyed on `(team, key)`. Re-using a key updates the existing entry in place. A write carries the entry's whole state, so `expires_at` is set when passed and cleared when omitted. */
+export type SignalsScoutScratchpadRememberError = BadRequest | Conflict | PosthogOpError;
+/** Remember a scratchpad entry Upsert a memory keyed on `(team, key)`. Re-using a key updates the existing entry in place. A write carries the entry's whole state, so `expires_at` is set when passed and cleared when omitted. Pass `if_updated_at` to write only when the entry is still the one you read. A write onto an expired entry succeeds, and the response's `revived_expiry` reports the expiry it replaced. */
 export const signalsScoutScratchpadRemember: API.OperationMethod<
   SignalsScoutScratchpadRememberRequest,
   ScratchpadEntry,
   SignalsScoutScratchpadRememberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<SignalsScoutScratchpadRememberRequest>,
-  output: __S(5312, __c166, 0) as any as S.Schema<ScratchpadEntry>,
-  errors: [BadRequest],
+  input: __S(1696, __c53, 0) as any as S.Schema<SignalsScoutScratchpadRememberRequest>,
+  output: __S(6755, __c211, 3) as any as S.Schema<ScratchpadEntry>,
+  errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -9871,14 +11915,32 @@ export const signalsSourceConfigsDestroy: API.OperationMethod<
   SignalsSourceConfigsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<SignalsSourceConfigsDestroyRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<SignalsSourceConfigsDestroyResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<SignalsSourceConfigsDestroyRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<SignalsSourceConfigsDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignalsSourceConfigsDestroy",
+}));
+
+export type SignalsSourceConfigsFilterValidateCreateError = PosthogOpError;
+/** Validate a source filter Check whether a filter expression can be saved as the source's filter, and where it is invalid when it cannot. Checks the expression against the source's active catalog only: reads no warehouse records and works before the source is connected or synced. An empty expression is valid. Saves nothing. */
+export const signalsSourceConfigsFilterValidateCreate: API.OperationMethod<
+  SignalsSourceConfigsFilterValidateCreateRequest,
+  SourceFilterValidateResponse,
+  SignalsSourceConfigsFilterValidateCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1792, __c56, 0) as any as S.Schema<SignalsSourceConfigsFilterValidateCreateRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<SourceFilterValidateResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsSourceConfigsFilterValidateCreate",
 }));
 
 export type SignalsSourceSpendError = PosthogOpError;
@@ -9888,8 +11950,8 @@ export const signalsSourceSpend: API.OperationMethod<
   SignalsSourceSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<SignalsSourceSpendRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<SignalsSourceSpendResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<SignalsSourceSpendRequest>,
+  output: __S(1827, __c57, 3) as any as S.Schema<SignalsSourceSpendResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9905,14 +11967,32 @@ export const signalsSpendOverview: API.OperationMethod<
   SignalsSpendOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SignalsSpendOverviewRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<SpendOverview>,
+  input: __S(1856, __c58, 0) as any as S.Schema<SignalsSpendOverviewRequest>,
+  output: __S(1859, __c58, 3) as any as S.Schema<SpendOverview>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignalsSpendOverview",
+}));
+
+export type StopSignalsScoutConfigError = BadRequest | NotFound | PosthogOpError;
+/** Stop a scout's run Stop the run of this scout that is in progress now. The run is cancelled the same way as a task run cancel: the agent is interrupted, the sandbox is torn down, and the run is marked cancelled, so the scout can run again. Idempotent: a run that already finished is returned unchanged. Returns 404 when the scout has no run in progress. */
+export const stopSignalsScoutConfig: API.OperationMethod<
+  StopSignalsScoutConfigRequest,
+  SignalScoutRunDetail,
+  StopSignalsScoutConfigError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1888, __c59, 0) as any as S.Schema<StopSignalsScoutConfigRequest>,
+  output: __S(5060, __c158, 4) as any as S.Schema<SignalScoutRunDetail>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSignalsScoutConfig",
 }));
 
 export type SubmitSignalsScoutMonitoringResultError =
@@ -9927,8 +12007,8 @@ export const submitSignalsScoutMonitoringResult: API.OperationMethod<
   SubmitSignalsScoutMonitoringResultError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<SubmitSignalsScoutMonitoringResultRequest>,
-  output: __S(1121, __c35, 1) as any as S.Schema<SubmitMonitoringResultResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<SubmitSignalsScoutMonitoringResultRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<SubmitMonitoringResultResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9945,8 +12025,8 @@ export const syncSignalsScoutConfig: API.OperationMethod<
   SyncSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<SyncSignalsScoutConfigRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<SyncSignalsScoutConfigResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<SyncSignalsScoutConfigRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<SyncSignalsScoutConfigResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9963,8 +12043,8 @@ export const testSignalsScoutConfigPrecheck: API.OperationMethod<
   TestSignalsScoutConfigPrecheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<TestSignalsScoutConfigPrecheckRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<SignalScoutPrecheckTest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<TestSignalsScoutConfigPrecheckRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<SignalScoutPrecheckTest>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9981,8 +12061,8 @@ export const updateSignalsProcessingPause: API.OperationMethod<
   UpdateSignalsProcessingPauseError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<UpdateSignalsProcessingPauseRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<PauseResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateSignalsProcessingPauseRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<PauseResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -9999,8 +12079,8 @@ export const updateSignalsReportArtefactsPartial: API.OperationMethod<
   UpdateSignalsReportArtefactsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<UpdateSignalsReportArtefactsPartialRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<SignalReportArtefactWriteResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateSignalsReportArtefactsPartialRequest>,
+  output: __S(2560, __c80, 0) as any as S.Schema<SignalReportArtefactWriteResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10017,14 +12097,32 @@ export const updateSignalsReportPrReviewComment: API.OperationMethod<
   UpdateSignalsReportPrReviewCommentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<UpdateSignalsReportPrReviewCommentRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UpdateSignalsReportPrReviewCommentRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<PullRequestReviewCommentCreateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSignalsReportPrReviewComment",
+}));
+
+export type UpdateSignalsReportsActionabilityError = BadRequest | NotFound | PosthogOpError;
+/** Change a report's actionability or already addressed Set whether the report can be acted on now, and whether its issue is already addressed. Appends an attributed actionability_judgment artefact, so the work log keeps the previous judgment, and later agent runs keep the person's values. A new actionability moves a Ready or Needs input report: `requires_human_input` to Needs input, `immediately_actionable` or `not_actionable` to Ready. A report in any other status keeps it. The change does not start an implementation. Setting the current values again changes nothing. */
+export const updateSignalsReportsActionability: API.OperationMethod<
+  UpdateSignalsReportsActionabilityRequest,
+  SignalReport,
+  UpdateSignalsReportsActionabilityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateSignalsReportsActionabilityRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportsActionability",
 }));
 
 export type UpdateSignalsReportsPartialError = BadRequest | NotFound | PosthogOpError;
@@ -10035,14 +12133,36 @@ export const updateSignalsReportsPartial: API.OperationMethod<
   UpdateSignalsReportsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateSignalsReportsPartialRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<SignalReport>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateSignalsReportsPartialRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSignalsReportsPartial",
+}));
+
+export type UpdateSignalsReportsPlanStepsDependsOnError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | PosthogOpError;
+/** Replace what a plan step builds on Replace the step's `depends_on` links to the other steps of this plan with the given set. The step's links to reports outside the plan are unchanged. A note on the step records removed links. */
+export const updateSignalsReportsPlanStepsDependsOn: API.OperationMethod<
+  UpdateSignalsReportsPlanStepsDependsOnRequest,
+  SignalReport,
+  UpdateSignalsReportsPlanStepsDependsOnError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2272, __c71, 0) as any as S.Schema<UpdateSignalsReportsPlanStepsDependsOnRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportsPlanStepsDependsOn",
 }));
 
 export type UpdateSignalsReportsPriorityError = PosthogOpError;
@@ -10053,14 +12173,32 @@ export const updateSignalsReportsPriority: API.OperationMethod<
   UpdateSignalsReportsPriorityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<UpdateSignalsReportsPriorityRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<SignalReport>,
+  input: __S(2304, __c72, 0) as any as S.Schema<UpdateSignalsReportsPriorityRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSignalsReportsPriority",
+}));
+
+export type UpdateSignalsReportsRepositoryError = BadRequest | NotFound | PosthogOpError;
+/** Change a report's repository Set the repository the report's work targets. Appends an attributed repo_selection artefact, so the report's work log keeps the previous selection and records who changed it. Later implementation runs use the new repository. A run that already started keeps its repository. Setting the current repository again changes nothing. */
+export const updateSignalsReportsRepository: API.OperationMethod<
+  UpdateSignalsReportsRepositoryRequest,
+  SignalReport,
+  UpdateSignalsReportsRepositoryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2336, __c73, 0) as any as S.Schema<UpdateSignalsReportsRepositoryRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<SignalReport>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportsRepository",
 }));
 
 export type UpdateSignalsReportsReviewerError = PosthogOpError;
@@ -10071,8 +12209,8 @@ export const updateSignalsReportsReviewer: API.OperationMethod<
   UpdateSignalsReportsReviewerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1474, __c46, 2) as any as S.Schema<UpdateSignalsReportsReviewerRequest>,
-  output: __S(1479, __c46, 7) as any as S.Schema<SignalReportSuggestedReviewersArtefact>,
+  input: __S(2370, __c74, 2) as any as S.Schema<UpdateSignalsReportsReviewerRequest>,
+  output: __S(2375, __c74, 7) as any as S.Schema<SignalReportSuggestedReviewersArtefact>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10089,8 +12227,8 @@ export const updateSignalsReviewerExclusionsPartial: API.OperationMethod<
   UpdateSignalsReviewerExclusionsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UpdateSignalsReviewerExclusionsPartialRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<ReviewerExclusion>,
+  input: __S(2400, __c75, 0) as any as S.Schema<UpdateSignalsReviewerExclusionsPartialRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<ReviewerExclusion>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10107,8 +12245,8 @@ export const updateSignalsScoutConfig: API.OperationMethod<
   UpdateSignalsScoutConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<UpdateSignalsScoutConfigRequest>,
-  output: __S(2437, __c76, 5) as any as S.Schema<SignalScoutConfig>,
+  input: __S(2432, __c76, 0) as any as S.Schema<UpdateSignalsScoutConfigRequest>,
+  output: __S(3365, __c105, 5) as any as S.Schema<SignalScoutConfig>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10124,8 +12262,8 @@ export const updateSignalsScoutRubric: API.OperationMethod<
   UpdateSignalsScoutRubricError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdateSignalsScoutRubricRequest>,
-  output: __S(3812, __c119, 4) as any as S.Schema<ScoutRubricDocument>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateSignalsScoutRubricRequest>,
+  output: __S(4996, __c156, 4) as any as S.Schema<ScoutRubricDocument>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10141,8 +12279,8 @@ export const updateSignalsSourceConfig: API.OperationMethod<
   UpdateSignalsSourceConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateSignalsSourceConfigRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateSignalsSourceConfigRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10162,8 +12300,8 @@ export const updateSignalsSourceConfigsPartial: API.OperationMethod<
   UpdateSignalsSourceConfigsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UpdateSignalsSourceConfigsPartialRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<SignalSourceConfigOutput>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateSignalsSourceConfigsPartialRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<SignalSourceConfigOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -10201,24 +12339,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          activation_mode: S.optional(S.String),
-          step: S.String,
-          setup_mode: S.optional(S.String),
-          sources: __S(129, __c4, 1),
-          scanner_ids: __S(3072, __c96, 0),
-          suggestions: __S(160, __c5, 0),
-          activation_scouts: S.optional(__S(3072, __c96, 0)),
-          automatic_implementation: S.Boolean,
-          implementation_priority: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/onboarding/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSignalsOnboardingRequest" });
+          detail: S.String,
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "RememberConflict" });
   }
 }
 function __c3(j: number): any {
@@ -10226,95 +12350,604 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          run_cron_schedule: S.optional(S.NullOr(S.String)),
-          run_interval_minutes: S.optional(S.NullOr(S.Number)),
-          emit: S.Boolean,
-        }),
-      ).annotate({ identifier: "ScoutSuggestionProposedConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          kind: S.String,
-          skill_name: S.String,
-          title: S.String,
-          why_here: S.String,
-          description: S.String,
-          draft_body: S.String,
-          proposed_config: __S(96, __c3, 0),
-          gap: S.Boolean,
-          confidence: S.String,
-        }),
-      ).annotate({ identifier: "ScoutSuggestionItem" });
+          project_id: S.String.pipe(T.Label()),
+          autostart_enabled: S.optional(S.NullOr(S.Boolean)),
+          default_autostart_priority: S.optional(S.String),
+          default_slack_notification_channel: S.optional(S.NullOr(S.String)),
+          default_slack_notification_min_priority: S.optional(S.NullOr(S.Unknown)),
+          default_slack_notification_integration: S.optional(S.NullOr(S.Number)),
+          autostart_base_branches: S.optional(__S(128, __c4, 0)),
+          scout_instructions: S.optional(S.String),
+          research_instructions: S.optional(S.String),
+          implementation_instructions: S.optional(S.String),
+          scout_custom_image_id: S.optional(S.NullOr(S.String)),
+          research_custom_image_id: S.optional(S.NullOr(S.String)),
+          implementation_custom_image_id: S.optional(S.NullOr(S.String)),
+          issue_tracking_integration: S.optional(S.NullOr(S.Number)),
+          issue_tracking_config: S.optional(__S(128, __c4, 0)),
+          max_reports_per_day: S.optional(S.NullOr(S.Number)),
+          default_open_pull_request_ready: S.optional(S.Boolean),
+          github_issue_writeback_enabled: S.optional(S.Boolean),
+          pull_request_label_enabled: S.optional(S.Boolean),
+          pull_request_label: S.optional(S.NullOr(S.String)),
+          implementation_repositories: S.optional(__S(3808, __c119, 0)),
+          anomaly_scoring_enabled: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/config/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateSignalsConfigRequest" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          source_product: S.String,
-          source_type: S.String,
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "InboxOnboardingSource" });
+      return S.Record(S.String, S.String);
     case 1:
-      return S.Array(__S(128, __c4, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          scout_run_id: S.optional(S.String),
-          task_id: S.optional(S.String),
-          task_run_id: S.optional(S.String),
-          started_at: S.optional(S.String),
-          status: S.String,
-          report_id: S.optional(S.String),
-          checked_products: S.optional(__S(3072, __c96, 0)),
-          missing_data: S.optional(__S(3072, __c96, 0)),
+          id: S.String,
+          autostart_enabled: S.optional(S.NullOr(S.Boolean)),
+          default_autostart_priority: S.optional(S.String),
+          default_slack_notification_channel: S.optional(S.NullOr(S.String)),
+          default_slack_notification_min_priority: S.optional(S.NullOr(S.Unknown)),
+          default_slack_notification_integration: S.optional(S.NullOr(S.Number)),
+          autostart_base_branches: S.optional(__S(128, __c4, 0)),
+          scout_instructions: S.optional(S.String),
+          research_instructions: S.optional(S.String),
+          implementation_instructions: S.optional(S.String),
+          scout_custom_image_id: S.optional(S.NullOr(S.String)),
+          research_custom_image_id: S.optional(S.NullOr(S.String)),
+          implementation_custom_image_id: S.optional(S.NullOr(S.String)),
+          issue_tracking_integration: S.optional(S.NullOr(S.Number)),
+          issue_tracking_config: S.optional(__S(128, __c4, 0)),
+          max_reports_per_day: S.optional(S.NullOr(S.Number)),
+          default_open_pull_request_ready: S.optional(S.Boolean),
+          github_issue_writeback_enabled: S.optional(S.Boolean),
+          pull_request_label_enabled: S.optional(S.Boolean),
+          pull_request_label: S.optional(S.NullOr(S.String)),
+          implementation_repositories: S.optional(__S(3808, __c119, 0)),
+          anomaly_scoring_enabled: S.optional(S.Boolean),
+          anomaly_scoring_available: S.Boolean,
+          reports_generated_today: S.Number,
+          daily_report_limit_reached: S.Boolean,
+          created_at: S.String,
+          updated_at: S.String,
         }),
-      ).annotate({ identifier: "FirstReportState" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          scout: S.String,
-          recommendations: S.String,
-        }),
-      ).annotate({ identifier: "InboxOnboardingJobs" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          activation_mode: S.optional(S.String),
-          step: S.String,
-          setup_mode: S.optional(S.String),
-          sources: __S(129, __c4, 1),
-          scanner_ids: __S(3072, __c96, 0),
-          suggestions: __S(160, __c5, 0),
-          activation_scouts: S.optional(__S(3072, __c96, 0)),
-          automatic_implementation: S.Boolean,
-          implementation_priority: S.String,
-        }),
-      ).annotate({ identifier: "InboxOnboardingDraft" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          github_optional_available: S.optional(S.Boolean),
-          first_report_completion_notification: S.optional(S.Boolean),
-          first_report_notification_email: S.optional(S.NullOr(S.String)),
-          first_report: S.optional(S.NullOr(__S(130, __c4, 2))),
-          jobs: S.optional(__S(131, __c4, 3)),
-          draft: S.NullOr(__S(132, __c4, 4)),
-          completed_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "InboxOnboardingState" });
+      ).annotate({ identifier: "SignalTeamConfig" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(97, __c3, 1));
+      return S.suspend(() =>
+        S.Struct({
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "SignalsScoutTimeRange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source_product: S.String,
+          summary: S.String,
+          entity_id: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "EvidenceEntry" });
+    case 2:
+      return S.Array(__S(161, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_id: S.String.pipe(T.Label()),
+          description: S.String,
+          evidence: __S(162, __c5, 2),
+          hypothesis: S.optional(S.NullOr(S.String)),
+          severity: S.optional(S.NullOr(S.String)),
+          dedupe_keys: S.optional(__S(3808, __c119, 0)),
+          tags: S.optional(__S(3808, __c119, 0)),
+          time_range: S.optional(S.NullOr(__S(160, __c5, 0))),
+          mcp_trace_id: S.optional(S.NullOr(S.String)),
+          finding_id: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/emit-signal/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalSignalsScoutEmitRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          finding_id: S.String,
+          emitted: S.Boolean,
+          skipped_reason: S.NullOr(S.String),
+          remediation: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "EmitFindingResponse" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          month: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/signals/usage/", code: 200 }),
+        ),
+      ).annotate({ identifier: "SignalsMonthlyUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          total_credits: S.String,
+          exempt_credits: S.String,
+          incomplete: S.Boolean,
+          source_product: S.NullOr(S.String),
+          source_type: S.NullOr(S.String),
+          processing_credits: S.String,
+          research_credits: S.String,
+          implementation_credits: S.String,
+        }),
+      ).annotate({ identifier: "MonthlySourceUsage" });
+    case 2:
+      return S.Array(__S(193, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          total_credits: S.String,
+          exempt_credits: S.String,
+          incomplete: S.Boolean,
+          scout_config_id: S.NullOr(S.String),
+          skill_name: S.String,
+          display_name: S.String,
+          run_count: S.Number,
+          reports_produced: S.Number,
+        }),
+      ).annotate({ identifier: "MonthlyScoutUsage" });
+    case 4:
+      return S.Array(__S(195, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          usd_per_credit: S.String,
+        }),
+      ).annotate({ identifier: "UsagePricing" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          total_credits: S.String,
+          exempt_credits: S.String,
+          incomplete: S.Boolean,
+          project_id: S.Number,
+          period_start: S.String,
+          period_end: S.String,
+          as_of: S.String,
+          unsettled_credits: S.String,
+          untracked_scout_run_count: S.Number,
+          attribution_incomplete: S.Boolean,
+          sources: __S(194, __c6, 2),
+          scouts: __S(196, __c6, 4),
+          pricing: __S(197, __c6, 5),
+        }),
+      ).annotate({ identifier: "MonthlyUsage" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportArtefactsDestroyRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/diff/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportArtefactsDiffRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          diff: S.String,
+          truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "CommitDiffResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/approve/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportChecksApproveCreateRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportChecksDestroyRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metric_id: S.optional(S.NullOr(S.String)),
+          query: S.optional(S.NullOr(__S(3296, __c103, 0))),
+          monitoring: __S(5536, __c173, 0),
+          comparison: __S(5538, __c173, 2),
+          baseline_value: S.optional(S.NullOr(S.Number)),
+          metric_kind: S.optional(S.NullOr(S.String)),
+          value_format: S.optional(S.NullOr(S.String)),
+          unit: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MetricThresholdReplacementConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          title: S.String,
+          rationale: S.optional(S.String),
+          config: __S(352, __c11, 0),
+          soak_minutes: S.optional(S.Number),
+          run_interval_minutes: S.optional(S.Number),
+          runs_remaining: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/replace/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportChecksReplaceCreateRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          pull_request_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportPrChecksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          status: S.NullOr(S.String),
+          conclusion: S.NullOr(S.String),
+          url: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PullRequestCheck" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          checks: __S(386, __c12, 2),
+          has_conflict: S.Boolean,
+        }),
+      ).annotate({ identifier: "PullRequestChecksResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          pull_request_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_comments/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportPrCommentsRequest" });
+    case 1:
+      return S.Array(__S(2657, __c83, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          comments: __S(417, __c13, 1),
+        }),
+      ).annotate({ identifier: "PullRequestCommentsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          state: S.String,
+          dismissal_reason: S.optional(S.String),
+          dismissal_note: S.optional(S.String),
+          corrected_repository: S.optional(S.String),
+          snooze_for: S.optional(S.Number),
+          ids: __S(3808, __c119, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/bulk-state/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsBulkStateCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          outcome: S.String,
+          status: S.optional(S.NullOr(S.String)),
+          detail: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SignalReportBulkStateResult" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(450, __c14, 2),
+          transitioned_count: S.Number,
+          skipped_count: S.Number,
+          failed_count: S.Number,
+          not_found_count: S.Number,
+        }),
+      ).annotate({ identifier: "SignalReportBulkStateResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          pr_url: S.String,
+          note: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/monitor_pr/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsMonitorPrRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          report_id: S.String,
+          report_url: S.String,
+          status: S.String,
+          idempotent_replay: S.Boolean,
+        }),
+      ).annotate({ identifier: "MonitorPRResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsDestroyRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/spend/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportSpendRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          generation: __S(576, __c18, 0),
+          implementation: __S(576, __c18, 0),
+          shared_scout_runs: __S(576, __c18, 0),
+          scout_authored: S.Boolean,
+        }),
+      ).annotate({ identifier: "ReportSpend" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          total_spend: S.NullOr(S.Number),
+          incomplete: S.Boolean,
+        }),
+      ).annotate({ identifier: "SpendAmount" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          step_id: S.String.pipe(T.Label()),
+          reason: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/plan_steps/{step_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsPlanStepsDestroyRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_ids: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/pr_ci_statuses/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsPrCiStatusesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          report_id: S.String,
+          ci_status: S.String,
+        }),
+      ).annotate({ identifier: "PullRequestCiStatus" });
+    case 2:
+      return S.Array(__S(641, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          statuses: __S(642, __c20, 2),
+        }),
+      ).annotate({ identifier: "PullRequestCiStatusesResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_ids: __S(3808, __c119, 0),
+          read: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/read_state/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsReadStateCreateRequest" });
+    case 1:
+      return S.Record(S.String, S.Boolean);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          states: __S(673, __c21, 1),
+        }),
+      ).annotate({ identifier: "ReportReadStateResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_ids: __S(3808, __c119, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/refresh_metrics/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsReportsRefreshMetricsCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          metrics: __S(5569, __c174, 1),
+        }),
+      ).annotate({ identifier: "SignalReportMetricSnapshots" });
+    case 2:
+      return S.Array(__S(705, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          reports: __S(706, __c22, 2),
+        }),
+      ).annotate({ identifier: "SignalReportMetricRefreshResponse" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10331,7 +12964,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SignalsReportsReviewersMeDestroyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10348,7 +12981,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SignalsReviewerExclusionsRevokeCreateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10365,7 +12998,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SignalsScoutConfigDestroyRequest" });
   }
 }
-function __c9(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10387,11 +13020,11 @@ function __c9(j: number): any {
           summary: S.String,
           category: S.String,
           feature: S.String,
-          required_scopes: __S(3072, __c96, 0),
+          required_scopes: __S(3808, __c119, 0),
           is_read_only: S.Boolean,
           requires_ai_consent: S.Boolean,
           holdable: S.Boolean,
-          missing_scopes: __S(3072, __c96, 0),
+          missing_scopes: __S(3808, __c119, 0),
           feature_flag: S.NullOr(S.String),
           feature_flag_behavior: S.NullOr(S.String),
           feature_flag_variant: S.NullOr(S.String),
@@ -10400,39 +13033,160 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ScoutToolCatalogueEntry" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           label: S.String,
-          tools: __S(3072, __c96, 0),
+          tools: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ScoutToolPreset" });
     case 4:
-      return S.Array(__S(291, __c9, 3));
+      return S.Array(__S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          scopes: __S(3072, __c96, 0),
+          scopes: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ScoutScopePreset" });
     case 6:
-      return S.Array(__S(293, __c9, 5));
+      return S.Array(__S(837, __c26, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tools: __S(290, __c9, 2),
-          tool_presets: __S(292, __c9, 4),
-          run_context_tools: __S(3072, __c96, 0),
-          presets: __S(294, __c9, 6),
-          grantable_write_scopes: __S(3072, __c96, 0),
+          tools: __S(834, __c26, 2),
+          tool_presets: __S(836, __c26, 4),
+          run_context_tools: __S(3808, __c119, 0),
+          presets: __S(838, __c26, 6),
+          grantable_write_scopes: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ScoutToolCatalogue" });
   }
 }
-function __c10(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          onboarding_origin: S.optional(S.String),
+          activation_mode: S.optional(S.String),
+          step: S.String,
+          setup_mode: S.optional(S.String),
+          sources: __S(929, __c29, 1),
+          scanner_ids: __S(3808, __c119, 0),
+          suggestions: __S(960, __c30, 0),
+          activation_scouts: S.optional(__S(3808, __c119, 0)),
+          automatic_implementation: S.Boolean,
+          implementation_priority: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/onboarding/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsOnboardingRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          run_cron_schedule: S.optional(S.NullOr(S.String)),
+          run_interval_minutes: S.optional(S.NullOr(S.Number)),
+          emit: S.Boolean,
+        }),
+      ).annotate({ identifier: "ScoutSuggestionProposedConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          skill_name: S.String,
+          title: S.String,
+          why_here: S.String,
+          description: S.String,
+          draft_body: S.String,
+          proposed_config: __S(896, __c28, 0),
+          gap: S.Boolean,
+          confidence: S.String,
+        }),
+      ).annotate({ identifier: "ScoutSuggestionItem" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          source_product: S.String,
+          source_type: S.String,
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "InboxOnboardingSource" });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scout_run_id: S.optional(S.String),
+          task_id: S.optional(S.String),
+          task_run_id: S.optional(S.String),
+          started_at: S.optional(S.String),
+          status: S.String,
+          report_id: S.optional(S.String),
+          checked_products: S.optional(__S(3808, __c119, 0)),
+          missing_data: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "FirstReportState" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          scout: S.String,
+          recommendations: S.String,
+        }),
+      ).annotate({ identifier: "InboxOnboardingJobs" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          onboarding_origin: S.optional(S.String),
+          activation_mode: S.optional(S.String),
+          step: S.String,
+          setup_mode: S.optional(S.String),
+          sources: __S(929, __c29, 1),
+          scanner_ids: __S(3808, __c119, 0),
+          suggestions: __S(960, __c30, 0),
+          activation_scouts: S.optional(__S(3808, __c119, 0)),
+          automatic_implementation: S.Boolean,
+          implementation_priority: S.String,
+        }),
+      ).annotate({ identifier: "InboxOnboardingDraft" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          github_optional_available: S.optional(S.Boolean),
+          setup_default_skills: S.optional(__S(3808, __c119, 0)),
+          first_report_completion_notification: S.optional(S.Boolean),
+          first_report_notification_email: S.optional(S.NullOr(S.String)),
+          first_report: S.optional(S.NullOr(__S(930, __c29, 2))),
+          jobs: S.optional(__S(931, __c29, 3)),
+          draft: S.NullOr(__S(932, __c29, 4)),
+          completed_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "InboxOnboardingState" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(897, __c28, 1));
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10456,7 +13210,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SignalsScoutConfigTrialRequest" });
   }
 }
-function __c11(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10475,18 +13229,18 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "SignalsScoutConfigTrialComparisonHistoryRequest" });
     case 1:
-      return S.Array(__S(3106, __c97, 2));
+      return S.Array(__S(3842, __c120, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(353, __c11, 1),
+          results: __S(1025, __c32, 1),
           has_more: S.Boolean,
           next_cursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ScoutTrialComparisonHistory" });
   }
 }
-function __c12(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10519,17 +13273,17 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ScoutTrialHistoryItem" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(1057, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(386, __c12, 2),
+          results: __S(1058, __c33, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "ScoutTrialHistory" });
   }
 }
-function __c13(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10546,26 +13300,26 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "SignalsScoutConfigTrialResultRequest" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           source_report_id: S.optional(S.NullOr(S.String)),
-          document: __S(2368, __c74, 0),
-          payload: S.optional(__S(2368, __c74, 0)),
-          edits: S.optional(__S(417, __c13, 1)),
-          operator_metadata: S.optional(__S(2368, __c74, 0)),
-          evidence: S.optional(__S(417, __c13, 1)),
-          artefacts: S.optional(__S(417, __c13, 1)),
+          document: __S(3296, __c103, 0),
+          payload: S.optional(__S(3296, __c103, 0)),
+          edits: S.optional(__S(1089, __c34, 1)),
+          operator_metadata: S.optional(__S(3296, __c103, 0)),
+          evidence: S.optional(__S(1089, __c34, 1)),
+          artefacts: S.optional(__S(1089, __c34, 1)),
           content_revision_count: S.optional(S.Number),
           corroboration_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TrialReport" });
     case 3:
-      return S.Array(__S(418, __c13, 2));
+      return S.Array(__S(1090, __c34, 2));
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(5312, __c166, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(6755, __c211, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10586,8 +13340,8 @@ function __c13(j: number): any {
           error: S.NullOr(S.String),
           summary: S.String,
           invalid_reason: S.NullOr(S.String),
-          reports: __S(419, __c13, 3),
-          memory: __S(420, __c13, 4),
+          reports: __S(1091, __c34, 3),
+          memory: __S(1092, __c34, 4),
           cost_usd: S.NullOr(S.Number),
           input_tokens: S.NullOr(S.Number),
           output_tokens: S.NullOr(S.Number),
@@ -10595,7 +13349,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ScoutTrialResult" });
   }
 }
-function __c14(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10615,11 +13369,11 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.String,
-          reasoning_efforts: __S(3072, __c96, 0),
+          reasoning_efforts: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ScoutTrialModelChoice" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10631,12 +13385,12 @@ function __c14(j: number): any {
           blocked_reason: S.NullOr(S.String),
           model: S.NullOr(S.String),
           reasoning_effort: S.NullOr(S.String),
-          models: __S(450, __c14, 2),
+          models: __S(1122, __c35, 2),
         }),
       ).annotate({ identifier: "ScoutTrialSetup" });
   }
 }
-function __c15(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10645,20 +13399,20 @@ function __c15(j: number): any {
           run_id: S.String.pipe(T.Label()),
           title: S.String,
           summary: S.String,
-          evidence: __S(1345, __c42, 1),
+          evidence: __S(2177, __c68, 1),
           actionability_explanation: S.String,
           actionability: S.String,
           already_addressed: S.optional(S.Boolean),
           repository: S.optional(S.NullOr(S.String)),
           priority: S.optional(S.NullOr(S.String)),
           priority_explanation: S.optional(S.NullOr(S.String)),
-          suggested_reviewers: S.optional(__S(1347, __c42, 3)),
-          charts: S.optional(__S(4961, __c155, 1)),
-          metrics: S.optional(__S(1350, __c42, 6)),
-          suggested_prompts: S.optional(__S(3072, __c96, 0)),
-          links: S.optional(__S(1352, __c42, 8)),
-          source_issues: S.optional(__S(1354, __c42, 10)),
-          tags: S.optional(__S(3072, __c96, 0)),
+          suggested_reviewers: S.optional(__S(2179, __c68, 3)),
+          charts: S.optional(__S(5761, __c180, 1)),
+          metrics: S.optional(__S(2182, __c68, 6)),
+          suggested_prompts: S.optional(__S(3808, __c119, 0)),
+          links: S.optional(__S(2184, __c68, 8)),
+          source_issues: S.optional(__S(2186, __c68, 10)),
+          tags: S.optional(__S(3808, __c119, 0)),
           idempotency_key: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -10670,32 +13424,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SignalsScoutEmitReportRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          activation_mode: S.optional(S.String),
-          step: S.String,
-          setup_mode: S.optional(S.String),
-          sources: __S(129, __c4, 1),
-          scanner_ids: __S(3072, __c96, 0),
-          suggestions: __S(160, __c5, 0),
-          activation_scouts: S.optional(__S(3072, __c96, 0)),
-          automatic_implementation: S.Boolean,
-          implementation_priority: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/onboarding/complete/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateSignalsOnboardingCompleteRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10731,7 +13460,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "LcpPhase" });
     case 4:
-      return S.Array(__S(547, __c17, 3));
+      return S.Array(__S(1187, __c37, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10741,7 +13470,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "AuditOpportunity" });
     case 6:
-      return S.Array(__S(549, __c17, 5));
+      return S.Array(__S(1189, __c37, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -10750,17 +13479,17 @@ function __c17(j: number): any {
           form_factor: S.String,
           lighthouse_version: S.NullOr(S.String),
           performance_score: S.NullOr(S.Number),
-          metrics: __S(545, __c17, 1),
-          lcp_element: S.NullOr(__S(546, __c17, 2)),
-          lcp_phases: __S(548, __c17, 4),
-          lcp_checks_failed: __S(550, __c17, 6),
-          opportunities: __S(550, __c17, 6),
+          metrics: __S(1185, __c37, 1),
+          lcp_element: S.NullOr(__S(1186, __c37, 2)),
+          lcp_phases: __S(1188, __c37, 4),
+          lcp_checks_failed: __S(1190, __c37, 6),
+          opportunities: __S(1190, __c37, 6),
           audits_remaining: S.Number,
         }),
       ).annotate({ identifier: "LighthouseAuditResponse" });
   }
 }
-function __c18(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10777,23 +13506,23 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SignalsScoutNotesDestroyRequest" });
   }
 }
-function __c19(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payload: __S(2368, __c74, 0),
+          payload: __S(3296, __c103, 0),
           subject: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "StructuredOutputRecord" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
-          records: __S(609, __c19, 1),
+          records: __S(1249, __c39, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10806,12 +13535,12 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recorded_count: S.Number,
-          record_ids: __S(3072, __c96, 0),
+          record_ids: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "RecordStructuredOutputResponse" });
   }
 }
-function __c20(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10828,7 +13557,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionReportsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10843,24 +13572,50 @@ function __c21(j: number): any {
         S.Struct({
           finding_id: S.String,
           source_id: S.String,
-          report: S.NullOr(__S(672, __c21, 0)),
+          report: S.NullOr(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "ScoutEmissionReportLink" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
-      return S.suspend(() => __S(674, __c21, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1314, __c41, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsScoutRunsEmissionReportsResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          run_ids: __S(3072, __c96, 0),
+          onboarding_origin: S.optional(S.String),
+          activation_mode: S.optional(S.String),
+          step: S.String,
+          setup_mode: S.optional(S.String),
+          sources: __S(929, __c29, 1),
+          scanner_ids: __S(3808, __c119, 0),
+          suggestions: __S(960, __c30, 0),
+          activation_scouts: S.optional(__S(3808, __c119, 0)),
+          automatic_implementation: S.Boolean,
+          implementation_priority: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/onboarding/complete/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsOnboardingCompleteRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_ids: __S(3808, __c119, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10871,7 +13626,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionReportsBatchRequest" });
   }
 }
-function __c23(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10888,7 +13643,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10898,26 +13653,26 @@ function __c24(j: number): any {
           finding_id: S.String,
           description: S.String,
           severity: S.NullOr(S.String),
-          tags: __S(3072, __c96, 0),
+          tags: __S(3808, __c119, 0),
           source_id: S.String,
           emitted_at: S.String,
         }),
       ).annotate({ identifier: "SignalScoutEmission" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
-      return S.suspend(() => __S(769, __c24, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1441, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsScoutRunsEmissionsResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          run_ids: __S(3072, __c96, 0),
+          run_ids: __S(3808, __c119, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10928,7 +13683,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsEmissionsBatchRequest" });
   }
 }
-function __c26(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10956,7 +13711,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "FleetFindingsSummary" });
   }
 }
-function __c27(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10976,7 +13731,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsRecentEmissionsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10995,23 +13750,34 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SignalsScoutRunsRecentPerScoutRequest" });
   }
 }
-function __c29(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          key: S.String,
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/signals/onboarding/expose/",
+            uri: "/api/projects/{project_id}/signals/scout/scratchpad/discard/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateSignalsOnboardingExposeRequest" });
+      ).annotate({ identifier: "SignalsScoutScratchpadDiscardRequest" });
   }
 }
-function __c30(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deleted: S.Boolean,
+        }),
+      ).annotate({ identifier: "ForgetResponse" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11026,15 +13792,9 @@ function __c30(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SignalsScoutScratchpadForgetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          deleted: S.Boolean,
-        }),
-      ).annotate({ identifier: "ForgetResponse" });
   }
 }
-function __c31(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11044,6 +13804,7 @@ function __c31(j: number): any {
           content: S.String,
           run_id: S.optional(S.NullOr(S.String)),
           expires_at: S.optional(S.NullOr(S.String)),
+          if_updated_at: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11054,7 +13815,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SignalsScoutScratchpadRememberRequest" });
   }
 }
-function __c32(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11071,7 +13832,55 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SignalsSourceConfigsDestroyRequest" });
   }
 }
-function __c33(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          onboarding_origin: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/onboarding/expose/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsOnboardingExposeRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          source_product: S.String,
+          source_type: S.String,
+          expression: S.String,
+          scope_ids: S.optional(S.NullOr(__S(3808, __c119, 0))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/source_configs/filter_validate/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SignalsSourceConfigsFilterValidateCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error_code: S.NullOr(S.String),
+          error_start: S.NullOr(S.Number),
+          error_end: S.NullOr(S.Number),
+          valid: S.Boolean,
+          catalog_version: S.Number,
+          error: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "SourceFilterValidateResponse" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11091,18 +13900,18 @@ function __c33(j: number): any {
           source_product: S.String,
           source_type: S.String,
           signal_count: S.Number,
-          spend: __S(5824, __c182, 0),
+          spend: __S(576, __c18, 0),
         }),
       ).annotate({ identifier: "SourceSpend" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
-      return S.suspend(() => __S(1058, __c33, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1826, __c57, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SignalsSourceSpendResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11116,24 +13925,41 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           skill_name: S.String,
-          spend: __S(5824, __c182, 0),
+          spend: __S(576, __c18, 0),
           average_spend: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ScoutSpend" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           period_start: S.String,
           period_end: S.String,
-          scouts: __S(1090, __c34, 2),
-          scout_spend: __S(5824, __c182, 0),
+          scouts: __S(1858, __c58, 2),
+          scout_spend: __S(576, __c18, 0),
         }),
       ).annotate({ identifier: "SpendOverview" });
   }
 }
-function __c35(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/stop/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "StopSignalsScoutConfigRequest" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11144,7 +13970,7 @@ function __c35(j: number): any {
           evidence_reason: S.String,
           expectation_matches: S.NullOr(S.Boolean),
           explanation: S.String,
-          evidence_refs: __S(3072, __c96, 0),
+          evidence_refs: __S(3808, __c119, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11163,7 +13989,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SubmitMonitoringResultResponse" });
   }
 }
-function __c36(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11180,7 +14006,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SyncSignalsScoutConfigRequest" });
   }
 }
-function __c37(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11205,15 +14031,15 @@ function __c37(j: number): any {
           now: S.String,
           interval_minutes: S.Number,
           row_count: S.Number,
-          columns: __S(3072, __c96, 0),
+          columns: __S(3808, __c119, 0),
           rows_text: S.String,
           error: S.NullOr(S.String),
-          acting_user: S.NullOr(__S(2400, __c75, 0)),
+          acting_user: S.NullOr(__S(3328, __c104, 0)),
         }),
       ).annotate({ identifier: "SignalScoutPrecheckTest" });
   }
 }
-function __c38(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11230,7 +14056,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateSignalsProcessingPauseRequest" });
   }
 }
-function __c39(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11249,119 +14075,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportArtefactsPartialRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          title: S.String,
-          summary: S.String,
-          evidence: __S(1345, __c42, 1),
-          actionability_explanation: S.String,
-          actionability: S.String,
-          already_addressed: S.optional(S.Boolean),
-          repository: S.optional(S.NullOr(S.String)),
-          priority: S.optional(S.NullOr(S.String)),
-          priority_explanation: S.optional(S.NullOr(S.String)),
-          suggested_reviewers: S.optional(__S(1347, __c42, 3)),
-          charts: S.optional(__S(4961, __c155, 1)),
-          metrics: S.optional(__S(1350, __c42, 6)),
-          suggested_prompts: S.optional(__S(3072, __c96, 0)),
-          links: S.optional(__S(1352, __c42, 8)),
-          source_issues: S.optional(__S(1354, __c42, 10)),
-          tags: S.optional(__S(3072, __c96, 0)),
-          idempotency_key: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/reports/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateSignalsReportRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          report_id: S.NullOr(S.String),
-          report_status: S.NullOr(S.String),
-          emitted: S.Boolean,
-          skipped_reason: S.NullOr(S.String),
-          safety_explanation: S.NullOr(S.String),
-          remediation: S.NullOr(S.String),
-          idempotent_replay: S.Boolean,
-        }),
-      ).annotate({ identifier: "EmitReportResponse" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          source_id: S.String,
-        }),
-      ).annotate({ identifier: "ReportEvidence" });
-    case 1:
-      return S.Array(__S(1344, __c42, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          github_login: S.optional(S.String),
-          user_uuid: S.optional(S.String),
-          reason: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SuggestedReviewer" });
-    case 3:
-      return S.Array(__S(1346, __c42, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.Number,
-          label: S.String,
-        }),
-      ).annotate({ identifier: "ReportMetricComparison" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          metric_id: S.String,
-          title: S.String,
-          kind: S.String,
-          role: S.optional(S.String),
-          value: S.optional(S.NullOr(S.Number)),
-          value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(4992, __c156, 0))),
-          value_format: S.optional(S.String),
-          unit: S.optional(S.NullOr(S.String)),
-          query: S.Unknown,
-          caption: S.optional(S.NullOr(S.String)),
-          comparison: S.optional(S.NullOr(__S(1348, __c42, 4))),
-        }),
-      ).annotate({ identifier: "ReportMetricWrite" });
-    case 6:
-      return S.Array(__S(1349, __c42, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-          report_id: S.String,
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportLinkWrite" });
-    case 8:
-      return S.Array(__S(1351, __c42, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-        }),
-      ).annotate({ identifier: "SourceIssueWrite" });
-    case 10:
-      return S.Array(__S(1353, __c42, 9));
-  }
-}
-function __c43(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11381,7 +14095,150 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportPrReviewCommentRequest" });
   }
 }
-function __c44(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          title: S.String,
+          summary: S.String,
+          evidence: __S(2177, __c68, 1),
+          actionability_explanation: S.String,
+          actionability: S.String,
+          already_addressed: S.optional(S.Boolean),
+          repository: S.optional(S.NullOr(S.String)),
+          priority: S.optional(S.NullOr(S.String)),
+          priority_explanation: S.optional(S.NullOr(S.String)),
+          suggested_reviewers: S.optional(__S(2179, __c68, 3)),
+          charts: S.optional(__S(5761, __c180, 1)),
+          metrics: S.optional(__S(2182, __c68, 6)),
+          suggested_prompts: S.optional(__S(3808, __c119, 0)),
+          links: S.optional(__S(2184, __c68, 8)),
+          source_issues: S.optional(__S(2186, __c68, 10)),
+          tags: S.optional(__S(3808, __c119, 0)),
+          idempotency_key: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/reports/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateSignalsReportRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          report_id: S.NullOr(S.String),
+          report_status: S.NullOr(S.String),
+          emitted: S.Boolean,
+          skipped_reason: S.NullOr(S.String),
+          safety_explanation: S.NullOr(S.String),
+          remediation: S.NullOr(S.String),
+          idempotent_replay: S.Boolean,
+          quality_hints: __S(2188, __c68, 12),
+        }),
+      ).annotate({ identifier: "EmitReportResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          source_id: S.String,
+        }),
+      ).annotate({ identifier: "ReportEvidence" });
+    case 1:
+      return S.Array(__S(2176, __c68, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          github_login: S.optional(S.String),
+          user_uuid: S.optional(S.String),
+          reason: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SuggestedReviewer" });
+    case 3:
+      return S.Array(__S(2178, __c68, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.Number,
+          label: S.String,
+        }),
+      ).annotate({ identifier: "ReportMetricComparison" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          metric_id: S.String,
+          title: S.String,
+          kind: S.String,
+          role: S.optional(S.String),
+          value: S.optional(S.NullOr(S.Number)),
+          value_at: S.optional(S.NullOr(S.String)),
+          series: S.optional(S.NullOr(__S(5728, __c179, 0))),
+          value_format: S.optional(S.String),
+          unit: S.optional(S.NullOr(S.String)),
+          query: S.Unknown,
+          caption: S.optional(S.NullOr(S.String)),
+          comparison: S.optional(S.NullOr(__S(2180, __c68, 4))),
+        }),
+      ).annotate({ identifier: "ReportMetricWrite" });
+    case 6:
+      return S.Array(__S(2181, __c68, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          report_id: S.String,
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportLinkWrite" });
+    case 8:
+      return S.Array(__S(2183, __c68, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+        }),
+      ).annotate({ identifier: "SourceIssueWrite" });
+    case 10:
+      return S.Array(__S(2185, __c68, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          check_id: S.String,
+          severity: S.String,
+          field: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ReportQualityHint" });
+    case 12:
+      return S.Array(__S(2187, __c68, 11));
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          actionability: S.optional(S.String),
+          already_addressed: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/actionability/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsReportsActionabilityRequest" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11400,7 +14257,27 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsPartialRequest" });
   }
 }
-function __c45(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          step_id: S.String.pipe(T.Label()),
+          depends_on: __S(3808, __c119, 0),
+          reason: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/plan_steps/{step_id}/depends_on/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsReportsPlanStepsDependsOnRequest" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11418,7 +14295,25 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReportsPriorityRequest" });
   }
 }
-function __c46(j: number): any {
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          repository: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/repository/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsReportsRepositoryRequest" });
+  }
+}
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11430,16 +14325,16 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "SuggestedReviewerEntryWrite" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           action: S.optional(S.String),
-          expected_reviewers: S.optional(__S(5024, __c157, 0)),
-          content: __S(1473, __c46, 1),
-          targets: S.optional(__S(1473, __c46, 1)),
+          expected_reviewers: S.optional(__S(5792, __c181, 0)),
+          content: __S(2369, __c74, 1),
+          targets: S.optional(__S(2369, __c74, 1)),
           removal_reason: S.optional(S.String),
           removal_note: S.optional(S.String),
         }).pipe(
@@ -11459,25 +14354,25 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "SuggestedReviewerCommit" });
     case 4:
-      return S.Array(__S(1475, __c46, 3));
+      return S.Array(__S(2371, __c74, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           github_login: S.NullOr(S.String),
           user_uuid: S.NullOr(S.String),
           github_name: S.NullOr(S.String),
-          relevant_commits: __S(1476, __c46, 4),
+          relevant_commits: __S(2372, __c74, 4),
           reason: S.NullOr(S.String),
           is_skill_owner: S.Boolean,
           is_default_owner: S.Boolean,
           source_skill: S.NullOr(S.String),
           source_label: S.String,
           explanation: S.NullOr(S.String),
-          user: S.NullOr(__S(5056, __c158, 0)),
+          user: S.NullOr(__S(5824, __c182, 0)),
         }),
       ).annotate({ identifier: "SuggestedReviewerEntryRead" });
     case 6:
-      return S.Array(__S(1477, __c46, 5));
+      return S.Array(__S(2373, __c74, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -11485,18 +14380,18 @@ function __c46(j: number): any {
           pull_request_id: S.NullOr(S.String),
           id: S.String,
           type: S.String,
-          content: __S(1478, __c46, 6),
+          content: __S(2374, __c74, 6),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
           actor_kind: S.String,
           actor_agent: S.NullOr(S.String),
-          created_by: S.NullOr(__S(5056, __c158, 0)),
+          created_by: S.NullOr(__S(5824, __c182, 0)),
           task_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportSuggestedReviewersArtefact" });
   }
 }
-function __c47(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11516,7 +14411,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateSignalsReviewerExclusionsPartialRequest" });
   }
 }
-function __c48(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11528,20 +14423,23 @@ function __c48(j: number): any {
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
-          output_destinations: S.optional(__S(2434, __c76, 2)),
-          structured_output_schema: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          output_destinations: S.optional(__S(3362, __c105, 2)),
+          structured_output_schema: S.optional(S.NullOr(__S(3296, __c103, 0))),
           network_access: S.optional(S.String),
           model: S.optional(S.NullOr(S.String)),
+          custom_image_id: S.optional(S.NullOr(S.String)),
           auto_pause_exempt: S.optional(S.Boolean),
-          tags: S.optional(__S(3072, __c96, 0)),
-          mcp_gateway_server_ids: S.optional(__S(3072, __c96, 0)),
-          repositories: S.optional(__S(3072, __c96, 0)),
-          write_scopes: S.optional(__S(3072, __c96, 0)),
+          tags: S.optional(__S(3808, __c119, 0)),
+          mcp_gateway_server_ids: S.optional(__S(3808, __c119, 0)),
+          repositories: S.optional(__S(3808, __c119, 0)),
+          write_scopes: S.optional(__S(3808, __c119, 0)),
+          report_actions: S.optional(__S(3808, __c119, 0)),
+          max_report_actions_per_day: S.optional(S.Number),
           precheck_query: S.optional(S.NullOr(S.String)),
           precheck_disabled: S.optional(S.Boolean),
           suggestion_id: S.optional(S.String),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3808, __c119, 0))),
           tool_preset: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11553,7 +14451,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateSignalsScoutConfigRequest" });
   }
 }
-function __c49(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11561,7 +14459,7 @@ function __c49(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           revision: S.Number,
-          criteria: __S(3809, __c119, 1),
+          criteria: __S(4993, __c156, 1),
           adopt_generation_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -11573,7 +14471,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateSignalsScoutRubricRequest" });
   }
 }
-function __c50(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11583,9 +14481,9 @@ function __c50(j: number): any {
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(2368, __c74, 0)),
-          config_set: S.optional(__S(2368, __c74, 0)),
-          config_remove: S.optional(__S(3072, __c96, 0)),
+          config: S.optional(__S(3296, __c103, 0)),
+          config_set: S.optional(__S(3296, __c103, 0)),
+          config_remove: S.optional(__S(3808, __c119, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11596,37 +14494,14 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateSignalsSourceConfigRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          source_product: S.optional(S.String),
-          source_type: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          config: S.optional(__S(2368, __c74, 0)),
-          config_set: S.optional(__S(2368, __c74, 0)),
-          config_remove: S.optional(__S(3072, __c96, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/signals/source_configs/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateSignalsSourceConfigsPartialRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           report_id: S.String.pipe(T.Label()),
-          expected_reviewers: S.optional(__S(5024, __c157, 0)),
+          expected_reviewers: S.optional(__S(5792, __c181, 0)),
           reviewer_outcome: S.optional(S.String),
           reviewer_retry_reason: S.optional(S.String),
           claim_id: S.optional(S.String),
@@ -11642,7 +14517,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportArtefactRequest" });
   }
 }
-function __c53(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11659,7 +14534,30 @@ function __c53(j: number): any {
       ).annotate({ identifier: "SignalReportArtefactWriteResponse" });
   }
 }
-function __c54(j: number): any {
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          source_product: S.optional(S.String),
+          source_type: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          config: S.optional(__S(3296, __c103, 0)),
+          config_set: S.optional(__S(3296, __c103, 0)),
+          config_remove: S.optional(__S(3808, __c119, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/signals/source_configs/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateSignalsSourceConfigsPartialRequest" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11682,32 +14580,10 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportPrReviewCommentRequest" });
   }
 }
-function __c55(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          comment: __S(1825, __c57, 1),
-        }),
-      ).annotate({ identifier: "PullRequestReviewCommentCreateResponse" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          content: S.String,
-          user_login: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "PullRequestCommentReaction" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(2720, __c85, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -11725,12 +14601,34 @@ function __c57(j: number): any {
           diff_hunk: S.NullOr(S.String),
           in_reply_to_id: S.NullOr(S.String),
           commit_id: S.NullOr(S.String),
-          reactions: __S(1824, __c57, 0),
+          reactions: __S(2656, __c83, 0),
         }),
       ).annotate({ identifier: "PullRequestComment" });
   }
 }
-function __c58(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          comment: __S(2657, __c83, 1),
+        }),
+      ).annotate({ identifier: "PullRequestReviewCommentCreateResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          content: S.String,
+          user_login: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "PullRequestCommentReaction" });
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11751,12 +14649,12 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reaction: __S(1792, __c56, 0),
+          reaction: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "PullRequestReviewCommentReactionCreateResponse" });
   }
 }
-function __c59(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11766,6 +14664,7 @@ function __c59(j: number): any {
           action: S.String,
           suggested_prompt_index: S.optional(S.Number),
           message: S.optional(S.String),
+          repository: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11785,7 +14684,19 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SignalReportTaskActionRunResponse" });
   }
 }
-function __c60(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          error: S.String,
+          remediation_url: S.String,
+        }),
+      ).annotate({ identifier: "GitHubInstallationUnavailableError" });
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11810,14 +14721,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SignalReportFeedbackResponse" });
   }
 }
-function __c61(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          source_report_ids: __S(3072, __c96, 0),
+          source_report_ids: __S(3808, __c119, 0),
           reason: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11837,29 +14748,37 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "SignalReportMergeSourceResult" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          report: __S(5122, __c160, 2),
-          sources: __S(1954, __c61, 2),
+          report: __S(5890, __c184, 2),
+          sources: __S(2882, __c90, 2),
         }),
       ).annotate({ identifier: "SignalReportMergeResponse" });
   }
 }
-function __c62(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          error: S.String,
-          remediation_url: S.String,
-        }),
-      ).annotate({ identifier: "PullRequestChecksPermissionError" });
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          report_id: S.String,
+          depends_on: S.optional(__S(3808, __c119, 0)),
+          reason: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/plan_steps/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsReportsPlanStepRequest" });
   }
 }
-function __c63(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11894,7 +14813,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SignalReportRefundResponse" });
   }
 }
-function __c64(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11911,7 +14830,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsReingestRequest" });
   }
 }
-function __c65(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11922,7 +14841,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "SignalReportReingestionStatus" });
   }
 }
-function __c66(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11941,7 +14860,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsReviewersMeRequest" });
   }
 }
-function __c67(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -11949,13 +14868,13 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3072, __c96, 0),
+          report_ids: __S(3808, __c119, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11968,21 +14887,21 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          source_products: __S(3072, __c96, 0),
+          source_products: __S(3808, __c119, 0),
           scout_name: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportSourceMetadata" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(3105, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reports: __S(2178, __c68, 2),
+          reports: __S(3106, __c97, 2),
         }),
       ).annotate({ identifier: "SignalReportSourceMetadataResponse" });
   }
 }
-function __c69(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12004,7 +14923,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsStateRequest" });
   }
 }
-function __c70(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12021,7 +14940,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateSignalsReportsViewedRequest" });
   }
 }
-function __c71(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12044,13 +14963,13 @@ function __c71(j: number): any {
         S.Struct({
           instruction_saved: S.Boolean,
           report_removed: S.NullOr(S.Boolean),
-          exclusion: S.NullOr(__S(2304, __c72, 0)),
+          exclusion: S.NullOr(__S(3232, __c101, 0)),
           detail: S.String,
         }),
       ).annotate({ identifier: "ReviewerExclusionCreateResult" });
   }
 }
-function __c72(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12067,7 +14986,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ReviewerExclusion" });
   }
 }
-function __c73(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12078,24 +14997,27 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "LLMSkillFileInput" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(3072, __c96, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          mcp_gateway_server_ids: S.optional(__S(3072, __c96, 0)),
-          repositories: S.optional(__S(3072, __c96, 0)),
-          write_scopes: S.optional(__S(3072, __c96, 0)),
+          custom_image_id: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(3808, __c119, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(3296, __c103, 0))),
+          mcp_gateway_server_ids: S.optional(__S(3808, __c119, 0)),
+          repositories: S.optional(__S(3808, __c119, 0)),
+          write_scopes: S.optional(__S(3808, __c119, 0)),
+          report_actions: S.optional(__S(3808, __c119, 0)),
+          max_report_actions_per_day: S.optional(S.Number),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3808, __c119, 0))),
           tool_preset: S.optional(S.String),
           precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(2434, __c76, 2)),
+          output_destinations: S.optional(__S(3362, __c105, 2)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
@@ -12109,8 +15031,8 @@ function __c73(j: number): any {
           name: S.optional(S.String),
           description: S.String,
           body: S.String,
-          files: S.optional(__S(2337, __c73, 1)),
-          config: S.optional(__S(2338, __c73, 2)),
+          files: S.optional(__S(3265, __c102, 1)),
+          config: S.optional(__S(3266, __c102, 2)),
           suggestion_id: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/scout/", code: 200 }),
@@ -12123,26 +15045,26 @@ function __c73(j: number): any {
           name: S.String,
           description: S.String,
           version: S.Number,
-          allowed_tools: __S(3072, __c96, 0),
+          allowed_tools: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "SignalScoutSkillSummary" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           created: S.Boolean,
-          skill: __S(2340, __c73, 4),
-          config: __S(2437, __c76, 5),
+          skill: __S(3268, __c102, 4),
+          config: __S(3365, __c105, 5),
         }),
       ).annotate({ identifier: "SignalScoutCreateResponse" });
   }
 }
-function __c74(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c75(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12154,20 +15076,20 @@ function __c75(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(3296, __c103, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c76(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           integration_id: S.Number,
           channel: S.optional(S.NullOr(S.String)),
-          users: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          users: S.optional(S.NullOr(__S(3808, __c119, 0))),
           thread_reports: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutSlackDestination" });
@@ -12180,8 +15102,8 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          slack: S.optional(S.NullOr(__S(2432, __c76, 0))),
-          webhook: S.optional(S.NullOr(__S(2433, __c76, 1))),
+          slack: S.optional(S.NullOr(__S(3360, __c105, 0))),
+          webhook: S.optional(S.NullOr(__S(3361, __c105, 1))),
           inbox: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SignalScoutOutputDestinations" });
@@ -12195,7 +15117,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "ScoutDeprecation" });
     case 4:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(3328, __c104, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12205,8 +15127,8 @@ function __c76(j: number): any {
           display_name: S.optional(S.String),
           scout_origin: S.String,
           scout_role: S.String,
-          deprecation: S.NullOr(__S(2435, __c76, 3)),
-          owners: __S(2436, __c76, 4),
+          deprecation: S.NullOr(__S(3363, __c105, 3)),
+          owners: __S(3364, __c105, 4),
           enabled: S.Boolean,
           status: S.String,
           pause_reason: S.NullOr(S.String),
@@ -12214,15 +15136,18 @@ function __c76(j: number): any {
           emit: S.Boolean,
           run_interval_minutes: S.Number,
           run_cron_schedule: S.NullOr(S.String),
-          output_destinations: __S(2434, __c76, 2),
-          structured_output_schema: S.NullOr(__S(2368, __c74, 0)),
+          output_destinations: __S(3362, __c105, 2),
+          structured_output_schema: S.NullOr(__S(3296, __c103, 0)),
           network_access: S.String,
           model: S.NullOr(S.String),
-          mcp_gateway_server_ids: __S(3072, __c96, 0),
-          repositories: S.optional(__S(3072, __c96, 0)),
-          write_scopes: __S(3072, __c96, 0),
+          custom_image_id: S.NullOr(S.String),
+          mcp_gateway_server_ids: __S(3808, __c119, 0),
+          repositories: S.optional(__S(3808, __c119, 0)),
+          write_scopes: __S(3808, __c119, 0),
+          report_actions: __S(3808, __c119, 0),
+          max_report_actions_per_day: S.Number,
           lifecycle_locked: S.Boolean,
-          allowed_mcp_tools: S.NullOr(__S(3072, __c96, 0)),
+          allowed_mcp_tools: S.NullOr(__S(3808, __c119, 0)),
           tool_preset: S.NullOr(S.String),
           precheck_query: S.NullOr(S.String),
           precheck_disabled: S.Boolean,
@@ -12234,9 +15159,9 @@ function __c76(j: number): any {
           last_run_at: S.NullOr(S.String),
           consecutive_failure_count: S.Number,
           status_changed_at: S.NullOr(S.String),
-          status_changed_by: S.NullOr(__S(2400, __c75, 0)),
+          status_changed_by: S.NullOr(__S(3328, __c104, 0)),
           auto_pause_exempt: S.Boolean,
-          tags: S.optional(__S(3072, __c96, 0)),
+          tags: S.optional(__S(3808, __c119, 0)),
           source_product: S.NullOr(S.String),
           source_id: S.NullOr(S.String),
           created_at: S.String,
@@ -12245,7 +15170,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SignalScoutConfig" });
   }
 }
-function __c77(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12270,26 +15195,29 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ScoutChatTask" });
   }
 }
-function __c78(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           model: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(3072, __c96, 0)),
-          structured_output_schema: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          mcp_gateway_server_ids: S.optional(__S(3072, __c96, 0)),
-          repositories: S.optional(__S(3072, __c96, 0)),
-          write_scopes: S.optional(__S(3072, __c96, 0)),
+          custom_image_id: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(3808, __c119, 0)),
+          structured_output_schema: S.optional(S.NullOr(__S(3296, __c103, 0))),
+          mcp_gateway_server_ids: S.optional(__S(3808, __c119, 0)),
+          repositories: S.optional(__S(3808, __c119, 0)),
+          write_scopes: S.optional(__S(3808, __c119, 0)),
+          report_actions: S.optional(__S(3808, __c119, 0)),
+          max_report_actions_per_day: S.optional(S.Number),
           lifecycle_locked: S.optional(S.Boolean),
-          allowed_mcp_tools: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          allowed_mcp_tools: S.optional(S.NullOr(__S(3808, __c119, 0))),
           tool_preset: S.optional(S.String),
           precheck_query: S.optional(S.NullOr(S.String)),
           enabled: S.optional(S.Boolean),
           emit: S.optional(S.Boolean),
           run_interval_minutes: S.optional(S.Number),
-          output_destinations: S.optional(__S(2434, __c76, 2)),
+          output_destinations: S.optional(__S(3362, __c105, 2)),
           network_access: S.optional(S.String),
           auto_pause_exempt: S.optional(S.Boolean),
           run_cron_schedule: S.optional(S.NullOr(S.String)),
@@ -12305,21 +15233,21 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigRequest" });
   }
 }
-function __c79(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           label: S.String,
-          launch_ids: __S(3072, __c96, 0),
+          launch_ids: __S(3808, __c119, 0),
           model: S.String,
           reasoning_effort: S.String,
           skill_body: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScoutTrialComparisonVariantRequest" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(3456, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12327,7 +15255,7 @@ function __c79(j: number): any {
           id: S.String.pipe(T.Label()),
           comparison_id: S.String,
           baseline_variant_id: S.String,
-          variants: __S(2529, __c79, 1),
+          variants: __S(3457, __c108, 1),
           note: S.optional(S.String),
           expected_skill_version: S.optional(S.Number),
         }).pipe(
@@ -12340,7 +15268,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c80(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12349,7 +15277,7 @@ function __c80(j: number): any {
           id: S.String.pipe(T.Label()),
           evaluation_id: S.String,
           baseline_variant_id: S.String,
-          variants: __S(3041, __c95, 1),
+          variants: __S(3777, __c118, 1),
           rubric_source: S.String,
         }).pipe(
           T.Http({
@@ -12361,7 +15289,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutConfigTrialEvaluationRequest" });
   }
 }
-function __c81(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12381,7 +15309,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutNoteRequest" });
   }
 }
-function __c82(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12397,7 +15325,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ScoutNote" });
   }
 }
-function __c83(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12423,7 +15351,36 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateSignalsScoutReportCheckRequest" });
   }
 }
-function __c84(j: number): any {
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          display_name: S.String,
+          source_id: S.String,
+          channel_ids: __S(3808, __c119, 0),
+          steer: S.optional(S.String),
+          run_cron_schedule: S.optional(S.NullOr(S.String)),
+          emit: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/slack_channel_scouts/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsSlackChannelScoutRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Boolean,
+          skill_name: S.String,
+        }),
+      ).annotate({ identifier: "SlackChannelScoutCreateResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12432,9 +15389,9 @@ function __c84(j: number): any {
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(2368, __c74, 0)),
-          config_set: S.optional(__S(2368, __c74, 0)),
-          config_remove: S.optional(__S(3072, __c96, 0)),
+          config: S.optional(__S(3296, __c103, 0)),
+          config_set: S.optional(__S(3296, __c103, 0)),
+          config_remove: S.optional(__S(3808, __c119, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12445,24 +15402,469 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CreateSignalsSourceConfigRequest" });
   }
 }
-function __c85(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          error_code: S.NullOr(S.String),
+          error_message: S.NullOr(S.String),
+          failed_at: S.NullOr(S.String),
+          unread_since: S.NullOr(S.String),
+          last_success_at: S.NullOr(S.String),
+          malformed_count: S.Number,
+        }),
+      ).annotate({ identifier: "SourceFilterRunStatus" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           source_product: S.optional(S.String),
           source_type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          config: S.optional(__S(2368, __c74, 0)),
+          config: S.optional(__S(3296, __c103, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           status: S.optional(S.NullOr(S.String)),
+          filter_status: S.NullOr(__S(3680, __c115, 0)),
         }),
       ).annotate({ identifier: "SignalSourceConfigOutput" });
   }
 }
-function __c86(j: number): any {
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          alert_allow_patterns: S.optional(__S(3808, __c119, 0)),
+          alert_block_patterns: S.optional(__S(3808, __c119, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/source_configs/alert_pattern_preview/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsSourceConfigsAlertPatternPreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          insight_name: S.NullOr(S.String),
+          insight_short_id: S.String,
+          outcome: S.String,
+        }),
+      ).annotate({ identifier: "AlertPatternPreviewAlert" });
+    case 2:
+      return S.Array(__S(3713, __c116, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          alert_allow_patterns_error: S.NullOr(S.String),
+          alert_block_patterns_error: S.NullOr(S.String),
+          alerts: __S(3714, __c116, 2),
+          has_more: S.Boolean,
+        }),
+      ).annotate({ identifier: "AlertPatternPreviewResponse" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          comparison_id: S.String,
+          archived: S.Boolean,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/trial_comparison_archive/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ArchiveSignalsScoutConfigTrialComparisonRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          label: S.String,
+          launch_ids: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "ScoutTrialEvaluationVariant" });
+    case 1:
+      return S.Array(__S(3776, __c118, 0));
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          label: S.String,
+          launch_ids: __S(3808, __c119, 0),
+          model: S.String,
+          reasoning_effort: S.String,
+          skill_body_sha256: S.String,
+        }),
+      ).annotate({ identifier: "ScoutTrialComparisonVariant" });
+    case 1:
+      return S.Array(__S(3840, __c120, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          comparison_id: S.String,
+          config_id: S.String,
+          context_id: S.String,
+          created_at: S.String,
+          baseline_variant_id: S.String,
+          rubric_revision: S.Number,
+          variants: __S(3841, __c120, 1),
+          status: S.String,
+          archived: S.Boolean,
+          error: S.NullOr(S.String),
+          evaluation: S.NullOr(__S(3894, __c121, 22)),
+        }),
+      ).annotate({ identifier: "ScoutTrialComparison" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evaluation_id: S.String,
+          baseline_variant_id: S.String,
+          variants: __S(3777, __c118, 1),
+          rubric_source: S.String,
+        }),
+      ).annotate({ identifier: "ScoutTrialEvaluationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          variant_ids: S.optional(__S(3808, __c119, 0)),
+          summary: S.String,
+        }),
+      ).annotate({ identifier: "TrialComparisonOutcome" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          schema_version: S.optional(S.Number),
+          skill_id: S.String,
+          skill_name: S.String,
+          skill_version: S.Number,
+          description: S.String,
+          instructions: S.String,
+          instructions_truncated: S.Boolean,
+          report_channel: S.String,
+          report_disposition_instructions: S.String,
+          reference_files: __S(3808, __c119, 0),
+          reference_files_truncated: S.Boolean,
+          reference_texts: __S(3905, __c122, 1),
+          reference_limits: __S(3906, __c122, 2),
+        }),
+      ).annotate({ identifier: "ScoutRubricReferenceContext" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          description: S.String,
+          pass_condition: S.String,
+          applicability: S.String,
+        }),
+      ).annotate({ identifier: "TrialEvaluationCriterion" });
+    case 4:
+      return S.Array(__S(3875, __c121, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          criterion_id: S.String,
+          passed: S.Number,
+          failed: S.Number,
+          unknown: S.Number,
+          not_applicable: S.Number,
+          pass_rate: S.NullOr(S.Number),
+          coverage: S.NullOr(S.Number),
+          baseline_delta: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "TrialCriterionAggregate" });
+    case 6:
+      return S.Array(__S(3877, __c121, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          variant_id: S.String,
+          label: S.String,
+          is_baseline: S.Boolean,
+          total_runs: S.Number,
+          judged_runs: S.Number,
+          excluded_runs: S.Number,
+          judge_errors: S.Number,
+          score: S.NullOr(S.Number),
+          coverage: S.NullOr(S.Number),
+          baseline_delta: S.optional(S.NullOr(S.Number)),
+          criteria: __S(3878, __c121, 6),
+        }),
+      ).annotate({ identifier: "TrialVariantAggregate" });
+    case 8:
+      return S.Array(__S(3879, __c121, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          source_id: S.String,
+          quote: S.String,
+        }),
+      ).annotate({ identifier: "TrialCriterionEvidence" });
+    case 10:
+      return S.Array(__S(3881, __c121, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          criterion_id: S.String,
+          verdict: S.String,
+          reason: S.String,
+          confidence: S.String,
+          evidence: __S(3882, __c121, 10),
+        }),
+      ).annotate({ identifier: "TrialCriterionVerdict" });
+    case 12:
+      return S.Array(__S(3883, __c121, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          launch_id: S.String,
+          variant_id: S.String,
+          status: S.String,
+          score: S.optional(S.NullOr(S.Number)),
+          coverage: S.optional(S.NullOr(S.Number)),
+          summary: S.String,
+          criteria: S.optional(__S(3884, __c121, 12)),
+          error: S.optional(S.NullOr(S.String)),
+          input_tokens: S.optional(S.NullOr(S.Number)),
+          output_tokens: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "TrialRunJudgment" });
+    case 14:
+      return S.Array(__S(3885, __c121, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          filename: S.String,
+          sha256: S.String,
+          size_bytes: S.Number,
+        }),
+      ).annotate({ identifier: "TrialEvidenceFile" });
+    case 16:
+      return S.Array(__S(3887, __c121, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          text: S.String,
+        }),
+      ).annotate({ identifier: "TrialEvidenceSource" });
+    case 18:
+      return S.Array(__S(3889, __c121, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          launch_id: S.String,
+          variant_id: S.String,
+          run_id: S.NullOr(S.String),
+          task_id: S.NullOr(S.String),
+          task_run_id: S.NullOr(S.String),
+          execution_status: S.String,
+          exclusion_reason: S.optional(S.NullOr(S.String)),
+          model: S.String,
+          runtime_adapter: S.String,
+          service_tier: S.optional(S.NullOr(S.String)),
+          reasoning_effort: S.String,
+          skill_body_sha256: S.String,
+          input_tokens: S.optional(S.NullOr(S.Number)),
+          output_tokens: S.optional(S.NullOr(S.Number)),
+          files: S.optional(__S(3888, __c121, 16)),
+          sources: S.optional(__S(3890, __c121, 18)),
+          limitations: S.optional(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "TrialRunEvidence" });
+    case 20:
+      return S.Array(__S(3891, __c121, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.Number),
+          evaluation_id: S.String,
+          context_id: S.String,
+          created_at: S.String,
+          completed_at: S.String,
+          summary: S.String,
+          outcome: S.optional(S.NullOr(__S(3873, __c121, 1))),
+          rubric_source: S.String,
+          rubric_revision: S.Number,
+          rubric_reference_context: S.optional(S.NullOr(__S(3874, __c121, 2))),
+          rubric_reference_generation_id: S.optional(S.NullOr(S.String)),
+          criteria: __S(3876, __c121, 4),
+          baseline_variant_id: S.String,
+          judge_model: S.String,
+          judge_prompt_version: S.String,
+          variants: __S(3880, __c121, 8),
+          runs: __S(3886, __c121, 14),
+          evidence: __S(3892, __c121, 20),
+          limitations: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "TrialComparisonReport" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          request: __S(3872, __c121, 0),
+          evaluation_id: S.String,
+          context_id: S.String,
+          status: S.String,
+          error: S.NullOr(S.String),
+          report: S.NullOr(__S(3893, __c121, 21)),
+        }),
+      ).annotate({ identifier: "ScoutTrialEvaluation" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          content_type: S.String,
+          content: S.String,
+        }),
+      ).annotate({ identifier: "ScoutRubricReferenceText" });
+    case 1:
+      return S.Array(__S(3904, __c122, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          omitted_files: S.Number,
+          truncated_files: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "ScoutRubricReferenceLimits" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          source_product: S.String,
+          source_type: S.String,
+          expression: S.String,
+          scope_ids: S.optional(S.NullOr(__S(3808, __c119, 0))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/source_configs/filter_preview/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsSourceConfigsFilterPreviewRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          identifier: S.NullOr(S.String),
+          title: S.NullOr(S.String),
+          url: S.NullOr(S.String),
+          created_at: S.NullOr(S.String),
+          malformed: S.Boolean,
+          field_values: __S(3937, __c123, 1),
+          failed_conditions: S.NullOr(__S(3808, __c119, 0)),
+        }),
+      ).annotate({ identifier: "SourceFilterPreviewRecord" });
+    case 3:
+      return S.Array(__S(3938, __c123, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          error_code: S.NullOr(S.String),
+          error_start: S.NullOr(S.Number),
+          error_end: S.NullOr(S.Number),
+          status: S.String,
+          error: S.NullOr(S.String),
+          catalog_version: S.Number,
+          lookback_days: S.Number,
+          total_count: S.Number,
+          passing_count: S.Number,
+          excluded_count: S.Number,
+          malformed_count: S.Number,
+          passing: __S(3939, __c123, 3),
+          excluded: __S(3939, __c123, 3),
+        }),
+      ).annotate({ identifier: "SourceFilterPreviewResponse" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/trial/", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateSignalsTrialRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          flag_confirmed: S.Boolean,
+          policy_version: S.Number,
+          legacy_pr_restricted: S.Boolean,
+          billing_ready: S.Boolean,
+          eligible: S.Boolean,
+          can_activate: S.Boolean,
+          organization_grants_remaining: S.Number,
+          grant_id: S.NullOr(S.String),
+          grant_status: S.String,
+          exhaustion_reason: S.String,
+          reports_delivered: S.Number,
+          reports_in_progress: S.Number,
+          report_limit: S.Number,
+          allowance_microusd: S.Number,
+          used_microusd: S.Number,
+          new_work_paused: S.Boolean,
+          enabled_scouts: S.Number,
+          scout_limit: S.Number,
+          scouts_to_pause: S.Number,
+          paid_continuation: S.String,
+        }),
+      ).annotate({ identifier: "SelfDrivingTrialStatus" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12479,14 +15881,14 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DismissSignalsScoutSuggestionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           run_id: S.String.pipe(T.Label()),
-          expected_reviewers: S.optional(__S(5024, __c157, 0)),
+          expected_reviewers: S.optional(__S(5792, __c181, 0)),
           reviewer_outcome: S.optional(S.String),
           reviewer_retry_reason: S.optional(S.String),
           reviewer_outcome_reason: S.optional(S.String),
@@ -12495,15 +15897,16 @@ function __c87(j: number): any {
           summary: S.optional(S.NullOr(S.String)),
           append_note: S.optional(S.NullOr(S.String)),
           corroboration_only: S.optional(S.Boolean),
-          append_evidence: S.optional(S.NullOr(__S(1345, __c42, 1))),
-          suggested_reviewers: S.optional(__S(1347, __c42, 3)),
+          append_evidence: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          suggested_reviewers: S.optional(__S(2179, __c68, 3)),
           repository: S.optional(S.NullOr(S.String)),
-          charts: S.optional(S.NullOr(__S(4961, __c155, 1))),
-          metrics: S.optional(S.NullOr(__S(1350, __c42, 6))),
-          suggested_prompts: S.optional(S.NullOr(__S(3072, __c96, 0))),
-          links: S.optional(__S(1352, __c42, 8)),
-          source_issues: S.optional(__S(1354, __c42, 10)),
-          tags: S.optional(S.NullOr(__S(3072, __c96, 0))),
+          charts: S.optional(S.NullOr(__S(5761, __c180, 1))),
+          metrics: S.optional(S.NullOr(__S(2182, __c68, 6))),
+          suggested_prompts: S.optional(S.NullOr(__S(3808, __c119, 0))),
+          links: S.optional(__S(2184, __c68, 8)),
+          source_issues: S.optional(__S(2186, __c68, 10)),
+          pull_requests: S.optional(__S(3808, __c119, 0)),
+          tags: S.optional(S.NullOr(__S(3808, __c119, 0))),
           supersedes_implementation: S.optional(S.Boolean),
           actionability: S.optional(S.NullOr(S.String)),
           actionability_explanation: S.optional(S.NullOr(S.String)),
@@ -12526,16 +15929,17 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "EditReportWarning" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           report_id: S.String,
-          updated_fields: __S(3072, __c96, 0),
+          updated_fields: __S(3808, __c119, 0),
           note_appended: S.Boolean,
           evidence_appended: S.Number,
           links_appended: S.Number,
           source_issues_appended: S.Number,
+          pull_requests_linked: S.Number,
           reviewers_set: S.Boolean,
           repository_set: S.Boolean,
           repository: S.NullOr(S.String),
@@ -12546,14 +15950,15 @@ function __c87(j: number): any {
           is_content_revision: S.Boolean,
           content_revision_count: S.Number,
           supersedes_implementation: S.Boolean,
-          decision_fields_set: __S(3072, __c96, 0),
-          warnings: __S(2786, __c87, 2),
+          decision_fields_set: __S(3808, __c119, 0),
+          warnings: __S(4066, __c127, 2),
+          quality_hints: __S(2188, __c68, 12),
           corroboration_collapsed: S.Boolean,
         }),
       ).annotate({ identifier: "EditReportResponse" });
   }
 }
-function __c88(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12571,7 +15976,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GenerateSignalsScoutRubricRequest" });
   }
 }
-function __c89(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12595,27 +16000,27 @@ function __c89(j: number): any {
           prompt_version: S.Number,
           headline: S.NullOr(S.String),
           recent_shift: S.NullOr(S.String),
-          themes: __S(2945, __c92, 1),
-          modes: __S(2880, __c90, 0),
+          themes: __S(4225, __c132, 1),
+          modes: __S(4160, __c130, 0),
           profile: S.NullOr(S.String),
-          computed: S.NullOr(__S(2921, __c91, 9)),
+          computed: S.NullOr(__S(4200, __c131, 8)),
         }),
       ).annotate({ identifier: "ActivitySummaryVersion" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(4129, __c129, 1));
     case 3:
-      return S.suspend(() => __S(2850, __c89, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4130, __c129, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignalsActivitySummaryVersionResponse",
       });
   }
 }
-function __c90(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c91(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12630,7 +16035,7 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryOwnedObject" });
     case 1:
-      return S.Array(__S(2912, __c91, 0));
+      return S.Array(__S(4192, __c131, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12644,7 +16049,7 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryWatchedObject" });
     case 3:
-      return S.Array(__S(2914, __c91, 2));
+      return S.Array(__S(4194, __c131, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -12655,39 +16060,32 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummaryPageVisits" });
     case 5:
-      return S.Array(__S(2916, __c91, 4));
+      return S.Array(__S(4196, __c131, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          works_in: __S(2880, __c90, 0),
-          visits: __S(2880, __c90, 0),
-        }),
-      ).annotate({ identifier: "ActivitySummaryProductSplit" });
-    case 7:
       return S.suspend(() =>
         S.Struct({
           ref: S.String,
           last_at: S.String,
         }),
       ).annotate({ identifier: "ActivitySummaryLineRef" });
+    case 7:
+      return S.Array(__S(4198, __c131, 6));
     case 8:
-      return S.Array(__S(2919, __c91, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           schema_version: S.Number,
-          owned: __S(2913, __c91, 1),
-          watched: __S(2915, __c91, 3),
-          pages: __S(2917, __c91, 5),
-          products: __S(2918, __c91, 6),
+          owned: __S(4193, __c131, 1),
+          watched: __S(4195, __c131, 3),
+          pages: __S(4197, __c131, 5),
+          products: __S(4226, __c132, 2),
           task_count: S.Number,
-          tasks: __S(2920, __c91, 8),
-          mcp_sessions: __S(2920, __c91, 8),
+          tasks: __S(4199, __c131, 7),
+          mcp_sessions: __S(4199, __c131, 7),
         }),
       ).annotate({ identifier: "ActivitySummaryComputed" });
   }
 }
-function __c92(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12695,15 +16093,22 @@ function __c92(j: number): any {
           label: S.String,
           mode: S.NullOr(S.String),
           strength: S.NullOr(S.String),
-          refs: __S(3072, __c96, 0),
+          refs: __S(3808, __c119, 0),
           last_seen: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ActivitySummaryTheme" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(4224, __c132, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          works_in: __S(4160, __c130, 0),
+          visits: __S(4160, __c130, 0),
+        }),
+      ).annotate({ identifier: "ActivitySummaryProductSplit" });
   }
 }
-function __c93(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12732,11 +16137,11 @@ function __c93(j: number): any {
           score: S.NullOr(S.Number),
           flag: S.NullOr(S.Boolean),
           scored_at: S.NullOr(S.String),
-          details: S.NullOr(__S(2368, __c74, 0)),
+          details: S.NullOr(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "AnomalyBucket" });
     case 2:
-      return S.Array(__S(2977, __c93, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12746,15 +16151,14 @@ function __c93(j: number): any {
           scored_buckets: S.Number,
           flagged_buckets: S.Number,
           anomaly_rate: S.NullOr(S.Number),
-          baseline_rate: S.NullOr(S.Number),
           expected_buckets: S.Number,
           coverage: S.NullOr(S.Number),
           last_flagged_bucket: S.NullOr(S.String),
-          buckets: __S(2978, __c93, 2),
+          buckets: __S(4258, __c133, 2),
         }),
       ).annotate({ identifier: "AnomalyInsightSeries" });
     case 4:
-      return S.Array(__S(2979, __c93, 3));
+      return S.Array(__S(4259, __c133, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12773,310 +16177,14 @@ function __c93(j: number): any {
           anomaly_rate: S.NullOr(S.Number),
           date_from: S.String,
           date_to: S.String,
-          series: __S(2980, __c93, 4),
+          series: __S(4260, __c133, 4),
           truncated: S.Boolean,
           message: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AnomalyInsightResponse" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          comparison_id: S.String,
-          archived: S.Boolean,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/trial_comparison_archive/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ArchiveSignalsScoutConfigTrialComparisonRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          label: S.String,
-          launch_ids: __S(3072, __c96, 0),
-        }),
-      ).annotate({ identifier: "ScoutTrialEvaluationVariant" });
-    case 1:
-      return S.Array(__S(3040, __c95, 0));
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          label: S.String,
-          launch_ids: __S(3072, __c96, 0),
-          model: S.String,
-          reasoning_effort: S.String,
-          skill_body_sha256: S.String,
-        }),
-      ).annotate({ identifier: "ScoutTrialComparisonVariant" });
-    case 1:
-      return S.Array(__S(3104, __c97, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          comparison_id: S.String,
-          config_id: S.String,
-          context_id: S.String,
-          created_at: S.String,
-          baseline_variant_id: S.String,
-          rubric_revision: S.Number,
-          variants: __S(3105, __c97, 1),
-          status: S.String,
-          archived: S.Boolean,
-          error: S.NullOr(S.String),
-          evaluation: S.NullOr(__S(3158, __c98, 22)),
-        }),
-      ).annotate({ identifier: "ScoutTrialComparison" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          evaluation_id: S.String,
-          baseline_variant_id: S.String,
-          variants: __S(3041, __c95, 1),
-          rubric_source: S.String,
-        }),
-      ).annotate({ identifier: "ScoutTrialEvaluationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          variant_ids: S.optional(__S(3072, __c96, 0)),
-          summary: S.String,
-        }),
-      ).annotate({ identifier: "TrialComparisonOutcome" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          schema_version: S.optional(S.Number),
-          skill_id: S.String,
-          skill_name: S.String,
-          skill_version: S.Number,
-          description: S.String,
-          instructions: S.String,
-          instructions_truncated: S.Boolean,
-          report_channel: S.String,
-          report_disposition_instructions: S.String,
-          reference_files: __S(3072, __c96, 0),
-          reference_files_truncated: S.Boolean,
-          reference_texts: __S(3169, __c99, 1),
-          reference_limits: __S(3170, __c99, 2),
-        }),
-      ).annotate({ identifier: "ScoutRubricReferenceContext" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          title: S.String,
-          description: S.String,
-          pass_condition: S.String,
-          applicability: S.String,
-        }),
-      ).annotate({ identifier: "TrialEvaluationCriterion" });
-    case 4:
-      return S.Array(__S(3139, __c98, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          criterion_id: S.String,
-          passed: S.Number,
-          failed: S.Number,
-          unknown: S.Number,
-          not_applicable: S.Number,
-          pass_rate: S.NullOr(S.Number),
-          coverage: S.NullOr(S.Number),
-          baseline_delta: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "TrialCriterionAggregate" });
-    case 6:
-      return S.Array(__S(3141, __c98, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          variant_id: S.String,
-          label: S.String,
-          is_baseline: S.Boolean,
-          total_runs: S.Number,
-          judged_runs: S.Number,
-          excluded_runs: S.Number,
-          judge_errors: S.Number,
-          score: S.NullOr(S.Number),
-          coverage: S.NullOr(S.Number),
-          baseline_delta: S.optional(S.NullOr(S.Number)),
-          criteria: __S(3142, __c98, 6),
-        }),
-      ).annotate({ identifier: "TrialVariantAggregate" });
-    case 8:
-      return S.Array(__S(3143, __c98, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          source_id: S.String,
-          quote: S.String,
-        }),
-      ).annotate({ identifier: "TrialCriterionEvidence" });
-    case 10:
-      return S.Array(__S(3145, __c98, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          criterion_id: S.String,
-          verdict: S.String,
-          reason: S.String,
-          confidence: S.String,
-          evidence: __S(3146, __c98, 10),
-        }),
-      ).annotate({ identifier: "TrialCriterionVerdict" });
-    case 12:
-      return S.Array(__S(3147, __c98, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          launch_id: S.String,
-          variant_id: S.String,
-          status: S.String,
-          score: S.optional(S.NullOr(S.Number)),
-          coverage: S.optional(S.NullOr(S.Number)),
-          summary: S.String,
-          criteria: S.optional(__S(3148, __c98, 12)),
-          error: S.optional(S.NullOr(S.String)),
-          input_tokens: S.optional(S.NullOr(S.Number)),
-          output_tokens: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "TrialRunJudgment" });
-    case 14:
-      return S.Array(__S(3149, __c98, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          kind: S.String,
-          filename: S.String,
-          sha256: S.String,
-          size_bytes: S.Number,
-        }),
-      ).annotate({ identifier: "TrialEvidenceFile" });
-    case 16:
-      return S.Array(__S(3151, __c98, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          kind: S.String,
-          text: S.String,
-        }),
-      ).annotate({ identifier: "TrialEvidenceSource" });
-    case 18:
-      return S.Array(__S(3153, __c98, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          launch_id: S.String,
-          variant_id: S.String,
-          run_id: S.NullOr(S.String),
-          task_id: S.NullOr(S.String),
-          task_run_id: S.NullOr(S.String),
-          execution_status: S.String,
-          exclusion_reason: S.optional(S.NullOr(S.String)),
-          model: S.String,
-          runtime_adapter: S.String,
-          service_tier: S.optional(S.NullOr(S.String)),
-          reasoning_effort: S.String,
-          skill_body_sha256: S.String,
-          input_tokens: S.optional(S.NullOr(S.Number)),
-          output_tokens: S.optional(S.NullOr(S.Number)),
-          files: S.optional(__S(3152, __c98, 16)),
-          sources: S.optional(__S(3154, __c98, 18)),
-          limitations: S.optional(__S(3072, __c96, 0)),
-        }),
-      ).annotate({ identifier: "TrialRunEvidence" });
-    case 20:
-      return S.Array(__S(3155, __c98, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.Number),
-          evaluation_id: S.String,
-          context_id: S.String,
-          created_at: S.String,
-          completed_at: S.String,
-          summary: S.String,
-          outcome: S.optional(S.NullOr(__S(3137, __c98, 1))),
-          rubric_source: S.String,
-          rubric_revision: S.Number,
-          rubric_reference_context: S.optional(S.NullOr(__S(3138, __c98, 2))),
-          rubric_reference_generation_id: S.optional(S.NullOr(S.String)),
-          criteria: __S(3140, __c98, 4),
-          baseline_variant_id: S.String,
-          judge_model: S.String,
-          judge_prompt_version: S.String,
-          variants: __S(3144, __c98, 8),
-          runs: __S(3150, __c98, 14),
-          evidence: __S(3156, __c98, 20),
-          limitations: __S(3072, __c96, 0),
-        }),
-      ).annotate({ identifier: "TrialComparisonReport" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          request: __S(3136, __c98, 0),
-          evaluation_id: S.String,
-          context_id: S.String,
-          status: S.String,
-          error: S.NullOr(S.String),
-          report: S.NullOr(__S(3157, __c98, 21)),
-        }),
-      ).annotate({ identifier: "ScoutTrialEvaluation" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          content_type: S.String,
-          content: S.String,
-        }),
-      ).annotate({ identifier: "ScoutRubricReferenceText" });
-    case 1:
-      return S.Array(__S(3168, __c99, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          omitted_files: S.Number,
-          truncated_files: __S(3072, __c96, 0),
-        }),
-      ).annotate({ identifier: "ScoutRubricReferenceLimits" });
-  }
-}
-function __c100(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13093,7 +16201,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "GetSignalsReportRequest" });
   }
 }
-function __c101(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13111,7 +16219,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetSignalsReportArtefactRequest" });
   }
 }
-function __c102(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13125,13 +16233,13 @@ function __c102(j: number): any {
           updated_at: S.NullOr(S.String),
           actor_kind: S.String,
           actor_agent: S.NullOr(S.String),
-          created_by: S.NullOr(__S(5056, __c158, 0)),
+          created_by: S.NullOr(__S(5824, __c182, 0)),
           task_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportArtefact" });
   }
 }
-function __c103(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13149,7 +16257,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetSignalsReportCheckRequest" });
   }
 }
-function __c104(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13170,7 +16278,7 @@ function __c104(j: number): any {
           kind: S.String,
           status: S.String,
           config: S.Unknown,
-          monitoring_timing: S.optional(S.NullOr(__S(3328, __c104, 0))),
+          monitoring_timing: S.optional(S.NullOr(__S(4416, __c138, 0))),
           approved_at: S.NullOr(S.String),
           next_run_at: S.String,
           soak_minutes: S.NullOr(S.Number),
@@ -13188,7 +16296,44 @@ function __c104(j: number): any {
       ).annotate({ identifier: "SignalReportCheck" });
   }
 }
-function __c105(j: number): any {
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          ids: __S(3808, __c119, 0),
+          takeover_agent_claims: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/reports/bulk_claim/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BulkSignalsReportClaimRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          outcome: S.String,
+          detail: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SignalReportBulkClaimResult" });
+    case 2:
+      return S.Array(__S(4449, __c139, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(4450, __c139, 2),
+          claimed_count: S.Number,
+          conflict_count: S.Number,
+          not_found_count: S.Number,
+        }),
+      ).annotate({ identifier: "SignalReportBulkClaimResponse" });
+  }
+}
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13211,14 +16356,14 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "GetSignalsReportsAvailableReviewerResponseBodyValue" });
     case 2:
-      return S.Record(S.String, __S(3361, __c105, 1));
+      return S.Record(S.String, __S(4481, __c140, 1));
     case 3:
-      return S.suspend(() => __S(3362, __c105, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4482, __c140, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignalsReportsAvailableReviewerResponse",
       });
   }
 }
-function __c106(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13242,7 +16387,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "SignalReportFeedbackState" });
   }
 }
-function __c107(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13265,7 +16410,7 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           theme: S.NullOr(S.String),
-          needs_you: __S(2880, __c90, 0),
+          needs_you: __S(4160, __c130, 0),
         }),
       ).annotate({ identifier: "PersonalRankingMatched" });
     case 2:
@@ -13276,7 +16421,7 @@ function __c107(j: number): any {
           status: S.String,
           priority: S.NullOr(S.String),
           implementation_pr_state: S.NullOr(S.String),
-          ranking: __S(5090, __c159, 2),
+          ranking: __S(5858, __c183, 2),
         }),
       ).annotate({ identifier: "PersonalRankingReport" });
     case 3:
@@ -13286,13 +16431,13 @@ function __c107(j: number): any {
           tier: S.String,
           reason: S.String,
           next_step: S.NullOr(S.String),
-          matched: __S(3425, __c107, 1),
+          matched: __S(4545, __c142, 1),
           ranked_by: S.String,
-          report: __S(3426, __c107, 2),
+          report: __S(4546, __c142, 2),
         }),
       ).annotate({ identifier: "PersonalRankingEntry" });
     case 4:
-      return S.Array(__S(3427, __c107, 3));
+      return S.Array(__S(4547, __c142, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13302,7 +16447,7 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "PersonalRankingFold" });
     case 6:
-      return S.Array(__S(3429, __c107, 5));
+      return S.Array(__S(4549, __c142, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13318,13 +16463,13 @@ function __c107(j: number): any {
           activity_summary_version: S.NullOr(S.Number),
           candidates_considered: S.Number,
           ranked_count: S.Number,
-          results: __S(3428, __c107, 4),
-          folded: __S(3430, __c107, 6),
+          results: __S(4548, __c142, 4),
+          folded: __S(4550, __c142, 6),
         }),
       ).annotate({ identifier: "PersonalRanking" });
   }
 }
-function __c108(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13349,7 +16494,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "SignalReportRefundSummaryResponse" });
   }
 }
-function __c109(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13359,10 +16504,13 @@ function __c109(j: number): any {
           already_addressed: S.optional(S.Boolean.pipe(T.Query())),
           assignee: S.optional(S.String.pipe(T.Query())),
           channel_id: S.optional(S.String.pipe(T.Query())),
+          connected: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
-          exclude: S.optional(__S(3072, __c96, 0).pipe(T.Query())),
+          exclude: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
           include_unlisted: S.optional(S.Boolean.pipe(T.Query())),
+          needs_you: S.optional(S.Boolean.pipe(T.Query())),
+          pr_targets: S.optional(S.Boolean.pipe(T.Query())),
           priority: S.optional(S.String.pipe(T.Query())),
           ranking_min_lift: S.optional(S.String.pipe(T.Query())),
           ranking_min_probability: S.optional(S.String.pipe(T.Query())),
@@ -13373,6 +16521,7 @@ function __c109(j: number): any {
           source_id: S.optional(S.String.pipe(T.Query())),
           source_product: S.optional(S.String.pipe(T.Query())),
           suggested_reviewers: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
           task_id: S.optional(S.String.pipe(T.Query())),
           teammate_uuid: S.optional(S.String.pipe(T.Query())),
           unclaimed: S.optional(S.Boolean.pipe(T.Query())),
@@ -13395,7 +16544,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "SignalReportSectionCounts" });
   }
 }
-function __c110(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13414,7 +16563,7 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total_spend: S.NullOr(S.Number),
-          spend_accounting_failed_stages: __S(3072, __c96, 0),
+          spend_accounting_failed_stages: __S(3808, __c119, 0),
           signal_id: S.String,
           content: S.String,
           source_product: S.String,
@@ -13427,17 +16576,39 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "SignalNode" });
     case 2:
-      return S.Array(__S(3521, __c110, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          report: __S(5122, __c160, 2),
-          signals: __S(3522, __c110, 2),
+          report: __S(5890, __c184, 2),
+          signals: __S(4642, __c145, 2),
         }),
       ).annotate({ identifier: "ReportSignalsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/tag_options/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSignalsReportsTagOptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          tags: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "SignalReportTagOptions" });
+  }
+}
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13454,44 +16625,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetSignalsReviewerExclusionRequest" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          ids: __S(3072, __c96, 0),
-          takeover_agent_claims: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/bulk_claim/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "BulkSignalsReportClaimRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          outcome: S.String,
-          detail: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SignalReportBulkClaimResult" });
-    case 2:
-      return S.Array(__S(3585, __c112, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(3586, __c112, 2),
-          claimed_count: S.Number,
-          conflict_count: S.Number,
-          not_found_count: S.Number,
-        }),
-      ).annotate({ identifier: "SignalReportBulkClaimResponse" });
-  }
-}
-function __c113(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13509,7 +16643,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutConfigTrialComparisonRequest" });
   }
 }
-function __c114(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13527,7 +16661,46 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutConfigTrialEvaluationRequest" });
   }
 }
-function __c115(j: number): any {
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_id: S.String.pipe(T.Label()),
+          check_id: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/report-check-cancel/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelSignalsScoutReportCheckRequest" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          check_id: S.String,
+          report_id: S.String,
+          title: S.String,
+          kind: S.String,
+          status: S.String,
+          next_run_at: S.String,
+          last_outcome: S.NullOr(S.String),
+          last_outcome_reason: S.NullOr(S.String),
+          run_state: S.String,
+          waiting_on_run: S.Boolean,
+          dispatched_run_id: S.NullOr(S.String),
+          dispatched_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ScoutCheckSummary" });
+  }
+}
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13556,12 +16729,12 @@ function __c115(j: number): any {
         S.Struct({
           enrolled: S.Boolean,
           banner_message: S.NullOr(S.String),
-          limits: __S(3681, __c115, 1),
+          limits: __S(4865, __c152, 1),
         }),
       ).annotate({ identifier: "ScoutMetadata" });
   }
 }
-function __c116(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13597,26 +16770,26 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "InboxReportStatusBucket" });
     case 3:
-      return S.Array(__S(3714, __c116, 2));
+      return S.Array(__S(4898, __c153, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
-          by_status: __S(3715, __c116, 3),
+          by_status: __S(4899, __c153, 3),
         }),
       ).annotate({ identifier: "ExistingInboxReports" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          emit_eligibility: S.NullOr(__S(3713, __c116, 1)),
-          existing_inbox_reports: S.NullOr(__S(3716, __c116, 4)),
+          emit_eligibility: S.NullOr(__S(4897, __c153, 1)),
+          existing_inbox_reports: S.NullOr(__S(4900, __c153, 4)),
         }),
       ).annotate({ identifier: "ProjectProfileSummary" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           product_description: S.NullOr(S.String),
-          app_urls: __S(3072, __c96, 0),
+          app_urls: __S(3808, __c119, 0),
         }),
       ).annotate({ identifier: "ProjectContext" });
     case 7:
@@ -13628,7 +16801,7 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "ProductIntentEntry" });
     case 8:
-      return S.Array(__S(3719, __c116, 7));
+      return S.Array(__S(4903, __c153, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -13637,7 +16810,7 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationEntry" });
     case 10:
-      return S.Array(__S(3721, __c116, 9));
+      return S.Array(__S(4905, __c153, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -13650,7 +16823,7 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "ExternalDataSourceEntry" });
     case 12:
-      return S.Array(__S(3723, __c116, 11));
+      return S.Array(__S(4907, __c153, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -13659,12 +16832,12 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "SignalSourceConfigEntry" });
     case 14:
-      return S.Array(__S(3725, __c116, 13));
+      return S.Array(__S(4909, __c153, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          enabled: __S(3726, __c116, 14),
-          disabled: __S(3726, __c116, 14),
+          enabled: __S(4910, __c153, 14),
+          disabled: __S(4910, __c153, 14),
         }),
       ).annotate({ identifier: "SignalSourceConfigsBuckets" });
     case 16:
@@ -13681,12 +16854,12 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "ScoutFleetEntry" });
     case 17:
-      return S.Array(__S(3728, __c116, 16));
+      return S.Array(__S(4912, __c153, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          enabled: __S(3729, __c116, 17),
-          disabled: __S(3729, __c116, 17),
+          enabled: __S(4913, __c153, 17),
+          disabled: __S(4913, __c153, 17),
           emitted_lookback_days: S.Number,
         }),
       ).annotate({ identifier: "ScoutFleet" });
@@ -13700,12 +16873,12 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "ScopeActivityEntry" });
     case 20:
-      return S.Array(__S(3731, __c116, 19));
+      return S.Array(__S(4915, __c153, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
-          by_scope: __S(3732, __c116, 20),
+          by_scope: __S(4916, __c153, 20),
         }),
       ).annotate({ identifier: "RecentActivity" });
     case 22:
@@ -13713,20 +16886,20 @@ function __c116(j: number): any {
         S.Struct({
           report_id: S.String,
           report_title: S.NullOr(S.String),
-          before: __S(3072, __c96, 0),
-          after: __S(3072, __c96, 0),
+          before: __S(3808, __c119, 0),
+          after: __S(3808, __c119, 0),
           removal_reason: S.optional(S.NullOr(S.String)),
-          removal_reason_reviewers: S.optional(__S(3072, __c96, 0)),
+          removal_reason_reviewers: S.optional(__S(3808, __c119, 0)),
           at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReviewerCorrectionEntry" });
     case 23:
-      return S.Array(__S(3734, __c116, 22));
+      return S.Array(__S(4918, __c153, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
           window_days: S.Number,
-          corrections: __S(3735, __c116, 23),
+          corrections: __S(4919, __c153, 23),
         }),
       ).annotate({ identifier: "RecentReviewerCorrections" });
     case 25:
@@ -13740,7 +16913,7 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "RecentDashboardEntry" });
     case 26:
-      return S.Array(__S(3737, __c116, 25));
+      return S.Array(__S(4921, __c153, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
@@ -13752,13 +16925,13 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "RecentSurveyEntry" });
     case 28:
-      return S.Array(__S(3739, __c116, 27));
+      return S.Array(__S(4923, __c153, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(3740, __c116, 28),
+          recent: __S(4924, __c153, 28),
         }),
       ).annotate({ identifier: "RecentSurveys" });
     case 30:
@@ -13772,17 +16945,17 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "RecentFeatureFlagEntry" });
     case 31:
-      return S.Array(__S(3742, __c116, 30));
+      return S.Array(__S(4926, __c153, 30));
   }
 }
-function __c117(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(3743, __c116, 31),
+          recent: __S(4927, __c153, 31),
         }),
       ).annotate({ identifier: "RecentFeatureFlags" });
     case 1:
@@ -13796,13 +16969,13 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentExperimentEntry" });
     case 2:
-      return S.Array(__S(3745, __c117, 1));
+      return S.Array(__S(4929, __c154, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           running_count: S.Number,
-          recent: __S(3746, __c117, 2),
+          recent: __S(4930, __c154, 2),
         }),
       ).annotate({ identifier: "RecentExperiments" });
     case 4:
@@ -13818,13 +16991,13 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentAlertEntry" });
     case 5:
-      return S.Array(__S(3748, __c117, 4));
+      return S.Array(__S(4932, __c154, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           enabled_count: S.Number,
-          recent: __S(3749, __c117, 5),
+          recent: __S(4933, __c154, 5),
         }),
       ).annotate({ identifier: "RecentAlerts" });
     case 7:
@@ -13839,13 +17012,13 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentHogFunctionEntry" });
     case 8:
-      return S.Array(__S(3751, __c117, 7));
+      return S.Array(__S(4935, __c154, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           enabled_count: S.Number,
-          recent: __S(3752, __c117, 8),
+          recent: __S(4936, __c154, 8),
         }),
       ).annotate({ identifier: "RecentHogFunctions" });
     case 10:
@@ -13858,13 +17031,13 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentHogFlowEntry" });
     case 11:
-      return S.Array(__S(3754, __c117, 10));
+      return S.Array(__S(4938, __c154, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
           active_count: S.Number,
-          recent: __S(3755, __c117, 11),
+          recent: __S(4939, __c154, 11),
         }),
       ).annotate({ identifier: "RecentHogFlows" });
     case 13:
@@ -13876,12 +17049,12 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentNotebookEntry" });
     case 14:
-      return S.Array(__S(3757, __c117, 13));
+      return S.Array(__S(4941, __c154, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(3758, __c117, 14),
+          recent: __S(4942, __c154, 14),
         }),
       ).annotate({ identifier: "RecentNotebooks" });
     case 16:
@@ -13895,12 +17068,12 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentCohortEntry" });
     case 17:
-      return S.Array(__S(3760, __c117, 16));
+      return S.Array(__S(4944, __c154, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(3761, __c117, 17),
+          recent: __S(4945, __c154, 17),
         }),
       ).annotate({ identifier: "RecentCohorts" });
     case 19:
@@ -13912,12 +17085,12 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "RecentActionEntry" });
     case 20:
-      return S.Array(__S(3763, __c117, 19));
+      return S.Array(__S(4947, __c154, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           total_count: S.Number,
-          recent: __S(3764, __c117, 20),
+          recent: __S(4948, __c154, 20),
         }),
       ).annotate({ identifier: "RecentActions" });
     case 22:
@@ -13934,55 +17107,55 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "TopEventEntry" });
     case 23:
-      return S.Array(__S(3766, __c117, 22));
+      return S.Array(__S(4950, __c154, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          project_context: __S(3718, __c116, 6),
-          products_in_use: __S(3072, __c96, 0),
-          product_intents: __S(3720, __c116, 8),
-          integrations: __S(3722, __c116, 10),
-          external_data_sources: __S(3724, __c116, 12),
-          signal_source_configs: __S(3727, __c116, 15),
-          emit_eligibility: __S(3713, __c116, 1),
-          scout_fleet: __S(3730, __c116, 18),
-          existing_inbox_reports: __S(3716, __c116, 4),
-          recent_activity: __S(3733, __c116, 21),
-          recent_reviewer_corrections: __S(3736, __c116, 24),
-          recent_dashboards: __S(3738, __c116, 26),
-          recent_surveys: __S(3741, __c116, 29),
-          recent_feature_flags: __S(3744, __c117, 0),
-          recent_experiments: __S(3747, __c117, 3),
-          recent_alerts: __S(3750, __c117, 6),
-          recent_hog_functions: __S(3753, __c117, 9),
-          recent_hog_flows: __S(3756, __c117, 12),
-          recent_notebooks: __S(3759, __c117, 15),
-          recent_cohorts: __S(3762, __c117, 18),
-          recent_actions: __S(3765, __c117, 21),
-          top_events: S.NullOr(__S(3767, __c117, 23)),
+          project_context: __S(4902, __c153, 6),
+          products_in_use: __S(3808, __c119, 0),
+          product_intents: __S(4904, __c153, 8),
+          integrations: __S(4906, __c153, 10),
+          external_data_sources: __S(4908, __c153, 12),
+          signal_source_configs: __S(4911, __c153, 15),
+          emit_eligibility: __S(4897, __c153, 1),
+          scout_fleet: __S(4914, __c153, 18),
+          existing_inbox_reports: __S(4900, __c153, 4),
+          recent_activity: __S(4917, __c153, 21),
+          recent_reviewer_corrections: __S(4920, __c153, 24),
+          recent_dashboards: __S(4922, __c153, 26),
+          recent_surveys: __S(4925, __c153, 29),
+          recent_feature_flags: __S(4928, __c154, 0),
+          recent_experiments: __S(4931, __c154, 3),
+          recent_alerts: __S(4934, __c154, 6),
+          recent_hog_functions: __S(4937, __c154, 9),
+          recent_hog_flows: __S(4940, __c154, 12),
+          recent_notebooks: __S(4943, __c154, 15),
+          recent_cohorts: __S(4946, __c154, 18),
+          recent_actions: __S(4949, __c154, 21),
+          top_events: S.NullOr(__S(4951, __c154, 23)),
         }),
       ).annotate({ identifier: "ProjectProfileInventory" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          inventory: __S(3768, __c117, 24),
+          inventory: __S(4952, __c154, 24),
         }),
       ).annotate({ identifier: "ProjectProfilePayload" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(3717, __c116, 5),
+          summary: __S(4901, __c153, 5),
           profile_id: S.String,
           computed_at: S.String,
           expires_at: S.String,
           stale: S.Boolean,
           source_version: S.String,
-          payload: S.optional(__S(3769, __c117, 25)),
+          payload: S.optional(__S(4953, __c154, 25)),
         }),
       ).annotate({ identifier: "ProjectProfile" });
   }
 }
-function __c118(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13999,7 +17172,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutRubricRequest" });
   }
 }
-function __c119(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14014,7 +17187,7 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "ScoutRubricCriterion" });
     case 1:
-      return S.Array(__S(3808, __c119, 0));
+      return S.Array(__S(4992, __c156, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14027,10 +17200,10 @@ function __c119(j: number): any {
           instructions_truncated: S.Boolean,
           report_channel: S.String,
           report_disposition_instructions: S.String,
-          reference_files: __S(3072, __c96, 0),
+          reference_files: __S(3808, __c119, 0),
           reference_files_truncated: S.Boolean,
-          reference_texts: __S(3169, __c99, 1),
-          reference_limits: __S(3170, __c99, 2),
+          reference_texts: __S(3905, __c122, 1),
+          reference_limits: __S(3906, __c122, 2),
         }),
       ).annotate({ identifier: "ScoutRubricReferenceContextDocument" });
     case 3:
@@ -14044,9 +17217,9 @@ function __c119(j: number): any {
           task_id: S.NullOr(S.String),
           task_run_id: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          suggestions: __S(3809, __c119, 1),
+          suggestions: __S(4993, __c156, 1),
           summary: S.String,
-          reference_context: S.NullOr(__S(3810, __c119, 2)),
+          reference_context: S.NullOr(__S(4994, __c156, 2)),
         }),
       ).annotate({ identifier: "ScoutRubricGeneration" });
     case 4:
@@ -14055,15 +17228,15 @@ function __c119(j: number): any {
           config_id: S.String,
           skill_name: S.String,
           revision: S.Number,
-          criteria: __S(3809, __c119, 1),
-          generation: S.NullOr(__S(3811, __c119, 3)),
-          reference_context: S.NullOr(__S(3810, __c119, 2)),
+          criteria: __S(4993, __c156, 1),
+          generation: S.NullOr(__S(4995, __c156, 3)),
+          reference_context: S.NullOr(__S(4994, __c156, 2)),
           reference_generation_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ScoutRubricDocument" });
   }
 }
-function __c120(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14080,9 +17253,19 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetSignalsScoutRunRequest" });
   }
 }
-function __c121(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          at: S.optional(S.String),
+          report_id: S.optional(S.String),
+          action: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SignalScoutRunDetailMetadataReportActionStartsItem" });
+    case 1:
+      return S.Array(__S(5056, __c158, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           has_emit_report: S.Boolean,
@@ -14094,7 +17277,7 @@ function __c121(j: number): any {
           has_not_in_use_closeout: S.Boolean,
         }),
       ).annotate({ identifier: "SignalScoutRunDetailMetadataDerived" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -14108,15 +17291,17 @@ function __c121(j: number): any {
             reasoning_effort: S.optional(S.String),
             service_tier: S.optional(S.String),
             network_access: S.optional(S.String),
-            write_scopes: S.optional(__S(3072, __c96, 0)),
+            write_scopes: S.optional(__S(3808, __c119, 0)),
+            report_actions: S.optional(__S(3808, __c119, 0)),
+            report_action_starts: S.optional(__S(5057, __c158, 1)),
             triggered_by: S.optional(S.String),
             run_note: S.optional(S.String),
-            derived: S.optional(__S(3872, __c121, 0)),
+            derived: S.optional(__S(5058, __c158, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "SignalScoutRunDetailMetadata" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           total_spend: S.NullOr(S.Number),
@@ -14134,15 +17319,56 @@ function __c121(j: number): any {
           error: S.optional(S.NullOr(S.String)),
           failure_reason: S.optional(S.NullOr(S.String)),
           emitted_count: S.Number,
-          emitted_finding_ids: __S(3072, __c96, 0),
-          emitted_report_ids: __S(3072, __c96, 0),
-          edited_report_ids: __S(3072, __c96, 0),
-          metadata: __S(3873, __c121, 1),
+          emitted_finding_ids: __S(3808, __c119, 0),
+          emitted_report_ids: __S(3808, __c119, 0),
+          edited_report_ids: __S(3808, __c119, 0),
+          metadata: __S(5059, __c158, 3),
         }),
       ).annotate({ identifier: "SignalScoutRunDetail" });
   }
 }
-function __c122(j: number): any {
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/slack_channel_scouts/channels/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSignalsSlackChannelScoutsChannelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          table_name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "SlackScoutChannel" });
+    case 2:
+      return S.Array(__S(5089, __c159, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          channels: __S(5090, __c159, 2),
+        }),
+      ).annotate({ identifier: "SlackScoutChannelSource" });
+    case 4:
+      return S.Array(__S(5091, __c159, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          sources: __S(5092, __c159, 4),
+        }),
+      ).annotate({ identifier: "SlackScoutChannelSources" });
+  }
+}
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14159,7 +17385,51 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetSignalsSourceConfigRequest" });
   }
 }
-function __c123(j: number): any {
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/source_configs/filter_catalogs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSignalsSourceConfigsFilterCatalogRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+          description: S.String,
+        }),
+      ).annotate({ identifier: "SourceFilterCatalogField" });
+    case 2:
+      return S.Array(__S(5153, __c161, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          source_product: S.String,
+          source_type: S.String,
+          catalog_version: S.Number,
+          filter_fields: __S(5154, __c161, 2),
+          starter_expressions: __S(3808, __c119, 0),
+        }),
+      ).annotate({ identifier: "SourceFilterCatalog" });
+    case 4:
+      return S.Array(__S(5155, __c161, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(5156, __c161, 4),
+        }),
+      ).annotate({ identifier: "SourceFilterCatalogList" });
+  }
+}
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14179,10 +17449,10 @@ function __c123(j: number): any {
           status: S.String,
           headline: S.NullOr(S.String),
           profile: S.NullOr(S.String),
-          themes: __S(2945, __c92, 1),
-          modes: __S(2880, __c90, 0),
+          themes: __S(4225, __c132, 1),
+          modes: __S(4160, __c130, 0),
           recent_shift: S.NullOr(S.String),
-          computed: S.NullOr(__S(2921, __c91, 9)),
+          computed: S.NullOr(__S(4200, __c131, 8)),
           generated_at: S.NullOr(S.String),
           version: S.Number,
           prompt_version: S.NullOr(S.Number),
@@ -14191,7 +17461,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ActivitySummary" });
   }
 }
-function __c124(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14203,7 +17473,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListSignalsConfigRequest" });
   }
 }
-function __c125(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14212,529 +17482,23 @@ function __c125(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/signals/inbox_summary/",
+            uri: "/api/projects/{project_id}/signals/inbox_status/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListSignalsInboxSummaryRequest" });
+      ).annotate({ identifier: "ListSignalsInboxStatusRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repository: S.String,
-          number: S.Number,
-          url: S.String,
+          setup_state: S.String,
+          has_report_history: S.Boolean,
+          first_report_status: S.NullOr(S.String),
+          can_configure: S.Boolean,
         }),
-      ).annotate({ identifier: "InboxSummaryPullRequest" });
-    case 2:
-      return S.Array(__S(4001, __c125, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          login: S.String,
-        }),
-      ).annotate({ identifier: "InboxSummaryPerson" });
-    case 4:
-      return S.Array(__S(4003, __c125, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          period_start: S.String,
-          period_end: S.String,
-          merged_pr_count: S.Number,
-          people_count: S.NullOr(S.Number),
-          participation_complete: S.Boolean,
-          pull_requests: __S(4002, __c125, 2),
-          people: S.NullOr(__S(4004, __c125, 4)),
-        }),
-      ).annotate({ identifier: "InboxSummary" });
+      ).annotate({ identifier: "InboxStatus" });
   }
 }
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          run_id: S.String.pipe(T.Label()),
-          check_id: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/report-check-cancel/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelSignalsScoutReportCheckRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          check_id: S.String,
-          report_id: S.String,
-          title: S.String,
-          kind: S.String,
-          status: S.String,
-          next_run_at: S.String,
-          last_outcome: S.NullOr(S.String),
-          last_outcome_reason: S.NullOr(S.String),
-          run_state: S.String,
-          waiting_on_run: S.Boolean,
-          dispatched_run_id: S.NullOr(S.String),
-          dispatched_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ScoutCheckSummary" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/onboarding/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsOnboardingRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/processing/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsProcessingRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          paused_until: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "PauseStateResponse" });
-    case 2:
-      return S.Array(__S(4129, __c129, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(4130, __c129, 2)),
-        }),
-      ).annotate({ identifier: "PaginatedPauseStateResponseList" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsReportArtefactsRequest" });
-    case 1:
-      return S.Array(__S(3264, __c102, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(4161, __c130, 1),
-        }),
-      ).annotate({ identifier: "PaginatedSignalReportArtefactList" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsReportChecksRequest" });
-    case 1:
-      return S.Array(__S(3329, __c104, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(4193, __c131, 1),
-        }),
-      ).annotate({ identifier: "PaginatedSignalReportCheckList" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          actionability: S.optional(S.String.pipe(T.Query())),
-          already_addressed: S.optional(S.Boolean.pipe(T.Query())),
-          assignee: S.optional(S.String.pipe(T.Query())),
-          channel_id: S.optional(S.String.pipe(T.Query())),
-          count_only: S.optional(S.Boolean.pipe(T.Query())),
-          created_after: S.optional(S.String.pipe(T.Query())),
-          created_before: S.optional(S.String.pipe(T.Query())),
-          exclude: S.optional(__S(3072, __c96, 0).pipe(T.Query())),
-          has_implementation_pr: S.optional(S.Boolean.pipe(T.Query())),
-          include_all_statuses: S.optional(S.Boolean.pipe(T.Query())),
-          include_source_metadata: S.optional(S.Boolean.pipe(T.Query())),
-          include_unlisted: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          ordering: S.optional(S.String.pipe(T.Query())),
-          priority: S.optional(S.String.pipe(T.Query())),
-          ranking_id: S.optional(S.String.pipe(T.Query())),
-          ranking_min_lift: S.optional(S.String.pipe(T.Query())),
-          ranking_min_probability: S.optional(S.String.pipe(T.Query())),
-          scope: S.optional(S.String.pipe(T.Query())),
-          scout: S.optional(S.String.pipe(T.Query())),
-          scout_prefix: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-          source_id: S.optional(S.String.pipe(T.Query())),
-          source_product: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          suggested_reviewers: S.optional(S.String.pipe(T.Query())),
-          task_id: S.optional(S.String.pipe(T.Query())),
-          teammate_uuid: S.optional(S.String.pipe(T.Query())),
-          unclaimed: S.optional(S.Boolean.pipe(T.Query())),
-          unread: S.optional(S.Boolean.pipe(T.Query())),
-          use_priority_preference: S.optional(S.Boolean.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/signals/reports/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListSignalsReportsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          title: S.NullOr(S.String),
-          summary: S.NullOr(S.String),
-          summary_lead: S.String,
-          reviewer_assignment: S.NullOr(__S(5152, __c161, 0)),
-          status: S.String,
-          monitoring_started_at: S.optional(S.NullOr(S.String)),
-          total_weight: S.Number,
-          signal_count: S.Number,
-          signals_at_run: S.Number,
-          collapsed_note_count: S.Number,
-          startup_failure: S.NullOr(__S(5153, __c161, 1)),
-          created_at: S.String,
-          updated_at: S.String,
-          artefact_count: S.Number,
-          charts: __S(4961, __c155, 1),
-          metrics: __S(4257, __c133, 1),
-          suggested_prompts: __S(3072, __c96, 0),
-          tags: __S(3072, __c96, 0),
-          source_suggestion: S.NullOr(__S(5154, __c161, 2)),
-          priority: S.NullOr(S.String),
-          actionability: S.NullOr(S.String),
-          already_addressed: S.NullOr(S.Boolean),
-          dismissal_reason: S.NullOr(S.String),
-          dismissal_note: S.NullOr(S.String),
-          suppression_source: S.NullOr(S.String),
-          suppression_explanation: S.NullOr(S.String),
-          repo_slug: S.NullOr(S.String),
-          is_self_improvement_report: S.Boolean,
-          research_context: S.NullOr(__S(5155, __c161, 3)),
-          is_suggested_reviewer: S.Boolean,
-          source_products: __S(3072, __c96, 0),
-          scout_name: S.NullOr(S.String),
-          implementation_pr_url: S.NullOr(S.String),
-          pull_requests: __S(5158, __c161, 6),
-          implementation_pr_state: S.NullOr(S.String),
-          implementation_pr_merged: S.Boolean,
-          tracker_issue_url: S.NullOr(S.String),
-          tracker_issue_reference: S.NullOr(S.String),
-          tracker_issue_error: S.NullOr(S.String),
-          source_issues: __S(3072, __c96, 0),
-          work_state: S.String,
-          assignee: S.NullOr(__S(5159, __c161, 7)),
-          refund: S.NullOr(__S(5160, __c161, 8)),
-          refund_ineligibility_reason: S.NullOr(S.String),
-          billing_exempt_reason: S.NullOr(S.String),
-          channel_id: S.NullOr(S.String),
-          ranking: __S(5090, __c159, 2),
-          plan: S.NullOr(__S(5163, __c161, 11)),
-          inbox_merge_key: S.NullOr(S.Number),
-          personal_tier: S.NullOr(S.String),
-          personal_reason: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "SignalReportList" });
-    case 2:
-      return S.Array(__S(4225, __c132, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(4226, __c132, 2),
-          ranker: S.optional(S.NullOr(S.String)),
-          ranking_id: S.optional(S.NullOr(S.String)),
-          count_is_capped: S.optional(S.Boolean),
-          ranking_pill: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "PaginatedSignalReportListList" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metric_id: S.String,
-          title: S.String,
-          kind: S.String,
-          role: S.optional(S.String),
-          value: S.optional(S.NullOr(S.Number)),
-          value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(4992, __c156, 0))),
-          value_format: S.optional(S.String),
-          unit: S.optional(S.NullOr(S.String)),
-          caption: S.optional(S.NullOr(S.String)),
-          goal_value: S.optional(S.NullOr(S.Number)),
-          goal_direction: S.optional(S.NullOr(S.String)),
-          goal_grain: S.optional(S.String),
-          decision_window_days: S.optional(S.NullOr(S.Number)),
-          minimum_data_points: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "ReportMetricList" });
-    case 1:
-      return S.Array(__S(4256, __c133, 0));
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/actions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsReportsActionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          available: S.Boolean,
-          disabled_reason: S.NullOr(S.String),
-          suggested_prompt_index: S.NullOr(S.Number),
-          text: S.String,
-        }),
-      ).annotate({ identifier: "SignalReportTaskAction" });
-    case 2:
-      return S.Array(__S(4289, __c134, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(4290, __c134, 2),
-        }),
-      ).annotate({ identifier: "SignalReportTaskActionListResponse" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/ranking_outcomes/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsReportsRankingOutcomesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          outcome: S.String,
-          label: S.String,
-          description: S.String,
-          horizon_days: S.NullOr(S.Number),
-          cohort: S.NullOr(S.String),
-          base_rate: S.NullOr(S.Number),
-          readable: S.Boolean,
-        }),
-      ).annotate({ identifier: "RankingOutcomeInfo" });
-    case 2:
-      return S.Array(__S(4321, __c135, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          model: S.NullOr(S.String),
-          outcomes: __S(4322, __c135, 2),
-        }),
-      ).annotate({ identifier: "RankingOutcomesResponse" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reviewer_exclusions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsReviewerExclusionsRequest" });
-    case 1:
-      return S.Array(__S(2304, __c72, 0));
-    case 2:
-      return S.suspend(() => __S(4353, __c136, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsReviewerExclusionsResponse",
-      });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          search: S.optional(S.String.pipe(T.Query())),
-          tags: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/configs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutConfigRequest" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2437, __c76, 5));
-    case 1:
-      return S.suspend(() => __S(4416, __c138, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsScoutConfigResponse",
-      });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          search: S.optional(S.String.pipe(T.Query())),
-          team: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/members/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutMembersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          slug: S.String,
-          name: S.String,
-          is_maintainer: S.Boolean,
-        }),
-      ).annotate({ identifier: "ScoutMemberTeam" });
-    case 2:
-      return S.Array(__S(4449, __c139, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ScoutMemberActivityObject" });
-    case 4:
-      return S.Array(__S(4451, __c139, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          headline: S.NullOr(S.String),
-          themes: __S(3072, __c96, 0),
-          owned: __S(4452, __c139, 4),
-          watched: __S(4452, __c139, 4),
-          generated_at: S.NullOr(S.String),
-          stale: S.Boolean,
-        }),
-      ).annotate({ identifier: "ScoutMemberActivity" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          user_uuid: S.String,
-          email: S.String,
-          first_name: S.String,
-          last_name: S.String,
-          github_login: S.NullOr(S.String),
-          teams: __S(4450, __c139, 2),
-          activity: S.optional(S.NullOr(__S(4453, __c139, 5))),
-        }),
-      ).annotate({ identifier: "ScoutMember" });
-    case 7:
-      return S.Array(__S(4454, __c139, 6));
-    case 8:
-      return S.suspend(() => __S(4455, __c139, 7).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsScoutMembersResponse",
-      });
-  }
-}
-function __c140(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14765,116 +17529,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "RecordCheckResultResponse" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          content_max_chars: S.optional(S.Number.pipe(T.Query())),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          include_expired: S.optional(S.Boolean.pipe(T.Query())),
-          include_general: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          only_without_expiry: S.optional(S.Boolean.pipe(T.Query())),
-          skill_name: S.optional(S.String.pipe(T.Query())),
-          text: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/notes/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutNotesRequest" });
-    case 1:
-      return S.Array(__S(2624, __c82, 0));
-    case 2:
-      return S.suspend(() => __S(4513, __c141, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsScoutNotesResponse",
-      });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/runs/report-checks/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutReportCheckRequest" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4064, __c127, 0));
-    case 1:
-      return S.suspend(() => __S(4576, __c143, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsScoutReportCheckResponse",
-      });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          run_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/report-checks/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutReportChecksRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          date_from: S.optional(S.String.pipe(T.Query())),
-          date_to: S.optional(S.String.pipe(T.Query())),
-          emitted: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          skill_name: S.optional(S.String.pipe(T.Query())),
-          skill_version: S.optional(S.Number.pipe(T.Query())),
-          text: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/runs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSignalsScoutRunsRequest" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3874, __c121, 2));
-    case 1:
-      return S.suspend(() => __S(4672, __c146, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSignalsScoutRunsResponse",
-      });
-  }
-}
-function __c147(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14883,24 +17538,61 @@ function __c147(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/signals/scout/suggestions/",
+            uri: "/api/projects/{project_id}/signals/inbox_summary/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListSignalsScoutSuggestionsRequest" });
+      ).annotate({ identifier: "ListSignalsInboxSummaryRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.String,
-          generated_at: S.NullOr(S.String),
-          model: S.String,
-          fleet_snapshot: __S(3072, __c96, 0),
-          items: __S(160, __c5, 0),
+          repository: S.String,
+          number: S.Number,
+          url: S.String,
         }),
-      ).annotate({ identifier: "ScoutSuggestionSet" });
+      ).annotate({ identifier: "InboxSummaryPullRequest" });
+    case 2:
+      return S.Array(__S(5313, __c166, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          login: S.String,
+        }),
+      ).annotate({ identifier: "InboxSummaryPerson" });
+    case 4:
+      return S.Array(__S(5315, __c166, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          period_start: S.String,
+          period_end: S.String,
+          merged_pr_count: S.Number,
+          people_count: S.NullOr(S.Number),
+          participation_complete: S.Boolean,
+          pull_requests: __S(5314, __c166, 2),
+          people: S.NullOr(__S(5316, __c166, 4)),
+        }),
+      ).annotate({ identifier: "InboxSummary" });
   }
 }
-function __c148(j: number): any {
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/onboarding/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsOnboardingRequest" });
+  }
+}
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14911,25 +17603,31 @@ function __c148(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/signals/source_configs/",
+            uri: "/api/projects/{project_id}/signals/processing/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ListSignalsSourceConfigsRequest" });
+      ).annotate({ identifier: "ListSignalsProcessingRequest" });
     case 1:
-      return S.Array(__S(2720, __c85, 0));
+      return S.suspend(() =>
+        S.Struct({
+          paused_until: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PauseStateResponse" });
     case 2:
+      return S.Array(__S(5377, __c168, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(4737, __c148, 1)),
+          results: S.optional(__S(5378, __c168, 2)),
         }),
-      ).annotate({ identifier: "PaginatedSignalSourceConfigListOutput" });
+      ).annotate({ identifier: "PaginatedPauseStateResponseList" });
   }
 }
-function __c149(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14937,79 +17635,515 @@ function __c149(j: number): any {
           project_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/processing/pause/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/pull_requests/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "PauseSignalsProcessingDestroyRequest" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ListSignalsPullRequestsRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          paused_until: S.optional(S.String),
+          id: S.String,
+          status: S.String,
         }),
-      ).annotate({ identifier: "PauseResponse" });
+      ).annotate({ identifier: "PRBrowserReport" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          repository: S.String,
+          number: S.Number,
+          title: S.String,
+          state: S.String,
+          draft: S.Boolean,
+          author: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+          report: S.NullOr(__S(5409, __c169, 1)),
+          monitoring_disabled_reason: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PRBrowserItem" });
+    case 3:
+      return S.Array(__S(5410, __c169, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(5411, __c169, 3),
+          github_login: S.NullOr(S.String),
+          has_integration: S.Boolean,
+        }),
+      ).annotate({ identifier: "PRBrowserPage" });
   }
 }
-function __c151(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/suggestions/refresh/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "RefreshSignalsScoutSuggestionRequest" });
+      ).annotate({ identifier: "ListSignalsReportArtefactsRequest" });
+    case 1:
+      return S.Array(__S(4352, __c136, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(5441, __c170, 1),
+        }),
+      ).annotate({ identifier: "PaginatedSignalReportArtefactList" });
   }
 }
-function __c152(j: number): any {
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsReportChecksRequest" });
+    case 1:
+      return S.Array(__S(4417, __c138, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(5473, __c171, 1),
+        }),
+      ).annotate({ identifier: "PaginatedSignalReportCheckList" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          actionability: S.optional(S.String.pipe(T.Query())),
+          already_addressed: S.optional(S.Boolean.pipe(T.Query())),
+          assignee: S.optional(S.String.pipe(T.Query())),
+          channel_id: S.optional(S.String.pipe(T.Query())),
+          connected: S.optional(S.String.pipe(T.Query())),
+          count_only: S.optional(S.Boolean.pipe(T.Query())),
+          created_after: S.optional(S.String.pipe(T.Query())),
+          created_before: S.optional(S.String.pipe(T.Query())),
+          exclude: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
+          has_implementation_pr: S.optional(S.Boolean.pipe(T.Query())),
+          include_all_statuses: S.optional(S.Boolean.pipe(T.Query())),
+          include_source_metadata: S.optional(S.Boolean.pipe(T.Query())),
+          include_unlisted: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          needs_you: S.optional(S.Boolean.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          ordering: S.optional(S.String.pipe(T.Query())),
+          plan: S.optional(S.String.pipe(T.Query())),
+          pr_targets: S.optional(S.Boolean.pipe(T.Query())),
+          priority: S.optional(S.String.pipe(T.Query())),
+          ranking_id: S.optional(S.String.pipe(T.Query())),
+          ranking_min_lift: S.optional(S.String.pipe(T.Query())),
+          ranking_min_probability: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String.pipe(T.Query())),
+          scout: S.optional(S.String.pipe(T.Query())),
+          scout_prefix: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          source_id: S.optional(S.String.pipe(T.Query())),
+          source_product: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          suggested_reviewers: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
+          task_id: S.optional(S.String.pipe(T.Query())),
+          teammate_uuid: S.optional(S.String.pipe(T.Query())),
+          unclaimed: S.optional(S.Boolean.pipe(T.Query())),
+          unread: S.optional(S.Boolean.pipe(T.Query())),
+          use_priority_preference: S.optional(S.Boolean.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/signals/reports/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSignalsReportsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          measured_at: S.String,
+          matches: S.NullOr(S.Boolean),
+          observed_value: S.NullOr(S.Number),
+          threshold: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "MonitoringReading" });
+    case 2:
+      return S.Array(__S(5505, __c172, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          check_id: S.String,
+          title: S.String,
+          metric_id: S.NullOr(S.String),
+          metric_kind: S.NullOr(S.String),
+          value_format: S.NullOr(S.String),
+          unit: S.NullOr(S.String),
+          comparison: __S(5538, __c173, 2),
+          monitoring: __S(5536, __c173, 0),
+          baseline_value: S.NullOr(S.Number),
+          ends_at: S.String,
+          next_measurement_at: S.NullOr(S.String),
+          readings: __S(5506, __c172, 2),
+        }),
+      ).annotate({ identifier: "MonitoringLeadCheck" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          check_id: S.String,
+          title: S.String,
+          kind: S.String,
+          state: S.String,
+          ends_at: S.String,
+        }),
+      ).annotate({ identifier: "MonitoringCheckSummary" });
+    case 5:
+      return S.Array(__S(5508, __c172, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          started_at: S.String,
+          ends_at: S.String,
+          lead_check: S.NullOr(__S(5507, __c172, 3)),
+          checks: __S(5509, __c172, 5),
+        }),
+      ).annotate({ identifier: "ReportMonitoringSummary" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          report_id: S.String,
+          title: S.NullOr(S.String),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "MonitoringFollowUp" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          ended_at: S.String,
+          follow_up: S.NullOr(__S(5511, __c172, 7)),
+        }),
+      ).annotate({ identifier: "ReportMonitoringOutcome" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.NullOr(S.String),
+          status: S.String,
+          implementation_pr_url: S.NullOr(S.String),
+          implementation_pr_state: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "LinkedReportRef" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.NullOr(S.String),
+          state: S.String,
+        }),
+      ).annotate({ identifier: "LinkPlanStep" });
+    case 11:
+      return S.Array(__S(5514, __c172, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.NullOr(S.String),
+          steps: __S(5515, __c172, 11),
+          lead_step_id: S.String,
+        }),
+      ).annotate({ identifier: "LinkPlanSummary" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          report: __S(5513, __c172, 9),
+        }),
+      ).annotate({ identifier: "OtherReportLink" });
+    case 14:
+      return S.Array(__S(5517, __c172, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          report: S.NullOr(__S(5513, __c172, 9)),
+          plan: S.NullOr(__S(5516, __c172, 12)),
+          other_links: __S(5518, __c172, 14),
+        }),
+      ).annotate({ identifier: "ReportLinkSummary" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.NullOr(S.String),
+          summary: S.NullOr(S.String),
+          summary_lead: S.String,
+          reviewer_assignment: S.NullOr(__S(5920, __c185, 0)),
+          status: S.String,
+          monitoring_started_at: S.optional(S.NullOr(S.String)),
+          monitoring_ended_at: S.optional(S.NullOr(S.String)),
+          total_weight: S.Number,
+          signal_count: S.Number,
+          signals_at_run: S.Number,
+          collapsed_note_count: S.Number,
+          startup_failure: S.NullOr(__S(5921, __c185, 1)),
+          created_at: S.String,
+          updated_at: S.String,
+          artefact_count: S.Number,
+          charts: __S(5761, __c180, 1),
+          metrics: __S(5569, __c174, 1),
+          suggested_prompts: __S(3808, __c119, 0),
+          tags: __S(3808, __c119, 0),
+          source_suggestion: S.NullOr(__S(5922, __c185, 2)),
+          priority: S.NullOr(S.String),
+          actionability: S.NullOr(S.String),
+          already_addressed: S.NullOr(S.Boolean),
+          decisions: S.NullOr(__S(5927, __c185, 7)),
+          dismissal_reason: S.NullOr(S.String),
+          dismissal_note: S.NullOr(S.String),
+          suppression_source: S.NullOr(S.String),
+          suppression_explanation: S.NullOr(S.String),
+          repo_slug: S.NullOr(S.String),
+          is_self_improvement_report: S.Boolean,
+          research_context: S.NullOr(__S(5928, __c185, 8)),
+          is_suggested_reviewer: S.Boolean,
+          source_products: __S(3808, __c119, 0),
+          scout_name: S.NullOr(S.String),
+          implementation_pr_url: S.NullOr(S.String),
+          pull_requests: __S(5931, __c185, 11),
+          implementation_pr_state: S.NullOr(S.String),
+          implementation_pr_merged: S.Boolean,
+          tracker_issue_url: S.NullOr(S.String),
+          tracker_issue_reference: S.NullOr(S.String),
+          tracker_issue_error: S.NullOr(S.String),
+          source_issues: __S(3808, __c119, 0),
+          work_state: S.String,
+          assignee: S.NullOr(__S(5932, __c185, 12)),
+          implementation_in_flight: S.Boolean,
+          refund: S.NullOr(__S(5933, __c185, 13)),
+          refund_ineligibility_reason: S.NullOr(S.String),
+          billing_exempt_reason: S.NullOr(S.String),
+          channel_id: S.NullOr(S.String),
+          ranking: __S(5858, __c183, 2),
+          plan: S.NullOr(__S(5936, __c185, 16)),
+          inbox_merge_key: S.NullOr(S.Number),
+          personal_tier: S.NullOr(S.String),
+          personal_reason: S.NullOr(S.String),
+          monitoring_summary: S.NullOr(__S(5510, __c172, 6)),
+          monitoring_outcome: S.NullOr(__S(5512, __c172, 8)),
+          link_summary: S.NullOr(__S(5519, __c172, 15)),
+        }),
+      ).annotate({ identifier: "SignalReportList" });
+    case 17:
+      return S.Array(__S(5520, __c172, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          size: S.NullOr(S.Number),
+          age_minutes: S.NullOr(S.Number),
+          checked_age_minutes: S.NullOr(S.Number),
+          fallback_reason: S.NullOr(S.String),
+          building: S.Boolean,
+        }),
+      ).annotate({ identifier: "PaginatedSignalReportListListPersonalRankingStatus" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: __S(5521, __c172, 17),
+          ranker: S.optional(S.NullOr(S.String)),
+          ranking_id: S.optional(S.NullOr(S.String)),
+          personal_ranking_status: S.optional(S.NullOr(__S(5522, __c172, 18))),
+          count_is_capped: S.optional(S.Boolean),
+          ranking_pill: S.optional(S.NullOr(S.Boolean)),
+          source_metadata_available: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PaginatedSignalReportListList" });
+  }
+}
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          purpose: S.optional(S.String),
+          reference_period_minutes: S.Number,
+          threshold_scaling: S.String,
+          baseline_period_minutes: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "MonitoringMetricConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          lower: S.Number,
+          upper: S.Number,
+        }),
+      ).annotate({ identifier: "CheckThresholdBounds" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          operator: S.String,
+          value: S.optional(S.NullOr(S.Number)),
+          bounds: S.optional(S.NullOr(__S(5537, __c173, 1))),
+        }),
+      ).annotate({ identifier: "CheckComparison" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metric_id: S.String,
+          title: S.String,
+          kind: S.String,
+          role: S.optional(S.String),
+          value: S.optional(S.NullOr(S.Number)),
+          value_at: S.optional(S.NullOr(S.String)),
+          series: S.optional(S.NullOr(__S(5728, __c179, 0))),
+          series_buckets: S.optional(S.NullOr(__S(3808, __c119, 0))),
+          value_format: S.optional(S.String),
+          unit: S.optional(S.NullOr(S.String)),
+          caption: S.optional(S.NullOr(S.String)),
+          goal_value: S.optional(S.NullOr(S.Number)),
+          goal_direction: S.optional(S.NullOr(S.String)),
+          goal_grain: S.optional(S.String),
+          decision_window_days: S.optional(S.NullOr(S.Number)),
+          minimum_data_points: S.optional(S.NullOr(S.Number)),
+          interval: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReportMetricList" });
+    case 1:
+      return S.Array(__S(5568, __c174, 0));
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          comparison_id: S.String,
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/trial_comparison_resume/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/actions/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ResumeSignalsScoutConfigTrialComparisonRequest" });
+      ).annotate({ identifier: "ListSignalsReportsActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          available: S.Boolean,
+          disabled_reason: S.NullOr(S.String),
+          suggested_prompt_index: S.NullOr(S.Number),
+          text: S.String,
+        }),
+      ).annotate({ identifier: "SignalReportTaskAction" });
+    case 2:
+      return S.Array(__S(5601, __c175, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(5602, __c175, 2),
+        }),
+      ).annotate({ identifier: "SignalReportTaskActionListResponse" });
   }
 }
-function __c153(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          comment_id: S.String.pipe(T.Label()),
-          pull_request_id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_review_comments/{comment_id}/",
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/ranking_outcomes/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "ReviewSignalsReportPrCommentDestroyRequest" });
+      ).annotate({ identifier: "ListSignalsReportsRankingOutcomesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          outcome: S.String,
+          label: S.String,
+          description: S.String,
+          horizon_days: S.NullOr(S.Number),
+          cohort: S.NullOr(S.String),
+          base_rate: S.NullOr(S.Number),
+          readable: S.Boolean,
+        }),
+      ).annotate({ identifier: "RankingOutcomeInfo" });
+    case 2:
+      return S.Array(__S(5633, __c176, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          model: S.NullOr(S.String),
+          outcomes: __S(5634, __c176, 2),
+        }),
+      ).annotate({ identifier: "RankingOutcomesResponse" });
   }
 }
-function __c154(j: number): any {
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reviewer_exclusions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsReviewerExclusionsRequest" });
+    case 1:
+      return S.Array(__S(3232, __c101, 0));
+    case 2:
+      return S.suspend(() => __S(5665, __c177, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsReviewerExclusionsResponse",
+      });
+  }
+}
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15017,7 +18151,7 @@ function __c154(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           claim_id: S.optional(S.String),
-          pull_requests: S.optional(__S(3072, __c96, 0)),
+          pull_requests: S.optional(__S(3808, __c119, 0)),
           takeover: S.optional(S.Boolean),
           takeover_claim_id: S.optional(S.String),
           pr_url: S.optional(S.String),
@@ -15032,7 +18166,13 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ClaimSignalsReportRequest" });
   }
 }
-function __c155(j: number): any {
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15045,16 +18185,10 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "ReportChart" });
     case 1:
-      return S.Array(__S(4960, __c155, 0));
+      return S.Array(__S(5760, __c180, 0));
   }
 }
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c157(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15065,7 +18199,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ReviewerState" });
   }
 }
-function __c158(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15079,7 +18213,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c159(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15091,19 +18225,19 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "ReportRankingPrediction" });
     case 1:
-      return S.Array(__S(5088, __c159, 0));
+      return S.Array(__S(5856, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           model: S.NullOr(S.String),
           scored_at: S.NullOr(S.String),
-          predictions: __S(5089, __c159, 1),
+          predictions: __S(5857, __c183, 1),
         }),
       ).annotate({ identifier: "ReportRanking" });
   }
 }
-function __c160(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15114,7 +18248,8 @@ function __c160(j: number): any {
           role: S.optional(S.String),
           value: S.optional(S.NullOr(S.Number)),
           value_at: S.optional(S.NullOr(S.String)),
-          series: S.optional(S.NullOr(__S(4992, __c156, 0))),
+          series: S.optional(S.NullOr(__S(5728, __c179, 0))),
+          series_buckets: S.optional(S.NullOr(__S(3808, __c119, 0))),
           value_format: S.optional(S.String),
           unit: S.optional(S.NullOr(S.String)),
           query: S.optional(S.Unknown),
@@ -15127,7 +18262,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "ReportMetric" });
     case 1:
-      return S.Array(__S(5120, __c160, 0));
+      return S.Array(__S(5888, __c184, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15135,63 +18270,66 @@ function __c160(j: number): any {
           title: S.NullOr(S.String),
           summary: S.NullOr(S.String),
           summary_lead: S.String,
-          reviewer_assignment: S.NullOr(__S(5152, __c161, 0)),
+          reviewer_assignment: S.NullOr(__S(5920, __c185, 0)),
           status: S.String,
           monitoring_started_at: S.optional(S.NullOr(S.String)),
+          monitoring_ended_at: S.optional(S.NullOr(S.String)),
           total_weight: S.Number,
           signal_count: S.Number,
           signals_at_run: S.Number,
           collapsed_note_count: S.Number,
-          startup_failure: S.NullOr(__S(5153, __c161, 1)),
+          startup_failure: S.NullOr(__S(5921, __c185, 1)),
           created_at: S.String,
           updated_at: S.String,
           artefact_count: S.Number,
-          charts: __S(4961, __c155, 1),
-          metrics: __S(5121, __c160, 1),
-          suggested_prompts: __S(3072, __c96, 0),
-          tags: __S(3072, __c96, 0),
-          source_suggestion: S.NullOr(__S(5154, __c161, 2)),
+          charts: __S(5761, __c180, 1),
+          metrics: __S(5889, __c184, 1),
+          suggested_prompts: __S(3808, __c119, 0),
+          tags: __S(3808, __c119, 0),
+          source_suggestion: S.NullOr(__S(5922, __c185, 2)),
           priority: S.NullOr(S.String),
           actionability: S.NullOr(S.String),
           already_addressed: S.NullOr(S.Boolean),
+          decisions: S.NullOr(__S(5927, __c185, 7)),
           dismissal_reason: S.NullOr(S.String),
           dismissal_note: S.NullOr(S.String),
           suppression_source: S.NullOr(S.String),
           suppression_explanation: S.NullOr(S.String),
           repo_slug: S.NullOr(S.String),
           is_self_improvement_report: S.Boolean,
-          research_context: S.NullOr(__S(5155, __c161, 3)),
+          research_context: S.NullOr(__S(5928, __c185, 8)),
           is_suggested_reviewer: S.Boolean,
-          source_products: __S(3072, __c96, 0),
+          source_products: __S(3808, __c119, 0),
           scout_name: S.NullOr(S.String),
           implementation_pr_url: S.NullOr(S.String),
-          pull_requests: __S(5158, __c161, 6),
+          pull_requests: __S(5931, __c185, 11),
           implementation_pr_state: S.NullOr(S.String),
           implementation_pr_merged: S.Boolean,
           tracker_issue_url: S.NullOr(S.String),
           tracker_issue_reference: S.NullOr(S.String),
           tracker_issue_error: S.NullOr(S.String),
-          source_issues: __S(3072, __c96, 0),
+          source_issues: __S(3808, __c119, 0),
           work_state: S.String,
-          assignee: S.NullOr(__S(5159, __c161, 7)),
-          refund: S.NullOr(__S(5160, __c161, 8)),
+          assignee: S.NullOr(__S(5932, __c185, 12)),
+          implementation_in_flight: S.Boolean,
+          refund: S.NullOr(__S(5933, __c185, 13)),
           refund_ineligibility_reason: S.NullOr(S.String),
           billing_exempt_reason: S.NullOr(S.String),
           channel_id: S.NullOr(S.String),
-          ranking: __S(5090, __c159, 2),
-          plan: S.NullOr(__S(5163, __c161, 11)),
+          ranking: __S(5858, __c183, 2),
+          plan: S.NullOr(__S(5936, __c185, 16)),
         }),
       ).annotate({ identifier: "SignalReport" });
   }
 }
-function __c161(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: __S(5024, __c157, 0),
-          pinned_user_uuids: __S(3072, __c96, 0),
-          excluded_user_uuids: __S(3072, __c96, 0),
+          state: __S(5792, __c181, 0),
+          pinned_user_uuids: __S(3808, __c119, 0),
+          excluded_user_uuids: __S(3808, __c119, 0),
           confirmed: S.Boolean,
           needs_review: S.Boolean,
           enabled: S.Boolean,
@@ -15219,20 +18357,65 @@ function __c161(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          kind: S.String,
+          user: S.NullOr(__S(5824, __c182, 0)),
+          agent: S.NullOr(S.String),
+          task_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReportDecisionSetBy" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.NullOr(S.String),
+          set_by: __S(5923, __c185, 3),
+          set_at: S.String,
+          value: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReportRepositoryDecision" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.NullOr(S.String),
+          set_by: __S(5923, __c185, 3),
+          set_at: S.String,
+          value: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ReportPriorityDecision" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.NullOr(S.String),
+          set_by: __S(5923, __c185, 3),
+          set_at: S.String,
+          value: S.NullOr(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReportAlreadyAddressedDecision" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.NullOr(__S(5924, __c185, 4)),
+          priority: S.NullOr(__S(5925, __c185, 5)),
+          actionability: S.NullOr(__S(5924, __c185, 4)),
+          already_addressed: S.NullOr(__S(5926, __c185, 6)),
+        }),
+      ).annotate({ identifier: "ReportDecisions" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           mode: S.String,
           repository_status: S.String,
         }),
       ).annotate({ identifier: "ReportResearchContext" });
-    case 4:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           kind: S.NullOr(S.String),
-          user: S.NullOr(__S(5056, __c158, 0)),
+          user: S.NullOr(__S(5824, __c182, 0)),
           agent: S.NullOr(S.String),
           task_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportPullRequestAttachedBy" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.NullOr(S.String),
@@ -15241,26 +18424,26 @@ function __c161(j: number): any {
           merged: S.Boolean,
           review_decision: S.NullOr(S.String),
           merged_at: S.NullOr(S.String),
-          attached_by: S.NullOr(__S(5156, __c161, 4)),
+          attached_by: S.NullOr(__S(5929, __c185, 9)),
           claim_id: S.NullOr(S.String),
           attached_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SignalReportPullRequest" });
-    case 6:
-      return S.Array(__S(5157, __c161, 5));
-    case 7:
+    case 11:
+      return S.Array(__S(5930, __c185, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           claim_id: S.NullOr(S.String),
           kind: S.String,
-          user: S.NullOr(__S(5056, __c158, 0)),
+          user: S.NullOr(__S(5824, __c182, 0)),
           task_id: S.NullOr(S.String),
           agent: S.NullOr(S.String),
           claimed_at: S.NullOr(S.String),
-          responsible_user: S.NullOr(__S(5056, __c158, 0)),
+          responsible_user: S.NullOr(__S(5824, __c182, 0)),
         }),
       ).annotate({ identifier: "SignalReportAssignee" });
-    case 8:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -15275,32 +18458,493 @@ function __c161(j: number): any {
           created_at: S.String,
         }),
       ).annotate({ identifier: "SignalReportRefund" });
-    case 9:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.NullOr(S.String),
           status: S.String,
-          depends_on: __S(3072, __c96, 0),
+          depends_on: __S(3808, __c119, 0),
           implementation_pr_url: S.NullOr(S.String),
           implementation_pr_state: S.NullOr(S.String),
           suppression_source: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ReportPlanStep" });
-    case 10:
-      return S.Array(__S(5161, __c161, 9));
-    case 11:
+    case 15:
+      return S.Array(__S(5934, __c185, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.NullOr(S.String),
           status: S.String,
-          steps: __S(5162, __c161, 10),
+          steps: __S(5935, __c185, 15),
         }),
       ).annotate({ identifier: "ReportPlan" });
   }
 }
-function __c162(j: number): any {
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+          source_product: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/configs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutConfigRequest" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(3365, __c105, 5));
+    case 1:
+      return S.suspend(() => __S(5984, __c187, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutConfigResponse",
+      });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          search: S.optional(S.String.pipe(T.Query())),
+          team: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/members/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutMembersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          slug: S.String,
+          name: S.String,
+          is_maintainer: S.Boolean,
+        }),
+      ).annotate({ identifier: "ScoutMemberTeam" });
+    case 2:
+      return S.Array(__S(6017, __c188, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ScoutMemberActivityObject" });
+    case 4:
+      return S.Array(__S(6019, __c188, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          headline: S.NullOr(S.String),
+          themes: __S(3808, __c119, 0),
+          owned: __S(6020, __c188, 4),
+          watched: __S(6020, __c188, 4),
+          generated_at: S.NullOr(S.String),
+          stale: S.Boolean,
+        }),
+      ).annotate({ identifier: "ScoutMemberActivity" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          user_uuid: S.String,
+          email: S.String,
+          first_name: S.String,
+          last_name: S.String,
+          github_login: S.NullOr(S.String),
+          teams: __S(6018, __c188, 2),
+          activity: S.optional(S.NullOr(__S(6021, __c188, 5))),
+        }),
+      ).annotate({ identifier: "ScoutMember" });
+    case 7:
+      return S.Array(__S(6022, __c188, 6));
+    case 8:
+      return S.suspend(() => __S(6023, __c188, 7).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutMembersResponse",
+      });
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          content_max_chars: S.optional(S.Number.pipe(T.Query())),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          include_expired: S.optional(S.Boolean.pipe(T.Query())),
+          include_general: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          only_without_expiry: S.optional(S.Boolean.pipe(T.Query())),
+          skill_name: S.optional(S.String.pipe(T.Query())),
+          text: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/notes/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutNotesRequest" });
+    case 1:
+      return S.Array(__S(3552, __c111, 0));
+    case 2:
+      return S.suspend(() => __S(6049, __c189, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutNotesResponse",
+      });
+  }
+}
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/runs/report-checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutReportCheckRequest" });
+  }
+}
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4832, __c151, 0));
+    case 1:
+      return S.suspend(() => __S(6112, __c191, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutReportCheckResponse",
+      });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          run_id: S.String.pipe(T.Label()),
+          report_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/report-checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutReportChecksRequest" });
+  }
+}
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          report_id: S.optional(S.String.pipe(T.Query())),
+          since: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/report_discussions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutReportDiscussionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          user_uuid: S.String,
+          first_name: S.String,
+          last_name: S.String,
+        }),
+      ).annotate({ identifier: "ScoutDiscussionStarter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          report_id: S.String,
+          report_title: S.String,
+          involvement: S.String,
+          source: S.String,
+          task_id: S.String,
+          created_at: S.String,
+          active_at: S.String,
+          status: S.NullOr(S.String),
+          task_summary: S.NullOr(S.String),
+          question: S.NullOr(S.String),
+          started_by: S.NullOr(__S(6177, __c193, 1)),
+        }),
+      ).annotate({ identifier: "ScoutReportDiscussion" });
+    case 3:
+      return S.Array(__S(6178, __c193, 2));
+    case 4:
+      return S.suspend(() => __S(6179, __c193, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutReportDiscussionsResponse",
+      });
+  }
+}
+function __c194(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          date_from: S.optional(S.String.pipe(T.Query())),
+          date_to: S.optional(S.String.pipe(T.Query())),
+          emitted: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          skill_name: S.optional(S.String.pipe(T.Query())),
+          skill_version: S.optional(S.Number.pipe(T.Query())),
+          text: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/runs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutRunsRequest" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(5060, __c158, 4));
+    case 1:
+      return S.suspend(() => __S(6240, __c195, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSignalsScoutRunsResponse",
+      });
+  }
+}
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/scout/suggestions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsScoutSuggestionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          generated_at: S.NullOr(S.String),
+          model: S.String,
+          fleet_snapshot: __S(3808, __c119, 0),
+          items: __S(960, __c30, 0),
+        }),
+      ).annotate({ identifier: "ScoutSuggestionSet" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/source_configs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSignalsSourceConfigsRequest" });
+    case 1:
+      return S.Array(__S(3681, __c115, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(6305, __c197, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedSignalSourceConfigListOutput" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/projects/{project_id}/signals/trial/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSignalsTrialRequest" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          insight_id: S.Number,
+          series_key: S.String,
+          interval: S.String,
+        }),
+      ).annotate({ identifier: "AnomalySeriesRef" });
+    case 1:
+      return S.Array(__S(6368, __c199, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          series: __S(6369, __c199, 1),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/anomalies/points/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateSignalsAnomaliesPointRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          insight_id: S.Number,
+          series_key: S.String,
+          interval: S.String,
+          date_from: S.String,
+          points: __S(6401, __c200, 1),
+        }),
+      ).annotate({ identifier: "AnomalySeriesPoints" });
+    case 4:
+      return S.Array(__S(6371, __c199, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          date_to: S.String,
+          series: __S(6372, __c199, 4),
+        }),
+      ).annotate({ identifier: "AnomalyPointsResponse" });
+  }
+}
+function __c200(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket_start: S.String,
+          value: S.NullOr(S.Number),
+          flag: S.Boolean,
+        }),
+      ).annotate({ identifier: "AnomalySeriesPoint" });
+    case 1:
+      return S.Array(__S(6400, __c200, 0));
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/processing/pause/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PauseSignalsProcessingDestroyRequest" });
+  }
+}
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          paused_until: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PauseResponse" });
+  }
+}
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/suggestions/refresh/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RefreshSignalsScoutSuggestionRequest" });
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          comparison_id: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/signals/scout/configs/{id}/trial_comparison_resume/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResumeSignalsScoutConfigTrialComparisonRequest" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          comment_id: S.String.pipe(T.Label()),
+          pull_request_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_review_comments/{comment_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReviewSignalsReportPrCommentDestroyRequest" });
+  }
+}
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15320,7 +18964,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ReviewSignalsReportPrCommentReactionDestroyRequest" });
   }
 }
-function __c163(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15338,18 +18982,25 @@ function __c163(j: number): any {
       ).annotate({ identifier: "RunSignalsScoutConfigRequest" });
   }
 }
-function __c164(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          exclude_user_uuids: S.optional(__S(3072, __c96, 0).pipe(T.Query())),
+          active_since_days: S.optional(S.Number.pipe(T.Query())),
+          exclude_user_uuids: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
           include_profile: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          mode: S.optional(S.String.pipe(T.Query())),
+          object_id: S.optional(S.String.pipe(T.Query())),
+          object_relation: S.optional(S.String.pipe(T.Query())),
+          object_type: S.optional(S.String.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           product: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           search_mode: S.optional(S.String.pipe(T.Query())),
+          user_uuids: S.optional(__S(3808, __c119, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -15366,8 +19017,23 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "ActivitySummarySearchMatch" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(6657, __c208, 1));
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          relation: S.String,
+          type: S.String,
+          id: S.String,
+          name: S.String,
+          edit_days: S.NullOr(S.Number),
+          open_days: S.NullOr(S.Number),
+          last_at: S.NullOr(S.String),
+          not_theirs: S.NullOr(S.Boolean),
+        }),
+      ).annotate({ identifier: "ActivitySummarySearchObject" });
+    case 4:
+      return S.Array(__S(6659, __c208, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           user_uuid: S.String,
@@ -15375,28 +19041,77 @@ function __c164(j: number): any {
           last_name: S.String,
           github_login: S.NullOr(S.String),
           score: S.NullOr(S.Number),
-          matched_on: __S(5250, __c164, 2),
+          matched_on: __S(6658, __c208, 2),
+          objects: __S(6660, __c208, 4),
           headline: S.NullOr(S.String),
-          themes: __S(2945, __c92, 1),
-          modes: __S(2880, __c90, 0),
+          themes: __S(4225, __c132, 1),
+          modes: __S(4160, __c130, 0),
+          products: __S(4226, __c132, 2),
           generated_at: S.NullOr(S.String),
           stale: S.Boolean,
           profile: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ActivitySummarySearchHit" });
-    case 4:
-      return S.Array(__S(5251, __c164, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(6661, __c208, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          results: __S(5252, __c164, 4),
+          results: __S(6662, __c208, 6),
+          total: S.Number,
           semantic_used: S.Boolean,
           not_ready_count: S.Number,
         }),
       ).annotate({ identifier: "ActivitySummarySearchResult" });
   }
 }
-function __c165(j: number): any {
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          created_after: S.optional(S.String.pipe(T.Query())),
+          include_unlisted: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          query: S.String.pipe(T.Query()),
+          search_mode: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/signals/reports/search/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SearchSignalsReportRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.NullOr(S.String),
+          status: S.String,
+          priority: S.NullOr(S.String),
+          updated_at: S.String,
+          summary_snippet: S.String,
+          dismissal_reason: S.NullOr(S.String),
+          dismissal_note: S.NullOr(S.String),
+          match_kinds: __S(4160, __c130, 0),
+          score: S.Number,
+        }),
+      ).annotate({ identifier: "SignalReportSearchHit" });
+    case 2:
+      return S.Array(__S(6689, __c209, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          results: __S(6690, __c209, 2),
+          semantic_available: S.Boolean,
+        }),
+      ).annotate({ identifier: "SignalReportSearchResponse" });
+  }
+}
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15406,7 +19121,9 @@ function __c165(j: number): any {
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           include_expired: S.optional(S.Boolean.pipe(T.Query())),
+          include_revisions: S.optional(S.Boolean.pipe(T.Query())),
           key: S.optional(S.String.pipe(T.Query())),
+          key_prefix: S.optional(S.String.pipe(T.Query())),
           keys_only: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           skill_name: S.optional(S.String.pipe(T.Query())),
@@ -15420,16 +19137,38 @@ function __c165(j: number): any {
         ),
       ).annotate({ identifier: "SearchSignalsScoutScratchpadRequest" });
     case 1:
-      return S.Array(__S(5312, __c166, 0));
+      return S.Array(__S(6755, __c211, 3));
     case 2:
-      return S.suspend(() => __S(5281, __c165, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6721, __c210, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchSignalsScoutScratchpadResponse",
       });
   }
 }
-function __c166(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          content: S.String,
+          expires_at: S.NullOr(S.String),
+          change: S.String,
+          changed_at: S.String,
+          changed_by_run_id: S.NullOr(S.String),
+          changed_by_skill: S.NullOr(S.String),
+          changed_by_run_url: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ScratchpadRevision" });
+    case 1:
+      return S.Array(__S(6752, __c211, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          expires_at: S.String,
+          set_by_skill: S.NullOr(S.String),
+          set_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ScratchpadRevivedExpiry" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -15440,11 +19179,16 @@ function __c166(j: number): any {
           created_by_run_id: S.NullOr(S.String),
           created_by_skill: S.optional(S.NullOr(S.String)),
           created_by_run_url: S.optional(S.NullOr(S.String)),
+          revisions: S.optional(S.NullOr(__S(6753, __c211, 1))),
+          expired: S.optional(S.Boolean),
+          last_changed_by_skill: S.optional(S.NullOr(S.String)),
+          last_changed_at: S.optional(S.NullOr(S.String)),
+          revived_expiry: S.optional(S.NullOr(__S(6754, __c211, 2))),
         }),
       ).annotate({ identifier: "ScratchpadEntry" });
   }
 }
-function __c167(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15454,10 +19198,15 @@ function __c167(j: number): any {
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           group_by: S.optional(S.String.pipe(T.Query())),
+          include_points: S.optional(S.Boolean.pipe(T.Query())),
           insight_id: S.optional(S.Number.pipe(T.Query())),
           interval: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
           only_flagged: S.optional(S.Boolean.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          viewed_within_days: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -15469,14 +19218,33 @@ function __c167(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          interval: S.String,
+          date_from: S.String,
+          date_to: S.String,
+        }),
+      ).annotate({ identifier: "AnomalyIntervalRange" });
+    case 2:
+      return S.Array(__S(6785, __c212, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           bucket_start: S.String,
           value: S.NullOr(S.Number),
           score: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "AnomalyFlaggedPoint" });
-    case 2:
-      return S.Array(__S(5345, __c167, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(6787, __c212, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "AnomalyDashboard" });
+    case 6:
+      return S.Array(__S(6789, __c212, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           insight_id: S.Number,
@@ -15492,15 +19260,16 @@ function __c167(j: number): any {
           expected_buckets: S.Number,
           coverage: S.NullOr(S.Number),
           scored_through: S.NullOr(S.String),
-          baseline_rate: S.NullOr(S.Number),
           first_flagged_bucket: S.NullOr(S.String),
           last_flagged_bucket: S.NullOr(S.String),
-          flagged_points: __S(5346, __c167, 2),
+          flagged_points: __S(6788, __c212, 4),
+          dashboards: __S(6790, __c212, 6),
+          points: S.optional(__S(6401, __c200, 1)),
         }),
       ).annotate({ identifier: "AnomalySeries" });
-    case 4:
-      return S.Array(__S(5347, __c167, 3));
-    case 5:
+    case 8:
+      return S.Array(__S(6791, __c212, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           series_key: S.String,
@@ -15509,12 +19278,11 @@ function __c167(j: number): any {
           scored_buckets: S.Number,
           flagged_buckets: S.Number,
           anomaly_rate: S.NullOr(S.Number),
-          baseline_rate: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "AnomalyTopSeries" });
-    case 6:
-      return S.Array(__S(5349, __c167, 5));
-    case 7:
+    case 10:
+      return S.Array(__S(6793, __c212, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           insight_id: S.Number,
@@ -15526,596 +19294,35 @@ function __c167(j: number): any {
           flagged_buckets: S.Number,
           anomaly_rate: S.NullOr(S.Number),
           last_flagged_bucket: S.NullOr(S.String),
-          top_series: __S(5350, __c167, 6),
+          top_series: __S(6794, __c212, 10),
         }),
       ).annotate({ identifier: "AnomalyInsightRow" });
-    case 8:
-      return S.Array(__S(5351, __c167, 7));
-    case 9:
+    case 12:
+      return S.Array(__S(6795, __c212, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           scoring_enabled: S.Boolean,
           watched_insights: S.Number,
           insights_scored_in_range: S.Number,
+          scored_days: S.Number,
+          scored_history_ready: S.Boolean,
           date_from: S.String,
           date_to: S.String,
+          interval_ranges: __S(6786, __c212, 2),
           group_by: S.String,
-          series: __S(5348, __c167, 4),
-          insights: __S(5352, __c167, 8),
+          order: S.String,
+          series: __S(6792, __c212, 8),
+          insights: __S(6796, __c212, 12),
+          has_more: S.Boolean,
           truncated: S.Boolean,
+          series_capped: S.Boolean,
           message: S.NullOr(S.String),
+          scored_through: S.NullOr(S.String),
+          viewed_within_days: S.NullOr(S.Number),
+          viewed_scope_empty: S.Boolean,
         }),
       ).annotate({ identifier: "AnomalySearchResponse" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          date_from: S.String,
-          date_to: S.String,
-        }),
-      ).annotate({ identifier: "SignalsScoutTimeRange" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          source_product: S.String,
-          summary: S.String,
-          entity_id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "EvidenceEntry" });
-    case 2:
-      return S.Array(__S(5377, __c168, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          run_id: S.String.pipe(T.Label()),
-          description: S.String,
-          evidence: __S(5378, __c168, 2),
-          hypothesis: S.optional(S.NullOr(S.String)),
-          severity: S.optional(S.NullOr(S.String)),
-          dedupe_keys: S.optional(__S(3072, __c96, 0)),
-          tags: S.optional(__S(3072, __c96, 0)),
-          time_range: S.optional(S.NullOr(__S(5376, __c168, 0))),
-          mcp_trace_id: S.optional(S.NullOr(S.String)),
-          finding_id: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/scout/runs/{run_id}/emit-signal/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalSignalsScoutEmitRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          finding_id: S.String,
-          emitted: S.Boolean,
-          skipped_reason: S.NullOr(S.String),
-          remediation: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "EmitFindingResponse" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          month: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/projects/{project_id}/signals/usage/", code: 200 }),
-        ),
-      ).annotate({ identifier: "SignalsMonthlyUsageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          total_credits: S.String,
-          exempt_credits: S.String,
-          incomplete: S.Boolean,
-          source_product: S.NullOr(S.String),
-          source_type: S.NullOr(S.String),
-          processing_credits: S.String,
-          research_credits: S.String,
-          implementation_credits: S.String,
-        }),
-      ).annotate({ identifier: "MonthlySourceUsage" });
-    case 2:
-      return S.Array(__S(5409, __c169, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          total_credits: S.String,
-          exempt_credits: S.String,
-          incomplete: S.Boolean,
-          scout_config_id: S.NullOr(S.String),
-          skill_name: S.String,
-          display_name: S.String,
-          run_count: S.Number,
-          reports_produced: S.Number,
-        }),
-      ).annotate({ identifier: "MonthlyScoutUsage" });
-    case 4:
-      return S.Array(__S(5411, __c169, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          currency: S.String,
-          usd_per_credit: S.String,
-        }),
-      ).annotate({ identifier: "UsagePricing" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          total_credits: S.String,
-          exempt_credits: S.String,
-          incomplete: S.Boolean,
-          project_id: S.Number,
-          period_start: S.String,
-          period_end: S.String,
-          as_of: S.String,
-          unsettled_credits: S.String,
-          untracked_scout_run_count: S.Number,
-          attribution_incomplete: S.Boolean,
-          sources: __S(5410, __c169, 2),
-          scouts: __S(5412, __c169, 4),
-          pricing: __S(5413, __c169, 5),
-        }),
-      ).annotate({ identifier: "MonthlyUsage" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportArtefactsDestroyRequest" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/artefacts/{id}/diff/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportArtefactsDiffRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          diff: S.String,
-          truncated: S.Boolean,
-        }),
-      ).annotate({ identifier: "CommitDiffResponse" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/approve/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportChecksApproveCreateRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          autostart_enabled: S.optional(S.NullOr(S.Boolean)),
-          default_autostart_priority: S.optional(S.String),
-          default_slack_notification_channel: S.optional(S.NullOr(S.String)),
-          default_slack_notification_integration: S.optional(S.NullOr(S.Number)),
-          autostart_base_branches: S.optional(__S(5568, __c174, 0)),
-          scout_instructions: S.optional(S.String),
-          research_instructions: S.optional(S.String),
-          implementation_instructions: S.optional(S.String),
-          issue_tracking_integration: S.optional(S.NullOr(S.Number)),
-          issue_tracking_config: S.optional(__S(5568, __c174, 0)),
-          max_reports_per_day: S.optional(S.NullOr(S.Number)),
-          default_open_pull_request_ready: S.optional(S.Boolean),
-          github_issue_writeback_enabled: S.optional(S.Boolean),
-          pull_request_label_enabled: S.optional(S.Boolean),
-          pull_request_label: S.optional(S.NullOr(S.String)),
-          implementation_repositories: S.optional(__S(3072, __c96, 0)),
-          anomaly_scoring_enabled: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/projects/{project_id}/signals/config/", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateSignalsConfigRequest" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          autostart_enabled: S.optional(S.NullOr(S.Boolean)),
-          default_autostart_priority: S.optional(S.String),
-          default_slack_notification_channel: S.optional(S.NullOr(S.String)),
-          default_slack_notification_integration: S.optional(S.NullOr(S.Number)),
-          autostart_base_branches: S.optional(__S(5568, __c174, 0)),
-          scout_instructions: S.optional(S.String),
-          research_instructions: S.optional(S.String),
-          implementation_instructions: S.optional(S.String),
-          issue_tracking_integration: S.optional(S.NullOr(S.Number)),
-          issue_tracking_config: S.optional(__S(5568, __c174, 0)),
-          max_reports_per_day: S.optional(S.NullOr(S.Number)),
-          default_open_pull_request_ready: S.optional(S.Boolean),
-          github_issue_writeback_enabled: S.optional(S.Boolean),
-          pull_request_label_enabled: S.optional(S.Boolean),
-          pull_request_label: S.optional(S.NullOr(S.String)),
-          implementation_repositories: S.optional(__S(3072, __c96, 0)),
-          anomaly_scoring_enabled: S.optional(S.Boolean),
-          anomaly_scoring_available: S.Boolean,
-          reports_generated_today: S.Number,
-          daily_report_limit_reached: S.Boolean,
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "SignalTeamConfig" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportChecksDestroyRequest" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          purpose: S.optional(S.String),
-          reference_period_minutes: S.Number,
-          threshold_scaling: S.String,
-          baseline_period_minutes: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "MonitoringMetricConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          lower: S.Number,
-          upper: S.Number,
-        }),
-      ).annotate({ identifier: "CheckThresholdBounds" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          operator: S.String,
-          value: S.optional(S.NullOr(S.Number)),
-          bounds: S.optional(S.NullOr(__S(5633, __c176, 1))),
-        }),
-      ).annotate({ identifier: "CheckComparison" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          metric_id: S.optional(S.NullOr(S.String)),
-          query: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          monitoring: __S(5632, __c176, 0),
-          comparison: __S(5634, __c176, 2),
-          baseline_value: S.optional(S.NullOr(S.Number)),
-          metric_kind: S.optional(S.NullOr(S.String)),
-          value_format: S.optional(S.NullOr(S.String)),
-          unit: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "MetricThresholdReplacementConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          title: S.String,
-          rationale: S.optional(S.String),
-          config: __S(5635, __c176, 3),
-          soak_minutes: S.optional(S.Number),
-          run_interval_minutes: S.optional(S.Number),
-          runs_remaining: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/{report_id}/checks/{id}/replace/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportChecksReplaceCreateRequest" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          pull_request_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_checks/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportPrChecksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          status: S.NullOr(S.String),
-          conclusion: S.NullOr(S.String),
-          url: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "PullRequestCheck" });
-    case 2:
-      return S.Array(__S(5665, __c177, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          checks: __S(5666, __c177, 2),
-        }),
-      ).annotate({ identifier: "PullRequestChecksResponse" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          pull_request_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/pr_comments/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportPrCommentsRequest" });
-    case 1:
-      return S.Array(__S(1825, __c57, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          comments: __S(5697, __c178, 1),
-        }),
-      ).annotate({ identifier: "PullRequestCommentsResponse" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          state: S.String,
-          dismissal_reason: S.optional(S.String),
-          dismissal_note: S.optional(S.String),
-          corrected_repository: S.optional(S.String),
-          snooze_for: S.optional(S.Number),
-          ids: __S(3072, __c96, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/bulk-state/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportsBulkStateCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          outcome: S.String,
-          status: S.optional(S.NullOr(S.String)),
-          detail: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SignalReportBulkStateResult" });
-    case 2:
-      return S.Array(__S(5729, __c179, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          results: __S(5730, __c179, 2),
-          transitioned_count: S.Number,
-          skipped_count: S.Number,
-          failed_count: S.Number,
-          not_found_count: S.Number,
-        }),
-      ).annotate({ identifier: "SignalReportBulkStateResponse" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportsDestroyRequest" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/{id}/spend/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportSpendRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          generation: __S(5824, __c182, 0),
-          implementation: __S(5824, __c182, 0),
-          shared_scout_runs: __S(5824, __c182, 0),
-        }),
-      ).annotate({ identifier: "ReportSpend" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          total_spend: S.NullOr(S.Number),
-          incomplete: S.Boolean,
-        }),
-      ).annotate({ identifier: "SpendAmount" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_ids: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/signals/reports/pr_ci_statuses/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportsPrCiStatusesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          report_id: S.String,
-          ci_status: S.String,
-        }),
-      ).annotate({ identifier: "PullRequestCiStatus" });
-    case 2:
-      return S.Array(__S(5857, __c183, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          statuses: __S(5858, __c183, 2),
-        }),
-      ).annotate({ identifier: "PullRequestCiStatusesResponse" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3072, __c96, 0),
-          read: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/read_state/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportsReadStateCreateRequest" });
-    case 1:
-      return S.Record(S.String, S.Boolean);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          states: __S(5889, __c184, 1),
-        }),
-      ).annotate({ identifier: "ReportReadStateResponse" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          report_ids: __S(3072, __c96, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/signals/reports/refresh_metrics/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SignalsReportsRefreshMetricsCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          metrics: __S(4257, __c133, 1),
-        }),
-      ).annotate({ identifier: "SignalReportMetricSnapshots" });
-    case 2:
-      return S.Array(__S(5921, __c185, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          reports: __S(5922, __c185, 2),
-        }),
-      ).annotate({ identifier: "SignalReportMetricRefreshResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

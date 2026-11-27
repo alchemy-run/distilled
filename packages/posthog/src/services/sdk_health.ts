@@ -34,7 +34,7 @@ export interface GetSdkHealthReportRequest {
 export type OverallHealthEnum = "healthy" | "needs_attention";
 /** * `success` - success * `warning` - warning * `danger` - danger */
 export type SdkHealthReportHealthEnum = "success" | "warning" | "danger";
-/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
+/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-rs-ffi` - posthog-rs-ffi * `posthog-electron` - posthog-electron * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
 export type LibEnum =
   | "web"
   | "posthog-ios"
@@ -61,6 +61,8 @@ export type LibEnum =
   | "posthog-aspnetcore"
   | "posthog-rs"
   | "posthog-rs-mcp"
+  | "posthog-rs-ffi"
+  | "posthog-electron"
   | "posthog-godot"
   | "posthog-unreal"
   | "posthog-go-mcp"
@@ -110,7 +112,7 @@ export interface OutdatedTrafficAlert {
 /** Outdated versions that handle a significant share of traffic (above the threshold). Not populated for mobile SDKs. */
 export type SdkAssessmentOutdatedTrafficAlertsList = Array<OutdatedTrafficAlert>;
 export interface SdkAssessment {
-  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
+  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-rs-ffi` - posthog-rs-ffi * `posthog-electron` - posthog-electron * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
   lib?: LibEnum | undefined;
   /** Human-readable SDK name matching the SDK Health UI (e.g. 'Python', 'Node.js', 'Web', 'iOS'). */
   readable_name?: string | undefined;
@@ -124,6 +126,8 @@ export interface SdkAssessment {
   is_old?: boolean | undefined;
   /** True when this SDK must be replaced by a supported successor rather than upgraded in place. */
   migration_required?: boolean | undefined;
+  /** URL of the migration guide for the latest major. Null unless the in-use major is behind latest and a guide exists. */
+  migration_guide_url: string | null;
   /** UI severity badge -- 'none' when healthy, 'warning' when outdated, 'danger' when the majority of team SDKs are outdated. * `none` - none * `warning` - warning * `danger` - danger */
   severity?: SdkAssessmentSeverityEnum | undefined;
   /** Per-SDK programmatic summary (used for ranking/filtering). For user-facing copy, prefer releases[].status_reason (badge tooltip) and banners (top-level alert text) -- those match the UI exactly. */
@@ -224,6 +228,7 @@ function __c0(j: number): any {
           is_outdated: S.optional(S.Boolean),
           is_old: S.optional(S.Boolean),
           migration_required: S.optional(S.Boolean),
+          migration_guide_url: S.NullOr(S.String),
           severity: S.optional(S.String),
           reason: S.optional(S.String),
           banners: S.optional(__S(1, __c0, 1)),

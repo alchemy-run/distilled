@@ -70,6 +70,7 @@ export type GpuType =
   | "H200"
   | "B200"
   | "B300"
+  | "L40S"
   | "RTX-PRO-6000"
   | "RTX-4090"
   | "RTX-5090"

@@ -379,6 +379,7 @@ export interface IpAddressInfoSet {
 export type IpAddressInfoSetList = Array<IpAddressInfoSet>;
 export interface AcceleratorAreas {
   AccelerateRegion?: string | undefined;
+  AccelerateRegionName?: string | undefined;
   Bandwidth?: number | undefined;
   IspType?: string | undefined;
   IpVersion?: string | undefined;
@@ -1936,6 +1937,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccelerateRegion: S.optional(S.String),
+          AccelerateRegionName: S.optional(S.String),
           Bandwidth: S.optional(S.Number),
           IspType: S.optional(S.String),
           IpVersion: S.optional(S.String),

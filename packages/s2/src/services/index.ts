@@ -3,5 +3,6 @@ export * as accessTokens from "./access_tokens.ts";
 export * as basins from "./basins.ts";
 export * as locations from "./locations.ts";
 export * as metrics from "./metrics.ts";
+export * as networkPolicies from "./network_policies.ts";
 export * as records from "./records.ts";
 export * as streams from "./streams.ts";

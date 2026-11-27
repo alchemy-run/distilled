@@ -27,25 +27,17 @@ const TELEMETRY = {
 } as const;
 
 export type AnthropicBetaCase1 =
-  | "message-batches-2024-09-24"
-  | "prompt-caching-2024-07-31"
   | "computer-use-2024-10-22"
   | "computer-use-2025-01-24"
-  | "pdfs-2024-09-25"
-  | "token-counting-2024-11-01"
-  | "token-efficient-tools-2025-02-19"
   | "output-128k-2025-02-19"
-  | "files-api-2025-04-14"
   | "mcp-client-2025-04-04"
   | "mcp-client-2025-11-20"
   | "dev-full-thinking-2025-05-14"
   | "interleaved-thinking-2025-05-14"
   | "code-execution-2025-05-22"
-  | "extended-cache-ttl-2025-04-11"
   | "context-1m-2025-08-07"
   | "context-management-2025-06-27"
   | "model-context-window-exceeded-2025-08-26"
-  | "skills-2025-10-02"
   | "fast-mode-2026-02-01"
   | "output-300k-2026-03-24"
   | "user-profiles-2026-03-24"
@@ -53,7 +45,6 @@ export type AnthropicBetaCase1 =
   | "user-profiles-2026-09-04"
   | "advisor-tool-2026-03-01"
   | "managed-agents-2026-04-01"
-  | "cache-diagnosis-2026-04-07"
   | "dreaming-2026-04-21"
   | "thinking-token-count-2026-05-13"
   | "server-side-fallback-2026-06-01"
@@ -68,7 +59,6 @@ export type AnthropicBetaCase1 =
   | "structured-outputs-2025-11-13"
   | "task-budgets-2026-03-13"
   | "thinking-display-updates-2026-08-18"
-  | "ce-user-management-2026-07-13"
   | "mid-conversation-output-config-2026-07-01"
   | "thinking-binding-controls-2026-08-01"
   | "mid-conversation-system-clear-at-2026-08-21"
@@ -82,7 +72,21 @@ export type AnthropicBetaCase1 =
   | "admin-user-sign-out-2026-10-08"
   | "message-threads-2026-08-12"
   | "analytics-usage-cost-2026-08-24"
-  | "experimental-claude-tag-2026-10-21";
+  | "experimental-claude-tag-2026-10-21"
+  | "message-batches-2024-09-24"
+  | "prompt-caching-2024-07-31"
+  | "pdfs-2024-09-25"
+  | "token-counting-2024-11-01"
+  | "token-efficient-tools-2025-02-19"
+  | "files-api-2025-04-14"
+  | "extended-cache-ttl-2025-04-11"
+  | "skills-2025-10-02"
+  | "cache-diagnosis-2026-04-07"
+  | "ce-user-management-2026-07-13"
+  | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
+  | "google-managed-data-controls-2026-09-01"
+  | "user-profiles-billing-2026-10-01";
 /** Beta names you can send in the `anthropic-beta` header. See [Beta headers](https://platform.claude.com/docs/en/api/beta-headers) for how to send them and where to find the name a feature needs. */
 export type AnthropicBeta = string | AnthropicBetaCase1;
 /** This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header. */
@@ -163,7 +167,7 @@ export interface BetaManagedAgentsModelConfig {
 export type BetaManagedAgentsAlwaysAllowPolicy = BetaManagedAgentsEffortLow;
 /** Tool calls require user confirmation before execution. */
 export type BetaManagedAgentsAlwaysAskPolicy = BetaManagedAgentsEffortLow;
-/** The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask. */
+/** The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit. */
 export type BetaManagedAgentsAutoPolicy = BetaManagedAgentsEffortLow;
 /** Permission policy for tool execution. */
 export type BetaManagedAgentsPermissionPolicy =
@@ -736,16 +740,7 @@ export interface BetaManagedAgentsAgentParams {
 }
 /** How hard Claude works on each turn. Higher levels favor reasoning depth over latency. Not all models accept every level; invalid combinations are rejected at create time. */
 export type BetaManagedAgentsEffortLevel = "low" | "medium" | "high" | "xhigh" | "max";
-/** How hard Claude works on each turn. Sets `output_config.effort` on every Messages call the session makes. */
-export type BetaManagedAgentsEffortParamsCase1 =
-  | BetaManagedAgentsEffortLow
-  | BetaManagedAgentsEffortLow
-  | BetaManagedAgentsEffortLow
-  | BetaManagedAgentsEffortLow
-  | BetaManagedAgentsEffortLow;
-export type BetaManagedAgentsEffortParams =
-  | BetaManagedAgentsEffortLevel
-  | BetaManagedAgentsEffortParamsCase1;
+export type BetaManagedAgentsEffortParams = BetaManagedAgentsEffortLevel | BetaManagedAgentsEffort;
 /** An object that defines additional configuration control over model use */
 export interface BetaManagedAgentsModelConfigParams {
   id: BetaManagedAgentsModel;
@@ -1482,10 +1477,10 @@ export interface BetaManagedAgentsAgentAutoEvaluatedPermissionAsk {
   /** The judgement's grounds in registry-bound terms, for client branching and audit rather than end-user display. Open registry; currently "indeterminate" (no judgement was reached). Clients must tolerate values outside this set. */
   reason_code: string;
 }
-/** The server judged the invocation high-risk; it does not execute and a synthetic error tool result is appended. */
+/** The server judged the invocation high-risk, or reached no judgement and did not hold it for client approval (for example, because the organization is out of credits or has reached a spend limit); it does not execute and a synthetic error tool result is appended. */
 export interface BetaManagedAgentsAgentAutoEvaluatedPermissionDeny {
   type: string;
-  /** The judgement's grounds in registry-bound terms. Open registry; currently "high_risk" (judged high-risk; the call does not run). Clients must tolerate values outside this set. */
+  /** The judgement's grounds in registry-bound terms. Open registry; currently "high_risk" (judged high-risk; the call does not run) and "indeterminate" (no judgement was reached; the call does not run). Clients must tolerate values outside this set. */
   reason_code: string;
 }
 /** The server's per-invocation judgement under the auto permission policy. Its type always equals the event's top-level evaluated_permission. Open union: clients must tolerate unknown variants. */
@@ -1677,7 +1672,7 @@ export interface BetaManagedAgentsCredentialHostUnreachableError {
   /** ID of the affected credential. */
   credential_id: string;
 }
-/** The turn stopped because the agent loop reached its limit on tool-use rounds (one model response that calls tools, plus running those tools, is one round), not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn. */
+/** The turn stopped at one of two limits on tool use, not because a request failed. One limit is on tool-use rounds (one model response that calls tools, plus running those tools, is one round). The other is on model responses in a row that each request a single tool call and are cut off by the model's output or context limit before the call is complete. None of those calls runs. `message` states the limit that applied. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn. */
 export type BetaManagedAgentsToolUseLimitReachedError = BetaManagedAgentsUnknownError;
 /** The turn stopped because the context was compacted the maximum number of times in a row without the model producing a message or a tool call, not because a request failed. The thread goes idle with `stop_reason: retries_exhausted` (a child thread then terminates); the next `user.message` starts a new turn. */
 export type BetaManagedAgentsCompactionLimitReachedError = BetaManagedAgentsUnknownError;

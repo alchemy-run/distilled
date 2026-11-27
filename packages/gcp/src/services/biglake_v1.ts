@@ -99,54 +99,54 @@ export class NotFound
 
 /** Catalog is the container of databases. */
 export interface Catalog {
-  /** Output only. The last modification time of the catalog. */
-  updateTime?: string | undefined;
-  /** Output only. The deletion time of the catalog. Only set after the catalog is deleted. */
-  deleteTime?: string | undefined;
-  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
-  name?: string | undefined;
   /** Output only. The creation time of the catalog. */
   createTime?: string | undefined;
   /** Output only. The time when this catalog is considered expired. Only set after the catalog is deleted. */
   expireTime?: string | undefined;
+  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
+  name?: string | undefined;
+  /** Output only. The last modification time of the catalog. */
+  updateTime?: string | undefined;
+  /** Output only. The deletion time of the catalog. Only set after the catalog is deleted. */
+  deleteTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCatalogsRequest extends Catalog {
-  /** Required. The ID to use for the catalog, which will become the final component of the catalog's resource name. */
-  catalogId?: string | undefined;
   /** Required. The parent resource where this catalog will be created. Format: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
+  /** Required. The ID to use for the catalog, which will become the final component of the catalog's resource name. */
+  catalogId?: string | undefined;
 }
+export type DatabaseTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
 export type StringMap = { [key: string]: string | undefined };
 /** Options of a Hive database. */
 export interface HiveDatabaseOptions {
-  /** Stores user supplied Hive database parameters. */
-  parameters?: StringMap | undefined;
   /** Cloud Storage folder URI where the database data is stored, starting with "gs://". */
   locationUri?: string | undefined;
+  /** Stores user supplied Hive database parameters. */
+  parameters?: StringMap | undefined;
 }
-export type DatabaseTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
 /** Database is the container of tables. */
 export interface Database {
-  /** Output only. The creation time of the database. */
-  createTime?: string | undefined;
-  /** Options of a Hive database. */
-  hiveOptions?: HiveDatabaseOptions | undefined;
-  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
-  name?: string | undefined;
-  /** Output only. The time when this database is considered expired. Only set after the database is deleted. */
-  expireTime?: string | undefined;
   /** The database type. */
   type?: DatabaseTypeEnum | (string & {}) | undefined;
+  /** Options of a Hive database. */
+  hiveOptions?: HiveDatabaseOptions | undefined;
   /** Output only. The last modification time of the database. */
   updateTime?: string | undefined;
   /** Output only. The deletion time of the database. Only set after the database is deleted. */
   deleteTime?: string | undefined;
+  /** Output only. The time when this database is considered expired. Only set after the database is deleted. */
+  expireTime?: string | undefined;
+  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
+  name?: string | undefined;
+  /** Output only. The creation time of the database. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCatalogsDatabasesRequest extends Database {
-  /** Required. The parent resource where this database will be created. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
-  parent: string;
   /** Required. The ID to use for the database, which will become the final component of the database's resource name. */
   databaseId?: string | undefined;
+  /** Required. The parent resource where this database will be created. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
+  parent: string;
 }
 export type TableTypeEnum = "TYPE_UNSPECIFIED" | "HIVE";
 /** Serializer and deserializer information. */
@@ -156,42 +156,42 @@ export interface SerDeInfo {
 }
 /** Stores physical storage information of the data. */
 export interface StorageDescriptor {
-  /** Cloud Storage folder URI where the table data is stored, starting with "gs://". */
-  locationUri?: string | undefined;
   /** Serializer and deserializer information. */
   serdeInfo?: SerDeInfo | undefined;
-  /** The fully qualified Java class name of the input format. */
-  inputFormat?: string | undefined;
   /** The fully qualified Java class name of the output format. */
   outputFormat?: string | undefined;
+  /** Cloud Storage folder URI where the table data is stored, starting with "gs://". */
+  locationUri?: string | undefined;
+  /** The fully qualified Java class name of the input format. */
+  inputFormat?: string | undefined;
 }
 /** Options of a Hive table. */
 export interface HiveTableOptions {
   /** Hive table type. For example, MANAGED_TABLE, EXTERNAL_TABLE. */
   tableType?: string | undefined;
-  /** Stores user supplied Hive table parameters. */
-  parameters?: StringMap | undefined;
   /** Stores physical storage information of the data. */
   storageDescriptor?: StorageDescriptor | undefined;
+  /** Stores user supplied Hive table parameters. */
+  parameters?: StringMap | undefined;
 }
 /** Represents a table. */
 export interface Table {
-  /** Output only. The creation time of the table. */
-  createTime?: string | undefined;
   /** The table type. */
   type?: TableTypeEnum | (string & {}) | undefined;
-  /** Output only. The time when this table is considered expired. Only set after the table is deleted. */
-  expireTime?: string | undefined;
-  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
-  name?: string | undefined;
   /** The checksum of a table object computed by the server based on the value of other fields. It may be sent on update requests to ensure the client has an up-to-date value before proceeding. It is only checked for update table operations. */
   etag?: string | undefined;
   /** Options of a Hive table. */
   hiveOptions?: HiveTableOptions | undefined;
-  /** Output only. The deletion time of the table. Only set after the table is deleted. */
-  deleteTime?: string | undefined;
+  /** Output only. The time when this table is considered expired. Only set after the table is deleted. */
+  expireTime?: string | undefined;
+  /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
+  name?: string | undefined;
+  /** Output only. The creation time of the table. */
+  createTime?: string | undefined;
   /** Output only. The last modification time of the table. */
   updateTime?: string | undefined;
+  /** Output only. The deletion time of the table. Only set after the table is deleted. */
+  deleteTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCatalogsDatabasesTablesRequest extends Table {
   /** Required. The parent resource where this table will be created. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
@@ -212,10 +212,10 @@ export interface DeleteProjectsLocationsCatalogsDatabasesTablesRequest {
   name: string;
 }
 export interface GetIamPolicyProjectsCatalogsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -241,14 +241,14 @@ export interface AuditConfig {
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -262,32 +262,32 @@ export interface Binding {
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsCatalogsNamespacesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsCatalogsNamespacesTablesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsCatalogsNamespacesViewsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsCatalogsRequest {
   /** Required. The name of the catalog to retrieve. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
@@ -302,12 +302,12 @@ export interface GetProjectsLocationsCatalogsDatabasesTablesRequest {
   name: string;
 }
 export interface ListProjectsLocationsCatalogsRequest {
+  /** A page token, received from a previous `ListCatalogs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCatalogs` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of catalogs. Format: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
   /** The maximum number of catalogs to return. The service may return fewer than this value. If unspecified, at most 50 catalogs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** A page token, received from a previous `ListCatalogs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCatalogs` must match the call that provided the page token. */
-  pageToken?: string | undefined;
 }
 export type CatalogList = Array<Catalog>;
 /** Response message for the ListCatalogs method. */
@@ -320,32 +320,32 @@ export interface ListCatalogsResponse {
 export interface ListProjectsLocationsCatalogsDatabasesRequest {
   /** A page token, received from a previous `ListDatabases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatabases` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** The maximum number of databases to return. The service may return fewer than this value. If unspecified, at most 50 databases will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of databases. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
   parent: string;
+  /** The maximum number of databases to return. The service may return fewer than this value. If unspecified, at most 50 databases will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type DatabaseList = Array<Database>;
 /** Response message for the ListDatabases method. */
 export interface ListDatabasesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The databases from the specified catalog. */
   databases?: DatabaseList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsCatalogsDatabasesTablesViewEnum =
   | "TABLE_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
 export interface ListProjectsLocationsCatalogsDatabasesTablesRequest {
-  /** Required. The parent, which owns this collection of tables. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
-  parent: string;
   /** The maximum number of tables to return. The service may return fewer than this value. If unspecified, at most 50 tables will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** The view for the returned tables. */
-  view?: ListProjectsLocationsCatalogsDatabasesTablesViewEnum | (string & {}) | undefined;
   /** A page token, received from a previous `ListTables` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTables` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The parent, which owns this collection of tables. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
+  parent: string;
+  /** The view for the returned tables. */
+  view?: ListProjectsLocationsCatalogsDatabasesTablesViewEnum | (string & {}) | undefined;
 }
 export type TableList = Array<Table>;
 /** Response message for the ListTables method. */
@@ -362,10 +362,10 @@ export interface PatchProjectsLocationsCatalogsDatabasesRequest extends Omit<Dat
   name: string;
 }
 export interface PatchProjectsLocationsCatalogsDatabasesTablesRequest extends Omit<Table, "name"> {
-  /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
-  updateMask?: string | undefined;
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
+  /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
+  updateMask?: string | undefined;
 }
 /** Request message for the RenameTable method in MetastoreService */
 export interface RenameTableRequest {
@@ -378,10 +378,10 @@ export interface RenameProjectsLocationsCatalogsDatabasesTablesRequest extends R
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsCatalogsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1095,8 +1095,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1130,10 +1130,10 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
           title: S.optional(S.String),
+          description: S.optional(S.String),
+          location: S.optional(S.String),
+          expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 5:
@@ -1149,9 +1149,9 @@ function __c2(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           auditConfigs: S.optional(__S(19, __c2, 3)),
           version: S.optional(S.Number),
+          etag: S.optional(S.String),
           bindings: S.optional(__S(22, __c2, 6)),
         }),
       ).annotate({ identifier: "Policy" });
@@ -1168,8 +1168,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1185,8 +1185,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1202,8 +1202,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1255,9 +1255,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1283,8 +1283,8 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1298,8 +1298,8 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           databases: S.optional(__S(89, __c11, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
@@ -1309,10 +1309,10 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          view: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1359,8 +1359,8 @@ function __c14(j: number): any {
         S.Extend(
           __S(259, __c32, 3),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1421,8 +1421,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(23, __c2, 7)),
           updateMask: S.optional(S.String),
+          policy: S.optional(__S(23, __c2, 7)),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
   }
@@ -1577,8 +1577,8 @@ function __c26(j: number): any {
         S.Extend(
           __S(216, __c27, 0),
           S.Struct({
-            catalogId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            catalogId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1595,11 +1595,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
           expireTime: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Catalog" });
   }
@@ -1611,8 +1611,8 @@ function __c28(j: number): any {
         S.Extend(
           __S(241, __c30, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             databaseId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1635,20 +1635,20 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(232, __c29, 0)),
           locationUri: S.optional(S.String),
+          parameters: S.optional(__S(232, __c29, 0)),
         }),
       ).annotate({ identifier: "HiveDatabaseOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          hiveOptions: S.optional(__S(240, __c30, 0)),
-          name: S.optional(S.String),
-          expireTime: S.optional(S.String),
           type: S.optional(S.String),
+          hiveOptions: S.optional(__S(240, __c30, 0)),
           updateTime: S.optional(S.String),
           deleteTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Database" });
   }
@@ -1684,31 +1684,31 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          locationUri: S.optional(S.String),
           serdeInfo: S.optional(__S(256, __c32, 0)),
-          inputFormat: S.optional(S.String),
           outputFormat: S.optional(S.String),
+          locationUri: S.optional(S.String),
+          inputFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageDescriptor" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           tableType: S.optional(S.String),
-          parameters: S.optional(__S(232, __c29, 0)),
           storageDescriptor: S.optional(__S(257, __c32, 1)),
+          parameters: S.optional(__S(232, __c29, 0)),
         }),
       ).annotate({ identifier: "HiveTableOptions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
           type: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          name: S.optional(S.String),
           etag: S.optional(S.String),
           hiveOptions: S.optional(__S(258, __c32, 2)),
-          deleteTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Table" });
   }

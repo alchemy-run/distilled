@@ -31,11 +31,27 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
+
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
   )
 {
   declare readonly body?: ErrorResponse | string;
@@ -47,7 +63,7 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -63,7 +79,7 @@ export class PayloadTooLarge
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -269,7 +285,7 @@ export interface ProfileFingerprint {
   headers: ProfileFingerprintHeaders;
 }
 /** The status of the profile */
-export type ProfileStatus = "UPLOADING" | "READY" | "FAILED";
+export type ProfileStatus = "UPLOADING" | "READY" | "FAILED" | "DELETING" | "DELETED";
 export interface Profile {
   /** The date and time when the profile was created */
   createdAt: string;
@@ -295,6 +311,11 @@ export interface Profile {
   useProxyConfig: unknown | null;
   /** The user agent associated with the profile */
   userAgent: string | null;
+}
+export interface DeleteProfileRequest {
+  id: string;
+  /** Project to query profiles from */
+  projectId?: string | undefined;
 }
 export interface GetProfileRequest {
   id: string;
@@ -428,7 +449,12 @@ export interface ProfileListResponseProfilesItemFingerprint {
   headers: ProfileFingerprintHeaders;
 }
 /** The status of the profile */
-export type ProfileListResponseProfilesItemStatus = "UPLOADING" | "READY" | "FAILED";
+export type ProfileListResponseProfilesItemStatus =
+  | "UPLOADING"
+  | "READY"
+  | "FAILED"
+  | "DELETING"
+  | "DELETED";
 export interface ProfileListResponseProfilesItem {
   /** The date and time when the profile was created */
   createdAt: string;
@@ -486,11 +512,15 @@ export interface ErrorResponseContextItem {
   params: unknown;
 }
 export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+export type ErrorResponseDetailsMap = { [key: string]: unknown | undefined };
 /** An error response from the API */
 export interface ErrorResponse {
   /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
   code?: string | undefined;
   context?: ErrorResponseContextList | undefined;
+  /** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+  details?: ErrorResponseDetailsMap | undefined;
   error?: string | undefined;
   linkToDocs?: string | undefined;
   message: string;
@@ -500,6 +530,8 @@ export interface ErrorResponse {
   retryAfterSeconds?: number | undefined;
   /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
   retryable?: boolean | undefined;
+  /** Where a person turns on the refused feature, e.g. verifying the account. Pass it to your user. */
+  unlockUrl?: string | undefined;
 }
 export type CreateProfileError = BadRequest | NotFound | PayloadTooLarge | SteelOpError;
 /** Create a profile Create a new profile */
@@ -519,6 +551,24 @@ export const createProfile: API.OperationMethod<
   span: "CreateProfile",
 }));
 
+export type DeleteProfileError = BadRequest | NotFound | Conflict | SteelOpError;
+/** Delete a profile Delete the profile and its stored browser data immediately, with a final asynchronous cleanup pass. */
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileRequest,
+  Profile,
+  DeleteProfileError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteProfileRequest>,
+  output: __S(87, __c2, 23) as any as S.Schema<Profile>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
+}));
+
 export type GetProfileError = BadRequest | NotFound | SteelOpError;
 /** Get a profile Retrieve a profile by ID */
 export const getProfile: API.OperationMethod<
@@ -527,7 +577,7 @@ export const getProfile: API.OperationMethod<
   GetProfileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetProfileRequest>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetProfileRequest>,
   output: __S(87, __c2, 23) as any as S.Schema<Profile>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
@@ -545,8 +595,8 @@ export const listProfiles: API.OperationMethod<
   ListProfilesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ListProfilesRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<ProfileListResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListProfilesRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<ProfileListResponse>,
   errors: [BadRequest],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -563,7 +613,7 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<UpdateProfileRequest>,
+  input: __S(192, __c6, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(87, __c2, 23) as any as S.Schema<Profile>,
   errors: [BadRequest, NotFound, PayloadTooLarge],
   serviceErrors: SteelServiceErrors,
@@ -587,16 +637,20 @@ function __c0(j: number): any {
     case 1:
       return S.Array(__S(0, __c0, 0));
     case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           context: S.optional(__S(1, __c0, 1)),
+          details: S.optional(__S(2, __c0, 2)),
           error: S.optional(S.String),
           linkToDocs: S.optional(S.String),
           message: S.String,
           param: S.optional(S.String),
           retryAfterSeconds: S.optional(S.Number),
           retryable: S.optional(S.Boolean),
+          unlockUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
@@ -888,11 +942,22 @@ function __c3(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/profiles/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteProfileRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/profiles/{id}", code: 200 })),
       ).annotate({ identifier: "GetProfileRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -906,12 +971,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          profiles: __S(129, __c4, 1),
+          profiles: __S(161, __c5, 1),
         }),
       ).annotate({ identifier: "ProfileListResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

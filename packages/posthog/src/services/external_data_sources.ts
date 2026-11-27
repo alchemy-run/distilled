@@ -31,11 +31,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ExternalDataSourceErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -102,9 +107,27 @@ export interface ExternalDataSourceCreateResponse {
   /** ID of the created external data source. */
   id: string;
 }
+/** Connection details as flat keys for the source_type, the same fields the create flow takes in its payload (host, port, database, user, password, schema, ssh_tunnel and so on). Discover them with 'external-data-sources-wizard'. Prefer {'credential_id': <id>} referencing connection details the user stored via the connect-link page: it is merged in server-side and is not consumed by this check, so the same id still works for source setup afterwards. */
+export type CreateExternalDataSourcesCheckCdcPrerequisiteRequestPayloadMap = {
+  [key: string]: unknown | undefined;
+};
+/** Tables to check against the publication. Omit to check the database-level prerequisites only. */
+export type CreateExternalDataSourcesCheckCdcPrerequisiteRequestTablesList = Array<string>;
 export interface CreateExternalDataSourcesCheckCdcPrerequisiteRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** A CDC-capable source type, for example 'Postgres'. Other source types are rejected. */
+  source_type: string;
+  /** Connection details as flat keys for the source_type, the same fields the create flow takes in its payload (host, port, database, user, password, schema, ssh_tunnel and so on). Discover them with 'external-data-sources-wizard'. Prefer {'credential_id': <id>} referencing connection details the user stored via the connect-link page: it is merged in server-side and is not consumed by this check, so the same id still works for source setup afterwards. */
+  payload?: CreateExternalDataSourcesCheckCdcPrerequisiteRequestPayloadMap | undefined;
+  /** Who owns the replication slot and publication: 'posthog' (default, PostHog creates them) or 'self_managed' (the user created them). */
+  cdc_management_mode?: string | undefined;
+  /** Tables to check against the publication. Omit to check the database-level prerequisites only. */
+  tables?: CreateExternalDataSourcesCheckCdcPrerequisiteRequestTablesList | undefined;
+  /** Self-managed replication slot name to check. Ignored in 'posthog' mode. */
+  cdc_slot_name?: string | null | undefined;
+  /** Self-managed publication name to check. Ignored in 'posthog' mode. */
+  cdc_publication_name?: string | null | undefined;
 }
 /** Unmet prerequisites, empty when valid is true. */
 export type CdcPrerequisitesResponseErrorsList = Array<string>;
@@ -119,6 +142,10 @@ export type ExternalDataSourceCreatedViaEnum = "web" | "api" | "mcp" | "wizard" 
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequestAutoSyncSchemaPatternsList =
   Array<string>;
+export interface SourceUpdatePayload {
+  /** Id of a stored credential to reconnect this source with. The user enters new connection details on the page that data-warehouse-source-connect-link returns, and the id comes from the stored_credentials list. Only the user who stored the credential can use it, and it must be for this source's source_type and not expired. Its values replace the source's connection details, then the connection is checked. An SSH tunnel or connection host that the user did not enter on the page is not kept. The stored credential is deleted when the update succeeds. */
+  credential_id: string;
+}
 export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -140,6 +167,8 @@ export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest 
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
 export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse {}
 /** Values of the sibling fields named by the picker's `credentialFields`. Any other key is rejected. */
@@ -212,6 +241,51 @@ export interface DraftCustomManifestResponse {
   /** The last validation error when draft_status is not 'ok'; null on success. */
   error: string | null;
 }
+/** Trade-offs of picking this field. */
+export type IncrementalFieldCandidateNotesList = Array<string>;
+export interface IncrementalFieldCandidate {
+  /** Name of the field as shown in the UI. */
+  label: string;
+  /** Name of the field in the source table. Kept verbatim, since a quoted identifier can have spaces. */
+  field: string;
+  /** Type of the field as shown in the UI, such as timestamp. */
+  type: string;
+  /** Type of the field in the source, such as timestamp. */
+  field_type: string;
+  /** Whether the field allows null values. */
+  nullable?: boolean | undefined;
+  /** Whether the field leads an index or sort key on the source table. */
+  is_indexed?: boolean | undefined;
+  /** Whether this is the field the source recommends as the incremental cursor. */
+  recommended?: boolean | undefined;
+  /** Whether the decision model, not the name rules, picked this field. Ignored on input. */
+  picked_by_model?: boolean | undefined;
+  /** Trade-offs of picking this field. */
+  notes?: IncrementalFieldCandidateNotesList | undefined;
+}
+/** The leading candidate incremental fields of the table, as returned by database_schema. The decision model reads at most this many. */
+export type IncrementalFieldTableIncrementalFieldsList = Array<IncrementalFieldCandidate>;
+export interface IncrementalFieldTable {
+  /** Name of the table, as returned by database_schema. */
+  table: string;
+  /** The leading candidate incremental fields of the table, as returned by database_schema. The decision model reads at most this many. */
+  incremental_fields: IncrementalFieldTableIncrementalFieldsList;
+}
+/** Tables from database_schema to get a recommended incremental field for. One request is one model call: up to 8 tables with up to 32 candidate fields in total, or a single table of any size. */
+export type CreateExternalDataSourcesIncrementalFieldRecommendationRequestTablesList =
+  Array<IncrementalFieldTable>;
+export interface CreateExternalDataSourcesIncrementalFieldRecommendationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Tables from database_schema to get a recommended incremental field for. One request is one model call: up to 8 tables with up to 32 candidate fields in total, or a single table of any size. */
+  tables: CreateExternalDataSourcesIncrementalFieldRecommendationRequestTablesList;
+}
+/** Only the tables where the decision model picked a field, with that field first and recommended. */
+export type IncrementalFieldRecommendationsResponseTablesList = Array<IncrementalFieldTable>;
+export interface IncrementalFieldRecommendationsResponse {
+  /** Only the tables where the decision model picked a field, with that field first and recommended. */
+  tables: IncrementalFieldRecommendationsResponseTablesList;
+}
 /** Source config as flat keys. For source_type 'Custom': 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the manifest's declared auth type -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic). Secrets stay in these auth_* keys, never inline in the manifest. */
 export type CreateExternalDataSourcesPreviewResourceRequestPayloadMap = {
   [key: string]: unknown | undefined;
@@ -272,6 +346,8 @@ export interface CreateExternalDataSourcesReloadRequest {
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
 export interface CreateExternalDataSourcesReloadResponse {}
 export interface CreateExternalDataSourcesRepairCdcRequest {
@@ -284,7 +360,7 @@ export interface CreateExternalDataSourcesRepairCdcResponse {
   success?: boolean | undefined;
   schemas_reset?: number | undefined;
 }
-/** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint) -- they are merged in server-side and deleted once consumed. An already-connected OAuth integration can be passed via its id key instead (e.g. {'hubspot_integration_id': 123}). For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
+/** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint). Stored credentials work once, expire after 24 hours, are deleted once the source is created, and must be stored for the same source_type. An already-connected OAuth integration can be passed via its id key instead. The key name differs per source and is listed in the wizard output as the source's OAuth field, e.g. {'hubspot_integration_id': 123}, {'google_ads_integration_id': 45} or {'meta_ads_integration_id': 67}. For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
 export type CreateExternalDataSourcesSetupRequestPayloadMap = {
   [key: string]: unknown | undefined;
 };
@@ -293,7 +369,7 @@ export interface CreateExternalDataSourcesSetupRequest {
   project_id: string;
   /** The source type to set up (e.g. 'Stripe', 'Postgres', 'Hubspot'). */
   source_type: string;
-  /** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint) -- they are merged in server-side and deleted once consumed. An already-connected OAuth integration can be passed via its id key instead (e.g. {'hubspot_integration_id': 123}). For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
+  /** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint). Stored credentials work once, expire after 24 hours, are deleted once the source is created, and must be stored for the same source_type. An already-connected OAuth integration can be passed via its id key instead. The key name differs per source and is listed in the wizard output as the source's OAuth field, e.g. {'hubspot_integration_id': 123}, {'google_ads_integration_id': 45} or {'meta_ads_integration_id': 67}. For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
   payload?: CreateExternalDataSourcesSetupRequestPayloadMap | undefined;
   /** Prefix added to the table names PostHog creates in HogQL, e.g. 'stripe' produces stripe_charges. Does not filter which tables are imported. Defaults to the source type. */
   prefix?: string | null | undefined;
@@ -301,6 +377,8 @@ export interface CreateExternalDataSourcesSetupRequest {
   description?: string | null | undefined;
   /** Whether a synced source should also be live-queryable via direct connection. Defaults to false; ignored for pure direct-query sources. */
   direct_query_enabled?: boolean | undefined;
+  /** Where the request came from: `web`, `api`, or `mcp`. Defaults to `api`. * `web` - web * `api` - api * `mcp` - mcp */
+  created_via?: ExternalDataSourceCreateCreatedViaEnum | (string & {}) | undefined;
 }
 /** Webhook input names the user still needs to provide (e.g. a signing secret the external API did not return on create). Submit them via the update_webhook_inputs endpoint. */
 export type SourceSetupWebhookPendingInputsList = Array<string>;
@@ -341,6 +419,8 @@ export interface CreateExternalDataSourcesSourcePrefixRequest {
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
 export interface CreateExternalDataSourcesSourcePrefixResponse {}
 /** Connection details as flat keys for the source_type -- the same fields the create flow accepts (host, port, password, API key, ...). Checked against a live connection before being stored. */
@@ -354,9 +434,11 @@ export interface CreateExternalDataSourcesStoreCredentialsRequest {
   source_type: string;
   /** Connection details as flat keys for the source_type -- the same fields the create flow accepts (host, port, password, API key, ...). Checked against a live connection before being stored. */
   payload: CreateExternalDataSourcesStoreCredentialsRequestPayloadMap;
+  /** The migration item whose prefilled settings the connect page showed. Every prefilled setting must keep its value, or the request is rejected before PostHog connects anywhere. */
+  migration_item_id?: string | undefined;
 }
 export interface SourceCredential {
-  /** Stored credential id. Pass to the setup endpoint as {'credential_id': <id>} to create the source. */
+  /** Stored credential id. Pass it as {'credential_id': <id>} in the payload of the setup endpoint to create a source, or of a source update to reconnect an existing source. */
   credential_id: string;
   /** The source type the stored credentials are for. */
   source_type: string;
@@ -365,6 +447,29 @@ export interface SourceCredential {
   /** When the stored credentials expire. Unconsumed credentials are unusable past this time. */
   expires_at: string;
 }
+/** * `infer` - Infer from the file names * `csv` - CSV with a header row * `csv_no_header` - CSV without a header row * `jsonl` - JSON Lines * `parquet` - Parquet * `delta` - Delta table */
+export type ObjectStorageTableFileFormatEnum =
+  | "infer"
+  | "csv"
+  | "csv_no_header"
+  | "jsonl"
+  | "parquet"
+  | "delta";
+export interface ExternalDataSourcesAddTableCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data source. */
+  id: string;
+  /** Name of the new table in the source. Starts with a letter or underscore, and contains only letters, numbers and underscores. Must not be the name of another table in the source. */
+  name: string;
+  /** Where the table's files are. Use a path inside the folder of the source's files URL, such as `events/`, `events/2026/*.parquet` or `data/file.csv`, or a full URL inside that folder. A folder reads every file under it. Wildcards use ClickHouse glob syntax. An empty path reads the whole folder. A source whose files URL names one file or a pattern can't add tables. */
+  path: string;
+  /** The format of the files. `infer` reads each file by its extension, and reads a folder that holds a `_delta_log` folder as a Delta table. `delta` needs the folder of a Delta table, without wildcards. * `infer` - Infer from the file names * `csv` - CSV with a header row * `csv_no_header` - CSV without a header row * `jsonl` - JSON Lines * `parquet` - Parquet * `delta` - Delta table */
+  file_format?: ObjectStorageTableFileFormatEnum | (string & {}) | undefined;
+  /** For CSV files: whether a double quote encloses a field. When false, it is an ordinary character. */
+  csv_allow_double_quotes?: boolean | undefined;
+}
+export type ExternalDataSchemaOutputTableMap = { [key: string]: unknown | undefined };
 /** * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
 export type ExternalDataSchemaSyncTypeEnum =
   | "full_refresh"
@@ -373,68 +478,6 @@ export type ExternalDataSchemaSyncTypeEnum =
   | "webhook"
   | "cdc"
   | "xmin";
-/** Column names for primary key deduplication. */
-export type ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList = Array<string>;
-/** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
-/** Columns to sync. Null means sync all columns. */
-export type ExternalDataSourceBulkUpdateSchemaEnabledColumnsList = Array<string>;
-/** Columns whose values are replaced with a one-way digest at sync time. Null means mask nothing. Any change starts a full resync of the table. */
-export type ExternalDataSourceBulkUpdateSchemaMaskedColumnsList = Array<string>;
-export interface ExternalDataSourceBulkUpdateSchemaRowFiltersItem {
-  column: string;
-  /** One of: > >= < <= = != IN "NOT IN". */
-  operator: string;
-  /** Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`). */
-  value: unknown;
-}
-/** Row-filter predicates ANDed onto the source query. Null/empty means sync all rows. */
-export type ExternalDataSourceBulkUpdateSchemaRowFiltersList =
-  Array<ExternalDataSourceBulkUpdateSchemaRowFiltersItem>;
-export interface ExternalDataSourceBulkUpdateSchema {
-  /** Schema identifier to update. */
-  id?: string | undefined;
-  /** Whether the schema should be queryable/synced. */
-  should_sync?: boolean | undefined;
-  /** Requested sync mode for the schema (incremental, full_refresh, append, cdc, or xmin). * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
-  /** Incremental cursor field for incremental or append syncs. */
-  incremental_field?: string | null | undefined;
-  /** Type of the incremental cursor field. */
-  incremental_field_type?: string | null | undefined;
-  /** Human-readable sync frequency value. */
-  sync_frequency?: string | null | undefined;
-  /** UTC anchor time for scheduled syncs. */
-  sync_time_of_day?: string | null | undefined;
-  /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row. Re-imported rows count toward usage, and workflows and destinations that run on new rows of the table run again for every row. Incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null | undefined;
-  /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null | undefined;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList | null | undefined;
-  /** How CDC-backed tables should be exposed. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
-  /** Columns to sync. Null means sync all columns. */
-  enabled_columns?: ExternalDataSourceBulkUpdateSchemaEnabledColumnsList | null | undefined;
-  /** Columns whose values are replaced with a one-way digest at sync time. Null means mask nothing. Any change starts a full resync of the table. */
-  masked_columns?: ExternalDataSourceBulkUpdateSchemaMaskedColumnsList | null | undefined;
-  /** Row-filter predicates ANDed onto the source query. Null/empty means sync all rows. */
-  row_filters?: ExternalDataSourceBulkUpdateSchemaRowFiltersList | null | undefined;
-  /** When true and the schema has no sync method configured yet (and this update does not set one), discover the table on the source and fill in default sync settings: incremental sync with an auto-selected tracking column where supported, otherwise append, otherwise full refresh. Ignored for schemas that already have a sync method. */
-  apply_sync_defaults?: boolean | undefined;
-}
-/** Schema updates to apply in a single batch. */
-export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequestSchemasList =
-  Array<ExternalDataSourceBulkUpdateSchema>;
-export interface ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  /** A UUID string identifying this external data source. */
-  id: string;
-  /** Schema updates to apply in a single batch. */
-  schemas: ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequestSchemasList;
-}
-export type ExternalDataSchemaOutputTableMap = { [key: string]: unknown | undefined };
 /** * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
 export type IncrementalFieldTypeEnum =
   | "integer"
@@ -444,9 +487,8 @@ export type IncrementalFieldTypeEnum =
   | "timestamp"
   | "objectid"
   | "xid";
-/** * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-export type ExternalDataSchemaSyncFrequencyEnum =
-  | "never"
+/** * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+export type SettableSyncFrequencyEnum =
   | "5min"
   | "15min"
   | "30min"
@@ -458,17 +500,24 @@ export type ExternalDataSchemaSyncFrequencyEnum =
   | "30day";
 /** Column names for primary key deduplication. */
 export type ExternalDataSchemaOutputPrimaryKeyColumnsList = Array<string>;
+/** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
+export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
 /** * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
 export type IncrementalSyncBlockedReasonEnum = "missing_primary_key" | "duplicate_primary_key";
+export type WebhookIssueEnum = "not_registered" | "missing_inputs" | "not_routed";
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
 export type ExternalDataSchemaOutputEnabledColumnsList = Array<string>;
 /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
 export type ExternalDataSchemaOutputMaskedColumnsList = Array<string>;
-export type ExternalDataSchemaOutputRowFiltersItem =
-  ExternalDataSourceBulkUpdateSchemaRowFiltersItem;
+export interface ExternalDataSchemaOutputRowFiltersItem {
+  column: string;
+  /** One of: > >= < <= = != IN "NOT IN". */
+  operator: string;
+  /** Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`). */
+  value: unknown;
+}
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-export type ExternalDataSchemaOutputRowFiltersList =
-  Array<ExternalDataSourceBulkUpdateSchemaRowFiltersItem>;
+export type ExternalDataSchemaOutputRowFiltersList = Array<ExternalDataSchemaOutputRowFiltersItem>;
 /** Operators a row filter on this column may use. */
 export type RowFilterColumnOperatorsList = Array<string>;
 export interface RowFilterColumn {
@@ -508,6 +557,7 @@ export interface ExternalDataSchemaOutputSource {
   id?: string | undefined;
   source_type?: string | undefined;
   access_method?: string | undefined;
+  direct_query_enabled?: boolean | undefined;
   supports_column_selection?: boolean | undefined;
   supports_row_filters?: boolean | undefined;
   requires_exact_column_metadata?: boolean | undefined;
@@ -515,6 +565,7 @@ export interface ExternalDataSchemaOutputSource {
   api_version?: string | null | undefined;
   supported_api_versions?: ExternalDataSchemaOutputSourceSupportedApiVersionsList | undefined;
   file_name?: string | null | undefined;
+  supports_table_discovery?: boolean | undefined;
 }
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -533,7 +584,13 @@ export interface ExternalDataSchemaOutput {
   /** The id of the warehouse table this schema syncs into. Set before the first sync for a table the schema already names, such as a migrated one. Null when there is none. */
   table_id: string | null;
   should_sync?: boolean | undefined;
+  /** Whether this table is queryable live on a synced source with live queries on, without syncing it. Synced tables are always queryable live. */
+  live_query_enabled?: boolean | undefined;
+  /** Why this table can't be made queryable live without syncing it, or null when it can. */
+  live_query_unavailable_reason: string | null;
   last_synced_at?: string | null | undefined;
+  /** When the last successful sync of the source started, including runs that found no new rows. Use this, not `last_synced_at`, to judge whether a table is stale: `last_synced_at` can stay put while every run succeeds because the source has nothing new. Null until the first successful sync. */
+  last_checked_at: string | null;
   /** The latest error that occurred when syncing this schema. */
   latest_error?: string | null | undefined;
   incremental?: boolean | undefined;
@@ -548,8 +605,8 @@ export interface ExternalDataSchemaOutput {
   incremental_field_type?: IncrementalFieldTypeEnum | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
   incremental_field_lookback_seconds?: number | null | undefined;
-  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null | undefined;
+  /** How often to sync. One of 5min, 15min, 30min, 1hour, 6hour, 12hour, 24hour, 7day or 30day; the fastest is 5 minutes. Common spellings are mapped to these: hourly = 1hour, daily = 24hour, weekly = 7day, monthly = 30day, and durations such as 60min, 1h, 24h, 1day or 1week. To stop a table syncing, set should_sync to false instead. * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+  sync_frequency?: SettableSyncFrequencyEnum | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
@@ -567,6 +624,8 @@ export interface ExternalDataSchemaOutput {
   incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null | undefined;
   /** Whether this table uses webhook sync, but its source has no enabled webhook. Such a table gets no webhook updates. Each sync polls the source API instead, which is slower and can read the whole table. Set up the webhook on the source, or change `sync_type`. */
   webhook_not_registered: boolean;
+  /** Why this webhook-sync table gets no webhook rows, or null when nothing stops them. `not_registered`: the source has no enabled webhook. `missing_inputs`: the webhook lacks a required setting such as its signing secret, so it drops every delivery. `not_routed`: the webhook has no route for this table, so it drops the table's events. Fix the last two from the source's webhook setup (`external-data-sources-webhook-info-retrieve` lists the missing inputs; creating the webhook again adds the route). */
+  webhook_issue: WebhookIssueEnum | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: ExternalDataSchemaOutputEnabledColumnsList | null | undefined;
   /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
@@ -581,7 +640,7 @@ export interface ExternalDataSchemaOutput {
   source_column_metadata_available?: boolean | undefined;
   /** Name of the history table that keeps every version of each row, or `null` when the table keeps no history. A history table created before `_history` names existed keeps its `_cdc` name. */
   history_table_name: string | null;
-  /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table`, a name means the history table was kept, for example because a sync started meanwhile. */
+  /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table` to stop writing history, a name means the history table was kept, for example because a sync started meanwhile. An update that adds a mask with `drop_history_table` keeps the table and its access rules, and deletes only its contents. */
   registered_history_table_name: string | null;
   /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
   source?: ExternalDataSchemaOutputSource | null | undefined;
@@ -592,6 +651,101 @@ export interface ExternalDataSchemaOutput {
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
 }
+/** Destinations to write the new source to. Omit to write to the PostHog warehouse. */
+export type ExternalDataSourcesApplyMigrationItemCreateRequestDestinationIdsList = Array<string>;
+export interface MigrationTableOverride {
+  /** A Fivetran table from the item: a planned table's `vendor_table`, or one of `unmatched_tables`. */
+  vendor_table: string;
+  /** The PostHog table to sync it as. Null leaves the table out. */
+  posthog_table: string | null;
+}
+/** Changes to the planned tables that the user confirmed: rename an inferred pair, map an unmatched table, or leave a table out. */
+export type ExternalDataSourcesApplyMigrationItemCreateRequestTableOverridesList =
+  Array<MigrationTableOverride>;
+export interface ExternalDataSourcesApplyMigrationItemCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The migration item to create a PostHog source for. */
+  item_id: string;
+  /** Stored credential from the source connect page, for the item's PostHog source type. */
+  credential_id: string;
+  /** Table name prefix to use instead of the planned one, for example when the planned one is taken. */
+  prefix?: string | undefined;
+  /** Destinations to write the new source to. Omit to write to the PostHog warehouse. */
+  destination_ids?:
+    | ExternalDataSourcesApplyMigrationItemCreateRequestDestinationIdsList
+    | undefined;
+  /** Changes to the planned tables that the user confirmed: rename an inferred pair, map an unmatched table, or leave a table out. */
+  table_overrides?:
+    | ExternalDataSourcesApplyMigrationItemCreateRequestTableOverridesList
+    | undefined;
+  /** Where the request came from: `web`, `api`, or `mcp`. Defaults to `api`. * `web` - web * `api` - api * `mcp` - mcp */
+  created_via?: ExternalDataSourceCreateCreatedViaEnum | (string & {}) | undefined;
+}
+/** Every difference from the Fivetran connection, including new ones. */
+export type ApplyMigrationItemResponseCaveatsList = Array<string>;
+export interface ApplyMigrationItemResponse {
+  /** The PostHog source created for the item. */
+  source_id: string;
+  /** Every difference from the Fivetran connection, including new ones. */
+  caveats: ApplyMigrationItemResponseCaveatsList;
+}
+/** Column names for primary key deduplication. */
+export type ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList = Array<string>;
+/** Columns to sync. Null means sync all columns. */
+export type ExternalDataSourceBulkUpdateSchemaEnabledColumnsList = Array<string>;
+/** Columns whose values are replaced with a one-way digest at sync time. Null means mask nothing. Any change starts a full resync of the table. */
+export type ExternalDataSourceBulkUpdateSchemaMaskedColumnsList = Array<string>;
+export type ExternalDataSourceBulkUpdateSchemaRowFiltersItem =
+  ExternalDataSchemaOutputRowFiltersItem;
+/** Row-filter predicates ANDed onto the source query. Null/empty means sync all rows. */
+export type ExternalDataSourceBulkUpdateSchemaRowFiltersList =
+  Array<ExternalDataSchemaOutputRowFiltersItem>;
+export interface ExternalDataSourceBulkUpdateSchema {
+  /** Schema identifier to update. */
+  id?: string | undefined;
+  /** Whether the schema should be queryable/synced. */
+  should_sync?: boolean | undefined;
+  /** Whether the table is queryable live without syncing it. Only for synced sources with live queries on, and not for tables with row filters or masked columns. */
+  live_query_enabled?: boolean | undefined;
+  /** Requested sync mode for the schema (incremental, full_refresh, append, cdc, or xmin). * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
+  /** Incremental cursor field for incremental or append syncs. */
+  incremental_field?: string | null | undefined;
+  /** Type of the incremental cursor field. */
+  incremental_field_type?: string | null | undefined;
+  /** How often to sync. One of 5min, 15min, 30min, 1hour, 6hour, 12hour, 24hour, 7day or 30day; the fastest is 5 minutes. Common spellings are mapped to these: hourly = 1hour, daily = 24hour, weekly = 7day, monthly = 30day, and durations such as 60min, 1h, 24h, 1day or 1week. To stop a table syncing, set should_sync to false instead. */
+  sync_frequency?: string | null | undefined;
+  /** UTC anchor time for scheduled syncs. */
+  sync_time_of_day?: string | null | undefined;
+  /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row. Re-imported rows count toward usage, and workflows and destinations that run on new rows of the table run again for every row. Incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
+  full_refresh_interval_days?: number | null | undefined;
+  /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
+  full_refresh_time_of_day?: string | null | undefined;
+  /** Column names for primary key deduplication. */
+  primary_key_columns?: ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList | null | undefined;
+  /** How CDC-backed tables should be exposed. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
+  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
+  /** Columns to sync. Null means sync all columns. */
+  enabled_columns?: ExternalDataSourceBulkUpdateSchemaEnabledColumnsList | null | undefined;
+  /** Columns whose values are replaced with a one-way digest at sync time. Null means mask nothing. Any change starts a full resync of the table. */
+  masked_columns?: ExternalDataSourceBulkUpdateSchemaMaskedColumnsList | null | undefined;
+  /** Row-filter predicates ANDed onto the source query. Null/empty means sync all rows. */
+  row_filters?: ExternalDataSourceBulkUpdateSchemaRowFiltersList | null | undefined;
+  /** When true and the schema has no sync method configured yet (and this update does not set one), discover the table on the source and fill in default sync settings: incremental sync with an auto-selected tracking column where supported, otherwise append, otherwise full refresh. Ignored for schemas that already have a sync method. */
+  apply_sync_defaults?: boolean | undefined;
+}
+/** Schema updates to apply in a single batch. */
+export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequestSchemasList =
+  Array<ExternalDataSourceBulkUpdateSchema>;
+export interface ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data source. */
+  id: string;
+  /** Schema updates to apply in a single batch. */
+  schemas: ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequestSchemasList;
+}
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponseBodyList =
   Array<ExternalDataSchemaOutput>;
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse =
@@ -599,6 +753,8 @@ export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse =
 export interface ExternalDataSourcesConnectLinkRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Optional warehouse migration item. The connect page then shows the item's non-secret settings from the vendor, so the user only enters the secret. */
+  migration_item_id?: string | undefined;
   /** The source type to generate a connect link for (e.g. 'Stripe', 'Postgres', 'Hubspot'). */
   source_type: string;
 }
@@ -614,29 +770,11 @@ export interface SourceConnectLink {
   /** Next steps for the agent to relay to the user. */
   instructions: string;
 }
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesCreateWebhookCreateRequestAutoSyncSchemaPatternsList = Array<string>;
 export interface ExternalDataSourcesCreateWebhookCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesCreateWebhookCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
 }
 /** Inputs the external service needs before delivery works. Submit via update_webhook_inputs. */
 export type CreateWebhookResponsePendingInputsList = Array<string>;
@@ -650,29 +788,11 @@ export interface CreateWebhookResponse {
   /** Inputs the external service needs before delivery works. Submit via update_webhook_inputs. */
   pending_inputs: CreateWebhookResponsePendingInputsList;
 }
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesDeleteWebhookCreateRequestAutoSyncSchemaPatternsList = Array<string>;
 export interface ExternalDataSourcesDeleteWebhookCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesDeleteWebhookCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
 }
 export interface DeleteWebhookResponse {
   /** Whether the webhook delivery function was deleted. */
@@ -689,54 +809,37 @@ export interface ExternalDataSourcesDestroyRequest {
   id: string;
 }
 export interface ExternalDataSourcesDestroyResponse {}
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesDisableCdcCreateRequestAutoSyncSchemaPatternsList = Array<string>;
 export interface ExternalDataSourcesDisableCdcCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesDisableCdcCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
 }
-export interface ExternalDataSourcesDisableCdcCreateResponse {}
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesEnableCdcCreateRequestAutoSyncSchemaPatternsList = Array<string>;
+export interface CdcDisableResponse {
+  /** Whether CDC is now disabled on the source. */
+  success: boolean;
+  /** True when CDC was already off, so nothing changed. */
+  already_disabled?: boolean | undefined;
+}
+/** * `posthog` - PostHog * `self_managed` - Self managed */
+export type CdcManagementModeEnum = "posthog" | "self_managed";
 export interface ExternalDataSourcesEnableCdcCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesEnableCdcCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
+  /** Who owns the replication slot and publication. 'posthog' (default) lets PostHog create and drop them, which needs a database user that can manage replication. 'self_managed' expects the customer to have created the publication already; PostHog only creates the slot. * `posthog` - PostHog * `self_managed` - Self managed */
+  cdc_management_mode?: CdcManagementModeEnum | (string & {}) | undefined;
+  /** Name of the replication slot to use. Defaults to a name derived from the source id. */
+  cdc_slot_name?: string | undefined;
+  /** Name of the publication to read changes from. Defaults to a name derived from the source id, or 'posthog_pub' in self_managed mode. */
+  cdc_publication_name?: string | undefined;
+  /** Whether PostHog drops the replication slot automatically when lag is critical, to protect the source database disk. Only applies in 'posthog' management mode. Defaults to true. */
+  cdc_auto_drop_slot?: boolean | undefined;
+  /** Replication lag in MB above which a warning shows. Must be lower than the critical threshold. */
+  cdc_lag_warning_threshold_mb?: number | undefined;
+  /** Replication lag in MB above which the lag is critical. Must be higher than the warning threshold. */
+  cdc_lag_critical_threshold_mb?: number | undefined;
 }
 export interface CdcEnableResponse {
   /** Whether CDC was enabled on the source. */
@@ -768,6 +871,8 @@ export interface ExternalDataSourcesRefreshSchemasCreateRequest {
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
 export interface ExternalDataSourcesRefreshSchemasCreateResponse {}
 export interface ExternalDataSourcesResumeCdcCreateRequest {
@@ -776,59 +881,39 @@ export interface ExternalDataSourcesResumeCdcCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
 }
-export interface ExternalDataSourcesResumeCdcCreateResponse {
-  success?: boolean | undefined;
+export interface CdcResumeResponse {
+  /** Whether the extraction schedule was unpaused. */
+  success: boolean;
 }
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList =
-  Array<string>;
 export interface ExternalDataSourcesUpdateCdcSettingsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
+  /** Whether PostHog drops the replication slot automatically when lag is critical. Only applies in 'posthog' management mode. */
+  cdc_auto_drop_slot?: boolean | undefined;
+  /** Replication lag in MB above which a warning shows. Must be lower than the critical threshold. */
+  cdc_lag_warning_threshold_mb?: number | undefined;
+  /** Replication lag in MB above which the lag is critical. Must be higher than the warning threshold. */
+  cdc_lag_critical_threshold_mb?: number | undefined;
 }
-export interface ExternalDataSourcesUpdateCdcSettingsCreateResponse {}
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type ExternalDataSourcesUpdateWebhookInputsCreateRequestAutoSyncSchemaPatternsList =
-  Array<string>;
+export interface CdcUpdateSettingsResponse {
+  /** Whether the request was accepted. */
+  success: boolean;
+  /** True when the request held no setting to change, so nothing was written. */
+  unchanged?: boolean | undefined;
+}
+/** Webhook input values keyed by the source's declared webhook field names, for example `{"signing_secret": "..."}`. Only keys the source type declares as webhook fields are accepted, and a required field cannot be blank. */
+export type ExternalDataSourcesUpdateWebhookInputsCreateRequestInputsMap = {
+  [key: string]: string | undefined;
+};
 export interface ExternalDataSourcesUpdateWebhookInputsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | ExternalDataSourcesUpdateWebhookInputsCreateRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
+  /** Webhook input values keyed by the source's declared webhook field names, for example `{"signing_secret": "..."}`. Only keys the source type declares as webhook fields are accepted, and a required field cannot be blank. */
+  inputs: ExternalDataSourcesUpdateWebhookInputsCreateRequestInputsMap;
 }
 export interface UpdateWebhookInputsResponse {
   /** Whether the inputs were saved and pushed to the external service. */
@@ -839,6 +924,10 @@ export interface GetExternalDataSourceRequest {
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
+  /** Return source health only: id, created_at, source_type, prefix, description, access_method, status, latest_error, last_run_at, and one summary row per table (id, name, should_sync, status, last_synced_at, last_checked_at, latest_error). Errors are cut to 500 characters. Connection settings and sync configuration are left out. */
+  compact?: boolean | undefined;
+  /** Include the `schemas` (tables) of each source. Set to false to get source-level fields only. */
+  include_schemas?: boolean | undefined;
 }
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type ExternalDataSourceSerializersOutputAutoSyncSchemaPatternsList = Array<string>;
@@ -857,7 +946,9 @@ export type ExternalDataSourceSerializersOutputSchemasItemMap = {
 export type ExternalDataSourceSerializersOutputSchemasList =
   Array<ExternalDataSourceSerializersOutputSchemasItemMap>;
 export interface ExternalDataSourceRevenueAnalyticsConfig {
+  /** Whether this source feeds revenue analytics. Changing it updates the project's managed revenue analytics views. The synced warehouse tables are not changed. */
   enabled?: boolean | undefined;
+  /** Whether charges that have no invoice count as revenue. Turn it off to count only revenue that comes from invoices. */
   include_invoiceless_charges?: boolean | undefined;
 }
 /** Mixin for serializers to add user access control fields */
@@ -895,6 +986,12 @@ export interface ExternalDataSourceSerializersOutput {
   webhook_not_registered: boolean;
   /** Whether this source supports per-column sync selection via `enabled_columns`. */
   supports_column_selection?: boolean | undefined;
+  /** Whether tables can be added to this source by their path with the add_table endpoint. True for object storage sources whose files URL names a folder, not one file or a pattern. */
+  supports_adding_tables: boolean;
+  /** For object storage sources: the folder that add_table resolves relative paths against, as `<bucket>/<folder>/`, such as `my-bucket/exports/`. It is the folder of the source's files URL. Null for other sources, for a files URL that names one file or a pattern, or when the URL can't be read. */
+  table_root: string | null;
+  /** Whether PostHog can find new tables in this source on its own, with refresh_schemas. False for a source that reads tables from anywhere in its bucket. Add tables to such a source by their path. */
+  supports_table_discovery: boolean;
   /** The name of the file a file upload source imports. Null for other sources or when it is unknown. */
   file_name: string | null;
   /** Vendor API version this source is pinned to (an opaque vendor label, e.g. a Stripe date version). Null resolves to the source type's default version at sync time. */
@@ -910,15 +1007,13 @@ export interface GetExternalDataSourcesCdcStatusRequest {
   /** A UUID string identifying this external data source. */
   id: string;
 }
-/** * `posthog` - posthog * `self_managed` - self_managed */
-export type ManagementModeEnum = "posthog" | "self_managed";
 /** Tables in the publication, when the source was reachable and a publication exists. */
 export type CdcStatusPublishedTablesList = Array<string>;
 export interface CdcStatus {
   /** Whether CDC is enabled on this source. */
   enabled: boolean;
-  /** Who owns the slot and publication: PostHog or the customer. * `posthog` - posthog * `self_managed` - self_managed */
-  management_mode?: ManagementModeEnum | undefined;
+  /** Who owns the slot and publication: PostHog or the customer. * `posthog` - PostHog * `self_managed` - Self managed */
+  management_mode?: CdcManagementModeEnum | undefined;
   /** Replication slot PostHog consumes from. Empty when unset. */
   slot_name?: string | undefined;
   /** Publication PostHog reads changes from. Empty when unset. */
@@ -968,6 +1063,14 @@ export interface GetExternalDataSourcesOauthAccountRequest {
   search?: string | undefined;
   /** The data warehouse source type (e.g. 'BingAds', 'GoogleSearchConsole'). */
   source_type: string;
+}
+export interface GetExternalDataSourcesSyncStateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ExternalDataSourceSyncState {
+  /** Opaque digest of the sync state the sources list shows: each source's status and last completed run, and each table's status, sync toggle, error, last sync and row count. It changes when that state changes. Compare it with an earlier value; do not parse it. */
+  fingerprint: string;
 }
 export interface GetExternalDataSourcesWebhookInfoRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1295,6 +1398,10 @@ export type GetExternalDataSourcesWizardResponse = SourceConfigMapResponse;
 export interface ListExternalDataSourcesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Return source health only: id, created_at, source_type, prefix, description, access_method, status, latest_error, last_run_at, and one summary row per table (id, name, should_sync, status, last_synced_at, last_checked_at, latest_error). Errors are cut to 500 characters. Connection settings and sync configuration are left out. */
+  compact?: boolean | undefined;
+  /** Include the `schemas` (tables) of each source. Set to false to get source-level fields only. */
+  include_schemas?: boolean | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
@@ -1363,6 +1470,8 @@ export interface ListExternalDataSourcesJobsRequest {
   after?: string | undefined;
   /** ISO timestamp -- only return jobs created before this date. */
   before?: string | undefined;
+  /** Maximum number of jobs to return, from 1 to 100 (default 50). Jobs are newest first. To get the next page, pass the `created_at` of the last job as `before`. */
+  limit?: number | undefined;
   /** Filter jobs by table schema names. */
   schemas?: ListExternalDataSourcesJobsRequestSchemasList | undefined;
   /** A search term. */
@@ -1434,6 +1543,8 @@ export interface UpdateExternalDataSourceRequest {
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
 /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
 export type UpdateExternalDataSourcesDestinationsPartialRequestDestinationIdsList = Array<string>;
@@ -1471,33 +1582,47 @@ export interface UpdateExternalDataSourcesPartialRequest {
     | null
     | undefined;
   job_inputs?: unknown | undefined;
+  /** Update only. Reconnects the source or rotates its credentials with a stored credential, so secrets do not go through the request. Send {'credential_id': '<uuid>'} without job_inputs. */
+  payload?: SourceUpdatePayload | undefined;
 }
-/** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-export type UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequestAutoSyncSchemaPatternsList =
-  Array<string>;
 export interface UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data source. */
   id: string;
-  /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  account_id?: string | undefined;
-  prefix?: string | null | undefined;
-  description?: string | null | undefined;
-  /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean | undefined;
-  /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean | undefined;
-  /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?:
-    | UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequestAutoSyncSchemaPatternsList
-    | null
-    | undefined;
-  job_inputs?: unknown | undefined;
+  /** Whether this source feeds revenue analytics. Changing it updates the project's managed revenue analytics views. The synced warehouse tables are not changed. */
+  enabled?: boolean | undefined;
+  /** Whether charges that have no invoice count as revenue. Turn it off to count only revenue that comes from invoices. */
+  include_invoiceless_charges?: boolean | undefined;
 }
-export interface UpdateExternalDataSourcesRevenueAnalyticsConfigPartialResponse {}
+/** * `unresolved_secret_ref` - Unresolved secret reference * `credential_not_found` - Stored credential not found * `credential_expired` - Stored credential expired * `credential_source_type_mismatch` - Stored credential is for another source type * `reserved_name` - Reserved source name * `direct_query_unsupported` - Direct query not supported for this source type * `direct_query_name_required` - Direct query sources need a name * `duplicate_source` - A source of this type already exists without a prefix * `duplicate_prefix` - Prefix already used by another source of this type * `billing_limit_reached` - Monthly sync limit reached * `max_instances_reached` - Too many sources of this type * `source_unavailable` - Source cannot be set up this way * `invalid_config` - Invalid source config * `credential_validation_failed` - Credential validation failed * `schema_discovery_failed` - Table discovery failed * `no_tables_found` - No tables found * `cdc_unsupported_source_type` - Source type does not support CDC * `invalid_cdc_management_mode` - Invalid CDC management mode * `host_not_allowed` - Host not allowed * `connection_failed` - Connection failed */
+export type SourceSetupErrorCodeEnum =
+  | "unresolved_secret_ref"
+  | "credential_not_found"
+  | "credential_expired"
+  | "credential_source_type_mismatch"
+  | "reserved_name"
+  | "direct_query_unsupported"
+  | "direct_query_name_required"
+  | "duplicate_source"
+  | "duplicate_prefix"
+  | "billing_limit_reached"
+  | "max_instances_reached"
+  | "source_unavailable"
+  | "invalid_config"
+  | "credential_validation_failed"
+  | "schema_discovery_failed"
+  | "no_tables_found"
+  | "cdc_unsupported_source_type"
+  | "invalid_cdc_management_mode"
+  | "host_not_allowed"
+  | "connection_failed";
+export interface ExternalDataSourceErrorResponse {
+  /** Human-readable explanation of why the request failed and what to do next. */
+  message: string;
+  /** Stable machine-readable failure cause, for example 'credential_expired', 'invalid_config' or 'credential_validation_failed'. Branch on this instead of parsing the message. Absent on errors that have no dedicated code. * `unresolved_secret_ref` - Unresolved secret reference * `credential_not_found` - Stored credential not found * `credential_expired` - Stored credential expired * `credential_source_type_mismatch` - Stored credential is for another source type * `reserved_name` - Reserved source name * `direct_query_unsupported` - Direct query not supported for this source type * `direct_query_name_required` - Direct query sources need a name * `duplicate_source` - A source of this type already exists without a prefix * `duplicate_prefix` - Prefix already used by another source of this type * `billing_limit_reached` - Monthly sync limit reached * `max_instances_reached` - Too many sources of this type * `source_unavailable` - Source cannot be set up this way * `invalid_config` - Invalid source config * `credential_validation_failed` - Credential validation failed * `schema_discovery_failed` - Table discovery failed * `no_tables_found` - No tables found * `cdc_unsupported_source_type` - Source type does not support CDC * `invalid_cdc_management_mode` - Invalid CDC management mode * `host_not_allowed` - Host not allowed * `connection_failed` - Connection failed */
+  code?: SourceSetupErrorCodeEnum | undefined;
+}
 export type CreateExternalDataSourceError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create, Read, Update and Delete External data Sources. */
 export const createExternalDataSource: API.OperationMethod<
@@ -1506,8 +1631,8 @@ export const createExternalDataSource: API.OperationMethod<
   CreateExternalDataSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<CreateExternalDataSourceRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<ExternalDataSourceCreateResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateExternalDataSourceRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<ExternalDataSourceCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1529,11 +1654,11 @@ export const createExternalDataSourcesCheckCdcPrerequisite: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c42,
+    800,
+    __c50,
     0,
   ) as any as S.Schema<CreateExternalDataSourcesCheckCdcPrerequisiteRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<CdcPrerequisitesResponse>,
+  output: __S(801, __c50, 1) as any as S.Schema<CdcPrerequisitesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1551,13 +1676,13 @@ export const createExternalDataSourcesCheckCdcPrerequisitesForSource: API.Operat
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    688,
-    __c43,
+    816,
+    __c51,
     0,
   ) as any as S.Schema<CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest>,
   output: __S(
-    704,
-    __c44,
+    848,
+    __c53,
     0,
   ) as any as S.Schema<CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse>,
   errors: [],
@@ -1576,8 +1701,8 @@ export const createExternalDataSourcesCredentialAccount: API.OperationMethod<
   CreateExternalDataSourcesCredentialAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(721, __c45, 1) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<IntegrationAccountsResponse>,
+  input: __S(865, __c54, 1) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<IntegrationAccountsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1598,8 +1723,8 @@ export const createExternalDataSourcesDatabaseSchema: API.OperationMethod<
   CreateExternalDataSourcesDatabaseSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1616,14 +1741,36 @@ export const createExternalDataSourcesDraftCustomManifest: API.OperationMethod<
   CreateExternalDataSourcesDraftCustomManifestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<DraftCustomManifestResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<DraftCustomManifestResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExternalDataSourcesDraftCustomManifest",
+}));
+
+export type CreateExternalDataSourcesIncrementalFieldRecommendationError = PosthogOpError;
+/** Recommend incremental fields with the decision model Asks the decision model which incremental field to use for tables whose column names leave it open. Send the tables database_schema returned; the response holds only the tables the model picked a field for. Called after database_schema so the table list never waits for the model. */
+export const createExternalDataSourcesIncrementalFieldRecommendation: API.OperationMethod<
+  CreateExternalDataSourcesIncrementalFieldRecommendationRequest,
+  IncrementalFieldRecommendationsResponse,
+  CreateExternalDataSourcesIncrementalFieldRecommendationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    20,
+    __c1,
+    4,
+  ) as any as S.Schema<CreateExternalDataSourcesIncrementalFieldRecommendationRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<IncrementalFieldRecommendationsResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataSourcesIncrementalFieldRecommendation",
 }));
 
 export type CreateExternalDataSourcesPreviewResourceError = PosthogOpError;
@@ -1634,8 +1781,8 @@ export const createExternalDataSourcesPreviewResource: API.OperationMethod<
   CreateExternalDataSourcesPreviewResourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateExternalDataSourcesPreviewResourceRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<SourcePreviewResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateExternalDataSourcesPreviewResourceRequest>,
+  output: __S(35, __c2, 3) as any as S.Schema<SourcePreviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1656,8 +1803,8 @@ export const createExternalDataSourcesReload: API.OperationMethod<
   CreateExternalDataSourcesReloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateExternalDataSourcesReloadRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesReloadResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateExternalDataSourcesReloadRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CreateExternalDataSourcesReloadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1674,8 +1821,8 @@ export const createExternalDataSourcesRepairCdc: API.OperationMethod<
   CreateExternalDataSourcesRepairCdcError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CreateExternalDataSourcesRepairCdcRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<CreateExternalDataSourcesRepairCdcResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateExternalDataSourcesRepairCdcRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateExternalDataSourcesRepairCdcResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1684,7 +1831,7 @@ export const createExternalDataSourcesRepairCdc: API.OperationMethod<
   span: "CreateExternalDataSourcesRepairCdc",
 }));
 
-export type CreateExternalDataSourcesSetupError = PosthogOpError;
+export type CreateExternalDataSourcesSetupError = BadRequest | PosthogOpError;
 /** One-shot data warehouse source setup. Validate credentials, discover available tables, enable them all with sensible sync defaults (incremental where supported, else append, else full refresh), and create the source in a single call -- the caller never has to assemble a `schemas` array. For sources that support webhooks (e.g. Stripe), a webhook is auto-registered after creation: on success webhook-capable tables switch to real-time webhook sync (unlocking webhook-only tables); on failure the polling defaults stay in place. For fine-grained table/sync control, use the lower-level `database_schema` + `create` flow instead. */
 export const createExternalDataSourcesSetup: API.OperationMethod<
   CreateExternalDataSourcesSetupRequest,
@@ -1692,9 +1839,9 @@ export const createExternalDataSourcesSetup: API.OperationMethod<
   CreateExternalDataSourcesSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateExternalDataSourcesSetupRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<SourceSetupResponse>,
-  errors: [],
+  input: __S(96, __c6, 0) as any as S.Schema<CreateExternalDataSourcesSetupRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<SourceSetupResponse>,
+  errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1714,8 +1861,8 @@ export const createExternalDataSourcesSourcePrefix: API.OperationMethod<
   CreateExternalDataSourcesSourcePrefixError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1732,14 +1879,50 @@ export const createExternalDataSourcesStoreCredentials: API.OperationMethod<
   CreateExternalDataSourcesStoreCredentialsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateExternalDataSourcesStoreCredentialsRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<SourceCredential>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateExternalDataSourcesStoreCredentialsRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<SourceCredential>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExternalDataSourcesStoreCredentials",
+}));
+
+export type ExternalDataSourcesAddTableCreateError = PosthogOpError;
+/** Add a table to an object storage source by its path Creates a table in an object storage source (Amazon S3, Google Cloud Storage, Azure Blob Storage or Cloudflare R2) from a folder, a file or a wildcard pattern in the source's bucket. PostHog reads only that location to check the files, and does not sync data. The new table is turned off. Turn it on with a schema update to start syncing it. */
+export const externalDataSourcesAddTableCreate: API.OperationMethod<
+  ExternalDataSourcesAddTableCreateRequest,
+  ExternalDataSchemaOutput,
+  ExternalDataSourcesAddTableCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c11, 0) as any as S.Schema<ExternalDataSourcesAddTableCreateRequest>,
+  output: __S(199, __c12, 7) as any as S.Schema<ExternalDataSchemaOutput>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesAddTableCreate",
+}));
+
+export type ExternalDataSourcesApplyMigrationItemCreateError = PosthogOpError;
+/** Create the planned PostHog source for one migration item, then set its sync schedule. */
+export const externalDataSourcesApplyMigrationItemCreate: API.OperationMethod<
+  ExternalDataSourcesApplyMigrationItemCreateRequest,
+  ApplyMigrationItemResponse,
+  ExternalDataSourcesApplyMigrationItemCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(226, __c14, 2) as any as S.Schema<ExternalDataSourcesApplyMigrationItemCreateRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<ApplyMigrationItemResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataSourcesApplyMigrationItemCreate",
 }));
 
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateError =
@@ -1755,14 +1938,14 @@ export const externalDataSourcesBulkUpdateSchemasPartialUpdate: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    148,
-    __c9,
-    4,
+    242,
+    __c15,
+    2,
   ) as any as S.Schema<ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequest>,
   output: __S(
-    156,
-    __c9,
-    12,
+    244,
+    __c15,
+    4,
   ) as any as S.Schema<ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -1773,15 +1956,15 @@ export const externalDataSourcesBulkUpdateSchemasPartialUpdate: API.OperationMet
 }));
 
 export type ExternalDataSourcesConnectLinkRetrieveError = PosthogOpError;
-/** Return a secure browser link for connecting a data warehouse source. The link opens a minimal connect page rendering the source's full connection form -- OAuth options included -- with no table selection and no source creation. The user authenticates in their browser, secrets never pass through the agent, and the agent finishes setup afterwards by passing the stored credential id to data-warehouse-source-setup. */
+/** Return a secure browser link for connecting a data warehouse source. The link opens a minimal connect page rendering the source's full connection form -- OAuth options included -- with no table selection and no source creation. The user authenticates in their browser, secrets never pass through the agent, and the agent finishes setup afterwards by passing the stored credential id to data-warehouse-source-setup. To reconnect an existing source, the agent passes the id in the payload of a source update instead. */
 export const externalDataSourcesConnectLinkRetrieve: API.OperationMethod<
   ExternalDataSourcesConnectLinkRetrieveRequest,
   SourceConnectLink,
   ExternalDataSourcesConnectLinkRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ExternalDataSourcesConnectLinkRetrieveRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<SourceConnectLink>,
+  input: __S(256, __c16, 0) as any as S.Schema<ExternalDataSourcesConnectLinkRetrieveRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<SourceConnectLink>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1802,8 +1985,8 @@ export const externalDataSourcesCreateWebhookCreate: API.OperationMethod<
   ExternalDataSourcesCreateWebhookCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ExternalDataSourcesCreateWebhookCreateRequest>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ExternalDataSourcesCreateWebhookCreateRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1824,8 +2007,8 @@ export const externalDataSourcesDeleteWebhookCreate: API.OperationMethod<
   ExternalDataSourcesDeleteWebhookCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ExternalDataSourcesDeleteWebhookCreateRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ExternalDataSourcesDeleteWebhookCreateRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1842,8 +2025,8 @@ export const externalDataSourcesDestroy: API.OperationMethod<
   ExternalDataSourcesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ExternalDataSourcesDestroyRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesDestroyResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ExternalDataSourcesDestroyRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<ExternalDataSourcesDestroyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1852,17 +2035,17 @@ export const externalDataSourcesDestroy: API.OperationMethod<
   span: "ExternalDataSourcesDestroy",
 }));
 
-export type ExternalDataSourcesDisableCdcCreateError = PosthogOpError;
+export type ExternalDataSourcesDisableCdcCreateError = BadRequest | PosthogOpError;
 /** Disable CDC on an existing source. Cancels any running CDC extraction workflow, deletes the extraction schedule, delegates engine-side teardown to the source's adapter (drops slot/publication for Postgres; equivalent for other engines), clears ``cdc_*`` keys from ``job_inputs``, soft-deletes companion CDC tables, and sets all CDC schemas to ``sync_type=None``, ``should_sync=False`` so the user must pick a new sync strategy before they resume. */
 export const externalDataSourcesDisableCdcCreate: API.OperationMethod<
   ExternalDataSourcesDisableCdcCreateRequest,
-  ExternalDataSourcesDisableCdcCreateResponse,
+  CdcDisableResponse,
   ExternalDataSourcesDisableCdcCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ExternalDataSourcesDisableCdcCreateRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesDisableCdcCreateResponse>,
-  errors: [],
+  input: __S(320, __c20, 0) as any as S.Schema<ExternalDataSourcesDisableCdcCreateRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<CdcDisableResponse>,
+  errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1870,7 +2053,7 @@ export const externalDataSourcesDisableCdcCreate: API.OperationMethod<
   span: "ExternalDataSourcesDisableCdcCreate",
 }));
 
-export type ExternalDataSourcesEnableCdcCreateError = PosthogOpError;
+export type ExternalDataSourcesEnableCdcCreateError = BadRequest | Conflict | PosthogOpError;
 /** Enable CDC on an existing source. Provisions engine-side CDC resources via the source's adapter, writes the CDC config into ``source.job_inputs``, and ensures the CDC extraction schedule exists. Re-runs prereq checks server-side so we never trust a stale client-side check. Body params: ``cdc_management_mode`` (``"posthog"`` | ``"self_managed"``), plus engine-specific identifier hints (e.g. ``cdc_slot_name``, ``cdc_publication_name`` for Postgres). Universal tuning fields: ``cdc_auto_drop_slot`` (optional bool), ``cdc_lag_warning_threshold_mb`` (optional int), ``cdc_lag_critical_threshold_mb`` (optional int). */
 export const externalDataSourcesEnableCdcCreate: API.OperationMethod<
   ExternalDataSourcesEnableCdcCreateRequest,
@@ -1878,9 +2061,9 @@ export const externalDataSourcesEnableCdcCreate: API.OperationMethod<
   ExternalDataSourcesEnableCdcCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ExternalDataSourcesEnableCdcCreateRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<CdcEnableResponse>,
-  errors: [],
+  input: __S(336, __c21, 0) as any as S.Schema<ExternalDataSourcesEnableCdcCreateRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<CdcEnableResponse>,
+  errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1900,8 +2083,8 @@ export const externalDataSourcesRefreshSchemasCreate: API.OperationMethod<
   ExternalDataSourcesRefreshSchemasCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1914,12 +2097,12 @@ export type ExternalDataSourcesResumeCdcCreateError = BadRequest | PosthogOpErro
 /** Resume a CDC source whose extraction schedule was paused by a non-retryable failure that left the replication slot intact (bad credentials, SSL/host errors). Once the user has fixed the root cause, this re-probes the source DB -- confirming the connection now succeeds and the slot/publication still exist -- then unpauses the extraction schedule so streaming resumes from where it left off. No re-snapshot, so it's the cheap counterpart to Repair CDC. If the slot/publication are actually gone (``cdc_broken``, or a live probe showing them missing), resume is refused -- only Repair CDC can recreate them, at the cost of a full re-sync. */
 export const externalDataSourcesResumeCdcCreate: API.OperationMethod<
   ExternalDataSourcesResumeCdcCreateRequest,
-  ExternalDataSourcesResumeCdcCreateResponse,
+  CdcResumeResponse,
   ExternalDataSourcesResumeCdcCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ExternalDataSourcesResumeCdcCreateRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<ExternalDataSourcesResumeCdcCreateResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ExternalDataSourcesResumeCdcCreateRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<CdcResumeResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1928,17 +2111,17 @@ export const externalDataSourcesResumeCdcCreate: API.OperationMethod<
   span: "ExternalDataSourcesResumeCdcCreate",
 }));
 
-export type ExternalDataSourcesUpdateCdcSettingsCreateError = PosthogOpError;
+export type ExternalDataSourcesUpdateCdcSettingsCreateError = BadRequest | PosthogOpError;
 /** Update CDC tuning fields without enabling/disabling. Lets users edit ``cdc_auto_drop_slot``, ``cdc_lag_warning_threshold_mb``, and ``cdc_lag_critical_threshold_mb`` independently. These fields are universal across engines. Engine-specific identifiers (slot name, management mode, ...) are immutable post-enable -- switching them requires disable + enable. */
 export const externalDataSourcesUpdateCdcSettingsCreate: API.OperationMethod<
   ExternalDataSourcesUpdateCdcSettingsCreateRequest,
-  ExternalDataSourcesUpdateCdcSettingsCreateResponse,
+  CdcUpdateSettingsResponse,
   ExternalDataSourcesUpdateCdcSettingsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ExternalDataSourcesUpdateCdcSettingsCreateRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesUpdateCdcSettingsCreateResponse>,
-  errors: [],
+  input: __S(400, __c25, 0) as any as S.Schema<ExternalDataSourcesUpdateCdcSettingsCreateRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<CdcUpdateSettingsResponse>,
+  errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1958,8 +2141,8 @@ export const externalDataSourcesUpdateWebhookInputsCreate: API.OperationMethod<
   ExternalDataSourcesUpdateWebhookInputsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ExternalDataSourcesUpdateWebhookInputsCreateRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<UpdateWebhookInputsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ExternalDataSourcesUpdateWebhookInputsCreateRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<UpdateWebhookInputsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1976,8 +2159,8 @@ export const getExternalDataSource: API.OperationMethod<
   GetExternalDataSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetExternalDataSourceRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetExternalDataSourceRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1986,7 +2169,7 @@ export const getExternalDataSource: API.OperationMethod<
   span: "GetExternalDataSource",
 }));
 
-export type GetExternalDataSourcesCdcStatusError = PosthogOpError;
+export type GetExternalDataSourcesCdcStatusError = BadRequest | PosthogOpError;
 /** Live CDC health for an existing source: slot/publication existence and WAL lag. Reads from the source DB via the engine adapter. Returns ``{"enabled": false}`` when CDC is off, or the stored config plus live ``slot_exists`` / ``publication_exists`` / ``lag_bytes`` when on. 400s if the source DB is unreachable so the UI can show a degraded/unreachable state. */
 export const getExternalDataSourcesCdcStatus: API.OperationMethod<
   GetExternalDataSourcesCdcStatusRequest,
@@ -1994,9 +2177,9 @@ export const getExternalDataSourcesCdcStatus: API.OperationMethod<
   GetExternalDataSourcesCdcStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetExternalDataSourcesCdcStatusRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<CdcStatus>,
-  errors: [],
+  input: __S(480, __c30, 0) as any as S.Schema<GetExternalDataSourcesCdcStatusRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<CdcStatus>,
+  errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -2012,8 +2195,8 @@ export const getExternalDataSourcesDestination: API.OperationMethod<
   GetExternalDataSourcesDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetExternalDataSourcesDestinationRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<SourceDestinations>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetExternalDataSourcesDestinationRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<SourceDestinations>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2030,8 +2213,8 @@ export const getExternalDataSourcesExist: API.OperationMethod<
   GetExternalDataSourcesExistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetExternalDataSourcesExistRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ExternalDataSourceExists>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetExternalDataSourcesExistRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<ExternalDataSourceExists>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2048,14 +2231,32 @@ export const getExternalDataSourcesOauthAccount: API.OperationMethod<
   GetExternalDataSourcesOauthAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetExternalDataSourcesOauthAccountRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<IntegrationAccountsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetExternalDataSourcesOauthAccountRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<IntegrationAccountsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExternalDataSourcesOauthAccount",
+}));
+
+export type GetExternalDataSourcesSyncStateError = PosthogOpError;
+/** Return a fingerprint of the sync state the sources list shows. A client that polls the list can compare fingerprints and refetch the list only when it changed. */
+export const getExternalDataSourcesSyncState: API.OperationMethod<
+  GetExternalDataSourcesSyncStateRequest,
+  ExternalDataSourceSyncState,
+  GetExternalDataSourcesSyncStateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(560, __c35, 0) as any as S.Schema<GetExternalDataSourcesSyncStateRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<ExternalDataSourceSyncState>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalDataSourcesSyncState",
 }));
 
 export type GetExternalDataSourcesWebhookInfoError = Forbidden | NotFound | PosthogOpError;
@@ -2066,8 +2267,8 @@ export const getExternalDataSourcesWebhookInfo: API.OperationMethod<
   GetExternalDataSourcesWebhookInfoError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetExternalDataSourcesWebhookInfoRequest>,
-  output: __S(455, __c28, 7) as any as S.Schema<WebhookInfoResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetExternalDataSourcesWebhookInfoRequest>,
+  output: __S(582, __c36, 6) as any as S.Schema<WebhookInfoResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2084,8 +2285,8 @@ export const getExternalDataSourcesWizard: API.OperationMethod<
   GetExternalDataSourcesWizardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetExternalDataSourcesWizardRequest>,
-  output: __S(475, __c29, 11) as any as S.Schema<GetExternalDataSourcesWizardResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetExternalDataSourcesWizardRequest>,
+  output: __S(603, __c37, 11) as any as S.Schema<GetExternalDataSourcesWizardResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2102,8 +2303,8 @@ export const listExternalDataSources: API.OperationMethod<
   ListExternalDataSourcesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListExternalDataSourcesRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<PaginatedExternalDataSourceSerializersListOutput>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListExternalDataSourcesRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<PaginatedExternalDataSourceSerializersListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2124,8 +2325,8 @@ export const listExternalDataSourcesConnections: API.OperationMethod<
   ListExternalDataSourcesConnectionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListExternalDataSourcesConnectionsRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<ListExternalDataSourcesConnectionsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListExternalDataSourcesConnectionsRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<ListExternalDataSourcesConnectionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2143,13 +2344,13 @@ export const listExternalDataSourcesDirectConnectionOptions: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    688,
+    __c43,
     0,
   ) as any as S.Schema<ListExternalDataSourcesDirectConnectionOptionsRequest>,
   output: __S(
-    515,
-    __c32,
+    691,
+    __c43,
     3,
   ) as any as S.Schema<ListExternalDataSourcesDirectConnectionOptionsResponse>,
   errors: [],
@@ -2168,8 +2369,8 @@ export const listExternalDataSourcesJobs: API.OperationMethod<
   ListExternalDataSourcesJobsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListExternalDataSourcesJobsRequest>,
-  output: __S(532, __c33, 4) as any as S.Schema<ListExternalDataSourcesJobsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListExternalDataSourcesJobsRequest>,
+  output: __S(708, __c44, 4) as any as S.Schema<ListExternalDataSourcesJobsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2186,8 +2387,8 @@ export const listExternalDataSourcesStoredCredentials: API.OperationMethod<
   ListExternalDataSourcesStoredCredentialsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListExternalDataSourcesStoredCredentialsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListExternalDataSourcesStoredCredentialsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListExternalDataSourcesStoredCredentialsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListExternalDataSourcesStoredCredentialsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2204,8 +2405,8 @@ export const updateExternalDataSource: API.OperationMethod<
   UpdateExternalDataSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateExternalDataSourceRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
+  input: __S(736, __c46, 0) as any as S.Schema<UpdateExternalDataSourceRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2222,8 +2423,8 @@ export const updateExternalDataSourcesDestinationsPartial: API.OperationMethod<
   UpdateExternalDataSourcesDestinationsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UpdateExternalDataSourcesDestinationsPartialRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<SourceDestinations>,
+  input: __S(752, __c47, 0) as any as S.Schema<UpdateExternalDataSourcesDestinationsPartialRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<SourceDestinations>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2244,8 +2445,8 @@ export const updateExternalDataSourcesPartial: API.OperationMethod<
   UpdateExternalDataSourcesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UpdateExternalDataSourcesPartialRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateExternalDataSourcesPartialRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2262,20 +2463,16 @@ export type UpdateExternalDataSourcesRevenueAnalyticsConfigPartialError =
 /** Update the revenue analytics configuration and return the full external data source. */
 export const updateExternalDataSourcesRevenueAnalyticsConfigPartial: API.OperationMethod<
   UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequest,
-  UpdateExternalDataSourcesRevenueAnalyticsConfigPartialResponse,
+  ExternalDataSourceSerializersOutput,
   UpdateExternalDataSourcesRevenueAnalyticsConfigPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    656,
-    __c41,
+    784,
+    __c49,
     0,
   ) as any as S.Schema<UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequest>,
-  output: __S(
-    704,
-    __c44,
-    0,
-  ) as any as S.Schema<UpdateExternalDataSourcesRevenueAnalyticsConfigPartialResponse>,
+  output: __S(465, __c29, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2290,9 +2487,68 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalDataSourceErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.String,
+          field: S.String,
+          type: S.String,
+          field_type: S.String,
+          nullable: S.optional(S.Boolean),
+          is_indexed: S.optional(S.Boolean),
+          recommended: S.optional(S.Boolean),
+          picked_by_model: S.optional(S.Boolean),
+          notes: S.optional(__S(672, __c42, 0)),
+        }),
+      ).annotate({ identifier: "IncrementalFieldCandidate" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          table: S.String,
+          incremental_fields: __S(17, __c1, 1),
+        }),
+      ).annotate({ identifier: "IncrementalFieldTable" });
+    case 3:
+      return S.Array(__S(18, __c1, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          tables: __S(19, __c1, 3),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_sources/incremental_field_recommendations/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateExternalDataSourcesIncrementalFieldRecommendationRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          tables: __S(19, __c1, 3),
+        }),
+      ).annotate({ identifier: "IncrementalFieldRecommendationsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          payload: S.optional(__S(592, __c37, 0)),
+          payload: S.optional(__S(656, __c41, 0)),
           resource_name: S.String,
           limit: S.optional(S.Number),
         }).pipe(
@@ -2311,25 +2567,25 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "SourcePreviewColumn" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rows: __S(16, __c1, 0),
+          rows: __S(48, __c3, 0),
           row_count: S.Number,
-          columns: __S(2, __c0, 2),
+          columns: __S(34, __c2, 2),
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SourcePreviewResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(656, __c41, 0));
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2343,8 +2599,9 @@ function __c2(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2355,7 +2612,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesReloadRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2379,17 +2636,18 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesRepairCdcResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          payload: S.optional(__S(592, __c37, 0)),
+          payload: S.optional(__S(656, __c41, 0)),
           prefix: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
+          created_via: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2402,12 +2660,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          webhook: S.optional(__S(80, __c5, 0)),
+          webhook: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "SourceSetupResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2415,12 +2673,12 @@ function __c5(j: number): any {
           success: S.Boolean,
           webhook_url: S.NullOr(S.String),
           error: S.NullOr(S.String),
-          pending_inputs: __S(608, __c38, 0),
+          pending_inputs: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "SourceSetupWebhook" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2433,8 +2691,9 @@ function __c6(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2445,14 +2704,15 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesSourcePrefixRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          payload: __S(592, __c37, 0),
+          payload: __S(656, __c41, 0),
+          migration_item_id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2463,7 +2723,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesStoreCredentialsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2476,7 +2736,28 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SourceCredential" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.String,
+          path: S.String,
+          file_format: S.optional(S.String),
+          csv_allow_double_quotes: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_sources/{id}/add_table/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataSourcesAddTableCreateRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2485,56 +2766,20 @@ function __c9(j: number): any {
           operator: S.String,
           value: S.Unknown,
         }),
-      ).annotate({ identifier: "ExternalDataSourceBulkUpdateSchemaRowFiltersItem" });
+      ).annotate({ identifier: "ExternalDataSchemaOutputRowFiltersItem" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(192, __c12, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          should_sync: S.optional(S.Boolean),
-          sync_type: S.optional(S.NullOr(S.String)),
-          incremental_field: S.optional(S.NullOr(S.String)),
-          incremental_field_type: S.optional(S.NullOr(S.String)),
-          sync_frequency: S.optional(S.NullOr(S.String)),
-          sync_time_of_day: S.optional(S.NullOr(S.String)),
-          full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
-          full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
-          primary_key_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          cdc_table_mode: S.optional(S.NullOr(S.String)),
-          enabled_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          masked_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          row_filters: S.optional(S.NullOr(__S(145, __c9, 1))),
-          apply_sync_defaults: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExternalDataSourceBulkUpdateSchema" });
-    case 3:
-      return S.Array(__S(146, __c9, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          schemas: __S(147, __c9, 3),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/external_data_sources/{id}/bulk_update_schemas/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequest" });
-    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           data_type: S.String,
-          operators: __S(608, __c38, 0),
+          operators: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "RowFilterColumn" });
-    case 6:
-      return S.Array(__S(149, __c9, 5));
-    case 7:
+    case 3:
+      return S.Array(__S(194, __c12, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -2543,33 +2788,38 @@ function __c9(j: number): any {
           sensitivity: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ExternalDataSchemaOutputAvailableColumnsItem" });
-    case 8:
-      return S.Array(__S(151, __c9, 7));
-    case 9:
+    case 5:
+      return S.Array(__S(196, __c12, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           source_type: S.optional(S.String),
           access_method: S.optional(S.String),
+          direct_query_enabled: S.optional(S.Boolean),
           supports_column_selection: S.optional(S.Boolean),
           supports_row_filters: S.optional(S.Boolean),
           requires_exact_column_metadata: S.optional(S.Boolean),
           user_access_level: S.optional(S.NullOr(S.String)),
           api_version: S.optional(S.NullOr(S.String)),
-          supported_api_versions: S.optional(__S(608, __c38, 0)),
+          supported_api_versions: S.optional(__S(672, __c42, 0)),
           file_name: S.optional(S.NullOr(S.String)),
+          supports_table_discovery: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ExternalDataSchemaOutputSource" });
-    case 10:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           label: S.optional(S.NullOr(S.String)),
-          table: S.optional(S.NullOr(__S(592, __c37, 0))),
+          table: S.optional(S.NullOr(__S(656, __c41, 0))),
           table_id: S.NullOr(S.String),
           should_sync: S.optional(S.Boolean),
+          live_query_enabled: S.optional(S.Boolean),
+          live_query_unavailable_reason: S.NullOr(S.String),
           last_synced_at: S.optional(S.NullOr(S.String)),
+          last_checked_at: S.NullOr(S.String),
           latest_error: S.optional(S.NullOr(S.String)),
           incremental: S.optional(S.Boolean),
           status: S.optional(S.NullOr(S.String)),
@@ -2584,33 +2834,28 @@ function __c9(j: number): any {
           full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
           next_full_refresh_at: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          primary_key_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          primary_key_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
           cdc_table_mode: S.optional(S.NullOr(S.String)),
           incremental_sync_blocked: S.optional(S.NullOr(S.String)),
           webhook_not_registered: S.Boolean,
-          enabled_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          masked_columns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          row_filters: S.optional(S.NullOr(__S(145, __c9, 1))),
-          row_filter_columns: S.NullOr(__S(150, __c9, 6)),
-          available_columns: S.optional(__S(152, __c9, 8)),
+          webhook_issue: S.NullOr(S.String),
+          enabled_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
+          masked_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
+          row_filters: S.optional(S.NullOr(__S(193, __c12, 1))),
+          row_filter_columns: S.NullOr(__S(195, __c12, 3)),
+          available_columns: S.optional(__S(197, __c12, 5)),
           source_column_metadata_available: S.optional(S.Boolean),
           history_table_name: S.NullOr(S.String),
           registered_history_table_name: S.NullOr(S.String),
-          source: S.optional(S.NullOr(__S(153, __c9, 9))),
+          source: S.optional(S.NullOr(__S(198, __c12, 6))),
           api_version: S.optional(S.NullOr(S.String)),
-          api_version_deprecation: S.optional(S.NullOr(__S(160, __c10, 0))),
+          api_version_deprecation: S.optional(S.NullOr(__S(208, __c13, 0))),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ExternalDataSchemaOutput" });
-    case 11:
-      return S.Array(__S(154, __c9, 10));
-    case 12:
-      return S.suspend(() => __S(155, __c9, 11).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse",
-      });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2622,12 +2867,98 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ExternalDataSourceApiVersionDeprecation" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vendor_table: S.String,
+          posthog_table: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "MigrationTableOverride" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          item_id: S.String,
+          credential_id: S.String,
+          prefix: S.optional(S.String),
+          destination_ids: S.optional(__S(672, __c42, 0)),
+          table_overrides: S.optional(__S(225, __c14, 1)),
+          created_via: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_sources/apply_migration_item/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataSourcesApplyMigrationItemCreateRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          source_id: S.String,
+          caveats: __S(672, __c42, 0),
+        }),
+      ).annotate({ identifier: "ApplyMigrationItemResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          should_sync: S.optional(S.Boolean),
+          live_query_enabled: S.optional(S.Boolean),
+          sync_type: S.optional(S.NullOr(S.String)),
+          incremental_field: S.optional(S.NullOr(S.String)),
+          incremental_field_type: S.optional(S.NullOr(S.String)),
+          sync_frequency: S.optional(S.NullOr(S.String)),
+          sync_time_of_day: S.optional(S.NullOr(S.String)),
+          full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
+          full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
+          primary_key_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
+          cdc_table_mode: S.optional(S.NullOr(S.String)),
+          enabled_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
+          masked_columns: S.optional(S.NullOr(__S(672, __c42, 0))),
+          row_filters: S.optional(S.NullOr(__S(193, __c12, 1))),
+          apply_sync_defaults: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExternalDataSourceBulkUpdateSchema" });
+    case 1:
+      return S.Array(__S(240, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          schemas: __S(241, __c15, 1),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/external_data_sources/{id}/bulk_update_schemas/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequest" });
+    case 3:
+      return S.Array(__S(199, __c12, 7));
+    case 4:
+      return S.suspend(() => __S(243, __c15, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse",
+      });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          migration_item_id: S.optional(S.String.pipe(T.Query())),
           source_type: S.String.pipe(T.Query()),
         }).pipe(
           T.Http({
@@ -2648,22 +2979,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SourceConnectLink" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2674,22 +2996,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ExternalDataSourcesCreateWebhookCreateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2708,7 +3021,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2725,22 +3038,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ExternalDataSourcesDestroyRequest" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2749,24 +3053,28 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExternalDataSourcesDisableCdcCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          already_disabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CdcDisableResponse" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
+          cdc_management_mode: S.optional(S.String),
+          cdc_slot_name: S.optional(S.String),
+          cdc_publication_name: S.optional(S.String),
+          cdc_auto_drop_slot: S.optional(S.Boolean),
+          cdc_lag_warning_threshold_mb: S.optional(S.Number),
+          cdc_lag_critical_threshold_mb: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2784,7 +3092,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CdcEnableResponse" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2798,8 +3106,9 @@ function __c17(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2810,7 +3119,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ExternalDataSourcesRefreshSchemasCreateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2825,30 +3134,28 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExternalDataSourcesResumeCdcCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExternalDataSourcesResumeCdcCreateResponse" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+        }),
+      ).annotate({ identifier: "CdcResumeResponse" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
+          cdc_auto_drop_slot: S.optional(S.Boolean),
+          cdc_lag_warning_threshold_mb: S.optional(S.Number),
+          cdc_lag_critical_threshold_mb: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2857,24 +3164,23 @@ function __c19(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExternalDataSourcesUpdateCdcSettingsCreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          unchanged: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CdcUpdateSettingsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
+          inputs: __S(432, __c27, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2883,21 +3189,23 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExternalDataSourcesUpdateWebhookInputsCreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-        }),
-      ).annotate({ identifier: "UpdateWebhookInputsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          compact: S.optional(S.Boolean.pipe(T.Query())),
+          include_schemas: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2908,7 +3216,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetExternalDataSourceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2932,25 +3240,28 @@ function __c22(j: number): any {
           access_method: S.optional(S.String),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           engine: S.optional(S.NullOr(S.String)),
           last_run_at: S.optional(S.NullOr(S.String)),
-          schemas: S.optional(__S(16, __c1, 0)),
+          schemas: S.optional(__S(48, __c3, 0)),
           job_inputs: S.optional(S.Unknown),
-          revenue_analytics_config: S.optional(__S(352, __c22, 0)),
+          revenue_analytics_config: S.optional(__S(464, __c29, 0)),
           user_access_level: S.optional(S.NullOr(S.String)),
           supports_webhooks: S.optional(S.Boolean),
           webhook_not_registered: S.Boolean,
           supports_column_selection: S.optional(S.Boolean),
+          supports_adding_tables: S.Boolean,
+          table_root: S.NullOr(S.String),
+          supports_table_discovery: S.Boolean,
           file_name: S.NullOr(S.String),
           api_version: S.optional(S.NullOr(S.String)),
-          api_version_deprecation: S.optional(S.NullOr(__S(160, __c10, 0))),
+          api_version_deprecation: S.optional(S.NullOr(__S(208, __c13, 0))),
           connection_warning: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ExternalDataSourceSerializersOutput" });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2978,12 +3289,12 @@ function __c23(j: number): any {
           slot_exists: S.optional(S.Boolean),
           publication_exists: S.optional(S.Boolean),
           lag_bytes: S.optional(S.NullOr(S.Number)),
-          published_tables: S.optional(__S(608, __c38, 0)),
+          published_tables: S.optional(__S(672, __c42, 0)),
         }),
       ).annotate({ identifier: "CdcStatus" });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3000,17 +3311,17 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetExternalDataSourcesDestinationRequest" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destination_ids: __S(608, __c38, 0),
+          destination_ids: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "SourceDestinations" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3032,7 +3343,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ExternalDataSourceExists" });
   }
 }
-function __c27(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3051,7 +3362,29 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetExternalDataSourcesOauthAccountRequest" });
   }
 }
-function __c28(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/external_data_sources/sync_state/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetExternalDataSourcesSyncStateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          fingerprint: S.String,
+        }),
+      ).annotate({ identifier: "ExternalDataSourceSyncState" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3073,32 +3406,30 @@ function __c28(j: number): any {
           name: S.String,
           enabled: S.Boolean,
           created_at: S.String,
-          status: __S(592, __c37, 0),
+          status: __S(656, __c41, 0),
         }),
       ).annotate({ identifier: "WebhookHogFunction" });
     case 2:
-      return S.Record(S.String, S.String);
-    case 3:
       return S.Array(S.Unknown);
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
           templating: S.optional(S.String),
-          bytecode: S.optional(__S(451, __c28, 3)),
+          bytecode: S.optional(__S(578, __c36, 2)),
           bytecode_contract: S.optional(S.String),
           order: S.optional(S.Number),
           transpiled: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InputsItem" });
+    case 4:
+      return S.Record(S.String, __S(579, __c36, 3));
     case 5:
-      return S.Record(S.String, __S(452, __c28, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           exists: S.Boolean,
           url: S.NullOr(S.String),
-          enabled_events: S.NullOr(__S(608, __c38, 0)),
+          enabled_events: S.NullOr(__S(672, __c42, 0)),
           status: S.NullOr(S.String),
           description: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
@@ -3106,24 +3437,24 @@ function __c28(j: number): any {
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WebhookExternalStatus" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           supports_webhooks: S.Boolean,
           exists: S.Boolean,
           auto_creation_blocked_reason: S.NullOr(S.String),
-          hog_function: S.NullOr(__S(449, __c28, 1)),
+          hog_function: S.NullOr(__S(577, __c36, 1)),
           webhook_url: S.NullOr(S.String),
-          schema_mapping: __S(450, __c28, 2),
-          inputs: S.optional(__S(453, __c28, 5)),
-          external_status: S.NullOr(__S(454, __c28, 6)),
-          missing_events: S.optional(__S(608, __c38, 0)),
-          missing_inputs: S.optional(__S(608, __c38, 0)),
+          schema_mapping: __S(432, __c27, 0),
+          inputs: S.optional(__S(580, __c36, 4)),
+          external_status: S.NullOr(__S(581, __c36, 5)),
+          missing_events: S.optional(__S(672, __c42, 0)),
+          missing_inputs: S.optional(__S(672, __c42, 0)),
         }),
       ).annotate({ identifier: "WebhookInfoResponse" });
   }
 }
-function __c29(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3148,7 +3479,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "SuggestedTable" });
     case 3:
-      return S.Array(__S(466, __c29, 2));
+      return S.Array(__S(594, __c37, 2));
     case 4:
       return S.Array(S.Unknown);
     case 5:
@@ -3159,20 +3490,20 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "SourceVersionDeprecation" });
     case 6:
-      return S.Array(__S(469, __c29, 5));
+      return S.Array(__S(597, __c37, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           label: S.String,
           description: S.optional(S.NullOr(S.String)),
-          sync_methods: __S(608, __c38, 0),
-          incremental_fields: __S(608, __c38, 0),
-          primary_keys: __S(608, __c38, 0),
+          sync_methods: __S(672, __c42, 0),
+          incremental_fields: __S(672, __c42, 0),
+          primary_keys: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "SourceDocumentedTable" });
     case 8:
-      return S.Array(__S(471, __c29, 7));
+      return S.Array(__S(599, __c37, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -3183,42 +3514,44 @@ function __c29(j: number): any {
           existingSource: S.optional(S.NullOr(S.Boolean)),
           featureFlag: S.optional(S.NullOr(S.String)),
           featured: S.optional(S.NullOr(S.Boolean)),
-          fields: __S(465, __c29, 1),
+          fields: __S(593, __c37, 1),
           iconClassName: S.optional(S.NullOr(S.String)),
           iconPath: S.String,
-          keywords: S.optional(S.NullOr(__S(608, __c38, 0))),
+          keywords: S.optional(S.NullOr(__S(672, __c42, 0))),
           label: S.optional(S.NullOr(S.String)),
           name: S.String,
           permissionsCaption: S.optional(S.NullOr(S.String)),
           releaseStatus: S.optional(S.NullOr(S.String)),
-          suggestedTables: S.optional(S.NullOr(__S(467, __c29, 3))),
+          suggestedTables: S.optional(S.NullOr(__S(595, __c37, 3))),
           supportsColumnSelection: S.Boolean,
           unreleasedSource: S.optional(S.NullOr(S.Boolean)),
-          webhookFields: S.optional(S.NullOr(__S(468, __c29, 4))),
+          webhookFields: S.optional(S.NullOr(__S(596, __c37, 4))),
           webhookManualOnly: S.optional(S.NullOr(S.Boolean)),
           webhookSetupCaption: S.optional(S.NullOr(S.String)),
-          versions: __S(608, __c38, 0),
+          versions: __S(672, __c42, 0),
           defaultVersion: S.String,
           apiDocsUrl: S.optional(S.NullOr(S.String)),
-          deprecatedVersions: __S(470, __c29, 6),
+          deprecatedVersions: __S(598, __c37, 6),
           cdcEngine: S.optional(S.NullOr(S.String)),
-          tables: S.optional(S.NullOr(__S(472, __c29, 8))),
+          tables: S.optional(S.NullOr(__S(600, __c37, 8))),
         }),
       ).annotate({ identifier: "SourceConfigResponse" });
     case 10:
-      return S.Record(S.String, __S(473, __c29, 9));
+      return S.Record(S.String, __S(601, __c37, 9));
     case 11:
-      return S.suspend(() => __S(474, __c29, 10).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(602, __c37, 10).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetExternalDataSourcesWizardResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          compact: S.optional(S.Boolean.pipe(T.Query())),
+          include_schemas: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
@@ -3231,19 +3564,19 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListExternalDataSourcesRequest" });
     case 1:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(465, __c29, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(481, __c30, 1)),
+          results: S.optional(__S(609, __c38, 1)),
         }),
       ).annotate({ identifier: "PaginatedExternalDataSourceSerializersListOutput" });
   }
 }
-function __c31(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3272,14 +3605,56 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ExternalDataSourceConnectionOption" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(625, __c39, 1));
     case 3:
-      return S.suspend(() => __S(498, __c31, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(626, __c39, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExternalDataSourcesConnectionsResponse",
       });
   }
 }
-function __c32(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          source_type: S.optional(S.String),
+          payload: S.optional(__S(656, __c41, 0)),
+          prefix: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          access_method: S.optional(S.String),
+          created_via: S.optional(S.String),
+          direct_query_enabled: S.optional(S.Boolean),
+          destination_ids: S.optional(__S(672, __c42, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_sources/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateExternalDataSourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ExternalDataSourceCreateResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3302,14 +3677,14 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "DirectConnectionSourceOption" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(689, __c43, 1));
     case 3:
-      return S.suspend(() => __S(514, __c32, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(690, __c43, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExternalDataSourcesDirectConnectionOptionsResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3318,7 +3693,8 @@ function __c33(j: number): any {
           id: S.String.pipe(T.Label()),
           after: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
-          schemas: S.optional(__S(608, __c38, 0).pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          schemas: S.optional(__S(672, __c42, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3347,24 +3723,24 @@ function __c33(j: number): any {
           created_by: S.NullOr(S.Number),
           finished_at: S.NullOr(S.String),
           status: S.String,
-          schema: __S(529, __c33, 1),
+          schema: __S(705, __c44, 1),
           rows_synced: S.NullOr(S.Number),
           latest_error: S.NullOr(S.String),
           workflow_run_id: S.NullOr(S.String),
           cdc_write_mode: S.NullOr(S.String),
           billable: S.NullOr(S.Boolean),
-          destination_ids: __S(608, __c38, 0),
+          destination_ids: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "ExternalDataJobSerializers" });
     case 3:
-      return S.Array(__S(530, __c33, 2));
+      return S.Array(__S(706, __c44, 2));
     case 4:
-      return S.suspend(() => __S(531, __c33, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(707, __c44, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExternalDataSourcesJobsResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3381,14 +3757,14 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListExternalDataSourcesStoredCredentialsRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
-      return S.suspend(() => __S(545, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(721, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExternalDataSourcesStoredCredentialsResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3402,8 +3778,9 @@ function __c35(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3414,56 +3791,14 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSourceRequest" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          source_type: S.optional(S.String),
-          payload: S.optional(__S(592, __c37, 0)),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          access_method: S.optional(S.String),
-          created_via: S.optional(S.String),
-          direct_query_enabled: S.optional(S.Boolean),
-          destination_ids: S.optional(__S(608, __c38, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/external_data_sources/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateExternalDataSourceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }),
-      ).annotate({ identifier: "ExternalDataSourceCreateResponse" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          destination_ids: S.optional(S.NullOr(__S(608, __c38, 0))),
+          destination_ids: S.optional(S.NullOr(__S(672, __c42, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3474,7 +3809,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSourcesDestinationsPartialRequest" });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3488,8 +3823,9 @@ function __c40(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3500,22 +3836,15 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSourcesPartialRequest" });
   }
 }
-function __c41(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          created_via: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_id: S.optional(S.String),
-          prefix: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          direct_query_enabled: S.optional(S.Boolean),
-          auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
-          job_inputs: S.optional(S.Unknown),
+          enabled: S.optional(S.Boolean),
+          include_invoiceless_charges: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3526,12 +3855,18 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequest" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          source_type: S.String,
+          payload: S.optional(__S(656, __c41, 0)),
+          cdc_management_mode: S.optional(S.String),
+          tables: S.optional(__S(672, __c42, 0)),
+          cdc_slot_name: S.optional(S.NullOr(S.String)),
+          cdc_publication_name: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3544,12 +3879,12 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           valid: S.Boolean,
-          errors: __S(608, __c38, 0),
+          errors: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "CdcPrerequisitesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3563,8 +3898,9 @@ function __c43(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           direct_query_enabled: S.optional(S.Boolean),
           auto_sync_new_schemas: S.optional(S.Boolean),
-          auto_sync_schema_patterns: S.optional(S.NullOr(__S(608, __c38, 0))),
+          auto_sync_schema_patterns: S.optional(S.NullOr(__S(672, __c42, 0))),
           job_inputs: S.optional(S.Unknown),
+          payload: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3575,7 +3911,17 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest" });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credential_id: S.String,
+        }),
+      ).annotate({ identifier: "SourceUpdatePayload" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3583,7 +3929,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
@@ -3592,7 +3938,7 @@ function __c45(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          credentials: __S(720, __c45, 0),
+          credentials: __S(864, __c54, 0),
           api_version: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -3604,7 +3950,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesCredentialAccountRequest" });
   }
 }
-function __c46(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3612,22 +3958,22 @@ function __c46(j: number): any {
           value: S.String,
           display_name: S.String,
           is_primary: S.Boolean,
-          badges: __S(608, __c38, 0),
+          badges: __S(672, __c42, 0),
           group: S.NullOr(S.String),
           secondary_text: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "IntegrationAccount" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(880, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(737, __c46, 1),
+          accounts: __S(881, __c55, 1),
         }),
       ).annotate({ identifier: "IntegrationAccountsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3644,7 +3990,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesDatabaseSchemaRequest" });
   }
 }
-function __c48(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3666,7 +4012,7 @@ function __c48(j: number): any {
         S.Struct({
           draft_status: S.String,
           manifest_json: S.NullOr(S.String),
-          resource_names: __S(608, __c38, 0),
+          resource_names: __S(672, __c42, 0),
           attempts: S.Number,
           error: S.NullOr(S.String),
         }),

@@ -50,10 +50,85 @@ export interface GetProfileRequest {
   /** User to retrieve profile info for */
   user?: string | undefined;
 }
+export interface GetProfileResponseProfileCase1ProfileStatusEmojiDisplayInfoItem {
+  emoji_name: string;
+  display_alias?: string | undefined;
+  display_url?: string | undefined;
+  unicode?: string | undefined;
+}
+export type GetProfileResponseProfileCase1ProfileStatusEmojiDisplayInfoList =
+  Array<GetProfileResponseProfileCase1ProfileStatusEmojiDisplayInfoItem>;
+/** The status fields, title and pronouns are set only when the stranger's organization shares extended profiles with the viewer's. */
+export interface GetProfileResponseProfileCase1Profile {
+  avatar_hash: string;
+  image_original?: string | undefined;
+  image_24?: string | undefined;
+  image_32?: string | undefined;
+  image_48?: string | undefined;
+  image_72?: string | undefined;
+  image_192?: string | undefined;
+  image_512?: string | undefined;
+  image_1024?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  /** Set only when the stranger's workspace allows displaying email addresses to external users. */
+  email?: string | undefined;
+  real_name: string;
+  display_name: string;
+  real_name_normalized: string;
+  display_name_normalized: string;
+  team?: string | undefined;
+  bot_id?: string | undefined;
+  api_app_id?: string | undefined;
+  status_text?: string | undefined;
+  status_text_canonical?: unknown | undefined;
+  status_emoji?: string | undefined;
+  status_emoji_display_info?:
+    | GetProfileResponseProfileCase1ProfileStatusEmojiDisplayInfoList
+    | undefined;
+  status_expiration?: number | undefined;
+  status_clear_on_focus_end?: boolean | undefined;
+  title?: string | undefined;
+  pronouns?: string | undefined;
+}
+/** A stranger: a user a guest can't see in full. */
+export interface GetProfileResponseProfileCase1 {
+  id: string;
+  team_id: string;
+  name: string;
+  color: string;
+  is_bot: boolean;
+  is_app_user: boolean;
+  /** Set when the user is deactivated or disconnected. */
+  deleted?: boolean | undefined;
+  /** Set only when the stranger's organization shares extended profiles with the viewer's. */
+  tz?: string | undefined;
+  /** Set only when the stranger's organization shares extended profiles with the viewer's. */
+  tz_label?: string | undefined;
+  /** Set only when the stranger's organization shares extended profiles with the viewer's. */
+  tz_offset?: number | undefined;
+  /** The status fields, title and pronouns are set only when the stranger's organization shares extended profiles with the viewer's. */
+  profile: GetProfileResponseProfileCase1Profile;
+  is_stranger: boolean;
+  updated: number;
+  is_workflow_bot?: boolean | undefined;
+  is_connector_bot?: boolean | undefined;
+  is_agentforce_bot?: boolean | undefined;
+  is_sidekick_bot?: boolean | undefined;
+  agent_status?: unknown | undefined;
+  app_acl_type?: unknown | undefined;
+  is_ai_app?: boolean | undefined;
+  is_migrated_dummy_quip_user?: boolean | undefined;
+  who_can_share_contact_card: string;
+  is_profile_only_user?: boolean | undefined;
+}
+/** The user's profile. When a guest looks up a user they can't see in full, this is the stranger's formatted user instead, with a limited profile under `profile`. */
+export type GetProfileResponseProfile = unknown | GetProfileResponseProfileCase1;
 export interface GetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  profile: unknown;
+  /** The user's profile. When a guest looks up a user they can't see in full, this is the stranger's formatted user instead, with a limited profile under `profile`. */
+  profile: GetProfileResponseProfile;
 }
 export interface ListUsersRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
@@ -234,7 +309,7 @@ export const getProfile: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetProfileRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<GetProfileResponse>,
+  output: __S(26, __c6, 2) as any as S.Schema<GetProfileResponse>,
   errors: [],
   serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
@@ -547,10 +622,41 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users.profile.get", code: 200 })),
       ).annotate({ identifier: "GetProfileRequest" });
     case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [],
+          [
+            "id",
+            "team_id",
+            "name",
+            "color",
+            "is_bot",
+            "is_app_user",
+            "deleted",
+            "tz",
+            "tz_label",
+            "tz_offset",
+            "profile",
+            "is_stranger",
+            "updated",
+            "is_workflow_bot",
+            "is_connector_bot",
+            "is_agentforce_bot",
+            "is_sidekick_bot",
+            "agent_status",
+            "app_acl_type",
+            "is_ai_app",
+            "is_migrated_dummy_quip_user",
+            "who_can_share_contact_card",
+            "is_profile_only_user",
+          ],
+        ]),
+      );
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          profile: S.Unknown,
+          profile: __S(25, __c6, 1),
         }),
       ).annotate({ identifier: "GetProfileResponse" });
   }

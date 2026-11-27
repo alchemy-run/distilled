@@ -285,6 +285,10 @@ export type RemoveRecordResponse = unknown;
 export interface ReplaceDomainsByDomainRecordsRequest {
   /** The domain name */
   domain: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
 }
 export type ReplaceDomainsByDomainRecordsResponseRecordIdsList = Array<string>;
 export interface ReplaceDomainsByDomainRecordsResponse {
@@ -636,6 +640,8 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "PUT", uri: "/domains/{domain}/records", code: 200 })),
       ).annotate({ identifier: "ReplaceDomainsByDomainRecordsRequest" });
     case 1:

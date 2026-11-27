@@ -729,9 +729,16 @@ export interface ListVercelCiInvocationAttemptsResponse {
   repositories: unknown;
 }
 /** Repository provider (e.g., \"github\"). */
-export type ListVercelCiInvocationsRequestProvider = "github" | "gitlab" | "bitbucket" | "vercel";
+export type ListVercelCiInvocationsRequestProvider =
+  | "github"
+  | "gitlab"
+  | "bitbucket"
+  | "vercel"
+  | "cursor-origin";
 export type ListVercelCiInvocationsRequestStatusItem =
   | "new"
+  | "awaiting_admission"
+  | "awaiting_approval"
   | "skipped"
   | "bootstrapping"
   | "bootstrapping_failed"
@@ -1077,10 +1084,20 @@ export interface SearchVercelCiLogsResponseInvocationsItemTasksItem {
 }
 export type SearchVercelCiLogsResponseInvocationsItemTasksList =
   Array<SearchVercelCiLogsResponseInvocationsItemTasksItem>;
+export type SearchVercelCiLogsResponseInvocationsItemSetupLinesItem =
+  GetVercelCiInvocationLogsResponseLinesItem;
+export type SearchVercelCiLogsResponseInvocationsItemSetupLinesList =
+  Array<GetVercelCiInvocationLogsResponseLinesItem>;
+/** Matching lines from the setup logs. Present only when a setup line matches. */
+export interface SearchVercelCiLogsResponseInvocationsItemSetup {
+  lines: SearchVercelCiLogsResponseInvocationsItemSetupLinesList;
+}
 export interface SearchVercelCiLogsResponseInvocationsItem {
   invocationId: string;
   attempt: number;
   tasks: SearchVercelCiLogsResponseInvocationsItemTasksList;
+  /** Matching lines from the setup logs. Present only when a setup line matches. */
+  setup?: SearchVercelCiLogsResponseInvocationsItemSetup | undefined;
 }
 export type SearchVercelCiLogsResponseInvocationsList =
   Array<SearchVercelCiLogsResponseInvocationsItem>;
@@ -1524,7 +1541,7 @@ export const retryVercelCiInvocation: API.OperationMethod<
 }));
 
 export type SearchVercelCiLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Search the task logs of several invocation attempts Searches the task logs of up to 50 invocation attempts at once, for example the most recent runs of a branch from `GET /v2/vercel-ci/invocations`. Only invocations and tasks with matching lines are returned. When more than 1000 lines match, the newest are kept. */
+/** Search the setup and task logs of several invocation attempts Searches the setup and task logs of up to 50 invocation attempts at once, for example the most recent runs of a branch from `GET /v2/vercel-ci/invocations`. Only invocations and tasks with matching lines are returned, and `setup` is present only when a setup line matches. When more than 1000 lines match across setup and task logs, the newest are kept. */
 export const searchVercelCiLogs: API.OperationMethod<
   SearchVercelCiLogsRequest,
   SearchVercelCiLogsResponse,
@@ -2186,6 +2203,7 @@ function __c18(j: number): any {
           invocationId: S.String,
           attempt: S.Number,
           tasks: __S(290, __c18, 2),
+          setup: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "SearchVercelCiLogsResponseInvocationsItem" });
     case 4:

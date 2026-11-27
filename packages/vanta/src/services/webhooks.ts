@@ -23,6 +23,14 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface V1AuditDeletedRequestAudit {
+  /** The unique identifier of the deleted audit. */
+  id: string;
+}
+export interface V1AuditDeletedRequest {
+  audit: V1AuditDeletedRequestAudit;
+}
+export interface V1AuditDeletedResponse {}
 export interface V1ControlCommentCreatedRequestControl {
   /** The unique identifier of the control the comment was added to. */
   id: string;
@@ -163,6 +171,18 @@ export interface V1InformationRequestCommentUpdatedRequest {
   comment: V1ControlCommentCreatedRequestComment;
 }
 export interface V1InformationRequestCommentUpdatedResponse {}
+export type V1InformationRequestCreatedRequestInformationRequest =
+  V1InformationRequestCommentCreatedRequestInformationRequest;
+export interface V1InformationRequestCreatedRequest {
+  informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest;
+}
+export interface V1InformationRequestCreatedResponse {}
+export type V1InformationRequestDeletedRequestInformationRequest =
+  V1InformationRequestCommentCreatedRequestInformationRequest;
+export interface V1InformationRequestDeletedRequest {
+  informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest;
+}
+export interface V1InformationRequestDeletedResponse {}
 export type V1InformationRequestEvidenceCreatedRequestInformationRequest =
   V1InformationRequestCommentCreatedRequestInformationRequest;
 export interface V1InformationRequestEvidenceCreatedRequestEvidence {
@@ -209,6 +229,12 @@ export interface V1InformationRequestStatusChangedRequest {
   informationRequest: V1InformationRequestStatusChangedRequestInformationRequest;
 }
 export interface V1InformationRequestStatusChangedResponse {}
+export type V1InformationRequestUpdatedRequestInformationRequest =
+  V1InformationRequestCommentCreatedRequestInformationRequest;
+export interface V1InformationRequestUpdatedRequest {
+  informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest;
+}
+export interface V1InformationRequestUpdatedResponse {}
 export interface V1QuestionnaireCreatedRequestQuestionnaire {
   /** The questionnaire ID. */
   id: string;
@@ -356,6 +382,24 @@ export interface V1VendorDecisionCreatedRequest {
   vendor: V1VendorDecisionCreatedRequestVendor;
 }
 export interface V1VendorDecisionCreatedResponse {}
+export type V1AuditDeletedError = VantaOpError;
+/** Audit deleted Fires when an audit accessible to your audit firm is deleted. This event is delivered only to [Audit Partner](/reference/audits/overview) accounts and is an early-access feature. Reach out to your Vanta contact to enable it. Remove the audit and all its mirrored resources from your system using the audit ID in this event. Deleting an audit does not produce separate deletion events for its information requests, evidence, or comments. */
+export const v1AuditDeleted: API.OperationMethod<
+  V1AuditDeletedRequest,
+  V1AuditDeletedResponse,
+  V1AuditDeletedError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<V1AuditDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1AuditDeletedResponse>,
+  errors: [],
+  serviceErrors: VantaServiceErrors,
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1AuditDeleted",
+}));
+
 export type V1ControlCommentCreatedError = VantaOpError;
 /** Control comment created An external comment was created on an audit control. Fires once per comment. This event is delivered only to [Audit Partner](/reference/audits/overview) accounts and is gated by the early-access `audit_control_comment_webhook` feature -- reach out to your Vanta contact to enable it. The payload contains only identifiers. Fetch the comment body from `GET /v1/audits/{auditId}/controls/{controlId}/comments`. */
 export const v1ControlCommentCreated: API.OperationMethod<
@@ -364,8 +408,8 @@ export const v1ControlCommentCreated: API.OperationMethod<
   V1ControlCommentCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<V1ControlCommentCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1ControlCommentCreatedResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<V1ControlCommentCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1ControlCommentCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -382,8 +426,8 @@ export const v1ControlCommentDeleted: API.OperationMethod<
   V1ControlCommentDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<V1ControlCommentDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1ControlCommentDeletedResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<V1ControlCommentDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1ControlCommentDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -400,8 +444,8 @@ export const v1ControlCommentUpdated: API.OperationMethod<
   V1ControlCommentUpdatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<V1ControlCommentUpdatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1ControlCommentUpdatedResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<V1ControlCommentUpdatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1ControlCommentUpdatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -418,8 +462,8 @@ export const v1EvidenceCommentCreated: API.OperationMethod<
   V1EvidenceCommentCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<V1EvidenceCommentCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceCommentCreatedResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<V1EvidenceCommentCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceCommentCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -436,8 +480,8 @@ export const v1EvidenceCommentDeleted: API.OperationMethod<
   V1EvidenceCommentDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<V1EvidenceCommentDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceCommentDeletedResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<V1EvidenceCommentDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceCommentDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -454,8 +498,8 @@ export const v1EvidenceCommentUpdated: API.OperationMethod<
   V1EvidenceCommentUpdatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<V1EvidenceCommentUpdatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceCommentUpdatedResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<V1EvidenceCommentUpdatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceCommentUpdatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -472,8 +516,8 @@ export const v1EvidenceCreated: API.OperationMethod<
   V1EvidenceCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<V1EvidenceCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceCreatedResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<V1EvidenceCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -490,8 +534,8 @@ export const v1EvidenceDeleted: API.OperationMethod<
   V1EvidenceDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<V1EvidenceDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceDeletedResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<V1EvidenceDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -508,8 +552,8 @@ export const v1EvidenceStatusChanged: API.OperationMethod<
   V1EvidenceStatusChangedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<V1EvidenceStatusChangedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1EvidenceStatusChangedResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<V1EvidenceStatusChangedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1EvidenceStatusChangedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -526,8 +570,8 @@ export const v1InformationRequestCommentCreated: API.OperationMethod<
   V1InformationRequestCommentCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<V1InformationRequestCommentCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestCommentCreatedResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<V1InformationRequestCommentCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestCommentCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -544,8 +588,8 @@ export const v1InformationRequestCommentDeleted: API.OperationMethod<
   V1InformationRequestCommentDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<V1InformationRequestCommentDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestCommentDeletedResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<V1InformationRequestCommentDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestCommentDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -562,14 +606,50 @@ export const v1InformationRequestCommentUpdated: API.OperationMethod<
   V1InformationRequestCommentUpdatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<V1InformationRequestCommentUpdatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestCommentUpdatedResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<V1InformationRequestCommentUpdatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestCommentUpdatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "V1InformationRequestCommentUpdated",
+}));
+
+export type V1InformationRequestCreatedError = VantaOpError;
+/** Information request created Fires when an information request is created for an audit accessible to your audit firm. Bulk creation produces one event per request. This event is delivered only to [Audit Partner](/reference/audits/overview) accounts. The payload contains only identifiers. Fetch current details with `GET /v1/audits/{auditId}/information-requests/{requestId}`. */
+export const v1InformationRequestCreated: API.OperationMethod<
+  V1InformationRequestCreatedRequest,
+  V1InformationRequestCreatedResponse,
+  V1InformationRequestCreatedError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c8, 0) as any as S.Schema<V1InformationRequestCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestCreatedResponse>,
+  errors: [],
+  serviceErrors: VantaServiceErrors,
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestCreated",
+}));
+
+export type V1InformationRequestDeletedError = VantaOpError;
+/** Information request deleted Fires when an information request is deleted from an audit accessible to your audit firm. Bulk deletion produces one event per request. This event is delivered only to [Audit Partner](/reference/audits/overview) accounts and is an early-access feature. Reach out to your Vanta contact to enable it. Treat the request and all its mirrored comments and evidence as deleted in your system. Vanta does not send separate comment or evidence deletion events for this operation. */
+export const v1InformationRequestDeleted: API.OperationMethod<
+  V1InformationRequestDeletedRequest,
+  V1InformationRequestDeletedResponse,
+  V1InformationRequestDeletedError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<V1InformationRequestDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestDeletedResponse>,
+  errors: [],
+  serviceErrors: VantaServiceErrors,
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestDeleted",
 }));
 
 export type V1InformationRequestEvidenceCreatedError = VantaOpError;
@@ -580,8 +660,8 @@ export const v1InformationRequestEvidenceCreated: API.OperationMethod<
   V1InformationRequestEvidenceCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<V1InformationRequestEvidenceCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestEvidenceCreatedResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<V1InformationRequestEvidenceCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestEvidenceCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -598,8 +678,8 @@ export const v1InformationRequestEvidenceDeleted: API.OperationMethod<
   V1InformationRequestEvidenceDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<V1InformationRequestEvidenceDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestEvidenceDeletedResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<V1InformationRequestEvidenceDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestEvidenceDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -616,14 +696,32 @@ export const v1InformationRequestStatusChanged: API.OperationMethod<
   V1InformationRequestStatusChangedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<V1InformationRequestStatusChangedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1InformationRequestStatusChangedResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<V1InformationRequestStatusChangedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestStatusChangedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "V1InformationRequestStatusChanged",
+}));
+
+export type V1InformationRequestUpdatedError = VantaOpError;
+/** Information request updated Fires when an information request's metadata changes on an audit accessible to your audit firm. Bulk edits produce one event per request that changed at least one trigger field. This event is delivered only to [Audit Partner](/reference/audits/overview) accounts. **Trigger fields:** `dueDate`, `evidenceCaptureDate`, `title`, `description`, `requestType` and `cadence`. Setting, changing or clearing a due date all emit this event. Approval status, comments and evidence have their own events. Changes to owner assignment, linked controls or segment assignment do not emit this event. The payload contains only identifiers. Fetch current details with `GET /v1/audits/{auditId}/information-requests/{requestId}`. */
+export const v1InformationRequestUpdated: API.OperationMethod<
+  V1InformationRequestUpdatedRequest,
+  V1InformationRequestUpdatedResponse,
+  V1InformationRequestUpdatedError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(52, __c13, 0) as any as S.Schema<V1InformationRequestUpdatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1InformationRequestUpdatedResponse>,
+  errors: [],
+  serviceErrors: VantaServiceErrors,
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestUpdated",
 }));
 
 export type V1QuestionnaireCreatedError = VantaOpError;
@@ -634,8 +732,8 @@ export const v1QuestionnaireCreated: API.OperationMethod<
   V1QuestionnaireCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<V1QuestionnaireCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1QuestionnaireCreatedResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<V1QuestionnaireCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1QuestionnaireCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -652,8 +750,8 @@ export const v1QuestionnaireDeleted: API.OperationMethod<
   V1QuestionnaireDeletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<V1QuestionnaireDeletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1QuestionnaireDeletedResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<V1QuestionnaireDeletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1QuestionnaireDeletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -670,8 +768,8 @@ export const v1QuestionnaireExportCompleted: API.OperationMethod<
   V1QuestionnaireExportCompletedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c12, 1) as any as S.Schema<V1QuestionnaireExportCompletedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1QuestionnaireExportCompletedResponse>,
+  input: __S(69, __c17, 1) as any as S.Schema<V1QuestionnaireExportCompletedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1QuestionnaireExportCompletedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -688,8 +786,8 @@ export const v1QuestionnaireExportFailed: API.OperationMethod<
   V1QuestionnaireExportFailedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(53, __c13, 1) as any as S.Schema<V1QuestionnaireExportFailedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1QuestionnaireExportFailedResponse>,
+  input: __S(73, __c18, 1) as any as S.Schema<V1QuestionnaireExportFailedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1QuestionnaireExportFailedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -706,8 +804,8 @@ export const v1QuestionnaireStatusChanged: API.OperationMethod<
   V1QuestionnaireStatusChangedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(57, __c14, 1) as any as S.Schema<V1QuestionnaireStatusChangedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1QuestionnaireStatusChangedResponse>,
+  input: __S(77, __c19, 1) as any as S.Schema<V1QuestionnaireStatusChangedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1QuestionnaireStatusChangedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -724,8 +822,8 @@ export const v1TrustCenterAccessRequestApproved: API.OperationMethod<
   V1TrustCenterAccessRequestApprovedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<V1TrustCenterAccessRequestApprovedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1TrustCenterAccessRequestApprovedResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<V1TrustCenterAccessRequestApprovedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1TrustCenterAccessRequestApprovedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -742,8 +840,8 @@ export const v1TrustCenterAccessRequestDenied: API.OperationMethod<
   V1TrustCenterAccessRequestDeniedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<V1TrustCenterAccessRequestDeniedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1TrustCenterAccessRequestDeniedResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<V1TrustCenterAccessRequestDeniedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1TrustCenterAccessRequestDeniedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -760,8 +858,8 @@ export const v1TrustCenterAccessRequestReceived: API.OperationMethod<
   V1TrustCenterAccessRequestReceivedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<V1TrustCenterAccessRequestReceivedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1TrustCenterAccessRequestReceivedResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<V1TrustCenterAccessRequestReceivedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1TrustCenterAccessRequestReceivedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -778,8 +876,8 @@ export const v1VendorDecisionCreated: API.OperationMethod<
   V1VendorDecisionCreatedError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(82, __c20, 2) as any as S.Schema<V1VendorDecisionCreatedRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<V1VendorDecisionCreatedResponse>,
+  input: __S(98, __c24, 2) as any as S.Schema<V1VendorDecisionCreatedRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<V1VendorDecisionCreatedResponse>,
   errors: [],
   serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
@@ -794,21 +892,39 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          control: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.created", code: 200 })),
-      ).annotate({ identifier: "V1ControlCommentCreatedRequest" });
+          audit: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.audit.deleted", code: 200 })),
+      ).annotate({ identifier: "V1AuditDeletedRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "V1ControlCommentCreatedResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "V1AuditDeletedRequestAudit" });
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "V1AuditDeletedResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          control: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.created", code: 200 })),
+      ).annotate({ identifier: "V1ControlCommentCreatedRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -819,38 +935,17 @@ function __c2(j: number): any {
       ).annotate({ identifier: "V1ControlCommentCreatedRequestControl" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-        }),
-      ).annotate({ identifier: "V1ControlCommentCreatedRequestComment" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          control: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.deleted", code: 200 })),
-      ).annotate({ identifier: "V1ControlCommentDeletedRequest" });
-  }
-}
 function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          informationRequest: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
+          informationRequest: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
         }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.comment.deleted", code: 200 }),
+          T.Http({ method: "POST", uri: "/v1.information-request.comment.created", code: 200 }),
         ),
-      ).annotate({ identifier: "V1InformationRequestCommentDeletedRequest" });
+      ).annotate({ identifier: "V1InformationRequestCommentCreatedRequest" });
   }
 }
 function __c6(j: number): any {
@@ -858,12 +953,12 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          informationRequest: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
+          informationRequest: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
         }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.comment.updated", code: 200 }),
+          T.Http({ method: "POST", uri: "/v1.information-request.comment.deleted", code: 200 }),
         ),
-      ).annotate({ identifier: "V1InformationRequestCommentUpdatedRequest" });
+      ).annotate({ identifier: "V1InformationRequestCommentDeletedRequest" });
   }
 }
 function __c7(j: number): any {
@@ -871,12 +966,12 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          informationRequest: __S(8, __c2, 0),
-          evidence: __S(12, __c3, 0),
+          informationRequest: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
         }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.evidence.created", code: 200 }),
+          T.Http({ method: "POST", uri: "/v1.information-request.comment.updated", code: 200 }),
         ),
-      ).annotate({ identifier: "V1InformationRequestEvidenceCreatedRequest" });
+      ).annotate({ identifier: "V1InformationRequestCommentUpdatedRequest" });
   }
 }
 function __c8(j: number): any {
@@ -884,12 +979,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          informationRequest: __S(8, __c2, 0),
-          evidence: __S(12, __c3, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.evidence.deleted", code: 200 }),
-        ),
-      ).annotate({ identifier: "V1InformationRequestEvidenceDeletedRequest" });
+          informationRequest: __S(16, __c4, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.created", code: 200 })),
+      ).annotate({ identifier: "V1InformationRequestCreatedRequest" });
   }
 }
 function __c9(j: number): any {
@@ -897,11 +989,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          informationRequest: __S(108, __c27, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.status-changed", code: 200 }),
-        ),
-      ).annotate({ identifier: "V1InformationRequestStatusChangedRequest" });
+          informationRequest: __S(16, __c4, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.deleted", code: 200 })),
+      ).annotate({ identifier: "V1InformationRequestDeletedRequest" });
   }
 }
 function __c10(j: number): any {
@@ -909,9 +999,12 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          questionnaire: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.created", code: 200 })),
-      ).annotate({ identifier: "V1QuestionnaireCreatedRequest" });
+          informationRequest: __S(16, __c4, 0),
+          evidence: __S(4, __c1, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1.information-request.evidence.created", code: 200 }),
+        ),
+      ).annotate({ identifier: "V1InformationRequestEvidenceCreatedRequest" });
   }
 }
 function __c11(j: number): any {
@@ -919,12 +1012,68 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          questionnaire: __S(12, __c3, 0),
+          informationRequest: __S(16, __c4, 0),
+          evidence: __S(4, __c1, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1.information-request.evidence.deleted", code: 200 }),
+        ),
+      ).annotate({ identifier: "V1InformationRequestEvidenceDeletedRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          informationRequest: __S(128, __c32, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1.information-request.status-changed", code: 200 }),
+        ),
+      ).annotate({ identifier: "V1InformationRequestStatusChangedRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          informationRequest: __S(16, __c4, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.updated", code: 200 })),
+      ).annotate({ identifier: "V1InformationRequestUpdatedRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          questionnaire: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.created", code: 200 })),
+      ).annotate({ identifier: "V1QuestionnaireCreatedRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          control: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.deleted", code: 200 })),
+      ).annotate({ identifier: "V1ControlCommentDeletedRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          questionnaire: __S(4, __c1, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.deleted", code: 200 })),
       ).annotate({ identifier: "V1QuestionnaireDeletedRequest" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -938,13 +1087,13 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          questionnaire: __S(12, __c3, 0),
-          export: __S(48, __c12, 0),
+          questionnaire: __S(4, __c1, 0),
+          export: __S(68, __c17, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.export-completed", code: 200 })),
       ).annotate({ identifier: "V1QuestionnaireExportCompletedRequest" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -959,13 +1108,13 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          questionnaire: __S(12, __c3, 0),
-          export: __S(52, __c13, 0),
+          questionnaire: __S(4, __c1, 0),
+          export: __S(72, __c18, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.export-failed", code: 200 })),
       ).annotate({ identifier: "V1QuestionnaireExportFailedRequest" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -977,37 +1126,26 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          questionnaire: __S(56, __c14, 0),
+          questionnaire: __S(76, __c19, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.status-changed", code: 200 })),
       ).annotate({ identifier: "V1QuestionnaireStatusChangedRequest" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          control: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.updated", code: 200 })),
-      ).annotate({ identifier: "V1ControlCommentUpdatedRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          trustCenter: __S(68, __c17, 0),
-          accessRequest: __S(12, __c3, 0),
-          viewer: __S(12, __c3, 0),
+          trustCenter: __S(84, __c21, 0),
+          accessRequest: __S(4, __c1, 0),
+          viewer: __S(4, __c1, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1.trust-center.access-request.approved", code: 200 }),
         ),
       ).annotate({ identifier: "V1TrustCenterAccessRequestApprovedRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1017,33 +1155,33 @@ function __c17(j: number): any {
       ).annotate({ identifier: "V1TrustCenterAccessRequestApprovedRequestTrustCenter" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trustCenter: __S(68, __c17, 0),
-          accessRequest: __S(12, __c3, 0),
+          trustCenter: __S(84, __c21, 0),
+          accessRequest: __S(4, __c1, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1.trust-center.access-request.denied", code: 200 }),
         ),
       ).annotate({ identifier: "V1TrustCenterAccessRequestDeniedRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trustCenter: __S(68, __c17, 0),
-          accessRequest: __S(12, __c3, 0),
+          trustCenter: __S(84, __c21, 0),
+          accessRequest: __S(4, __c1, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1.trust-center.access-request.received", code: 200 }),
         ),
       ).annotate({ identifier: "V1TrustCenterAccessRequestReceivedRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1057,58 +1195,15 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          decision: __S(80, __c20, 0),
+          decision: __S(96, __c24, 0),
         }),
       ).annotate({ identifier: "V1VendorDecisionCreatedRequestVendor" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vendor: __S(81, __c20, 1),
+          vendor: __S(97, __c24, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v1.vendor.decision.created", code: 200 })),
       ).annotate({ identifier: "V1VendorDecisionCreatedRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          evidence: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.created", code: 200 })),
-      ).annotate({ identifier: "V1EvidenceCommentCreatedRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          evidence: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.deleted", code: 200 })),
-      ).annotate({ identifier: "V1EvidenceCommentDeletedRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          evidence: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.updated", code: 200 })),
-      ).annotate({ identifier: "V1EvidenceCommentUpdatedRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          evidence: __S(8, __c2, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.created", code: 200 })),
-      ).annotate({ identifier: "V1EvidenceCreatedRequest" });
   }
 }
 function __c25(j: number): any {
@@ -1116,9 +1211,10 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          evidence: __S(8, __c2, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.deleted", code: 200 })),
-      ).annotate({ identifier: "V1EvidenceDeletedRequest" });
+          control: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.control.comment.updated", code: 200 })),
+      ).annotate({ identifier: "V1ControlCommentUpdatedRequest" });
   }
 }
 function __c26(j: number): any {
@@ -1126,12 +1222,65 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          evidence: __S(108, __c27, 0),
+          evidence: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.created", code: 200 })),
+      ).annotate({ identifier: "V1EvidenceCommentCreatedRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evidence: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.deleted", code: 200 })),
+      ).annotate({ identifier: "V1EvidenceCommentDeletedRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evidence: __S(16, __c4, 0),
+          comment: __S(4, __c1, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.comment.updated", code: 200 })),
+      ).annotate({ identifier: "V1EvidenceCommentUpdatedRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evidence: __S(16, __c4, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.created", code: 200 })),
+      ).annotate({ identifier: "V1EvidenceCreatedRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evidence: __S(16, __c4, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.deleted", code: 200 })),
+      ).annotate({ identifier: "V1EvidenceDeletedRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          evidence: __S(128, __c32, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.status-changed", code: 200 })),
       ).annotate({ identifier: "V1EvidenceStatusChangedRequest" });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1142,19 +1291,6 @@ function __c27(j: number): any {
           newStatus: S.String,
         }),
       ).annotate({ identifier: "V1EvidenceStatusChangedRequestEvidence" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          informationRequest: __S(8, __c2, 0),
-          comment: __S(12, __c3, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1.information-request.comment.created", code: 200 }),
-        ),
-      ).annotate({ identifier: "V1InformationRequestCommentCreatedRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

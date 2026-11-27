@@ -98,7 +98,7 @@ export class UnprocessableEntity
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(7616, __c238, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(7648, __c239, 0)),
           S.String,
         ]),
       ),
@@ -1907,7 +1907,32 @@ export interface Note {
   /** The body text of the note. */
   body?: string | undefined;
 }
-export interface CreateContactRequest {}
+export interface CreateContactRequest {
+  /** The role of the contact. */
+  role?: string | undefined;
+  /** A unique identifier for the contact which is given to Intercom */
+  external_id?: string | undefined;
+  /** Whether the contact has proved they own this email address, for example through a confirmation link or one-time code you sent. Send it together with `email`. `email_verified` without `email` is rejected. Changing a contact's email resets it to not verified. Intercom reuses leads with a verified email when an inbound email, conversation or ticket matches the address. */
+  email_verified?: boolean | null | undefined;
+  /** The contacts email */
+  email?: string | undefined;
+  /** The contacts phone */
+  phone?: string | null | undefined;
+  /** The contacts name */
+  name?: string | null | undefined;
+  /** An image URL containing the avatar of a contact */
+  avatar?: string | null | undefined;
+  /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
+  signed_up_at?: number | null | undefined;
+  /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
+  last_seen_at?: number | null | undefined;
+  /** The id of an admin that has been assigned account ownership of the contact */
+  owner_id?: string | null | undefined;
+  /** Whether the contact is unsubscribed from emails */
+  unsubscribed_from_emails?: boolean | null | undefined;
+  /** The custom attributes which are set for the contact */
+  custom_attributes?: unknown | null | undefined;
+}
 export type CreateContactResponseAvatar = ContactAvatar;
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type CreateContactResponseMergeHistoryList = Array<MergeHistoryItem>;
@@ -2107,7 +2132,7 @@ export interface ContentSnippet {
   audience_ids?: ContentSnippetAudienceIdsList | null | undefined;
 }
 /** The role associated to the contact - user or lead. */
-export type CreateConversationRequestFromType = "lead" | "user" | "contact";
+export type CreateConversationRequestFromType = "lead" | "user";
 export interface CreateConversationRequestFrom {
   /** The role associated to the contact - user or lead. */
   type: CreateConversationRequestFromType | (string & {});
@@ -2129,8 +2154,13 @@ export interface CreateConversationRequest {
   /** The unique identifier of the brand to associate with this conversation. */
   brand_id?: string | undefined;
 }
-/** The type of message that was sent. Can be email, inapp, facebook or twitter. */
-export type CreateConversationResponseMessageType = "email" | "inapp" | "facebook" | "twitter";
+/** The type of message that was sent. Can be email, inapp, facebook, twitter or whatsapp. */
+export type CreateConversationResponseMessageType =
+  | "email"
+  | "inapp"
+  | "facebook"
+  | "twitter"
+  | "whatsapp";
 export interface CreateConversationResponse {
   /** The type of the message */
   type: string;
@@ -2142,7 +2172,7 @@ export interface CreateConversationResponse {
   subject?: string | undefined;
   /** The message body, which may contain HTML. */
   body: string;
-  /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
+  /** The type of message that was sent. Can be email, inapp, facebook, twitter or whatsapp. */
   message_type: CreateConversationResponseMessageType;
   /** The associated conversation_id */
   conversation_id: string;
@@ -3286,12 +3316,14 @@ export interface CreateInternalArticleResponse {
 export type CreateMessageRequestMessageType = "in_app" | "email" | "whatsapp";
 /** Always `admin`. */
 export type CreateMessageRequestFromType = "admin";
-/** The sender of the message. If not provided, the default sender will be used. */
+/** The sender of the message. Required. A request without `from` returns a `400` error. */
 export interface CreateMessageRequestFrom {
   /** Always `admin`. */
   type: CreateMessageRequestFromType | (string & {});
   /** The identifier for the admin which is given by Intercom. */
   id: number;
+  /** For `whatsapp` messages, the WhatsApp number of your workspace to send from, in international format. If you leave it out, a WhatsApp number in your workspace that has the template is used. A number that isn't valid, or isn't registered in your workspace, returns a `400` error. */
+  whatsapp_number?: string | undefined;
 }
 /** The role associated to the contact - `user` or `lead`. */
 export type RecipientType = "user" | "lead";
@@ -3302,7 +3334,7 @@ export interface Recipient {
   /** The identifier for the contact which is given by Intercom. */
   id: string;
 }
-/** The recipients of the message. */
+/** The recipients of the message. Not accepted for `whatsapp` messages, which take a single recipient. An array returns a `400` error. */
 export type CreateMessageRequestToCase1List = Array<Recipient>;
 export type CreateMessageRequestTo = Recipient | CreateMessageRequestToCase1List;
 /** The CC recipients of the message. */
@@ -3318,20 +3350,20 @@ export interface CreateMessageRequest {
   subject?: string | undefined;
   /** The content of the message. HTML and plaintext are supported. */
   body?: string | undefined;
-  /** The style of the outgoing message. Possible values `plain` or `personal`. */
+  /** For `email` messages, the style of the outgoing message. Possible values `plain` or `personal`. For `whatsapp` messages, the name of the WhatsApp message template to send. A template that doesn't exist returns a `400` error. */
   template?: string | undefined;
-  /** The sender of the message. If not provided, the default sender will be used. */
+  /** The sender of the message. Required. A request without `from` returns a `400` error. */
   from?: CreateMessageRequestFrom | undefined;
   to?: CreateMessageRequestTo | undefined;
   cc?: CreateMessageRequestCc | undefined;
   bcc?: CreateMessageRequestBcc | undefined;
   /** The time the message was created. If not provided, the current time will be used. */
   created_at?: number | undefined;
-  /** Whether a conversation should be opened in the inbox for the message without the contact replying. Defaults to false if not provided. */
+  /** Whether a conversation should be opened in the inbox for the message without the contact replying. Defaults to false if not provided. For `whatsapp` messages, a conversation is always opened and this field is ignored. */
   create_conversation_without_contact_reply?: boolean | undefined;
 }
-/** The type of message that was sent. Can be email, inapp, facebook or twitter. */
-export type MessageMessageType = "email" | "inapp" | "facebook" | "twitter";
+/** The type of message that was sent. Can be email, inapp, facebook, twitter or whatsapp. */
+export type MessageMessageType = "email" | "inapp" | "facebook" | "twitter" | "whatsapp";
 /** Message are how you reach out to contacts in Intercom. They are created when an admin sends an outbound message to a contact. */
 export interface Message {
   /** The type of the message */
@@ -3344,7 +3376,7 @@ export interface Message {
   subject?: string | undefined;
   /** The message body, which may contain HTML. */
   body: string;
-  /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
+  /** The type of message that was sent. Can be email, inapp, facebook, twitter or whatsapp. */
   message_type: MessageMessageType;
   /** The associated conversation_id */
   conversation_id?: string | undefined;
@@ -7019,7 +7051,7 @@ export interface ListDataConnectorExecutionResultsRequest {
   start_ts?: number | undefined;
   /** Unix timestamp for end of time range (default now). */
   end_ts?: number | undefined;
-  /** Include request/response bodies in the response (default false). */
+  /** Include request/response bodies in the response (default false). Ignored for third-party apps (apps owned by another workspace), which never receive bodies. */
   include_bodies?: boolean | undefined;
 }
 /** The type of object - `list`. */
@@ -7840,6 +7872,55 @@ export interface PublishArticleDraftResponse {
   translated_content?: ArticleTranslatedContent | null | undefined;
   tags?: Tags | undefined;
   statistics?: ArticleStatistics | null | undefined;
+}
+export interface RateConversationRequest {
+  /** The unique identifier for the conversation. */
+  conversation_id: string;
+  /** The unique identifier for the contact the rating request was sent to. */
+  intercom_user_id: string;
+  /** The rating, from 1 to 5. */
+  rating: number;
+  /** Free text from the contact to go with the rating. */
+  remark?: string | undefined;
+}
+/** String representing the object's type. Always has the value `conversation_rating`. */
+export type RatedConversationType = "conversation_rating";
+/** The type of contact. */
+export type RatedConversationCustomerType = "user" | "lead" | "visitor";
+/** The contact who answered. */
+export interface RatedConversationCustomer {
+  /** The type of contact. */
+  type?: RatedConversationCustomerType | undefined;
+  /** The unique identifier for the contact. */
+  id?: string | undefined;
+}
+/** `admin` for a teammate, `bot` for Fin, or `workflow` for a workflow. */
+export type RatedConversationTeammateType = "admin" | "bot" | "workflow";
+/** Who was rated. */
+export interface RatedConversationTeammate {
+  /** `admin` for a teammate, `bot` for Fin, or `workflow` for a workflow. */
+  type?: RatedConversationTeammateType | undefined;
+  /** The unique identifier for the teammate, Fin or workflow. For a deleted workflow, this is the identifier recorded with the rating. */
+  id?: string | undefined;
+}
+/** The CSAT rating recorded on a conversation. */
+export interface RatedConversation {
+  /** String representing the object's type. Always has the value `conversation_rating`. */
+  type?: RatedConversationType | undefined;
+  /** The unique identifier for the conversation. */
+  conversation_id?: string | undefined;
+  /** The rating, from 1 to 5. */
+  rating?: number | undefined;
+  /** The free text left with the rating. */
+  remark?: string | null | undefined;
+  /** The time the rating request was created, as a UNIX timestamp. */
+  created_at?: number | undefined;
+  /** The time the rating or remark last changed, as a UNIX timestamp. */
+  updated_at?: number | undefined;
+  /** The contact who answered. */
+  customer?: RatedConversationCustomer | undefined;
+  /** Who was rated. */
+  teammate?: RatedConversationTeammate | undefined;
 }
 /** The type of resource being redacted. */
 export type RedactConversationRequestCase0Type = "conversation_part";
@@ -9477,8 +9558,8 @@ export const archiveContact: API.OperationMethod<
   ArchiveContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<ArchiveContactRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<ArchiveContactResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<ArchiveContactRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<ArchiveContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9495,8 +9576,8 @@ export const askFin: API.OperationMethod<
   AskFinError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<AskFinRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<AskFinResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<AskFinRequest>,
+  output: __S(8866, __c277, 2) as any as S.Schema<AskFinResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9513,8 +9594,8 @@ export const attachContactToACompany: API.OperationMethod<
   AttachContactToACompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<AttachContactToACompanyRequest>,
-  output: __S(9573, __c299, 5) as any as S.Schema<Company>,
+  input: __S(9344, __c292, 0) as any as S.Schema<AttachContactToACompanyRequest>,
+  output: __S(9605, __c300, 5) as any as S.Schema<Company>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9531,8 +9612,8 @@ export const attachContactToConversation: API.OperationMethod<
   AttachContactToConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<AttachContactToConversationRequest>,
-  output: __S(9986, __c312, 2) as any as S.Schema<ConversationParticipantsResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<AttachContactToConversationRequest>,
+  output: __S(10018, __c313, 2) as any as S.Schema<ConversationParticipantsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9549,8 +9630,8 @@ export const attachSubscriptionTypeToContact: API.OperationMethod<
   AttachSubscriptionTypeToContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<AttachSubscriptionTypeToContactRequest>,
-  output: __S(10402, __c325, 2) as any as S.Schema<SubscriptionType>,
+  input: __S(10368, __c324, 0) as any as S.Schema<AttachSubscriptionTypeToContactRequest>,
+  output: __S(10434, __c326, 2) as any as S.Schema<SubscriptionType>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9560,7 +9641,7 @@ export const attachSubscriptionTypeToContact: API.OperationMethod<
 }));
 
 export type AttachTagToArticleError = Forbidden | NotFound | IntercomOpError;
-/** Add a tag to an article Apply an existing tag to an article. Returns the tag that was applied. The tag must already exist in the workspace (create tags with the Tags API), and the authenticating teammate must have the `manage_knowledge_base_content` permission. Requires the `read_write_articles_scope` OAuth scope. */
+/** Add a tag to an article Apply an existing tag to an article. Returns the tag that was applied. The tag must already exist in the workspace (create tags with the Tags API), and the authenticating teammate must have the `manage_knowledge_base_content` permission. Requires the `read_write_articles_scope` or `create_update_articles` OAuth scope. */
 export const attachTagToArticle: API.OperationMethod<
   AttachTagToArticleRequest,
   Tag,
@@ -9837,8 +9918,8 @@ export const convertVisitor: API.OperationMethod<
   ConvertVisitorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<ConvertVisitorRequest>,
-  output: __S(6496, __c203, 0) as any as S.Schema<Contact>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ConvertVisitorRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<Contact>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9855,8 +9936,8 @@ export const createArticle: API.OperationMethod<
   CreateArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<CreateArticleRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<CreateArticleResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<CreateArticleRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<CreateArticleResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9873,8 +9954,8 @@ export const createAudience: API.OperationMethod<
   CreateAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<CreateAudienceRequest>,
-  output: __S(6850, __c214, 2) as any as S.Schema<Audience>,
+  input: __S(6848, __c214, 0) as any as S.Schema<CreateAudienceRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Audience>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9891,8 +9972,8 @@ export const createCollection: API.OperationMethod<
   CreateCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<CreateCollectionRequest>,
-  output: __S(6914, __c216, 2) as any as S.Schema<Collection>,
+  input: __S(6912, __c216, 0) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<Collection>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9909,8 +9990,8 @@ export const createCompanyNote: API.OperationMethod<
   CreateCompanyNoteError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<CreateCompanyNoteRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<Note>,
+  input: __S(6976, __c218, 0) as any as S.Schema<CreateCompanyNoteRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<Note>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9927,8 +10008,8 @@ export const createContact: API.OperationMethod<
   CreateContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<CreateContactRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<CreateContactResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<CreateContactRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<CreateContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9945,8 +10026,8 @@ export const createContentImportSource: API.OperationMethod<
   CreateContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<CreateContentImportSourceRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<ContentImportSource>,
+  input: __S(7104, __c222, 0) as any as S.Schema<CreateContentImportSourceRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentImportSource>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9963,8 +10044,8 @@ export const createContentSnippet: API.OperationMethod<
   CreateContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateContentSnippetRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<ContentSnippet>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateContentSnippetRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9981,8 +10062,8 @@ export const createConversation: API.OperationMethod<
   CreateConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<CreateConversationRequest>,
-  output: __S(7201, __c225, 1) as any as S.Schema<CreateConversationResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<CreateConversationRequest>,
+  output: __S(7233, __c226, 1) as any as S.Schema<CreateConversationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -9999,8 +10080,8 @@ export const createConversationAttribute: API.OperationMethod<
   CreateConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<CreateConversationAttributeRequest2>,
-  output: __S(7296, __c228, 0) as any as S.Schema<CreateConversationAttributeResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateConversationAttributeRequest2>,
+  output: __S(7328, __c229, 0) as any as S.Schema<CreateConversationAttributeResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10020,8 +10101,8 @@ export const createConversationAttributeOption: API.OperationMethod<
   CreateConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<CreateConversationAttributeOptionRequest2>,
-  output: __S(7296, __c228, 0) as any as S.Schema<CreateConversationAttributeOptionResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateConversationAttributeOptionRequest2>,
+  output: __S(7328, __c229, 0) as any as S.Schema<CreateConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10042,8 +10123,8 @@ export const createConversationStreamToken: API.OperationMethod<
   CreateConversationStreamTokenError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateConversationStreamTokenRequest>,
-  output: __S(7364, __c230, 4) as any as S.Schema<ConversationStreamToken>,
+  input: __S(7392, __c231, 0) as any as S.Schema<CreateConversationStreamTokenRequest>,
+  output: __S(7396, __c231, 4) as any as S.Schema<ConversationStreamToken>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10060,8 +10141,8 @@ export const createCustomObjectInstances: API.OperationMethod<
   CreateCustomObjectInstancesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<CreateCustomObjectInstancesRequest>,
-  output: __S(7424, __c232, 0) as any as S.Schema<CustomObjectInstance>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateCustomObjectInstancesRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<CustomObjectInstance>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10078,8 +10159,8 @@ export const createDataAttribute: API.OperationMethod<
   CreateDataAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<CreateDataAttributeRequest>,
-  output: __S(7488, __c234, 0) as any as S.Schema<DataAttribute>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateDataAttributeRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<DataAttribute>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10096,8 +10177,8 @@ export const createDataConnector: API.OperationMethod<
   CreateDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<CreateDataConnectorRequest>,
-  output: __S(7564, __c236, 12) as any as S.Schema<DataConnectorDetail>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateDataConnectorRequest>,
+  output: __S(7596, __c237, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10114,7 +10195,7 @@ export const createDataEvent: API.OperationMethod<
   CreateDataEventError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<CreateDataEventRequest>,
+  input: __S(7712, __c241, 0) as any as S.Schema<CreateDataEventRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<CreateDataEventResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10132,7 +10213,7 @@ export const createDataExport: API.OperationMethod<
   CreateDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<CreateDataExportRequest>,
+  input: __S(7744, __c242, 0) as any as S.Schema<CreateDataExportRequest>,
   output: __S(3840, __c120, 0) as any as S.Schema<DataExport>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10150,8 +10231,8 @@ export const createExportReportingDataEnqueue: API.OperationMethod<
   CreateExportReportingDataEnqueueError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<CreateExportReportingDataEnqueueRequest>,
-  output: __S(7776, __c243, 0) as any as S.Schema<CreateExportReportingDataEnqueueResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<CreateExportReportingDataEnqueueRequest>,
+  output: __S(7808, __c244, 0) as any as S.Schema<CreateExportReportingDataEnqueueResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10168,8 +10249,8 @@ export const createExternalPage: API.OperationMethod<
   CreateExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<CreateExternalPageRequest>,
-  output: __S(7840, __c245, 0) as any as S.Schema<ExternalPage>,
+  input: __S(7840, __c245, 0) as any as S.Schema<CreateExternalPageRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<ExternalPage>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10191,8 +10272,8 @@ export const createHelpCenterRedirect: API.OperationMethod<
   CreateHelpCenterRedirectError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<CreateHelpCenterRedirectRequest>,
-  output: __S(7904, __c247, 0) as any as S.Schema<HelpCenterRedirect>,
+  input: __S(7904, __c247, 0) as any as S.Schema<CreateHelpCenterRedirectRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<HelpCenterRedirect>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10209,8 +10290,8 @@ export const createInternalArticle: API.OperationMethod<
   CreateInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<CreateInternalArticleRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<CreateInternalArticleResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<CreateInternalArticleRequest>,
+  output: __S(8000, __c250, 0) as any as S.Schema<CreateInternalArticleResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10220,15 +10301,15 @@ export const createInternalArticle: API.OperationMethod<
 }));
 
 export type CreateMessageError = BadRequest | Forbidden | UnprocessableEntity | IntercomOpError;
-/** Create a message You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email or whatsapp. > U+1F6A7 Sending for visitors > > There can be a short delay between when a contact is created and when a contact becomes available to be messaged through the API. A 404 Not Found error will be returned in this case. This will return the Message model that has been created. > U+1F6A7 Retrieving Associated Conversations > > As this is a message, there will be no conversation present until the contact responds. Once they do, you will have to search for a contact's conversations with the id of the message. {% admonition type="warning" name="Messages from contacts" %} `from` should be an admin. A request with a user or lead as `from` is not rejected: it creates a conversation initiated by that contact, as the Create a conversation endpoint (`POST /conversations`) does, and the `to`, `cc` and `bcc` fields are ignored. To create a conversation initiated by a contact, use `POST /conversations`. {% /admonition %} */
+/** Create a message You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email or whatsapp. > U+1F6A7 Sending for visitors > > There can be a short delay between when a contact is created and when a contact becomes available to be messaged through the API. A 404 Not Found error will be returned in this case. This will return the Message model that has been created. > U+1F6A7 Retrieving Associated Conversations > > For in-app and email messages, there will be no conversation present until the contact responds. Once they do, you will have to search for a contact's conversations with the id of the message. > > For `whatsapp` messages, the conversation is created when the message is sent, and its id is returned as `conversation_id`. {% admonition type="warning" name="Messages from contacts" %} `from` should be an admin. A request with a user or lead as `from` is not rejected: it creates a conversation initiated by that contact, as the Create a conversation endpoint (`POST /conversations`) does, and the `to`, `cc` and `bcc` fields are ignored. To create a conversation initiated by a contact, use `POST /conversations`. {% /admonition %} */
 export const createMessage: API.OperationMethod<
   CreateMessageRequest,
   Message,
   CreateMessageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8001, __c250, 1) as any as S.Schema<CreateMessageRequest>,
-  output: __S(8002, __c250, 2) as any as S.Schema<Message>,
+  input: __S(8033, __c251, 1) as any as S.Schema<CreateMessageRequest>,
+  output: __S(8034, __c251, 2) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10245,8 +10326,8 @@ export const createNewsItem: API.OperationMethod<
   CreateNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<CreateNewsItemRequest>,
-  output: __S(8067, __c252, 3) as any as S.Schema<NewsItem>,
+  input: __S(8064, __c252, 0) as any as S.Schema<CreateNewsItemRequest>,
+  output: __S(8099, __c253, 3) as any as S.Schema<NewsItem>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10263,8 +10344,8 @@ export const createNote: API.OperationMethod<
   CreateNoteError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<CreateNoteRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<Note>,
+  input: __S(8128, __c254, 0) as any as S.Schema<CreateNoteRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<Note>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10281,8 +10362,8 @@ export const createOfficeHoursException: API.OperationMethod<
   CreateOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<CreateOfficeHoursExceptionRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<OfficeHoursException>,
+  input: __S(8160, __c255, 0) as any as S.Schema<CreateOfficeHoursExceptionRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10299,8 +10380,8 @@ export const createOfficeHoursSchedule: API.OperationMethod<
   CreateOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<CreateOfficeHoursScheduleRequest>,
-  output: __S(8352, __c261, 0) as any as S.Schema<OfficeHoursSchedule>,
+  input: __S(8352, __c261, 0) as any as S.Schema<CreateOfficeHoursScheduleRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10317,8 +10398,8 @@ export const createOrUpdateCompany: API.OperationMethod<
   CreateOrUpdateCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<CreateOrUpdateCompanyRequest>,
-  output: __S(9573, __c299, 5) as any as S.Schema<Company>,
+  input: __S(8416, __c263, 0) as any as S.Schema<CreateOrUpdateCompanyRequest>,
+  output: __S(9605, __c300, 5) as any as S.Schema<Company>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10335,8 +10416,8 @@ export const createPhoneSwitch: API.OperationMethod<
   CreatePhoneSwitchError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<CreatePhoneSwitchRequest>,
-  output: __S(8417, __c263, 1) as any as S.Schema<PhoneSwitch>,
+  input: __S(8448, __c264, 0) as any as S.Schema<CreatePhoneSwitchRequest>,
+  output: __S(8449, __c264, 1) as any as S.Schema<PhoneSwitch>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10353,8 +10434,8 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(8483, __c265, 3) as any as S.Schema<CreateTagResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(8515, __c266, 3) as any as S.Schema<CreateTagResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10371,7 +10452,7 @@ export const createTicket: API.OperationMethod<
   CreateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8513, __c266, 1) as any as S.Schema<CreateTicketRequest>,
+  input: __S(8545, __c267, 1) as any as S.Schema<CreateTicketRequest>,
   output: __S(4391, __c137, 7) as any as S.Schema<Ticket>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10389,7 +10470,7 @@ export const createTicketType: API.OperationMethod<
   CreateTicketTypeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<CreateTicketTypeRequest>,
+  input: __S(8608, __c269, 0) as any as S.Schema<CreateTicketTypeRequest>,
   output: __S(4421, __c138, 5) as any as S.Schema<TicketType2>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10407,7 +10488,7 @@ export const createTicketTypeAttribute: API.OperationMethod<
   CreateTicketTypeAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<CreateTicketTypeAttributeRequest>,
+  input: __S(8640, __c270, 0) as any as S.Schema<CreateTicketTypeAttributeRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<TicketTypeAttribute>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10425,7 +10506,7 @@ export const dataEventSummaries: API.OperationMethod<
   DataEventSummariesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8641, __c270, 1) as any as S.Schema<DataEventSummariesRequest>,
+  input: __S(8673, __c271, 1) as any as S.Schema<DataEventSummariesRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DataEventSummariesResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10443,8 +10524,8 @@ export const deleteArticle: API.OperationMethod<
   DeleteArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<DeleteArticleRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedArticleObject>,
+  input: __S(8704, __c272, 0) as any as S.Schema<DeleteArticleRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedArticleObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10461,7 +10542,7 @@ export const deleteAudience: API.OperationMethod<
   DeleteAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<DeleteAudienceRequest>,
+  input: __S(8768, __c274, 0) as any as S.Schema<DeleteAudienceRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteAudienceResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10479,8 +10560,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedCollectionObject>,
+  input: __S(8992, __c281, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedCollectionObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10497,8 +10578,8 @@ export const deleteCompany: API.OperationMethod<
   DeleteCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<DeleteCompanyRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedCompanyObject>,
+  input: __S(9024, __c282, 0) as any as S.Schema<DeleteCompanyRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedCompanyObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10515,8 +10596,8 @@ export const deleteContact: API.OperationMethod<
   DeleteContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<DeleteContactResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<DeleteContactRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<DeleteContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10533,7 +10614,7 @@ export const deleteContentImportSource: API.OperationMethod<
   DeleteContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<DeleteContentImportSourceRequest>,
+  input: __S(9088, __c284, 0) as any as S.Schema<DeleteContentImportSourceRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteContentImportSourceResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -10551,7 +10632,7 @@ export const deleteContentSnippet: API.OperationMethod<
   DeleteContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<DeleteContentSnippetRequest>,
+  input: __S(9120, __c285, 0) as any as S.Schema<DeleteContentSnippetRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteContentSnippetResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
@@ -10562,15 +10643,15 @@ export const deleteContentSnippet: API.OperationMethod<
 }));
 
 export type DeleteConversationError = Forbidden | IntercomOpError;
-/** Delete a conversation {% admonition type="warning" name="Irreversible operation" %} Deleting a conversation is permanent and cannot be reversed. {% /admonition %} You can delete a single conversation. The behavior depends on the `retain_metrics` parameter: - **With `retain_metrics=true` (default)**: Deletes the conversation while retaining reporting data. The conversation will still appear in reporting, though some data may be incomplete due to the deletion. - **With `retain_metrics=false`**: Deletes the conversation and all associated reporting data. The conversation will be completely removed from both the inbox and all reporting. {% admonition type="info" name="Required scope for retain_metrics=false" %} Using `retain_metrics=false` requires the `delete_conversations_and_metrics` OAuth scope. {% /admonition %} For more info, see [this help center article](https://www.intercom.com/help/en/articles/13885146-deleting-a-conversation). */
+/** Delete a conversation {% admonition type="warning" name="Irreversible after the recovery window" %} With `retain_metrics=false`, deleting a conversation is permanent and cannot be reversed. With the default `retain_metrics=true`, the conversation's data is retained for 7 days before being permanently deleted, and recovering it during that window isn't available through the API. {% /admonition %} You can delete a single conversation. The behavior depends on the `retain_metrics` parameter: - **With `retain_metrics=true` (default)**: Deletes the conversation while retaining reporting data. The conversation will still appear in reporting, though some data may be incomplete due to the deletion. - **With `retain_metrics=false`**: Deletes the conversation and all associated reporting data. The conversation will be completely removed from both the inbox and all reporting. {% admonition type="info" name="Required scope for retain_metrics=false" %} Using `retain_metrics=false` requires the `delete_conversations_and_metrics` OAuth scope. {% /admonition %} For more info, see [this help center article](https://www.intercom.com/help/en/articles/13885146-deleting-a-conversation). */
 export const deleteConversation: API.OperationMethod<
   DeleteConversationRequest,
   ConversationDeleted,
   DeleteConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<DeleteConversationRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<ConversationDeleted>,
+  input: __S(9152, __c286, 0) as any as S.Schema<DeleteConversationRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<ConversationDeleted>,
   errors: [Forbidden],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10587,8 +10668,8 @@ export const deleteConversationAttribute: API.OperationMethod<
   DeleteConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<DeleteConversationAttributeRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DeleteConversationAttributeResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<DeleteConversationAttributeRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DeleteConversationAttributeResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10608,8 +10689,8 @@ export const deleteConversationAttributeOption: API.OperationMethod<
   DeleteConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<DeleteConversationAttributeOptionRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<DeleteConversationAttributeOptionResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<DeleteConversationAttributeOptionRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<DeleteConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10626,8 +10707,8 @@ export const deleteCustomObjectInstancesByExternalId: API.OperationMethod<
   DeleteCustomObjectInstancesByExternalIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<DeleteCustomObjectInstancesByExternalIdRequest>,
-  output: __S(9248, __c289, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
+  input: __S(9248, __c289, 0) as any as S.Schema<DeleteCustomObjectInstancesByExternalIdRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10644,8 +10725,8 @@ export const deleteCustomObjectInstancesById: API.OperationMethod<
   DeleteCustomObjectInstancesByIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9281, __c290, 1) as any as S.Schema<DeleteCustomObjectInstancesByIdRequest>,
-  output: __S(9248, __c289, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
+  input: __S(9313, __c291, 1) as any as S.Schema<DeleteCustomObjectInstancesByIdRequest>,
+  output: __S(9280, __c290, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10662,8 +10743,8 @@ export const deleteDataConnector: API.OperationMethod<
   DeleteDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<DeleteDataConnectorRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedDataConnectorObject>,
+  input: __S(9632, __c301, 0) as any as S.Schema<DeleteDataConnectorRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedDataConnectorObject>,
   errors: [NotFound, Conflict],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10680,8 +10761,8 @@ export const deleteExternalPage: API.OperationMethod<
   DeleteExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DeleteExternalPageRequest>,
-  output: __S(7840, __c245, 0) as any as S.Schema<ExternalPage>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DeleteExternalPageRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<ExternalPage>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10698,8 +10779,8 @@ export const deleteHelpCenterRedirect: API.OperationMethod<
   DeleteHelpCenterRedirectError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<DeleteHelpCenterRedirectRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedHelpCenterRedirectObject>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DeleteHelpCenterRedirectRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedHelpCenterRedirectObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10716,8 +10797,8 @@ export const deleteInternalArticle: API.OperationMethod<
   DeleteInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DeleteInternalArticleRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedInternalArticleObject>,
+  input: __S(9728, __c304, 0) as any as S.Schema<DeleteInternalArticleRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedInternalArticleObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10734,8 +10815,8 @@ export const deleteNewsItem: API.OperationMethod<
   DeleteNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DeleteNewsItemRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9760, __c305, 0) as any as S.Schema<DeleteNewsItemRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10752,8 +10833,8 @@ export const deleteOfficeHoursException: API.OperationMethod<
   DeleteOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DeleteOfficeHoursExceptionRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<DeleteOfficeHoursExceptionResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<DeleteOfficeHoursExceptionRequest>,
+  output: __S(9824, __c307, 0) as any as S.Schema<DeleteOfficeHoursExceptionResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10770,8 +10851,8 @@ export const deleteOfficeHoursSchedule: API.OperationMethod<
   DeleteOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<DeleteOfficeHoursScheduleRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<DeleteOfficeHoursScheduleResponse>,
+  input: __S(9856, __c308, 0) as any as S.Schema<DeleteOfficeHoursScheduleRequest>,
+  output: __S(9824, __c307, 0) as any as S.Schema<DeleteOfficeHoursScheduleResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10788,7 +10869,7 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<DeleteTagRequest>,
+  input: __S(9888, __c309, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10806,8 +10887,8 @@ export const deleteTicket: API.OperationMethod<
   DeleteTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DeleteTicketRequest>,
-  output: __S(8704, __c272, 0) as any as S.Schema<TicketDeleted>,
+  input: __S(9920, __c310, 0) as any as S.Schema<DeleteTicketRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<TicketDeleted>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10824,8 +10905,8 @@ export const detachContactFromACompany: API.OperationMethod<
   DetachContactFromACompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<DetachContactFromACompanyRequest>,
-  output: __S(9573, __c299, 5) as any as S.Schema<Company>,
+  input: __S(9952, __c311, 0) as any as S.Schema<DetachContactFromACompanyRequest>,
+  output: __S(9605, __c300, 5) as any as S.Schema<Company>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10846,8 +10927,8 @@ export const detachContactFromConversation: API.OperationMethod<
   DetachContactFromConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DetachContactFromConversationRequest>,
-  output: __S(9986, __c312, 2) as any as S.Schema<ConversationParticipantsResponse>,
+  input: __S(10048, __c314, 0) as any as S.Schema<DetachContactFromConversationRequest>,
+  output: __S(10018, __c313, 2) as any as S.Schema<ConversationParticipantsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10864,8 +10945,8 @@ export const detachSubscriptionTypeToContact: API.OperationMethod<
   DetachSubscriptionTypeToContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<DetachSubscriptionTypeToContactRequest>,
-  output: __S(10402, __c325, 2) as any as S.Schema<SubscriptionType>,
+  input: __S(10080, __c315, 0) as any as S.Schema<DetachSubscriptionTypeToContactRequest>,
+  output: __S(10434, __c326, 2) as any as S.Schema<SubscriptionType>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -10875,14 +10956,14 @@ export const detachSubscriptionTypeToContact: API.OperationMethod<
 }));
 
 export type DetachTagFromArticleError = Forbidden | NotFound | IntercomOpError;
-/** Remove a tag from an article Remove a tag from an article. Returns the tag that was removed, with null `applied_at` and `applied_by`. The authenticating teammate must have the `manage_knowledge_base_content` permission. Requires the `read_write_articles_scope` OAuth scope. */
+/** Remove a tag from an article Remove a tag from an article. Returns the tag that was removed, with null `applied_at` and `applied_by`. The authenticating teammate must have the `manage_knowledge_base_content` permission. Requires the `read_write_articles_scope` or `create_update_articles` OAuth scope. */
 export const detachTagFromArticle: API.OperationMethod<
   DetachTagFromArticleRequest,
   Tag,
   DetachTagFromArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<DetachTagFromArticleRequest>,
+  input: __S(10112, __c316, 0) as any as S.Schema<DetachTagFromArticleRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10900,7 +10981,7 @@ export const detachTagFromContact: API.OperationMethod<
   DetachTagFromContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<DetachTagFromContactRequest>,
+  input: __S(10144, __c317, 0) as any as S.Schema<DetachTagFromContactRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10918,7 +10999,7 @@ export const detachTagFromContentSnippet: API.OperationMethod<
   DetachTagFromContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<DetachTagFromContentSnippetRequest>,
+  input: __S(10176, __c318, 0) as any as S.Schema<DetachTagFromContentSnippetRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10936,7 +11017,7 @@ export const detachTagFromConversation: API.OperationMethod<
   DetachTagFromConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<DetachTagFromConversationRequest>,
+  input: __S(10208, __c319, 0) as any as S.Schema<DetachTagFromConversationRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10954,7 +11035,7 @@ export const detachTagFromInternalArticle: API.OperationMethod<
   DetachTagFromInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<DetachTagFromInternalArticleRequest>,
+  input: __S(10240, __c320, 0) as any as S.Schema<DetachTagFromInternalArticleRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10972,7 +11053,7 @@ export const detachTagFromTicket: API.OperationMethod<
   DetachTagFromTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<DetachTagFromTicketRequest>,
+  input: __S(10272, __c321, 0) as any as S.Schema<DetachTagFromTicketRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<Tag>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -10990,8 +11071,8 @@ export const dismissContactBanner: API.OperationMethod<
   DismissContactBannerError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<DismissContactBannerRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<BannerDismiss>,
+  input: __S(10304, __c322, 0) as any as S.Schema<DismissContactBannerRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<BannerDismiss>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11001,14 +11082,14 @@ export const dismissContactBanner: API.OperationMethod<
 }));
 
 export type DownloadDataExportError = IntercomOpError;
-/** Download content data export When a job has a status of complete, and thus a filled download_url, you can download your data by hitting that provided URL, formatted like so: https://api.intercom.io/download/content/data/xyz1234. Your exported message data will be streamed continuously back down to you in a gzipped CSV format. > U+1F4D8 Octet header required > > You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint. */
+/** Download content data export When a job has a status of complete, and thus a filled download_url, you can download your data by hitting that provided URL, formatted like so: https://api.intercom.io/download/content/data/xyz1234. Your exported message data is returned as a ZIP archive containing one CSV file per data group. The response is sent with the header `Content-Encoding: zip`. > U+1F4D8 Octet header required > > You will have to specify the header Accept: `application/octet-stream` when hitting this endpoint. */
 export const downloadDataExport: API.OperationMethod<
   DownloadDataExportRequest,
   DownloadDataExportResponse,
   DownloadDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<DownloadDataExportRequest>,
+  input: __S(10336, __c323, 0) as any as S.Schema<DownloadDataExportRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DownloadDataExportResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -11026,8 +11107,8 @@ export const enqueueCreateTicket: API.OperationMethod<
   EnqueueCreateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10433, __c326, 1) as any as S.Schema<EnqueueCreateTicketRequest>,
-  output: __S(10464, __c327, 0) as any as S.Schema<Jobs>,
+  input: __S(10465, __c327, 1) as any as S.Schema<EnqueueCreateTicketRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<Jobs>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11044,8 +11125,8 @@ export const escalateFinConversation: API.OperationMethod<
   EscalateFinConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<EscalateFinConversationRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<EscalateFinConversationResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<EscalateFinConversationRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<EscalateFinConversationResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11062,8 +11143,8 @@ export const exportWorkflow: API.OperationMethod<
   ExportWorkflowError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<ExportWorkflowRequest>,
-  output: __S(10530, __c329, 2) as any as S.Schema<WorkflowExport>,
+  input: __S(10560, __c330, 0) as any as S.Schema<ExportWorkflowRequest>,
+  output: __S(10562, __c330, 2) as any as S.Schema<WorkflowExport>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11080,8 +11161,8 @@ export const findTag: API.OperationMethod<
   FindTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<FindTagRequest>,
-  output: __S(9376, __c293, 0) as any as S.Schema<TagBasic>,
+  input: __S(10592, __c331, 0) as any as S.Schema<FindTagRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<TagBasic>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11098,8 +11179,8 @@ export const getACompanyById: API.OperationMethod<
   GetACompanyByIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<GetACompanyByIdRequest>,
-  output: __S(9573, __c299, 5) as any as S.Schema<Company>,
+  input: __S(10624, __c332, 0) as any as S.Schema<GetACompanyByIdRequest>,
+  output: __S(9605, __c300, 5) as any as S.Schema<Company>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11116,8 +11197,8 @@ export const getAdmin: API.OperationMethod<
   GetAdminError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<GetAdminRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<Admin>,
+  input: __S(10656, __c333, 0) as any as S.Schema<GetAdminRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<Admin>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11134,8 +11215,8 @@ export const getArticle: API.OperationMethod<
   GetArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<GetArticleRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<GetArticleResponse>,
+  input: __S(10688, __c334, 0) as any as S.Schema<GetArticleRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<GetArticleResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11145,15 +11226,15 @@ export const getArticle: API.OperationMethod<
 }));
 
 export type GetArticleDraftError = NotFound | IntercomOpError;
-/** Retrieve an article draft Fetch the staged draft of a published article by making a GET request to `https://api.intercom.io/articles/<id>/draft`. The response is the article rendered with its draft content, leaving the live article untouched. A draft exists only when a published article has unpublished changes staged on top of it. Returns `404` when the article has no staged draft. Requires the `read_articles_scope` OAuth scope. */
+/** Retrieve an article draft Fetch the staged draft of a published article by making a GET request to `https://api.intercom.io/articles/<id>/draft`. The response is the article rendered with its draft content, leaving the live article untouched. A draft exists only when a published article has unpublished changes staged on top of it. Returns `404` when the article has no staged draft. Requires the `read_articles_scope` or `create_update_articles` OAuth scope. */
 export const getArticleDraft: API.OperationMethod<
   GetArticleDraftRequest,
   GetArticleDraftResponse,
   GetArticleDraftError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<GetArticleDraftRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<GetArticleDraftResponse>,
+  input: __S(10720, __c335, 0) as any as S.Schema<GetArticleDraftRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<GetArticleDraftResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11163,15 +11244,15 @@ export const getArticleDraft: API.OperationMethod<
 }));
 
 export type GetArticleVersionError = BadRequest | NotFound | IntercomOpError;
-/** Retrieve an article version Fetch a single prior version of an article, including its body content, by making a GET request to `https://api.intercom.io/articles/<article_id>/versions/<id>`. Returns the version's full content; the live article remains untouched. Requires the `read_articles_scope` OAuth scope. */
+/** Retrieve an article version Fetch a single prior version of an article, including its body content, by making a GET request to `https://api.intercom.io/articles/<article_id>/versions/<id>`. Returns the version's full content; the live article remains untouched. Requires the `read_articles_scope` or `create_update_articles` OAuth scope. */
 export const getArticleVersion: API.OperationMethod<
   GetArticleVersionRequest,
   ArticleVersion,
   GetArticleVersionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<GetArticleVersionRequest>,
-  output: __S(10721, __c335, 1) as any as S.Schema<ArticleVersion>,
+  input: __S(10752, __c336, 0) as any as S.Schema<GetArticleVersionRequest>,
+  output: __S(10753, __c336, 1) as any as S.Schema<ArticleVersion>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11188,8 +11269,8 @@ export const getAudience: API.OperationMethod<
   GetAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<GetAudienceRequest>,
-  output: __S(6850, __c214, 2) as any as S.Schema<Audience>,
+  input: __S(10784, __c337, 0) as any as S.Schema<GetAudienceRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Audience>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11275,7 +11356,7 @@ export const getCollection: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetCollectionRequest>,
-  output: __S(6914, __c216, 2) as any as S.Schema<Collection>,
+  output: __S(6946, __c217, 2) as any as S.Schema<Collection>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11311,7 +11392,7 @@ export const getContact: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetContactResponse>,
+  output: __S(7072, __c221, 0) as any as S.Schema<GetContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11329,7 +11410,7 @@ export const getContactByExternalId: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetContactByExternalIdRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetContactByExternalIdResponse>,
+  output: __S(7072, __c221, 0) as any as S.Schema<GetContactByExternalIdResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11347,7 +11428,7 @@ export const getContentImportSource: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetContentImportSourceRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<ContentImportSource>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentImportSource>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11365,7 +11446,7 @@ export const getContentSnippet: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetContentSnippetRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<ContentSnippet>,
+  output: __S(7200, __c225, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11401,7 +11482,7 @@ export const getConversationAttribute: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetConversationAttributeRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<GetConversationAttributeResponse>,
+  output: __S(7328, __c229, 0) as any as S.Schema<GetConversationAttributeResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11419,7 +11500,7 @@ export const getCustomObjectInstance: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetCustomObjectInstanceRequest>,
-  output: __S(7424, __c232, 0) as any as S.Schema<CustomObjectInstance>,
+  output: __S(7456, __c233, 0) as any as S.Schema<CustomObjectInstance>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11437,7 +11518,7 @@ export const getDataConnector: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetDataConnectorRequest>,
-  output: __S(7564, __c236, 12) as any as S.Schema<DataConnectorDetail>,
+  output: __S(7596, __c237, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11447,7 +11528,7 @@ export const getDataConnector: API.OperationMethod<
 }));
 
 export type GetDataConnectorExecutionResultError = NotFound | IntercomOpError;
-/** Retrieve an execution result Retrieve details for a specific data connector execution result. Always includes request/response bodies and the sanitised request URL. */
+/** Retrieve an execution result Retrieve details for a specific data connector execution result. Includes the sanitised request URL, and the request/response bodies unless the request comes from a third-party app (an app owned by another workspace). */
 export const getDataConnectorExecutionResult: API.OperationMethod<
   GetDataConnectorExecutionResultRequest,
   DataConnectorExecutionResult,
@@ -11527,7 +11608,7 @@ export const getExportReportingData: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetExportReportingDataRequest>,
-  output: __S(7776, __c243, 0) as any as S.Schema<GetExportReportingDataResponse>,
+  output: __S(7808, __c244, 0) as any as S.Schema<GetExportReportingDataResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11545,7 +11626,7 @@ export const getExternalPage: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetExternalPageRequest>,
-  output: __S(7840, __c245, 0) as any as S.Schema<ExternalPage>,
+  output: __S(7872, __c246, 0) as any as S.Schema<ExternalPage>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11581,7 +11662,7 @@ export const getHelpCenterRedirect: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetHelpCenterRedirectRequest>,
-  output: __S(7904, __c247, 0) as any as S.Schema<HelpCenterRedirect>,
+  output: __S(7936, __c248, 0) as any as S.Schema<HelpCenterRedirect>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11599,7 +11680,7 @@ export const getInternalArticle: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetInternalArticleRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<GetInternalArticleResponse>,
+  output: __S(8000, __c250, 0) as any as S.Schema<GetInternalArticleResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11671,7 +11752,7 @@ export const getNewsItem: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetNewsItemRequest>,
-  output: __S(8067, __c252, 3) as any as S.Schema<NewsItem>,
+  output: __S(8099, __c253, 3) as any as S.Schema<NewsItem>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11685,7 +11766,7 @@ export type GetNoteError = NotFound | IntercomOpError;
 export const getNote: API.OperationMethod<GetNoteRequest, Note, GetNoteError, IntercomOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(1504, __c47, 0) as any as S.Schema<GetNoteRequest>,
-    output: __S(6976, __c218, 0) as any as S.Schema<Note>,
+    output: __S(7008, __c219, 0) as any as S.Schema<Note>,
     errors: [NotFound],
     serviceErrors: IntercomServiceErrors,
     protocol: IntercomProtocol,
@@ -11703,7 +11784,7 @@ export const getOfficeHoursException: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetOfficeHoursExceptionRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<OfficeHoursException>,
+  output: __S(8192, __c256, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11721,7 +11802,7 @@ export const getOfficeHoursSchedule: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetOfficeHoursScheduleRequest>,
-  output: __S(8352, __c261, 0) as any as S.Schema<OfficeHoursSchedule>,
+  output: __S(8384, __c262, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11739,7 +11820,7 @@ export const getSegment: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(9472, __c296, 0) as any as S.Schema<Segment>,
+  output: __S(9504, __c297, 0) as any as S.Schema<Segment>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11897,7 +11978,7 @@ export const jobsStatus2: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<JobsStatusRequest>,
-  output: __S(10464, __c327, 0) as any as S.Schema<Jobs>,
+  output: __S(10496, __c328, 0) as any as S.Schema<Jobs>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -11978,7 +12059,7 @@ export const listActivityLogEventTypes: API.OperationMethod<
   span: "ListActivityLogEventTypes",
 }));
 
-export type ListActivityLogsError = IntercomOpError;
+export type ListActivityLogsError = Forbidden | IntercomOpError;
 /** List all activity logs You can get a log of activities by all admins in an app. */
 export const listActivityLogs: API.OperationMethod<
   ListActivityLogsRequest,
@@ -11988,7 +12069,7 @@ export const listActivityLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListActivityLogsRequest>,
   output: __S(2247, __c70, 7) as any as S.Schema<ActivityLogList>,
-  errors: [],
+  errors: [Forbidden],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12069,7 +12150,7 @@ export const listArticles: API.OperationMethod<
 }));
 
 export type ListArticleVersionsError = BadRequest | NotFound | IntercomOpError;
-/** List article versions Fetch the version history of an article by making a GET request to `https://api.intercom.io/articles/<article_id>/versions`. Versions are returned newest-first as a paginated list of metadata. Use `GET /articles/{article_id}/versions/{id}` to retrieve a single version with its full content. Requires the `read_articles_scope` OAuth scope. */
+/** List article versions Fetch the version history of an article by making a GET request to `https://api.intercom.io/articles/<article_id>/versions`. Versions are returned newest-first as a paginated list of metadata. Use `GET /articles/{article_id}/versions/{id}` to retrieve a single version with its full content. Requires the `read_articles_scope` or `create_update_articles` OAuth scope. */
 export const listArticleVersions: API.OperationMethod<
   ListArticleVersionsRequest,
   ArticleVersionList,
@@ -12393,7 +12474,7 @@ export const listCustomObjectInstances: API.OperationMethod<
 }));
 
 export type ListDataConnectorExecutionResultsError = BadRequest | NotFound | IntercomOpError;
-/** List execution results for a data connector Retrieve paginated execution logs for a specific data connector. Results from the last hour are returned by default. Use `start_ts` and `end_ts` to customize the time range. Request/response bodies are excluded by default. Use `include_bodies=true` to include them. */
+/** List execution results for a data connector Retrieve paginated execution logs for a specific data connector. Results from the last hour are returned by default. Use `start_ts` and `end_ts` to customize the time range. Request/response bodies are excluded by default. Use `include_bodies=true` to include them. Apps owned by another workspace never receive them. */
 export const listDataConnectorExecutionResults: API.OperationMethod<
   ListDataConnectorExecutionResultsRequest,
   DataConnectorExecutionResultList,
@@ -12923,7 +13004,7 @@ export const mergeContact: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<MergeContactRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<MergeContactResponse>,
+  output: __S(7072, __c221, 0) as any as S.Schema<MergeContactResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -12951,7 +13032,7 @@ export const mergeConversation: API.OperationMethod<
 }));
 
 export type PublishArticleDraftError = NotFound | UnprocessableEntity | IntercomOpError;
-/** Publish an article draft Publish a staged draft by making a POST request to `https://api.intercom.io/articles/<id>/draft/publish`, promoting the draft content to live. On a single-language workspace no body is required. On a multilingual workspace you must list which locales to publish via the `locales` array; omitting it returns `422`. Returns `422` when there is no staged draft to publish, or when a requested locale has no pending changes. Requires the `read_write_articles_scope` OAuth scope. */
+/** Publish an article draft Publish a staged draft by making a POST request to `https://api.intercom.io/articles/<id>/draft/publish`, promoting the draft content to live. On a single-language workspace no body is required. On a multilingual workspace you must list which locales to publish via the `locales` array; omitting it returns `422`. Returns `422` when there is no staged draft to publish, or when a requested locale has no pending changes. Requires the `read_write_articles_scope` or `create_update_articles` OAuth scope. */
 export const publishArticleDraft: API.OperationMethod<
   PublishArticleDraftRequest,
   PublishArticleDraftResponse,
@@ -12959,13 +13040,36 @@ export const publishArticleDraft: API.OperationMethod<
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<PublishArticleDraftRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<PublishArticleDraftResponse>,
+  output: __S(6817, __c213, 1) as any as S.Schema<PublishArticleDraftResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishArticleDraft",
+}));
+
+export type RateConversationError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | IntercomOpError;
+/** Rate a conversation Record a contact's CSAT rating, and an optional remark, on the latest rating request Intercom sent for a conversation. The rating counts in your CSAT reports for the teammate, Fin or workflow that was rated. Only the contact the request was sent to can answer. Pass their Intercom ID as `intercom_user_id`. Sending the same rating and remark again returns the current rating without changing it, so it is safe to retry. A different `rating` replaces the earlier one while the rating request still accepts answers. A `remark` can be added to a rating that has none. Once a remark is set, the rating and the remark can no longer be changed. Requires the `write_conversations` permission. */
+export const rateConversation: API.OperationMethod<
+  RateConversationRequest,
+  RatedConversation,
+  RateConversationError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4832, __c151, 0) as any as S.Schema<RateConversationRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<RatedConversation>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: IntercomServiceErrors,
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RateConversation",
 }));
 
 export type RedactConversationError = NotFound | IntercomOpError;
@@ -12976,7 +13080,7 @@ export const redactConversation: API.OperationMethod<
   RedactConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<RedactConversationRequest2>,
+  input: __S(4960, __c155, 0) as any as S.Schema<RedactConversationRequest2>,
   output: __S(769, __c24, 1) as any as S.Schema<Conversation>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -12994,7 +13098,7 @@ export const registerFinVoiceCall: API.OperationMethod<
   RegisterFinVoiceCallError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<RegisterFinVoiceCallRequest>,
+  input: __S(4992, __c156, 0) as any as S.Schema<RegisterFinVoiceCallRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<AiCallResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: IntercomServiceErrors,
@@ -13012,7 +13116,7 @@ export const replyConversation: API.OperationMethod<
   ReplyConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ReplyConversationRequest2>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ReplyConversationRequest2>,
   output: __S(769, __c24, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13030,8 +13134,8 @@ export const replyTicket: API.OperationMethod<
   ReplyTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ReplyTicketRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<TicketReply>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ReplyTicketRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<TicketReply>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13048,8 +13152,8 @@ export const replyToFin: API.OperationMethod<
   ReplyToFinError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ReplyToFinRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<ReplyToFinResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ReplyToFinRequest>,
+  output: __S(8866, __c277, 2) as any as S.Schema<ReplyToFinResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13070,7 +13174,7 @@ export const revokeConversationStreamTokens: API.OperationMethod<
   RevokeConversationStreamTokensError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<RevokeConversationStreamTokensRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<RevokeConversationStreamTokensRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<RevokeConversationStreamTokensResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13088,8 +13192,8 @@ export const runFinProcedure: API.OperationMethod<
   RunFinProcedureError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5121, __c160, 1) as any as S.Schema<RunFinProcedureRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<RunFinProcedureResponse>,
+  input: __S(5153, __c161, 1) as any as S.Schema<RunFinProcedureRequest>,
+  output: __S(5154, __c161, 2) as any as S.Schema<RunFinProcedureResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13106,8 +13210,8 @@ export const scrollOverAllCompanies: API.OperationMethod<
   ScrollOverAllCompaniesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ScrollOverAllCompaniesRequest>,
-  output: __S(5153, __c161, 1) as any as S.Schema<CompanyScroll>,
+  input: __S(5184, __c162, 0) as any as S.Schema<ScrollOverAllCompaniesRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<CompanyScroll>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13116,7 +13220,7 @@ export const scrollOverAllCompanies: API.OperationMethod<
   span: "ScrollOverAllCompanies",
 }));
 
-export type SearchActivityLogsError = IntercomOpError;
+export type SearchActivityLogsError = Forbidden | IntercomOpError;
 /** Search activity logs Search and filter admin activity logs using a POST request with event type filter in the request body. You can find more details about the available event types in the List all activity log event types endpoint. */
 export const searchActivityLogs: API.OperationMethod<
   SearchActivityLogsRequest,
@@ -13124,9 +13228,9 @@ export const searchActivityLogs: API.OperationMethod<
   SearchActivityLogsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<SearchActivityLogsRequest>,
+  input: __S(5216, __c163, 0) as any as S.Schema<SearchActivityLogsRequest>,
   output: __S(2247, __c70, 7) as any as S.Schema<ActivityLogList>,
-  errors: [],
+  errors: [Forbidden],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13142,8 +13246,8 @@ export const searchArticles: API.OperationMethod<
   SearchArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<SearchArticlesRequest>,
-  output: __S(5224, __c163, 8) as any as S.Schema<ArticleSearchResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<SearchArticlesRequest>,
+  output: __S(5256, __c164, 8) as any as S.Schema<ArticleSearchResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13160,7 +13264,7 @@ export const searchContacts: API.OperationMethod<
   SearchContactsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5249, __c164, 1) as any as S.Schema<SearchContactsRequest>,
+  input: __S(5313, __c166, 1) as any as S.Schema<SearchContactsRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<ContactList>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
@@ -13178,8 +13282,8 @@ export const searchContent: API.OperationMethod<
   SearchContentError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<SearchContentRequest>,
-  output: __S(5315, __c166, 3) as any as S.Schema<ContentSearchResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<SearchContentRequest>,
+  output: __S(5347, __c167, 3) as any as S.Schema<ContentSearchResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13196,7 +13300,7 @@ export const searchConversations: API.OperationMethod<
   SearchConversationsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<SearchConversationsRequest>,
+  input: __S(5376, __c168, 0) as any as S.Schema<SearchConversationsRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<ConversationList>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -13214,8 +13318,8 @@ export const searchInternalArticles: API.OperationMethod<
   SearchInternalArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<SearchInternalArticlesRequest>,
-  output: __S(5378, __c168, 2) as any as S.Schema<InternalArticleSearchResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<SearchInternalArticlesRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<InternalArticleSearchResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13232,8 +13336,8 @@ export const searchTickets: API.OperationMethod<
   SearchTicketsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<SearchTicketsRequest>,
-  output: __S(5410, __c169, 2) as any as S.Schema<TicketList>,
+  input: __S(5440, __c170, 0) as any as S.Schema<SearchTicketsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<TicketList>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13250,8 +13354,8 @@ export const setAwayAdmin: API.OperationMethod<
   SetAwayAdminError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<SetAwayAdminRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<Admin>,
+  input: __S(5472, __c171, 0) as any as S.Schema<SetAwayAdminRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<Admin>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13261,15 +13365,15 @@ export const setAwayAdmin: API.OperationMethod<
 }));
 
 export type StageArticleDraftError = NotFound | UnprocessableEntity | IntercomOpError;
-/** Stage an article draft Stage changes to a published article as a draft by making a PUT request to `https://api.intercom.io/articles/<id>/draft`. The live article remains unchanged until the draft is published. The article must already be published; staging a draft on an article that has never been published returns `422`. Only versioned text content (such as `title` and `body`) is staged. Non-versioned fields like AI availability are ignored, leaving the live values untouched. Requires the `read_write_articles_scope` OAuth scope. */
+/** Stage an article draft Stage changes to a published article as a draft by making a PUT request to `https://api.intercom.io/articles/<id>/draft`. The live article remains unchanged until the draft is published. The article must already be published; staging a draft on an article that has never been published returns `422`. Only versioned text content (such as `title` and `body`) is staged. Non-versioned fields like AI availability are ignored, leaving the live values untouched. Requires the `read_write_articles_scope` or `create_update_articles` OAuth scope. */
 export const stageArticleDraft: API.OperationMethod<
   StageArticleDraftRequest,
   StageArticleDraftResponse,
   StageArticleDraftError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<StageArticleDraftRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<StageArticleDraftResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<StageArticleDraftRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<StageArticleDraftResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13286,8 +13390,8 @@ export const startFinConversation: API.OperationMethod<
   StartFinConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<StartFinConversationRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<StartFinConversationResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<StartFinConversationRequest>,
+  output: __S(8866, __c277, 2) as any as S.Schema<StartFinConversationResponse>,
   errors: [BadRequest],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13304,8 +13408,8 @@ export const submitFinCsat: API.OperationMethod<
   SubmitFinCsatError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<SubmitFinCsatRequest>,
-  output: __S(5537, __c173, 1) as any as S.Schema<SubmitFinCsatResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<SubmitFinCsatRequest>,
+  output: __S(5569, __c174, 1) as any as S.Schema<SubmitFinCsatResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13322,8 +13426,8 @@ export const unarchiveContact: API.OperationMethod<
   UnarchiveContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<UnarchiveContactRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<UnarchiveContactResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UnarchiveContactRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<UnarchiveContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13340,7 +13444,7 @@ export const unlinkConversationFromTicket: API.OperationMethod<
   UnlinkConversationFromTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<UnlinkConversationFromTicketRequest>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UnlinkConversationFromTicketRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<Conversation>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13358,8 +13462,8 @@ export const updateArticle: API.OperationMethod<
   UpdateArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<UpdateArticleRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<UpdateArticleResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<UpdateArticleRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<UpdateArticleResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13376,8 +13480,8 @@ export const updateAudience: API.OperationMethod<
   UpdateAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<UpdateAudienceRequest>,
-  output: __S(6850, __c214, 2) as any as S.Schema<Audience>,
+  input: __S(5728, __c179, 0) as any as S.Schema<UpdateAudienceRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Audience>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13394,8 +13498,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(6914, __c216, 2) as any as S.Schema<Collection>,
+  input: __S(5760, __c180, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<Collection>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13412,8 +13516,8 @@ export const updateCompany: API.OperationMethod<
   UpdateCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateCompanyRequest>,
-  output: __S(9573, __c299, 5) as any as S.Schema<Company>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UpdateCompanyRequest>,
+  output: __S(9605, __c300, 5) as any as S.Schema<Company>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13430,8 +13534,8 @@ export const updateContact: API.OperationMethod<
   UpdateContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5793, __c181, 1) as any as S.Schema<UpdateContactRequest2>,
-  output: __S(7040, __c220, 0) as any as S.Schema<UpdateContactResponse>,
+  input: __S(5825, __c182, 1) as any as S.Schema<UpdateContactRequest2>,
+  output: __S(7072, __c221, 0) as any as S.Schema<UpdateContactResponse>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13448,8 +13552,8 @@ export const updateContentImportSource: API.OperationMethod<
   UpdateContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpdateContentImportSourceRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<ContentImportSource>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpdateContentImportSourceRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentImportSource>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13466,8 +13570,8 @@ export const updateContentSnippet: API.OperationMethod<
   UpdateContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpdateContentSnippetRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<ContentSnippet>,
+  input: __S(5888, __c184, 0) as any as S.Schema<UpdateContentSnippetRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13484,7 +13588,7 @@ export const updateConversation: API.OperationMethod<
   UpdateConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateConversationRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateConversationRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13502,8 +13606,8 @@ export const updateConversationAttribute: API.OperationMethod<
   UpdateConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5921, __c185, 1) as any as S.Schema<UpdateConversationAttributeRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<UpdateConversationAttributeResponse>,
+  input: __S(5953, __c186, 1) as any as S.Schema<UpdateConversationAttributeRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<UpdateConversationAttributeResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13523,8 +13627,8 @@ export const updateConversationAttributeOption: API.OperationMethod<
   UpdateConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<UpdateConversationAttributeOptionRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<UpdateConversationAttributeOptionResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<UpdateConversationAttributeOptionRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<UpdateConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13545,8 +13649,8 @@ export const updateDataAttribute: API.OperationMethod<
   UpdateDataAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateDataAttributeRequest>,
-  output: __S(7488, __c234, 0) as any as S.Schema<DataAttribute>,
+  input: __S(6048, __c189, 0) as any as S.Schema<UpdateDataAttributeRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<DataAttribute>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13563,8 +13667,8 @@ export const updateDataConnector: API.OperationMethod<
   UpdateDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<UpdateDataConnectorRequest>,
-  output: __S(7564, __c236, 12) as any as S.Schema<DataConnectorDetail>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateDataConnectorRequest>,
+  output: __S(7596, __c237, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13581,8 +13685,8 @@ export const updateExternalPage: API.OperationMethod<
   UpdateExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<UpdateExternalPageRequest>,
-  output: __S(7840, __c245, 0) as any as S.Schema<ExternalPage>,
+  input: __S(6112, __c191, 0) as any as S.Schema<UpdateExternalPageRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<ExternalPage>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13599,8 +13703,8 @@ export const updateInternalArticle: API.OperationMethod<
   UpdateInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<UpdateInternalArticleRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<UpdateInternalArticleResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<UpdateInternalArticleRequest>,
+  output: __S(8000, __c250, 0) as any as S.Schema<UpdateInternalArticleResponse>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13617,7 +13721,7 @@ export const updateIpAllowlist: API.OperationMethod<
   UpdateIpAllowlistError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<UpdateIpAllowlistRequest>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UpdateIpAllowlistRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<IpAllowlist>,
   errors: [UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
@@ -13635,8 +13739,8 @@ export const updateNewsItem: API.OperationMethod<
   UpdateNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<UpdateNewsItemRequest>,
-  output: __S(8067, __c252, 3) as any as S.Schema<NewsItem>,
+  input: __S(6208, __c194, 0) as any as S.Schema<UpdateNewsItemRequest>,
+  output: __S(8099, __c253, 3) as any as S.Schema<NewsItem>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13653,8 +13757,8 @@ export const updateOfficeHoursException: API.OperationMethod<
   UpdateOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<UpdateOfficeHoursExceptionRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<OfficeHoursException>,
+  input: __S(6240, __c195, 0) as any as S.Schema<UpdateOfficeHoursExceptionRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13671,8 +13775,8 @@ export const updateOfficeHoursSchedule: API.OperationMethod<
   UpdateOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<UpdateOfficeHoursScheduleRequest>,
-  output: __S(8352, __c261, 0) as any as S.Schema<OfficeHoursSchedule>,
+  input: __S(6272, __c196, 0) as any as S.Schema<UpdateOfficeHoursScheduleRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [NotFound, UnprocessableEntity],
   serviceErrors: IntercomServiceErrors,
   protocol: IntercomProtocol,
@@ -13689,7 +13793,7 @@ export const updateTicket: API.OperationMethod<
   UpdateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<UpdateTicketRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<UpdateTicketRequest>,
   output: __S(4391, __c137, 7) as any as S.Schema<Ticket>,
   errors: [BadRequest, NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13707,7 +13811,7 @@ export const updateTicketType: API.OperationMethod<
   UpdateTicketTypeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<UpdateTicketTypeRequest>,
+  input: __S(6400, __c200, 0) as any as S.Schema<UpdateTicketTypeRequest>,
   output: __S(4421, __c138, 5) as any as S.Schema<TicketType2>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -13725,7 +13829,7 @@ export const updateTicketTypeAttribute: API.OperationMethod<
   UpdateTicketTypeAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<UpdateTicketTypeAttributeRequest>,
+  input: __S(6432, __c201, 0) as any as S.Schema<UpdateTicketTypeAttributeRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<TicketTypeAttribute>,
   errors: [],
   serviceErrors: IntercomServiceErrors,
@@ -13743,7 +13847,7 @@ export const updateVisitor: API.OperationMethod<
   UpdateVisitorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<UpdateVisitorRequest>,
+  input: __S(6464, __c202, 0) as any as S.Schema<UpdateVisitorRequest>,
   output: __S(1863, __c58, 7) as any as S.Schema<Visitor>,
   errors: [NotFound],
   serviceErrors: IntercomServiceErrors,
@@ -13928,7 +14032,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9573, __c299, 5));
+      return S.Array(__S(9605, __c300, 5));
   }
 }
 function __c13(j: number): any {
@@ -14216,7 +14320,7 @@ function __c22(j: number): any {
         S.Struct({
           outcome: S.optional(S.NullOr(S.String)),
           routing_outcome: S.optional(S.NullOr(S.String)),
-          collected_data: S.optional(S.NullOr(__S(7648, __c239, 0))),
+          collected_data: S.optional(S.NullOr(__S(7680, __c240, 0))),
         }),
       ).annotate({ identifier: "SalesAgent" });
     case 20:
@@ -14227,7 +14331,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ConversationChannel" });
     case 21:
-      return S.Array(__S(9408, __c294, 0));
+      return S.Array(__S(9440, __c295, 0));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -14254,7 +14358,7 @@ function __c22(j: number): any {
           value: S.optional(S.NullOr(S.String)),
           source: S.optional(S.NullOr(S.String)),
           reasoning: S.optional(S.NullOr(S.String)),
-          reason_ids: S.optional(S.NullOr(__S(7232, __c226, 0))),
+          reason_ids: S.optional(S.NullOr(__S(7264, __c227, 0))),
           other_text: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ConversationScorecardEvaluatorResult" });
@@ -14342,7 +14446,7 @@ function __c23(j: number): any {
           email_message_metadata: S.optional(S.NullOr(__S(737, __c23, 1))),
           metadata: S.optional(S.NullOr(__S(740, __c23, 4))),
           state: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(9536, __c298, 0))),
+          tags: S.optional(S.NullOr(__S(9568, __c299, 0))),
           event_details: S.optional(S.NullOr(S.Unknown)),
           app_package_code: S.optional(S.NullOr(S.String)),
           translations: S.optional(S.NullOr(__S(4320, __c135, 0))),
@@ -14378,13 +14482,13 @@ function __c24(j: number): any {
           priority: S.optional(S.String),
           admin_assignee_id: S.optional(S.Number),
           team_assignee_id: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9573, __c299, 5))),
-          tags: S.optional(__S(6720, __c210, 0)),
+          company: S.optional(S.NullOr(__S(9605, __c300, 5))),
+          tags: S.optional(__S(6752, __c211, 0)),
           conversation_rating: S.optional(S.NullOr(__S(704, __c22, 0))),
           source: S.optional(__S(711, __c22, 7)),
           contacts: S.optional(__S(4290, __c134, 2)),
           teammates: S.optional(S.NullOr(__S(713, __c22, 9))),
-          custom_attributes: S.optional(__S(8448, __c264, 0)),
+          custom_attributes: S.optional(__S(8480, __c265, 0)),
           first_contact_reply: S.optional(S.NullOr(__S(714, __c22, 10))),
           sla_applied: S.optional(S.NullOr(__S(715, __c22, 11))),
           statistics: S.optional(S.NullOr(__S(718, __c22, 14))),
@@ -14600,7 +14704,7 @@ function __c38(j: number): any {
           url: S.optional(S.String),
           custom_domain: S.optional(S.NullOr(S.String)),
           default: S.optional(S.Boolean),
-          locales: S.optional(__S(7232, __c226, 0)),
+          locales: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "HelpCenter" });
   }
@@ -14649,7 +14753,7 @@ function __c42(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          ip_allowlist: S.optional(__S(7232, __c226, 0)),
+          ip_allowlist: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "IpAllowlist" });
   }
@@ -14677,8 +14781,8 @@ function __c44(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           visible_to: S.optional(S.String),
-          visible_to_team_ids: S.optional(__S(7232, __c226, 0)),
-          available_on: S.optional(__S(10368, __c324, 0)),
+          visible_to_team_ids: S.optional(__S(7264, __c227, 0)),
+          available_on: S.optional(__S(10400, __c325, 0)),
         }),
       ).annotate({ identifier: "Macro" });
   }
@@ -14789,8 +14893,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary_admin_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
-          secondary_admin_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          primary_admin_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          secondary_admin_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }),
       ).annotate({ identifier: "AdminPriorityLevel" });
     case 1:
@@ -14799,7 +14903,7 @@ function __c53(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          admin_ids: S.optional(__S(9344, __c292, 0)),
+          admin_ids: S.optional(__S(9376, __c293, 0)),
           admin_priority_level: S.optional(S.NullOr(__S(1696, __c53, 0))),
           assignment_limit: S.optional(S.NullOr(S.Number)),
           distribution_method: S.optional(S.NullOr(S.String)),
@@ -14893,7 +14997,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          social_profiles: S.optional(__S(7232, __c226, 0)),
+          social_profiles: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "VisitorSocialProfiles" });
     case 3:
@@ -14917,7 +15021,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(7232, __c226, 0)),
+          segments: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "VisitorSegments" });
     case 7:
@@ -14931,7 +15035,7 @@ function __c58(j: number): any {
           phone: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           pseudonym: S.optional(S.NullOr(S.String)),
-          avatar: S.optional(__S(6528, __c204, 0)),
+          avatar: S.optional(__S(6560, __c205, 0)),
           app_id: S.optional(S.String),
           companies: S.optional(__S(1856, __c58, 0)),
           location_data: S.optional(__S(1857, __c58, 1)),
@@ -14948,7 +15052,7 @@ function __c58(j: number): any {
           has_hard_bounced: S.optional(S.Boolean),
           tags: S.optional(__S(1861, __c58, 5)),
           segments: S.optional(__S(1862, __c58, 6)),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
           referrer: S.optional(S.NullOr(S.String)),
           utm_campaign: S.optional(S.NullOr(S.String)),
           utm_content: S.optional(S.NullOr(S.String)),
@@ -15075,8 +15179,8 @@ function __c62(j: number): any {
           away_mode_enabled: S.optional(S.Boolean),
           away_mode_reassign: S.optional(S.Boolean),
           has_inbox_seat: S.optional(S.Boolean),
-          team_ids: S.optional(__S(9344, __c292, 0)),
-          avatar: S.optional(__S(6528, __c204, 0)),
+          team_ids: S.optional(__S(9376, __c293, 0)),
+          avatar: S.optional(__S(6560, __c205, 0)),
           email_verified: S.optional(S.NullOr(S.Boolean)),
           app: S.optional(S.NullOr(__S(1985, __c62, 1))),
         }),
@@ -15134,7 +15238,7 @@ function __c66(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/data_attributes", code: 200 })),
       ).annotate({ identifier: "LisDataAttributesRequest" });
     case 1:
-      return S.Array(__S(7488, __c234, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15190,7 +15294,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          event_types: S.optional(__S(7232, __c226, 0)),
+          event_types: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "ActivityLogEventTypeList" });
   }
@@ -15296,7 +15400,7 @@ function __c71(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/admins", code: 200 })),
       ).annotate({ identifier: "ListAdminsRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(9441, __c295, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(9473, __c296, 1)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15313,7 +15417,7 @@ function __c72(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/help_center/collections", code: 200 })),
       ).annotate({ identifier: "ListAllCollectionsRequest" });
     case 1:
-      return S.Array(__S(6914, __c216, 2));
+      return S.Array(__S(6946, __c217, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15360,7 +15464,7 @@ function __c74(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.NullOr(S.String)),
-          parent_ids: S.optional(__S(9344, __c292, 0)),
+          parent_ids: S.optional(__S(9376, __c293, 0)),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -15371,8 +15475,8 @@ function __c74(j: number): any {
           scheduled_publish_at: S.optional(S.NullOr(S.Number)),
           scheduled_unpublish_at: S.optional(S.NullOr(S.Number)),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6753, __c211, 1))),
-          tags: S.optional(__S(6720, __c210, 0)),
+          translated_content: S.optional(S.NullOr(__S(6785, __c212, 1))),
+          tags: S.optional(__S(6752, __c211, 0)),
         }),
       ).annotate({ identifier: "ArticleListItem" });
     case 2:
@@ -15453,7 +15557,7 @@ function __c77(j: number): any {
 function __c78(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6496, __c203, 0));
+      return S.Array(__S(6528, __c204, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15481,7 +15585,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(9504, __c297, 0)),
+          data: S.optional(__S(9536, __c298, 0)),
         }),
       ).annotate({ identifier: "CompanyAttachedSegments" });
   }
@@ -15496,7 +15600,7 @@ function __c81(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/audiences", code: 200 })),
       ).annotate({ identifier: "ListAudiencesRequest" });
     case 1:
-      return S.Array(__S(6850, __c214, 2));
+      return S.Array(__S(6882, __c215, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15584,11 +15688,11 @@ function __c85(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conversation_ids: __S(7232, __c226, 0),
+          conversation_ids: __S(7264, __c227, 0),
         }).pipe(T.Http({ method: "POST", uri: "/calls/search", code: 200 })),
       ).annotate({ identifier: "ListCallsWithTranscriptsRequest" });
     case 1:
-      return S.Array(__S(8896, __c278, 0));
+      return S.Array(__S(8928, __c279, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15672,7 +15776,7 @@ function __c88(j: number): any {
 function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6976, __c218, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15773,7 +15877,7 @@ function __c92(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(6561, __c205, 1)),
+          data: S.optional(__S(6593, __c206, 1)),
           next_cursor: S.optional(S.NullOr(S.String)),
           has_more: S.optional(S.Boolean),
         }),
@@ -15797,7 +15901,7 @@ function __c94(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ai/content_import_sources", code: 200 })),
       ).annotate({ identifier: "ListContentImportSourcesRequest" });
     case 1:
-      return S.Array(__S(7104, __c222, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15819,7 +15923,7 @@ function __c95(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/content_snippets", code: 200 })),
       ).annotate({ identifier: "ListContentSnippetsRequest" });
     case 1:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7200, __c225, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15881,13 +15985,13 @@ function __c98(j: number): any {
           priority: S.optional(S.String),
           admin_assignee_id: S.optional(S.Number),
           team_assignee_id: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9573, __c299, 5))),
-          tags: S.optional(__S(6720, __c210, 0)),
+          company: S.optional(S.NullOr(__S(9605, __c300, 5))),
+          tags: S.optional(__S(6752, __c211, 0)),
           conversation_rating: S.optional(S.NullOr(__S(704, __c22, 0))),
           source: S.optional(__S(711, __c22, 7)),
           contacts: S.optional(__S(4290, __c134, 2)),
           teammates: S.optional(S.NullOr(__S(713, __c22, 9))),
-          custom_attributes: S.optional(__S(8448, __c264, 0)),
+          custom_attributes: S.optional(__S(8480, __c265, 0)),
           first_contact_reply: S.optional(S.NullOr(__S(714, __c22, 10))),
           sla_applied: S.optional(S.NullOr(__S(715, __c22, 11))),
           statistics: S.optional(S.NullOr(__S(718, __c22, 14))),
@@ -15918,7 +16022,7 @@ function __c98(j: number): any {
 function __c99(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(7424, __c232, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(7456, __c233, 0)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16077,16 +16181,16 @@ function __c104(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          add_segment_ids: S.optional(__S(9344, __c292, 0)),
-          remove_segment_ids: S.optional(__S(9344, __c292, 0)),
+          add_segment_ids: S.optional(__S(9376, __c293, 0)),
+          remove_segment_ids: S.optional(__S(9376, __c293, 0)),
           remove_all: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BulkContentActionsRequestAudience" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          add_tag_ids: S.optional(__S(9344, __c292, 0)),
-          remove_tag_ids: S.optional(__S(9344, __c292, 0)),
+          add_tag_ids: S.optional(__S(9376, __c293, 0)),
+          remove_tag_ids: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "BulkContentActionsRequestTags" });
     case 4:
@@ -16183,7 +16287,7 @@ function __c109(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ai/external_pages", code: 200 })),
       ).annotate({ identifier: "ListExternalPagesRequest" });
     case 1:
-      return S.Array(__S(7840, __c245, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16200,7 +16304,7 @@ function __c110(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: __S(8928, __c279, 0),
+          user: __S(8960, __c280, 0),
         }).pipe(T.Http({ method: "POST", uri: "/fin/capabilities", code: 200 })),
       ).annotate({ identifier: "ListFinCapabilitiesRequest" });
     case 1:
@@ -16278,7 +16382,7 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "ListHelpCenterRedirectsRequest" });
     case 1:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(7936, __c248, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16327,7 +16431,7 @@ function __c114(j: number): any {
 function __c115(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(8000, __c250, 0));
   }
 }
 function __c116(j: number): any {
@@ -16441,7 +16545,7 @@ function __c124(j: number): any {
         ),
       ).annotate({ identifier: "ListOfficeHoursExceptionsRequest" });
     case 1:
-      return S.Array(__S(8160, __c255, 0));
+      return S.Array(__S(8192, __c256, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16458,7 +16562,7 @@ function __c125(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/office_hours_schedules", code: 200 })),
       ).annotate({ identifier: "ListOfficeHoursSchedulesRequest" });
     case 1:
-      return S.Array(__S(8352, __c261, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16480,7 +16584,7 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(9504, __c297, 0)),
+          segments: S.optional(__S(9536, __c298, 0)),
           pages: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SegmentList" });
@@ -16551,7 +16655,7 @@ function __c129(j: number): any {
 function __c130(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10402, __c325, 2));
+      return S.Array(__S(10434, __c326, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16839,7 +16943,7 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(6688, __c209, 0)),
+          data: S.optional(__S(6720, __c210, 0)),
         }),
       ).annotate({ identifier: "TagList" });
   }
@@ -16964,7 +17068,7 @@ function __c150(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          locales: S.optional(__S(7232, __c226, 0)),
+          locales: S.optional(__S(7264, __c227, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/articles/{id}/draft/publish", code: 200 })),
       ).annotate({ identifier: "PublishArticleDraftRequest" });
   }
@@ -16974,9 +17078,34 @@ function __c151(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/conversations/redact", code: 200 })),
-      ).annotate({ identifier: "RedactConversationRequest2" });
+          conversation_id: S.String.pipe(T.Label()),
+          intercom_user_id: S.String,
+          rating: S.Number,
+          remark: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/conversations/{conversation_id}/rating", code: 200 }),
+        ),
+      ).annotate({ identifier: "RateConversationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RatedConversationCustomer" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          conversation_id: S.optional(S.String),
+          rating: S.optional(S.Number),
+          remark: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.Number),
+          updated_at: S.optional(S.Number),
+          customer: S.optional(__S(4833, __c151, 1)),
+          teammate: S.optional(__S(4833, __c151, 1)),
+        }),
+      ).annotate({ identifier: "RatedConversation" });
   }
 }
 function __c152(j: number): any {
@@ -17020,6 +17149,16 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "POST", uri: "/conversations/redact", code: 200 })),
+      ).annotate({ identifier: "RedactConversationRequest2" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           phone_number: S.String,
           call_id: S.String,
           source: S.optional(S.String),
@@ -17028,7 +17167,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "RegisterFinVoiceCallRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17041,7 +17180,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ReplyConversationRequest2" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17067,20 +17206,20 @@ function __c157(j: number): any {
       ).annotate({ identifier: "TicketReply" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8800, __c275, 0),
-          user: __S(8928, __c279, 0),
-          attachments: S.optional(__S(8833, __c276, 1)),
+          message: __S(8832, __c276, 0),
+          user: __S(8960, __c280, 0),
+          attachments: S.optional(__S(8865, __c277, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/fin/reply", code: 200 })),
       ).annotate({ identifier: "ReplyToFinRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17090,12 +17229,12 @@ function __c159(j: number): any {
       ).annotate({ identifier: "RevokeConversationStreamTokensRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(8896, __c278, 0)),
+          attributes: S.optional(__S(8928, __c279, 0)),
         }),
       ).annotate({ identifier: "RunFinProcedureRequestConversationMetadata" });
     case 1:
@@ -17103,9 +17242,9 @@ function __c160(j: number): any {
         S.Struct({
           procedure_id: S.String.pipe(T.Label()),
           conversation_id: S.String,
-          user: __S(8928, __c279, 0),
-          message: S.optional(__S(8800, __c275, 0)),
-          conversation_metadata: S.optional(__S(5120, __c160, 0)),
+          user: __S(8960, __c280, 0),
+          message: S.optional(__S(8832, __c276, 0)),
+          conversation_metadata: S.optional(__S(5152, __c161, 0)),
           environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/procedures/{procedure_id}/run", code: 200 })),
       ).annotate({ identifier: "RunFinProcedureRequest" });
@@ -17118,12 +17257,12 @@ function __c160(j: number): any {
           procedure_id: S.optional(S.String),
           status: S.optional(S.String),
           created_at_ms: S.optional(S.String),
-          errors: S.optional(__S(8802, __c275, 2)),
+          errors: S.optional(__S(8834, __c276, 2)),
         }),
       ).annotate({ identifier: "RunFinProcedureResponse" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17143,21 +17282,21 @@ function __c161(j: number): any {
       ).annotate({ identifier: "CompanyScroll" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created_at_after: S.Number,
           created_at_before: S.optional(S.Number),
-          event_types: S.optional(__S(7232, __c226, 0)),
+          event_types: S.optional(__S(7264, __c227, 0)),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/admins/activity_logs/search", code: 200 })),
       ).annotate({ identifier: "SearchActivityLogsRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17169,7 +17308,7 @@ function __c163(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/articles/search", code: 200 })),
       ).annotate({ identifier: "SearchArticlesRequest" });
     case 1:
-      return S.Array(__S(6785, __c212, 1));
+      return S.Array(__S(6817, __c213, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17178,24 +17317,24 @@ function __c163(j: number): any {
         }),
       ).annotate({ identifier: "ArticleSearchHighlightsHighlightedTitleItem" });
     case 3:
-      return S.Array(__S(5218, __c163, 2));
+      return S.Array(__S(5250, __c164, 2));
     case 4:
-      return S.Array(__S(5219, __c163, 3));
+      return S.Array(__S(5251, __c164, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           article_id: S.optional(S.String),
-          highlighted_title: S.optional(__S(5219, __c163, 3)),
-          highlighted_summary: S.optional(__S(5220, __c163, 4)),
+          highlighted_title: S.optional(__S(5251, __c164, 3)),
+          highlighted_summary: S.optional(__S(5252, __c164, 4)),
         }),
       ).annotate({ identifier: "ArticleSearchHighlights" });
     case 6:
-      return S.Array(__S(5221, __c163, 5));
+      return S.Array(__S(5253, __c164, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          articles: S.optional(__S(5217, __c163, 1)),
-          highlights: S.optional(__S(5222, __c163, 6)),
+          articles: S.optional(__S(5249, __c164, 1)),
+          highlights: S.optional(__S(5254, __c164, 6)),
         }),
       ).annotate({ identifier: "ArticleSearchResponseData" });
     case 8:
@@ -17203,30 +17342,10 @@ function __c163(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(5223, __c163, 7)),
+          data: S.optional(__S(5255, __c164, 7)),
           pages: S.optional(S.NullOr(__S(417, __c13, 1))),
         }),
       ).annotate({ identifier: "ArticleSearchResponse" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          order: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchContactsRequestSort" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
-          query: S.Unknown,
-          pagination: S.optional(S.NullOr(__S(416, __c13, 0))),
-          sort: S.optional(__S(5248, __c164, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/contacts/search", code: 200 })),
-      ).annotate({ identifier: "SearchContactsRequest" });
   }
 }
 function __c165(j: number): any {
@@ -17244,22 +17363,42 @@ function __c166(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          field: S.optional(S.String),
+          order: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchContactsRequestSort" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
+          query: S.Unknown,
+          pagination: S.optional(S.NullOr(__S(416, __c13, 0))),
+          sort: S.optional(__S(5312, __c166, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/contacts/search", code: 200 })),
+      ).annotate({ identifier: "SearchContactsRequest" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          states: S.optional(__S(10368, __c324, 0).pipe(T.Query())),
-          locales: S.optional(__S(7232, __c226, 0).pipe(T.Query())),
-          tag_ids: S.optional(__S(9344, __c292, 0).pipe(T.Query())),
+          states: S.optional(__S(10400, __c325, 0).pipe(T.Query())),
+          locales: S.optional(__S(7264, __c227, 0).pipe(T.Query())),
+          tag_ids: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
           tag_operator: S.optional(S.String.pipe(T.Query())),
-          any_tag_ids: S.optional(__S(9344, __c292, 0).pipe(T.Query())),
-          folder_ids: S.optional(__S(9344, __c292, 0).pipe(T.Query())),
+          any_tag_ids: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
+          folder_ids: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
           folder_entity_type: S.optional(S.String.pipe(T.Query())),
-          content_types: S.optional(__S(10368, __c324, 0).pipe(T.Query())),
+          content_types: S.optional(__S(10400, __c325, 0).pipe(T.Query())),
           copilot_state: S.optional(S.String.pipe(T.Query())),
           fin_service_state: S.optional(S.String.pipe(T.Query())),
           fin_sales_state: S.optional(S.String.pipe(T.Query())),
-          created_by_ids: S.optional(__S(9344, __c292, 0).pipe(T.Query())),
-          last_updated_by_ids: S.optional(__S(9344, __c292, 0).pipe(T.Query())),
+          created_by_ids: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
+          last_updated_by_ids: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
           created_at_after: S.optional(S.Number.pipe(T.Query())),
           created_at_before: S.optional(S.Number.pipe(T.Query())),
           updated_at_after: S.optional(S.Number.pipe(T.Query())),
@@ -17284,13 +17423,13 @@ function __c166(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          pages: S.optional(__S(5313, __c166, 1)),
-          data: S.optional(__S(5314, __c166, 2)),
+          pages: S.optional(__S(5345, __c167, 1)),
+          data: S.optional(__S(5346, __c167, 2)),
         }),
       ).annotate({ identifier: "ContentSearchResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17303,7 +17442,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "SearchConversationsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17322,13 +17461,13 @@ function __c168(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(5377, __c168, 1)),
+          data: S.optional(__S(5409, __c169, 1)),
           pages: S.optional(S.NullOr(__S(417, __c13, 1))),
         }),
       ).annotate({ identifier: "InternalArticleSearchResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17343,14 +17482,14 @@ function __c169(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tickets: S.optional(__S(5409, __c169, 1)),
+          tickets: S.optional(__S(5441, __c170, 1)),
           total_count: S.optional(S.Number),
           pages: S.optional(S.NullOr(__S(417, __c13, 1))),
         }),
       ).annotate({ identifier: "TicketList" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17363,7 +17502,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "SetAwayAdminRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17377,8 +17516,8 @@ function __c171(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.String),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6657, __c208, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          translated_content: S.optional(S.NullOr(__S(6689, __c209, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17388,22 +17527,22 @@ function __c171(j: number): any {
       ).annotate({ identifier: "StageArticleDraftRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8800, __c275, 0),
-          user: __S(8928, __c279, 0),
-          attachments: S.optional(__S(8833, __c276, 1)),
-          conversation_metadata: S.optional(__S(8865, __c277, 1)),
+          message: __S(8832, __c276, 0),
+          user: __S(8960, __c280, 0),
+          attachments: S.optional(__S(8865, __c277, 1)),
+          conversation_metadata: S.optional(__S(8897, __c278, 1)),
           environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/start", code: 200 })),
       ).annotate({ identifier: "StartFinConversationRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17423,7 +17562,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "SubmitFinCsatResponse" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17431,23 +17570,6 @@ function __c174(j: number): any {
           contact_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/unarchive", code: 200 })),
       ).annotate({ identifier: "UnarchiveContactRequest" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ticket_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/tickets/{ticket_id}/linked_conversations/{id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnlinkConversationFromTicketRequest" });
   }
 }
 function __c176(j: number): any {
@@ -17467,6 +17589,23 @@ function __c177(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ticket_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/tickets/{ticket_id}/linked_conversations/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnlinkConversationFromTicketRequest" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           article_id: S.Number.pipe(T.Label()),
           title: S.optional(S.String),
           description: S.optional(S.String),
@@ -17476,8 +17615,8 @@ function __c177(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.String),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6657, __c208, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          translated_content: S.optional(S.NullOr(__S(6689, __c209, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17487,20 +17626,20 @@ function __c177(j: number): any {
       ).annotate({ identifier: "UpdateArticleRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          predicates: S.optional(__S(6849, __c214, 1)),
-          role_predicates: S.optional(__S(6849, __c214, 1)),
+          predicates: S.optional(__S(6881, __c215, 1)),
+          role_predicates: S.optional(__S(6881, __c215, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/audiences/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAudienceRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17508,7 +17647,7 @@ function __c179(j: number): any {
           collection_id: S.Number.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6913, __c216, 1))),
+          translated_content: S.optional(S.NullOr(__S(6945, __c217, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/help_center/collections/{collection_id}", code: 200 }),
@@ -17516,7 +17655,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "UpdateCollectionRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17527,13 +17666,13 @@ function __c180(j: number): any {
           size: S.optional(S.Number),
           website: S.optional(S.String),
           industry: S.optional(S.String),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
           monthly_spend: S.optional(S.Number),
         }).pipe(T.Http({ method: "PUT", uri: "/companies/{company_id}", code: 200 })),
       ).annotate({ identifier: "UpdateCompanyRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17557,12 +17696,12 @@ function __c181(j: number): any {
         S.Struct({
           contact_id: S.String.pipe(T.Label()),
           include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5792, __c181, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(5824, __c182, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/contacts/{contact_id}", code: 200 })),
       ).annotate({ identifier: "UpdateContactRequest2" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17579,7 +17718,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "UpdateContentImportSourceRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17589,7 +17728,7 @@ function __c183(j: number): any {
           json_blocks: S.optional(__S(4928, __c154, 0)),
           body_markdown: S.optional(S.String),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17597,7 +17736,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UpdateContentSnippetRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17606,13 +17745,13 @@ function __c184(j: number): any {
           display_as: S.optional(S.String.pipe(T.Query())),
           read: S.optional(S.Boolean),
           title: S.optional(S.String),
-          custom_attributes: S.optional(__S(8448, __c264, 0)),
+          custom_attributes: S.optional(__S(8480, __c265, 0)),
           company_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/conversations/{conversation_id}", code: 200 })),
       ).annotate({ identifier: "UpdateConversationRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17629,28 +17768,10 @@ function __c185(j: number): any {
           description: S.optional(S.String),
           multiline: S.optional(S.Boolean),
           required: S.optional(S.Boolean),
-          visible_to_team_ids: S.optional(__S(7232, __c226, 0)),
-          reference: S.optional(__S(5920, __c185, 0)),
+          visible_to_team_ids: S.optional(__S(7264, __c227, 0)),
+          reference: S.optional(__S(5952, __c186, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/conversations/attributes/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateConversationAttributeRequest" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-          option_id: S.String.pipe(T.Label()),
-          label: S.String,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/conversations/attributes/{id}/options/{option_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateConversationAttributeOptionRequest" });
   }
 }
 function __c187(j: number): any {
@@ -17676,6 +17797,24 @@ function __c188(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.Number.pipe(T.Label()),
+          option_id: S.String.pipe(T.Label()),
+          label: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/conversations/attributes/{id}/options/{option_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateConversationAttributeOptionRequest" });
+  }
+}
+function __c189(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           data_attribute_id: S.Number.pipe(T.Label()),
           archived: S.optional(S.Boolean),
           description: S.optional(S.String),
@@ -17684,7 +17823,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "UpdateDataAttributeRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17697,19 +17836,19 @@ function __c189(j: number): any {
           url: S.optional(S.String),
           body: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10368, __c324, 0)),
-          headers: S.optional(__S(7553, __c236, 1)),
-          data_inputs: S.optional(__S(7585, __c237, 1)),
+          audiences: S.optional(__S(10400, __c325, 0)),
+          headers: S.optional(__S(7585, __c237, 1)),
+          data_inputs: S.optional(__S(7617, __c238, 1)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.Boolean),
           mock_response: S.optional(S.Unknown),
-          token_ids: S.optional(__S(7232, __c226, 0)),
+          token_ids: S.optional(__S(7264, __c227, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/data_connectors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDataConnectorRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17722,12 +17861,12 @@ function __c190(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }).pipe(T.Http({ method: "PUT", uri: "/ai/external_pages/{page_id}", code: 200 })),
       ).annotate({ identifier: "UpdateExternalPageRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17738,7 +17877,7 @@ function __c191(j: number): any {
           body_markdown: S.optional(S.String),
           author_id: S.optional(S.Number),
           owner_id: S.optional(S.Number),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17748,19 +17887,19 @@ function __c191(j: number): any {
       ).annotate({ identifier: "UpdateInternalArticleRequest" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          ip_allowlist: S.optional(__S(7232, __c226, 0)),
+          ip_allowlist: S.optional(__S(7264, __c227, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/ip_allowlist", code: 200 })),
       ).annotate({ identifier: "UpdateIpAllowlistRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17771,14 +17910,14 @@ function __c193(j: number): any {
           sender_id: S.Number,
           state: S.optional(S.String),
           deliver_silently: S.optional(S.Boolean),
-          labels: S.optional(__S(7232, __c226, 0)),
-          reactions: S.optional(__S(8064, __c252, 0)),
-          newsfeed_assignments: S.optional(__S(8066, __c252, 2)),
+          labels: S.optional(__S(7264, __c227, 0)),
+          reactions: S.optional(__S(8096, __c253, 0)),
+          newsfeed_assignments: S.optional(__S(8098, __c253, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/news/news_items/{news_item_id}", code: 200 })),
       ).annotate({ identifier: "UpdateNewsItemRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17788,7 +17927,7 @@ function __c194(j: number): any {
           exception_date: S.optional(S.String),
           exception_type: S.optional(S.String),
           name: S.optional(S.String),
-          time_intervals: S.optional(S.NullOr(__S(8225, __c257, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8257, __c258, 1))),
           recurring_annually: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -17800,7 +17939,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "UpdateOfficeHoursExceptionRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17808,12 +17947,12 @@ function __c195(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           time_zone_name: S.optional(S.String),
-          time_intervals: S.optional(__S(8225, __c257, 1)),
+          time_intervals: S.optional(__S(8257, __c258, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/office_hours_schedules/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOfficeHoursScheduleRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17830,22 +17969,6 @@ function __c196(j: number): any {
           skip_notifications: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/tickets/{ticket_id}", code: 200 })),
       ).annotate({ identifier: "UpdateTicketRequest" });
-  }
-}
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ticket_type_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          category: S.optional(S.String),
-          icon: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          is_internal: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PUT", uri: "/ticket_types/{ticket_type_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateTicketTypeRequest" });
   }
 }
 function __c198(j: number): any {
@@ -17875,6 +17998,22 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_type_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          category: S.optional(S.String),
+          icon: S.optional(S.String),
+          archived: S.optional(S.Boolean),
+          is_internal: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PUT", uri: "/ticket_types/{ticket_type_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateTicketTypeRequest" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ticket_type_id: S.String.pipe(T.Label()),
           attribute_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -17896,7 +18035,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "UpdateTicketTypeAttributeRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17904,12 +18043,12 @@ function __c201(j: number): any {
           id: S.optional(S.String),
           user_id: S.optional(S.String),
           name: S.optional(S.String),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/visitors", code: 200 })),
       ).annotate({ identifier: "UpdateVisitorRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17921,7 +18060,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "ConvertVisitorRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17965,18 +18104,18 @@ function __c203(j: number): any {
           ios_sdk_version: S.optional(S.NullOr(S.String)),
           ios_last_seen_at: S.optional(S.NullOr(S.Number)),
           custom_attributes: S.optional(S.Unknown),
-          avatar: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          tags: S.optional(S.NullOr(__S(6594, __c206, 2))),
-          notes: S.optional(__S(6594, __c206, 2)),
-          companies: S.optional(__S(6597, __c206, 5)),
-          location: S.optional(__S(6598, __c206, 6)),
-          social_profiles: S.optional(__S(6601, __c206, 9)),
-          merge_history: S.optional(S.NullOr(__S(6561, __c205, 1))),
+          avatar: S.optional(S.NullOr(__S(6560, __c205, 0))),
+          tags: S.optional(S.NullOr(__S(6626, __c207, 2))),
+          notes: S.optional(__S(6626, __c207, 2)),
+          companies: S.optional(__S(6629, __c207, 5)),
+          location: S.optional(__S(6630, __c207, 6)),
+          social_profiles: S.optional(__S(6633, __c207, 9)),
+          merge_history: S.optional(S.NullOr(__S(6593, __c206, 1))),
         }),
       ).annotate({ identifier: "Contact" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17987,7 +18126,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "ContactAvatar" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17999,10 +18138,10 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "MergeHistoryItem" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6592, __c206, 0));
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18013,11 +18152,11 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "AddressableList" });
     case 1:
-      return S.Array(__S(6592, __c206, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6593, __c206, 1)),
+          data: S.optional(__S(6625, __c207, 1)),
           url: S.optional(S.String),
           total_count: S.optional(S.Number),
           has_more: S.optional(S.Boolean),
@@ -18032,11 +18171,11 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "CompanyData" });
     case 4:
-      return S.Array(__S(6595, __c206, 3));
+      return S.Array(__S(6627, __c207, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6596, __c206, 4)),
+          data: S.optional(__S(6628, __c207, 4)),
           url: S.optional(S.String),
           total_count: S.optional(S.Number),
           has_more: S.optional(S.Boolean),
@@ -18060,16 +18199,16 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "SocialProfile" });
     case 8:
-      return S.Array(__S(6599, __c206, 7));
+      return S.Array(__S(6631, __c207, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6600, __c206, 8)),
+          data: S.optional(__S(6632, __c207, 8)),
         }),
       ).annotate({ identifier: "ContactSocialProfiles" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18082,8 +18221,8 @@ function __c207(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.Number),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6657, __c208, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          translated_content: S.optional(S.NullOr(__S(6689, __c209, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18093,7 +18232,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CreateArticleRequest" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18110,7 +18249,7 @@ function __c208(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18120,65 +18259,65 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          ar: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          bg: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          bs: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          ca: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          cs: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          da: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          de: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          el: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          en: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          es: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          et: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          fi: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          fr: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          he: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          hr: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          hu: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          id: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          it: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          ja: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          ko: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          lt: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          lv: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          mn: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          nb: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          nl: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          pl: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          pt: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          ro: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          ru: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          sl: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          sr: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          sv: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          tr: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          vi: S.optional(S.NullOr(__S(6656, __c208, 0))),
-          pt_BR: S.optional(S.NullOr(__S(6656, __c208, 0)).pipe(T.Body("pt-BR"))),
-          zh_CN: S.optional(S.NullOr(__S(6656, __c208, 0)).pipe(T.Body("zh-CN"))),
-          zh_TW: S.optional(S.NullOr(__S(6656, __c208, 0)).pipe(T.Body("zh-TW"))),
+          ar: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          bg: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          bs: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          ca: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          cs: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          da: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          de: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          el: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          en: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          es: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          et: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          fi: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          fr: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          he: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          hr: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          hu: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          id: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          it: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          ja: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          ko: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          lt: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          lv: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          mn: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          nb: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          nl: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          pl: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          pt: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          ro: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          ru: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          sl: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          sr: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          sv: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          tr: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          vi: S.optional(S.NullOr(__S(6688, __c209, 0))),
+          pt_BR: S.optional(S.NullOr(__S(6688, __c209, 0)).pipe(T.Body("pt-BR"))),
+          zh_CN: S.optional(S.NullOr(__S(6688, __c209, 0)).pipe(T.Body("zh-CN"))),
+          zh_TW: S.optional(S.NullOr(__S(6688, __c209, 0)).pipe(T.Body("zh-TW"))),
         }),
       ).annotate({ identifier: "ArticleTranslatedContentInput" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(96, __c3, 0));
   }
 }
 function __c210(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(96, __c3, 0));
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tags: S.optional(__S(6688, __c209, 0)),
+          tags: S.optional(__S(6720, __c210, 0)),
         }),
       ).annotate({ identifier: "Tags" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18195,7 +18334,7 @@ function __c211(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18207,48 +18346,48 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          ar: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          bg: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          bs: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          ca: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          cs: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          da: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          de: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          el: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          en: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          es: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          et: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          fi: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          fr: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          he: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          hr: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          hu: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          id: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          it: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          ja: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          ko: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          lt: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          lv: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          mn: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          nb: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          nl: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          pl: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          pt: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          ro: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          ru: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          sl: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          sr: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          sv: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          tr: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          vi: S.optional(S.NullOr(__S(6752, __c211, 0))),
-          pt_BR: S.optional(S.NullOr(__S(6752, __c211, 0)).pipe(T.Body("pt-BR"))),
-          zh_CN: S.optional(S.NullOr(__S(6752, __c211, 0)).pipe(T.Body("zh-CN"))),
-          zh_TW: S.optional(S.NullOr(__S(6752, __c211, 0)).pipe(T.Body("zh-TW"))),
+          ar: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          bg: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          bs: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          ca: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          cs: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          da: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          de: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          el: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          en: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          es: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          et: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          fi: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          fr: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          he: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          hr: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          hu: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          id: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          it: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          ja: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          ko: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          lt: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          lv: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          mn: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          nb: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          nl: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          pl: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          pt: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          ro: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          ru: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          sl: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          sr: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          sv: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          tr: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          vi: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          pt_BR: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("pt-BR"))),
+          zh_CN: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("zh-CN"))),
+          zh_TW: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("zh-TW"))),
         }),
       ).annotate({ identifier: "ArticleTranslatedContent" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18282,7 +18421,7 @@ function __c212(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.NullOr(S.String)),
-          parent_ids: S.optional(__S(9344, __c292, 0)),
+          parent_ids: S.optional(__S(9376, __c293, 0)),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18293,26 +18432,26 @@ function __c212(j: number): any {
           scheduled_publish_at: S.optional(S.NullOr(S.Number)),
           scheduled_unpublish_at: S.optional(S.NullOr(S.Number)),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6753, __c211, 1))),
-          tags: S.optional(__S(6720, __c210, 0)),
-          statistics: S.optional(S.NullOr(__S(6784, __c212, 0))),
+          translated_content: S.optional(S.NullOr(__S(6785, __c212, 1))),
+          tags: S.optional(__S(6752, __c211, 0)),
+          statistics: S.optional(S.NullOr(__S(6816, __c213, 0))),
         }),
       ).annotate({ identifier: "CreateArticleResponse" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          predicates: S.optional(__S(6849, __c214, 1)),
-          role_predicates: S.optional(__S(6849, __c214, 1)),
+          predicates: S.optional(__S(6881, __c215, 1)),
+          role_predicates: S.optional(__S(6881, __c215, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
       ).annotate({ identifier: "CreateAudienceRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18324,36 +18463,36 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "Predicate" });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          predicates: S.optional(__S(6849, __c214, 1)),
-          role_predicates: S.optional(__S(6849, __c214, 1)),
+          predicates: S.optional(__S(6881, __c215, 1)),
+          role_predicates: S.optional(__S(6881, __c215, 1)),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Audience" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6913, __c216, 1))),
+          translated_content: S.optional(S.NullOr(__S(6945, __c217, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
           help_center_id: S.optional(S.NullOr(S.Number)),
         }).pipe(T.Http({ method: "POST", uri: "/help_center/collections", code: 200 })),
       ).annotate({ identifier: "CreateCollectionRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18367,43 +18506,43 @@ function __c216(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          ar: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          bg: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          bs: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          ca: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          cs: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          da: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          de: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          el: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          en: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          es: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          et: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          fi: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          fr: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          he: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          hr: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          hu: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          id: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          it: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          ja: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          ko: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          lt: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          lv: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          mn: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          nb: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          nl: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          pl: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          pt: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          ro: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          ru: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          sl: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          sr: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          sv: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          tr: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          vi: S.optional(S.NullOr(__S(6912, __c216, 0))),
-          pt_BR: S.optional(S.NullOr(__S(6912, __c216, 0)).pipe(T.Body("pt-BR"))),
-          zh_CN: S.optional(S.NullOr(__S(6912, __c216, 0)).pipe(T.Body("zh-CN"))),
-          zh_TW: S.optional(S.NullOr(__S(6912, __c216, 0)).pipe(T.Body("zh-TW"))),
+          ar: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          bg: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          bs: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          ca: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          cs: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          da: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          de: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          el: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          en: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          es: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          et: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          fi: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          fr: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          he: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          hr: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          hu: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          id: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          it: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          ja: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          ko: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          lt: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          lv: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          mn: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          nb: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          nl: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          pl: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          pt: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          ro: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          ru: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          sl: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          sr: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          sv: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          tr: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          vi: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          pt_BR: S.optional(S.NullOr(__S(6944, __c217, 0)).pipe(T.Body("pt-BR"))),
+          zh_CN: S.optional(S.NullOr(__S(6944, __c217, 0)).pipe(T.Body("zh-CN"))),
+          zh_TW: S.optional(S.NullOr(__S(6944, __c217, 0)).pipe(T.Body("zh-TW"))),
         }),
       ).annotate({ identifier: "GroupTranslatedContent" });
     case 2:
@@ -18419,14 +18558,14 @@ function __c216(j: number): any {
           icon: S.optional(S.NullOr(S.String)),
           order: S.optional(S.Number),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6913, __c216, 1))),
+          translated_content: S.optional(S.NullOr(__S(6945, __c217, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
           help_center_id: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "Collection" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18438,7 +18577,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateCompanyNoteRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18446,23 +18585,36 @@ function __c218(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          contact: S.optional(S.NullOr(__S(9408, __c294, 0))),
-          company: S.optional(S.NullOr(__S(9408, __c294, 0))),
-          author: S.optional(S.NullOr(__S(9441, __c295, 1))),
+          contact: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          company: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          author: S.optional(S.NullOr(__S(9473, __c296, 1))),
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
+        S.Struct({
+          role: S.optional(S.String),
+          external_id: S.optional(S.String),
+          email_verified: S.optional(S.NullOr(S.Boolean)),
+          email: S.optional(S.String),
+          phone: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          avatar: S.optional(S.NullOr(S.String)),
+          signed_up_at: S.optional(S.NullOr(S.Number)),
+          last_seen_at: S.optional(S.NullOr(S.Number)),
+          owner_id: S.optional(S.NullOr(S.String)),
+          unsubscribed_from_emails: S.optional(S.NullOr(S.Boolean)),
+          custom_attributes: S.optional(S.NullOr(S.Unknown)),
+        }).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
       ).annotate({ identifier: "CreateContactRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18506,19 +18658,19 @@ function __c220(j: number): any {
           ios_sdk_version: S.optional(S.NullOr(S.String)),
           ios_last_seen_at: S.optional(S.NullOr(S.Number)),
           custom_attributes: S.optional(S.Unknown),
-          avatar: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          tags: S.optional(S.NullOr(__S(6594, __c206, 2))),
-          notes: S.optional(__S(6594, __c206, 2)),
-          companies: S.optional(__S(6597, __c206, 5)),
-          location: S.optional(__S(6598, __c206, 6)),
-          social_profiles: S.optional(__S(6601, __c206, 9)),
-          merge_history: S.optional(S.NullOr(__S(6561, __c205, 1))),
+          avatar: S.optional(S.NullOr(__S(6560, __c205, 0))),
+          tags: S.optional(S.NullOr(__S(6626, __c207, 2))),
+          notes: S.optional(__S(6626, __c207, 2)),
+          companies: S.optional(__S(6629, __c207, 5)),
+          location: S.optional(__S(6630, __c207, 6)),
+          social_profiles: S.optional(__S(6633, __c207, 9)),
+          merge_history: S.optional(S.NullOr(__S(6593, __c206, 1))),
           enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CreateContactResponse" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18531,7 +18683,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CreateContentImportSourceRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18544,12 +18696,12 @@ function __c222(j: number): any {
           url: S.String,
           created_at: S.Number,
           updated_at: S.Number,
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }),
       ).annotate({ identifier: "ContentImportSource" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18558,7 +18710,7 @@ function __c223(j: number): any {
           json_blocks: S.optional(__S(4928, __c154, 0)),
           body_markdown: S.optional(S.String),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18566,7 +18718,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateContentSnippetRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18584,12 +18736,12 @@ function __c224(j: number): any {
           ai_sales_agent_availability: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }),
       ).annotate({ identifier: "ContentSnippet" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18597,7 +18749,7 @@ function __c225(j: number): any {
           from: __S(3360, __c105, 0),
           body: S.String,
           subject: S.optional(S.String),
-          attachment_urls: S.optional(__S(7232, __c226, 0)),
+          attachment_urls: S.optional(__S(7264, __c227, 0)),
           created_at: S.optional(S.Number),
           brand_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/conversations", code: 200 })),
@@ -18616,13 +18768,13 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateConversationResponse" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18632,7 +18784,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "CreateConversationAttributeRequest2" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -18640,7 +18792,7 @@ function __c228(j: number): any {
       });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18653,7 +18805,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "CreateConversationAttributeOptionRequest2" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18680,8 +18832,8 @@ function __c230(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(7362, __c230, 2)),
-          revoke: S.optional(__S(7362, __c230, 2)),
+          self: S.optional(__S(7394, __c231, 2)),
+          revoke: S.optional(__S(7394, __c231, 2)),
         }),
       ).annotate({ identifier: "ConversationStreamTokenLinks" });
     case 4:
@@ -18689,13 +18841,13 @@ function __c230(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           expires_at: S.optional(S.Number),
-          stream: S.optional(__S(7361, __c230, 1)),
-          links: S.optional(__S(7363, __c230, 3)),
+          stream: S.optional(__S(7393, __c231, 1)),
+          links: S.optional(__S(7395, __c231, 3)),
         }),
       ).annotate({ identifier: "ConversationStreamToken" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18704,7 +18856,7 @@ function __c231(j: number): any {
           external_id: S.optional(S.String),
           external_created_at: S.optional(S.NullOr(S.Number)),
           external_updated_at: S.optional(S.NullOr(S.Number)),
-          custom_attributes: S.optional(S.NullOr(__S(7648, __c239, 0))),
+          custom_attributes: S.optional(S.NullOr(__S(7680, __c240, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18715,7 +18867,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateCustomObjectInstancesRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18727,12 +18879,12 @@ function __c232(j: number): any {
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
           type: S.optional(S.String),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
         }),
       ).annotate({ identifier: "CustomObjectInstance" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18745,7 +18897,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CreateDataAttributeRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18758,7 +18910,7 @@ function __c234(j: number): any {
           label: S.optional(S.String),
           description: S.optional(S.String),
           data_type: S.optional(S.String),
-          options: S.optional(__S(7232, __c226, 0)),
+          options: S.optional(__S(7264, __c227, 0)),
           api_writable: S.optional(S.Boolean),
           messenger_writable: S.optional(S.Boolean),
           ui_writable: S.optional(S.Boolean),
@@ -18771,7 +18923,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "DataAttribute" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18782,19 +18934,19 @@ function __c235(j: number): any {
           url: S.optional(S.String),
           body: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10368, __c324, 0)),
-          headers: S.optional(__S(7553, __c236, 1)),
-          data_inputs: S.optional(__S(7585, __c237, 1)),
+          audiences: S.optional(__S(10400, __c325, 0)),
+          headers: S.optional(__S(7585, __c237, 1)),
+          data_inputs: S.optional(__S(7617, __c238, 1)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.Boolean),
           mock_response: S.optional(S.Unknown),
-          token_ids: S.optional(__S(7232, __c226, 0)),
+          token_ids: S.optional(__S(7264, __c227, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/data_connectors", code: 200 })),
       ).annotate({ identifier: "CreateDataConnectorRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18804,7 +18956,7 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "CreateDataConnectorRequestHeadersItem" });
     case 1:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7584, __c237, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18816,7 +18968,7 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailDataInputsItem" });
     case 3:
-      return S.Array(__S(7554, __c236, 2));
+      return S.Array(__S(7586, __c237, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -18827,7 +18979,7 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailResponseFieldsItem" });
     case 5:
-      return S.Array(__S(7556, __c236, 4));
+      return S.Array(__S(7588, __c237, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -18837,7 +18989,7 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItemAttributeMappingsItem" });
     case 7:
-      return S.Array(__S(7558, __c236, 6));
+      return S.Array(__S(7590, __c237, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -18846,18 +18998,18 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItemReferenceMappingsItem" });
     case 9:
-      return S.Array(__S(7560, __c236, 8));
+      return S.Array(__S(7592, __c237, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           response_object_path: S.optional(S.String),
           intercom_object_type: S.optional(S.String),
-          attribute_mappings: S.optional(__S(7559, __c236, 7)),
-          reference_mappings: S.optional(__S(7561, __c236, 9)),
+          attribute_mappings: S.optional(__S(7591, __c237, 7)),
+          reference_mappings: S.optional(__S(7593, __c237, 9)),
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItem" });
     case 11:
-      return S.Array(__S(7562, __c236, 10));
+      return S.Array(__S(7594, __c237, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -18868,19 +19020,19 @@ function __c236(j: number): any {
           state: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
           body: S.optional(S.String),
-          headers: S.optional(__S(7553, __c236, 1)),
+          headers: S.optional(__S(7585, __c237, 1)),
           http_method: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10368, __c324, 0)),
+          audiences: S.optional(__S(10400, __c325, 0)),
           execution_type: S.optional(S.NullOr(S.String)),
           configuration_response_type: S.optional(S.NullOr(S.String)),
           data_transformation_type: S.optional(S.NullOr(S.String)),
           client_function_name: S.optional(S.NullOr(S.String)),
           client_function_timeout_ms: S.optional(S.NullOr(S.Number)),
-          data_inputs: S.optional(__S(7555, __c236, 3)),
-          response_fields: S.optional(__S(7557, __c236, 5)),
-          object_mappings: S.optional(__S(7563, __c236, 11)),
-          token_ids: S.optional(__S(7232, __c226, 0)),
+          data_inputs: S.optional(__S(7587, __c237, 3)),
+          response_fields: S.optional(__S(7589, __c237, 5)),
+          object_mappings: S.optional(__S(7595, __c237, 11)),
+          token_ids: S.optional(__S(7264, __c227, 0)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.NullOr(S.Boolean)),
@@ -18893,7 +19045,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "DataConnectorDetail" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18906,26 +19058,26 @@ function __c237(j: number): any {
         }),
       ).annotate({ identifier: "CreateDataConnectorRequestDataInputsItem" });
     case 1:
-      return S.Array(__S(7584, __c237, 0));
-  }
-}
-function __c238(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(7648, __c239, 0)),
-        }),
-      ).annotate({ identifier: "Error422Body" });
+      return S.Array(__S(7616, __c238, 0));
   }
 }
 function __c239(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(7680, __c240, 0)),
+        }),
+      ).annotate({ identifier: "Error422Body" });
   }
 }
 function __c240(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18935,12 +19087,12 @@ function __c240(j: number): any {
           user_id: S.optional(S.String),
           id: S.optional(S.String),
           email: S.optional(S.String),
-          metadata: S.optional(__S(7648, __c239, 0)),
+          metadata: S.optional(__S(7680, __c240, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
       ).annotate({ identifier: "CreateDataEventRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18951,20 +19103,20 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateDataExportRequest" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String,
-          attribute_ids: __S(7232, __c226, 0),
+          attribute_ids: __S(7264, __c227, 0),
           start_time: S.Number,
           end_time: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/export/reporting_data/enqueue", code: 200 })),
       ).annotate({ identifier: "CreateExportReportingDataEnqueueRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18977,7 +19129,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "CreateExportReportingDataEnqueueResponse" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18990,12 +19142,12 @@ function __c244(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.String,
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/ai/external_pages", code: 200 })),
       ).annotate({ identifier: "CreateExternalPageRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19012,7 +19164,7 @@ function __c245(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.String,
-          audience_ids: S.optional(__S(9344, __c292, 0)),
+          audience_ids: S.optional(__S(9376, __c293, 0)),
           created_at: S.Number,
           updated_at: S.Number,
           last_ingested_at: S.Number,
@@ -19020,7 +19172,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "ExternalPage" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19040,7 +19192,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "CreateHelpCenterRedirectRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19058,7 +19210,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "HelpCenterRedirect" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19068,7 +19220,7 @@ function __c248(j: number): any {
           body_markdown: S.optional(S.String),
           author_id: S.Number,
           owner_id: S.Number,
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -19076,7 +19228,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "CreateInternalArticleRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19091,7 +19243,7 @@ function __c249(j: number): any {
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -19099,13 +19251,14 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CreateInternalArticleResponse" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           id: S.Number,
+          whatsapp_number: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateMessageRequestFrom" });
     case 1:
@@ -19115,7 +19268,7 @@ function __c250(j: number): any {
           subject: S.optional(S.String),
           body: S.optional(S.String),
           template: S.optional(S.String),
-          from: S.optional(__S(8000, __c250, 0)),
+          from: S.optional(__S(8032, __c251, 0)),
           to: S.optional(S.Unknown),
           cc: S.optional(S.Unknown),
           bcc: S.optional(S.Unknown),
@@ -19137,7 +19290,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "Message" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19147,14 +19300,14 @@ function __c251(j: number): any {
           sender_id: S.Number,
           state: S.optional(S.String),
           deliver_silently: S.optional(S.Boolean),
-          labels: S.optional(__S(7232, __c226, 0)),
-          reactions: S.optional(__S(8064, __c252, 0)),
-          newsfeed_assignments: S.optional(__S(8066, __c252, 2)),
+          labels: S.optional(__S(7264, __c227, 0)),
+          reactions: S.optional(__S(8096, __c253, 0)),
+          newsfeed_assignments: S.optional(__S(8098, __c253, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/news/news_items", code: 200 })),
       ).annotate({ identifier: "CreateNewsItemRequest" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
@@ -19166,7 +19319,7 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "NewsfeedAssignment" });
     case 2:
-      return S.Array(__S(8065, __c252, 1));
+      return S.Array(__S(8097, __c253, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -19177,10 +19330,10 @@ function __c252(j: number): any {
           body: S.optional(S.String),
           sender_id: S.optional(S.Number),
           state: S.optional(S.String),
-          newsfeed_assignments: S.optional(__S(8066, __c252, 2)),
-          labels: S.optional(__S(8064, __c252, 0)),
+          newsfeed_assignments: S.optional(__S(8098, __c253, 2)),
+          labels: S.optional(__S(8096, __c253, 0)),
           cover_image_url: S.optional(S.NullOr(S.String)),
-          reactions: S.optional(__S(8064, __c252, 0)),
+          reactions: S.optional(__S(8096, __c253, 0)),
           deliver_silently: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
@@ -19188,7 +19341,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "NewsItem" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19200,7 +19353,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CreateNoteRequest" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19209,7 +19362,7 @@ function __c254(j: number): any {
           exception_date: S.String,
           exception_type: S.String,
           name: S.optional(S.String),
-          time_intervals: S.optional(S.NullOr(__S(8225, __c257, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8257, __c258, 1))),
           recurring_annually: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -19221,7 +19374,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "CreateOfficeHoursExceptionRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19232,7 +19385,7 @@ function __c255(j: number): any {
           exception_date: S.optional(S.String),
           exception_type: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
-          time_intervals: S.optional(S.NullOr(__S(8193, __c256, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8225, __c257, 1))),
           recurring_annually: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
@@ -19240,7 +19393,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "OfficeHoursException" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19251,10 +19404,10 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "OfficeHoursTimeInterval" });
     case 1:
-      return S.Array(__S(8192, __c256, 0));
+      return S.Array(__S(8224, __c257, 0));
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19264,10 +19417,10 @@ function __c257(j: number): any {
         }),
       ).annotate({ identifier: "OfficeHoursTimeIntervalInput" });
     case 1:
-      return S.Array(__S(8224, __c257, 0));
+      return S.Array(__S(8256, __c258, 0));
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19277,7 +19430,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "ArchiveContactRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19290,19 +19443,19 @@ function __c259(j: number): any {
       ).annotate({ identifier: "ArchiveContactResponse" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           time_zone_name: S.String,
-          time_intervals: __S(8225, __c257, 1),
+          time_intervals: __S(8257, __c258, 1),
         }).pipe(T.Http({ method: "POST", uri: "/office_hours_schedules", code: 200 })),
       ).annotate({ identifier: "CreateOfficeHoursScheduleRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19311,7 +19464,7 @@ function __c261(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           time_zone_name: S.optional(S.String),
-          time_intervals: S.optional(__S(8193, __c256, 1)),
+          time_intervals: S.optional(__S(8225, __c257, 1)),
           twenty_four_seven: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
@@ -19319,7 +19472,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "OfficeHoursSchedule" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19330,7 +19483,7 @@ function __c262(j: number): any {
           size: S.optional(S.Number),
           website: S.optional(S.String),
           industry: S.optional(S.String),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
           remote_created_at: S.optional(S.Number),
           update_last_request_at: S.optional(S.Boolean),
           monthly_spend: S.optional(S.Number),
@@ -19338,13 +19491,13 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreateOrUpdateCompanyRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           phone: S.String,
-          custom_attributes: S.optional(__S(8448, __c264, 0)),
+          custom_attributes: S.optional(__S(8480, __c265, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/phone_call_redirects", code: 200 })),
       ).annotate({ identifier: "CreatePhoneSwitchRequest" });
     case 1:
@@ -19356,13 +19509,13 @@ function __c263(j: number): any {
       ).annotate({ identifier: "PhoneSwitch" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19378,20 +19531,20 @@ function __c265(j: number): any {
         }),
       ).annotate({ identifier: "CreateTagResponseUsersItem" });
     case 2:
-      return S.Array(__S(8481, __c265, 1));
+      return S.Array(__S(8513, __c266, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          users: S.optional(S.NullOr(__S(8482, __c265, 2))),
-          companies: S.optional(S.NullOr(__S(8482, __c265, 2))),
+          users: S.optional(S.NullOr(__S(8514, __c266, 2))),
+          companies: S.optional(S.NullOr(__S(8514, __c266, 2))),
         }),
       ).annotate({ identifier: "CreateTagResponse" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -19399,19 +19552,19 @@ function __c266(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_type_id: S.String,
-          contacts: __S(8512, __c266, 0),
+          contacts: __S(8544, __c267, 0),
           conversation_to_link_id: S.optional(S.String),
           company_id: S.optional(S.String),
           created_at: S.optional(S.Number),
           ticket_attributes: S.optional(__S(6368, __c199, 0)),
-          assignment: S.optional(__S(8544, __c267, 0)),
+          assignment: S.optional(__S(8576, __c268, 0)),
           channel: S.optional(S.String),
           skip_notifications: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19422,7 +19575,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "CreateTicketRequestAssignment" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19436,7 +19589,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "CreateTicketTypeRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19458,7 +19611,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "CreateTicketTypeAttributeRequest" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19473,12 +19626,12 @@ function __c270(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.optional(S.String),
-          event_summaries: S.optional(__S(8640, __c270, 0)),
+          event_summaries: S.optional(__S(8672, __c271, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events/summaries", code: 200 })),
       ).annotate({ identifier: "DataEventSummariesRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19488,7 +19641,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeleteArticleRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19500,7 +19653,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "DeletedArticleObject" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19510,22 +19663,22 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteAudienceRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8800, __c275, 0),
-          user: __S(8928, __c279, 0),
-          conversation_metadata: S.optional(__S(8865, __c277, 1)),
-          attachments: S.optional(__S(8833, __c276, 1)),
+          message: __S(8832, __c276, 0),
+          user: __S(8960, __c280, 0),
+          conversation_metadata: S.optional(__S(8897, __c278, 1)),
+          attachments: S.optional(__S(8865, __c277, 1)),
           environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/ask", code: 200 })),
       ).annotate({ identifier: "AskFinRequest" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19539,19 +19692,19 @@ function __c275(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(7648, __c239, 0)),
+          attributes: S.optional(__S(7680, __c240, 0)),
         }),
       ).annotate({ identifier: "FinAgentAttributeErrorsUser" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(8801, __c275, 1)),
-          conversation: S.optional(__S(8801, __c275, 1)),
+          user: S.optional(__S(8833, __c276, 1)),
+          conversation: S.optional(__S(8833, __c276, 1)),
         }),
       ).annotate({ identifier: "FinAgentAttributeErrors" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19564,7 +19717,7 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "FinAgentAttachment" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19573,31 +19726,31 @@ function __c276(j: number): any {
           user_id: S.optional(S.String),
           status: S.optional(S.String),
           created_at_ms: S.optional(S.String),
-          errors: S.optional(__S(8802, __c275, 2)),
+          errors: S.optional(__S(8834, __c276, 2)),
         }),
       ).annotate({ identifier: "AskFinResponse" });
-  }
-}
-function __c277(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8800, __c275, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          history: S.optional(__S(8864, __c277, 0)),
-          attributes: S.optional(__S(8896, __c278, 0)),
-        }),
-      ).annotate({ identifier: "FinAgentConversationMetadata" });
   }
 }
 function __c278(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(8832, __c276, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          history: S.optional(__S(8896, __c278, 0)),
+          attributes: S.optional(__S(8928, __c279, 0)),
+        }),
+      ).annotate({ identifier: "FinAgentConversationMetadata" });
   }
 }
 function __c279(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19605,12 +19758,12 @@ function __c279(j: number): any {
           id: S.String,
           name: S.optional(S.String),
           email: S.optional(S.String),
-          attributes: S.optional(__S(8896, __c278, 0)),
+          attributes: S.optional(__S(8928, __c279, 0)),
         }),
       ).annotate({ identifier: "FinAgentUser" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19622,7 +19775,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeleteCollectionRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19632,7 +19785,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeleteCompanyRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19651,7 +19804,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeleteContactResponse" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19663,7 +19816,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeleteContentImportSourceRequest" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19673,7 +19826,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeleteContentSnippetRequest" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19684,7 +19837,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DeleteConversationRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19694,7 +19847,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "DeleteConversationAttributeRequest" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19711,7 +19864,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "DeleteConversationAttributeOptionRequest" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19728,7 +19881,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "DeleteCustomObjectInstancesByExternalIdRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19740,7 +19893,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CustomObjectInstanceDeleted" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19752,7 +19905,7 @@ function __c290(j: number): any {
       return S.suspend(() =>
         S.Struct({
           custom_object_type_identifier: S.String.pipe(T.Label()),
-          external_id: __S(9280, __c290, 0).pipe(T.Query()),
+          external_id: __S(9312, __c291, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -19763,7 +19916,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "DeleteCustomObjectInstancesByIdRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19774,13 +19927,13 @@ function __c291(j: number): any {
       ).annotate({ identifier: "AttachContactToACompanyRequest" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19792,7 +19945,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "CompanyPlan" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19803,13 +19956,13 @@ function __c294(j: number): any {
       ).annotate({ identifier: "CompanyNoteCompany" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary_team_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
-          secondary_team_ids: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          primary_team_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          secondary_team_ids: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }),
       ).annotate({ identifier: "TeamPriorityLevel" });
     case 1:
@@ -19824,15 +19977,15 @@ function __c295(j: number): any {
           away_mode_reassign: S.optional(S.Boolean),
           away_status_reason_id: S.optional(S.NullOr(S.Number)),
           has_inbox_seat: S.optional(S.Boolean),
-          team_ids: S.optional(__S(9344, __c292, 0)),
+          team_ids: S.optional(__S(9376, __c293, 0)),
           avatar: S.optional(S.NullOr(S.String)),
-          team_priority_level: S.optional(S.NullOr(__S(9440, __c295, 0))),
-          role: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          team_priority_level: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          role: S.optional(S.NullOr(__S(9408, __c294, 0))),
         }),
       ).annotate({ identifier: "Admin" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19848,32 +20001,32 @@ function __c296(j: number): any {
       ).annotate({ identifier: "Segment" });
   }
 }
-function __c297(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9472, __c296, 0));
-  }
-}
 function __c298(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9376, __c293, 0));
+      return S.Array(__S(9504, __c297, 0));
   }
 }
 function __c299(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(9408, __c294, 0));
+  }
+}
+function __c300(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tags: S.optional(__S(9536, __c298, 0)),
+          tags: S.optional(__S(9568, __c299, 0)),
         }),
       ).annotate({ identifier: "CompanyTags" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(9504, __c297, 0)),
+          segments: S.optional(__S(9536, __c298, 0)),
         }),
       ).annotate({ identifier: "CompanySegments" });
     case 2:
@@ -19882,18 +20035,18 @@ function __c299(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9408, __c294, 0))),
-          author: S.optional(S.NullOr(__S(9441, __c295, 1))),
+          company: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          author: S.optional(S.NullOr(__S(9473, __c296, 1))),
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompanyNote" });
     case 3:
-      return S.Array(__S(9570, __c299, 2));
+      return S.Array(__S(9602, __c300, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          notes: S.optional(__S(9571, __c299, 3)),
+          notes: S.optional(__S(9603, __c300, 3)),
         }),
       ).annotate({ identifier: "CompanyNotes" });
     case 5:
@@ -19903,7 +20056,7 @@ function __c299(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           app_id: S.optional(S.String),
-          plan: S.optional(__S(9376, __c293, 0)),
+          plan: S.optional(__S(9408, __c294, 0)),
           company_id: S.optional(S.String),
           remote_created_at: S.optional(S.Number),
           created_at: S.optional(S.Number),
@@ -19915,15 +20068,15 @@ function __c299(j: number): any {
           monthly_spend: S.optional(S.Number),
           session_count: S.optional(S.Number),
           user_count: S.optional(S.Number),
-          custom_attributes: S.optional(__S(7648, __c239, 0)),
-          tags: S.optional(__S(9568, __c299, 0)),
-          segments: S.optional(__S(9569, __c299, 1)),
-          notes: S.optional(__S(9572, __c299, 4)),
+          custom_attributes: S.optional(__S(7680, __c240, 0)),
+          tags: S.optional(__S(9600, __c300, 0)),
+          segments: S.optional(__S(9601, __c300, 1)),
+          notes: S.optional(__S(9604, __c300, 4)),
         }),
       ).annotate({ identifier: "Company" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19933,7 +20086,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteDataConnectorRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19943,7 +20096,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteExternalPageRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19960,7 +20113,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteHelpCenterRedirectRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19972,7 +20125,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteInternalArticleRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19982,7 +20135,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeleteNewsItemRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19999,7 +20152,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursExceptionRequest" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20011,7 +20164,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursExceptionResponse" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20021,7 +20174,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursScheduleRequest" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20031,7 +20184,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20041,7 +20194,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteTicketRequest" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20058,7 +20211,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DetachContactFromACompanyRequest" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20072,7 +20225,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "AttachContactToConversationRequest" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20082,16 +20235,16 @@ function __c312(j: number): any {
         }),
       ).annotate({ identifier: "ConversationParticipantsResponseCustomersItem" });
     case 1:
-      return S.Array(__S(9984, __c312, 0));
+      return S.Array(__S(10016, __c313, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customers: __S(9985, __c312, 1),
+          customers: __S(10017, __c313, 1),
         }),
       ).annotate({ identifier: "ConversationParticipantsResponse" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20109,7 +20262,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DetachContactFromConversationRequest" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20126,7 +20279,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DetachSubscriptionTypeToContactRequest" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20137,7 +20290,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "DetachTagFromArticleRequest" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20150,7 +20303,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DetachTagFromContactRequest" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20167,7 +20320,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DetachTagFromContentSnippetRequest" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20185,7 +20338,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "DetachTagFromConversationRequest" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20202,7 +20355,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "DetachTagFromInternalArticleRequest" });
   }
 }
-function __c320(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20214,7 +20367,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DetachTagFromTicketRequest" });
   }
 }
-function __c321(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20235,7 +20388,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "BannerDismiss" });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20247,7 +20400,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DownloadDataExportRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20259,13 +20412,13 @@ function __c323(j: number): any {
       ).annotate({ identifier: "AttachSubscriptionTypeToContactRequest" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20276,22 +20429,22 @@ function __c325(j: number): any {
         }),
       ).annotate({ identifier: "Translation" });
     case 1:
-      return S.Array(__S(10400, __c325, 0));
+      return S.Array(__S(10432, __c326, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           state: S.optional(S.String),
-          default_translation: S.optional(__S(10400, __c325, 0)),
-          translations: S.optional(__S(10401, __c325, 1)),
+          default_translation: S.optional(__S(10432, __c326, 0)),
+          translations: S.optional(__S(10433, __c326, 1)),
           consent_type: S.optional(S.String),
-          content_types: S.optional(__S(10368, __c324, 0)),
+          content_types: S.optional(__S(10400, __c325, 0)),
         }),
       ).annotate({ identifier: "SubscriptionType" });
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -20299,19 +20452,19 @@ function __c326(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_type_id: S.String,
-          contacts: __S(10432, __c326, 0),
+          contacts: __S(10464, __c327, 0),
           conversation_to_link_id: S.optional(S.String),
           company_id: S.optional(S.String),
           created_at: S.optional(S.Number),
           ticket_attributes: S.optional(__S(6368, __c199, 0)),
-          assignment: S.optional(__S(8544, __c267, 0)),
+          assignment: S.optional(__S(8576, __c268, 0)),
           channel: S.optional(S.String),
           skip_notifications: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/enqueue", code: 200 })),
       ).annotate({ identifier: "EnqueueCreateTicketRequest" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20327,13 +20480,13 @@ function __c327(j: number): any {
       ).annotate({ identifier: "Jobs" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.optional(S.String),
-          user: S.optional(__S(8928, __c279, 0)),
+          user: S.optional(__S(8960, __c280, 0)),
           context: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/escalate", code: 200 })),
       ).annotate({ identifier: "EscalateFinConversationRequest" });
@@ -20347,7 +20500,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "EscalateFinConversationResponse" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20363,8 +20516,8 @@ function __c329(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           trigger_type: S.optional(S.String),
           state: S.optional(S.String),
-          target_channels: S.optional(__S(7232, __c226, 0)),
-          preferred_devices: S.optional(__S(7232, __c226, 0)),
+          target_channels: S.optional(__S(7264, __c227, 0)),
+          preferred_devices: S.optional(__S(7264, __c227, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           targeting: S.optional(S.NullOr(S.Unknown)),
@@ -20379,12 +20532,12 @@ function __c329(j: number): any {
           export_version: S.optional(S.String),
           exported_at: S.optional(S.String),
           app_id: S.optional(S.Number),
-          workflow: S.optional(__S(10529, __c329, 1)),
+          workflow: S.optional(__S(10561, __c330, 1)),
         }),
       ).annotate({ identifier: "WorkflowExport" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20394,7 +20547,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "FindTagRequest" });
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20404,7 +20557,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "GetACompanyByIdRequest" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20414,7 +20567,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "GetAdminRequest" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20424,7 +20577,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "GetArticleRequest" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20434,7 +20587,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "GetArticleDraftRequest" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20465,7 +20618,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "ArticleVersion" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

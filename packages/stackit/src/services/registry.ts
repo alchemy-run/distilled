@@ -151,6 +151,8 @@ export interface Artifactory {
   consumed_quota_bytes: number;
   /** The date and time the creation of the STACKIT Artifactory was triggered. */
   create_time: string;
+  /** Describes the reason for the error state. */
+  error_description?: string | undefined;
   /** A auto generated unique id which identifies the STACKIT Artifactory. */
   id: string;
   /** A user chosen name to distinguish multiple STACKIT Artifactories. */
@@ -453,6 +455,7 @@ function __c3(j: number): any {
         S.Struct({
           consumed_quota_bytes: S.Number,
           create_time: S.String,
+          error_description: S.optional(S.String),
           id: S.String,
           name: S.String,
           proxy: S.optional(__S(13, __c3, 1)),

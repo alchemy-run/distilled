@@ -333,6 +333,7 @@ export interface CreateInstanceRequest {
   AutoScaleDiskInfoList?: AutoScaleDiskInfoList | undefined;
   EnableKibanaPublicAccess?: string | undefined;
   AlarmPolicyIds?: StringList | undefined;
+  EnableLvm?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -468,10 +469,22 @@ export interface DeleteIndexRequest {
   Password?: string | Redacted.Redacted<string> | undefined;
   BackingIndexName?: string | undefined;
   IndexPhrase?: string | undefined;
+  IndexNames?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface BatchIndexResult {
+  IndexName?: string | undefined;
+  Success?: boolean | undefined;
+  ErrCode?: number | undefined;
+  ErrMsg?: string | undefined;
+}
+export type BatchIndexResultList = Array<BatchIndexResult>;
 export interface DeleteIndexResponse {
+  TotalCount?: number | undefined;
+  SuccessCount?: number | undefined;
+  FailedCount?: number | undefined;
+  Results?: BatchIndexResultList | undefined;
   RequestId?: string | undefined;
 }
 export interface DeleteInstanceRequest {
@@ -720,6 +733,7 @@ export interface EventDataInfoOverview {
   SubEventType?: number | undefined;
   SubEventName?: string | undefined;
   EventScope?: number | undefined;
+  ExpandDetail?: string | undefined;
 }
 export type EventDataInfoOverviewList = Array<EventDataInfoOverview>;
 export interface DescribeEsInstanceEventListsResponse {
@@ -811,6 +825,7 @@ export interface DescribeIndexListRequest {
   OrderBy?: string | undefined;
   IndexStatusList?: StringList | undefined;
   Order?: string | undefined;
+  FilterIndexNames?: StringList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -848,6 +863,8 @@ export interface IndexSettingsField {
   NumberOfShards?: string | null | undefined;
   NumberOfReplicas?: string | null | undefined;
   RefreshInterval?: string | null | undefined;
+  Dynamic?: string | undefined;
+  TotalFieldsLimit?: string | undefined;
 }
 export interface IndexMetaField {
   IndexType?: string | null | undefined;
@@ -866,6 +883,14 @@ export interface IndexMetaField {
   IndexAliasesField?: StringList | null | undefined;
   AppId?: number | null | undefined;
   IndexDocs?: number | null | undefined;
+  FieldCount?: number | undefined;
+  FieldLimit?: number | undefined;
+  FieldUsageRatio?: string | undefined;
+  OccupiedShards?: number | undefined;
+  IndexOpenStatus?: string | undefined;
+  FieldLimitHardCap?: number | undefined;
+  FieldLimitMin?: number | undefined;
+  FieldAutoAdjustRemaining?: number | undefined;
 }
 export type IndexMetaFieldList = Array<IndexMetaField>;
 export interface DescribeIndexListResponse {
@@ -1192,6 +1217,8 @@ export interface InstanceInfo {
   OldEsVip?: string | undefined;
   OldEsPrivateTcpUrl?: string | undefined;
   NeedOfflineOldNodesNotify?: boolean | undefined;
+  LvmStatus?: number | undefined;
+  LvmSwitchFlowId?: number | undefined;
 }
 export type InstanceInfoList = Array<InstanceInfo>;
 export interface DescribeInstancesResponse {
@@ -2257,6 +2284,7 @@ export interface UpdateInstanceRequest {
   AutoScaleDiskInfoList?: AutoScaleDiskInfoList | undefined;
   AutoScaleDiskDeleteNodeTypeList?: StringList | undefined;
   OtherConfig?: OtherConfig | undefined;
+  WaitGreen?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2673,7 +2701,7 @@ export const deleteIndex: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteIndexRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<DeleteIndexResponse>,
+  output: __S(179, __c11, 3) as any as S.Schema<DeleteIndexResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4219,9 +4247,31 @@ function __c11(j: number): any {
           Password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           BackingIndexName: S.optional(S.String),
           IndexPhrase: S.optional(S.String),
+          IndexNames: S.optional(__S(16, __c1, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "DeleteIndex" })),
       ).annotate({ identifier: "DeleteIndexRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IndexName: S.optional(S.String),
+          Success: S.optional(S.Boolean),
+          ErrCode: S.optional(S.Number),
+          ErrMsg: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchIndexResult" });
+    case 2:
+      return S.Array(__S(177, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          SuccessCount: S.optional(S.Number),
+          FailedCount: S.optional(S.Number),
+          Results: S.optional(__S(178, __c11, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteIndexResponse" });
   }
 }
 function __c12(j: number): any {
@@ -4647,6 +4697,7 @@ function __c28(j: number): any {
           SubEventType: S.optional(S.Number),
           SubEventName: S.optional(S.String),
           EventScope: S.optional(S.Number),
+          ExpandDetail: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventDataInfoOverview" });
     case 2:
@@ -4793,6 +4844,7 @@ function __c32(j: number): any {
           OrderBy: S.optional(S.String),
           IndexStatusList: S.optional(__S(16, __c1, 0)),
           Order: S.optional(S.String),
+          FilterIndexNames: S.optional(__S(16, __c1, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "DescribeIndexList" })),
       ).annotate({ identifier: "DescribeIndexListRequest" });
@@ -4856,6 +4908,8 @@ function __c33(j: number): any {
           NumberOfShards: S.optional(S.NullOr(S.String)),
           NumberOfReplicas: S.optional(S.NullOr(S.String)),
           RefreshInterval: S.optional(S.NullOr(S.String)),
+          Dynamic: S.optional(S.String),
+          TotalFieldsLimit: S.optional(S.String),
         }),
       ).annotate({ identifier: "IndexSettingsField" });
     case 5:
@@ -4877,6 +4931,14 @@ function __c33(j: number): any {
           IndexAliasesField: S.optional(S.NullOr(__S(16, __c1, 0))),
           AppId: S.optional(S.NullOr(S.Number)),
           IndexDocs: S.optional(S.NullOr(S.Number)),
+          FieldCount: S.optional(S.Number),
+          FieldLimit: S.optional(S.Number),
+          FieldUsageRatio: S.optional(S.String),
+          OccupiedShards: S.optional(S.Number),
+          IndexOpenStatus: S.optional(S.String),
+          FieldLimitHardCap: S.optional(S.Number),
+          FieldLimitMin: S.optional(S.Number),
+          FieldAutoAdjustRemaining: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IndexMetaField" });
   }
@@ -5315,6 +5377,8 @@ function __c41(j: number): any {
           OldEsVip: S.optional(S.String),
           OldEsPrivateTcpUrl: S.optional(S.String),
           NeedOfflineOldNodesNotify: S.optional(S.Boolean),
+          LvmStatus: S.optional(S.Number),
+          LvmSwitchFlowId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceInfo" });
     case 10:
@@ -6912,6 +6976,7 @@ function __c88(j: number): any {
           AutoScaleDiskInfoList: S.optional(__S(1425, __c89, 1)),
           EnableKibanaPublicAccess: S.optional(S.String),
           AlarmPolicyIds: S.optional(__S(16, __c1, 0)),
+          EnableLvm: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "CreateInstance" })),
       ).annotate({ identifier: "CreateInstanceRequest" });
@@ -7194,6 +7259,7 @@ function __c102(j: number): any {
           AutoScaleDiskInfoList: S.optional(__S(1425, __c89, 1)),
           AutoScaleDiskDeleteNodeTypeList: S.optional(__S(16, __c1, 0)),
           OtherConfig: S.optional(__S(1632, __c102, 0)),
+          WaitGreen: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "es", version: "2018-04-16", action: "UpdateInstance" })),
       ).annotate({ identifier: "UpdateInstanceRequest" });

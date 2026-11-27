@@ -476,22 +476,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsDeleteSecretTokenBackupPartialUpdate/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.posthog.organizations#BadRequest"
-        },
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ]
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.posthog.organizations#OrganizationsProjectsGenerateConversationsPublicTokenCreate/errors",
       "before": "traits",
       "value": [
@@ -522,22 +506,6 @@
     {
       "op": "add",
       "path": "/shapes/com.posthog.organizations#OrganizationsProjectsResetTokenPartialUpdate/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.posthog.organizations#BadRequest"
-        },
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ]
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsRotateSecretTokenPartialUpdate/errors",
       "before": "traits",
       "value": [
         {

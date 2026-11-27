@@ -35,7 +35,7 @@ export class BadRequest
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
           /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
           /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
           S.String,
@@ -59,7 +59,7 @@ export class Conflict
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
@@ -75,7 +75,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -108,8 +108,8 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
           /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
           S.String,
         ]),
       ),
@@ -118,7 +118,7 @@ export class NotFound
     [{ status: 404 }],
   )
 {
-  declare readonly body?: RunCommandsErrorResponse | ErrorResponse | string;
+  declare readonly body?: ErrorResponse | RunCommandsErrorResponse | string;
 }
 
 /** The `profileId` names no profile in this organization (`profile_not_found`); profiles expire after a TTL. */
@@ -156,7 +156,7 @@ export class UnprocessableEntity
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)),
           S.String,
         ]),
       ),
@@ -168,6 +168,66 @@ export class UnprocessableEntity
   declare readonly body?: RunCommandsErrorResponse | ErrorResponse | string;
 }
 
+export type AttachSessionCredentialsRequestBindingsItemCase1AllowedOriginsList = Array<string>;
+export interface AttachSessionCredentialsRequestBindingsItemCase1 {
+  allowedOrigins: AttachSessionCredentialsRequestBindingsItemCase1AllowedOriginsList;
+  reference: string;
+}
+export type AttachSessionCredentialsRequestBindingsItem =
+  | string
+  | AttachSessionCredentialsRequestBindingsItemCase1;
+/** At most 100 bindings; KV bindings may specify allowedOrigins. */
+export type AttachSessionCredentialsRequestBindingsList =
+  Array<AttachSessionCredentialsRequestBindingsItem>;
+/** Ids of credentials (Secrets of kind `credential`) in the session's project. Binding makes the session's lookup `explicit` for good. */
+export type AttachSessionCredentialsRequestCredentialIdsList = Array<string>;
+export interface AttachSessionCredentialsRequest {
+  id: string;
+  /** At most 100 bindings; KV bindings may specify allowedOrigins. */
+  bindings?: AttachSessionCredentialsRequestBindingsList | undefined;
+  /** Ids of credentials (Secrets of kind `credential`) in the session's project. Binding makes the session's lookup `explicit` for good. */
+  credentialIds?: AttachSessionCredentialsRequestCredentialIdsList | undefined;
+}
+export type SessionCredentialsResponseBindingsItemCase1AllowedOriginsList = Array<string>;
+export interface SessionCredentialsResponseBindingsItemCase1 {
+  allowedOrigins: SessionCredentialsResponseBindingsItemCase1AllowedOriginsList;
+  reference: string;
+}
+export type SessionCredentialsResponseBindingsItem =
+  | string
+  | SessionCredentialsResponseBindingsItemCase1;
+/** Bindings, including KV references with their allowed origins and soft-deleted targets. */
+export type SessionCredentialsResponseBindingsList = Array<SessionCredentialsResponseBindingsItem>;
+/** Other origins the credential may be filled on */
+export type SessionCredentialsResponseCredentialsItemAdditionalOriginsList = Array<string>;
+export interface SessionCredentialsResponseCredentialsItem {
+  /** Other origins the credential may be filled on */
+  additionalOrigins: SessionCredentialsResponseCredentialsItemAdditionalOriginsList;
+  /** The credential's id (a Secret of kind `credential`) */
+  id: string;
+  /** The credential's name */
+  name: string;
+  /** The credential's namespace */
+  namespace: string;
+  /** The website origin the credential is for */
+  origin: string;
+}
+/** Live credentials bound to the session, oldest binding first. No values. */
+export type SessionCredentialsResponseCredentialsList =
+  Array<SessionCredentialsResponseCredentialsItem>;
+/** `explicit`: the session fills only the credentials listed here. `implicit`: it fills credentials stored for its namespace and the page origin. */
+export type SessionCredentialsResponseLookup = "implicit" | "explicit";
+/** The credentials a session is bound to */
+export interface SessionCredentialsResponse {
+  /** Bindings, including KV references with their allowed origins and soft-deleted targets. */
+  bindings: SessionCredentialsResponseBindingsList;
+  /** Live credentials bound to the session, oldest binding first. No values. */
+  credentials: SessionCredentialsResponseCredentialsList;
+  /** Whether the session was created with a `credentials` configuration. Only then can credentials be attached; otherwise attach and replace answer 409 `credentials_not_enabled`. */
+  credentialsEnabled: boolean;
+  /** `explicit`: the session fills only the credentials listed here. `implicit`: it fills credentials stored for its namespace and the page origin. */
+  lookup: SessionCredentialsResponseLookup;
+}
 export interface CancelCommandExecutionRequest {
   /** Session ID */
   sessionId: string;
@@ -184,31 +244,27 @@ export interface CommandDialog {
   type: CommandDialogType;
 }
 /** What happened to the page: nothing, a change, or a possible change. */
-export type RunCommandsResponseExecutionEffect = "none" | "applied" | "unknown";
+export type RunCommandsResponseEffect = "none" | "applied" | "unknown";
+/** A mouse button held down with mouse down. */
+export type CommandHeldButton = "left" | "right" | "middle";
+/** Keys still held down, for example with keyboard down. */
+export type CommandHeldKeysList = Array<string>;
+/** Input still held down on a tab. It applies to later input until released. */
+export interface CommandHeld {
+  /** A mouse button held down with mouse down. */
+  button?: CommandHeldButton | undefined;
+  /** Keys still held down, for example with keyboard down. */
+  keys: CommandHeldKeysList;
+  tab: string;
+}
+/** Tabs with keys or a mouse button still held down. Left out when nothing is held. */
+export type RunCommandsResponseHeldList = Array<CommandHeld>;
 export interface CommandErrorInfo {
   /** Error code, such as stale_ref or not_actionable. */
   code: string;
   message: string;
   /** More detail, such as covered or detached. */
   reason?: string | undefined;
-}
-export type RunCommandsResponseExecutionState =
-  | "queued"
-  | "running"
-  | "completed"
-  | "failed"
-  | "cancelled"
-  | "timeout"
-  | "expired";
-export interface RunCommandsResponseExecution {
-  /** What happened to the page: nothing, a change, or a possible change. */
-  effect: RunCommandsResponseExecutionEffect;
-  error?: CommandErrorInfo | undefined;
-  id: string;
-  /** Commands started. */
-  ran: number;
-  replayed: boolean;
-  state: RunCommandsResponseExecutionState;
 }
 export interface RunCommandsResponseObserve {
   additions?: number | undefined;
@@ -235,6 +291,8 @@ export interface CommandResultCase0 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase0Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   ok: boolean;
   url?: string | undefined;
 }
@@ -247,6 +305,8 @@ export interface CommandResultCase1 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase1Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   /** False when there was no history entry. */
   navigated?: boolean | undefined;
   ok: boolean;
@@ -261,6 +321,8 @@ export interface CommandResultCase2 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase2Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   /** False when there was no history entry. */
   navigated?: boolean | undefined;
   ok: boolean;
@@ -275,6 +337,8 @@ export interface CommandResultCase3 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase3Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   ok: boolean;
   url?: string | undefined;
 }
@@ -294,6 +358,8 @@ export interface CommandResultCase4 {
 export type CommandResultCase5Command = "click";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase5Effect = "none" | "applied" | "unknown";
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase5OpenedList = Array<string>;
 /** Result of a click command. */
 export interface CommandResultCase5 {
   command: CommandResultCase5Command;
@@ -302,14 +368,16 @@ export interface CommandResultCase5 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase5Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase5OpenedList | undefined;
 }
-export type CommandResultCase6Command = "dblclick";
+export type CommandResultCase6Command = "hover";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase6Effect = "none" | "applied" | "unknown";
-/** Result of a dblclick command. */
+/** Result of a hover command. */
 export interface CommandResultCase6 {
   command: CommandResultCase6Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -317,38 +385,44 @@ export interface CommandResultCase6 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase6Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
-  loading?: boolean | undefined;
   ok: boolean;
 }
-export type CommandResultCase7Command = "hover";
+export type CommandResultCase7Command = "focus";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase7Effect = "none" | "applied" | "unknown";
-/** Result of a hover command. */
+/** Result of a focus command. */
 export interface CommandResultCase7 {
   command: CommandResultCase7Command;
-  /** A dialog that the command opened. It blocks the tab until it closes. */
-  dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase7Effect;
   error?: CommandErrorInfo | undefined;
   ok: boolean;
 }
-export type CommandResultCase8Command = "focus";
+export type CommandResultCase8Command = "type";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase8Effect = "none" | "applied" | "unknown";
-/** Result of a focus command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase8OpenedList = Array<string>;
+/** Result of a type command. */
 export interface CommandResultCase8 {
   command: CommandResultCase8Command;
+  /** A dialog that the command opened. It blocks the tab until it closes. */
+  dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase8Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase8OpenedList | undefined;
 }
-export type CommandResultCase9Command = "type";
+export type CommandResultCase9Command = "fill";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase9Effect = "none" | "applied" | "unknown";
-/** Result of a type command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase9OpenedList = Array<string>;
+/** Result of a fill command. */
 export interface CommandResultCase9 {
   command: CommandResultCase9Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -356,29 +430,39 @@ export interface CommandResultCase9 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase9Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase9OpenedList | undefined;
 }
-export type CommandResultCase10Command = "fill";
+export type CommandResultCase10Command = "press";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase10Effect = "none" | "applied" | "unknown";
-/** Result of a fill command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase10OpenedList = Array<string>;
+/** Result of a press command. */
 export interface CommandResultCase10 {
+  /** The id of the dialog that the key answered. Absent when the key went to the page. */
+  answered?: string | undefined;
   command: CommandResultCase10Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
   dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase10Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase10OpenedList | undefined;
 }
-export type CommandResultCase11Command = "press";
+export type CommandResultCase11Command = "keyboard";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase11Effect = "none" | "applied" | "unknown";
-/** Result of a press command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase11OpenedList = Array<string>;
+/** Result of a keyboard command. */
 export interface CommandResultCase11 {
   command: CommandResultCase11Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -386,14 +470,18 @@ export interface CommandResultCase11 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase11Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase11OpenedList | undefined;
 }
-export type CommandResultCase12Command = "keydown";
+export type CommandResultCase12Command = "mouse";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase12Effect = "none" | "applied" | "unknown";
-/** Result of a keydown command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase12OpenedList = Array<string>;
+/** Result of a mouse command. */
 export interface CommandResultCase12 {
   command: CommandResultCase12Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -401,29 +489,47 @@ export interface CommandResultCase12 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase12Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase12OpenedList | undefined;
 }
-export type CommandResultCase13Command = "keyup";
+/** The mouse button that was let go. */
+export type CommandResultCase13Button = "left" | "right" | "middle";
+export type CommandResultCase13Command = "release";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase13Effect = "none" | "applied" | "unknown";
-/** Result of a keyup command. */
+/** The keys that were let go. */
+export type CommandResultCase13KeysList = Array<string>;
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase13OpenedList = Array<string>;
+/** Result of a release command. */
 export interface CommandResultCase13 {
+  /** The mouse button that was let go. */
+  button?: CommandResultCase13Button | undefined;
   command: CommandResultCase13Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
   dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase13Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The keys that were let go. */
+  keys?: CommandResultCase13KeysList | undefined;
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase13OpenedList | undefined;
 }
-export type CommandResultCase14Command = "mouse";
+export type CommandResultCase14Command = "select";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase14Effect = "none" | "applied" | "unknown";
-/** Result of a mouse command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase14OpenedList = Array<string>;
+/** The values of the selected options. */
+export type CommandResultCase14SelectedList = Array<string>;
+/** Result of a select command. */
 export interface CommandResultCase14 {
   command: CommandResultCase14Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -431,33 +537,40 @@ export interface CommandResultCase14 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase14Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase14OpenedList | undefined;
+  /** The values of the selected options. */
+  selected?: CommandResultCase14SelectedList | undefined;
 }
-export type CommandResultCase15Command = "select";
+export type CommandResultCase15Command = "check";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase15Effect = "none" | "applied" | "unknown";
-/** The values of the selected options. */
-export type CommandResultCase15SelectedList = Array<string>;
-/** Result of a select command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase15OpenedList = Array<string>;
+/** Result of a check command. */
 export interface CommandResultCase15 {
+  checked?: boolean | undefined;
   command: CommandResultCase15Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
   dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase15Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
-  /** The values of the selected options. */
-  selected?: CommandResultCase15SelectedList | undefined;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase15OpenedList | undefined;
 }
-export type CommandResultCase16Command = "check";
+export type CommandResultCase16Command = "uncheck";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase16Effect = "none" | "applied" | "unknown";
-/** Result of a check command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase16OpenedList = Array<string>;
+/** Result of a uncheck command. */
 export interface CommandResultCase16 {
   checked?: boolean | undefined;
   command: CommandResultCase16Command;
@@ -466,31 +579,39 @@ export interface CommandResultCase16 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase16Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase16OpenedList | undefined;
 }
-export type CommandResultCase17Command = "uncheck";
+export type CommandResultCase17Command = "upload";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase17Effect = "none" | "applied" | "unknown";
-/** Result of a uncheck command. */
+export type CommandResultCase17FilesList = Array<string>;
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase17OpenedList = Array<string>;
+/** Result of a upload command. */
 export interface CommandResultCase17 {
-  checked?: boolean | undefined;
   command: CommandResultCase17Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
   dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase17Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  files?: CommandResultCase17FilesList | undefined;
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase17OpenedList | undefined;
 }
-export type CommandResultCase18Command = "upload";
+export type CommandResultCase18Command = "drag";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase18Effect = "none" | "applied" | "unknown";
-export type CommandResultCase18FilesList = Array<string>;
-/** Result of a upload command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase18OpenedList = Array<string>;
+/** Result of a drag command. */
 export interface CommandResultCase18 {
   command: CommandResultCase18Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
@@ -498,161 +619,186 @@ export interface CommandResultCase18 {
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase18Effect;
   error?: CommandErrorInfo | undefined;
-  files?: CommandResultCase18FilesList | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase18OpenedList | undefined;
 }
-export type CommandResultCase19Command = "drag";
+export type CommandResultCase19Command = "get";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase19Effect = "none" | "applied" | "unknown";
-/** Result of a drag command. */
+/** What was read. It tells the type of value. */
+export type CommandResultCase19What =
+  | "text"
+  | "html"
+  | "markdown"
+  | "value"
+  | "attr"
+  | "title"
+  | "url"
+  | "count"
+  | "box"
+  | "locator";
+/** Result of a get command. */
 export interface CommandResultCase19 {
   command: CommandResultCase19Command;
-  /** A dialog that the command opened. It blocks the tab until it closes. */
-  dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase19Effect;
-  error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
-  loading?: boolean | undefined;
-  ok: boolean;
-}
-export type CommandResultCase20Command = "get";
-/** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase20Effect = "none" | "applied" | "unknown";
-/** Result of a get command. */
-export interface CommandResultCase20 {
-  command: CommandResultCase20Command;
-  /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase20Effect;
   error?: CommandErrorInfo | undefined;
   /** The value is a secret, so it is left out. */
   masked?: boolean | undefined;
   ok: boolean;
   /** A string for text, html, markdown, value, attr, title, and url. A number for count. { x, y, width, height } or null for box. A list of locators for locator. */
   value?: unknown | undefined;
+  /** What was read. It tells the type of value. */
+  what?: CommandResultCase19What | undefined;
 }
-export type CommandResultCase21Command = "is";
+export type CommandResultCase20Command = "is";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase21Effect = "none" | "applied" | "unknown";
+export type CommandResultCase20Effect = "none" | "applied" | "unknown";
 /** Result of a is command. */
-export interface CommandResultCase21 {
-  command: CommandResultCase21Command;
+export interface CommandResultCase20 {
+  command: CommandResultCase20Command;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase21Effect;
+  effect: CommandResultCase20Effect;
   error?: CommandErrorInfo | undefined;
   ok: boolean;
   value?: boolean | undefined;
 }
-export type CommandResultCase22Command = "wait";
+export type CommandResultCase21Command = "wait";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase22Effect = "none" | "applied" | "unknown";
-export type CommandResultCase22Waited = "ms" | "target" | "text" | "url" | "load" | "download";
+export type CommandResultCase21Effect = "none" | "applied" | "unknown";
+export type CommandResultCase21Waited = "ms" | "target" | "text" | "url" | "load" | "download";
 /** Result of a wait command. */
-export interface CommandResultCase22 {
+export interface CommandResultCase21 {
   bytes?: number | undefined;
-  command: CommandResultCase22Command;
+  command: CommandResultCase21Command;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase22Effect;
+  effect: CommandResultCase21Effect;
   error?: CommandErrorInfo | undefined;
   /** The downloaded file, for download. */
   file?: string | undefined;
   ok: boolean;
-  waited?: CommandResultCase22Waited | undefined;
+  waited?: CommandResultCase21Waited | undefined;
 }
-export type CommandResultCase23Command = "screenshot";
+export type CommandResultCase22Command = "screenshot";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase23Effect = "none" | "applied" | "unknown";
-export type CommandResultCase23Format = "png" | "jpeg" | "webp";
+export type CommandResultCase22Effect = "none" | "applied" | "unknown";
+export type CommandResultCase22Format = "png" | "jpeg" | "webp";
 /** Result of a screenshot command. */
-export interface CommandResultCase23 {
-  command: CommandResultCase23Command;
+export interface CommandResultCase22 {
+  command: CommandResultCase22Command;
   data?: string | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase23Effect;
+  effect: CommandResultCase22Effect;
   error?: CommandErrorInfo | undefined;
-  format?: CommandResultCase23Format | undefined;
+  format?: CommandResultCase22Format | undefined;
   ok: boolean;
 }
-export type CommandResultCase24Command = "eval";
+export type CommandResultCase23Command = "eval";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase24Effect = "none" | "applied" | "unknown";
+export type CommandResultCase23Effect = "none" | "applied" | "unknown";
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase23OpenedList = Array<string>;
 /** Result of a eval command. */
-export interface CommandResultCase24 {
-  command: CommandResultCase24Command;
+export interface CommandResultCase23 {
+  command: CommandResultCase23Command;
   /** A dialog that the command opened. It blocks the tab until it closes. */
   dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase24Effect;
+  effect: CommandResultCase23Effect;
   error?: CommandErrorInfo | undefined;
-  /** The command started a navigation that was still loading when it returned. */
+  /** The page was still loading when the command returned. */
   loading?: boolean | undefined;
   ok: boolean;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase23OpenedList | undefined;
   /** The result of the script as JSON. */
   value?: unknown | undefined;
 }
-export type CommandResultCase25Command = "pdf";
+export type CommandResultCase24Command = "pdf";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase25Effect = "none" | "applied" | "unknown";
-export type CommandResultCase25Format = "pdf";
+export type CommandResultCase24Effect = "none" | "applied" | "unknown";
+export type CommandResultCase24Format = "pdf";
 /** Result of a pdf command. */
-export interface CommandResultCase25 {
-  command: CommandResultCase25Command;
+export interface CommandResultCase24 {
+  command: CommandResultCase24Command;
   data?: string | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase25Effect;
+  effect: CommandResultCase24Effect;
   error?: CommandErrorInfo | undefined;
-  format?: CommandResultCase25Format | undefined;
+  format?: CommandResultCase24Format | undefined;
   ok: boolean;
 }
-export type CommandResultCase26Command = "scroll";
+export type CommandResultCase25Command = "scroll";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase26Effect = "none" | "applied" | "unknown";
+export type CommandResultCase25Effect = "none" | "applied" | "unknown";
 /** Result of a scroll command. */
-export interface CommandResultCase26 {
-  command: CommandResultCase26Command;
+export interface CommandResultCase25 {
+  command: CommandResultCase25Command;
   /** What happened to the page: nothing, a change, or a possible change. */
-  effect: CommandResultCase26Effect;
+  effect: CommandResultCase25Effect;
   error?: CommandErrorInfo | undefined;
   moved?: boolean | undefined;
   ok: boolean;
   x?: number | undefined;
   y?: number | undefined;
 }
-export type CommandResultCase27Command = "find";
+export type CommandResultCase26Command = "find";
 /** What happened to the page: nothing, a change, or a possible change. */
-export type CommandResultCase27Effect = "none" | "applied" | "unknown";
-export interface CommandResultCase27MatchesItem {
+export type CommandResultCase26Effect = "none" | "applied" | "unknown";
+export interface CommandResultCase26MatchesItem {
   name: string;
   ref: string;
   role: string;
 }
-export type CommandResultCase27MatchesList = Array<CommandResultCase27MatchesItem>;
+export type CommandResultCase26MatchesList = Array<CommandResultCase26MatchesItem>;
 /** Result of a find command. */
+export interface CommandResultCase26 {
+  command: CommandResultCase26Command;
+  count?: number | undefined;
+  /** What happened to the page: nothing, a change, or a possible change. */
+  effect: CommandResultCase26Effect;
+  error?: CommandErrorInfo | undefined;
+  matches?: CommandResultCase26MatchesList | undefined;
+  ok: boolean;
+}
+export type CommandResultCase27Command = "tab";
+/** What happened to the page: nothing, a change, or a possible change. */
+export type CommandResultCase27Effect = "none" | "applied" | "unknown";
+export type CommandResultCase27TabsItem = RunCommandsResponsePage;
+export type CommandResultCase27TabsList = Array<RunCommandsResponsePage>;
+/** Result of a tab command. */
 export interface CommandResultCase27 {
   command: CommandResultCase27Command;
-  count?: number | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase27Effect;
   error?: CommandErrorInfo | undefined;
-  matches?: CommandResultCase27MatchesList | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   ok: boolean;
+  tab?: string | undefined;
+  tabs?: CommandResultCase27TabsList | undefined;
 }
-export type CommandResultCase28Command = "tab";
+export type CommandResultCase28Command = "dialog";
 /** What happened to the page: nothing, a change, or a possible change. */
 export type CommandResultCase28Effect = "none" | "applied" | "unknown";
-export type CommandResultCase28TabsItem = RunCommandsResponsePage;
-export type CommandResultCase28TabsList = Array<RunCommandsResponsePage>;
-/** Result of a tab command. */
+/** The ids of tabs that opened while the command ran. */
+export type CommandResultCase28OpenedList = Array<string>;
+/** Result of a dialog command. */
 export interface CommandResultCase28 {
   command: CommandResultCase28Command;
+  /** A dialog that the command opened. It blocks the tab until it closes. */
+  dialog?: CommandDialog | undefined;
   /** What happened to the page: nothing, a change, or a possible change. */
   effect: CommandResultCase28Effect;
   error?: CommandErrorInfo | undefined;
+  /** The page was still loading when the command returned. */
+  loading?: boolean | undefined;
   ok: boolean;
-  tab?: string | undefined;
-  tabs?: CommandResultCase28TabsList | undefined;
+  /** The ids of tabs that opened while the command ran. */
+  opened?: CommandResultCase28OpenedList | undefined;
 }
 /** Result of one command, with the fields of that command. */
 export type CommandResult =
@@ -686,33 +832,70 @@ export type CommandResult =
   | CommandResultCase27
   | CommandResultCase28;
 export type RunCommandsResponseResultsList = Array<CommandResult>;
+export type RunCommandsResponseState = "running" | "completed" | "failed" | "cancelled" | "timeout";
 export interface RunCommandsResponse {
   bodyExpired?: boolean | undefined;
   /** A dialog that is open on the tab and blocks it until it closes. */
   dialog?: CommandDialog | undefined;
+  /** What happened to the page: nothing, a change, or a possible change. */
+  effect: RunCommandsResponseEffect;
   /** Set when the execution ran with after. Whether another execution, a quick action, or a browser restart changed the session since then. Input from CDP clients or the live view does not count. */
   epochChanged?: boolean | undefined;
-  execution: RunCommandsResponseExecution;
-  /** The id of this execution, the same as execution.id. Use it to get or cancel the execution. */
+  /** Tabs with keys or a mouse button still held down. Left out when nothing is held. */
+  held?: RunCommandsResponseHeldList | undefined;
+  /** The id of this execution. Use it to get or cancel the execution. */
   id: string;
   /** Send it as after in the next request. */
   next?: string | undefined;
   observe?: RunCommandsResponseObserve | undefined;
   /** The tab the execution used. */
   page: RunCommandsResponsePage | null;
+  /** Commands started. */
+  ran: number;
+  /** This is the stored result of an earlier request. Nothing ran again. */
+  replayed: boolean;
   results: RunCommandsResponseResultsList;
+  state: RunCommandsResponseState;
+  /** Why the execution stopped early, such as a cancel, a timeout, or a browser restart. A failed command has its error in results instead. */
+  stopped?: CommandErrorInfo | undefined;
 }
 /** PEM-encoded root CA certificates to trust in this session. THIS IS CURRENTLY AN EXPERIMENTAL FEATURE. */
 export type CreateSessionRequestCaCertificatesList = Array<string>;
+export type CreateSessionRequestCredentialsBindingsItemCase1AllowedOriginsList = Array<string>;
+export interface CreateSessionRequestCredentialsBindingsItemCase1 {
+  allowedOrigins: CreateSessionRequestCredentialsBindingsItemCase1AllowedOriginsList;
+  reference: string;
+}
+export type CreateSessionRequestCredentialsBindingsItem =
+  | string
+  | CreateSessionRequestCredentialsBindingsItemCase1;
+/** At most 100 bindings. KV references may use { reference, allowedOrigins }, with at most 20 canonical HTTP(S) origins; omitted or empty origins match nothing. */
+export type CreateSessionRequestCredentialsBindingsList =
+  Array<CreateSessionRequestCredentialsBindingsItem>;
+/** Bind the session to these credentials (ids of Secrets of kind `credential` in the session's project). A bound session only ever fills these, never others by namespace and origin. Implies `lookup: "explicit"`. Change them later with /v1/sessions/{id}/credentials. Errors: 400 `credential_not_bindable` (param `credentials.credentialIds`), 400 `too_many_credentials`, 409 `session_id_taken` (a custom sessionId that already has a session or credential bindings). */
+export type CreateSessionRequestCredentialsCredentialIdsList = Array<string>;
+/** `implicit` (default without credentialIds or bindings): fill credentials stored for the session's namespace and the page origin. `explicit` (default when credentialIds or bindings is supplied): fill only direct credentials and credentials in bound Vaults, including future members; with none bound, nothing is filled until some are attached. */
+export type CreateSessionRequestCredentialsLookup = "implicit" | "explicit";
 /** Optional allowlist of credential origins to inject into this session. */
 export type CreateSessionRequestCredentialsOriginsList = Array<string>;
-/** Configuration for session credentials */
+/** Configuration for session credentials. Set enabled to false to disable credentials, including those inherited from a profile. Credentials are opt-in at creation; only credentials-enabled sessions can have credentials attached later (otherwise 409 `credentials_not_enabled`). */
 export interface CreateSessionRequestCredentials {
   autoSubmit?: boolean | undefined;
+  /** At most 100 bindings. KV references may use { reference, allowedOrigins }, with at most 20 canonical HTTP(S) origins; omitted or empty origins match nothing. */
+  bindings?: CreateSessionRequestCredentialsBindingsList | undefined;
   blurFields?: boolean | undefined;
+  /** Bind the session to these credentials (ids of Secrets of kind `credential` in the session's project). A bound session only ever fills these, never others by namespace and origin. Implies `lookup: "explicit"`. Change them later with /v1/sessions/{id}/credentials. Errors: 400 `credential_not_bindable` (param `credentials.credentialIds`), 400 `too_many_credentials`, 409 `session_id_taken` (a custom sessionId that already has a session or credential bindings). */
+  credentialIds?: CreateSessionRequestCredentialsCredentialIdsList | undefined;
   /** Credential provider to use for runtime credential resolution. Defaults to "steel". */
   credentialProvider?: string | undefined;
+  /** Allow any script on the page, including third-party scripts, to request credential form operations through DOM events. Disabled by default. */
+  domTrigger?: boolean | undefined;
+  /** Set to false to disable credential injection for this session. */
+  enabled?: boolean | undefined;
+  /** Deprecated and ignored: credentials only ever match their own origin or their additionalOrigins. */
   exactOrigin?: boolean | undefined;
+  /** `implicit` (default without credentialIds or bindings): fill credentials stored for the session's namespace and the page origin. `explicit` (default when credentialIds or bindings is supplied): fill only direct credentials and credentials in bound Vaults, including future members; with none bound, nothing is filled until some are attached. */
+  lookup?: CreateSessionRequestCredentialsLookup | (string & {}) | undefined;
   /** Optional allowlist of credential origins to inject into this session. */
   origins?: CreateSessionRequestCredentialsOriginsList | undefined;
 }
@@ -2248,13 +2431,13 @@ export type CreateSessionRequestUseProxyCase0Case1 =
 export type CreateSessionRequestUseProxyCase0 = boolean | CreateSessionRequestUseProxyCase0Case1;
 export type CreateSessionRequestUseProxy = CreateSessionRequestUseProxyCase0 | unknown;
 export interface CreateSessionRequest {
-  /** Block ads in the browser session. Default is false. */
+  /** Block ads in the browser session. Default is true. */
   blockAds?: boolean | undefined;
   /** PEM-encoded root CA certificates to trust in this session. THIS IS CURRENTLY AN EXPERIMENTAL FEATURE. */
   caCertificates?: CreateSessionRequestCaCertificatesList | undefined;
   /** Number of sessions to create concurrently (check your plan limit) */
   concurrency?: number | undefined;
-  /** Configuration for session credentials */
+  /** Configuration for session credentials. Set enabled to false to disable credentials, including those inherited from a profile. Credentials are opt-in at creation; only credentials-enabled sessions can have credentials attached later (otherwise 409 `credentials_not_enabled`). */
   credentials?: CreateSessionRequestCredentials | undefined;
   /** Configuration for the debug URL and session viewer. Controls interaction capabilities, cursor visibility, and other debug-related settings. */
   debugConfig?: CreateSessionRequestDebugConfig | undefined;
@@ -2286,7 +2469,7 @@ export interface CreateSessionRequest {
   profileId?: string | undefined;
   /** The project to create the session in. When provided, the session namespace is resolved from the project. */
   projectId?: string | undefined;
-  /** Custom proxy URL for the browser session. Overrides useProxy, disabling Steel-provided proxies in favor of your specified proxy. Format: http(s)://username:password@hostname:port */
+  /** Custom proxy URL for the browser session. Overrides useProxy, disabling Steel-provided proxies in favor of your specified proxy. Format: http(s)://username:password@hostname:port or socks5://username:password@hostname:port */
   proxyUrl?: string | undefined;
   /** Record the headful session for playback after it ends. Default is true. Disabling recording does not affect live WHEP viewing. */
   recording?: boolean | undefined;
@@ -2294,13 +2477,13 @@ export interface CreateSessionRequest {
   region?: unknown | undefined;
   /** Session context data to be used in the created session. Sessions will start with an empty context by default. */
   sessionContext?: CreateSessionRequestSessionContext | undefined;
-  /** Optional custom UUID for the session */
+  /** Deprecated. A session ID of your choice. Steel will reject it in a future release, because the ID that Steel generates records where the session runs. Omit it, use the `id` in the response, and put your own ID in `metadata`. */
   sessionId?: string | undefined;
   /** Enable automatic captcha solving. Default is false. */
   solveCaptcha?: boolean | undefined;
   /** Stealth configuration for the session */
   stealthConfig?: CreateSessionRequestStealthConfig | undefined;
-  /** Session timeout duration in milliseconds. Default is 300000 (5 minutes). */
+  /** Session timeout duration in milliseconds. Default is 300000 (5 minutes). On Launch and Scale, a value over the plan's maximum runs at the maximum; the response's `timeout` shows the value used. */
   timeout?: number | undefined;
   useProxy?: CreateSessionRequestUseProxy | undefined;
   /** Custom user agent string for the browser session */
@@ -2433,6 +2616,17 @@ export interface SessionResponse {
   userAgent?: string | undefined;
   /** URL for the session's WebSocket connection */
   websocketUrl: string | Redacted.Redacted<string>;
+}
+export interface DetachSessionCredentialRequest {
+  /** The session id */
+  id: string;
+  /** The credential id to detach */
+  credentialId: string;
+}
+export interface DetachSessionVaultBindingRequest {
+  id: string;
+  /** Vault or item reference to detach */
+  reference: string;
 }
 export type ComputerActionRequestCase0Action = "move_mouse";
 /** X and Y coordinates [x, y] */
@@ -2842,6 +3036,9 @@ export interface SessionSignalCatalogResponse {
   semantics: string;
   signals: SessionSignalCatalogResponseSignalsList;
 }
+export interface ListSessionCredentialsRequest {
+  id: string;
+}
 export type ListSessionsRequestStatus = "live" | "released" | "failed";
 export type ListSessionsRequestReleaseReason =
   | "user_requested"
@@ -3023,6 +3220,26 @@ export interface ReleaseSessionResponse {
   /** Indicates if the session was successfully released */
   success: boolean;
 }
+export type ReplaceSessionCredentialsRequestBindingsItemCase1AllowedOriginsList = Array<string>;
+export interface ReplaceSessionCredentialsRequestBindingsItemCase1 {
+  allowedOrigins: ReplaceSessionCredentialsRequestBindingsItemCase1AllowedOriginsList;
+  reference: string;
+}
+export type ReplaceSessionCredentialsRequestBindingsItem =
+  | string
+  | ReplaceSessionCredentialsRequestBindingsItemCase1;
+/** At most 100 bindings; KV bindings may specify allowedOrigins. */
+export type ReplaceSessionCredentialsRequestBindingsList =
+  Array<ReplaceSessionCredentialsRequestBindingsItem>;
+/** Ids of credentials (Secrets of kind `credential`) in the session's project. Binding makes the session's lookup `explicit` for good. */
+export type ReplaceSessionCredentialsRequestCredentialIdsList = Array<string>;
+export interface ReplaceSessionCredentialsRequest {
+  id: string;
+  /** At most 100 bindings; KV bindings may specify allowedOrigins. */
+  bindings?: ReplaceSessionCredentialsRequestBindingsList | undefined;
+  /** Ids of credentials (Secrets of kind `credential`) in the session's project. Binding makes the session's lookup `explicit` for good. */
+  credentialIds?: ReplaceSessionCredentialsRequestCredentialIdsList | undefined;
+}
 export type ReplaceSessionMetadataRequestMetadataValue = string | number | boolean;
 /** Customer-defined flat metadata: up to 50 keys and 8192 UTF-8 JSON bytes. Keys must start with a letter, use only letters, digits, underscores, dots or hyphens, and be at most 64 characters; steel_ is reserved. Values are strings (up to 1024 characters, valid Unicode without NUL), finite numbers or booleans. Numbers and booleans are stored as strings, so 3 and "3" are the same value. */
 export type ReplaceSessionMetadataRequestMetadataMap = {
@@ -3081,6 +3298,8 @@ export interface CommandCase4 {
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
 }
+/** left by default. */
+export type CommandCase5Button = "left" | "right" | "middle";
 export type CommandCase5Command = "click";
 /** Fails the command when the element does not have this role or name. */
 export interface CommandExpectation {
@@ -3111,6 +3330,10 @@ export type CommandFrameCase1List = Array<CommandTarget>;
 export type CommandFrame = CommandTarget | CommandFrameCase1List;
 /** Clicks the element with the mouse. */
 export interface CommandCase5 {
+  /** left by default. */
+  button?: CommandCase5Button | (string & {}) | undefined;
+  /** 2 makes a double click and 3 a triple click. 1 by default. */
+  clicks?: number | undefined;
   command: CommandCase5Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
@@ -3118,8 +3341,8 @@ export interface CommandCase5 {
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase6Command = "dblclick";
-/** Double-clicks the element with the mouse. */
+export type CommandCase6Command = "hover";
+/** Moves the mouse onto the element. */
 export interface CommandCase6 {
   command: CommandCase6Command;
   expect?: CommandExpectation | undefined;
@@ -3128,8 +3351,8 @@ export interface CommandCase6 {
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase7Command = "hover";
-/** Moves the mouse onto the element. */
+export type CommandCase7Command = "focus";
+/** Focuses the element. */
 export interface CommandCase7 {
   command: CommandCase7Command;
   expect?: CommandExpectation | undefined;
@@ -3138,22 +3361,12 @@ export interface CommandCase7 {
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase8Command = "focus";
-/** Focuses the element. */
-export interface CommandCase8 {
-  command: CommandCase8Command;
-  expect?: CommandExpectation | undefined;
-  frame?: CommandFrame | undefined;
-  /** A tab id such as t2. A command on a ref does not need it. */
-  tab?: string | undefined;
-  target: CommandTarget;
-}
-export type CommandCase9Command = "type";
+export type CommandCase8Command = "type";
 /** Types text one key press at a time, after the current content. */
-export interface CommandCase9 {
+export interface CommandCase8 {
   /** Replace the current content. */
   clear?: boolean | undefined;
-  command: CommandCase9Command;
+  command: CommandCase8Command;
   /** Milliseconds to wait between key presses. */
   delay?: number | undefined;
   expect?: CommandExpectation | undefined;
@@ -3163,10 +3376,10 @@ export interface CommandCase9 {
   target: CommandTarget;
   text: string;
 }
-export type CommandCase10Command = "fill";
+export type CommandCase9Command = "fill";
 /** Replaces the content of a field in one step, without key presses. */
-export interface CommandCase10 {
-  command: CommandCase10Command;
+export interface CommandCase9 {
+  command: CommandCase9Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
@@ -3174,10 +3387,10 @@ export interface CommandCase10 {
   target: CommandTarget;
   value: string;
 }
-export type CommandCase11Command = "press";
-/** Presses a key, such as Enter, or a combination such as Control+a. */
-export interface CommandCase11 {
-  command: CommandCase11Command;
+export type CommandCase10Command = "press";
+/** Presses a key, such as Enter, or a combination such as Control+a. On a tab with an open dialog, Enter without a target accepts the dialog and Escape dismisses it. */
+export interface CommandCase10 {
+  command: CommandCase10Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   key: string;
@@ -3185,31 +3398,33 @@ export interface CommandCase11 {
   tab?: string | undefined;
   target?: CommandTarget | undefined;
 }
-export type CommandCase12Command = "keydown";
-/** Holds a key down until its keyup. */
+export type CommandCase11Action = "down" | "up";
+export type CommandCase11Command = "keyboard";
+/** Holds a key down, or lets go of a key held down. */
+export interface CommandCase11 {
+  action: CommandCase11Action | (string & {});
+  command: CommandCase11Command;
+  /** One key, not a combination such as Control+a. */
+  key: string;
+  /** A tab id such as t2. A command on a ref does not need it. */
+  tab?: string | undefined;
+}
+export type CommandCase12Command = "release";
+/** Lets go of every key and mouse button held on the tab. */
 export interface CommandCase12 {
   command: CommandCase12Command;
-  key: string;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
 }
-export type CommandCase13Command = "keyup";
-/** Lets go of a key held with keydown. */
-export interface CommandCase13 {
-  command: CommandCase13Command;
-  key: string;
-  /** A tab id such as t2. A command on a ref does not need it. */
-  tab?: string | undefined;
-}
-export type CommandCase14Action = "move" | "down" | "up" | "click" | "wheel";
-export type CommandCase14Button = "left" | "right" | "middle";
-export type CommandCase14Command = "mouse";
+export type CommandCase13Action = "move" | "down" | "up" | "click" | "wheel";
+export type CommandCase13Button = "left" | "right" | "middle";
+export type CommandCase13Command = "mouse";
 /** Mouse input at a point in CSS pixels of the visible part of the page, for pages without useful elements such as a canvas. */
-export interface CommandCase14 {
-  action: CommandCase14Action | (string & {});
-  button?: CommandCase14Button | (string & {}) | undefined;
+export interface CommandCase13 {
+  action: CommandCase13Action | (string & {});
+  button?: CommandCase13Button | (string & {}) | undefined;
   clicks?: number | undefined;
-  command: CommandCase14Command;
+  command: CommandCase13Command;
   deltaX?: number | undefined;
   deltaY?: number | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
@@ -3217,10 +3432,21 @@ export interface CommandCase14 {
   x?: number | undefined;
   y?: number | undefined;
 }
-export type CommandCase15Command = "select";
-export type CommandCase15ValuesCase1List = Array<string>;
-export type CommandCase15Values = string | CommandCase15ValuesCase1List;
+export type CommandCase14Command = "select";
+export type CommandCase14ValuesCase1List = Array<string>;
+export type CommandCase14Values = string | CommandCase14ValuesCase1List;
 /** Selects options. Matches by value, then by label. */
+export interface CommandCase14 {
+  command: CommandCase14Command;
+  expect?: CommandExpectation | undefined;
+  frame?: CommandFrame | undefined;
+  /** A tab id such as t2. A command on a ref does not need it. */
+  tab?: string | undefined;
+  target: CommandTarget;
+  values: CommandCase14Values;
+}
+export type CommandCase15Command = "check";
+/** Checks a checkbox, radio button, switch, or toggle button. */
 export interface CommandCase15 {
   command: CommandCase15Command;
   expect?: CommandExpectation | undefined;
@@ -3228,53 +3454,42 @@ export interface CommandCase15 {
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target: CommandTarget;
-  values: CommandCase15Values;
 }
-export type CommandCase16Command = "check";
-/** Checks a checkbox, radio button, switch, or toggle button. */
+export type CommandCase16Command = "upload";
+export type CommandCase16FilesCase1List = Array<string>;
+export type CommandCase16Files = string | CommandCase16FilesCase1List;
+/** Sets the files of a file input. Upload the files to the session first. */
 export interface CommandCase16 {
   command: CommandCase16Command;
   expect?: CommandExpectation | undefined;
+  files: CommandCase16Files;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase17Command = "upload";
-export type CommandCase17FilesCase1List = Array<string>;
-export type CommandCase17Files = string | CommandCase17FilesCase1List;
-/** Sets the files of a file input. Upload the files to the session first. */
+export type CommandCase17Command = "drag";
+/** Drags one element onto another with the mouse. */
 export interface CommandCase17 {
   command: CommandCase17Command;
-  expect?: CommandExpectation | undefined;
-  files: CommandCase17Files;
-  frame?: CommandFrame | undefined;
-  /** A tab id such as t2. A command on a ref does not need it. */
-  tab?: string | undefined;
-  target: CommandTarget;
-}
-export type CommandCase18Command = "drag";
-/** Drags one element onto another with the mouse. */
-export interface CommandCase18 {
-  command: CommandCase18Command;
   frame?: CommandFrame | undefined;
   source: CommandTarget;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase19Command = "uncheck";
+export type CommandCase18Command = "uncheck";
 /** Unchecks a checkbox, switch, or toggle button. */
-export interface CommandCase19 {
-  command: CommandCase19Command;
+export interface CommandCase18 {
+  command: CommandCase18Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target: CommandTarget;
 }
-export type CommandCase20Command = "get";
-export type CommandCase20What =
+export type CommandCase19Command = "get";
+export type CommandCase19What =
   | "text"
   | "html"
   | "markdown"
@@ -3286,42 +3501,42 @@ export type CommandCase20What =
   | "box"
   | "locator";
 /** Reads something from the page or an element. */
-export interface CommandCase20 {
+export interface CommandCase19 {
   /** The attribute to read with attr. */
   attribute?: string | undefined;
-  command: CommandCase20Command;
+  command: CommandCase19Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target?: CommandTarget | undefined;
-  what: CommandCase20What | (string & {});
+  what: CommandCase19What | (string & {});
 }
-export type CommandCase21Command = "is";
-export type CommandCase21What = "visible" | "enabled" | "checked";
+export type CommandCase20Command = "is";
+export type CommandCase20What = "visible" | "enabled" | "checked";
 /** Checks the state of an element. */
-export interface CommandCase21 {
-  command: CommandCase21Command;
+export interface CommandCase20 {
+  command: CommandCase20Command;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target: CommandTarget;
-  what: CommandCase21What | (string & {});
+  what: CommandCase20What | (string & {});
 }
-export type CommandCase22Command = "wait";
-export type CommandCase22Load = "load" | "domcontentloaded" | "networkidle";
-export type CommandCase22State = "visible" | "hidden" | "attached" | "detached";
+export type CommandCase21Command = "wait";
+export type CommandCase21Load = "load" | "domcontentloaded" | "networkidle";
+export type CommandCase21State = "visible" | "hidden" | "attached" | "detached";
 /** Waits for one of an element, text, a URL, a load state, a download, or a fixed time. */
-export interface CommandCase22 {
-  command: CommandCase22Command;
+export interface CommandCase21 {
+  command: CommandCase21Command;
   /** Waits for the next download to finish. */
   download?: boolean | undefined;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
-  load?: CommandCase22Load | (string & {}) | undefined;
+  load?: CommandCase21Load | (string & {}) | undefined;
   ms?: number | undefined;
-  state?: CommandCase22State | (string & {}) | undefined;
+  state?: CommandCase21State | (string & {}) | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target?: CommandTarget | undefined;
@@ -3331,13 +3546,13 @@ export interface CommandCase22 {
   /** A URL pattern. * matches any characters. */
   url?: string | undefined;
 }
-export type CommandCase23Command = "screenshot";
-export type CommandCase23Format = "png" | "jpeg" | "webp";
+export type CommandCase22Command = "screenshot";
+export type CommandCase22Format = "png" | "jpeg" | "webp";
 /** Captures the page or an element as base64 data. */
-export interface CommandCase23 {
-  command: CommandCase23Command;
+export interface CommandCase22 {
+  command: CommandCase22Command;
   expect?: CommandExpectation | undefined;
-  format?: CommandCase23Format | (string & {}) | undefined;
+  format?: CommandCase22Format | (string & {}) | undefined;
   frame?: CommandFrame | undefined;
   fullPage?: boolean | undefined;
   quality?: number | undefined;
@@ -3345,58 +3560,69 @@ export interface CommandCase23 {
   tab?: string | undefined;
   target?: CommandTarget | undefined;
 }
-export type CommandCase24Command = "eval";
+export type CommandCase23Command = "eval";
 /** Runs JavaScript in the page and returns the result as JSON. */
-export interface CommandCase24 {
-  command: CommandCase24Command;
+export interface CommandCase23 {
+  command: CommandCase23Command;
   script: string;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   /** Milliseconds. 10000 by default. */
   timeout?: number | undefined;
 }
-export type CommandCase25Command = "pdf";
+export type CommandCase24Command = "pdf";
 /** Prints the page to a PDF as base64 data. */
-export interface CommandCase25 {
-  command: CommandCase25Command;
+export interface CommandCase24 {
+  command: CommandCase24Command;
   landscape?: boolean | undefined;
   printBackground?: boolean | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
 }
-export type CommandCase26Command = "scroll";
-export type CommandCase26Direction = "up" | "down" | "left" | "right";
+export type CommandCase25Command = "scroll";
+export type CommandCase25Direction = "up" | "down" | "left" | "right";
 /** Scrolls the page, or an element when target is set. */
-export interface CommandCase26 {
+export interface CommandCase25 {
   /** Pixels. 300 by default. */
   amount?: number | undefined;
-  command: CommandCase26Command;
-  direction?: CommandCase26Direction | (string & {}) | undefined;
+  command: CommandCase25Command;
+  direction?: CommandCase25Direction | (string & {}) | undefined;
   expect?: CommandExpectation | undefined;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   target?: CommandTarget | undefined;
 }
-export type CommandCase27Command = "find";
+export type CommandCase26Command = "find";
 /** Finds elements and returns refs for up to 50 matches. With nth, it returns that one match. */
-export interface CommandCase27 {
-  command: CommandCase27Command;
+export interface CommandCase26 {
+  command: CommandCase26Command;
   frame?: CommandFrame | undefined;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   /** A CSS selector or a locator, not a ref. */
   target: CommandTarget;
 }
-export type CommandCase28Action = "list" | "new" | "close";
-export type CommandCase28Command = "tab";
+export type CommandCase27Action = "list" | "new" | "close";
+export type CommandCase27Command = "tab";
 /** Lists, opens, or closes tabs. The last tab cannot be closed. */
-export interface CommandCase28 {
-  action: CommandCase28Action | (string & {});
-  command: CommandCase28Command;
+export interface CommandCase27 {
+  action: CommandCase27Action | (string & {});
+  command: CommandCase27Command;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;
   url?: string | undefined;
+}
+export type CommandCase28Action = "accept" | "dismiss";
+export type CommandCase28Command = "dialog";
+/** Answers an open dialog. It never sends a key to the page, and fails if the dialog is not open. */
+export interface CommandCase28 {
+  action: CommandCase28Action | (string & {});
+  command: CommandCase28Command;
+  /** The id of the dialog, such as d-3, from dialog in a response. */
+  dialog: string;
+  /** The answer to a prompt. Works only with accept. A prompt gets its default text without it. */
+  text?: string | undefined;
 }
 export type Command =
   | CommandCase0
@@ -3431,7 +3657,7 @@ export type Command =
 export type RunCommandsRequestCommandsCase1List = Array<Command>;
 /** One command, or an array of up to 50. They run in order and stop at the first failure. Commands that already ran are not undone. */
 export type RunCommandsRequestCommands = Command | RunCommandsRequestCommandsCase1List;
-export type RunCommandsRequestObserveMode = "none" | "snapshot" | "diff";
+export type RunCommandsRequestObserveMode = "snapshot" | "diff";
 /** Returns a snapshot, or a diff against the last one, after the commands. */
 export interface RunCommandsRequestObserve {
   /** A snapshot id to diff against. */
@@ -3472,11 +3698,15 @@ export interface ErrorResponseContextItem {
   params: unknown;
 }
 export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+export type ErrorResponseDetailsMap = { [key: string]: unknown | undefined };
 /** An error response from the API */
 export interface ErrorResponse {
   /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
   code?: string | undefined;
   context?: ErrorResponseContextList | undefined;
+  /** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+  details?: ErrorResponseDetailsMap | undefined;
   error?: string | undefined;
   linkToDocs?: string | undefined;
   message: string;
@@ -3486,6 +3716,8 @@ export interface ErrorResponse {
   retryAfterSeconds?: number | undefined;
   /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
   retryable?: boolean | undefined;
+  /** Where a person turns on the refused feature, e.g. verifying the account. Pass it to your user. */
+  unlockUrl?: string | undefined;
 }
 export interface RunCommandsErrorResponseError {
   /** Error code, such as session_ended or queue_full. */
@@ -3496,6 +3728,24 @@ export interface RunCommandsErrorResponse {
   error: RunCommandsErrorResponseError;
   [key: string]: unknown;
 }
+export type AttachSessionCredentialsError = BadRequest | NotFound | Conflict | SteelOpError;
+/** Attach session credentials Attach credentialIds and/or Vault or item references in bindings. Each array accepts at most 100 entries; at most 100 distinct direct items and whole Vaults may be bound. Only credentials can be autofilled. Lookup becomes explicit and remains so. Errors: 400 `invalid_reference`, `reference_not_found`, `reference_ambiguous`, `reference_not_supported`, `credential_not_bindable`, or `too_many_credentials`; 409 `credentials_not_enabled` or `session_not_running`; 503 `credential_bindings_busy` (retryable). */
+export const attachSessionCredentials: API.OperationMethod<
+  AttachSessionCredentialsRequest,
+  SessionCredentialsResponse,
+  AttachSessionCredentialsError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(497, __c31, 1) as any as S.Schema<AttachSessionCredentialsRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<SessionCredentialsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachSessionCredentials",
+}));
+
 export type CancelCommandExecutionError =
   | Forbidden
   | NotFound
@@ -3510,8 +3760,8 @@ export const cancelCommandExecution: API.OperationMethod<
   CancelCommandExecutionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CancelCommandExecutionRequest>,
-  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<CancelCommandExecutionRequest>,
+  output: __S(567, __c35, 7) as any as S.Schema<RunCommandsResponse>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3535,14 +3785,50 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(402, __c25, 2) as any as S.Schema<CreateSessionRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
+  input: __S(51, __c3, 3) as any as S.Schema<CreateSessionRequest>,
+  output: __S(86, __c5, 6) as any as S.Schema<SessionResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, NotFound, ProfileNotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSession",
+}));
+
+export type DetachSessionCredentialError = BadRequest | NotFound | Conflict | SteelOpError;
+/** Detach a session credential Unbind a credential from a running session. The lookup stays `explicit`: with nothing bound, the session fills nothing. Errors: 404 `credential_not_attached`, 409 `session_not_running`, 503 `credential_bindings_busy` (retryable). */
+export const detachSessionCredential: API.OperationMethod<
+  DetachSessionCredentialRequest,
+  SessionCredentialsResponse,
+  DetachSessionCredentialError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<DetachSessionCredentialRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<SessionCredentialsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachSessionCredential",
+}));
+
+export type DetachSessionVaultBindingError = BadRequest | NotFound | Conflict | SteelOpError;
+/** Detach a session Vault binding Pass reference as a query parameter to detach one Vault or item binding, including steel://connections/<connection>/vaults/<vault>[/<item>]. Does not detach items covered by a whole Vault binding. Errors: 400 `invalid_reference` or `reference_ambiguous`; 404 `credential_not_attached`; 409 `session_not_running`; 503 `credential_bindings_busy` (retryable). */
+export const detachSessionVaultBinding: API.OperationMethod<
+  DetachSessionVaultBindingRequest,
+  SessionCredentialsResponse,
+  DetachSessionVaultBindingError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<DetachSessionVaultBindingRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<SessionCredentialsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachSessionVaultBinding",
 }));
 
 export type ExecuteComputerActionError = BadRequest | SteelOpError;
@@ -3553,8 +3839,8 @@ export const executeComputerAction: API.OperationMethod<
   ExecuteComputerActionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ExecuteComputerActionRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<ComputerActionResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ExecuteComputerActionRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<ComputerActionResponse>,
   errors: [BadRequest],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3577,8 +3863,8 @@ export const getCommandExecution: API.OperationMethod<
   GetCommandExecutionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetCommandExecutionRequest>,
-  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetCommandExecutionRequest>,
+  output: __S(567, __c35, 7) as any as S.Schema<RunCommandsResponse>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3595,8 +3881,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(86, __c5, 6) as any as S.Schema<SessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3613,8 +3899,8 @@ export const getSessionAgentLogs: API.OperationMethod<
   GetSessionAgentLogsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetSessionAgentLogsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentLogsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetSessionAgentLogsRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetSessionAgentLogsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3631,8 +3917,8 @@ export const getSessionAgentTraces: API.OperationMethod<
   GetSessionAgentTracesError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetSessionAgentTracesRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentTracesResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetSessionAgentTracesRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetSessionAgentTracesResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3649,8 +3935,8 @@ export const getSessionContext: API.OperationMethod<
   GetSessionContextError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSessionContextRequest>,
-  output: __S(477, __c29, 13) as any as S.Schema<SessionContextResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetSessionContextRequest>,
+  output: __S(109, __c6, 13) as any as S.Schema<SessionContextResponse>,
   errors: [NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3667,8 +3953,8 @@ export const getSessionCost: API.OperationMethod<
   GetSessionCostError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSessionCostRequest>,
-  output: __S(165, __c10, 5) as any as S.Schema<SessionCostResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetSessionCostRequest>,
+  output: __S(261, __c16, 5) as any as S.Schema<SessionCostResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3685,8 +3971,8 @@ export const getSessionEvents: API.OperationMethod<
   GetSessionEventsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetSessionEventsRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<GetSessionEventsResponse2>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetSessionEventsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<GetSessionEventsResponse2>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3703,8 +3989,8 @@ export const getSessionHlsPlaylist: API.OperationMethod<
   GetSessionHlsPlaylistError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetSessionHlsPlaylistResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetSessionHlsPlaylistResponse>,
   errors: [NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3721,8 +4007,8 @@ export const getSessionLiveDetails: API.OperationMethod<
   GetSessionLiveDetailsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetSessionLiveDetailsRequest>,
-  output: __S(211, __c13, 3) as any as S.Schema<SessionLiveDetailsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetSessionLiveDetailsRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<SessionLiveDetailsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3739,8 +4025,8 @@ export const getSessionLogs: API.OperationMethod<
   GetSessionLogsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetSessionLogsRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<GetSessionLogsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetSessionLogsRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<GetSessionLogsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3757,14 +4043,32 @@ export const getSessionSignalCatalog: API.OperationMethod<
   GetSessionSignalCatalogError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetSessionSignalCatalogRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<SessionSignalCatalogResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetSessionSignalCatalogRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<SessionSignalCatalogResponse>,
   errors: [],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSessionSignalCatalog",
+}));
+
+export type ListSessionCredentialsError = BadRequest | NotFound | Conflict | SteelOpError;
+/** List session credentials The session's credential lookup and the live credentials bound to it (no values). Subject to session organization and project access. */
+export const listSessionCredentials: API.OperationMethod<
+  ListSessionCredentialsRequest,
+  SessionCredentialsResponse,
+  ListSessionCredentialsError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<ListSessionCredentialsRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<SessionCredentialsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionCredentials",
 }));
 
 export type ListSessionsError = SteelOpError;
@@ -3777,8 +4081,8 @@ export const listSessions: API.PaginatedOperationMethod<
   SessionsResponseSessionsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c16, 0) as any as S.Schema<ListSessionsRequest>,
-    output: __S(258, __c16, 2) as any as S.Schema<SessionsResponse>,
+    input: __S(368, __c23, 0) as any as S.Schema<ListSessionsRequest>,
+    output: __S(370, __c23, 2) as any as S.Schema<SessionsResponse>,
     errors: [],
     serviceErrors: SteelServiceErrors,
     protocol: SteelProtocol,
@@ -3804,7 +4108,7 @@ export const releaseAllSessions: API.OperationMethod<
   ReleaseAllSessionsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ReleaseAllSessionsRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<ReleaseAllSessionsRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionsResponse>,
   errors: [BadRequest],
   serviceErrors: SteelServiceErrors,
@@ -3822,7 +4126,7 @@ export const releaseSession: API.OperationMethod<
   ReleaseSessionError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ReleaseSessionRequest>,
+  input: __S(400, __c25, 0) as any as S.Schema<ReleaseSessionRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
@@ -3830,6 +4134,24 @@ export const releaseSession: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReleaseSession",
+}));
+
+export type ReplaceSessionCredentialsError = BadRequest | NotFound | Conflict | SteelOpError;
+/** Replace session credentials Replace all direct item and Vault bindings, including provider references steel://connections/<connection>/vaults/<vault>[/<item>]. Supply credentialIds and/or bindings; empty arrays detach all. At most 100 distinct bindings may be stored. Only credentials can be autofilled. Lookup becomes explicit and remains so. */
+export const replaceSessionCredentials: API.OperationMethod<
+  ReplaceSessionCredentialsRequest,
+  SessionCredentialsResponse,
+  ReplaceSessionCredentialsError,
+  SteelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(417, __c26, 1) as any as S.Schema<ReplaceSessionCredentialsRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<SessionCredentialsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
+  protocol: SteelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSessionCredentials",
 }));
 
 export type ReplaceSessionMetadataError = BadRequest | NotFound | SteelOpError;
@@ -3840,8 +4162,8 @@ export const replaceSessionMetadata: API.OperationMethod<
   ReplaceSessionMetadataError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(305, __c19, 1) as any as S.Schema<ReplaceSessionMetadataRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
+  input: __S(433, __c27, 1) as any as S.Schema<ReplaceSessionMetadataRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<SessionMetadataResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3865,8 +4187,8 @@ export const runCommands: API.OperationMethod<
   RunCommandsError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(337, __c21, 1) as any as S.Schema<RunCommandsRequest>,
-  output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
+  input: __S(465, __c29, 1) as any as S.Schema<RunCommandsRequest>,
+  output: __S(567, __c35, 7) as any as S.Schema<RunCommandsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3883,8 +4205,8 @@ export const updateSessionMetadata: API.OperationMethod<
   UpdateSessionMetadataError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c22, 1) as any as S.Schema<UpdateSessionMetadataRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
+  input: __S(481, __c30, 1) as any as S.Schema<UpdateSessionMetadataRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<SessionMetadataResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -3897,6 +4219,8 @@ export const updateSessionMetadata: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           keyword: S.String,
@@ -3904,19 +4228,21 @@ function __c0(j: number): any {
           params: S.Unknown,
         }),
       ).annotate({ identifier: "ErrorResponseContextItem" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
     case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          context: S.optional(__S(1, __c0, 1)),
+          context: S.optional(__S(2, __c0, 2)),
+          details: S.optional(__S(0, __c0, 0)),
           error: S.optional(S.String),
           linkToDocs: S.optional(S.String),
           message: S.String,
           param: S.optional(S.String),
           retryAfterSeconds: S.optional(S.Number),
           retryable: S.optional(S.Boolean),
+          unlockUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
@@ -3955,6 +4281,274 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          autoSubmit: S.optional(S.Boolean),
+          bindings: S.optional(__S(48, __c3, 0)),
+          blurFields: S.optional(S.Boolean),
+          credentialIds: S.optional(__S(528, __c33, 0)),
+          credentialProvider: S.optional(S.String),
+          domTrigger: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean),
+          exactOrigin: S.optional(S.Boolean),
+          lookup: S.optional(S.String),
+          origins: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestCredentials" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blockAds: S.optional(S.Boolean),
+          caCertificates: S.optional(__S(528, __c33, 0)),
+          concurrency: S.optional(S.Number),
+          credentials: S.optional(__S(49, __c3, 1)),
+          debugConfig: S.optional(__S(80, __c5, 0)),
+          deviceConfig: S.optional(__S(81, __c5, 1)),
+          dimensions: S.optional(__S(82, __c5, 2)),
+          experimentalFeatures: S.optional(__S(528, __c33, 0)),
+          extensionIds: S.optional(__S(528, __c33, 0)),
+          fullscreen: S.optional(S.Boolean),
+          headless: S.optional(S.Boolean),
+          inactivityTimeout: S.optional(S.Number),
+          isSelenium: S.optional(S.Boolean),
+          metadata: S.optional(__S(50, __c3, 2)),
+          namespace: S.optional(S.String),
+          optimizeBandwidth: S.optional(S.Unknown),
+          persistProfile: S.optional(S.Boolean),
+          profileId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          proxyUrl: S.optional(S.String),
+          recording: S.optional(S.Boolean),
+          region: S.optional(S.Unknown),
+          sessionContext: S.optional(__S(109, __c6, 13)),
+          sessionId: S.optional(S.String),
+          solveCaptcha: S.optional(S.Boolean),
+          stealthConfig: S.optional(__S(84, __c5, 4)),
+          timeout: S.optional(S.Number),
+          useProxy: S.optional(S.Unknown),
+          userAgent: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/sessions", code: 200 })),
+      ).annotate({ identifier: "CreateSessionRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          interactive: S.optional(S.Boolean),
+          systemCursor: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestDebugConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          device: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestDeviceConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          height: S.Number,
+          width: S.Number,
+        }),
+      ).annotate({ identifier: "CreateSessionRequestDimensions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blockHosts: S.optional(__S(528, __c33, 0)),
+          blockImages: S.optional(S.Boolean),
+          blockMedia: S.optional(S.Boolean),
+          blockStylesheets: S.optional(S.Boolean),
+          blockUrlPatterns: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestOptimizeBandwidthCase1" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          autoCaptchaSolving: S.optional(S.Boolean),
+          humanizeInteractions: S.optional(S.Boolean),
+          skipFingerprintInjection: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestStealthConfig" });
+    case 5:
+      return S.Array(S.String);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          browserMode: S.String,
+          createdAt: S.String,
+          creditsUsed: S.Number,
+          debugConfig: S.optional(__S(80, __c5, 0)),
+          debugUrl: S.String.pipe(T.SensitiveValue({})),
+          deviceConfig: S.optional(__S(81, __c5, 1)),
+          dimensions: __S(82, __c5, 2),
+          duration: S.Number,
+          eventCount: S.Number,
+          fullscreen: S.optional(S.Boolean),
+          headless: S.optional(S.Boolean),
+          id: S.String,
+          inactivityTimeout: S.optional(S.Number),
+          isSelenium: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c4, 0)),
+          optimizeBandwidth: __S(83, __c5, 3),
+          persistProfile: S.optional(S.Boolean),
+          profileId: S.optional(S.String),
+          projectId: S.optional(S.NullOr(S.String)),
+          proxyBytesUsed: S.Number,
+          proxySource: S.NullOr(S.String),
+          region: S.optional(S.String),
+          releaseReason: S.optional(S.NullOr(S.String)),
+          sessionViewerUrl: S.String,
+          signals: __S(85, __c5, 5),
+          solveCaptcha: S.optional(S.Boolean),
+          status: S.String,
+          stealthConfig: S.optional(__S(84, __c5, 4)),
+          timeout: S.Number,
+          userAgent: S.optional(S.String),
+          websocketUrl: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "SessionResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          hasCrossSiteAncestor: S.Boolean,
+          topLevelSite: S.String,
+        }),
+      ).annotate({ identifier: "CreateSessionRequestSessionContextCookiesItemPartitionKey" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          expires: S.optional(S.Number),
+          httpOnly: S.optional(S.Boolean),
+          name: S.String,
+          partitionKey: S.optional(__S(96, __c6, 0)),
+          path: S.optional(S.String),
+          priority: S.optional(S.String),
+          sameParty: S.optional(S.Boolean),
+          sameSite: S.optional(S.String),
+          secure: S.optional(S.Boolean),
+          session: S.optional(S.Boolean),
+          size: S.optional(S.Number),
+          sourcePort: S.optional(S.Number),
+          sourceScheme: S.optional(S.String),
+          url: S.optional(S.String),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "CreateSessionRequestSessionContextCookiesItem" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          blobNumber: S.Number,
+          filename: S.optional(S.String),
+          lastModified: S.optional(S.String),
+          mimeType: S.String,
+          path: S.optional(S.String),
+          size: S.Number,
+        }),
+      ).annotate({
+        identifier:
+          "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItemBlobFilesItem",
+      });
+    case 4:
+      return S.Array(__S(99, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          blobFiles: S.optional(__S(100, __c6, 4)),
+          key: S.Unknown,
+          value: S.Unknown,
+        }),
+      ).annotate({
+        identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItem",
+      });
+    case 6:
+      return S.Array(__S(101, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          records: __S(102, __c6, 6),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItem" });
+    case 8:
+      return S.Array(__S(103, __c6, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(104, __c6, 8),
+          id: S.Number,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItem" });
+    case 10:
+      return S.Array(__S(105, __c6, 9));
+    case 11:
+      return S.Record(S.String, __S(106, __c6, 10));
+    case 12:
+      return S.Record(S.String, __S(64, __c4, 0));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          cookies: S.optional(__S(98, __c6, 2)),
+          indexedDB: S.optional(__S(107, __c6, 11)),
+          localStorage: S.optional(__S(108, __c6, 12)),
+          sessionStorage: S.optional(__S(108, __c6, 12)),
+        }),
+      ).annotate({ identifier: "CreateSessionRequestSessionContext" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          credentialId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/sessions/{id}/credentials/{credentialId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DetachSessionCredentialRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          reference: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/v1/sessions/{id}/credentials/bindings", code: 200 }),
+        ),
+      ).annotate({ identifier: "DetachSessionVaultBindingRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String.pipe(T.Label()),
@@ -3972,7 +4566,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ComputerActionResponse" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3989,7 +4583,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetCommandExecutionRequest" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3999,7 +4593,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4008,30 +4602,28 @@ function __c6(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(528, __c33, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/agent-logs", code: 200 })),
       ).annotate({ identifier: "GetSessionAgentLogsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(0, __c0, 0));
     case 1:
-      return S.Array(__S(112, __c7, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(113, __c7, 1),
+          events: __S(208, __c13, 0),
           hasMore: S.Boolean,
           total: S.Number,
         }),
       ).annotate({ identifier: "GetSessionAgentLogsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4040,14 +4632,14 @@ function __c8(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(528, __c33, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/agent-traces", code: 200 })),
       ).annotate({ identifier: "GetSessionAgentTracesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4057,7 +4649,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetSessionContextRequest" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4087,9 +4679,9 @@ function __c10(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          browser: __S(161, __c10, 1),
-          captcha: __S(162, __c10, 2),
-          proxy: __S(163, __c10, 3),
+          browser: __S(257, __c16, 1),
+          captcha: __S(258, __c16, 2),
+          proxy: __S(259, __c16, 3),
         }),
       ).annotate({ identifier: "SessionCostResponseUsage" });
     case 5:
@@ -4099,12 +4691,12 @@ function __c10(j: number): any {
           id: S.String,
           totalCost: S.Number,
           unit: S.String,
-          usage: __S(164, __c10, 4),
+          usage: __S(260, __c16, 4),
         }),
       ).annotate({ identifier: "SessionCostResponse" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4118,12 +4710,12 @@ function __c11(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(177, __c11, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(273, __c17, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSessionEventsResponse2",
       });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4140,7 +4732,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetSessionHlsPlaylistResponse" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4160,11 +4752,11 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "SessionLiveDetailsResponsePagesItem" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pages: __S(210, __c13, 2),
+          pages: __S(306, __c19, 2),
           sessionViewerFullscreenUrl: S.String,
           sessionViewerUrl: S.String,
           wsUrl: S.String,
@@ -4172,7 +4764,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SessionLiveDetailsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4181,7 +4773,7 @@ function __c14(j: number): any {
           namespace: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           endTime: S.optional(S.String.pipe(T.Query())),
-          eventTypes: S.optional(__S(416, __c26, 0).pipe(T.Query())),
+          eventTypes: S.optional(__S(528, __c33, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/logs", code: 200 })),
@@ -4196,18 +4788,18 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "GetSessionLogsResponseEventsItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: __S(226, __c14, 2),
+          events: __S(322, __c20, 2),
           hasMore: S.Boolean,
           total: S.Number,
         }),
       ).annotate({ identifier: "GetSessionLogsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4226,17 +4818,27 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "SessionSignalCatalogResponseSignalsItem" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           semantics: S.String,
-          signals: __S(242, __c15, 2),
+          signals: __S(338, __c21, 2),
         }),
       ).annotate({ identifier: "SessionSignalCatalogResponse" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/credentials", code: 200 })),
+      ).annotate({ identifier: "ListSessionCredentialsRequest" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4248,23 +4850,23 @@ function __c16(j: number): any {
           projectId: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
-          signal: S.optional(__S(453, __c28, 5).pipe(T.Query())),
-          metadata: S.optional(__S(432, __c27, 0).pipe(T.Query())),
+          signal: S.optional(__S(85, __c5, 5).pipe(T.Query())),
+          metadata: S.optional(__S(64, __c4, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions", code: 200 })),
       ).annotate({ identifier: "ListSessionsRequest" });
     case 1:
-      return S.Array(__S(454, __c28, 6));
+      return S.Array(__S(86, __c5, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextCursor: S.NullOr(S.String),
-          sessions: __S(257, __c16, 1),
+          sessions: __S(369, __c23, 1),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SessionsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4274,7 +4876,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ReleaseAllSessionsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4284,7 +4886,21 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ReleaseSessionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          bindings: S.optional(__S(416, __c26, 0)),
+          credentialIds: S.optional(__S(528, __c33, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/sessions/{id}/credentials", code: 200 })),
+      ).annotate({ identifier: "ReplaceSessionCredentialsRequest" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -4292,22 +4908,22 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: __S(304, __c19, 0),
+          metadata: __S(432, __c27, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/sessions/{id}/metadata", code: 200 })),
       ).annotate({ identifier: "ReplaceSessionMetadataRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(432, __c27, 0),
+          metadata: __S(64, __c4, 0),
         }),
       ).annotate({ identifier: "SessionMetadataResponse" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4326,12 +4942,12 @@ function __c21(j: number): any {
           sessionId: S.String.pipe(T.Label()),
           after: S.optional(S.String),
           commands: S.Unknown,
-          observe: S.optional(__S(336, __c21, 0)),
+          observe: S.optional(__S(464, __c29, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sessions/{sessionId}/commands", code: 200 })),
       ).annotate({ identifier: "RunCommandsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -4339,12 +4955,59 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: __S(352, __c22, 0),
+          metadata: __S(480, __c30, 0),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/sessions/{id}/metadata", code: 200 })),
       ).annotate({ identifier: "UpdateSessionMetadataRequest" });
   }
 }
-function __c23(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          bindings: S.optional(__S(496, __c31, 0)),
+          credentialIds: S.optional(__S(528, __c33, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/sessions/{id}/credentials", code: 200 })),
+      ).annotate({ identifier: "AttachSessionCredentialsRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          additionalOrigins: __S(528, __c33, 0),
+          id: S.String,
+          name: S.String,
+          namespace: S.String,
+          origin: S.String,
+        }),
+      ).annotate({ identifier: "SessionCredentialsResponseCredentialsItem" });
+    case 2:
+      return S.Array(__S(513, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          bindings: __S(512, __c32, 0),
+          credentials: __S(514, __c32, 2),
+          credentialsEnabled: S.Boolean,
+          lookup: S.String,
+        }),
+      ).annotate({ identifier: "SessionCredentialsResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4361,7 +5024,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CancelCommandExecutionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4376,36 +5039,35 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          button: S.optional(S.String),
+          keys: __S(528, __c33, 0),
+          tab: S.String,
+        }),
+      ).annotate({ identifier: "CommandHeld" });
+    case 2:
+      return S.Array(__S(561, __c35, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           code: S.String,
           message: S.String,
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommandErrorInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          effect: S.String,
-          error: S.optional(__S(385, __c24, 1)),
-          id: S.String,
-          ran: S.Number,
-          replayed: S.Boolean,
-          state: S.String,
-        }),
-      ).annotate({ identifier: "RunCommandsResponseExecution" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           additions: S.optional(S.Number),
           base: S.optional(S.String),
           diff: S.optional(S.String),
-          error: S.optional(__S(385, __c24, 1)),
+          error: S.optional(__S(563, __c35, 3)),
           full: S.optional(S.Boolean),
           removals: S.optional(S.Number),
           snapshot: S.optional(S.String),
           snapshotId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunCommandsResponseObserve" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           tab: S.String,
@@ -4413,259 +5075,27 @@ function __c24(j: number): any {
           url: S.String,
         }),
       ).annotate({ identifier: "RunCommandsResponsePage" });
-    case 5:
+    case 6:
       return S.Array(S.Unknown);
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          bodyExpired: S.optional(S.Boolean),
-          dialog: S.optional(__S(384, __c24, 0)),
-          epochChanged: S.optional(S.Boolean),
-          execution: __S(386, __c24, 2),
-          id: S.String,
-          next: S.optional(S.String),
-          observe: S.optional(__S(387, __c24, 3)),
-          page: S.NullOr(__S(388, __c24, 4)),
-          results: __S(389, __c24, 5),
-        }),
-      ).annotate({ identifier: "RunCommandsResponse" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          autoSubmit: S.optional(S.Boolean),
-          blurFields: S.optional(S.Boolean),
-          credentialProvider: S.optional(S.String),
-          exactOrigin: S.optional(S.Boolean),
-          origins: S.optional(__S(416, __c26, 0)),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestCredentials" });
-    case 1:
-      return S.Record(S.String, S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          blockAds: S.optional(S.Boolean),
-          caCertificates: S.optional(__S(416, __c26, 0)),
-          concurrency: S.optional(S.Number),
-          credentials: S.optional(__S(400, __c25, 0)),
-          debugConfig: S.optional(__S(448, __c28, 0)),
-          deviceConfig: S.optional(__S(449, __c28, 1)),
-          dimensions: S.optional(__S(450, __c28, 2)),
-          experimentalFeatures: S.optional(__S(416, __c26, 0)),
-          extensionIds: S.optional(__S(416, __c26, 0)),
-          fullscreen: S.optional(S.Boolean),
-          headless: S.optional(S.Boolean),
-          inactivityTimeout: S.optional(S.Number),
-          isSelenium: S.optional(S.Boolean),
-          metadata: S.optional(__S(401, __c25, 1)),
-          namespace: S.optional(S.String),
-          optimizeBandwidth: S.optional(S.Unknown),
-          persistProfile: S.optional(S.Boolean),
-          profileId: S.optional(S.String),
-          projectId: S.optional(S.String),
-          proxyUrl: S.optional(S.String),
-          recording: S.optional(S.Boolean),
-          region: S.optional(S.Unknown),
-          sessionContext: S.optional(__S(477, __c29, 13)),
-          sessionId: S.optional(S.String),
-          solveCaptcha: S.optional(S.Boolean),
-          stealthConfig: S.optional(__S(452, __c28, 4)),
-          timeout: S.optional(S.Number),
-          useProxy: S.optional(S.Unknown),
-          userAgent: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/sessions", code: 200 })),
-      ).annotate({ identifier: "CreateSessionRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          interactive: S.optional(S.Boolean),
-          systemCursor: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestDebugConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          device: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestDeviceConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          height: S.Number,
-          width: S.Number,
-        }),
-      ).annotate({ identifier: "CreateSessionRequestDimensions" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          blockHosts: S.optional(__S(416, __c26, 0)),
-          blockImages: S.optional(S.Boolean),
-          blockMedia: S.optional(S.Boolean),
-          blockStylesheets: S.optional(S.Boolean),
-          blockUrlPatterns: S.optional(__S(416, __c26, 0)),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestOptimizeBandwidthCase1" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          autoCaptchaSolving: S.optional(S.Boolean),
-          humanizeInteractions: S.optional(S.Boolean),
-          skipFingerprintInjection: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestStealthConfig" });
-    case 5:
-      return S.Array(S.String);
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          browserMode: S.String,
-          createdAt: S.String,
-          creditsUsed: S.Number,
-          debugConfig: S.optional(__S(448, __c28, 0)),
-          debugUrl: S.String.pipe(T.SensitiveValue({})),
-          deviceConfig: S.optional(__S(449, __c28, 1)),
-          dimensions: __S(450, __c28, 2),
-          duration: S.Number,
-          eventCount: S.Number,
-          fullscreen: S.optional(S.Boolean),
-          headless: S.optional(S.Boolean),
-          id: S.String,
-          inactivityTimeout: S.optional(S.Number),
-          isSelenium: S.optional(S.Boolean),
-          metadata: S.optional(__S(432, __c27, 0)),
-          optimizeBandwidth: __S(451, __c28, 3),
-          persistProfile: S.optional(S.Boolean),
-          profileId: S.optional(S.String),
-          projectId: S.optional(S.NullOr(S.String)),
-          proxyBytesUsed: S.Number,
-          proxySource: S.NullOr(S.String),
-          region: S.optional(S.String),
-          releaseReason: S.optional(S.NullOr(S.String)),
-          sessionViewerUrl: S.String,
-          signals: __S(453, __c28, 5),
-          solveCaptcha: S.optional(S.Boolean),
-          status: S.String,
-          stealthConfig: S.optional(__S(452, __c28, 4)),
-          timeout: S.Number,
-          userAgent: S.optional(S.String),
-          websocketUrl: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "SessionResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          hasCrossSiteAncestor: S.Boolean,
-          topLevelSite: S.String,
-        }),
-      ).annotate({ identifier: "CreateSessionRequestSessionContextCookiesItemPartitionKey" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          expires: S.optional(S.Number),
-          httpOnly: S.optional(S.Boolean),
-          name: S.String,
-          partitionKey: S.optional(__S(464, __c29, 0)),
-          path: S.optional(S.String),
-          priority: S.optional(S.String),
-          sameParty: S.optional(S.Boolean),
-          sameSite: S.optional(S.String),
-          secure: S.optional(S.Boolean),
-          session: S.optional(S.Boolean),
-          size: S.optional(S.Number),
-          sourcePort: S.optional(S.Number),
-          sourceScheme: S.optional(S.String),
-          url: S.optional(S.String),
-          value: S.String,
-        }),
-      ).annotate({ identifier: "CreateSessionRequestSessionContextCookiesItem" });
-    case 2:
-      return S.Array(__S(465, __c29, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          blobNumber: S.Number,
-          filename: S.optional(S.String),
-          lastModified: S.optional(S.String),
-          mimeType: S.String,
-          path: S.optional(S.String),
-          size: S.Number,
-        }),
-      ).annotate({
-        identifier:
-          "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItemBlobFilesItem",
-      });
-    case 4:
-      return S.Array(__S(467, __c29, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          blobFiles: S.optional(__S(468, __c29, 4)),
-          key: S.Unknown,
-          value: S.Unknown,
-        }),
-      ).annotate({
-        identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItemRecordsItem",
-      });
-    case 6:
-      return S.Array(__S(469, __c29, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          id: S.Number,
-          name: S.String,
-          records: __S(470, __c29, 6),
+          bodyExpired: S.optional(S.Boolean),
+          dialog: S.optional(__S(560, __c35, 0)),
+          effect: S.String,
+          epochChanged: S.optional(S.Boolean),
+          held: S.optional(__S(562, __c35, 2)),
+          id: S.String,
+          next: S.optional(S.String),
+          observe: S.optional(__S(564, __c35, 4)),
+          page: S.NullOr(__S(565, __c35, 5)),
+          ran: S.Number,
+          replayed: S.Boolean,
+          results: __S(566, __c35, 6),
+          state: S.String,
+          stopped: S.optional(__S(563, __c35, 3)),
         }),
-      ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItemDataItem" });
-    case 8:
-      return S.Array(__S(471, __c29, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(472, __c29, 8),
-          id: S.Number,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateSessionRequestSessionContextIndexedDBValueItem" });
-    case 10:
-      return S.Array(__S(473, __c29, 9));
-    case 11:
-      return S.Record(S.String, __S(474, __c29, 10));
-    case 12:
-      return S.Record(S.String, __S(432, __c27, 0));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          cookies: S.optional(__S(466, __c29, 2)),
-          indexedDB: S.optional(__S(475, __c29, 11)),
-          localStorage: S.optional(__S(476, __c29, 12)),
-          sessionStorage: S.optional(__S(476, __c29, 12)),
-        }),
-      ).annotate({ identifier: "CreateSessionRequestSessionContext" });
+      ).annotate({ identifier: "RunCommandsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

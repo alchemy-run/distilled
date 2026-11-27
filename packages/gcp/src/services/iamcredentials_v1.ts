@@ -85,12 +85,12 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface GenerateAccessTokenRequest {
-  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
-  delegates?: StringList | undefined;
   /** The desired lifetime duration of the access token in seconds. By default, the maximum allowed value is 1 hour. To set a lifetime of up to 12 hours, you can add the service account as an allowed value in an Organization Policy that enforces the `constraints/iam.allowServiceAccountCredentialLifetimeExtension` constraint. See detailed instructions at https://cloud.google.com/iam/help/credentials/lifetime If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   lifetime?: string | undefined;
   /** Required. Code to identify the scopes to be included in the OAuth 2.0 access token. See https://developers.google.com/identity/protocols/googlescopes for more information. At least one value required. */
   scope?: StringList | undefined;
+  /** The sequence of service accounts in a delegation chain. This field is required for [delegated requests](https://cloud.google.com/iam/help/credentials/delegated-request). For [direct requests](https://cloud.google.com/iam/help/credentials/direct-request), which are more common, do not specify this field. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
+  delegates?: StringList | undefined;
 }
 export interface GenerateAccessTokenProjectsServiceAccountsRequest extends GenerateAccessTokenRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -103,14 +103,14 @@ export interface GenerateAccessTokenResponse {
   expireTime?: string | undefined;
 }
 export interface GenerateIdTokenRequest {
-  /** Include the organization number of the service account in the token. If set to `true`, the token will contain a `google.organization_number` claim. The value of the claim will be `null` if the service account isn't associated with an organization. */
-  organizationNumberIncluded?: boolean | undefined;
-  /** Required. The audience for the token, such as the API or account that this token grants access to. */
-  audience?: string | undefined;
-  /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
-  delegates?: StringList | undefined;
   /** Include the service account email in the token. If set to `true`, the token will contain `email` and `email_verified` claims. */
   includeEmail?: boolean | undefined;
+  /** Include the organization number of the service account in the token. If set to `true`, the token will contain a `google.organization_number` claim. The value of the claim will be `null` if the service account isn't associated with an organization. */
+  organizationNumberIncluded?: boolean | undefined;
+  /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
+  delegates?: StringList | undefined;
+  /** Required. The audience for the token, such as the API or account that this token grants access to. */
+  audience?: string | undefined;
 }
 export interface GenerateIdTokenProjectsServiceAccountsRequest extends GenerateIdTokenRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -126,10 +126,10 @@ export interface GetAllowedLocationsLocationsWorkforcePoolsRequest {
 }
 /** Represents a list of allowed locations for given workforce pool. */
 export interface WorkforcePoolAllowedLocations {
-  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
-  locations?: StringList | undefined;
   /** Output only. The hex encoded bitmap of the trust boundary locations */
   encodedLocations?: string | undefined;
+  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
+  locations?: StringList | undefined;
 }
 export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest {
   /** Required. Resource name of workload identity pool. */
@@ -137,10 +137,10 @@ export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsReques
 }
 /** Represents a list of allowed locations for given workload identity pool. */
 export interface WorkloadIdentityPoolAllowedLocations {
-  /** Output only. The hex encoded bitmap of the trust boundary locations */
-  encodedLocations?: string | undefined;
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
   locations?: StringList | undefined;
+  /** Output only. The hex encoded bitmap of the trust boundary locations */
+  encodedLocations?: string | undefined;
 }
 export interface GetAllowedLocationsProjectsServiceAccountsRequest {
   /** Required. Resource name of service account. Format: `projects/-/serviceAccounts/{service_account_email}` */
@@ -148,10 +148,10 @@ export interface GetAllowedLocationsProjectsServiceAccountsRequest {
 }
 /** Represents a list of allowed locations for given service account. */
 export interface ServiceAccountAllowedLocations {
-  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
-  locations?: StringList | undefined;
   /** Output only. The hex encoded bitmap of the trust boundary locations */
   encodedLocations?: string | undefined;
+  /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
+  locations?: StringList | undefined;
 }
 export interface SignBlobRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -164,10 +164,10 @@ export interface SignBlobProjectsServiceAccountsRequest extends SignBlobRequest 
   name: string;
 }
 export interface SignBlobResponse {
-  /** The signature for the blob. Does not include the original blob. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the blob. As a result, the receiver can no longer verify the signature. */
-  signedBlob?: string | undefined;
   /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
   keyId?: string | undefined;
+  /** The signature for the blob. Does not include the original blob. After the key pair referenced by the `key_id` response field expires, Google no longer exposes the public key that can be used to verify the blob. As a result, the receiver can no longer verify the signature. */
+  signedBlob?: string | undefined;
 }
 export interface SignJwtRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -370,9 +370,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          delegates: S.optional(__S(8, __c2, 0)),
           lifetime: S.optional(S.String),
           scope: S.optional(__S(8, __c2, 0)),
+          delegates: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "GenerateAccessTokenRequest" });
     case 1:
@@ -410,10 +410,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationNumberIncluded: S.optional(S.Boolean),
-          audience: S.optional(S.String),
-          delegates: S.optional(__S(8, __c2, 0)),
           includeEmail: S.optional(S.Boolean),
+          organizationNumberIncluded: S.optional(S.Boolean),
+          delegates: S.optional(__S(8, __c2, 0)),
+          audience: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateIdTokenRequest" });
     case 1:
@@ -460,8 +460,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(8, __c2, 0)),
           encodedLocations: S.optional(S.String),
+          locations: S.optional(__S(8, __c2, 0)),
         }),
       ).annotate({ identifier: "WorkforcePoolAllowedLocations" });
   }
@@ -485,8 +485,8 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          encodedLocations: S.optional(S.String),
           locations: S.optional(__S(8, __c2, 0)),
+          encodedLocations: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkloadIdentityPoolAllowedLocations" });
   }
@@ -527,8 +527,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signedBlob: S.optional(S.String),
           keyId: S.optional(S.String),
+          signedBlob: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignBlobResponse" });
   }

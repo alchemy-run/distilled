@@ -975,6 +975,8 @@ export interface ExpressConfiguration {
   admin_login_domain: string;
   /** The identifier of the published application in the OKTA OIN. */
   oin_submission_id?: string | undefined;
+  /** URL of the application's listing in the Okta Integration Network (OIN) catalog, used to redirect customers into OIN Express Configuration. Must be an https URL on an okta.com domain with no query string or fragment. */
+  okta_oin_listing_url?: string | undefined;
 }
 /** List of SSO profile IDs linked to this B2B integration client. Maximum 1 entry. */
 export type B2bIntegrationConfigurationSsoProfilesList = Array<string>;
@@ -1039,19 +1041,28 @@ export interface ClientMyOrganizationPostConfiguration {
   /** When true, prevents organization admins from assigning permissions to themselves. */
   enforce_self_assignment_restriction?: boolean | undefined;
 }
+/** Configuration for Google account linking. */
+export interface GoogleAccountLinkingConfigurationCreate {
+  /** Enables the Google streamlined account linking flow for this client. */
+  allow_streamlined_linking?: boolean | undefined;
+}
 export type AsyncApprovalNotificationsChannelsEnum = "guardian-push" | "email" | "my-account";
 /** Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`. */
 export type ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration = Array<
   AsyncApprovalNotificationsChannelsEnum | (string & {})
 >;
 export type ClientOidcSupportAllowedScopesEnum = "profile" | "email" | "address" | "phone";
+/** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
 export type ClientOidcSupportPostAllowedScopesList = Array<
   ClientOidcSupportAllowedScopesEnum | (string & {})
 >;
-/** OIDC support configuration for a client. Controls whether OIDC flows are allowed and which scopes the client may request. */
+/** Controls whether the client can receive ID tokens and use the UserInfo endpoint, and which user profile information it can request through OIDC scopes. */
 export interface ClientOidcSupportPost {
+  /** Allows the client to use OIDC, including receiving ID tokens and calling the UserInfo endpoint. */
   is_allowed: boolean;
+  /** Allows the client to request all supported OIDC scopes. Mutually exclusive with allowed_scopes. */
   allow_all_scopes?: boolean | undefined;
+  /** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
   allowed_scopes?: ClientOidcSupportPostAllowedScopesList | undefined;
 }
 export interface CreateClientRequest {
@@ -1123,6 +1134,7 @@ export interface CreateClientRequest {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithPublicKey | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithPublicKey | undefined;
   compliance_level?: ClientComplianceLevelEnum | (string & {}) | null | undefined;
@@ -1145,6 +1157,7 @@ export interface CreateClientRequest {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationPostConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   async_approval_notification_channels?:
     | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
     | undefined;
@@ -1246,15 +1259,21 @@ export interface ClientMyOrganizationResponseConfiguration {
   /** When true, prevents organization admins from assigning permissions to themselves. */
   enforce_self_assignment_restriction?: boolean | undefined;
 }
+/** Configuration for Google account linking. */
+export type GoogleAccountLinkingConfiguration = GoogleAccountLinkingConfigurationCreate;
 /** Configuration on the use of ID-JAGs for Cross App Access. */
 export type IdentityAssertionAuthorizationGrant = CreateIdentityAssertionAuthorizationGrant;
 /** Anonymous sessions configuration for this client. */
 export type AnonymousSessions = CreateAnonymousSessions;
+/** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
 export type ClientOidcSupportAllowedScopesList = Array<ClientOidcSupportAllowedScopesEnum>;
-/** OIDC support configuration for this client. */
+/** Controls whether the client can receive ID tokens and use the UserInfo endpoint, and which user profile information it can request through OIDC scopes. */
 export interface ClientOidcSupport {
+  /** Allows the client to use OIDC, including receiving ID tokens and calling the UserInfo endpoint. */
   is_allowed?: boolean | undefined;
+  /** Allows the client to request all supported OIDC scopes. Mutually exclusive with allowed_scopes. */
   allow_all_scopes?: boolean | undefined;
+  /** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
   allowed_scopes?: ClientOidcSupportAllowedScopesList | undefined;
   [key: string]: unknown;
 }
@@ -1346,6 +1365,7 @@ export interface CreateClientResponseContent {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -1358,6 +1378,7 @@ export interface CreateClientResponseContent {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -1728,6 +1749,8 @@ export interface ConnectionPasswordAuthenticationMethod {
 export interface ConnectionPasskeyAuthenticationMethod {
   /** Determines whether passkeys are enabled */
   enabled?: boolean | undefined;
+  /** Specifies the signup behavior for passkey authentication */
+  signup_behavior?: ConnectionSignupBehaviorEnum | (string & {}) | undefined;
 }
 /** Email OTP authentication enablement */
 export interface ConnectionEmailOtpAuthenticationMethod {
@@ -1849,16 +1872,19 @@ export interface ConnectionPasswordOptionsComplexity {
   sequential_characters?: PasswordSequentialCharactersPolicyEnum | (string & {}) | undefined;
   max_length_exceeded?: PasswordMaxLengthExceededPolicyEnum | (string & {}) | undefined;
 }
-/** Array of custom words to block in passwords. Maximum 200 items, each up to 50 characters */
+/** Array of custom words to block in passwords */
 export type ConnectionPasswordOptionsDictionaryCustomList = Array<string>;
+/** How custom entries are compared against a password. "exact": a password is rejected if it equals an entry. "substring": a password is rejected if it contains an entry (every entry must then be at least 3 characters). */
+export type PasswordDictionaryMatchTypeEnum = "exact" | "substring";
 /** Default dictionary to use for password validation. Options: "en_10k" (10,000 common words) or "en_100k" (100,000 common words) */
 export type PasswordDefaultDictionariesEnum = "en_10k" | "en_100k";
 /** Dictionary-based password restriction policy to prevent common passwords */
 export interface ConnectionPasswordOptionsDictionary {
   /** Enables dictionary checking to prevent use of common passwords and custom blocked words */
   active?: boolean | undefined;
-  /** Array of custom words to block in passwords. Maximum 200 items, each up to 50 characters */
+  /** Array of custom words to block in passwords */
   custom?: ConnectionPasswordOptionsDictionaryCustomList | undefined;
+  match_type?: PasswordDictionaryMatchTypeEnum | (string & {}) | undefined;
   default?: PasswordDefaultDictionariesEnum | (string & {}) | undefined;
 }
 /** Password history policy configuration to prevent password reuse */
@@ -1909,6 +1935,27 @@ export type ConnectionIdTokenSignedResponseAlgs = Array<
 >;
 /** Algorithm used for DPoP proof JWT signing. */
 export type ConnectionDpopSigningAlgEnum = "ES256" | "ES384" | "ES512" | "Ed25519";
+/** Key-management algorithm the upstream IdP uses to encrypt the ID token. Also the algorithm of the encryption keys Auth0 creates or rotates when no algorithm is selected. */
+export type ConnectionIdTokenEncryptedResponseAlgEnum =
+  | "RSA-OAEP-256"
+  | "RSA-OAEP-384"
+  | "RSA-OAEP-512"
+  | "ECDH-ES"
+  | "ECDH-ES+A128KW"
+  | "ECDH-ES+A192KW"
+  | "ECDH-ES+A256KW";
+/** Content-encryption algorithm accepted from the upstream IdP. */
+export type ConnectionIdTokenEncryptedResponseEncEnum =
+  | "A128CBC-HS256"
+  | "A192CBC-HS384"
+  | "A256CBC-HS512"
+  | "A128GCM"
+  | "A192GCM"
+  | "A256GCM";
+/** Allowlist of content-encryption algorithms accepted from the upstream IdP. If unset or empty, any supported content-encryption algorithm sent by the upstream IdP is accepted. Applicable when strategy=oidc or okta. */
+export type ConnectionIdTokenEncryptedResponseEncs = Array<
+  ConnectionIdTokenEncryptedResponseEncEnum | (string & {})
+>;
 /** Authentication method used at the identity provider's token endpoint. 'client_secret_post' sends credentials in the request body; 'private_key_jwt' uses a signed JWT assertion for enhanced security. */
 export type ConnectionTokenEndpointAuthMethodEnum = "client_secret_post" | "private_key_jwt";
 /** Algorithm used to sign client_assertions. */
@@ -1922,6 +1969,8 @@ export type ConnectionTokenEndpointAuthSigningAlgEnum =
   | "RS512";
 /** Specifies the format of the aud (audience) claim included in the JWT used for client authentication at the token endpoint. Accepted values are: 'issuer' (the aud claim is set to the identity provider's issuer URL) or 'token_endpoint' (the aud claim is set to the token endpoint URL). */
 export type ConnectionTokenEndpointJwtcaAudFormatEnumOIDC = "issuer" | "token_endpoint";
+/** Additional Google client IDs accepted as the `aud` (audience) of Google ID tokens, used by Google native login and Google Streamlined Linking. */
+export type ConnectionPropertiesOptionsAllowedAudiencesList = Array<string>;
 /** A list of the OAuth 2.0 [RFC6749] scope values that this server supports. The server MUST support the openid scope value. Servers MAY choose not to advertise some supported scope values even when this parameter is used, although those defined in [OpenID.Core] SHOULD be listed, if supported. RECOMMENDED but not REQUIRED */
 export type ConnectionsOIDCMetadataScopesSupportedList = Array<string>;
 /** A list of the OAuth 2.0 response_mode values that this OP supports. If omitted, the default for Dynamic OpenID Providers is ["query", "fragment"] */
@@ -2120,6 +2169,11 @@ export interface ConnectionPropertiesOptions {
   assertion_decryption_settings?: ConnectionAssertionDecryptionSettings | undefined;
   id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null | undefined;
   dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {}) | undefined;
+  id_token_encrypted_response_alg?:
+    | ConnectionIdTokenEncryptedResponseAlgEnum
+    | (string & {})
+    | undefined;
+  id_token_encrypted_response_encs?: ConnectionIdTokenEncryptedResponseEncs | undefined;
   enable_pushed_authorization_requests?: boolean | undefined;
   pushed_authorization_request_endpoint?: string | undefined;
   token_endpoint_auth_method?:
@@ -2138,6 +2192,10 @@ export interface ConnectionPropertiesOptions {
     | undefined;
   id_token_session_expiry_supported?: boolean | undefined;
   useOauthSpecScope?: boolean | undefined;
+  /** The client ID registered with the identity provider */
+  client_id?: string | null | undefined;
+  /** Additional Google client IDs accepted as the `aud` (audience) of Google ID tokens, used by Google native login and Google Streamlined Linking. */
+  allowed_audiences?: ConnectionPropertiesOptionsAllowedAudiencesList | null | undefined;
   discovery_url?: string | null | undefined;
   oidc_metadata?: ConnectionsOIDCMetadata | null | undefined;
   thumbprints?: ConnectionThumbprints | undefined;
@@ -5202,6 +5260,9 @@ export type LogStreamFilterGroupNameEnum =
   | "user.notification"
   | "user.success"
   | "actions"
+  | "agent_gateway.authentication.fail"
+  | "agent_gateway.operation.fail"
+  | "agent_gateway.operation.success"
   | "other";
 export interface LogStreamFilter {
   type?: LogStreamFilterTypeEnum | (string & {}) | undefined;
@@ -5824,7 +5885,7 @@ export type AssociateOrganizationClientGrantResponseContentScopeList = Array<str
 export type OrganizationUsageEnum = "deny" | "allow" | "require";
 export interface AssociateOrganizationClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string | undefined;
+  grant_id?: string | undefined;
   /** ID of the client. */
   client_id?: string | undefined;
   /** The audience (API identifier) of this client grant */
@@ -5939,6 +6000,10 @@ export interface CreatePhoneTemplateResponseContent {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
+  /** The date and time the template was created, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  created_at: string;
+  /** The date and time the template was last updated, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  updated_at: string;
 }
 export interface ResourceServerScope {
   /** Value of this scope. */
@@ -6049,7 +6114,9 @@ export interface ResourceServerAuthorizationPolicy {
 /** Controls whether access tokens issued for this API include agent subject claims. With <code>auth0-v1</code>, access tokens include additional claims that identify whether the subject is a <code>user</code>, <code>service</code>, or <code>ai_agent</code>. The <code>sub</code> claim can reference an agent ID, and the <code>@clients</code> suffix is no longer appended to client IDs. With <code>off</code>, these claims are not included and the <code>@clients</code> suffix is still appended. When not set, the API behaves as <code>off</code>. */
 export type ResourceServerAgentSubjectClaimsSchemaEnum = "off" | "auth0-v1";
 /** The type of the resource server. */
-export type ResourceServerTypeEnum = "universal_commerce_protocol_server";
+export type ResourceServerTypeEnum =
+  | "universal_commerce_protocol_server"
+  | "model_context_protocol_server";
 export interface CreateResourceServerRequest {
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
   name?: string | undefined;
@@ -6085,6 +6152,7 @@ export interface CreateResourceServerRequest {
   subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
   authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {}) | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | (string & {}) | null | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
@@ -6144,6 +6212,7 @@ export interface CreateResourceServerResponseContent {
   /** The client ID of the client that this resource server is linked to */
   client_id?: string | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | null | undefined;
 }
 /** The type of the role */
@@ -8112,6 +8181,7 @@ export interface GetClientResponseContent {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -8124,6 +8194,7 @@ export interface GetClientResponseContent {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -8536,6 +8607,7 @@ export interface Client {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -8548,6 +8620,7 @@ export interface Client {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -8898,7 +8971,7 @@ export interface GetCredentialsRequest {
   client_id: string;
 }
 /** Algorithm which will be used with the credential. Supported algorithms: RS256,RS384,PS256 */
-export type ClientCredentialAlgorithmEnum = "RS256" | "RS384" | "PS256";
+export type ClientCredentialAlgorithmEnum = "RS256" | "RS384" | "PS256" | "ES256" | "PS384";
 /** The type of credential. */
 export type ClientCredentialTypeEnum = "public_key" | "cert_subject_dn" | "x509_cert";
 export interface ClientCredential {
@@ -10553,14 +10626,14 @@ export interface GetKeysRequest {
   /** ID of the connection */
   id: string;
 }
-/** Signing key use, whether for encryption or signing */
+/** Key use, whether for encryption or signing */
 export type ConnectionKeyUseEnum = "encryption" | "signing";
 export interface ConnectionKey {
-  /** The key id of the signing key */
+  /** The key id of the signing or encryption key */
   kid: string;
-  /** The public certificate of the signing key */
+  /** The public certificate of the signing or encryption key */
   cert: string;
-  /** The public certificate of the signing key in pkcs7 format */
+  /** The public certificate of the signing or encryption key in pkcs7 format */
   pkcs?: string | undefined;
   /** True if the key is the the current key */
   current?: boolean | undefined;
@@ -10574,7 +10647,7 @@ export interface ConnectionKey {
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
-  /** Signing key algorithm */
+  /** Key algorithm: a signing algorithm for signing keys, or a key-management algorithm for encryption keys */
   algorithm?: string | undefined;
   key_use?: ConnectionKeyUseEnum | undefined;
   subject_dn?: string | undefined;
@@ -10938,6 +11011,9 @@ export interface OrganizationClientGrant {
   organization_usage?: OrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
   allow_any_organization?: boolean | undefined;
+  subject_type: ClientGrantSubjectTypeEnum;
+  /** If enabled, all scopes configured on the resource server are allowed for this grant. */
+  allow_all_scopes?: boolean | undefined;
 }
 export type ListOrganizationClientGrantsResponseContentCase0List = Array<OrganizationClientGrant>;
 export type ListOrganizationClientGrantsOffsetPaginatedResponseContentClientGrantsList =
@@ -11244,6 +11320,10 @@ export interface GetPhoneTemplateResponseContent {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
+  /** The date and time the template was created, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  created_at: string;
+  /** The date and time the template was last updated, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  updated_at: string;
 }
 export interface GetPhoneTemplatesRequest {
   /** Whether the template is enabled (false) or disabled (true). */
@@ -11258,6 +11338,10 @@ export interface PhoneTemplate {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
+  /** The date and time the template was created, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  created_at: string;
+  /** The date and time the template was last updated, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  updated_at: string;
 }
 export type ListPhoneTemplatesResponseContentTemplatesList = Array<PhoneTemplate>;
 export interface ListPhoneTemplatesResponseContent {
@@ -11635,6 +11719,7 @@ export interface GetResourceServerResponseContent {
   /** The client ID of the client that this resource server is linked to */
   client_id?: string | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | null | undefined;
 }
 export type GetResourceServersRequestIdentifiersList = Array<string>;
@@ -11696,6 +11781,7 @@ export interface ResourceServer {
   /** The client ID of the client that this resource server is linked to */
   client_id?: string | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | null | undefined;
 }
 export type ListResourceServerResponseContentCase0List = Array<ResourceServer>;
@@ -12606,11 +12692,11 @@ export interface GetUserGroupsRequest {
   fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
   include_fields?: boolean | undefined;
-  /** Page index of the results to return. First page is 0. */
+  /** Page index of the results to return. First page is 0. Offset-based pagination is limited to a maximum of 1,000 results; use checkpoint pagination (`from` and `take`) instead. */
   page?: number | undefined;
-  /** Number of results per page. Defaults to 50. */
+  /** Number of results per page. Defaults to 50. Offset-based pagination is limited to a maximum of 1,000 results; use checkpoint pagination (`from` and `take`) instead. */
   per_page?: number | undefined;
-  /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
+  /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). The returned total reflects at most 1,000 results. */
   include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
   from?: string | undefined;
@@ -13954,7 +14040,7 @@ export interface TenantSettingsFlags {
   enable_client_connections?: boolean | undefined;
   /** Whether advanced API Authorization scenarios are enabled (true) or disabled (false). */
   enable_pipeline2?: boolean | undefined;
-  /** If enabled, clients are able to add legacy delegation grants. */
+  /** DEPRECATED property. If enabled, first-party applications can add the legacy delegation grant types. It does not enable the /delegation endpoint. */
   allow_legacy_delegation_grant_types?: boolean | undefined;
   /** If enabled, clients are able to add legacy RO grants. */
   allow_legacy_ro_grant_types?: boolean | undefined;
@@ -13992,8 +14078,6 @@ export interface TenantSettingsFlags {
   remove_alg_from_jwks?: boolean | undefined;
   /** Improves bot detection during signup in classic universal login */
   improved_signup_bot_detection_in_classic?: boolean | undefined;
-  /** This tenant signed up for the Auth4GenAI trail */
-  genai_trial?: boolean | undefined;
   /** Whether the Local Resource Discovery endpoint is enabled (true) or disabled (false). */
   local_resource_discovery?: boolean | undefined;
   /** Whether third-party developers can <a href="https://auth0.com/docs/api-auth/dynamic-client-registration">dynamically register</a> applications for your APIs (true) or not (false). This flag enables dynamic client registration. */
@@ -14207,6 +14291,8 @@ export interface TenantSettingsCountryCodes {
   list?: TenantSettingsCountryCodesListList | undefined;
   mode?: TenantSettingsCountryCodesMode | (string & {}) | undefined;
 }
+/** Company domains associated with the Personal Agent Protocol. Each entry must be a bare, lowercase hostname (no scheme, port, path, or trailing slash). The array must contain at most 5 unique entries. */
+export type TenantSettingsPersonalAgentProtocolCompanyDomains = Array<string>;
 export interface PatchSettingsRequest {
   change_password?: TenantSettingsPasswordPage | null | undefined;
   /** Device Flow configuration. */
@@ -14289,6 +14375,10 @@ export interface PatchSettingsRequest {
     | (string & {})
     | undefined;
   country_codes?: TenantSettingsCountryCodes | null | undefined;
+  personal_agent_protocol_company_domains?:
+    | TenantSettingsPersonalAgentProtocolCompanyDomains
+    | null
+    | undefined;
 }
 /** URLs that are valid to redirect to after logout from Auth0. */
 export type UpdateTenantSettingsResponseContentAllowedLogoutUrlsList = Array<string>;
@@ -14391,6 +14481,8 @@ export interface TenantSettingsCountryCodesResponse {
   list?: TenantSettingsCountryCodesResponseListList | undefined;
   mode?: TenantSettingsCountryCodesModeResponse | undefined;
 }
+/** Company domains associated with the Personal Agent Protocol. */
+export type TenantSettingsPersonalAgentProtocolCompanyDomainsResponse = Array<string>;
 export interface UpdateTenantSettingsResponseContent {
   change_password?: TenantSettingsPasswordPage | null | undefined;
   guardian_mfa_page?: TenantSettingsGuardianPage | null | undefined;
@@ -14470,6 +14562,9 @@ export interface UpdateTenantSettingsResponseContent {
     | TenantSettingsDynamicClientRegistrationSecurityMode
     | undefined;
   country_codes?: TenantSettingsCountryCodesResponse | undefined;
+  personal_agent_protocol_company_domains?:
+    | TenantSettingsPersonalAgentProtocolCompanyDomainsResponse
+    | undefined;
 }
 export interface PatchSnsRequest {
   aws_access_key_id?: string | null | undefined;
@@ -15063,7 +15158,7 @@ export interface CreateOrganizationInvitationResponseContent {
   /** The id of the invitation ticket */
   ticket_id?: string | undefined;
 }
-/** Selected Signing Algorithm */
+/** Selected Signing Algorithm. Only applicable when key_use is "signing". */
 export type PostConnectionKeysAlgEnum =
   | "RS256"
   | "RS384"
@@ -15075,14 +15170,18 @@ export type PostConnectionKeysAlgEnum =
 export interface PostKeysRequest {
   /** ID of the connection */
   id: string;
+  /** Whether to provision a signing key (default) or an encryption key for the connection. */
+  key_use?: ConnectionKeyUseEnum | (string & {}) | undefined;
   signing_alg?: PostConnectionKeysAlgEnum | (string & {}) | undefined;
+  /** Selected key-management algorithm for the encryption key. Only applicable when key_use is "encryption". */
+  encryption_alg?: ConnectionIdTokenEncryptedResponseAlgEnum | (string & {}) | undefined;
 }
 export interface PostConnectionsKeysResponseContentItem {
-  /** The key id of the signing key */
+  /** The key id of the signing or encryption key */
   kid: string;
-  /** The public certificate of the signing key */
+  /** The public certificate of the signing or encryption key */
   cert: string;
-  /** The public certificate of the signing key in pkcs7 format */
+  /** The public certificate of the signing or encryption key in pkcs7 format */
   pkcs?: string | undefined;
   /** True if the key is the current key */
   current?: boolean | undefined;
@@ -15094,7 +15193,7 @@ export interface PostConnectionsKeysResponseContentItem {
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
-  /** Signing key algorithm */
+  /** Key algorithm: a signing algorithm for signing keys, or a key-management algorithm for encryption keys */
   algorithm?: string | undefined;
   key_use?: ConnectionKeyUseEnum | undefined;
   subject_dn?: string | undefined;
@@ -15162,7 +15261,7 @@ export interface PostProviderRequest {
   enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
   default_from_address?: string | undefined;
-  credentials: EmailProviderCredentialsSchema;
+  credentials?: EmailProviderCredentialsSchema | undefined;
   settings?: EmailSpecificProviderSettingsWithAdditionalProperties | null | undefined;
 }
 export interface CreateEmailProviderResponseContent {
@@ -15250,7 +15349,7 @@ export interface PostRolePermissionAssignmentRequest {
   permissions: PostRolePermissionAssignmentRequestPermissionsList;
 }
 export interface PostRolePermissionAssignmentResponse {}
-/** Selected Signing Algorithm */
+/** Selected Signing Algorithm. Only applicable when key_use is "signing". */
 export type RotateConnectionKeysSigningAlgEnum =
   | "RS256"
   | "RS384"
@@ -15262,14 +15361,18 @@ export type RotateConnectionKeysSigningAlgEnum =
 export interface PostRotateRequest {
   /** ID of the connection */
   id: string;
+  /** Whether to rotate the signing key (default) or the encryption key for the connection. */
+  key_use?: ConnectionKeyUseEnum | (string & {}) | undefined;
   signing_alg?: RotateConnectionKeysSigningAlgEnum | (string & {}) | undefined;
+  /** Selected key-management algorithm for the encryption key. Only applicable when key_use is "encryption". */
+  encryption_alg?: ConnectionIdTokenEncryptedResponseAlgEnum | (string & {}) | undefined;
 }
 export interface RotateConnectionsKeysResponseContent {
-  /** The key id of the signing key */
+  /** The key id of the signing or encryption key */
   kid: string;
-  /** The public certificate of the signing key */
+  /** The public certificate of the signing or encryption key */
   cert: string;
-  /** The public certificate of the signing key in pkcs7 format */
+  /** The public certificate of the signing or encryption key in pkcs7 format */
   pkcs?: string | undefined;
   /** True if the key is the the next key */
   next?: boolean | undefined;
@@ -15277,7 +15380,7 @@ export interface RotateConnectionsKeysResponseContent {
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
-  /** Signing key algorithm */
+  /** Key algorithm: a signing algorithm for signing keys, or a key-management algorithm for encryption keys */
   algorithm?: string | undefined;
   key_use?: ConnectionKeyUseEnum | undefined;
   subject_dn?: string | undefined;
@@ -15386,6 +15489,7 @@ export interface RotateClientSecretResponseContent {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -15398,6 +15502,7 @@ export interface RotateClientSecretResponseContent {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -15591,6 +15696,11 @@ export interface ThirdPartyClientAccessConfig {
   /** Whether third-party applications can configure the connection as a domain-level connection during the Self-Service Enterprise Configuration flow. */
   allow_configuration: boolean;
 }
+/** Configuration for the setup of Universal Logout in the Self-Service Enterprise Configuration flow. */
+export interface SelfServiceProfileSsoTicketUniversalLogoutConfig {
+  /** Whether the end user can set up Universal Logout during the Self-Service Enterprise Configuration flow. */
+  allow_configuration: boolean;
+}
 /** Specifies which features are enabled for an "edit connection" ticket. Only applicable when connection ID is provided. */
 export interface SelfServiceProfileSsoTicketEnabledFeatures {
   /** Whether SSO configuration is enabled in this ticket. */
@@ -15617,6 +15727,7 @@ export interface PostSsoTicketRequest {
   /** Indicates whether a verified domain should be used for organization discovery during authentication. */
   use_for_organization_discovery?: boolean | undefined;
   third_party_client_access_config?: ThirdPartyClientAccessConfig | undefined;
+  universal_logout_config?: SelfServiceProfileSsoTicketUniversalLogoutConfig | undefined;
   enabled_features?: SelfServiceProfileSsoTicketEnabledFeatures | undefined;
 }
 export interface CreateSelfServiceProfileSsoTicketResponseContent {
@@ -16394,6 +16505,10 @@ export interface ResetPhoneTemplateResponseContent {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
+  /** The date and time the template was created, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  created_at: string;
+  /** The date and time the template was last updated, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  updated_at: string;
 }
 export interface RevokeSessionRequest {
   /** ID of the session to revoke. */
@@ -16582,6 +16697,9 @@ export interface GetTenantSettingsResponseContent {
     | TenantSettingsDynamicClientRegistrationSecurityMode
     | undefined;
   country_codes?: TenantSettingsCountryCodesResponse | undefined;
+  personal_agent_protocol_company_domains?:
+    | TenantSettingsPersonalAgentProtocolCompanyDomainsResponse
+    | undefined;
 }
 /** The delivery method for the notification */
 export type PhoneProviderDeliveryMethodEnum = "text" | "voice";
@@ -16741,6 +16859,8 @@ export interface ExpressConfigurationOrNull {
   admin_login_domain: string;
   /** The identifier of the published application in the OKTA OIN. */
   oin_submission_id?: string | undefined;
+  /** URL of the application's listing in the Okta Integration Network (OIN) catalog, used to redirect customers into OIN Express Configuration. Must be an https URL on an okta.com domain with no query string or fragment. */
+  okta_oin_listing_url?: string | undefined;
 }
 /** The allowed connection strategies for the My Organization Configuration. */
 export type ClientMyOrganizationPatchConfigurationAllowedStrategiesList = Array<
@@ -16763,17 +16883,23 @@ export interface ClientMyOrganizationPatchConfiguration {
   /** When true, prevents organization admins from assigning permissions to themselves. */
   enforce_self_assignment_restriction?: boolean | undefined;
 }
+/** Configuration for Google account linking. */
+export type GoogleAccountLinkingConfigurationOrNull = GoogleAccountLinkingConfigurationCreate;
 /** Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`. */
 export type ClientAsyncApprovalNotificationsChannelsAPIPatchConfiguration = Array<
   AsyncApprovalNotificationsChannelsEnum | (string & {})
 >;
+/** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
 export type ClientOidcSupportPatchAllowedScopesList = Array<
   ClientOidcSupportAllowedScopesEnum | (string & {})
 >;
-/** OIDC support configuration for a client. Replaces the stored object entirely; send null to unset it. */
+/** Controls whether the client can receive ID tokens and use the UserInfo endpoint, and which user profile information it can request through OIDC scopes. */
 export interface ClientOidcSupportPatch {
+  /** Allows the client to use OIDC, including receiving ID tokens and calling the UserInfo endpoint. */
   is_allowed: boolean;
+  /** Allows the client to request all supported OIDC scopes. Mutually exclusive with allowed_scopes. */
   allow_all_scopes?: boolean | undefined;
+  /** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
   allowed_scopes?: ClientOidcSupportPatchAllowedScopesList | undefined;
 }
 export interface UpdateClientRequest {
@@ -16872,6 +16998,7 @@ export interface UpdateClientRequest {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | null | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | (string & {}) | null | undefined;
@@ -16883,6 +17010,7 @@ export interface UpdateClientRequest {
   express_configuration?: ExpressConfigurationOrNull | null | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationPatchConfiguration | null | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | null | undefined;
   async_approval_notification_channels?:
     | ClientAsyncApprovalNotificationsChannelsAPIPatchConfiguration
     | null
@@ -16992,6 +17120,7 @@ export interface UpdateClientResponseContent {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -17004,6 +17133,7 @@ export interface UpdateClientResponseContent {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfigurationCreate | undefined;
   identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -17082,6 +17212,8 @@ export type UpdateConnectionOptionsPrecedenceList = Array<
 >;
 /** Stores encrypted string only configurations for connections */
 export type UpdateConnectionOptionsConfigurationMap = { [key: string]: string | null | undefined };
+/** Additional Google client IDs accepted as the `aud` (audience) of Google ID tokens, used by Google native login and Google Streamlined Linking. */
+export type UpdateConnectionOptionsAllowedAudiencesList = Array<string>;
 /** The connection's options (depend on the connection strategy). To update these options, the `update:connections_options` scope must be present. To verify your changes, also include the `read:connections_options` scope. If this scope is not specified, you will not be able to review the updated object. */
 export interface UpdateConnectionOptions {
   validation?: ConnectionValidationOptions | null | undefined;
@@ -17124,6 +17256,11 @@ export interface UpdateConnectionOptions {
   assertion_decryption_settings?: ConnectionAssertionDecryptionSettings | undefined;
   id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null | undefined;
   dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {}) | undefined;
+  id_token_encrypted_response_alg?:
+    | ConnectionIdTokenEncryptedResponseAlgEnum
+    | (string & {})
+    | undefined;
+  id_token_encrypted_response_encs?: ConnectionIdTokenEncryptedResponseEncs | undefined;
   enable_pushed_authorization_requests?: boolean | undefined;
   pushed_authorization_request_endpoint?: string | undefined;
   token_endpoint_auth_method?:
@@ -17142,6 +17279,10 @@ export interface UpdateConnectionOptions {
     | undefined;
   id_token_session_expiry_supported?: boolean | undefined;
   useOauthSpecScope?: boolean | undefined;
+  /** The client ID registered with the identity provider */
+  client_id?: string | null | undefined;
+  /** Additional Google client IDs accepted as the `aud` (audience) of Google ID tokens, used by Google native login and Google Streamlined Linking. */
+  allowed_audiences?: UpdateConnectionOptionsAllowedAudiencesList | null | undefined;
   discovery_url?: string | null | undefined;
   oidc_metadata?: ConnectionsOIDCMetadata | null | undefined;
   thumbprints?: ConnectionThumbprints | undefined;
@@ -17585,6 +17726,10 @@ export interface UpdatePhoneTemplateResponseContent {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
+  /** The date and time the template was created, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  created_at: string;
+  /** The date and time the template was last updated, in ISO 8601 format. For a default template (one without an id), this is the time of the request. */
+  updated_at: string;
 }
 export interface UpdatePromptsRequest {
   universal_login_experience?: UniversalLoginExperienceEnum | (string & {}) | undefined;
@@ -17668,6 +17813,7 @@ export interface UpdateResourceServerRequest {
   subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
   authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {}) | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | (string & {}) | null | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
@@ -17719,6 +17865,7 @@ export interface UpdateResourceServerResponseContent {
   /** The client ID of the client that this resource server is linked to */
   client_id?: string | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | null | undefined;
 }
 export interface UpdateRiskAssessmentsSettingsRequest {
@@ -17961,8 +18108,8 @@ export const createBrandingTheme: API.OperationMethod<
   CreateBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<CreateBrandingThemeRequest>,
-  output: __S(14024, __c438, 8) as any as S.Schema<CreateBrandingThemeResponseContent>,
+  input: __S(14016, __c438, 0) as any as S.Schema<CreateBrandingThemeRequest>,
+  output: __S(14056, __c439, 8) as any as S.Schema<CreateBrandingThemeResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -17979,8 +18126,8 @@ export const createClient: API.OperationMethod<
   CreateClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14380, __c449, 12) as any as S.Schema<CreateClientRequest>,
-  output: __S(14582, __c455, 22) as any as S.Schema<CreateClientResponseContent>,
+  input: __S(14412, __c450, 12) as any as S.Schema<CreateClientRequest>,
+  output: __S(14615, __c456, 23) as any as S.Schema<CreateClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -17997,8 +18144,8 @@ export const createClientGrant: API.OperationMethod<
   CreateClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<CreateClientGrantRequest>,
-  output: __S(15104, __c472, 0) as any as S.Schema<CreateClientGrantResponseContent>,
+  input: __S(15104, __c472, 0) as any as S.Schema<CreateClientGrantRequest>,
+  output: __S(15136, __c473, 0) as any as S.Schema<CreateClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18015,8 +18162,8 @@ export const createClientsCimdPreview: API.OperationMethod<
   CreateClientsCimdPreviewError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<CreateClientsCimdPreviewRequest>,
-  output: __S(15489, __c484, 1) as any as S.Schema<PreviewCimdMetadataResponseContent>,
+  input: __S(15520, __c485, 0) as any as S.Schema<CreateClientsCimdPreviewRequest>,
+  output: __S(15521, __c485, 1) as any as S.Schema<PreviewCimdMetadataResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18033,8 +18180,8 @@ export const createClientsCimdRegister: API.OperationMethod<
   CreateClientsCimdRegisterError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<CreateClientsCimdRegisterRequest>,
-  output: __S(15873, __c496, 1) as any as S.Schema<RegisterCimdClientResponseContent>,
+  input: __S(15904, __c497, 0) as any as S.Schema<CreateClientsCimdRegisterRequest>,
+  output: __S(15905, __c497, 1) as any as S.Schema<RegisterCimdClientResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18074,8 +18221,8 @@ export const createConnectionProfile: API.OperationMethod<
   CreateConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<CreateConnectionProfileRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<CreateConnectionProfileResponseContent>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateConnectionProfileRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<CreateConnectionProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18092,8 +18239,8 @@ export const createCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<CreateCustomDomainResponseContent>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<CreateCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18110,8 +18257,8 @@ export const createDeviceCredentials: API.OperationMethod<
   CreateDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CreateDeviceCredentialsRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<CreatePublicKeyDeviceCredentialResponseContent>,
+  input: __S(1728, __c54, 0) as any as S.Schema<CreateDeviceCredentialsRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<CreatePublicKeyDeviceCredentialResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18128,8 +18275,8 @@ export const createEmailTemplate: API.OperationMethod<
   CreateEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CreateEmailTemplateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CreateEmailTemplateResponseContent>,
+  input: __S(2272, __c71, 0) as any as S.Schema<CreateEmailTemplateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CreateEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18146,8 +18293,8 @@ export const createEventStream: API.OperationMethod<
   CreateEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CreateEventStreamRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<CreateEventStreamResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateEventStreamRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<CreateEventStreamResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18164,8 +18311,8 @@ export const createFlow: API.OperationMethod<
   CreateFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateFlowRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<CreateFlowResponseContent>,
+  input: __S(3264, __c102, 0) as any as S.Schema<CreateFlowRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<CreateFlowResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18182,8 +18329,8 @@ export const createFlowsVaultConnection: API.OperationMethod<
   CreateFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<CreateFlowsVaultConnectionRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<CreateFlowsVaultConnectionResponseContent>,
+  input: __S(3712, __c116, 0) as any as S.Schema<CreateFlowsVaultConnectionRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<CreateFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18200,8 +18347,8 @@ export const createForm: API.OperationMethod<
   CreateFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreateFormRequest>,
-  output: __S(4108, __c128, 12) as any as S.Schema<CreateFormResponseContent>,
+  input: __S(4096, __c128, 0) as any as S.Schema<CreateFormRequest>,
+  output: __S(4140, __c129, 12) as any as S.Schema<CreateFormResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18218,8 +18365,8 @@ export const createGroupRole: API.OperationMethod<
   CreateGroupRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<CreateGroupRoleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateGroupRoleResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<CreateGroupRoleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateGroupRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18236,8 +18383,8 @@ export const createHook: API.OperationMethod<
   CreateHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CreateHookRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<CreateHookResponseContent>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CreateHookRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<CreateHookResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18254,8 +18401,8 @@ export const createLogStream: API.OperationMethod<
   CreateLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<CreateLogStreamRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<CreateLogStreamResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<CreateLogStreamRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<CreateLogStreamResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18272,8 +18419,8 @@ export const createNetworkAcl: API.OperationMethod<
   CreateNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<CreateNetworkAclRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateNetworkAclResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<CreateNetworkAclRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateNetworkAclResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18290,8 +18437,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6562, __c205, 2) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(6565, __c205, 5) as any as S.Schema<CreateOrganizationResponseContent>,
+  input: __S(6594, __c206, 2) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(6597, __c206, 5) as any as S.Schema<CreateOrganizationResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18313,8 +18460,8 @@ export const createOrganizationClientGrants: API.OperationMethod<
   CreateOrganizationClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<CreateOrganizationClientGrantsRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<AssociateOrganizationClientGrantResponseContent>,
+  input: __S(7008, __c219, 0) as any as S.Schema<CreateOrganizationClientGrantsRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<AssociateOrganizationClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18336,8 +18483,8 @@ export const createOrganizationGroupRole: API.OperationMethod<
   CreateOrganizationGroupRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<CreateOrganizationGroupRoleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateOrganizationGroupRoleResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<CreateOrganizationGroupRoleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateOrganizationGroupRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18354,8 +18501,8 @@ export const createOrganizationMemberRole: API.OperationMethod<
   CreateOrganizationMemberRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<CreateOrganizationMemberRoleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateOrganizationMemberRoleResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<CreateOrganizationMemberRoleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateOrganizationMemberRoleResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18372,8 +18519,8 @@ export const createPhoneProvider: API.OperationMethod<
   CreatePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<CreatePhoneProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateBrandingPhoneProviderResponseContent>,
+  input: __S(8288, __c259, 0) as any as S.Schema<CreatePhoneProviderRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<CreateBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18390,8 +18537,8 @@ export const createPhoneTemplate: API.OperationMethod<
   CreatePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<CreatePhoneTemplateRequest>,
-  output: __S(8770, __c274, 2) as any as S.Schema<CreatePhoneTemplateResponseContent>,
+  input: __S(8768, __c274, 0) as any as S.Schema<CreatePhoneTemplateRequest>,
+  output: __S(8802, __c275, 2) as any as S.Schema<CreatePhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18408,8 +18555,8 @@ export const createResourceServer: API.OperationMethod<
   CreateResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<CreateResourceServerRequest>,
-  output: __S(9193, __c287, 9) as any as S.Schema<CreateResourceServerResponseContent>,
+  input: __S(9152, __c286, 0) as any as S.Schema<CreateResourceServerRequest>,
+  output: __S(9225, __c288, 9) as any as S.Schema<CreateResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18426,8 +18573,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<CreateRoleResponseContent>,
+  input: __S(9600, __c300, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<CreateRoleResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18444,8 +18591,8 @@ export const createRoleGroup: API.OperationMethod<
   CreateRoleGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<CreateRoleGroupRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateRoleGroupResponse>,
+  input: __S(10048, __c314, 0) as any as S.Schema<CreateRoleGroupRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateRoleGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18462,8 +18609,8 @@ export const createRoleUser: API.OperationMethod<
   CreateRoleUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<CreateRoleUserRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateRoleUserResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<CreateRoleUserRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateRoleUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18480,8 +18627,8 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<CreateRuleRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<CreateRuleResponseContent>,
+  input: __S(10752, __c336, 0) as any as S.Schema<CreateRuleRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<CreateRuleResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18498,8 +18645,8 @@ export const createSelfServiceProfile: API.OperationMethod<
   CreateSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<CreateSelfServiceProfileRequest>,
-  output: __S(11172, __c349, 4) as any as S.Schema<CreateSelfServiceProfileResponseContent>,
+  input: __S(11168, __c349, 0) as any as S.Schema<CreateSelfServiceProfileRequest>,
+  output: __S(11204, __c350, 4) as any as S.Schema<CreateSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18516,8 +18663,8 @@ export const createTokenExchangeProfile: API.OperationMethod<
   CreateTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<CreateTokenExchangeProfileRequest>,
-  output: __S(11552, __c361, 0) as any as S.Schema<CreateTokenExchangeProfileResponseContent>,
+  input: __S(11552, __c361, 0) as any as S.Schema<CreateTokenExchangeProfileRequest>,
+  output: __S(11584, __c362, 0) as any as S.Schema<CreateTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18534,8 +18681,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11904, __c372, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(11970, __c374, 2) as any as S.Schema<CreateUserResponseContent>,
+  input: __S(11936, __c373, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(12002, __c375, 2) as any as S.Schema<CreateUserResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18552,8 +18699,8 @@ export const createUserRole: API.OperationMethod<
   CreateUserRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<CreateUserRoleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<CreateUserRoleResponse>,
+  input: __S(12352, __c386, 0) as any as S.Schema<CreateUserRoleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CreateUserRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18570,8 +18717,8 @@ export const deleteAction: API.OperationMethod<
   DeleteActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<DeleteActionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteActionResponse>,
+  input: __S(12704, __c397, 0) as any as S.Schema<DeleteActionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteActionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18588,8 +18735,8 @@ export const deleteAuthenticationMethods: API.OperationMethod<
   DeleteAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<DeleteAuthenticationMethodsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteAuthenticationMethodsResponse>,
+  input: __S(13056, __c408, 0) as any as S.Schema<DeleteAuthenticationMethodsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18611,13 +18758,13 @@ export const deleteAuthenticationMethodsByAuthenticationMethodId: API.OperationM
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13376,
-    __c418,
+    13408,
+    __c419,
     0,
   ) as any as S.Schema<DeleteAuthenticationMethodsByAuthenticationMethodIdRequest>,
   output: __S(
-    4640,
-    __c145,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<DeleteAuthenticationMethodsByAuthenticationMethodIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -18636,8 +18783,8 @@ export const deleteAuthenticators: API.OperationMethod<
   DeleteAuthenticatorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<DeleteAuthenticatorsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteAuthenticatorsResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<DeleteAuthenticatorsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteAuthenticatorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18654,8 +18801,8 @@ export const deleteBrandingTheme: API.OperationMethod<
   DeleteBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<DeleteBrandingThemeRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteBrandingThemeResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<DeleteBrandingThemeRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteBrandingThemeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18672,8 +18819,8 @@ export const deleteClient: API.OperationMethod<
   DeleteClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<DeleteClientRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<DeleteClientRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteClientResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18690,8 +18837,8 @@ export const deleteClientGrant: API.OperationMethod<
   DeleteClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<DeleteClientGrantRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientGrantResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<DeleteClientGrantRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteClientGrantResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18708,8 +18855,8 @@ export const deleteClientGrantsByGrantId: API.OperationMethod<
   DeleteClientGrantsByGrantIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<DeleteClientGrantsByGrantIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientGrantsByGrantIdResponse>,
+  input: __S(13856, __c433, 0) as any as S.Schema<DeleteClientGrantsByGrantIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteClientGrantsByGrantIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18726,8 +18873,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteConnectionResponse>,
+  input: __S(13888, __c434, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18744,8 +18891,8 @@ export const deleteConnectionProfile: API.OperationMethod<
   DeleteConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<DeleteConnectionProfileRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteConnectionProfileResponse>,
+  input: __S(13920, __c435, 0) as any as S.Schema<DeleteConnectionProfileRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteConnectionProfileResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18762,8 +18909,8 @@ export const deleteCredentialsByCredentialId: API.OperationMethod<
   DeleteCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<DeleteCredentialsByCredentialIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCredentialsByCredentialIdResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<DeleteCredentialsByCredentialIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteCredentialsByCredentialIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18780,8 +18927,8 @@ export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  input: __S(13984, __c437, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18798,8 +18945,8 @@ export const deleteCustomSigningKeys: API.OperationMethod<
   DeleteCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14048, __c439, 0) as any as S.Schema<DeleteCustomSigningKeysRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCustomSigningKeysResponse>,
+  input: __S(14080, __c440, 0) as any as S.Schema<DeleteCustomSigningKeysRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteCustomSigningKeysResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18816,8 +18963,8 @@ export const deleteDeviceCredentials: API.OperationMethod<
   DeleteDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<DeleteDeviceCredentialsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteDeviceCredentialsResponse>,
+  input: __S(14112, __c441, 0) as any as S.Schema<DeleteDeviceCredentialsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteDeviceCredentialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18834,8 +18981,8 @@ export const deleteDirectoryProvisioning: API.OperationMethod<
   DeleteDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<DeleteDirectoryProvisioningRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteDirectoryProvisioningResponse>,
+  input: __S(14144, __c442, 0) as any as S.Schema<DeleteDirectoryProvisioningRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteDirectoryProvisioningResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18852,10 +18999,10 @@ export const deleteDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   DeleteDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  input: __S(14176, __c443, 0) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdRequest>,
   output: __S(
-    4640,
-    __c145,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdResponse>,
   errors: [Forbidden, NotFound],
@@ -18878,8 +19025,8 @@ export const deleteEnabledConnectionsByConnectionId: API.OperationMethod<
   DeleteEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdResponse>,
+  input: __S(14208, __c444, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18896,8 +19043,8 @@ export const deleteEncryptionKey: API.OperationMethod<
   DeleteEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<DeleteEncryptionKeyRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEncryptionKeyResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<DeleteEncryptionKeyRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteEncryptionKeyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18914,8 +19061,8 @@ export const deleteEnrollmentsById: API.OperationMethod<
   DeleteEnrollmentsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<DeleteEnrollmentsByIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEnrollmentsByIdResponse>,
+  input: __S(14272, __c446, 0) as any as S.Schema<DeleteEnrollmentsByIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteEnrollmentsByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18932,8 +19079,8 @@ export const deleteEventStream: API.OperationMethod<
   DeleteEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<DeleteEventStreamRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEventStreamResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<DeleteEventStreamRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteEventStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18950,8 +19097,8 @@ export const deleteFlow: API.OperationMethod<
   DeleteFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<DeleteFlowRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowResponse>,
+  input: __S(14336, __c448, 0) as any as S.Schema<DeleteFlowRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteFlowResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18968,8 +19115,8 @@ export const deleteFlowsExecution: API.OperationMethod<
   DeleteFlowsExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<DeleteFlowsExecutionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowsExecutionResponse>,
+  input: __S(14368, __c449, 0) as any as S.Schema<DeleteFlowsExecutionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteFlowsExecutionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -18986,8 +19133,8 @@ export const deleteFlowsVaultConnection: API.OperationMethod<
   DeleteFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<DeleteFlowsVaultConnectionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowsVaultConnectionResponse>,
+  input: __S(14784, __c462, 0) as any as S.Schema<DeleteFlowsVaultConnectionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteFlowsVaultConnectionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19004,8 +19151,8 @@ export const deleteForm: API.OperationMethod<
   DeleteFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<DeleteFormRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFormResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<DeleteFormRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteFormResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19022,8 +19169,8 @@ export const deleteGrant: API.OperationMethod<
   DeleteGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<DeleteGrantRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGrantResponse>,
+  input: __S(14848, __c464, 0) as any as S.Schema<DeleteGrantRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteGrantResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19040,8 +19187,8 @@ export const deleteGrantsByUserId: API.OperationMethod<
   DeleteGrantsByUserIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<DeleteGrantsByUserIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGrantsByUserIdResponse>,
+  input: __S(14880, __c465, 0) as any as S.Schema<DeleteGrantsByUserIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteGrantsByUserIdResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19058,8 +19205,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(14912, __c466, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19076,8 +19223,8 @@ export const deleteGroupRoles: API.OperationMethod<
   DeleteGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<DeleteGroupRolesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGroupRolesResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<DeleteGroupRolesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteGroupRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19094,8 +19241,8 @@ export const deleteHook: API.OperationMethod<
   DeleteHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<DeleteHookRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteHookResponse>,
+  input: __S(14976, __c468, 0) as any as S.Schema<DeleteHookRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteHookResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19112,8 +19259,8 @@ export const deleteInvitationsByInvitationId: API.OperationMethod<
   DeleteInvitationsByInvitationIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14976, __c468, 0) as any as S.Schema<DeleteInvitationsByInvitationIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteInvitationsByInvitationIdResponse>,
+  input: __S(15008, __c469, 0) as any as S.Schema<DeleteInvitationsByInvitationIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteInvitationsByInvitationIdResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19130,8 +19277,8 @@ export const deleteIpsById: API.OperationMethod<
   DeleteIpsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<DeleteIpsByIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteIpsByIdResponse>,
+  input: __S(15040, __c470, 0) as any as S.Schema<DeleteIpsByIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteIpsByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19148,8 +19295,8 @@ export const deleteLogStream: API.OperationMethod<
   DeleteLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<DeleteLogStreamRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteLogStreamResponse>,
+  input: __S(15072, __c471, 0) as any as S.Schema<DeleteLogStreamRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19166,8 +19313,8 @@ export const deleteMembers: API.OperationMethod<
   DeleteMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<DeleteMembersRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteMembersResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<DeleteMembersRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteMembersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19184,8 +19331,8 @@ export const deleteMultifactorByProvider: API.OperationMethod<
   DeleteMultifactorByProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<DeleteMultifactorByProviderRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteMultifactorByProviderResponse>,
+  input: __S(15200, __c475, 0) as any as S.Schema<DeleteMultifactorByProviderRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteMultifactorByProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19202,8 +19349,8 @@ export const deleteNetworkAcl: API.OperationMethod<
   DeleteNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<DeleteNetworkAclRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteNetworkAclResponse>,
+  input: __S(15232, __c476, 0) as any as S.Schema<DeleteNetworkAclRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteNetworkAclResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19220,8 +19367,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(15264, __c477, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19238,8 +19385,8 @@ export const deleteOrganizationGroupRoles: API.OperationMethod<
   DeleteOrganizationGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<DeleteOrganizationGroupRolesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationGroupRolesResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<DeleteOrganizationGroupRolesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteOrganizationGroupRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19256,8 +19403,8 @@ export const deleteOrganizationMemberRoles: API.OperationMethod<
   DeleteOrganizationMemberRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<DeleteOrganizationMemberRolesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationMemberRolesResponse>,
+  input: __S(15328, __c479, 0) as any as S.Schema<DeleteOrganizationMemberRolesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteOrganizationMemberRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19274,8 +19421,8 @@ export const deletePermissions: API.OperationMethod<
   DeletePermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<DeletePermissionsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeletePermissionsResponse>,
+  input: __S(15360, __c480, 0) as any as S.Schema<DeletePermissionsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeletePermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19292,8 +19439,8 @@ export const deletePhoneProvider: API.OperationMethod<
   DeletePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<DeletePhoneProviderRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeletePhoneProviderResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<DeletePhoneProviderRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeletePhoneProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19310,8 +19457,8 @@ export const deletePhoneTemplate: API.OperationMethod<
   DeletePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<DeletePhoneTemplateRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeletePhoneTemplateResponse>,
+  input: __S(15456, __c483, 0) as any as S.Schema<DeletePhoneTemplateRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeletePhoneTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19328,8 +19475,8 @@ export const deleteProvider: API.OperationMethod<
   DeleteProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<DeleteProviderRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteProviderResponse>,
+  input: __S(15488, __c484, 0) as any as S.Schema<DeleteProviderRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19346,8 +19493,8 @@ export const deleteRefreshToken: API.OperationMethod<
   DeleteRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<DeleteRefreshTokenRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRefreshTokenResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<DeleteRefreshTokenRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRefreshTokenResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19364,8 +19511,8 @@ export const deleteRefreshTokensForUser: API.OperationMethod<
   DeleteRefreshTokensForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<DeleteRefreshTokensForUserRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRefreshTokensForUserResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<DeleteRefreshTokensForUserRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRefreshTokensForUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19382,8 +19529,8 @@ export const deleteResourceServer: API.OperationMethod<
   DeleteResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<DeleteResourceServerRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteResourceServerResponse>,
+  input: __S(15648, __c489, 0) as any as S.Schema<DeleteResourceServerRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteResourceServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19400,8 +19547,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19418,8 +19565,8 @@ export const deleteRoleGroups: API.OperationMethod<
   DeleteRoleGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<DeleteRoleGroupsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRoleGroupsResponse>,
+  input: __S(15712, __c491, 0) as any as S.Schema<DeleteRoleGroupsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRoleGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19436,8 +19583,8 @@ export const deleteRolePermissionAssignment: API.OperationMethod<
   DeleteRolePermissionAssignmentError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<DeleteRolePermissionAssignmentRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRolePermissionAssignmentResponse>,
+  input: __S(15744, __c492, 0) as any as S.Schema<DeleteRolePermissionAssignmentRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRolePermissionAssignmentResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19454,8 +19601,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(15776, __c493, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRuleResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19472,8 +19619,8 @@ export const deleteRulesConfig: API.OperationMethod<
   DeleteRulesConfigError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<DeleteRulesConfigRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRulesConfigResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<DeleteRulesConfigRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteRulesConfigResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19490,8 +19637,8 @@ export const deleteScimConfiguration: API.OperationMethod<
   DeleteScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<DeleteScimConfigurationRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteScimConfigurationResponse>,
+  input: __S(15840, __c495, 0) as any as S.Schema<DeleteScimConfigurationRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteScimConfigurationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19508,8 +19655,8 @@ export const deleteSecrets: API.OperationMethod<
   DeleteSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<DeleteSecretsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSecretsResponse>,
+  input: __S(15872, __c496, 0) as any as S.Schema<DeleteSecretsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteSecretsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19526,8 +19673,8 @@ export const deleteSelfServiceProfile: API.OperationMethod<
   DeleteSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<DeleteSelfServiceProfileRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSelfServiceProfileResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<DeleteSelfServiceProfileRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteSelfServiceProfileResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19544,8 +19691,8 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15936, __c498, 0) as any as S.Schema<DeleteSessionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSessionResponse>,
+  input: __S(15968, __c499, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19562,8 +19709,8 @@ export const deleteSessionsForUser: API.OperationMethod<
   DeleteSessionsForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<DeleteSessionsForUserRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSessionsForUserResponse>,
+  input: __S(16000, __c500, 0) as any as S.Schema<DeleteSessionsForUserRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteSessionsForUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19580,8 +19727,8 @@ export const deleteSynchronizedGroups: API.OperationMethod<
   DeleteSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16000, __c500, 0) as any as S.Schema<DeleteSynchronizedGroupsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSynchronizedGroupsResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<DeleteSynchronizedGroupsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19598,8 +19745,8 @@ export const deleteTokenExchangeProfile: API.OperationMethod<
   DeleteTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<DeleteTokenExchangeProfileRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteTokenExchangeProfileResponse>,
+  input: __S(16064, __c502, 0) as any as S.Schema<DeleteTokenExchangeProfileRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteTokenExchangeProfileResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19616,8 +19763,8 @@ export const deleteTokensByTokenId: API.OperationMethod<
   DeleteTokensByTokenIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<DeleteTokensByTokenIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteTokensByTokenIdResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<DeleteTokensByTokenIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteTokensByTokenIdResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19634,8 +19781,8 @@ export const deleteUniversalLogin: API.OperationMethod<
   DeleteUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<DeleteUniversalLoginRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUniversalLoginResponse>,
+  input: __S(16128, __c504, 0) as any as S.Schema<DeleteUniversalLoginRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUniversalLoginResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19652,8 +19799,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(16160, __c505, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19670,8 +19817,8 @@ export const deleteUserBlock: API.OperationMethod<
   DeleteUserBlockError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<DeleteUserBlockRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserBlockResponse>,
+  input: __S(16192, __c506, 0) as any as S.Schema<DeleteUserBlockRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUserBlockResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19688,8 +19835,8 @@ export const deleteUserBlocks: API.OperationMethod<
   DeleteUserBlocksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<DeleteUserBlocksRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserBlocksResponse>,
+  input: __S(16224, __c507, 0) as any as S.Schema<DeleteUserBlocksRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUserBlocksResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19706,8 +19853,8 @@ export const deleteUserIdentity: API.OperationMethod<
   DeleteUserIdentityError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteUserIdentityRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<DeleteUserIdentityResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteUserIdentityRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<DeleteUserIdentityResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19724,8 +19871,8 @@ export const deleteUserRoles: API.OperationMethod<
   DeleteUserRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteUserRolesRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserRolesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteUserRolesRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUserRolesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19742,8 +19889,8 @@ export const deleteUsersByEmail: API.OperationMethod<
   DeleteUsersByEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteUsersByEmailRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUsersByEmailResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteUsersByEmailRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteUsersByEmailResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19760,8 +19907,8 @@ export const deleteVcTemplatesById: API.OperationMethod<
   DeleteVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteVcTemplatesByIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<DeleteVcTemplatesByIdResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteVcTemplatesByIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<DeleteVcTemplatesByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19778,8 +19925,8 @@ export const getAction: API.OperationMethod<
   GetActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetActionRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<GetActionResponseContent>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetActionRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<GetActionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19796,8 +19943,8 @@ export const getActions: API.OperationMethod<
   GetActionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetActionsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<ListActionsPaginatedResponseContent>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetActionsRequest>,
+  output: __S(514, __c16, 2) as any as S.Schema<ListActionsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19814,8 +19961,8 @@ export const getActionVersion: API.OperationMethod<
   GetActionVersionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetActionVersionRequest>,
-  output: __S(424, __c13, 8) as any as S.Schema<GetActionVersionResponseContent>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetActionVersionRequest>,
+  output: __S(456, __c14, 8) as any as S.Schema<GetActionVersionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19832,8 +19979,8 @@ export const getActionVersions: API.OperationMethod<
   GetActionVersionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetActionVersionsRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ListActionVersionsPaginatedResponseContent>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetActionVersionsRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ListActionVersionsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19850,8 +19997,8 @@ export const getActiveUsers: API.OperationMethod<
   GetActiveUsersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetActiveUsersRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<GetActiveUsersResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetActiveUsersRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<GetActiveUsersResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19868,8 +20015,8 @@ export const getAllRendering: API.OperationMethod<
   GetAllRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAllRenderingRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<GetAllRenderingResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetAllRenderingRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetAllRenderingResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19886,8 +20033,8 @@ export const getApns: API.OperationMethod<
   GetApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetApnsRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<GetGuardianFactorsProviderApnsResponseContent>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetApnsRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetGuardianFactorsProviderApnsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19904,8 +20051,8 @@ export const getAuthenticationMethods: API.OperationMethod<
   GetAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetAuthenticationMethodsRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<GetAuthenticationMethodsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetAuthenticationMethodsRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<GetAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19927,11 +20074,11 @@ export const getAuthenticationMethodsByAuthenticationMethodId: API.OperationMeth
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    801,
-    __c25,
+    833,
+    __c26,
     1,
   ) as any as S.Schema<GetAuthenticationMethodsByAuthenticationMethodIdRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<GetUserAuthenticationMethodResponseContent>,
+  output: __S(832, __c26, 0) as any as S.Schema<GetUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19948,8 +20095,8 @@ export const getBindings: API.OperationMethod<
   GetBindingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetBindingsRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<ListActionBindingsPaginatedResponseContent>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetBindingsRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<ListActionBindingsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19966,8 +20113,8 @@ export const getBotDetection: API.OperationMethod<
   GetBotDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetBotDetectionRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<GetBotDetectionSettingsResponseContent>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetBotDetectionRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<GetBotDetectionSettingsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -19984,8 +20131,8 @@ export const getBranding: API.OperationMethod<
   GetBrandingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetBrandingRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<GetBrandingResponseContent>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetBrandingRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<GetBrandingResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20002,8 +20149,8 @@ export const getBrandingPhoneProviders: API.OperationMethod<
   GetBrandingPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetBrandingPhoneProvidersRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<ListBrandingPhoneProvidersResponseContent>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetBrandingPhoneProvidersRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<ListBrandingPhoneProvidersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20020,8 +20167,8 @@ export const getBrandingTheme: API.OperationMethod<
   GetBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetBrandingThemeRequest>,
-  output: __S(14024, __c438, 8) as any as S.Schema<GetBrandingThemeResponseContent>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetBrandingThemeRequest>,
+  output: __S(14056, __c439, 8) as any as S.Schema<GetBrandingThemeResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20038,10 +20185,10 @@ export const getBreachedPasswordDetection: API.OperationMethod<
   GetBreachedPasswordDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetBreachedPasswordDetectionRequest>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetBreachedPasswordDetectionRequest>,
   output: __S(
-    1154,
-    __c36,
+    1186,
+    __c37,
     2,
   ) as any as S.Schema<GetBreachedPasswordDetectionSettingsResponseContent>,
   errors: [Forbidden],
@@ -20060,8 +20207,8 @@ export const getBruteForceProtection: API.OperationMethod<
   GetBruteForceProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetBruteForceProtectionRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<GetBruteForceSettingsResponseContent>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetBruteForceProtectionRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetBruteForceSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20078,8 +20225,8 @@ export const getCaptcha: API.OperationMethod<
   GetCaptchaError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetCaptchaRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<GetAttackProtectionCaptchaResponseContent>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetCaptchaRequest>,
+  output: __S(1412, __c44, 4) as any as S.Schema<GetAttackProtectionCaptchaResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20096,8 +20243,8 @@ export const getClient: API.OperationMethod<
   GetClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetClientRequest>,
-  output: __S(14582, __c455, 22) as any as S.Schema<GetClientResponseContent>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetClientRequest>,
+  output: __S(14615, __c456, 23) as any as S.Schema<GetClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20114,8 +20261,8 @@ export const getClientConnections: API.OperationMethod<
   GetClientConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetClientConnectionsRequest>,
-  output: __S(1443, __c45, 3) as any as S.Schema<ListClientConnectionsResponseContent>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetClientConnectionsRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ListClientConnectionsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20132,8 +20279,8 @@ export const getClientGrant: API.OperationMethod<
   GetClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetClientGrantRequest>,
-  output: __S(15104, __c472, 0) as any as S.Schema<GetClientGrantResponseContent>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetClientGrantRequest>,
+  output: __S(15136, __c473, 0) as any as S.Schema<GetClientGrantResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20150,8 +20297,8 @@ export const getClientGrantOrganizations: API.OperationMethod<
   GetClientGrantOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetClientGrantOrganizationsRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<GetClientGrantOrganizationsResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetClientGrantOrganizationsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetClientGrantOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20168,8 +20315,8 @@ export const getClientGrants: API.OperationMethod<
   GetClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetClientGrantsRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<GetClientGrantsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetClientGrantsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<GetClientGrantsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20186,8 +20333,8 @@ export const getClients: API.OperationMethod<
   GetClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetClientsRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<GetClientsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetClientsRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<GetClientsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20204,8 +20351,8 @@ export const getConnectedAccounts: API.OperationMethod<
   GetConnectedAccountsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetConnectedAccountsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListUserConnectedAccountsResponseContent>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetConnectedAccountsRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<ListUserConnectedAccountsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20222,7 +20369,7 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetConnectionRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<GetConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
@@ -20240,8 +20387,8 @@ export const getConnectionClients: API.OperationMethod<
   GetConnectionClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetConnectionClientsRequest>,
-  output: __S(1667, __c52, 3) as any as S.Schema<GetConnectionEnabledClientsResponseContent>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetConnectionClientsRequest>,
+  output: __S(1699, __c53, 3) as any as S.Schema<GetConnectionEnabledClientsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20258,8 +20405,8 @@ export const getConnectionProfile: API.OperationMethod<
   GetConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetConnectionProfileRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<GetConnectionProfileResponseContent>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetConnectionProfileRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<GetConnectionProfileResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20276,8 +20423,8 @@ export const getConnectionProfiles: API.OperationMethod<
   GetConnectionProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetConnectionProfilesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<ListConnectionProfilesPaginatedResponseContent>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetConnectionProfilesRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListConnectionProfilesPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20294,8 +20441,8 @@ export const getConnectionProfileTemplate: API.OperationMethod<
   GetConnectionProfileTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetConnectionProfileTemplateRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<GetConnectionProfileTemplateResponseContent>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetConnectionProfileTemplateRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<GetConnectionProfileTemplateResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20312,8 +20459,8 @@ export const getConnectionProfileTemplates: API.OperationMethod<
   GetConnectionProfileTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetConnectionProfileTemplatesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListConnectionProfileTemplateResponseContent>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetConnectionProfileTemplatesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListConnectionProfileTemplateResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20330,8 +20477,8 @@ export const getConnections: API.OperationMethod<
   GetConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<GetConnectionsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<GetConnectionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20348,8 +20495,8 @@ export const getConnectionsDirectoryProvisionings: API.OperationMethod<
   GetConnectionsDirectoryProvisioningsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetConnectionsDirectoryProvisioningsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ListDirectoryProvisioningsResponseContent>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetConnectionsDirectoryProvisioningsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListDirectoryProvisioningsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20366,8 +20513,8 @@ export const getConnectionsScimConfigurations: API.OperationMethod<
   GetConnectionsScimConfigurationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetConnectionsScimConfigurationsRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<ListSCIMConfigurationsResponseContent>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetConnectionsScimConfigurationsRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ListSCIMConfigurationsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20384,8 +20531,8 @@ export const getCredentials: API.OperationMethod<
   GetCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetCredentialsRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<GetCredentialsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetCredentialsRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<GetCredentialsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20402,8 +20549,8 @@ export const getCredentialsByCredentialId: API.OperationMethod<
   GetCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetCredentialsByCredentialIdRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<GetClientCredentialResponseContent>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetCredentialsByCredentialIdRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<GetClientCredentialResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20420,8 +20567,8 @@ export const getCustomDomain: API.OperationMethod<
   GetCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<GetCustomDomainResponseContent>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetCustomDomainRequest>,
+  output: __S(2241, __c70, 1) as any as S.Schema<GetCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20438,8 +20585,8 @@ export const getCustomDomains: API.OperationMethod<
   GetCustomDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetCustomDomainsRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<GetCustomDomainsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetCustomDomainsRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<GetCustomDomainsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20456,8 +20603,8 @@ export const getCustomSigningKeys: API.OperationMethod<
   GetCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetCustomSigningKeysRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<GetCustomSigningKeysResponseContent>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetCustomSigningKeysRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<GetCustomSigningKeysResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20474,8 +20621,8 @@ export const getCustomTextByLanguage: API.OperationMethod<
   GetCustomTextByLanguageError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetCustomTextByLanguageRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<GetCustomTextByLanguageResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetCustomTextByLanguageRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<GetCustomTextByLanguageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20492,8 +20639,8 @@ export const getDaily: API.OperationMethod<
   GetDailyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetDailyRequest>,
-  output: __S(2467, __c77, 3) as any as S.Schema<GetDailyResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetDailyRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<GetDailyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20510,8 +20657,8 @@ export const getDefault: API.OperationMethod<
   GetDefaultError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetDefaultRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<GetDefaultResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetDefaultRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<GetDefaultResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20528,8 +20675,8 @@ export const getDefaultBrandingTheme: API.OperationMethod<
   GetDefaultBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetDefaultBrandingThemeRequest>,
-  output: __S(14024, __c438, 8) as any as S.Schema<GetBrandingDefaultThemeResponseContent>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetDefaultBrandingThemeRequest>,
+  output: __S(14056, __c439, 8) as any as S.Schema<GetBrandingDefaultThemeResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20546,8 +20693,8 @@ export const getDefaultMapping: API.OperationMethod<
   GetDefaultMappingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetDefaultMappingRequest>,
-  output: __S(2561, __c80, 1) as any as S.Schema<GetScimConfigurationDefaultMappingResponseContent>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetDefaultMappingRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<GetScimConfigurationDefaultMappingResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20564,8 +20711,8 @@ export const getDeliveriesByEventId: API.OperationMethod<
   GetDeliveriesByEventIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetDeliveriesByEventIdRequest>,
-  output: __S(2627, __c82, 3) as any as S.Schema<GetEventStreamDeliveryHistoryResponseContent>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetDeliveriesByEventIdRequest>,
+  output: __S(2659, __c83, 3) as any as S.Schema<GetEventStreamDeliveryHistoryResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20582,8 +20729,8 @@ export const getDeviceCredentials: API.OperationMethod<
   GetDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<GetDeviceCredentialsRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<GetDeviceCredentialsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetDeviceCredentialsRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<GetDeviceCredentialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20600,8 +20747,8 @@ export const getDirectoryProvisioning: API.OperationMethod<
   GetDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetDirectoryProvisioningRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<GetDirectoryProvisioningResponseContent>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetDirectoryProvisioningRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<GetDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20622,10 +20769,10 @@ export const getDirectoryProvisioningDefaultMapping: API.OperationMethod<
   GetDirectoryProvisioningDefaultMappingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetDirectoryProvisioningDefaultMappingRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetDirectoryProvisioningDefaultMappingRequest>,
   output: __S(
-    2753,
-    __c86,
+    2785,
+    __c87,
     1,
   ) as any as S.Schema<GetDirectoryProvisioningDefaultMappingResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -20644,8 +20791,8 @@ export const getDiscoveryDomains: API.OperationMethod<
   GetDiscoveryDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<GetDiscoveryDomainsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<ListOrganizationDiscoveryDomainsResponseContent>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetDiscoveryDomainsRequest>,
+  output: __S(2818, __c88, 2) as any as S.Schema<ListOrganizationDiscoveryDomainsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20666,8 +20813,8 @@ export const getDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   GetDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetDiscoveryDomainsByDiscoveryDomainIdRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<GetOrganizationDiscoveryDomainResponseContent>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<GetOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20684,8 +20831,8 @@ export const getEmailFactorSettings: API.OperationMethod<
   GetEmailFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetEmailFactorSettingsRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<GetEmailFactorSettingsResponseContent>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetEmailFactorSettingsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<GetEmailFactorSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20702,8 +20849,8 @@ export const getEmailTemplate: API.OperationMethod<
   GetEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetEmailTemplateRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<GetEmailTemplateResponseContent>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetEmailTemplateRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<GetEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20720,8 +20867,8 @@ export const getEnabledConnections: API.OperationMethod<
   GetEnabledConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetEnabledConnectionsRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<GetEnabledConnectionsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetEnabledConnectionsRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<GetEnabledConnectionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20738,8 +20885,8 @@ export const getEnabledConnectionsByConnectionId: API.OperationMethod<
   GetEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<GetEnabledConnectionsByConnectionIdRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<GetOrganizationConnectionResponseContent>,
+  input: __S(3072, __c96, 0) as any as S.Schema<GetEnabledConnectionsByConnectionIdRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<GetOrganizationConnectionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20756,8 +20903,8 @@ export const getEncryptionKey: API.OperationMethod<
   GetEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetEncryptionKeyRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<GetEncryptionKeyResponseContent>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetEncryptionKeyRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<GetEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20774,8 +20921,8 @@ export const getEncryptionKeys: API.OperationMethod<
   GetEncryptionKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetEncryptionKeysRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<GetEncryptionKeysResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<GetEncryptionKeysRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<GetEncryptionKeysResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20792,8 +20939,8 @@ export const getEnrollments: API.OperationMethod<
   GetEnrollmentsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetEnrollmentsRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<GetEnrollmentsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetEnrollmentsRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<GetEnrollmentsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20810,8 +20957,8 @@ export const getEnrollmentsById: API.OperationMethod<
   GetEnrollmentsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetEnrollmentsByIdRequest>,
-  output: __S(3297, __c103, 1) as any as S.Schema<GetGuardianEnrollmentResponseContent>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetEnrollmentsByIdRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<GetGuardianEnrollmentResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20828,8 +20975,8 @@ export const getErrors: API.OperationMethod<
   GetErrorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetErrorsRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<GetErrorsResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetErrorsRequest>,
+  output: __S(3361, __c105, 1) as any as S.Schema<GetErrorsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20846,8 +20993,8 @@ export const getEventDeliveries: API.OperationMethod<
   GetEventDeliveriesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetEventDeliveriesRequest>,
-  output: __S(3362, __c105, 2) as any as S.Schema<ListEventStreamDeliveriesResponseContent>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetEventDeliveriesRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<ListEventStreamDeliveriesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20864,8 +21011,8 @@ export const getEventStream: API.OperationMethod<
   GetEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetEventStreamRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<GetEventStreamResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetEventStreamRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<GetEventStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20882,8 +21029,8 @@ export const getEventStreams: API.OperationMethod<
   GetEventStreamsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetEventStreamsRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<ListEventStreamsResponseContent>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetEventStreamsRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<ListEventStreamsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20900,8 +21047,8 @@ export const getExecution: API.OperationMethod<
   GetExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<GetExecutionRequest>,
-  output: __S(3459, __c108, 3) as any as S.Schema<GetActionExecutionResponseContent>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetExecutionRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<GetActionExecutionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20918,8 +21065,8 @@ export const getFactorDuoSettings: API.OperationMethod<
   GetFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetFactorDuoSettingsRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<GetGuardianFactorDuoSettingsResponseContent>,
+  input: __S(3520, __c110, 0) as any as S.Schema<GetFactorDuoSettingsRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<GetGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20936,8 +21083,8 @@ export const getFactorPhoneTemplates: API.OperationMethod<
   GetFactorPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetFactorPhoneTemplatesRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<GetGuardianFactorPhoneTemplatesResponseContent>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetFactorPhoneTemplatesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<GetGuardianFactorPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20954,8 +21101,8 @@ export const getFactors: API.OperationMethod<
   GetFactorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetFactorsRequest>,
-  output: __S(3620, __c113, 4) as any as S.Schema<GetFactorsResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetFactorsRequest>,
+  output: __S(3652, __c114, 4) as any as S.Schema<GetFactorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20972,8 +21119,8 @@ export const getFactorSmsTemplates: API.OperationMethod<
   GetFactorSmsTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetFactorSmsTemplatesRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<GetGuardianFactorSmsTemplatesResponseContent>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetFactorSmsTemplatesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<GetGuardianFactorSmsTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20990,8 +21137,8 @@ export const getFlow: API.OperationMethod<
   GetFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetFlowRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<GetFlowResponseContent>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetFlowRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GetFlowResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21008,8 +21155,8 @@ export const getFlows: API.OperationMethod<
   GetFlowsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetFlowsRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GetFlowsResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetFlowsRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetFlowsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21026,8 +21173,8 @@ export const getFlowsExecution: API.OperationMethod<
   GetFlowsExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetFlowsExecutionRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<GetFlowExecutionResponseContent>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetFlowsExecutionRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetFlowExecutionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21044,8 +21191,8 @@ export const getFlowsExecutions: API.OperationMethod<
   GetFlowsExecutionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetFlowsExecutionsRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<GetFlowsExecutionsResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetFlowsExecutionsRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<GetFlowsExecutionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21062,8 +21209,8 @@ export const getFlowsVaultConnection: API.OperationMethod<
   GetFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetFlowsVaultConnectionRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<GetFlowsVaultConnectionResponseContent>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetFlowsVaultConnectionRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<GetFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21080,8 +21227,8 @@ export const getFlowsVaultConnections: API.OperationMethod<
   GetFlowsVaultConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetFlowsVaultConnectionsRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<GetFlowsVaultConnectionsResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetFlowsVaultConnectionsRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<GetFlowsVaultConnectionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21098,8 +21245,8 @@ export const getForm: API.OperationMethod<
   GetFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetFormRequest>,
-  output: __S(4108, __c128, 12) as any as S.Schema<GetFormResponseContent>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetFormRequest>,
+  output: __S(4140, __c129, 12) as any as S.Schema<GetFormResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21116,8 +21263,8 @@ export const getForms: API.OperationMethod<
   GetFormsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetFormsRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<GetFormsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetFormsRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetFormsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21134,8 +21281,8 @@ export const getGrants: API.OperationMethod<
   GetGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetGrantsRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<GetGrantsResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetGrantsRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<GetGrantsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21152,8 +21299,8 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<GetGroupResponseContent>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<GetGroupResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21170,8 +21317,8 @@ export const getGroupMembers: API.OperationMethod<
   GetGroupMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetGroupMembersRequest>,
-  output: __S(4163, __c130, 3) as any as S.Schema<GetGroupMembersResponseContent>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetGroupMembersRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<GetGroupMembersResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21188,8 +21335,8 @@ export const getGroupRoles: API.OperationMethod<
   GetGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetGroupRolesRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<ListGroupRolesResponseContent>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetGroupRolesRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<ListGroupRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21206,8 +21353,8 @@ export const getGroups: API.OperationMethod<
   GetGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetGroupsRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<GetGroupsResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetGroupsRequest>,
+  output: __S(4289, __c134, 1) as any as S.Schema<GetGroupsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21224,8 +21371,8 @@ export const getGuardianPhoneProviders: API.OperationMethod<
   GetGuardianPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetGuardianPhoneProvidersRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GetGuardianFactorsProviderPhoneResponseContent>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetGuardianPhoneProvidersRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GetGuardianFactorsProviderPhoneResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21242,8 +21389,8 @@ export const getGuardianSettings: API.OperationMethod<
   GetGuardianSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetGuardianSettingsRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<GetGuardianSettingsResponseContent>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetGuardianSettingsRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<GetGuardianSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21260,8 +21407,8 @@ export const getHook: API.OperationMethod<
   GetHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetHookRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<GetHookResponseContent>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetHookRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<GetHookResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21278,8 +21425,8 @@ export const getHooks: API.OperationMethod<
   GetHooksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetHooksRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<GetHooksResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetHooksRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetHooksResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21296,8 +21443,8 @@ export const getInvitations: API.OperationMethod<
   GetInvitationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetInvitationsRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<GetInvitationsResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetInvitationsRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<GetInvitationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21314,8 +21461,8 @@ export const getInvitationsByInvitationId: API.OperationMethod<
   GetInvitationsByInvitationIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetInvitationsByInvitationIdRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<GetOrganizationInvitationResponseContent>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetInvitationsByInvitationIdRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<GetOrganizationInvitationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21332,8 +21479,8 @@ export const getIpsById: API.OperationMethod<
   GetIpsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetIpsByIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GetIpsByIdResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetIpsByIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GetIpsByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21350,8 +21497,8 @@ export const getJob: API.OperationMethod<
   GetJobError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(4674, __c146, 2) as any as S.Schema<GetJobResponseContent>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(4706, __c147, 2) as any as S.Schema<GetJobResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21361,15 +21508,15 @@ export const getJob: API.OperationMethod<
 }));
 
 export type GetKeysError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get connection keys Gets the connection keys for the Okta, OIDC, or SAML (samlp) connection strategy. */
+/** Get connection keys Gets the connection keys for the Okta, OIDC, or SAML (samlp) connection strategy. The response includes both signing keys and encryption keys, told apart by `key_use`. Encryption keys apply only to OIDC and Okta connections. */
 export const getKeys: API.OperationMethod<
   GetKeysRequest,
   GetKeysResponse,
   GetKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetKeysRequest>,
-  output: __S(4707, __c147, 3) as any as S.Schema<GetKeysResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetKeysRequest>,
+  output: __S(4739, __c148, 3) as any as S.Schema<GetKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21386,8 +21533,8 @@ export const getLog: API.OperationMethod<
   GetLogError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetLogRequest>,
-  output: __S(4739, __c148, 3) as any as S.Schema<GetLogResponseContent>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetLogRequest>,
+  output: __S(4771, __c149, 3) as any as S.Schema<GetLogResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21404,8 +21551,8 @@ export const getLogs: API.OperationMethod<
   GetLogsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetLogsRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<GetLogsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetLogsRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<GetLogsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21422,8 +21569,8 @@ export const getLogsByUser: API.OperationMethod<
   GetLogsByUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetLogsByUserRequest>,
-  output: __S(4801, __c150, 1) as any as S.Schema<GetLogsByUserResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetLogsByUserRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<GetLogsByUserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21440,8 +21587,8 @@ export const getLogStream: API.OperationMethod<
   GetLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetLogStreamRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<GetLogStreamResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetLogStreamRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<GetLogStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21458,8 +21605,8 @@ export const getLogStreams: API.OperationMethod<
   GetLogStreamsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetLogStreamsRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<GetLogStreamsResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetLogStreamsRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<GetLogStreamsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21476,10 +21623,10 @@ export const getMessageTypes: API.OperationMethod<
   GetMessageTypesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetMessageTypesRequest>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetMessageTypesRequest>,
   output: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<GetGuardianFactorPhoneMessageTypesResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -21498,10 +21645,10 @@ export const getNameByDiscoveryDomain: API.OperationMethod<
   GetNameByDiscoveryDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetNameByDiscoveryDomainRequest>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetNameByDiscoveryDomainRequest>,
   output: __S(
-    2816,
-    __c88,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<GetOrganizationDiscoveryDomainByNameResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -21520,8 +21667,8 @@ export const getNameByName: API.OperationMethod<
   GetNameByNameError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetNameByNameRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<GetOrganizationByNameResponseContent>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetNameByNameRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<GetOrganizationByNameResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21538,8 +21685,8 @@ export const getNetworkAcl: API.OperationMethod<
   GetNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetNetworkAclRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<GetNetworkAclsResponseContent>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetNetworkAclRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<GetNetworkAclsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21556,8 +21703,8 @@ export const getNetworkAcls: API.OperationMethod<
   GetNetworkAclsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetNetworkAclsRequest>,
-  output: __S(5185, __c162, 1) as any as S.Schema<GetNetworkAclsResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetNetworkAclsRequest>,
+  output: __S(5217, __c163, 1) as any as S.Schema<GetNetworkAclsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21574,10 +21721,10 @@ export const getNewDevice: API.OperationMethod<
   GetNewDeviceError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetNewDeviceRequest>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetNewDeviceRequest>,
   output: __S(
-    5248,
-    __c164,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<GetRiskAssessmentsSettingsNewDeviceResponseContent>,
   errors: [Forbidden, NotFound],
@@ -21596,8 +21743,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<GetOrganizationResponseContent>,
+  input: __S(5312, __c166, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<GetOrganizationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21614,8 +21761,8 @@ export const getOrganizationClientGrants: API.OperationMethod<
   GetOrganizationClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetOrganizationClientGrantsRequest>,
-  output: __S(5313, __c166, 1) as any as S.Schema<GetOrganizationClientGrantsResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetOrganizationClientGrantsRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<GetOrganizationClientGrantsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21632,8 +21779,8 @@ export const getOrganizationGroupRoles: API.OperationMethod<
   GetOrganizationGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<GetOrganizationGroupRolesRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<ListOrganizationGroupRolesResponseContent>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetOrganizationGroupRolesRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<ListOrganizationGroupRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21650,8 +21797,8 @@ export const getOrganizationGroups: API.OperationMethod<
   GetOrganizationGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetOrganizationGroupsRequest>,
-  output: __S(5410, __c169, 2) as any as S.Schema<ListOrganizationGroupsResponseContent>,
+  input: __S(5408, __c169, 0) as any as S.Schema<GetOrganizationGroupsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<ListOrganizationGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21672,10 +21819,10 @@ export const getOrganizationMemberEffectiveRoles: API.OperationMethod<
   GetOrganizationMemberEffectiveRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetOrganizationMemberEffectiveRolesRequest>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetOrganizationMemberEffectiveRolesRequest>,
   output: __S(
-    5474,
-    __c171,
+    5506,
+    __c172,
     2,
   ) as any as S.Schema<ListOrganizationMemberEffectiveRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -21694,8 +21841,8 @@ export const getOrganizationMemberRoles: API.OperationMethod<
   GetOrganizationMemberRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetOrganizationMemberRolesRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<GetOrganizationMemberRolesResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetOrganizationMemberRolesRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetOrganizationMemberRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21716,10 +21863,10 @@ export const getOrganizationMemberRoleSourceGroups: API.OperationMethod<
   GetOrganizationMemberRoleSourceGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetOrganizationMemberRoleSourceGroupsRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetOrganizationMemberRoleSourceGroupsRequest>,
   output: __S(
-    5410,
-    __c169,
+    5442,
+    __c170,
     2,
   ) as any as S.Schema<ListOrganizationMemberRoleSourceGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -21738,8 +21885,8 @@ export const getOrganizationMembers: API.OperationMethod<
   GetOrganizationMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<GetOrganizationMembersRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<GetOrganizationMembersResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetOrganizationMembersRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<GetOrganizationMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21756,8 +21903,8 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetOrganizationsRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<GetOrganizationsResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetOrganizationsRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<GetOrganizationsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21774,8 +21921,8 @@ export const getPartials: API.OperationMethod<
   GetPartialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetPartialsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<GetPartialsResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetPartialsRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<GetPartialsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21792,8 +21939,8 @@ export const getPermissions: API.OperationMethod<
   GetPermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetPermissionsRequest>,
-  output: __S(5697, __c178, 1) as any as S.Schema<GetPermissionsResponse>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetPermissionsRequest>,
+  output: __S(5729, __c179, 1) as any as S.Schema<GetPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21810,8 +21957,8 @@ export const getPhoneFactorSettings: API.OperationMethod<
   GetPhoneFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetPhoneFactorSettingsRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<GetPhoneFactorSettingsResponseContent>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetPhoneFactorSettingsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<GetPhoneFactorSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21828,8 +21975,8 @@ export const getPhoneProvider: API.OperationMethod<
   GetPhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetPhoneProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<GetBrandingPhoneProviderResponseContent>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetPhoneProviderRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<GetBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21846,8 +21993,8 @@ export const getPhoneProviderProtection: API.OperationMethod<
   GetPhoneProviderProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetPhoneProviderProtectionRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<GetPhoneProviderProtectionResponseContent>,
+  input: __S(5824, __c182, 0) as any as S.Schema<GetPhoneProviderProtectionRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GetPhoneProviderProtectionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21864,8 +22011,8 @@ export const getPhoneTemplate: API.OperationMethod<
   GetPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetPhoneTemplateRequest>,
-  output: __S(8770, __c274, 2) as any as S.Schema<GetPhoneTemplateResponseContent>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetPhoneTemplateRequest>,
+  output: __S(8802, __c275, 2) as any as S.Schema<GetPhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21882,8 +22029,8 @@ export const getPhoneTemplates: API.OperationMethod<
   GetPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetPhoneTemplatesRequest>,
-  output: __S(5890, __c184, 2) as any as S.Schema<ListPhoneTemplatesResponseContent>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetPhoneTemplatesRequest>,
+  output: __S(5922, __c185, 2) as any as S.Schema<ListPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21900,10 +22047,10 @@ export const getPhoneTwilioFactorProvider: API.OperationMethod<
   GetPhoneTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetPhoneTwilioFactorProviderRequest>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetPhoneTwilioFactorProviderRequest>,
   output: __S(
-    5952,
-    __c186,
+    5984,
+    __c187,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderPhoneTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -21922,10 +22069,10 @@ export const getPnProviders: API.OperationMethod<
   GetPnProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetPnProvidersRequest>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetPnProvidersRequest>,
   output: __S(
-    4320,
-    __c135,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderPushNotificationResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -21944,8 +22091,8 @@ export const getPolicies: API.OperationMethod<
   GetPoliciesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetPoliciesRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<GetPoliciesResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetPoliciesRequest>,
+  output: __S(6144, __c192, 0) as any as S.Schema<GetPoliciesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21962,8 +22109,8 @@ export const getPrompts: API.OperationMethod<
   GetPromptsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetPromptsRequest>,
-  output: __S(6176, __c193, 0) as any as S.Schema<GetSettingsResponseContent>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetPromptsRequest>,
+  output: __S(6208, __c194, 0) as any as S.Schema<GetSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21980,8 +22127,8 @@ export const getProvider: API.OperationMethod<
   GetProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetProviderRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<GetEmailProviderResponseContent>,
+  input: __S(6240, __c195, 0) as any as S.Schema<GetProviderRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<GetEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21998,8 +22145,8 @@ export const getRefreshToken: API.OperationMethod<
   GetRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetRefreshTokenRequest>,
-  output: __S(6307, __c197, 3) as any as S.Schema<GetRefreshTokenResponseContent>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetRefreshTokenRequest>,
+  output: __S(6339, __c198, 3) as any as S.Schema<GetRefreshTokenResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22016,8 +22163,8 @@ export const getRefreshTokensForUser: API.OperationMethod<
   GetRefreshTokensForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<GetRefreshTokensForUserRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<ListRefreshTokensPaginatedResponseContent>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetRefreshTokensForUserRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<ListRefreshTokensPaginatedResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22034,8 +22181,8 @@ export const getRendering: API.OperationMethod<
   GetRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6369, __c199, 1) as any as S.Schema<GetRenderingRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<GetAculResponseContent>,
+  input: __S(6401, __c200, 1) as any as S.Schema<GetRenderingRequest>,
+  output: __S(6400, __c200, 0) as any as S.Schema<GetAculResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22052,8 +22199,8 @@ export const getResourceServer: API.OperationMethod<
   GetResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<GetResourceServerRequest>,
-  output: __S(9193, __c287, 9) as any as S.Schema<GetResourceServerResponseContent>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetResourceServerRequest>,
+  output: __S(9225, __c288, 9) as any as S.Schema<GetResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22070,8 +22217,8 @@ export const getResourceServers: API.OperationMethod<
   GetResourceServersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetResourceServersRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<GetResourceServersResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetResourceServersRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<GetResourceServersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22088,8 +22235,8 @@ export const getRiskAssessmentsSettings: API.OperationMethod<
   GetRiskAssessmentsSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<GetRiskAssessmentsSettingsRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<GetRiskAssessmentsSettingsResponseContent>,
+  input: __S(6528, __c204, 0) as any as S.Schema<GetRiskAssessmentsSettingsRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<GetRiskAssessmentsSettingsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22106,8 +22253,8 @@ export const getRole: API.OperationMethod<
   GetRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<GetRoleResponseContent>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetRoleRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<GetRoleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22124,8 +22271,8 @@ export const getRoleGroups: API.OperationMethod<
   GetRoleGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetRoleGroupsRequest>,
-  output: __S(5410, __c169, 2) as any as S.Schema<ListRoleGroupsResponseContent>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetRoleGroupsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<ListRoleGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22142,8 +22289,8 @@ export const getRolePermission: API.OperationMethod<
   GetRolePermissionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetRolePermissionRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<GetRolePermissionResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetRolePermissionRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetRolePermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22160,8 +22307,8 @@ export const getRoles: API.OperationMethod<
   GetRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetRolesRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<GetRolesResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetRolesRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<GetRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22178,8 +22325,8 @@ export const getRoleUser: API.OperationMethod<
   GetRoleUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetRoleUserRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<GetRoleUserResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetRoleUserRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<GetRoleUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22196,8 +22343,8 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetRuleRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<GetRuleResponseContent>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetRuleRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<GetRuleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22214,8 +22361,8 @@ export const getRules: API.OperationMethod<
   GetRulesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<GetRulesRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<GetRulesResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<GetRulesRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<GetRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22232,8 +22379,8 @@ export const getRulesConfigs: API.OperationMethod<
   GetRulesConfigsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<GetRulesConfigsRequest>,
-  output: __S(6883, __c215, 3) as any as S.Schema<GetRulesConfigsResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetRulesConfigsRequest>,
+  output: __S(6915, __c216, 3) as any as S.Schema<GetRulesConfigsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22250,8 +22397,8 @@ export const getScimConfiguration: API.OperationMethod<
   GetScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetScimConfigurationRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GetScimConfigurationResponseContent>,
+  input: __S(6944, __c217, 0) as any as S.Schema<GetScimConfigurationRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GetScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22268,8 +22415,8 @@ export const getScimTokens: API.OperationMethod<
   GetScimTokensError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetScimTokensRequest>,
-  output: __S(6947, __c217, 3) as any as S.Schema<GetScimTokensResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetScimTokensRequest>,
+  output: __S(6979, __c218, 3) as any as S.Schema<GetScimTokensResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22286,8 +22433,8 @@ export const getSecrets: API.OperationMethod<
   GetSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetSecretsRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetSecretsResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetSecretsRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<GetSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22304,8 +22451,8 @@ export const getSelfServiceProfile: API.OperationMethod<
   GetSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<GetSelfServiceProfileRequest>,
-  output: __S(11172, __c349, 4) as any as S.Schema<GetSelfServiceProfileResponseContent>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetSelfServiceProfileRequest>,
+  output: __S(11204, __c350, 4) as any as S.Schema<GetSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22322,8 +22469,8 @@ export const getSelfServiceProfileCustomText: API.OperationMethod<
   GetSelfServiceProfileCustomTextError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetSelfServiceProfileCustomTextRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetSelfServiceProfileCustomTextResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetSelfServiceProfileCustomTextRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<GetSelfServiceProfileCustomTextResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22340,8 +22487,8 @@ export const getSelfServiceProfiles: API.OperationMethod<
   GetSelfServiceProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetSelfServiceProfilesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<GetSelfServiceProfilesResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetSelfServiceProfilesRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<GetSelfServiceProfilesResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22358,8 +22505,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(7208, __c225, 8) as any as S.Schema<GetSessionResponseContent>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(7240, __c226, 8) as any as S.Schema<GetSessionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22376,8 +22523,8 @@ export const getSessionsForUser: API.OperationMethod<
   GetSessionsForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetSessionsForUserRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<ListUserSessionsPaginatedResponseContent>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetSessionsForUserRequest>,
+  output: __S(7266, __c227, 2) as any as S.Schema<ListUserSessionsPaginatedResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22394,8 +22541,8 @@ export const getSigningKey: API.OperationMethod<
   GetSigningKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetSigningKeyRequest>,
-  output: __S(7296, __c228, 0) as any as S.Schema<GetSigningKeysResponseContent>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetSigningKeyRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<GetSigningKeysResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22412,8 +22559,8 @@ export const getSigningKeys: API.OperationMethod<
   GetSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetSigningKeysRequest>,
-  output: __S(7330, __c229, 2) as any as S.Schema<GetSigningKeysResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetSigningKeysRequest>,
+  output: __S(7362, __c230, 2) as any as S.Schema<GetSigningKeysResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22430,8 +22577,8 @@ export const getSmsProviders: API.OperationMethod<
   GetSmsProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetSmsProvidersRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GetGuardianFactorsProviderSmsResponseContent>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetSmsProvidersRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GetGuardianFactorsProviderSmsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22448,10 +22595,10 @@ export const getSmsTwilioFactorProvider: API.OperationMethod<
   GetSmsTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetSmsTwilioFactorProviderRequest>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetSmsTwilioFactorProviderRequest>,
   output: __S(
-    5952,
-    __c186,
+    5984,
+    __c187,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderSmsTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -22470,8 +22617,8 @@ export const getSns: API.OperationMethod<
   GetSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetSnsRequest>,
-  output: __S(7488, __c234, 0) as any as S.Schema<GetGuardianFactorsProviderSnsResponseContent>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetSnsRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<GetGuardianFactorsProviderSnsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22488,8 +22635,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<GetStatusResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<GetStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22506,8 +22653,8 @@ export const getSuspiciousIpThrottling: API.OperationMethod<
   GetSuspiciousIpThrottlingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetSuspiciousIpThrottlingRequest>,
-  output: __S(7586, __c237, 2) as any as S.Schema<GetSuspiciousIPThrottlingSettingsResponseContent>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetSuspiciousIpThrottlingRequest>,
+  output: __S(7618, __c238, 2) as any as S.Schema<GetSuspiciousIPThrottlingSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22524,8 +22671,8 @@ export const getSynchronizedGroups: API.OperationMethod<
   GetSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetSynchronizedGroupsRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<ListSynchronizedGroupsResponseContent>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetSynchronizedGroupsRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<ListSynchronizedGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22542,8 +22689,8 @@ export const getTokenExchangeProfile: API.OperationMethod<
   GetTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetTokenExchangeProfileRequest>,
-  output: __S(11552, __c361, 0) as any as S.Schema<GetTokenExchangeProfileResponseContent>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetTokenExchangeProfileRequest>,
+  output: __S(11584, __c362, 0) as any as S.Schema<GetTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22560,8 +22707,8 @@ export const getTokenExchangeProfiles: API.OperationMethod<
   GetTokenExchangeProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetTokenExchangeProfilesRequest>,
-  output: __S(7714, __c241, 2) as any as S.Schema<ListTokenExchangeProfileResponseContent>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetTokenExchangeProfilesRequest>,
+  output: __S(7746, __c242, 2) as any as S.Schema<ListTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22578,8 +22725,8 @@ export const getTriggers: API.OperationMethod<
   GetTriggersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetTriggersRequest>,
-  output: __S(7745, __c242, 1) as any as S.Schema<ListActionTriggersResponseContent>,
+  input: __S(7776, __c243, 0) as any as S.Schema<GetTriggersRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<ListActionTriggersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22596,8 +22743,8 @@ export const getUniversalLogin: API.OperationMethod<
   GetUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetUniversalLoginRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<GetUniversalLoginResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetUniversalLoginRequest>,
+  output: __S(7809, __c244, 1) as any as S.Schema<GetUniversalLoginResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22614,8 +22761,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(11970, __c374, 2) as any as S.Schema<GetUserResponseContent>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(12002, __c375, 2) as any as S.Schema<GetUserResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22632,8 +22779,8 @@ export const getUserBlock: API.OperationMethod<
   GetUserBlockError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetUserBlockRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<ListUserBlocksResponseContent>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetUserBlockRequest>,
+  output: __S(7906, __c247, 2) as any as S.Schema<ListUserBlocksResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22650,8 +22797,8 @@ export const getUserBlocks: API.OperationMethod<
   GetUserBlocksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetUserBlocksRequest>,
-  output: __S(7874, __c246, 2) as any as S.Schema<ListUserBlocksByIdentifierResponseContent>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetUserBlocksRequest>,
+  output: __S(7906, __c247, 2) as any as S.Schema<ListUserBlocksByIdentifierResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22672,10 +22819,10 @@ export const getUserEffectivePermissionRoleSources: API.OperationMethod<
   GetUserEffectivePermissionRoleSourcesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetUserEffectivePermissionRoleSourcesRequest>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetUserEffectivePermissionRoleSourcesRequest>,
   output: __S(
-    7971,
-    __c249,
+    8003,
+    __c250,
     3,
   ) as any as S.Schema<ListUserEffectivePermissionRoleSourcesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -22694,8 +22841,8 @@ export const getUserEffectivePermissions: API.OperationMethod<
   GetUserEffectivePermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetUserEffectivePermissionsRequest>,
-  output: __S(8003, __c250, 3) as any as S.Schema<ListUserEffectivePermissionsResponseContent>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetUserEffectivePermissionsRequest>,
+  output: __S(8035, __c251, 3) as any as S.Schema<ListUserEffectivePermissionsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22712,8 +22859,8 @@ export const getUserEffectiveRoles: API.OperationMethod<
   GetUserEffectiveRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetUserEffectiveRolesRequest>,
-  output: __S(5474, __c171, 2) as any as S.Schema<ListUserEffectiveRolesResponseContent>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetUserEffectiveRolesRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<ListUserEffectiveRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22730,8 +22877,8 @@ export const getUserGroups: API.OperationMethod<
   GetUserGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetUserGroupsRequest>,
-  output: __S(8065, __c252, 1) as any as S.Schema<GetUserGroupsResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetUserGroupsRequest>,
+  output: __S(8097, __c253, 1) as any as S.Schema<GetUserGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22748,8 +22895,8 @@ export const getUserOrganizations: API.OperationMethod<
   GetUserOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetUserOrganizationsRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<GetUserOrganizationsResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetUserOrganizationsRequest>,
+  output: __S(8129, __c254, 1) as any as S.Schema<GetUserOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22766,8 +22913,8 @@ export const getUserRoles: API.OperationMethod<
   GetUserRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetUserRolesRequest>,
-  output: __S(8129, __c254, 1) as any as S.Schema<GetUserRolesResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetUserRolesRequest>,
+  output: __S(8161, __c255, 1) as any as S.Schema<GetUserRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22784,8 +22931,8 @@ export const getUserRoleSourceGroups: API.OperationMethod<
   GetUserRoleSourceGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetUserRoleSourceGroupsRequest>,
-  output: __S(5410, __c169, 2) as any as S.Schema<ListUserRoleSourceGroupsResponseContent>,
+  input: __S(8192, __c256, 0) as any as S.Schema<GetUserRoleSourceGroupsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<ListUserRoleSourceGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22802,8 +22949,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(8193, __c256, 1) as any as S.Schema<GetUsersResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(8225, __c257, 1) as any as S.Schema<GetUsersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22820,8 +22967,8 @@ export const getUsersByEmail: API.OperationMethod<
   GetUsersByEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8225, __c257, 1) as any as S.Schema<GetUsersByEmailRequest>,
-  output: __S(8226, __c257, 2) as any as S.Schema<GetUsersByEmailResponse>,
+  input: __S(8257, __c258, 1) as any as S.Schema<GetUsersByEmailRequest>,
+  output: __S(8258, __c258, 2) as any as S.Schema<GetUsersByEmailResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22838,10 +22985,10 @@ export const getVcTemplates: API.OperationMethod<
   GetVcTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetVcTemplatesRequest>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetVcTemplatesRequest>,
   output: __S(
-    8322,
-    __c260,
+    8354,
+    __c261,
     2,
   ) as any as S.Schema<ListVerifiableCredentialTemplatesPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -22860,8 +23007,8 @@ export const getVcTemplatesById: API.OperationMethod<
   GetVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<GetVcTemplatesByIdRequest>,
-  output: __S(8355, __c261, 3) as any as S.Schema<GetVerifiableCredentialTemplateResponseContent>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetVcTemplatesByIdRequest>,
+  output: __S(8387, __c262, 3) as any as S.Schema<GetVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22878,8 +23025,8 @@ export const patchAction: API.OperationMethod<
   PatchActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<PatchActionRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<UpdateActionResponseContent>,
+  input: __S(8448, __c264, 0) as any as S.Schema<PatchActionRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<UpdateActionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22896,10 +23043,10 @@ export const patchApns: API.OperationMethod<
   PatchApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<PatchApnsRequest>,
+  input: __S(8512, __c266, 0) as any as S.Schema<PatchApnsRequest>,
   output: __S(
-    8512,
-    __c266,
+    8544,
+    __c267,
     0,
   ) as any as S.Schema<UpdateGuardianFactorsProviderPushNotificationApnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -22923,11 +23070,11 @@ export const patchAuthenticationMethodsByAuthenticationMethodId: API.OperationMe
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8544,
-    __c267,
+    8576,
+    __c268,
     0,
   ) as any as S.Schema<PatchAuthenticationMethodsByAuthenticationMethodIdRequest>,
-  output: __S(8545, __c267, 1) as any as S.Schema<UpdateUserAuthenticationMethodResponseContent>,
+  output: __S(8577, __c268, 1) as any as S.Schema<UpdateUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22944,8 +23091,8 @@ export const patchBindings: API.OperationMethod<
   PatchBindingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8579, __c268, 3) as any as S.Schema<PatchBindingsRequest>,
-  output: __S(8580, __c268, 4) as any as S.Schema<UpdateActionBindingsResponseContent>,
+  input: __S(8611, __c269, 3) as any as S.Schema<PatchBindingsRequest>,
+  output: __S(8612, __c269, 4) as any as S.Schema<UpdateActionBindingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22962,8 +23109,8 @@ export const patchBotDetection: API.OperationMethod<
   PatchBotDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<PatchBotDetectionRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<UpdateBotDetectionSettingsResponseContent>,
+  input: __S(8640, __c270, 0) as any as S.Schema<PatchBotDetectionRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<UpdateBotDetectionSettingsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22980,10 +23127,10 @@ export const patchBreachedPasswordDetection: API.OperationMethod<
   PatchBreachedPasswordDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<PatchBreachedPasswordDetectionRequest>,
+  input: __S(8672, __c271, 0) as any as S.Schema<PatchBreachedPasswordDetectionRequest>,
   output: __S(
-    1154,
-    __c36,
+    1186,
+    __c37,
     2,
   ) as any as S.Schema<UpdateBreachedPasswordDetectionSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -23002,8 +23149,8 @@ export const patchBruteForceProtection: API.OperationMethod<
   PatchBruteForceProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<PatchBruteForceProtectionRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<UpdateBruteForceSettingsResponseContent>,
+  input: __S(8704, __c272, 0) as any as S.Schema<PatchBruteForceProtectionRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<UpdateBruteForceSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23020,8 +23167,8 @@ export const patchBulkRendering: API.OperationMethod<
   PatchBulkRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8706, __c272, 2) as any as S.Schema<PatchBulkRenderingRequest>,
-  output: __S(8707, __c272, 3) as any as S.Schema<BulkUpdateAculResponseContent>,
+  input: __S(8738, __c273, 2) as any as S.Schema<PatchBulkRenderingRequest>,
+  output: __S(8739, __c273, 3) as any as S.Schema<BulkUpdateAculResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23038,8 +23185,8 @@ export const patchCaptcha: API.OperationMethod<
   PatchCaptchaError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8804, __c275, 4) as any as S.Schema<PatchCaptchaRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<UpdateAttackProtectionCaptchaResponseContent>,
+  input: __S(8836, __c276, 4) as any as S.Schema<PatchCaptchaRequest>,
+  output: __S(1412, __c44, 4) as any as S.Schema<UpdateAttackProtectionCaptchaResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23056,8 +23203,8 @@ export const patchClients: API.OperationMethod<
   PatchClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8834, __c276, 2) as any as S.Schema<PatchClientsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PatchClientsResponse>,
+  input: __S(8866, __c277, 2) as any as S.Schema<PatchClientsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PatchClientsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23074,8 +23221,8 @@ export const patchCredentialsByCredentialId: API.OperationMethod<
   PatchCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<PatchCredentialsByCredentialIdRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<PatchClientCredentialResponseContent>,
+  input: __S(8896, __c278, 0) as any as S.Schema<PatchCredentialsByCredentialIdRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<PatchClientCredentialResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23092,8 +23239,8 @@ export const patchDefault: API.OperationMethod<
   PatchDefaultError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<PatchDefaultRequest>,
-  output: __S(8897, __c278, 1) as any as S.Schema<PatchDefaultResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<PatchDefaultRequest>,
+  output: __S(8929, __c279, 1) as any as S.Schema<PatchDefaultResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23110,8 +23257,8 @@ export const patchDirectoryProvisioning: API.OperationMethod<
   PatchDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<PatchDirectoryProvisioningRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<UpdateDirectoryProvisioningResponseContent>,
+  input: __S(8960, __c280, 0) as any as S.Schema<PatchDirectoryProvisioningRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<UpdateDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23128,8 +23275,8 @@ export const patchDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   PatchDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<PatchDiscoveryDomainsByDiscoveryDomainIdRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<UpdateOrganizationDiscoveryDomainResponseContent>,
+  input: __S(8992, __c281, 0) as any as S.Schema<PatchDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<UpdateOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23150,8 +23297,8 @@ export const patchEnabledConnectionsByConnectionId: API.OperationMethod<
   PatchEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<PatchEnabledConnectionsByConnectionIdRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<UpdateOrganizationConnectionResponseContent>,
+  input: __S(9024, __c282, 0) as any as S.Schema<PatchEnabledConnectionsByConnectionIdRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<UpdateOrganizationConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23168,8 +23315,8 @@ export const patchFactorDuoSettings: API.OperationMethod<
   PatchFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<PatchFactorDuoSettingsRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<UpdateGuardianFactorDuoSettingsResponseContent>,
+  input: __S(9056, __c283, 0) as any as S.Schema<PatchFactorDuoSettingsRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<UpdateGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23186,8 +23333,8 @@ export const patchFcm: API.OperationMethod<
   PatchFcmError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<PatchFcmRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<PatchFcmResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<PatchFcmRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<PatchFcmResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23204,8 +23351,8 @@ export const patchFcmv1: API.OperationMethod<
   PatchFcmv1Error,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<PatchFcmv1Request>,
-  output: __S(2432, __c76, 0) as any as S.Schema<PatchFcmv1Response>,
+  input: __S(9120, __c285, 0) as any as S.Schema<PatchFcmv1Request>,
+  output: __S(2464, __c77, 0) as any as S.Schema<PatchFcmv1Response>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23222,10 +23369,10 @@ export const patchNewDevice: API.OperationMethod<
   PatchNewDeviceError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<PatchNewDeviceRequest>,
+  input: __S(9248, __c289, 0) as any as S.Schema<PatchNewDeviceRequest>,
   output: __S(
-    5248,
-    __c164,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<UpdateRiskAssessmentsSettingsNewDeviceResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -23244,8 +23391,8 @@ export const patchPhoneProviderProtection: API.OperationMethod<
   PatchPhoneProviderProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<PatchPhoneProviderProtectionRequest>,
-  output: __S(5824, __c182, 0) as any as S.Schema<PatchPhoneProviderProtectionResponseContent>,
+  input: __S(9280, __c290, 0) as any as S.Schema<PatchPhoneProviderProtectionRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<PatchPhoneProviderProtectionResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23262,8 +23409,8 @@ export const patchProvider: API.OperationMethod<
   PatchProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<PatchProviderRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<UpdateEmailProviderResponseContent>,
+  input: __S(9312, __c291, 0) as any as S.Schema<PatchProviderRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<UpdateEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23280,8 +23427,8 @@ export const patchRendering: API.OperationMethod<
   PatchRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<PatchRenderingRequest>,
-  output: __S(9313, __c291, 1) as any as S.Schema<UpdateAculResponseContent>,
+  input: __S(9344, __c292, 0) as any as S.Schema<PatchRenderingRequest>,
+  output: __S(9345, __c292, 1) as any as S.Schema<UpdateAculResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23298,8 +23445,8 @@ export const patchScimConfiguration: API.OperationMethod<
   PatchScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<PatchScimConfigurationRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<UpdateScimConfigurationResponseContent>,
+  input: __S(9376, __c293, 0) as any as S.Schema<PatchScimConfigurationRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<UpdateScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23316,8 +23463,8 @@ export const patchSecrets: API.OperationMethod<
   PatchSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<PatchSecretsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PatchSecretsResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<PatchSecretsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PatchSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23334,8 +23481,8 @@ export const patchSettings: API.OperationMethod<
   PatchSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<PatchSettingsRequest>,
-  output: __S(9462, __c295, 22) as any as S.Schema<UpdateTenantSettingsResponseContent>,
+  input: __S(9440, __c295, 0) as any as S.Schema<PatchSettingsRequest>,
+  output: __S(9494, __c296, 22) as any as S.Schema<UpdateTenantSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23352,10 +23499,10 @@ export const patchSns: API.OperationMethod<
   PatchSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<PatchSnsRequest>,
+  input: __S(9504, __c297, 0) as any as S.Schema<PatchSnsRequest>,
   output: __S(
-    7488,
-    __c234,
+    7520,
+    __c235,
     0,
   ) as any as S.Schema<UpdateGuardianFactorsProviderPushNotificationSnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -23374,10 +23521,10 @@ export const patchSuspiciousIpThrottling: API.OperationMethod<
   PatchSuspiciousIpThrottlingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<PatchSuspiciousIpThrottlingRequest>,
+  input: __S(9536, __c298, 0) as any as S.Schema<PatchSuspiciousIpThrottlingRequest>,
   output: __S(
-    7586,
-    __c237,
+    7618,
+    __c238,
     2,
   ) as any as S.Schema<UpdateSuspiciousIPThrottlingSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -23396,10 +23543,10 @@ export const patchVcTemplatesById: API.OperationMethod<
   PatchVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<PatchVcTemplatesByIdRequest>,
+  input: __S(9568, __c299, 0) as any as S.Schema<PatchVcTemplatesByIdRequest>,
   output: __S(
-    8355,
-    __c261,
+    8387,
+    __c262,
     3,
   ) as any as S.Schema<UpdateVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -23418,8 +23565,8 @@ export const postAction: API.OperationMethod<
   PostActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<PostActionRequest>,
-  output: __S(455, __c14, 7) as any as S.Schema<CreateActionResponseContent>,
+  input: __S(9664, __c302, 0) as any as S.Schema<PostActionRequest>,
+  output: __S(487, __c15, 7) as any as S.Schema<CreateActionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23441,8 +23588,8 @@ export const postAuthenticationMethods: API.OperationMethod<
   PostAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<PostAuthenticationMethodsRequest>,
-  output: __S(9665, __c302, 1) as any as S.Schema<CreateUserAuthenticationMethodResponseContent>,
+  input: __S(9696, __c303, 0) as any as S.Schema<PostAuthenticationMethodsRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<CreateUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23459,8 +23606,8 @@ export const postClearAssessors: API.OperationMethod<
   PostClearAssessorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<PostClearAssessorsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostClearAssessorsResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<PostClearAssessorsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostClearAssessorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23477,8 +23624,8 @@ export const postCredentials: API.OperationMethod<
   PostCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<PostCredentialsRequest>,
-  output: __S(2144, __c67, 0) as any as S.Schema<PostClientCredentialResponseContent>,
+  input: __S(9760, __c305, 0) as any as S.Schema<PostCredentialsRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<PostClientCredentialResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23495,8 +23642,8 @@ export const postDeployAction: API.OperationMethod<
   PostDeployActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<PostDeployActionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostDeployActionResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<PostDeployActionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostDeployActionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23513,8 +23660,8 @@ export const postDeployDraftVersion: API.OperationMethod<
   PostDeployDraftVersionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<PostDeployDraftVersionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostDeployDraftVersionResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<PostDeployDraftVersionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostDeployDraftVersionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23536,8 +23683,8 @@ export const postDirectoryProvisioning: API.OperationMethod<
   PostDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<PostDirectoryProvisioningRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<CreateDirectoryProvisioningResponseContent>,
+  input: __S(9856, __c308, 0) as any as S.Schema<PostDirectoryProvisioningRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<CreateDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23554,8 +23701,8 @@ export const postDiscoveryDomains: API.OperationMethod<
   PostDiscoveryDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<PostDiscoveryDomainsRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<CreateOrganizationDiscoveryDomainResponseContent>,
+  input: __S(9888, __c309, 0) as any as S.Schema<PostDiscoveryDomainsRequest>,
+  output: __S(2848, __c89, 0) as any as S.Schema<CreateOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23572,8 +23719,8 @@ export const postEmailVerification: API.OperationMethod<
   PostEmailVerificationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<PostEmailVerificationRequest>,
-  output: __S(9920, __c310, 0) as any as S.Schema<VerifyEmailTicketResponseContent>,
+  input: __S(9920, __c310, 0) as any as S.Schema<PostEmailVerificationRequest>,
+  output: __S(9952, __c311, 0) as any as S.Schema<VerifyEmailTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23595,8 +23742,8 @@ export const postEnabledConnections: API.OperationMethod<
   PostEnabledConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<PostEnabledConnectionsRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<AddOrganizationConnectionResponseContent>,
+  input: __S(10016, __c313, 0) as any as S.Schema<PostEnabledConnectionsRequest>,
+  output: __S(3104, __c97, 0) as any as S.Schema<AddOrganizationConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23613,8 +23760,8 @@ export const postEncryption: API.OperationMethod<
   PostEncryptionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<PostEncryptionRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<CreateEncryptionKeyResponseContent>,
+  input: __S(10080, __c315, 0) as any as S.Schema<PostEncryptionRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<CreateEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23631,8 +23778,8 @@ export const postEncryptionKey: API.OperationMethod<
   PostEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<PostEncryptionKeyRequest>,
-  output: __S(3136, __c98, 0) as any as S.Schema<ImportEncryptionKeyResponseContent>,
+  input: __S(10112, __c316, 0) as any as S.Schema<PostEncryptionKeyRequest>,
+  output: __S(3168, __c99, 0) as any as S.Schema<ImportEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23649,8 +23796,8 @@ export const postEncryptionRekey: API.OperationMethod<
   PostEncryptionRekeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<PostEncryptionRekeyRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostEncryptionRekeyResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<PostEncryptionRekeyRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostEncryptionRekeyResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23667,10 +23814,10 @@ export const postEncryptionWrappingKey: API.OperationMethod<
   PostEncryptionWrappingKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<PostEncryptionWrappingKeyRequest>,
+  input: __S(10176, __c318, 0) as any as S.Schema<PostEncryptionWrappingKeyRequest>,
   output: __S(
-    10145,
-    __c317,
+    10177,
+    __c318,
     1,
   ) as any as S.Schema<CreateEncryptionKeyPublicWrappingResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -23689,8 +23836,8 @@ export const postIdentities: API.OperationMethod<
   PostIdentitiesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<PostIdentitiesRequest>,
-  output: __S(10179, __c318, 3) as any as S.Schema<PostIdentitiesResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<PostIdentitiesRequest>,
+  output: __S(10211, __c319, 3) as any as S.Schema<PostIdentitiesResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23707,8 +23854,8 @@ export const postInvalidateRememberBrowser: API.OperationMethod<
   PostInvalidateRememberBrowserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<PostInvalidateRememberBrowserRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostInvalidateRememberBrowserResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<PostInvalidateRememberBrowserRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostInvalidateRememberBrowserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23725,8 +23872,8 @@ export const postInvitations: API.OperationMethod<
   PostInvitationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<PostInvitationsRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<CreateOrganizationInvitationResponseContent>,
+  input: __S(10272, __c321, 0) as any as S.Schema<PostInvitationsRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<CreateOrganizationInvitationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23736,15 +23883,15 @@ export const postInvitations: API.OperationMethod<
 }));
 
 export type PostKeysError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Create connection keys Provision initial connection keys for Okta, OIDC, or SAML (samlp) connection strategies. This endpoint allows you to create keys before configuring the connection to use Private Key JWT authentication, enabling zero-downtime transitions. */
+/** Create connection keys Provision initial connection keys for Okta, OIDC, or SAML (samlp) connection strategies. This endpoint allows you to create keys before configuring the connection to use Private Key JWT authentication or encrypted ID tokens, enabling zero-downtime transitions. Set `key_use` to `signing` (default) to provision signing keys, optionally choosing `signing_alg`, or to `encryption` to provision encryption keys, optionally choosing `encryption_alg`. `signing_alg` and `encryption_alg` each apply only to their own key use. Encryption keys and encrypted ID tokens apply only to OIDC and Okta connections. The response lists all of the connection's keys. */
 export const postKeys: API.OperationMethod<
   PostKeysRequest,
   PostKeysResponse,
   PostKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<PostKeysRequest>,
-  output: __S(10275, __c321, 3) as any as S.Schema<PostKeysResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<PostKeysRequest>,
+  output: __S(10307, __c322, 3) as any as S.Schema<PostKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23761,8 +23908,8 @@ export const postMembers: API.OperationMethod<
   PostMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<PostMembersRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostMembersResponse>,
+  input: __S(10336, __c323, 0) as any as S.Schema<PostMembersRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostMembersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23779,8 +23926,8 @@ export const postPasswordChange: API.OperationMethod<
   PostPasswordChangeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<PostPasswordChangeRequest>,
-  output: __S(9920, __c310, 0) as any as S.Schema<ChangePasswordTicketResponseContent>,
+  input: __S(10368, __c324, 0) as any as S.Schema<PostPasswordChangeRequest>,
+  output: __S(9952, __c311, 0) as any as S.Schema<ChangePasswordTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23797,8 +23944,8 @@ export const postPermissions: API.OperationMethod<
   PostPermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<PostPermissionsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostPermissionsResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<PostPermissionsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23815,8 +23962,8 @@ export const postProvider: API.OperationMethod<
   PostProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<PostProviderRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<CreateEmailProviderResponseContent>,
+  input: __S(10464, __c327, 0) as any as S.Schema<PostProviderRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<CreateEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23833,8 +23980,8 @@ export const postRecoveryCodeRegeneration: API.OperationMethod<
   PostRecoveryCodeRegenerationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<PostRecoveryCodeRegenerationRequest>,
-  output: __S(10465, __c327, 1) as any as S.Schema<RegenerateUsersRecoveryCodeResponseContent>,
+  input: __S(10496, __c328, 0) as any as S.Schema<PostRecoveryCodeRegenerationRequest>,
+  output: __S(10497, __c328, 1) as any as S.Schema<RegenerateUsersRecoveryCodeResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23851,8 +23998,8 @@ export const postRedeliver: API.OperationMethod<
   PostRedeliverError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<PostRedeliverRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostRedeliverResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<PostRedeliverRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostRedeliverResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23869,8 +24016,8 @@ export const postRedeliverByEventId: API.OperationMethod<
   PostRedeliverByEventIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<PostRedeliverByEventIdRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostRedeliverByEventIdResponse>,
+  input: __S(10560, __c330, 0) as any as S.Schema<PostRedeliverByEventIdRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostRedeliverByEventIdResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23887,8 +24034,8 @@ export const postRevoke: API.OperationMethod<
   PostRevokeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<PostRevokeRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostRevokeResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<PostRevokeRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostRevokeResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23905,8 +24052,8 @@ export const postRolePermissionAssignment: API.OperationMethod<
   PostRolePermissionAssignmentError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<PostRolePermissionAssignmentRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostRolePermissionAssignmentResponse>,
+  input: __S(10624, __c332, 0) as any as S.Schema<PostRolePermissionAssignmentRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostRolePermissionAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23916,15 +24063,15 @@ export const postRolePermissionAssignment: API.OperationMethod<
 }));
 
 export type PostRotateError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Rotate connection keys Rotates the connection keys for the Okta, OIDC, or SAML (samlp) connection strategies. */
+/** Rotate connection keys Rotates the connection keys for the Okta, OIDC, or SAML (samlp) connection strategies. Set `key_use` to `signing` (default) to rotate the signing key, optionally choosing `signing_alg`, or to `encryption` to rotate the encryption key, optionally choosing `encryption_alg`. Rotating signing keys requires the connection to be configured to use JWT Client Authentication. Rotating encryption keys requires the connection to be configured to use encrypted ID tokens (`id_token_encrypted_response_alg` set), which applies only to OIDC and Okta connections. When `encryption_alg` is omitted, the new encryption key uses `id_token_encrypted_response_alg`. */
 export const postRotate: API.OperationMethod<
   PostRotateRequest,
   RotateConnectionsKeysResponseContent,
   PostRotateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<PostRotateRequest>,
-  output: __S(10625, __c332, 1) as any as S.Schema<RotateConnectionsKeysResponseContent>,
+  input: __S(10656, __c333, 0) as any as S.Schema<PostRotateRequest>,
+  output: __S(10657, __c333, 1) as any as S.Schema<RotateConnectionsKeysResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23941,8 +24088,8 @@ export const postRotateSecret: API.OperationMethod<
   PostRotateSecretError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<PostRotateSecretRequest>,
-  output: __S(14582, __c455, 22) as any as S.Schema<RotateClientSecretResponseContent>,
+  input: __S(10688, __c334, 0) as any as S.Schema<PostRotateSecretRequest>,
+  output: __S(14615, __c456, 23) as any as S.Schema<RotateClientSecretResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23959,8 +24106,8 @@ export const postScimConfiguration: API.OperationMethod<
   PostScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<PostScimConfigurationRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<CreateScimConfigurationResponseContent>,
+  input: __S(10720, __c335, 0) as any as S.Schema<PostScimConfigurationRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<CreateScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23977,8 +24124,8 @@ export const postScimToken: API.OperationMethod<
   PostScimTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<PostScimTokenRequest>,
-  output: __S(10785, __c337, 1) as any as S.Schema<CreateScimTokenResponseContent>,
+  input: __S(10816, __c338, 0) as any as S.Schema<PostScimTokenRequest>,
+  output: __S(10817, __c338, 1) as any as S.Schema<CreateScimTokenResponseContent>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23995,8 +24142,8 @@ export const postSecrets: API.OperationMethod<
   PostSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<PostSecretsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostSecretsResponse>,
+  input: __S(10848, __c339, 0) as any as S.Schema<PostSecretsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostSecretsResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24013,8 +24160,8 @@ export const postSigningKeys: API.OperationMethod<
   PostSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<PostSigningKeysRequest>,
-  output: __S(10880, __c340, 0) as any as S.Schema<RotateSigningKeysResponseContent>,
+  input: __S(10880, __c340, 0) as any as S.Schema<PostSigningKeysRequest>,
+  output: __S(10912, __c341, 0) as any as S.Schema<RotateSigningKeysResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24031,10 +24178,10 @@ export const postSsoTicket: API.OperationMethod<
   PostSsoTicketError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10922, __c341, 10) as any as S.Schema<PostSsoTicketRequest>,
+  input: __S(10954, __c342, 10) as any as S.Schema<PostSsoTicketRequest>,
   output: __S(
-    10923,
-    __c341,
+    10955,
+    __c342,
     11,
   ) as any as S.Schema<CreateSelfServiceProfileSsoTicketResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -24053,8 +24200,8 @@ export const postSynchronizations: API.OperationMethod<
   PostSynchronizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<PostSynchronizationsRequest>,
-  output: __S(10945, __c342, 1) as any as S.Schema<CreateDirectorySynchronizationResponseContent>,
+  input: __S(10976, __c343, 0) as any as S.Schema<PostSynchronizationsRequest>,
+  output: __S(10977, __c343, 1) as any as S.Schema<CreateDirectorySynchronizationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24071,8 +24218,8 @@ export const postSynchronizedGroups: API.OperationMethod<
   PostSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<PostSynchronizedGroupsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostSynchronizedGroupsResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<PostSynchronizedGroupsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24089,8 +24236,8 @@ export const postTestAction: API.OperationMethod<
   PostTestActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<PostTestActionRequest>,
-  output: __S(11009, __c344, 1) as any as S.Schema<TestActionResponseContent>,
+  input: __S(11040, __c345, 0) as any as S.Schema<PostTestActionRequest>,
+  output: __S(11041, __c345, 1) as any as S.Schema<TestActionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24107,8 +24254,8 @@ export const postTestDomain: API.OperationMethod<
   PostTestDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<PostTestDomainRequest>,
-  output: __S(11041, __c345, 1) as any as S.Schema<TestCustomDomainResponseContent>,
+  input: __S(11072, __c346, 0) as any as S.Schema<PostTestDomainRequest>,
+  output: __S(11073, __c346, 1) as any as S.Schema<TestCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24125,8 +24272,8 @@ export const postTestEvent: API.OperationMethod<
   PostTestEventError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<PostTestEventRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostTestEventResponse>,
+  input: __S(11104, __c347, 0) as any as S.Schema<PostTestEventRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostTestEventResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24143,8 +24290,8 @@ export const postTicket: API.OperationMethod<
   PostTicketError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<PostTicketRequest>,
-  output: __S(11105, __c347, 1) as any as S.Schema<CreateGuardianEnrollmentTicketResponseContent>,
+  input: __S(11136, __c348, 0) as any as S.Schema<PostTicketRequest>,
+  output: __S(11137, __c348, 1) as any as S.Schema<CreateGuardianEnrollmentTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24161,8 +24308,8 @@ export const postUsersExports: API.OperationMethod<
   PostUsersExportsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11202, __c350, 2) as any as S.Schema<PostUsersExportsRequest>,
-  output: __S(11203, __c350, 3) as any as S.Schema<CreateExportUsersResponseContent>,
+  input: __S(11234, __c351, 2) as any as S.Schema<PostUsersExportsRequest>,
+  output: __S(11235, __c351, 3) as any as S.Schema<CreateExportUsersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24179,8 +24326,8 @@ export const postUsersImports: API.OperationMethod<
   PostUsersImportsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<PostUsersImportsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PostUsersImportsResponse>,
+  input: __S(11264, __c352, 0) as any as S.Schema<PostUsersImportsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PostUsersImportsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24197,10 +24344,10 @@ export const postVcTemplates: API.OperationMethod<
   PostVcTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<PostVcTemplatesRequest>,
+  input: __S(11296, __c353, 0) as any as S.Schema<PostVcTemplatesRequest>,
   output: __S(
-    8355,
-    __c261,
+    8387,
+    __c262,
     3,
   ) as any as S.Schema<CreateVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -24219,8 +24366,8 @@ export const postVerificationEmail: API.OperationMethod<
   PostVerificationEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<PostVerificationEmailRequest>,
-  output: __S(11297, __c353, 1) as any as S.Schema<CreateVerificationEmailResponseContent>,
+  input: __S(11328, __c354, 0) as any as S.Schema<PostVerificationEmailRequest>,
+  output: __S(11329, __c354, 1) as any as S.Schema<CreateVerificationEmailResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24237,8 +24384,8 @@ export const postVerify: API.OperationMethod<
   PostVerifyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<PostVerifyRequest>,
-  output: __S(11329, __c354, 1) as any as S.Schema<VerifyCustomDomainResponseContent>,
+  input: __S(11360, __c355, 0) as any as S.Schema<PostVerifyRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<VerifyCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24255,10 +24402,10 @@ export const putApns: API.OperationMethod<
   PutApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<PutApnsRequest>,
+  input: __S(11392, __c356, 0) as any as S.Schema<PutApnsRequest>,
   output: __S(
-    8512,
-    __c266,
+    8544,
+    __c267,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationApnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24277,8 +24424,8 @@ export const putAuthenticationMethods: API.OperationMethod<
   PutAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11394, __c356, 2) as any as S.Schema<PutAuthenticationMethodsRequest>,
-  output: __S(11397, __c356, 5) as any as S.Schema<PutAuthenticationMethodsResponse>,
+  input: __S(11426, __c357, 2) as any as S.Schema<PutAuthenticationMethodsRequest>,
+  output: __S(11429, __c357, 5) as any as S.Schema<PutAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24295,8 +24442,8 @@ export const putCustomSigningKeys: API.OperationMethod<
   PutCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<PutCustomSigningKeysRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<SetCustomSigningKeysResponseContent>,
+  input: __S(11456, __c358, 0) as any as S.Schema<PutCustomSigningKeysRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<SetCustomSigningKeysResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24313,8 +24460,8 @@ export const putCustomTextByLanguage: API.OperationMethod<
   PutCustomTextByLanguageError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<PutCustomTextByLanguageRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PutCustomTextByLanguageResponse>,
+  input: __S(11488, __c359, 0) as any as S.Schema<PutCustomTextByLanguageRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PutCustomTextByLanguageResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24331,8 +24478,8 @@ export const putEmailTemplate: API.OperationMethod<
   PutEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<PutEmailTemplateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<SetEmailTemplateResponseContent>,
+  input: __S(11520, __c360, 0) as any as S.Schema<PutEmailTemplateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<SetEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24349,8 +24496,8 @@ export const putFactorDuoSettings: API.OperationMethod<
   PutFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<PutFactorDuoSettingsRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<SetGuardianFactorDuoSettingsResponseContent>,
+  input: __S(11616, __c363, 0) as any as S.Schema<PutFactorDuoSettingsRequest>,
+  output: __S(3552, __c111, 0) as any as S.Schema<SetGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24367,8 +24514,8 @@ export const putFactorPhoneTemplates: API.OperationMethod<
   PutFactorPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<PutFactorPhoneTemplatesRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<SetGuardianFactorPhoneTemplatesResponseContent>,
+  input: __S(11648, __c364, 0) as any as S.Schema<PutFactorPhoneTemplatesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<SetGuardianFactorPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24385,8 +24532,8 @@ export const putFactorsByName: API.OperationMethod<
   PutFactorsByNameError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<PutFactorsByNameRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<SetGuardianFactorResponseContent>,
+  input: __S(11680, __c365, 0) as any as S.Schema<PutFactorsByNameRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<SetGuardianFactorResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24403,8 +24550,8 @@ export const putFactorSmsTemplates: API.OperationMethod<
   PutFactorSmsTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<PutFactorSmsTemplatesRequest>,
-  output: __S(3584, __c112, 0) as any as S.Schema<SetGuardianFactorSmsTemplatesResponseContent>,
+  input: __S(11712, __c366, 0) as any as S.Schema<PutFactorSmsTemplatesRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<SetGuardianFactorSmsTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24421,8 +24568,8 @@ export const putFcm: API.OperationMethod<
   PutFcmError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<PutFcmRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<PutFcmResponse>,
+  input: __S(11744, __c367, 0) as any as S.Schema<PutFcmRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<PutFcmResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24439,8 +24586,8 @@ export const putFcmv1: API.OperationMethod<
   PutFcmv1Error,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<PutFcmv1Request>,
-  output: __S(2432, __c76, 0) as any as S.Schema<PutFcmv1Response>,
+  input: __S(11776, __c368, 0) as any as S.Schema<PutFcmv1Request>,
+  output: __S(2464, __c77, 0) as any as S.Schema<PutFcmv1Response>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24457,10 +24604,10 @@ export const putMessageTypes: API.OperationMethod<
   PutMessageTypesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<PutMessageTypesRequest>,
+  input: __S(11808, __c369, 0) as any as S.Schema<PutMessageTypesRequest>,
   output: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<SetGuardianFactorPhoneMessageTypesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -24479,8 +24626,8 @@ export const putNetworkAcl: API.OperationMethod<
   PutNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11808, __c369, 0) as any as S.Schema<PutNetworkAclRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<SetNetworkAclsResponseContent>,
+  input: __S(11840, __c370, 0) as any as S.Schema<PutNetworkAclRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<SetNetworkAclsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24497,8 +24644,8 @@ export const putPartials: API.OperationMethod<
   PutPartialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<PutPartialsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PutPartialsResponse>,
+  input: __S(11872, __c371, 0) as any as S.Schema<PutPartialsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PutPartialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24515,8 +24662,8 @@ export const putPhoneProviders: API.OperationMethod<
   PutPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<PutPhoneProvidersRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<SetGuardianFactorsProviderPhoneResponseContent>,
+  input: __S(11904, __c372, 0) as any as S.Schema<PutPhoneProvidersRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<SetGuardianFactorsProviderPhoneResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24533,10 +24680,10 @@ export const putPnProviders: API.OperationMethod<
   PutPnProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<PutPnProvidersRequest>,
+  input: __S(12032, __c376, 0) as any as S.Schema<PutPnProvidersRequest>,
   output: __S(
-    4320,
-    __c135,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24555,8 +24702,8 @@ export const putPolicies: API.OperationMethod<
   PutPoliciesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<PutPoliciesRequest>,
-  output: __S(6112, __c191, 0) as any as S.Schema<PutPoliciesResponse>,
+  input: __S(12064, __c377, 0) as any as S.Schema<PutPoliciesRequest>,
+  output: __S(6144, __c192, 0) as any as S.Schema<PutPoliciesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24573,8 +24720,8 @@ export const putRulesConfig: API.OperationMethod<
   PutRulesConfigError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<PutRulesConfigRequest>,
-  output: __S(12065, __c377, 1) as any as S.Schema<SetRulesConfigResponseContent>,
+  input: __S(12096, __c378, 0) as any as S.Schema<PutRulesConfigRequest>,
+  output: __S(12097, __c378, 1) as any as S.Schema<SetRulesConfigResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24591,8 +24738,8 @@ export const putSelfServiceProfileCustomText: API.OperationMethod<
   PutSelfServiceProfileCustomTextError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<PutSelfServiceProfileCustomTextRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<PutSelfServiceProfileCustomTextResponse>,
+  input: __S(12128, __c379, 0) as any as S.Schema<PutSelfServiceProfileCustomTextRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<PutSelfServiceProfileCustomTextResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24609,8 +24756,8 @@ export const putSigningKeys: API.OperationMethod<
   PutSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<PutSigningKeysRequest>,
-  output: __S(10880, __c340, 0) as any as S.Schema<RevokedSigningKeysResponseContent>,
+  input: __S(12160, __c380, 0) as any as S.Schema<PutSigningKeysRequest>,
+  output: __S(10912, __c341, 0) as any as S.Schema<RevokedSigningKeysResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24627,8 +24774,8 @@ export const putSmsProviders: API.OperationMethod<
   PutSmsProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<PutSmsProvidersRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<SetGuardianFactorsProviderSmsResponseContent>,
+  input: __S(12192, __c381, 0) as any as S.Schema<PutSmsProvidersRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<SetGuardianFactorsProviderSmsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24645,10 +24792,10 @@ export const putSmsTwilioFactorProvider: API.OperationMethod<
   PutSmsTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<PutSmsTwilioFactorProviderRequest>,
+  input: __S(12224, __c382, 0) as any as S.Schema<PutSmsTwilioFactorProviderRequest>,
   output: __S(
-    5952,
-    __c186,
+    5984,
+    __c187,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderSmsTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24667,10 +24814,10 @@ export const putSns: API.OperationMethod<
   PutSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<PutSnsRequest>,
+  input: __S(12256, __c383, 0) as any as S.Schema<PutSnsRequest>,
   output: __S(
-    7488,
-    __c234,
+    7520,
+    __c235,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationSnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24694,8 +24841,8 @@ export const putSynchronizedGroups: API.OperationMethod<
   PutSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<PutSynchronizedGroupsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PutSynchronizedGroupsResponse>,
+  input: __S(12288, __c384, 0) as any as S.Schema<PutSynchronizedGroupsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PutSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24712,10 +24859,10 @@ export const putTwilio: API.OperationMethod<
   PutTwilioError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<PutTwilioRequest>,
+  input: __S(12320, __c385, 0) as any as S.Schema<PutTwilioRequest>,
   output: __S(
-    5952,
-    __c186,
+    5984,
+    __c187,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPhoneTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24734,8 +24881,8 @@ export const putUniversalLogin: API.OperationMethod<
   PutUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<PutUniversalLoginRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<PutUniversalLoginResponse>,
+  input: __S(12384, __c387, 0) as any as S.Schema<PutUniversalLoginRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<PutUniversalLoginResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24752,8 +24899,8 @@ export const resetPhoneTemplate: API.OperationMethod<
   ResetPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<ResetPhoneTemplateRequest>,
-  output: __S(8770, __c274, 2) as any as S.Schema<ResetPhoneTemplateResponseContent>,
+  input: __S(12416, __c388, 0) as any as S.Schema<ResetPhoneTemplateRequest>,
+  output: __S(8802, __c275, 2) as any as S.Schema<ResetPhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24770,8 +24917,8 @@ export const revokeSession: API.OperationMethod<
   RevokeSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<RevokeSessionRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<RevokeSessionResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<RevokeSessionRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<RevokeSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24788,8 +24935,8 @@ export const revokeUserAccess: API.OperationMethod<
   RevokeUserAccessError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<RevokeUserAccessRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<RevokeUserAccessResponse>,
+  input: __S(12480, __c390, 0) as any as S.Schema<RevokeUserAccessRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<RevokeUserAccessResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24806,8 +24953,8 @@ export const setEmailFactorSettings: API.OperationMethod<
   SetEmailFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<SetEmailFactorSettingsRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<SetEmailFactorSettingsResponseContent>,
+  input: __S(12512, __c391, 0) as any as S.Schema<SetEmailFactorSettingsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<SetEmailFactorSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24824,8 +24971,8 @@ export const setGuardianSettings: API.OperationMethod<
   SetGuardianSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<SetGuardianSettingsRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<SetGuardianSettingsResponseContent>,
+  input: __S(12544, __c392, 0) as any as S.Schema<SetGuardianSettingsRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<SetGuardianSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24842,8 +24989,8 @@ export const setPhoneFactorSettings: API.OperationMethod<
   SetPhoneFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<SetPhoneFactorSettingsRequest>,
-  output: __S(2912, __c91, 0) as any as S.Schema<SetPhoneFactorSettingsResponseContent>,
+  input: __S(12576, __c393, 0) as any as S.Schema<SetPhoneFactorSettingsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<SetPhoneFactorSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24860,8 +25007,8 @@ export const subscribeEvents: API.OperationMethod<
   SubscribeEventsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<SubscribeEventsRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<SubscribeEventsResponse>,
+  input: __S(12608, __c394, 0) as any as S.Schema<SubscribeEventsRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<SubscribeEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24878,8 +25025,8 @@ export const tenantSettingsRoute: API.OperationMethod<
   TenantSettingsRouteError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<TenantSettingsRouteRequest>,
-  output: __S(9462, __c295, 22) as any as S.Schema<GetTenantSettingsResponseContent>,
+  input: __S(12640, __c395, 0) as any as S.Schema<TenantSettingsRouteRequest>,
+  output: __S(9494, __c296, 22) as any as S.Schema<GetTenantSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24896,8 +25043,8 @@ export const tryPhoneProvider: API.OperationMethod<
   TryPhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<TryPhoneProviderRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<TryPhoneProviderResponse>,
+  input: __S(12672, __c396, 0) as any as S.Schema<TryPhoneProviderRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<TryPhoneProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24914,8 +25061,8 @@ export const tryPhoneTemplate: API.OperationMethod<
   TryPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<TryPhoneTemplateRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<TryPhoneTemplateResponse>,
+  input: __S(12736, __c398, 0) as any as S.Schema<TryPhoneTemplateRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<TryPhoneTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24932,8 +25079,8 @@ export const updateBranding: API.OperationMethod<
   UpdateBrandingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12738, __c398, 2) as any as S.Schema<UpdateBrandingRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<UpdateBrandingResponseContent>,
+  input: __S(12770, __c399, 2) as any as S.Schema<UpdateBrandingRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<UpdateBrandingResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24950,8 +25097,8 @@ export const updateBrandingTheme: API.OperationMethod<
   UpdateBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<UpdateBrandingThemeRequest>,
-  output: __S(14024, __c438, 8) as any as S.Schema<UpdateBrandingThemeResponseContent>,
+  input: __S(12800, __c400, 0) as any as S.Schema<UpdateBrandingThemeRequest>,
+  output: __S(14056, __c439, 8) as any as S.Schema<UpdateBrandingThemeResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24968,8 +25115,8 @@ export const updateClient: API.OperationMethod<
   UpdateClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12802, __c400, 2) as any as S.Schema<UpdateClientRequest>,
-  output: __S(14582, __c455, 22) as any as S.Schema<UpdateClientResponseContent>,
+  input: __S(12834, __c401, 2) as any as S.Schema<UpdateClientRequest>,
+  output: __S(14615, __c456, 23) as any as S.Schema<UpdateClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24986,8 +25133,8 @@ export const updateClientGrant: API.OperationMethod<
   UpdateClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12832, __c401, 0) as any as S.Schema<UpdateClientGrantRequest>,
-  output: __S(15104, __c472, 0) as any as S.Schema<UpdateClientGrantResponseContent>,
+  input: __S(12864, __c402, 0) as any as S.Schema<UpdateClientGrantRequest>,
+  output: __S(15136, __c473, 0) as any as S.Schema<UpdateClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25010,7 +25157,7 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<UpdateConnectionRequest>,
+  input: __S(12896, __c403, 0) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UpdateConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: Auth0ServiceErrors,
@@ -25028,8 +25175,8 @@ export const updateConnectionProfile: API.OperationMethod<
   UpdateConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<UpdateConnectionProfileRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<UpdateConnectionProfileResponseContent>,
+  input: __S(12928, __c404, 0) as any as S.Schema<UpdateConnectionProfileRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<UpdateConnectionProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25046,8 +25193,8 @@ export const updateCustomDomain: API.OperationMethod<
   UpdateCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<UpdateCustomDomainRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<UpdateCustomDomainResponseContent>,
+  input: __S(12960, __c405, 0) as any as S.Schema<UpdateCustomDomainRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<UpdateCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25064,8 +25211,8 @@ export const updateEmailTemplate: API.OperationMethod<
   UpdateEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpdateEmailTemplateResponseContent>,
+  input: __S(12992, __c406, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<UpdateEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25082,8 +25229,8 @@ export const updateEventStream: API.OperationMethod<
   UpdateEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12994, __c406, 2) as any as S.Schema<UpdateEventStreamRequest>,
-  output: __S(12995, __c406, 3) as any as S.Schema<UpdateEventStreamResponse>,
+  input: __S(13026, __c407, 2) as any as S.Schema<UpdateEventStreamRequest>,
+  output: __S(13027, __c407, 3) as any as S.Schema<UpdateEventStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25100,8 +25247,8 @@ export const updateFlow: API.OperationMethod<
   UpdateFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<UpdateFlowRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<UpdateFlowResponseContent>,
+  input: __S(13088, __c409, 0) as any as S.Schema<UpdateFlowRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<UpdateFlowResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25118,8 +25265,8 @@ export const updateFlowsVaultConnection: API.OperationMethod<
   UpdateFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<UpdateFlowsVaultConnectionRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<UpdateFlowsVaultConnectionResponseContent>,
+  input: __S(13120, __c410, 0) as any as S.Schema<UpdateFlowsVaultConnectionRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<UpdateFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25136,8 +25283,8 @@ export const updateForm: API.OperationMethod<
   UpdateFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<UpdateFormRequest>,
-  output: __S(4108, __c128, 12) as any as S.Schema<UpdateFormResponseContent>,
+  input: __S(13152, __c411, 0) as any as S.Schema<UpdateFormRequest>,
+  output: __S(4140, __c129, 12) as any as S.Schema<UpdateFormResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25154,8 +25301,8 @@ export const updateHook: API.OperationMethod<
   UpdateHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<UpdateHookRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<UpdateHookResponseContent>,
+  input: __S(13184, __c412, 0) as any as S.Schema<UpdateHookRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateHookResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25172,8 +25319,8 @@ export const updateLogStream: API.OperationMethod<
   UpdateLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13187, __c412, 3) as any as S.Schema<UpdateLogStreamRequest>,
-  output: __S(13188, __c412, 4) as any as S.Schema<UpdateLogStreamResponse>,
+  input: __S(13219, __c413, 3) as any as S.Schema<UpdateLogStreamRequest>,
+  output: __S(13220, __c413, 4) as any as S.Schema<UpdateLogStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25190,8 +25337,8 @@ export const updateNetworkAcl: API.OperationMethod<
   UpdateNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13216, __c413, 0) as any as S.Schema<UpdateNetworkAclRequest>,
-  output: __S(5152, __c161, 0) as any as S.Schema<UpdateNetworkAclResponseContent>,
+  input: __S(13248, __c414, 0) as any as S.Schema<UpdateNetworkAclRequest>,
+  output: __S(5184, __c162, 0) as any as S.Schema<UpdateNetworkAclResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25208,8 +25355,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<UpdateOrganizationResponseContent>,
+  input: __S(13280, __c415, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<UpdateOrganizationResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25226,8 +25373,8 @@ export const updatePhoneProvider: API.OperationMethod<
   UpdatePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<UpdatePhoneProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<UpdateBrandingPhoneProviderResponseContent>,
+  input: __S(13312, __c416, 0) as any as S.Schema<UpdatePhoneProviderRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<UpdateBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25244,8 +25391,8 @@ export const updatePhoneTemplate: API.OperationMethod<
   UpdatePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13313, __c416, 1) as any as S.Schema<UpdatePhoneTemplateRequest>,
-  output: __S(8770, __c274, 2) as any as S.Schema<UpdatePhoneTemplateResponseContent>,
+  input: __S(13345, __c417, 1) as any as S.Schema<UpdatePhoneTemplateRequest>,
+  output: __S(8802, __c275, 2) as any as S.Schema<UpdatePhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25262,8 +25409,8 @@ export const updatePrompts: API.OperationMethod<
   UpdatePromptsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13344, __c417, 0) as any as S.Schema<UpdatePromptsRequest>,
-  output: __S(6176, __c193, 0) as any as S.Schema<UpdateSettingsResponseContent>,
+  input: __S(13376, __c418, 0) as any as S.Schema<UpdatePromptsRequest>,
+  output: __S(6208, __c194, 0) as any as S.Schema<UpdateSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25280,8 +25427,8 @@ export const updateRefreshToken: API.OperationMethod<
   UpdateRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<UpdateRefreshTokenRequest>,
-  output: __S(6307, __c197, 3) as any as S.Schema<UpdateRefreshTokenResponseContent>,
+  input: __S(13440, __c420, 0) as any as S.Schema<UpdateRefreshTokenRequest>,
+  output: __S(6339, __c198, 3) as any as S.Schema<UpdateRefreshTokenResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25298,8 +25445,8 @@ export const updateResourceServer: API.OperationMethod<
   UpdateResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13440, __c420, 0) as any as S.Schema<UpdateResourceServerRequest>,
-  output: __S(9193, __c287, 9) as any as S.Schema<UpdateResourceServerResponseContent>,
+  input: __S(13472, __c421, 0) as any as S.Schema<UpdateResourceServerRequest>,
+  output: __S(9225, __c288, 9) as any as S.Schema<UpdateResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25316,8 +25463,8 @@ export const updateRiskAssessmentsSettings: API.OperationMethod<
   UpdateRiskAssessmentsSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsResponseContent>,
+  input: __S(13504, __c422, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25334,8 +25481,8 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<UpdateRoleResponseContent>,
+  input: __S(13536, __c423, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(9632, __c301, 0) as any as S.Schema<UpdateRoleResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25352,8 +25499,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(10752, __c336, 0) as any as S.Schema<UpdateRuleResponseContent>,
+  input: __S(13568, __c424, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(10784, __c337, 0) as any as S.Schema<UpdateRuleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25370,8 +25517,8 @@ export const updateSelfServiceProfile: API.OperationMethod<
   UpdateSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<UpdateSelfServiceProfileRequest>,
-  output: __S(11172, __c349, 4) as any as S.Schema<UpdateSelfServiceProfileResponseContent>,
+  input: __S(13600, __c425, 0) as any as S.Schema<UpdateSelfServiceProfileRequest>,
+  output: __S(11204, __c350, 4) as any as S.Schema<UpdateSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25388,8 +25535,8 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(7208, __c225, 8) as any as S.Schema<UpdateSessionResponseContent>,
+  input: __S(13632, __c426, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(7240, __c226, 8) as any as S.Schema<UpdateSessionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25411,8 +25558,8 @@ export const updateTokenExchangeProfile: API.OperationMethod<
   UpdateTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<UpdateTokenExchangeProfileRequest>,
-  output: __S(4640, __c145, 0) as any as S.Schema<UpdateTokenExchangeProfileResponse>,
+  input: __S(13664, __c427, 0) as any as S.Schema<UpdateTokenExchangeProfileRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<UpdateTokenExchangeProfileResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25429,8 +25576,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(11970, __c374, 2) as any as S.Schema<UpdateUserResponseContent>,
+  input: __S(13696, __c428, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(12002, __c375, 2) as any as S.Schema<UpdateUserResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25460,15 +25607,15 @@ function __c1(j: number): any {
           name: S.String,
           display_name: S.optional(S.String),
           strategy: S.String,
-          options: S.optional(__S(191, __c5, 31)),
-          enabled_clients: S.optional(__S(14720, __c460, 0)),
+          options: S.optional(__S(192, __c6, 0)),
+          enabled_clients: S.optional(__S(14752, __c461, 0)),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
-          realms: S.optional(__S(14720, __c460, 0)),
+          realms: S.optional(__S(14752, __c461, 0)),
           metadata: S.optional(__S(64, __c2, 0)),
-          authentication: S.optional(__S(14432, __c451, 0)),
+          authentication: S.optional(__S(14464, __c452, 0)),
           connected_accounts: S.optional(__S(96, __c3, 0)),
-          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14464, __c452, 0)),
           cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/connections", code: 200 })),
       ).annotate({ identifier: "CreateConnectionRequest" });
@@ -25505,17 +25652,17 @@ function __c4(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           display_name: S.optional(S.String),
-          options: S.optional(__S(14496, __c453, 0)),
+          options: S.optional(__S(14528, __c454, 0)),
           id: S.optional(S.String),
           strategy: S.optional(S.String),
-          realms: S.optional(__S(14720, __c460, 0)),
-          enabled_clients: S.optional(__S(14720, __c460, 0)),
+          realms: S.optional(__S(14752, __c461, 0)),
+          enabled_clients: S.optional(__S(14752, __c461, 0)),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
           metadata: S.optional(__S(64, __c2, 0)),
-          authentication: S.optional(__S(14432, __c451, 0)),
+          authentication: S.optional(__S(14464, __c452, 0)),
           connected_accounts: S.optional(__S(96, __c3, 0)),
-          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14464, __c452, 0)),
           cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "CreateConnectionResponseContent" });
@@ -25654,13 +25801,20 @@ function __c5(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
+          enabled: S.optional(S.Boolean),
+          signup_behavior: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionPasskeyAuthenticationMethod" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           password: S.optional(__S(175, __c5, 15)),
-          passkey: S.optional(__S(14464, __c452, 0)),
-          email_otp: S.optional(__S(14464, __c452, 0)),
-          phone_otp: S.optional(__S(14464, __c452, 0)),
+          passkey: S.optional(__S(176, __c5, 16)),
+          email_otp: S.optional(__S(14496, __c453, 0)),
+          phone_otp: S.optional(__S(14496, __c453, 0)),
         }),
       ).annotate({ identifier: "ConnectionAuthenticationMethods" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           challenge_ui: S.optional(S.String),
@@ -25668,35 +25822,35 @@ function __c5(j: number): any {
           local_enrollment_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConnectionPasskeyOptions" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           min_length: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConnectionPasswordComplexityOptions" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           enable: S.Boolean,
           size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConnectionPasswordHistoryOptions" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           enable: S.Boolean,
         }),
       ).annotate({ identifier: "ConnectionPasswordNoPersonalInfoOptions" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           enable: S.Boolean,
-          dictionary: S.optional(__S(14720, __c460, 0)),
+          dictionary: S.optional(__S(14752, __c461, 0)),
         }),
       ).annotate({ identifier: "ConnectionPasswordDictionaryOptions" });
-    case 22:
-      return S.Record(S.String, S.Unknown);
     case 23:
+      return S.Record(S.String, S.Unknown);
+    case 24:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -25709,56 +25863,57 @@ function __c5(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConnectionGatewayAuthentication" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           min_length: S.optional(S.Number),
-          character_types: S.optional(__S(14400, __c450, 0)),
+          character_types: S.optional(__S(14432, __c451, 0)),
           character_type_rule: S.optional(S.String),
           identical_characters: S.optional(S.String),
           sequential_characters: S.optional(S.String),
           max_length_exceeded: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionPasswordOptionsComplexity" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean),
-          custom: S.optional(__S(14720, __c460, 0)),
+          custom: S.optional(__S(14752, __c461, 0)),
+          match_type: S.optional(S.String),
           default: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionPasswordOptionsDictionary" });
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean),
           size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConnectionPasswordOptionsHistory" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          blocked_fields: S.optional(__S(14720, __c460, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptionsProfileData" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          complexity: S.optional(__S(184, __c5, 24)),
-          dictionary: S.optional(__S(185, __c5, 25)),
-          history: S.optional(__S(186, __c5, 26)),
-          profile_data: S.optional(__S(187, __c5, 27)),
+          active: S.optional(S.Boolean),
+          blocked_fields: S.optional(__S(14752, __c461, 0)),
         }),
-      ).annotate({ identifier: "ConnectionPasswordOptions" });
+      ).annotate({ identifier: "ConnectionPasswordOptionsProfileData" });
     case 29:
       return S.suspend(() =>
         S.Struct({
+          complexity: S.optional(__S(185, __c5, 25)),
+          dictionary: S.optional(__S(186, __c5, 26)),
+          history: S.optional(__S(187, __c5, 27)),
+          profile_data: S.optional(__S(188, __c5, 28)),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptions" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
           algorithm_profile: S.String,
-          algorithm_exceptions: S.optional(__S(14720, __c460, 0)),
+          algorithm_exceptions: S.optional(__S(14752, __c461, 0)),
         }),
       ).annotate({ identifier: "ConnectionAssertionDecryptionSettings" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -25768,29 +25923,29 @@ function __c5(j: number): any {
             userinfo_endpoint: S.optional(S.String),
             jwks_uri: S.optional(S.String),
             registration_endpoint: S.optional(S.String),
-            scopes_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
-            response_modes_supported: S.optional(__S(14720, __c460, 0)),
-            response_types_supported: S.optional(__S(14720, __c460, 0)),
-            grant_types_supported: S.optional(__S(14720, __c460, 0)),
-            acr_values_supported: S.optional(__S(14720, __c460, 0)),
-            subject_types_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
-            id_token_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            id_token_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            id_token_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
-            userinfo_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            userinfo_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            userinfo_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
-            request_object_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            request_object_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            request_object_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
-            token_endpoint_auth_methods_supported: S.optional(__S(14720, __c460, 0)),
-            token_endpoint_auth_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
-            display_values_supported: S.optional(__S(14720, __c460, 0)),
-            claim_types_supported: S.optional(__S(14720, __c460, 0)),
-            claims_supported: S.optional(__S(14720, __c460, 0)),
+            scopes_supported: S.optional(S.NullOr(__S(14752, __c461, 0))),
+            response_modes_supported: S.optional(__S(14752, __c461, 0)),
+            response_types_supported: S.optional(__S(14752, __c461, 0)),
+            grant_types_supported: S.optional(__S(14752, __c461, 0)),
+            acr_values_supported: S.optional(__S(14752, __c461, 0)),
+            subject_types_supported: S.optional(S.NullOr(__S(14752, __c461, 0))),
+            id_token_signing_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            id_token_encryption_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            id_token_encryption_enc_values_supported: S.optional(__S(14752, __c461, 0)),
+            userinfo_signing_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            userinfo_encryption_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            userinfo_encryption_enc_values_supported: S.optional(__S(14752, __c461, 0)),
+            request_object_signing_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            request_object_encryption_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            request_object_encryption_enc_values_supported: S.optional(__S(14752, __c461, 0)),
+            token_endpoint_auth_methods_supported: S.optional(__S(14752, __c461, 0)),
+            token_endpoint_auth_signing_alg_values_supported: S.optional(__S(14752, __c461, 0)),
+            display_values_supported: S.optional(__S(14752, __c461, 0)),
+            claim_types_supported: S.optional(__S(14752, __c461, 0)),
+            claims_supported: S.optional(__S(14752, __c461, 0)),
             service_documentation: S.optional(S.String),
-            claims_locales_supported: S.optional(__S(14720, __c460, 0)),
-            ui_locales_supported: S.optional(__S(14720, __c460, 0)),
+            claims_locales_supported: S.optional(__S(14752, __c461, 0)),
+            ui_locales_supported: S.optional(__S(14752, __c461, 0)),
             claims_parameter_supported: S.optional(S.Boolean),
             request_parameter_supported: S.optional(S.Boolean),
             request_uri_parameter_supported: S.optional(S.Boolean),
@@ -25800,18 +25955,22 @@ function __c5(j: number): any {
             end_session_endpoint: S.optional(S.String),
             pushed_authorization_request_endpoint: S.optional(S.String),
             require_pushed_authorization_requests: S.optional(S.Boolean),
-            dpop_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            dpop_signing_alg_values_supported: S.optional(__S(14752, __c461, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConnectionsOIDCMetadata" });
-    case 31:
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             validation: S.optional(S.NullOr(__S(161, __c5, 1))),
-            non_persistent_attrs: S.optional(S.NullOr(__S(14720, __c460, 0))),
-            precedence: S.optional(__S(14400, __c450, 0)),
+            non_persistent_attrs: S.optional(S.NullOr(__S(14752, __c461, 0))),
+            precedence: S.optional(__S(14432, __c451, 0)),
             attributes: S.optional(__S(171, __c5, 11)),
             enable_script_context: S.optional(S.Boolean),
             enabledDatabaseCustomization: S.optional(S.Boolean),
@@ -25819,13 +25978,13 @@ function __c5(j: number): any {
             configuration: S.optional(S.NullOr(__S(64, __c2, 0))),
             customScripts: S.optional(__S(172, __c5, 12)),
             otp_settings: S.optional(__S(174, __c5, 14)),
-            authentication_methods: S.optional(S.NullOr(__S(176, __c5, 16))),
-            passkey_options: S.optional(S.NullOr(__S(177, __c5, 17))),
+            authentication_methods: S.optional(S.NullOr(__S(177, __c5, 17))),
+            passkey_options: S.optional(S.NullOr(__S(178, __c5, 18))),
             passwordPolicy: S.optional(S.NullOr(S.String)),
-            password_complexity_options: S.optional(S.NullOr(__S(178, __c5, 18))),
-            password_history: S.optional(S.NullOr(__S(179, __c5, 19))),
-            password_no_personal_info: S.optional(S.NullOr(__S(180, __c5, 20))),
-            password_dictionary: S.optional(S.NullOr(__S(181, __c5, 21))),
+            password_complexity_options: S.optional(S.NullOr(__S(179, __c5, 19))),
+            password_history: S.optional(S.NullOr(__S(180, __c5, 20))),
+            password_no_personal_info: S.optional(S.NullOr(__S(181, __c5, 21))),
+            password_dictionary: S.optional(S.NullOr(__S(182, __c5, 22))),
             api_enable_users: S.optional(S.Boolean),
             api_enable_groups: S.optional(S.Boolean),
             basic_profile: S.optional(S.Boolean),
@@ -25836,13 +25995,15 @@ function __c5(j: number): any {
             ext_assigned_plans: S.optional(S.Boolean),
             ext_profile: S.optional(S.Boolean),
             disable_self_service_change_password: S.optional(S.Boolean),
-            upstream_params: S.optional(S.NullOr(__S(182, __c5, 22))),
+            upstream_params: S.optional(S.NullOr(__S(183, __c5, 23))),
             set_user_root_attributes: S.optional(S.String),
-            gateway_authentication: S.optional(S.NullOr(__S(183, __c5, 23))),
-            password_options: S.optional(__S(188, __c5, 28)),
-            assertion_decryption_settings: S.optional(__S(189, __c5, 29)),
-            id_token_signed_response_algs: S.optional(S.NullOr(__S(14400, __c450, 0))),
+            gateway_authentication: S.optional(S.NullOr(__S(184, __c5, 24))),
+            password_options: S.optional(__S(189, __c5, 29)),
+            assertion_decryption_settings: S.optional(__S(190, __c5, 30)),
+            id_token_signed_response_algs: S.optional(S.NullOr(__S(14432, __c451, 0))),
             dpop_signing_alg: S.optional(S.String),
+            id_token_encrypted_response_alg: S.optional(S.String),
+            id_token_encrypted_response_encs: S.optional(__S(14432, __c451, 0)),
             enable_pushed_authorization_requests: S.optional(S.Boolean),
             pushed_authorization_request_endpoint: S.optional(S.String),
             token_endpoint_auth_method: S.optional(S.NullOr(S.String)),
@@ -25850,17 +26011,19 @@ function __c5(j: number): any {
             token_endpoint_jwtca_aud_format: S.optional(S.String),
             id_token_session_expiry_supported: S.optional(S.Boolean),
             useOauthSpecScope: S.optional(S.Boolean),
+            client_id: S.optional(S.NullOr(S.String)),
+            allowed_audiences: S.optional(S.NullOr(__S(14752, __c461, 0))),
             discovery_url: S.optional(S.NullOr(S.String)),
-            oidc_metadata: S.optional(S.NullOr(__S(190, __c5, 30))),
-            thumbprints: S.optional(__S(14720, __c460, 0)),
-            thumbprints_sha384: S.optional(__S(14720, __c460, 0)),
+            oidc_metadata: S.optional(S.NullOr(__S(191, __c5, 31))),
+            thumbprints: S.optional(__S(14752, __c461, 0)),
+            thumbprints_sha384: S.optional(__S(14752, __c461, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ConnectionPropertiesOptions" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25886,29 +26049,29 @@ function __c6(j: number): any {
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          profileData: S.optional(__S(11936, __c373, 0)),
+          profileData: S.optional(__S(11968, __c374, 0)),
         }),
       ).annotate({ identifier: "DeleteUserIdentityResponseContentItem" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
-      return S.suspend(() => __S(194, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(226, __c7, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteUserIdentityResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/roles", code: 200 })),
       ).annotate({ identifier: "DeleteUserRolesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25919,7 +26082,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteUsersByEmailRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25935,7 +26098,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteVcTemplatesByIdRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25945,7 +26108,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetActionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25957,7 +26120,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ActionError" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25970,24 +26133,24 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ActionTriggerCompatibleTrigger" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           version: S.optional(S.String),
           status: S.optional(S.String),
-          runtimes: S.optional(__S(14720, __c460, 0)),
+          runtimes: S.optional(__S(14752, __c461, 0)),
           default_runtime: S.optional(S.String),
-          compatible_triggers: S.optional(__S(385, __c12, 1)),
+          compatible_triggers: S.optional(__S(417, __c13, 1)),
           binding_policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionTrigger" });
     case 3:
-      return S.Array(__S(386, __c12, 2));
+      return S.Array(__S(418, __c13, 2));
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25998,7 +26161,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ActionVersionDependency" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -26010,15 +26173,15 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ActionSecretResponse" });
     case 3:
-      return S.Array(__S(418, __c13, 2));
+      return S.Array(__S(450, __c14, 2));
     case 4:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(384, __c12, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(387, __c12, 3)),
+          supported_triggers: S.optional(__S(419, __c13, 3)),
           all_changes_deployed: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -26034,31 +26197,31 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ActionModuleReference" });
     case 7:
-      return S.Array(__S(422, __c13, 6));
+      return S.Array(__S(454, __c14, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           action_id: S.optional(S.String),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(417, __c13, 1)),
+          dependencies: S.optional(__S(449, __c14, 1)),
           deployed: S.optional(S.Boolean),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(419, __c13, 3)),
+          secrets: S.optional(__S(451, __c14, 3)),
           status: S.optional(S.String),
           number: S.optional(S.Number),
-          errors: S.optional(__S(420, __c13, 4)),
-          action: S.optional(__S(421, __c13, 5)),
+          errors: S.optional(__S(452, __c14, 4)),
+          action: S.optional(__S(453, __c14, 5)),
           built_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          supported_triggers: S.optional(__S(387, __c12, 3)),
-          modules: S.optional(__S(423, __c13, 7)),
+          supported_triggers: S.optional(__S(419, __c13, 3)),
+          modules: S.optional(__S(455, __c14, 7)),
         }),
       ).annotate({ identifier: "ActionDeployedVersion" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26075,7 +26238,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationRequiredParamOption" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -26087,20 +26250,20 @@ function __c14(j: number): any {
           description: S.optional(S.String),
           default_value: S.optional(S.String),
           placeholder: S.optional(S.String),
-          options: S.optional(__S(450, __c14, 2)),
+          options: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "IntegrationRequiredParam" });
     case 4:
-      return S.Array(__S(451, __c14, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             id: S.optional(S.String),
-            trigger: S.optional(__S(386, __c12, 2)),
-            semver: S.optional(__S(448, __c14, 0)),
-            required_secrets: S.optional(__S(452, __c14, 4)),
-            required_configuration: S.optional(__S(452, __c14, 4)),
+            trigger: S.optional(__S(418, __c13, 2)),
+            semver: S.optional(__S(480, __c15, 0)),
+            required_secrets: S.optional(__S(484, __c15, 4)),
+            required_configuration: S.optional(__S(484, __c15, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -26120,7 +26283,7 @@ function __c14(j: number): any {
           terms_of_use_url: S.optional(S.String),
           privacy_policy_url: S.optional(S.String),
           public_support_link: S.optional(S.String),
-          current_release: S.optional(__S(453, __c14, 5)),
+          current_release: S.optional(__S(485, __c15, 5)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
@@ -26130,26 +26293,26 @@ function __c14(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(387, __c12, 3)),
+          supported_triggers: S.optional(__S(419, __c13, 3)),
           all_changes_deployed: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(417, __c13, 1)),
+          dependencies: S.optional(__S(449, __c14, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(419, __c13, 3)),
-          deployed_version: S.optional(__S(424, __c13, 8)),
+          secrets: S.optional(__S(451, __c14, 3)),
+          deployed_version: S.optional(__S(456, __c14, 8)),
           installed_integration_id: S.optional(S.String),
-          integration: S.optional(__S(454, __c14, 6)),
+          integration: S.optional(__S(486, __c15, 6)),
           status: S.optional(S.String),
           built_at: S.optional(S.String),
           deploy: S.optional(S.Boolean),
-          modules: S.optional(__S(423, __c13, 7)),
+          modules: S.optional(__S(455, __c14, 7)),
         }),
       ).annotate({ identifier: "GetActionResponseContent" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26163,19 +26326,19 @@ function __c15(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/actions/actions", code: 200 })),
       ).annotate({ identifier: "GetActionsRequest" });
     case 1:
-      return S.Array(__S(455, __c14, 7));
+      return S.Array(__S(487, __c15, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          actions: S.optional(__S(481, __c15, 1)),
+          actions: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ListActionsPaginatedResponseContent" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26188,7 +26351,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetActionVersionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26199,19 +26362,19 @@ function __c17(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/actions/actions/{actionId}/versions", code: 200 })),
       ).annotate({ identifier: "GetActionVersionsRequest" });
     case 1:
-      return S.Array(__S(424, __c13, 8));
+      return S.Array(__S(456, __c14, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          versions: S.optional(__S(545, __c17, 1)),
+          versions: S.optional(__S(577, __c18, 1)),
         }),
       ).annotate({ identifier: "ListActionVersionsPaginatedResponseContent" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26223,7 +26386,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26244,24 +26407,24 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          organization: S.optional(__S(672, __c21, 0)),
+          organization: S.optional(__S(704, __c22, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(14400, __c450, 0)),
+          enabled_features: S.optional(__S(14432, __c451, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(678, __c21, 6)),
-          provisioning: S.optional(__S(676, __c21, 4)),
-          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
+          strategy_overrides: S.optional(__S(710, __c22, 6)),
+          provisioning: S.optional(__S(708, __c22, 4)),
+          cross_app_access_resource_app: S.optional(__S(737, __c23, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/connection-profiles", code: 200 })),
       ).annotate({ identifier: "CreateConnectionProfileRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26273,7 +26436,7 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scopes: __S(14400, __c450, 0),
+          scopes: __S(14432, __c451, 0),
           default_expiry: S.optional(S.NullOr(S.Number)),
           max_allowed_expiry: S.optional(S.NullOr(S.Number)),
         }),
@@ -26281,7 +26444,7 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(673, __c21, 1),
+          tokens: __S(705, __c22, 1),
         }),
       ).annotate({ identifier: "ConnectionProfileProvisioningScim" });
     case 3:
@@ -26293,46 +26456,46 @@ function __c21(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          scim: S.optional(__S(674, __c21, 2)),
-          google_workspace: S.optional(__S(675, __c21, 3)),
+          scim: S.optional(__S(706, __c22, 2)),
+          google_workspace: S.optional(__S(707, __c22, 3)),
         }),
       ).annotate({ identifier: "ConnectionProfileStrategyOverridesProvisioning" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          enabled_features: S.optional(__S(14400, __c450, 0)),
+          enabled_features: S.optional(__S(14432, __c451, 0)),
           connection_config: S.optional(S.Unknown),
-          provisioning: S.optional(__S(676, __c21, 4)),
+          provisioning: S.optional(__S(708, __c22, 4)),
         }),
       ).annotate({ identifier: "ConnectionProfileStrategyOverride" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          pingfederate: S.optional(__S(677, __c21, 5)),
-          ad: S.optional(__S(677, __c21, 5)),
-          adfs: S.optional(__S(677, __c21, 5)),
-          waad: S.optional(__S(677, __c21, 5)),
-          google_apps: S.optional(__S(677, __c21, 5).pipe(T.Body("google-apps"))),
-          okta: S.optional(__S(677, __c21, 5)),
-          oidc: S.optional(__S(677, __c21, 5)),
-          samlp: S.optional(__S(677, __c21, 5)),
+          pingfederate: S.optional(__S(709, __c22, 5)),
+          ad: S.optional(__S(709, __c22, 5)),
+          adfs: S.optional(__S(709, __c22, 5)),
+          waad: S.optional(__S(709, __c22, 5)),
+          google_apps: S.optional(__S(709, __c22, 5).pipe(T.Body("google-apps"))),
+          okta: S.optional(__S(709, __c22, 5)),
+          oidc: S.optional(__S(709, __c22, 5)),
+          samlp: S.optional(__S(709, __c22, 5)),
         }),
       ).annotate({ identifier: "ConnectionProfileStrategyOverrides" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           default_value: S.String,
-          allowed_values: S.optional(__S(14400, __c450, 0)),
+          allowed_values: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceAppStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: __S(704, __c22, 0),
+          status: __S(736, __c23, 0),
         }),
       ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceApp" });
     case 2:
@@ -26340,18 +26503,18 @@ function __c22(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          organization: S.optional(__S(672, __c21, 0)),
+          organization: S.optional(__S(704, __c22, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(14400, __c450, 0)),
+          enabled_features: S.optional(__S(14432, __c451, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(678, __c21, 6)),
-          provisioning: S.optional(__S(676, __c21, 4)),
-          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
+          strategy_overrides: S.optional(__S(710, __c22, 6)),
+          provisioning: S.optional(__S(708, __c22, 4)),
+          cross_app_access_resource_app: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "CreateConnectionProfileResponseContent" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26373,7 +26536,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderApnsResponseContent" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26390,7 +26553,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26399,7 +26562,7 @@ function __c25(j: number): any {
           type: S.String,
           confirmed: S.optional(S.Boolean),
           name: S.optional(S.String),
-          authentication_methods: S.optional(__S(833, __c26, 1)),
+          authentication_methods: S.optional(__S(865, __c27, 1)),
           preferred_authentication_method: S.optional(S.String),
           link_id: S.optional(S.String),
           phone_number: S.optional(S.String),
@@ -26414,7 +26577,7 @@ function __c25(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(14720, __c460, 0)),
+          transports: S.optional(__S(14752, __c461, 0)),
           aaguid: S.optional(S.String),
           relying_party_identifier: S.optional(S.String),
         }),
@@ -26434,7 +26597,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAuthenticationMethodsByAuthenticationMethodIdRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26447,10 +26610,10 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "UserAuthenticationMethodProperties" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(864, __c27, 0));
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26468,12 +26631,12 @@ function __c27(j: number): any {
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          bindings: S.optional(__S(897, __c28, 1)),
+          bindings: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "ListActionBindingsPaginatedResponseContent" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26481,16 +26644,16 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           trigger_id: S.optional(S.String),
           display_name: S.optional(S.String),
-          action: S.optional(__S(455, __c14, 7)),
+          action: S.optional(__S(487, __c15, 7)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionBinding" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(928, __c29, 0));
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26505,13 +26668,13 @@ function __c29(j: number): any {
           challenge_password_policy: S.String,
           challenge_passwordless_policy: S.String,
           challenge_password_reset_policy: S.String,
-          allowlist: __S(14720, __c460, 0),
+          allowlist: __S(14752, __c461, 0),
           monitoring_mode_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "GetBotDetectionSettingsResponseContent" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26519,7 +26682,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetBrandingRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26529,7 +26692,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BrandingFont" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26542,17 +26705,17 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            colors: S.optional(__S(1024, __c32, 0)),
+            colors: S.optional(__S(1056, __c33, 0)),
             favicon_url: S.optional(S.String),
             logo_url: S.optional(S.String),
-            font: S.optional(__S(992, __c31, 0)),
+            font: S.optional(__S(1024, __c32, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetBrandingResponseContent" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26561,16 +26724,16 @@ function __c33(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/branding/phone/providers", code: 200 })),
       ).annotate({ identifier: "GetBrandingPhoneProvidersRequest" });
     case 1:
-      return S.Array(__S(8288, __c259, 0));
+      return S.Array(__S(8320, __c260, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(1057, __c33, 1)),
+          providers: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "ListBrandingPhoneProvidersResponseContent" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26580,7 +26743,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetBrandingThemeRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26594,36 +26757,36 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetBreachedPasswordDetectionRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shields: S.optional(__S(14400, __c450, 0)),
+          shields: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "BreachedPasswordDetectionPreUserRegistrationStage" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           pre_user_registration: S.optional(
-            __S(1152, __c36, 0).pipe(T.Body("pre-user-registration")),
+            __S(1184, __c37, 0).pipe(T.Body("pre-user-registration")),
           ),
-          pre_change_password: S.optional(__S(1152, __c36, 0).pipe(T.Body("pre-change-password"))),
+          pre_change_password: S.optional(__S(1184, __c37, 0).pipe(T.Body("pre-change-password"))),
         }),
       ).annotate({ identifier: "BreachedPasswordDetectionStage" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          admin_notification_frequency: S.optional(__S(14400, __c450, 0)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          admin_notification_frequency: S.optional(__S(14432, __c451, 0)),
           method: S.optional(S.String),
-          stage: S.optional(__S(1153, __c36, 1)),
+          stage: S.optional(__S(1185, __c37, 1)),
         }),
       ).annotate({ identifier: "GetBreachedPasswordDetectionSettingsResponseContent" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26633,14 +26796,14 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetBruteForceProtectionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          allowlist: S.optional(__S(14720, __c460, 0)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
           mode: S.optional(S.String),
           form_submission_mode: S.optional(S.String),
           max_attempts: S.optional(S.Number),
@@ -26648,7 +26811,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetBruteForceSettingsResponseContent" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26664,7 +26827,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateCustomDomainRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26675,11 +26838,11 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "DomainVerificationMethod" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          methods: S.optional(__S(1281, __c40, 1)),
+          methods: S.optional(__S(1313, __c41, 1)),
           status: S.optional(S.String),
           error_msg: S.optional(S.String),
           last_verified_at: S.optional(S.String),
@@ -26696,7 +26859,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DomainCertificate" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26707,17 +26870,17 @@ function __c41(j: number): any {
           is_default: S.optional(S.Boolean),
           status: S.String,
           type: S.String,
-          verification: __S(1282, __c40, 2),
+          verification: __S(1314, __c41, 2),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
           tls_policy: S.optional(S.String),
           domain_metadata: S.optional(__S(64, __c2, 0)),
-          certificate: S.optional(__S(1283, __c40, 3)),
+          certificate: S.optional(__S(1315, __c41, 3)),
           relying_party_identifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCustomDomainResponseContent" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26725,7 +26888,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetCaptchaRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26772,20 +26935,20 @@ function __c43(j: number): any {
         S.StructWithRest(
           S.Struct({
             active_provider_id: S.optional(S.String),
-            arkose: S.optional(__S(1376, __c43, 0)),
-            auth_challenge: S.optional(__S(1377, __c43, 1)),
-            hcaptcha: S.optional(__S(1378, __c43, 2)),
-            friendly_captcha: S.optional(__S(1378, __c43, 2)),
-            recaptcha_enterprise: S.optional(__S(1379, __c43, 3)),
-            recaptcha_v2: S.optional(__S(1378, __c43, 2)),
-            simple_captcha: S.optional(__S(14496, __c453, 0)),
+            arkose: S.optional(__S(1408, __c44, 0)),
+            auth_challenge: S.optional(__S(1409, __c44, 1)),
+            hcaptcha: S.optional(__S(1410, __c44, 2)),
+            friendly_captcha: S.optional(__S(1410, __c44, 2)),
+            recaptcha_enterprise: S.optional(__S(1411, __c44, 3)),
+            recaptcha_v2: S.optional(__S(1410, __c44, 2)),
+            simple_captcha: S.optional(__S(14528, __c454, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetAttackProtectionCaptchaResponseContent" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26797,13 +26960,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetClientRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          strategy: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          strategy: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
           fields: S.optional(S.String.pipe(T.Query())),
@@ -26815,26 +26978,26 @@ function __c45(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           display_name: S.optional(S.String),
-          options: S.optional(__S(14496, __c453, 0)),
+          options: S.optional(__S(14528, __c454, 0)),
           id: S.optional(S.String),
           strategy: S.optional(S.String),
-          realms: S.optional(__S(14720, __c460, 0)),
+          realms: S.optional(__S(14752, __c461, 0)),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
           metadata: S.optional(__S(64, __c2, 0)),
-          authentication: S.optional(__S(14432, __c451, 0)),
+          authentication: S.optional(__S(14464, __c452, 0)),
           connected_accounts: S.optional(__S(96, __c3, 0)),
-          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14464, __c452, 0)),
           cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ConnectionForList" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            connections: __S(1442, __c45, 2),
+            connections: __S(1474, __c46, 2),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -26842,7 +27005,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListClientConnectionsResponseContent" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26852,7 +27015,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetClientGrantRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26871,7 +27034,7 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26894,7 +27057,7 @@ function __c48(j: number): any {
       });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26920,7 +27083,7 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26938,24 +27101,24 @@ function __c50(j: number): any {
           connection_id: S.String,
           strategy: S.String,
           access_type: S.String,
-          scopes: S.optional(__S(14720, __c460, 0)),
+          scopes: S.optional(__S(14752, __c461, 0)),
           created_at: S.String,
           expires_at: S.optional(S.String),
           organization_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectedAccount" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          connected_accounts: __S(1602, __c50, 2),
+          connected_accounts: __S(1634, __c51, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserConnectedAccountsResponseContent" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26967,7 +27130,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetConnectionRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26987,12 +27150,12 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ConnectionEnabledClient" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            clients: __S(1666, __c52, 2),
+            clients: __S(1698, __c53, 2),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -27000,7 +27163,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetConnectionEnabledClientsResponseContent" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27023,7 +27186,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreatePublicKeyDeviceCredentialResponseContent" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27033,7 +27196,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetConnectionProfileRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27043,17 +27206,17 @@ function __c55(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connection-profiles", code: 200 })),
       ).annotate({ identifier: "GetConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(738, __c23, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          connection_profiles: S.optional(__S(1761, __c55, 1)),
+          connection_profiles: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesPaginatedResponseContent" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27063,18 +27226,18 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetConnectionProfileTemplateRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          organization: S.optional(__S(672, __c21, 0)),
+          organization: S.optional(__S(704, __c22, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(14400, __c450, 0)),
+          enabled_features: S.optional(__S(14432, __c451, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(678, __c21, 6)),
-          provisioning: S.optional(__S(676, __c21, 4)),
+          strategy_overrides: S.optional(__S(710, __c22, 6)),
+          provisioning: S.optional(__S(708, __c22, 4)),
         }),
       ).annotate({ identifier: "ConnectionProfileTemplate" });
     case 1:
@@ -27082,12 +27245,12 @@ function __c57(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           display_name: S.optional(S.String),
-          template: S.optional(__S(1824, __c57, 0)),
+          template: S.optional(__S(1856, __c58, 0)),
         }),
       ).annotate({ identifier: "GetConnectionProfileTemplateResponseContent" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27096,16 +27259,16 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "GetConnectionProfileTemplatesRequest" });
     case 1:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connection_profile_templates: S.optional(__S(1857, __c58, 1)),
+          connection_profile_templates: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfileTemplateResponseContent" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27115,7 +27278,7 @@ function __c59(j: number): any {
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
-          strategy: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          strategy: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           fields: S.optional(S.String.pipe(T.Query())),
           include_fields: S.optional(S.Boolean.pipe(T.Query())),
@@ -27127,7 +27290,7 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27137,17 +27300,17 @@ function __c60(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connections-directory-provisionings", code: 200 })),
       ).annotate({ identifier: "GetConnectionsDirectoryProvisioningsRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          directory_provisionings: __S(1921, __c60, 1),
+          directory_provisionings: __S(1953, __c61, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDirectoryProvisioningsResponseContent" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27157,10 +27320,10 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "DirectoryProvisioningMappingItem" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(1984, __c62, 0));
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27168,7 +27331,7 @@ function __c62(j: number): any {
           connection_id: S.String,
           connection_name: S.String,
           strategy: S.String,
-          mapping: __S(1953, __c61, 1),
+          mapping: __S(1985, __c62, 1),
           synchronize_automatically: S.Boolean,
           synchronize_groups: S.optional(S.String),
           created_at: S.String,
@@ -27180,7 +27343,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DirectoryProvisioning" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27190,17 +27353,17 @@ function __c63(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connections-scim-configurations", code: 200 })),
       ).annotate({ identifier: "GetConnectionsScimConfigurationsRequest" });
     case 1:
-      return S.Array(__S(2080, __c65, 0));
+      return S.Array(__S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scim_configurations: __S(2017, __c63, 1),
+          scim_configurations: __S(2049, __c64, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSCIMConfigurationsResponseContent" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27213,10 +27376,10 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ScimMappingItem" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2080, __c65, 0));
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27226,14 +27389,14 @@ function __c65(j: number): any {
           strategy: S.String,
           tenant_name: S.String,
           user_id_attribute: S.String,
-          mapping: __S(2049, __c64, 1),
+          mapping: __S(2081, __c65, 1),
           created_at: S.String,
           updated_on: S.String,
         }),
       ).annotate({ identifier: "ScimConfiguration" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27242,14 +27405,14 @@ function __c66(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/clients/{client_id}/credentials", code: 200 })),
       ).annotate({ identifier: "GetCredentialsRequest" });
     case 1:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
-      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2145, __c67, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCredentialsResponse",
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27271,7 +27434,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ClientCredential" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27288,7 +27451,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetCredentialsByCredentialIdRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27306,17 +27469,17 @@ function __c69(j: number): any {
           status: S.String,
           type: S.String,
           origin_domain_name: S.optional(S.String),
-          verification: S.optional(__S(1282, __c40, 2)),
+          verification: S.optional(__S(1314, __c41, 2)),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
           tls_policy: S.optional(S.String),
           domain_metadata: S.optional(__S(64, __c2, 0)),
-          certificate: S.optional(__S(1283, __c40, 3)),
+          certificate: S.optional(__S(1315, __c41, 3)),
           relying_party_identifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCustomDomainResponseContent" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27334,7 +27497,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateEmailTemplateRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27352,7 +27515,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateEmailTemplateResponseContent" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27371,7 +27534,7 @@ function __c72(j: number): any {
       });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27379,7 +27542,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetCustomSigningKeysRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27387,7 +27550,7 @@ function __c74(j: number): any {
           kty: S.String,
           kid: S.optional(S.String),
           use: S.optional(S.String),
-          key_ops: S.optional(__S(14400, __c450, 0)),
+          key_ops: S.optional(__S(14432, __c451, 0)),
           alg: S.optional(S.String),
           n: S.optional(S.String),
           e: S.optional(S.String),
@@ -27395,22 +27558,22 @@ function __c74(j: number): any {
           x: S.optional(S.String),
           y: S.optional(S.String),
           x5u: S.optional(S.String),
-          x5c: S.optional(__S(14720, __c460, 0)),
+          x5c: S.optional(__S(14752, __c461, 0)),
           x5t: S.optional(S.String),
           x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
         }),
       ).annotate({ identifier: "CustomSigningKeyJWK" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(2369, __c74, 1)),
+          keys: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "GetCustomSigningKeysResponseContent" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27423,15 +27586,15 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetCustomTextByLanguageRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(14496, __c453, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14528, __c454, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCustomTextByLanguageResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27455,14 +27618,14 @@ function __c77(j: number): any {
         ),
       ).annotate({ identifier: "DailyStats" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
-      return S.suspend(() => __S(2466, __c77, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2498, __c78, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDailyResponse",
       });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27474,7 +27637,7 @@ function __c78(j: number): any {
       });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27482,7 +27645,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetDefaultBrandingThemeRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27499,12 +27662,12 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.optional(__S(2049, __c64, 1)),
+          mapping: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "GetScimConfigurationDefaultMappingResponseContent" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27517,7 +27680,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetDeliveriesByEventIdRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27529,7 +27692,7 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "EventStreamDeliveryAttempt" });
     case 1:
-      return S.Array(__S(2624, __c82, 0));
+      return S.Array(__S(2656, __c83, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -27538,7 +27701,7 @@ function __c82(j: number): any {
           specversion: S.optional(S.String),
           type: S.optional(S.String),
           time: S.optional(S.String),
-          data: S.optional(__S(14496, __c453, 0)),
+          data: S.optional(__S(14528, __c454, 0)),
         }),
       ).annotate({ identifier: "EventStreamCloudEvent" });
     case 3:
@@ -27548,13 +27711,13 @@ function __c82(j: number): any {
           event_stream_id: S.String,
           status: S.String,
           event_type: S.String,
-          attempts: __S(2625, __c82, 1),
-          event: S.optional(__S(2626, __c82, 2)),
+          attempts: __S(2657, __c83, 1),
+          event: S.optional(__S(2658, __c83, 2)),
         }),
       ).annotate({ identifier: "GetEventStreamDeliveryHistoryResponseContent" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27575,7 +27738,7 @@ function __c83(j: number): any {
       });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27587,7 +27750,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetDirectoryProvisioningRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27601,7 +27764,7 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27618,12 +27781,12 @@ function __c86(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.optional(__S(1953, __c61, 1)),
+          mapping: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "GetDirectoryProvisioningDefaultMappingResponseContent" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27634,17 +27797,17 @@ function __c87(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}/discovery-domains", code: 200 })),
       ).annotate({ identifier: "GetDiscoveryDomainsRequest" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(2848, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          domains: __S(2785, __c87, 1),
+          domains: __S(2817, __c88, 1),
         }),
       ).annotate({ identifier: "ListOrganizationDiscoveryDomainsResponseContent" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27659,7 +27822,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "OrganizationDiscoveryDomain" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27676,7 +27839,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27686,7 +27849,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetEmailFactorSettingsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27697,7 +27860,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetEmailFactorSettingsResponseContent" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27707,7 +27870,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27725,7 +27888,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateResponseContent" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27744,7 +27907,7 @@ function __c94(j: number): any {
       });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27761,7 +27924,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27770,12 +27933,12 @@ function __c96(j: number): any {
           assign_membership_on_login: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
           is_signup_enabled: S.optional(S.Boolean),
-          connection: S.optional(__S(6592, __c206, 0)),
+          connection: S.optional(__S(6624, __c207, 0)),
         }),
       ).annotate({ identifier: "OrganizationConnection" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27785,7 +27948,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetEncryptionKeyRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27801,7 +27964,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetEncryptionKeyResponseContent" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27817,7 +27980,7 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27843,25 +28006,25 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "UsersEnrollment" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
-      return S.suspend(() => __S(3202, __c100, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3234, __c101, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEnrollmentsResponse",
       });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          actions: S.optional(__S(3264, __c102, 0)),
+          actions: S.optional(__S(3296, __c103, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/flows", code: 200 })),
       ).annotate({ identifier: "CreateFlowRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -27870,7 +28033,7 @@ function __c102(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          actions: S.optional(__S(3264, __c102, 0)),
+          actions: S.optional(__S(3296, __c103, 0)),
           created_at: S.String,
           updated_at: S.String,
           executed_at: S.optional(S.String),
@@ -27878,7 +28041,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateFlowResponseContent" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27900,7 +28063,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetGuardianEnrollmentResponseContent" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27914,7 +28077,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27929,17 +28092,17 @@ function __c105(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/event-streams/{id}/deliveries", code: 200 })),
       ).annotate({ identifier: "GetEventDeliveriesRequest" });
     case 1:
-      return S.Array(__S(2627, __c82, 3));
+      return S.Array(__S(2659, __c83, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliveries: __S(3361, __c105, 1),
+          deliveries: __S(3393, __c106, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEventStreamDeliveriesResponseContent" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27953,7 +28116,7 @@ function __c106(j: number): any {
       });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27968,7 +28131,7 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            eventStreams: S.optional(__S(3425, __c107, 1)),
+            eventStreams: S.optional(__S(3457, __c108, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -27976,7 +28139,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListEventStreamsResponseContent" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27988,27 +28151,27 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action_name: S.optional(S.String),
-          error: S.optional(__S(352, __c11, 0)),
+          error: S.optional(__S(384, __c12, 0)),
           started_at: S.optional(S.String),
           ended_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionExecutionResult" });
     case 2:
-      return S.Array(__S(3457, __c108, 1));
+      return S.Array(__S(3489, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           trigger_id: S.optional(S.String),
           status: S.optional(S.String),
-          results: S.optional(__S(3458, __c108, 2)),
+          results: S.optional(__S(3490, __c109, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetActionExecutionResponseContent" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28018,7 +28181,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetFactorDuoSettingsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28030,7 +28193,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorDuoSettingsResponseContent" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28040,7 +28203,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetFactorPhoneTemplatesRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28051,7 +28214,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorPhoneTemplatesResponseContent" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28073,18 +28236,18 @@ function __c113(j: number): any {
           enabled: S.Boolean,
           trial_expired: S.optional(S.Boolean),
           name: S.optional(S.String),
-          settings: S.optional(__S(3617, __c113, 1)),
+          settings: S.optional(__S(3649, __c114, 1)),
         }),
       ).annotate({ identifier: "GuardianFactor" });
     case 3:
-      return S.Array(__S(3618, __c113, 2));
+      return S.Array(__S(3650, __c114, 2));
     case 4:
-      return S.suspend(() => __S(3619, __c113, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3651, __c114, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFactorsResponse",
       });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28094,7 +28257,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetFactorSmsTemplatesRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28104,7 +28267,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateFlowsVaultConnectionRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28123,18 +28286,18 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateFlowsVaultConnectionResponseContent" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/flows/{id}", code: 200 })),
       ).annotate({ identifier: "GetFlowRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28142,7 +28305,7 @@ function __c118(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
-          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
           synchronous: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/flows", code: 200 })),
       ).annotate({ identifier: "GetFlowsRequest" });
@@ -28152,14 +28315,14 @@ function __c118(j: number): any {
       });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           flow_id: S.String.pipe(T.Label()),
           execution_id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/flows/{flow_id}/executions/{execution_id}", code: 200 }),
         ),
@@ -28171,7 +28334,7 @@ function __c119(j: number): any {
           trace_id: S.String,
           journey_id: S.optional(S.String),
           status: S.String,
-          debug: S.optional(__S(14496, __c453, 0)),
+          debug: S.optional(__S(14528, __c454, 0)),
           created_at: S.String,
           updated_at: S.String,
           started_at: S.optional(S.String),
@@ -28180,7 +28343,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetFlowExecutionResponseContent" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28199,7 +28362,7 @@ function __c120(j: number): any {
       });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28209,7 +28372,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetFlowsVaultConnectionRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28225,18 +28388,18 @@ function __c122(j: number): any {
       });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/forms/{id}", code: 200 })),
       ).annotate({ identifier: "GetFormRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28244,7 +28407,7 @@ function __c124(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
-          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/forms", code: 200 })),
       ).annotate({ identifier: "GetFormsRequest" });
     case 1:
@@ -28253,7 +28416,7 @@ function __c124(j: number): any {
       });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28272,7 +28435,7 @@ function __c125(j: number): any {
       });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28297,30 +28460,30 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetGroupResponseContent" });
   }
 }
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          messages: S.optional(__S(4096, __c128, 0)),
-          languages: S.optional(__S(4097, __c128, 1)),
-          translations: S.optional(__S(4098, __c128, 2)),
-          nodes: S.optional(__S(4100, __c128, 4)),
-          start: S.optional(__S(4103, __c128, 7)),
-          ending: S.optional(__S(4106, __c128, 10)),
-          style: S.optional(__S(4107, __c128, 11)),
-        }).pipe(T.Http({ method: "POST", uri: "/forms", code: 200 })),
-      ).annotate({ identifier: "CreateFormRequest" });
-  }
-}
 function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(4128, __c129, 0)),
-          custom: S.optional(__S(4128, __c129, 0)),
+          name: S.String,
+          messages: S.optional(__S(4128, __c129, 0)),
+          languages: S.optional(__S(4129, __c129, 1)),
+          translations: S.optional(__S(4130, __c129, 2)),
+          nodes: S.optional(__S(4132, __c129, 4)),
+          start: S.optional(__S(4135, __c129, 7)),
+          ending: S.optional(__S(4138, __c129, 10)),
+          style: S.optional(__S(4139, __c129, 11)),
+        }).pipe(T.Http({ method: "POST", uri: "/forms", code: 200 })),
+      ).annotate({ identifier: "CreateFormRequest" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(4160, __c130, 0)),
+          custom: S.optional(__S(4160, __c130, 0)),
         }),
       ).annotate({ identifier: "FormMessages" });
     case 1:
@@ -28331,7 +28494,7 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "FormLanguages" });
     case 2:
-      return S.Record(S.String, __S(14496, __c453, 0));
+      return S.Record(S.String, __S(14528, __c454, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -28349,13 +28512,13 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "FormHiddenField" });
     case 6:
-      return S.Array(__S(4101, __c128, 5));
+      return S.Array(__S(4133, __c129, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          hidden_fields: S.optional(__S(4102, __c128, 6)),
+          hidden_fields: S.optional(__S(4134, __c129, 6)),
           next_node: S.optional(S.Unknown),
-          coordinates: S.optional(__S(4099, __c128, 3)),
+          coordinates: S.optional(__S(4131, __c129, 3)),
         }),
       ).annotate({ identifier: "FormStartNode" });
     case 8:
@@ -28374,9 +28537,9 @@ function __c128(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          redirection: S.optional(__S(4104, __c128, 8)),
-          after_submit: S.optional(__S(4105, __c128, 9)),
-          coordinates: S.optional(__S(4099, __c128, 3)),
+          redirection: S.optional(__S(4136, __c129, 8)),
+          after_submit: S.optional(__S(4137, __c129, 9)),
+          coordinates: S.optional(__S(4131, __c129, 3)),
           resume_flow: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FormEndingNode" });
@@ -28391,13 +28554,13 @@ function __c128(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          messages: S.optional(__S(4096, __c128, 0)),
-          languages: S.optional(__S(4097, __c128, 1)),
-          translations: S.optional(__S(4098, __c128, 2)),
-          nodes: S.optional(__S(4100, __c128, 4)),
-          start: S.optional(__S(4103, __c128, 7)),
-          ending: S.optional(__S(4106, __c128, 10)),
-          style: S.optional(__S(4107, __c128, 11)),
+          messages: S.optional(__S(4128, __c129, 0)),
+          languages: S.optional(__S(4129, __c129, 1)),
+          translations: S.optional(__S(4130, __c129, 2)),
+          nodes: S.optional(__S(4132, __c129, 4)),
+          start: S.optional(__S(4135, __c129, 7)),
+          ending: S.optional(__S(4138, __c129, 10)),
+          style: S.optional(__S(4139, __c129, 11)),
           created_at: S.String,
           updated_at: S.String,
           embedded_at: S.optional(S.String),
@@ -28406,13 +28569,13 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateFormResponseContent" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28438,17 +28601,17 @@ function __c130(j: number): any {
         ),
       ).annotate({ identifier: "GroupMember" });
     case 2:
-      return S.Array(__S(4161, __c130, 1));
+      return S.Array(__S(4193, __c131, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(4162, __c130, 2),
+          members: __S(4194, __c131, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetGroupMembersResponseContent" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28460,20 +28623,20 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetGroupRolesRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9600, __c300, 0));
+      return S.Array(__S(9632, __c301, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(4224, __c132, 0),
+          roles: __S(4256, __c133, 0),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupRolesResponseContent" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28497,7 +28660,7 @@ function __c133(j: number): any {
       });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28507,7 +28670,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetGuardianPhoneProvidersRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28517,7 +28680,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderPhoneResponseContent" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28525,7 +28688,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetGuardianSettingsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28538,7 +28701,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetGuardianSettingsResponseContent" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28549,7 +28712,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetHookRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28568,7 +28731,7 @@ function __c139(j: number): any {
       });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28588,7 +28751,7 @@ function __c140(j: number): any {
       });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28607,7 +28770,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetInvitationsByInvitationIdRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28626,22 +28789,22 @@ function __c142(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           organization_id: S.optional(S.String),
-          inviter: S.optional(__S(4544, __c142, 0)),
-          invitee: S.optional(__S(4545, __c142, 1)),
+          inviter: S.optional(__S(4576, __c143, 0)),
+          invitee: S.optional(__S(4577, __c143, 1)),
           invitation_url: S.optional(S.String),
           created_at: S.optional(S.String),
           expires_at: S.optional(S.String),
           client_id: S.optional(S.String),
           connection_id: S.optional(S.String),
-          app_metadata: S.optional(__S(14496, __c453, 0)),
-          user_metadata: S.optional(__S(14496, __c453, 0)),
-          roles: S.optional(__S(14720, __c460, 0)),
+          app_metadata: S.optional(__S(14528, __c454, 0)),
+          user_metadata: S.optional(__S(14528, __c454, 0)),
+          roles: S.optional(__S(14752, __c461, 0)),
           ticket_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationInvitation" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28651,24 +28814,24 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetIpsByIdRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/groups/{id}/roles", code: 200 })),
       ).annotate({ identifier: "CreateGroupRoleRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateGroupRoleResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28702,14 +28865,14 @@ function __c146(j: number): any {
             time_left_seconds: S.optional(S.Number),
             format: S.optional(S.String),
             status_details: S.optional(S.String),
-            summary: S.optional(__S(4673, __c146, 1)),
+            summary: S.optional(__S(4705, __c147, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetJobResponseContent" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28738,14 +28901,14 @@ function __c147(j: number): any {
         ),
       ).annotate({ identifier: "ConnectionKey" });
     case 2:
-      return S.Array(__S(4705, __c147, 1));
+      return S.Array(__S(4737, __c148, 1));
     case 3:
-      return S.suspend(() => __S(4706, __c147, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4738, __c148, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetKeysResponse",
       });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28800,17 +28963,17 @@ function __c148(j: number): any {
             strategy_type: S.optional(S.String),
             log_id: S.optional(S.String),
             isMobile: S.optional(S.Boolean),
-            details: S.optional(__S(14496, __c453, 0)),
+            details: S.optional(__S(14528, __c454, 0)),
             user_agent: S.optional(S.String),
-            security_context: S.optional(__S(4737, __c148, 1)),
-            location_info: S.optional(__S(4738, __c148, 2)),
+            security_context: S.optional(__S(4769, __c149, 1)),
+            location_info: S.optional(__S(4770, __c149, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetLogResponseContent" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28832,7 +28995,7 @@ function __c149(j: number): any {
       });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28850,7 +29013,7 @@ function __c150(j: number): any {
       });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28864,7 +29027,7 @@ function __c151(j: number): any {
       });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28873,12 +29036,12 @@ function __c152(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(4865, __c152, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4897, __c153, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLogStreamsResponse",
       });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28888,17 +29051,17 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetMessageTypesRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message_types: S.optional(__S(14400, __c450, 0)),
+          message_types: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "GetGuardianFactorPhoneMessageTypesResponseContent" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28915,7 +29078,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetNameByDiscoveryDomainRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28925,7 +29088,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetNameByNameRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28934,19 +29097,19 @@ function __c157(j: number): any {
             id: S.optional(S.String),
             name: S.optional(S.String),
             display_name: S.optional(S.String),
-            branding: S.optional(__S(6625, __c207, 1)),
+            branding: S.optional(__S(6657, __c208, 1)),
             metadata: S.optional(__S(64, __c2, 0)),
-            token_quota: S.optional(__S(14656, __c458, 0)),
+            token_quota: S.optional(__S(14688, __c459, 0)),
             third_party_client_access: S.optional(S.String),
             is_app_entitlement_active: S.optional(S.Boolean),
-            client: S.optional(__S(6626, __c207, 2)),
+            client: S.optional(__S(6658, __c208, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28954,13 +29117,13 @@ function __c158(j: number): any {
           name: S.String,
           script: S.String,
           enabled: S.optional(S.Boolean),
-          dependencies: S.optional(__S(4128, __c129, 0)),
+          dependencies: S.optional(__S(4160, __c130, 0)),
           triggerId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/hooks", code: 200 })),
       ).annotate({ identifier: "CreateHookRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28970,12 +29133,12 @@ function __c159(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           script: S.optional(S.String),
-          dependencies: S.optional(__S(4128, __c129, 0)),
+          dependencies: S.optional(__S(4160, __c130, 0)),
         }),
       ).annotate({ identifier: "CreateHookResponseContent" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28985,7 +29148,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetNetworkAclRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28995,7 +29158,7 @@ function __c161(j: number): any {
             description: S.optional(S.String),
             active: S.optional(S.Boolean),
             priority: S.optional(S.Number),
-            rule: S.optional(__S(6020, __c188, 4)),
+            rule: S.optional(__S(6052, __c189, 4)),
             created_at: S.optional(S.String),
             updated_at: S.optional(S.String),
           }),
@@ -29004,7 +29167,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetNetworkAclsResponseContent" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29020,7 +29183,7 @@ function __c162(j: number): any {
       });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29030,7 +29193,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetNewDeviceRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29040,7 +29203,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsNewDeviceResponseContent" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29050,7 +29213,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29058,7 +29221,7 @@ function __c166(j: number): any {
           id: S.String.pipe(T.Label()),
           audience: S.optional(S.String.pipe(T.Query())),
           client_id: S.optional(S.String.pipe(T.Query())),
-          grant_ids: S.optional(__S(14720, __c460, 0).pipe(T.Query())),
+          grant_ids: S.optional(__S(14752, __c461, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
@@ -29070,7 +29233,7 @@ function __c166(j: number): any {
       });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29089,7 +29252,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetOrganizationGroupRolesRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29103,7 +29266,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetOrganizationGroupsRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29121,17 +29284,17 @@ function __c169(j: number): any {
         ),
       ).annotate({ identifier: "Group" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5440, __c170, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(5409, __c169, 1),
+          groups: __S(5441, __c170, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationGroupsResponseContent" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29150,7 +29313,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetOrganizationMemberEffectiveRolesRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29158,21 +29321,21 @@ function __c171(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          sources: __S(14400, __c450, 0),
+          sources: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "OrganizationMemberEffectiveRole" });
     case 1:
-      return S.Array(__S(5472, __c171, 0));
+      return S.Array(__S(5504, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(5473, __c171, 1),
+          roles: __S(5505, __c172, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationMemberEffectiveRolesResponseContent" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29192,7 +29355,7 @@ function __c172(j: number): any {
       });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29212,7 +29375,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetOrganizationMemberRoleSourceGroupsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29226,7 +29389,7 @@ function __c174(j: number): any {
       });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29247,7 +29410,7 @@ function __c175(j: number): any {
       });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29267,7 +29430,7 @@ function __c176(j: number): any {
       });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29277,7 +29440,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetPartialsRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29294,7 +29457,7 @@ function __c178(j: number): any {
       });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29304,7 +29467,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetPhoneFactorSettingsRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29314,7 +29477,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetPhoneProviderRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29324,7 +29487,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetPhoneProviderProtectionRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29337,7 +29500,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "FormFieldFileConfigStorage" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29347,7 +29510,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetPhoneTemplateRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29356,16 +29519,16 @@ function __c184(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/branding/phone/templates", code: 200 })),
       ).annotate({ identifier: "GetPhoneTemplatesRequest" });
     case 1:
-      return S.Array(__S(8770, __c274, 2));
+      return S.Array(__S(8802, __c275, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          templates: S.optional(__S(5889, __c184, 1)),
+          templates: S.optional(__S(5921, __c185, 1)),
         }),
       ).annotate({ identifier: "ListPhoneTemplatesResponseContent" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29375,7 +29538,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "GetPhoneTwilioFactorProviderRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29388,7 +29551,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderPhoneTwilioResponseContent" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29396,12 +29559,12 @@ function __c187(j: number): any {
           description: S.String,
           active: S.Boolean,
           priority: S.optional(S.Number),
-          rule: __S(6020, __c188, 4),
+          rule: __S(6052, __c189, 4),
         }).pipe(T.Http({ method: "POST", uri: "/network-acls", code: 200 })),
       ).annotate({ identifier: "CreateNetworkAclRequest" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29418,40 +29581,40 @@ function __c188(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(14593, __c456, 1),
+          keys: __S(14625, __c457, 1),
         }),
       ).annotate({ identifier: "NetworkAclHttpMessageSignature" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          asns: S.optional(__S(6017, __c188, 1)),
-          auth0_managed: S.optional(__S(14720, __c460, 0)),
-          geo_country_codes: S.optional(__S(14720, __c460, 0)),
-          geo_subdivision_codes: S.optional(__S(14720, __c460, 0)),
-          ipv4_cidrs: S.optional(__S(14720, __c460, 0)),
-          ipv6_cidrs: S.optional(__S(14720, __c460, 0)),
-          ja3_fingerprints: S.optional(__S(14720, __c460, 0)),
-          ja4_fingerprints: S.optional(__S(14720, __c460, 0)),
-          user_agents: S.optional(__S(14720, __c460, 0)),
-          hostnames: S.optional(__S(14720, __c460, 0)),
-          connecting_ipv4_cidrs: S.optional(__S(14720, __c460, 0)),
-          connecting_ipv6_cidrs: S.optional(__S(14720, __c460, 0)),
-          http_message_signature: S.optional(__S(6018, __c188, 2)),
+          asns: S.optional(__S(6049, __c189, 1)),
+          auth0_managed: S.optional(__S(14752, __c461, 0)),
+          geo_country_codes: S.optional(__S(14752, __c461, 0)),
+          geo_subdivision_codes: S.optional(__S(14752, __c461, 0)),
+          ipv4_cidrs: S.optional(__S(14752, __c461, 0)),
+          ipv6_cidrs: S.optional(__S(14752, __c461, 0)),
+          ja3_fingerprints: S.optional(__S(14752, __c461, 0)),
+          ja4_fingerprints: S.optional(__S(14752, __c461, 0)),
+          user_agents: S.optional(__S(14752, __c461, 0)),
+          hostnames: S.optional(__S(14752, __c461, 0)),
+          connecting_ipv4_cidrs: S.optional(__S(14752, __c461, 0)),
+          connecting_ipv6_cidrs: S.optional(__S(14752, __c461, 0)),
+          http_message_signature: S.optional(__S(6050, __c189, 2)),
         }),
       ).annotate({ identifier: "NetworkAclMatch" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          action: __S(6016, __c188, 0),
-          match: S.optional(__S(6019, __c188, 3)),
-          not_match: S.optional(__S(6019, __c188, 3)),
+          action: __S(6048, __c189, 0),
+          match: S.optional(__S(6051, __c189, 3)),
+          not_match: S.optional(__S(6051, __c189, 3)),
           match_all: S.optional(S.Boolean),
           scope: S.String,
         }),
       ).annotate({ identifier: "NetworkAclRule" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29465,7 +29628,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetPnProvidersRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29473,15 +29636,15 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetPoliciesRequest" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(14400, __c450, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14432, __c451, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPoliciesResponse",
       });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29489,7 +29652,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetPromptsRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29504,7 +29667,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetSettingsResponseContent" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29515,7 +29678,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetProviderRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29533,13 +29696,13 @@ function __c195(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
-          credentials: S.optional(__S(6240, __c195, 0)),
-          settings: S.optional(__S(14496, __c453, 0)),
+          credentials: S.optional(__S(6272, __c196, 0)),
+          settings: S.optional(__S(14528, __c454, 0)),
         }),
       ).annotate({ identifier: "GetEmailProviderResponseContent" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29549,7 +29712,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29576,7 +29739,7 @@ function __c197(j: number): any {
         ),
       ).annotate({ identifier: "RefreshTokenResourceServer" });
     case 2:
-      return S.Array(__S(6305, __c197, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -29586,12 +29749,12 @@ function __c197(j: number): any {
             created_at: S.optional(S.NullOr(S.Unknown)),
             idle_expires_at: S.optional(S.NullOr(S.Unknown)),
             expires_at: S.optional(S.NullOr(S.Unknown)),
-            device: S.optional(__S(6304, __c197, 0)),
+            device: S.optional(__S(6336, __c198, 0)),
             client_id: S.optional(S.String),
             session_id: S.optional(S.NullOr(S.String)),
             rotating: S.optional(S.Boolean),
-            resource_servers: S.optional(__S(6306, __c197, 2)),
-            refresh_token_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
+            resource_servers: S.optional(__S(6338, __c198, 2)),
+            refresh_token_metadata: S.optional(S.NullOr(__S(14528, __c454, 0))),
             last_exchanged_at: S.optional(S.NullOr(S.Unknown)),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29599,7 +29762,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenResponseContent" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29611,12 +29774,12 @@ function __c198(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/refresh-tokens", code: 200 })),
       ).annotate({ identifier: "GetRefreshTokensForUserRequest" });
     case 1:
-      return S.Array(__S(6307, __c197, 3));
+      return S.Array(__S(6339, __c198, 3));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            tokens: S.optional(__S(6337, __c198, 1)),
+            tokens: S.optional(__S(6369, __c199, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -29624,7 +29787,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ListRefreshTokensPaginatedResponseContent" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29634,11 +29797,11 @@ function __c199(j: number): any {
             prompt: S.optional(S.String),
             screen: S.optional(S.String),
             rendering_mode: S.optional(S.String),
-            context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
+            context_configuration: S.optional(S.NullOr(__S(6432, __c201, 0))),
             default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
             use_page_template: S.optional(S.NullOr(S.Boolean)),
-            head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
-            filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
+            head_tags: S.optional(S.NullOr(__S(6434, __c201, 2))),
+            filters: S.optional(S.NullOr(__S(6438, __c201, 6))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29654,7 +29817,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetRenderingRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -29663,14 +29826,14 @@ function __c200(j: number): any {
         S.StructWithRest(
           S.Struct({
             tag: S.optional(S.String),
-            attributes: S.optional(__S(14496, __c453, 0)),
+            attributes: S.optional(__S(14528, __c454, 0)),
             content: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AculHeadTag" });
     case 2:
-      return S.Array(__S(6401, __c200, 1));
+      return S.Array(__S(6433, __c201, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -29681,14 +29844,14 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           match_type: S.optional(S.String),
-          clients: S.optional(__S(6403, __c200, 3)),
-          organizations: S.optional(__S(6404, __c200, 4)),
-          domains: S.optional(__S(6405, __c200, 5)),
+          clients: S.optional(__S(6435, __c201, 3)),
+          organizations: S.optional(__S(6436, __c201, 4)),
+          domains: S.optional(__S(6437, __c201, 5)),
         }),
       ).annotate({ identifier: "AculFilters" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29699,12 +29862,12 @@ function __c201(j: number): any {
       ).annotate({ identifier: "GetResourceServerRequest" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(14720, __c460, 0).pipe(T.Query())),
+          identifiers: S.optional(__S(14752, __c461, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
@@ -29717,7 +29880,7 @@ function __c202(j: number): any {
       });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29725,7 +29888,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29735,7 +29898,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsResponseContent" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29747,16 +29910,16 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "ConnectionForOrganization" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6592, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           display_name: S.optional(S.String),
-          branding: S.optional(__S(6625, __c207, 1)),
+          branding: S.optional(__S(6657, __c208, 1)),
           metadata: S.optional(__S(64, __c2, 0)),
-          enabled_connections: S.optional(__S(6561, __c205, 1)),
-          token_quota: S.optional(__S(14656, __c458, 0)),
+          enabled_connections: S.optional(__S(6593, __c206, 1)),
+          token_quota: S.optional(__S(14688, __c459, 0)),
           third_party_client_access: S.optional(S.String),
           is_app_entitlement_active: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/organizations", code: 200 })),
@@ -29769,13 +29932,13 @@ function __c205(j: number): any {
             assign_membership_on_login: S.optional(S.Boolean),
             show_as_button: S.optional(S.Boolean),
             is_signup_enabled: S.optional(S.Boolean),
-            connection: S.optional(__S(6592, __c206, 0)),
+            connection: S.optional(__S(6624, __c207, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "OrganizationEnabledConnection" });
     case 4:
-      return S.Array(__S(6563, __c205, 3));
+      return S.Array(__S(6595, __c206, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
@@ -29783,20 +29946,20 @@ function __c205(j: number): any {
             id: S.optional(S.String),
             name: S.optional(S.String),
             display_name: S.optional(S.String),
-            branding: S.optional(__S(6625, __c207, 1)),
+            branding: S.optional(__S(6657, __c208, 1)),
             metadata: S.optional(__S(64, __c2, 0)),
-            token_quota: S.optional(__S(14656, __c458, 0)),
+            token_quota: S.optional(__S(14688, __c459, 0)),
             third_party_client_access: S.optional(S.String),
             is_app_entitlement_active: S.optional(S.Boolean),
-            client: S.optional(__S(6626, __c207, 2)),
-            enabled_connections: S.optional(__S(6564, __c205, 4)),
+            client: S.optional(__S(6658, __c208, 2)),
+            enabled_connections: S.optional(__S(6596, __c206, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreateOrganizationResponseContent" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29810,7 +29973,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "OrganizationConnectionInformation" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29823,7 +29986,7 @@ function __c207(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logo_url: S.optional(S.String),
-          colors: S.optional(__S(6624, __c207, 0)),
+          colors: S.optional(__S(6656, __c208, 0)),
         }),
       ).annotate({ identifier: "OrganizationBranding" });
     case 2:
@@ -29834,7 +29997,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "OrganizationClientAssociation" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29844,7 +30007,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29856,7 +30019,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetRoleGroupsRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29873,7 +30036,7 @@ function __c210(j: number): any {
       });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29894,7 +30057,7 @@ function __c211(j: number): any {
       });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29913,7 +30076,7 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29925,7 +30088,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetRuleRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29944,7 +30107,7 @@ function __c214(j: number): any {
       });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29960,14 +30123,14 @@ function __c215(j: number): any {
         ),
       ).annotate({ identifier: "RulesConfig" });
     case 2:
-      return S.Array(__S(6881, __c215, 1));
+      return S.Array(__S(6913, __c216, 1));
     case 3:
-      return S.suspend(() => __S(6882, __c215, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6914, __c216, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRulesConfigsResponse",
       });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29977,7 +30140,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetScimConfigurationRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29992,7 +30155,7 @@ function __c217(j: number): any {
         S.StructWithRest(
           S.Struct({
             token_id: S.optional(S.String),
-            scopes: S.optional(__S(14720, __c460, 0)),
+            scopes: S.optional(__S(14752, __c461, 0)),
             created_at: S.optional(S.String),
             valid_until: S.optional(S.String),
             last_used_at: S.optional(S.String),
@@ -30001,14 +30164,14 @@ function __c217(j: number): any {
         ),
       ).annotate({ identifier: "ScimTokenItem" });
     case 2:
-      return S.Array(__S(6945, __c217, 1));
+      return S.Array(__S(6977, __c218, 1));
     case 3:
-      return S.suspend(() => __S(6946, __c217, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6978, __c218, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetScimTokensResponse",
       });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30020,17 +30183,17 @@ function __c218(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          grant_id: S.optional(S.String),
           client_id: S.optional(S.String),
           audience: S.optional(S.String),
-          scope: S.optional(__S(14720, __c460, 0)),
+          scope: S.optional(__S(14752, __c461, 0)),
           organization_usage: S.optional(S.String),
           allow_any_organization: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AssociateOrganizationClientGrantResponseContent" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30040,15 +30203,15 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetSecretsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(4128, __c129, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4160, __c130, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSecretsResponse",
       });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30058,7 +30221,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetSelfServiceProfileRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30076,7 +30239,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetSelfServiceProfileCustomTextRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30092,7 +30255,7 @@ function __c223(j: number): any {
       });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30102,7 +30265,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30128,7 +30291,7 @@ function __c225(j: number): any {
         ),
       ).annotate({ identifier: "SessionClientMetadata" });
     case 2:
-      return S.Array(__S(7201, __c225, 1));
+      return S.Array(__S(7233, __c226, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -30141,12 +30304,12 @@ function __c225(j: number): any {
         ),
       ).annotate({ identifier: "SessionAuthenticationSignal" });
     case 4:
-      return S.Array(__S(7203, __c225, 3));
+      return S.Array(__S(7235, __c226, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            methods: S.optional(__S(7204, __c225, 4)),
+            methods: S.optional(__S(7236, __c226, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -30181,19 +30344,19 @@ function __c225(j: number): any {
             idle_expires_at: S.optional(S.NullOr(S.Unknown)),
             expires_at: S.optional(S.NullOr(S.Unknown)),
             last_interacted_at: S.optional(S.NullOr(S.Unknown)),
-            device: S.optional(__S(7200, __c225, 0)),
-            clients: S.optional(__S(7202, __c225, 2)),
-            authentication: S.optional(__S(7205, __c225, 5)),
-            cookie: S.optional(__S(7206, __c225, 6)),
-            session_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
-            actor: S.optional(__S(7207, __c225, 7)),
+            device: S.optional(__S(7232, __c226, 0)),
+            clients: S.optional(__S(7234, __c226, 2)),
+            authentication: S.optional(__S(7237, __c226, 5)),
+            cookie: S.optional(__S(7238, __c226, 6)),
+            session_metadata: S.optional(S.NullOr(__S(14528, __c454, 0))),
+            actor: S.optional(__S(7239, __c226, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetSessionResponseContent" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30205,12 +30368,12 @@ function __c226(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/sessions", code: 200 })),
       ).annotate({ identifier: "GetSessionsForUserRequest" });
     case 1:
-      return S.Array(__S(7208, __c225, 8));
+      return S.Array(__S(7240, __c226, 8));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            sessions: S.optional(__S(7233, __c226, 1)),
+            sessions: S.optional(__S(7265, __c227, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -30218,7 +30381,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "ListUserSessionsPaginatedResponseContent" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30228,7 +30391,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetSigningKeyRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30249,21 +30412,21 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetSigningKeysResponseContent" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/keys/signing", code: 200 })),
       ).annotate({ identifier: "GetSigningKeysRequest" });
     case 1:
-      return S.Array(__S(7296, __c228, 0));
+      return S.Array(__S(7328, __c229, 0));
     case 2:
-      return S.suspend(() => __S(7329, __c229, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7361, __c230, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSigningKeysResponse",
       });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30273,7 +30436,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetSmsProvidersRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30283,14 +30446,14 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetSmsTwilioFactorProviderRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           group_id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -30301,7 +30464,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "CreateOrganizationGroupRoleRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30315,7 +30478,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetSnsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30329,7 +30492,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderSnsResponseContent" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30339,7 +30502,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetStatusRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30349,7 +30512,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetSuspiciousIpThrottlingRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30361,12 +30524,12 @@ function __c237(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pre_login: S.optional(__S(7584, __c237, 0).pipe(T.Body("pre-login"))),
+          pre_login: S.optional(__S(7616, __c238, 0).pipe(T.Body("pre-login"))),
           pre_user_registration: S.optional(
-            __S(7584, __c237, 0).pipe(T.Body("pre-user-registration")),
+            __S(7616, __c238, 0).pipe(T.Body("pre-user-registration")),
           ),
           pre_custom_token_exchange: S.optional(
-            __S(7584, __c237, 0).pipe(T.Body("pre-custom-token-exchange")),
+            __S(7616, __c238, 0).pipe(T.Body("pre-custom-token-exchange")),
           ),
         }),
       ).annotate({ identifier: "SuspiciousIPThrottlingStage" });
@@ -30374,14 +30537,14 @@ function __c237(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          allowlist: S.optional(__S(14720, __c460, 0)),
-          stage: S.optional(__S(7585, __c237, 1)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
+          stage: S.optional(__S(7617, __c238, 1)),
         }),
       ).annotate({ identifier: "GetSuspiciousIPThrottlingSettingsResponseContent" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30401,13 +30564,13 @@ function __c238(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(7649, __c239, 1),
+          groups: __S(7681, __c240, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSynchronizedGroupsResponseContent" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30419,10 +30582,10 @@ function __c239(j: number): any {
         }),
       ).annotate({ identifier: "SynchronizedGroupPayload" });
     case 1:
-      return S.Array(__S(7648, __c239, 0));
+      return S.Array(__S(7680, __c240, 0));
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30432,7 +30595,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "GetTokenExchangeProfileRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30442,17 +30605,17 @@ function __c241(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/token-exchange-profiles", code: 200 })),
       ).annotate({ identifier: "GetTokenExchangeProfilesRequest" });
     case 1:
-      return S.Array(__S(11552, __c361, 0));
+      return S.Array(__S(11584, __c362, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          token_exchange_profiles: S.optional(__S(7713, __c241, 1)),
+          token_exchange_profiles: S.optional(__S(7745, __c242, 1)),
         }),
       ).annotate({ identifier: "ListTokenExchangeProfileResponseContent" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30461,12 +30624,12 @@ function __c242(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(387, __c12, 3)),
+          triggers: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "ListActionTriggersResponseContent" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30480,7 +30643,7 @@ function __c243(j: number): any {
       });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30492,7 +30655,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30503,7 +30666,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetUserBlockRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30517,30 +30680,30 @@ function __c246(j: number): any {
         ),
       ).annotate({ identifier: "UserBlockIdentifier" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(7904, __c247, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          blocked_for: S.optional(__S(7873, __c246, 1)),
+          blocked_for: S.optional(__S(7905, __c247, 1)),
         }),
       ).annotate({ identifier: "ListUserBlocksResponseContent" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/organizations/{id}/members/{user_id}/roles", code: 200 }),
         ),
       ).annotate({ identifier: "CreateOrganizationMemberRoleRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30551,7 +30714,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetUserBlocksRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30577,21 +30740,21 @@ function __c249(j: number): any {
           description: S.optional(S.String),
           type: S.optional(S.String),
           owner_id: S.optional(S.Unknown),
-          sources: S.optional(__S(14400, __c450, 0)),
+          sources: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "UserEffectivePermissionRoleSourceResponseContent" });
     case 2:
-      return S.Array(__S(7969, __c249, 1));
+      return S.Array(__S(8001, __c250, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(7970, __c249, 2),
+          roles: __S(8002, __c250, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserEffectivePermissionRoleSourcesResponseContent" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30609,21 +30772,21 @@ function __c250(j: number): any {
           permission_name: S.optional(S.String),
           resource_server_name: S.optional(S.String),
           description: S.optional(S.String),
-          sources: S.optional(__S(14400, __c450, 0)),
+          sources: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "UserEffectivePermissionResponseContent" });
     case 2:
-      return S.Array(__S(8001, __c250, 1));
+      return S.Array(__S(8033, __c251, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          permissions: __S(8002, __c250, 2),
+          permissions: __S(8034, __c251, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserEffectivePermissionsResponseContent" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30635,7 +30798,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetUserEffectiveRolesRequest" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30656,7 +30819,7 @@ function __c252(j: number): any {
       });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30675,7 +30838,7 @@ function __c253(j: number): any {
       });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30692,7 +30855,7 @@ function __c254(j: number): any {
       });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30707,7 +30870,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetUserRoleSourceGroupsRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30730,10 +30893,10 @@ function __c256(j: number): any {
       });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11970, __c374, 2));
+      return S.Array(__S(12002, __c375, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -30743,12 +30906,12 @@ function __c257(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users-by-email", code: 200 })),
       ).annotate({ identifier: "GetUsersByEmailRequest" });
     case 2:
-      return S.suspend(() => __S(8224, __c257, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8256, __c258, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUsersByEmailResponse",
       });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30761,7 +30924,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "CreatePhoneProviderRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30778,7 +30941,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "CreateBrandingPhoneProviderResponseContent" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30794,17 +30957,17 @@ function __c260(j: number): any {
         ),
       ).annotate({ identifier: "GetVcTemplatesRequest" });
     case 1:
-      return S.Array(__S(8355, __c261, 3));
+      return S.Array(__S(8387, __c262, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.NullOr(S.String)),
-          templates: S.optional(__S(8321, __c260, 1)),
+          templates: S.optional(__S(8353, __c261, 1)),
         }),
       ).annotate({ identifier: "ListVerifiableCredentialTemplatesPaginatedResponseContent" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30838,13 +31001,13 @@ function __c261(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          org_iso_18013_5_1: __S(8352, __c261, 0).pipe(T.Body("org.iso.18013.5.1")),
+          org_iso_18013_5_1: __S(8384, __c262, 0).pipe(T.Body("org.iso.18013.5.1")),
         }),
       ).annotate({ identifier: "MdlPresentationRequestProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          org_iso_18013_5_1_mDL: __S(8353, __c261, 1).pipe(T.Body("org.iso.18013.5.1.mDL")),
+          org_iso_18013_5_1_mDL: __S(8385, __c262, 1).pipe(T.Body("org.iso.18013.5.1.mDL")),
         }),
       ).annotate({ identifier: "MdlPresentationRequest" });
     case 3:
@@ -30855,7 +31018,7 @@ function __c261(j: number): any {
             name: S.optional(S.String),
             type: S.optional(S.String),
             dialect: S.optional(S.String),
-            presentation: S.optional(__S(8354, __c261, 2)),
+            presentation: S.optional(__S(8386, __c262, 2)),
             custom_certificate_authority: S.optional(S.NullOr(S.String)),
             well_known_trusted_issuers: S.optional(S.NullOr(S.String)),
             created_at: S.optional(S.String),
@@ -30866,7 +31029,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "VerifiableCredentialTemplateResponse" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30882,24 +31045,24 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetVcTemplatesByIdRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(387, __c12, 3)),
+          supported_triggers: S.optional(__S(419, __c13, 3)),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(417, __c13, 1)),
+          dependencies: S.optional(__S(449, __c14, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(8449, __c264, 1)),
-          modules: S.optional(__S(423, __c13, 7)),
+          secrets: S.optional(__S(8481, __c265, 1)),
+          modules: S.optional(__S(455, __c14, 7)),
         }).pipe(T.Http({ method: "PATCH", uri: "/actions/actions/{id}", code: 200 })),
       ).annotate({ identifier: "PatchActionRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30912,10 +31075,10 @@ function __c264(j: number): any {
         ),
       ).annotate({ identifier: "ActionSecretRequest" });
     case 1:
-      return S.Array(__S(8448, __c264, 0));
+      return S.Array(__S(8480, __c265, 0));
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30933,7 +31096,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "PatchApnsRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30946,7 +31109,7 @@ function __c266(j: number): any {
       });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30972,7 +31135,7 @@ function __c267(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(833, __c26, 1)),
+          authentication_methods: S.optional(__S(865, __c27, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -30984,7 +31147,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "UpdateUserAuthenticationMethodResponseContent" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30999,18 +31162,18 @@ function __c268(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ref: __S(8576, __c268, 0),
+          ref: __S(8608, __c269, 0),
           display_name: S.optional(S.String),
-          secrets: S.optional(__S(8449, __c264, 1)),
+          secrets: S.optional(__S(8481, __c265, 1)),
         }),
       ).annotate({ identifier: "ActionBindingWithRef" });
     case 2:
-      return S.Array(__S(8577, __c268, 1));
+      return S.Array(__S(8609, __c269, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           triggerId: S.String.pipe(T.Label()),
-          bindings: S.optional(__S(8578, __c268, 2)),
+          bindings: S.optional(__S(8610, __c269, 2)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/actions/triggers/{triggerId}/bindings", code: 200 }),
         ),
@@ -31018,12 +31181,12 @@ function __c268(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(897, __c28, 1)),
+          bindings: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "UpdateActionBindingsResponseContent" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31032,7 +31195,7 @@ function __c269(j: number): any {
           challenge_password_policy: S.optional(S.String),
           challenge_passwordless_policy: S.optional(S.String),
           challenge_password_reset_policy: S.optional(S.String),
-          allowlist: S.optional(__S(14720, __c460, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
           monitoring_mode_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/attack-protection/bot-detection", code: 200 })),
       ).annotate({ identifier: "PatchBotDetectionRequest" });
@@ -31043,22 +31206,22 @@ function __c269(j: number): any {
           challenge_password_policy: S.optional(S.String),
           challenge_passwordless_policy: S.optional(S.String),
           challenge_password_reset_policy: S.optional(S.String),
-          allowlist: S.optional(__S(14720, __c460, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
           monitoring_mode_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateBotDetectionSettingsResponseContent" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          admin_notification_frequency: S.optional(__S(14400, __c450, 0)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          admin_notification_frequency: S.optional(__S(14432, __c451, 0)),
           method: S.optional(S.String),
-          stage: S.optional(__S(1153, __c36, 1)),
+          stage: S.optional(__S(1185, __c37, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -31069,14 +31232,14 @@ function __c270(j: number): any {
       ).annotate({ identifier: "PatchBreachedPasswordDetectionRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          allowlist: S.optional(__S(14720, __c460, 0)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
           mode: S.optional(S.String),
           form_submission_mode: S.optional(S.String),
           max_attempts: S.optional(S.Number),
@@ -31086,7 +31249,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "PatchBruteForceProtectionRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31094,45 +31257,45 @@ function __c272(j: number): any {
           prompt: S.String,
           screen: S.String,
           rendering_mode: S.optional(S.String),
-          context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
+          context_configuration: S.optional(S.NullOr(__S(6432, __c201, 0))),
           default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
           use_page_template: S.optional(S.NullOr(S.Boolean)),
-          head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
-          filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
+          head_tags: S.optional(S.NullOr(__S(6434, __c201, 2))),
+          filters: S.optional(S.NullOr(__S(6438, __c201, 6))),
         }),
       ).annotate({ identifier: "AculConfigsItem" });
     case 1:
-      return S.Array(__S(8704, __c272, 0));
+      return S.Array(__S(8736, __c273, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configs: __S(8705, __c272, 1),
+          configs: __S(8737, __c273, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/prompts/rendering", code: 200 })),
       ).annotate({ identifier: "PatchBulkRenderingRequest" });
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            configs: __S(8705, __c272, 1),
+            configs: __S(8737, __c273, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BulkUpdateAculResponseContent" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          content: S.optional(__S(8769, __c274, 1)),
+          content: S.optional(__S(8801, __c275, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/branding/phone/templates", code: 200 })),
       ).annotate({ identifier: "CreatePhoneTemplateRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31146,7 +31309,7 @@ function __c274(j: number): any {
         S.Struct({
           syntax: S.optional(S.String),
           from: S.optional(S.String),
-          body: S.optional(__S(8768, __c274, 0)),
+          body: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "PhoneTemplateContent" });
     case 2:
@@ -31156,14 +31319,16 @@ function __c274(j: number): any {
           channel: S.optional(S.String),
           customizable: S.optional(S.Boolean),
           tenant: S.optional(S.String),
-          content: __S(8769, __c274, 1),
+          content: __S(8801, __c275, 1),
           type: S.String,
           disabled: S.Boolean,
+          created_at: S.String,
+          updated_at: S.String,
         }),
       ).annotate({ identifier: "CreatePhoneTemplateResponseContent" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31200,18 +31365,18 @@ function __c275(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active_provider_id: S.optional(S.String),
-          arkose: S.optional(__S(8800, __c275, 0)),
-          auth_challenge: S.optional(__S(8801, __c275, 1)),
-          hcaptcha: S.optional(__S(8802, __c275, 2)),
-          friendly_captcha: S.optional(__S(8802, __c275, 2)),
-          recaptcha_enterprise: S.optional(__S(8803, __c275, 3)),
-          recaptcha_v2: S.optional(__S(8802, __c275, 2)),
-          simple_captcha: S.optional(__S(14496, __c453, 0)),
+          arkose: S.optional(__S(8832, __c276, 0)),
+          auth_challenge: S.optional(__S(8833, __c276, 1)),
+          hcaptcha: S.optional(__S(8834, __c276, 2)),
+          friendly_captcha: S.optional(__S(8834, __c276, 2)),
+          recaptcha_enterprise: S.optional(__S(8835, __c276, 3)),
+          recaptcha_v2: S.optional(__S(8834, __c276, 2)),
+          simple_captcha: S.optional(__S(14528, __c454, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/attack-protection/captcha", code: 200 })),
       ).annotate({ identifier: "PatchCaptchaRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31221,17 +31386,17 @@ function __c276(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnabledClientConnectionsRequestContentItem" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(8833, __c276, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(8865, __c277, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}/clients", code: 200 })),
       ).annotate({ identifier: "PatchClientsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31249,7 +31414,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "PatchCredentialsByCredentialIdRequest" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31263,13 +31428,13 @@ function __c278(j: number): any {
       });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          mapping: S.optional(__S(1953, __c61, 1)),
+          mapping: S.optional(__S(1985, __c62, 1)),
           synchronize_automatically: S.optional(S.Boolean),
           synchronize_groups: S.optional(S.String),
         }).pipe(
@@ -31278,7 +31443,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "PatchDirectoryProvisioningRequest" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31297,7 +31462,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "PatchDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31317,7 +31482,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "PatchEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31329,7 +31494,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "PatchFactorDuoSettingsRequest" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31345,7 +31510,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "PatchFcmRequest" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31361,14 +31526,14 @@ function __c284(j: number): any {
       ).annotate({ identifier: "PatchFcmv1Request" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           identifier: S.String,
-          scopes: S.optional(__S(9186, __c287, 2)),
+          scopes: S.optional(__S(9218, __c288, 2)),
           signing_alg: S.optional(S.String),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_offline_access: S.optional(S.Boolean),
@@ -31379,21 +31544,22 @@ function __c285(j: number): any {
           token_dialect: S.optional(S.String),
           skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
           enforce_policies: S.optional(S.Boolean),
-          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
-          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          access_token: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9220, __c288, 4))),
           consent_policy: S.optional(S.NullOr(S.String)),
           require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
-          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          authorization_details: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9221, __c288, 5))),
+          subject_type_authorization: S.optional(__S(9223, __c288, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9224, __c288, 8))),
           agent_subject_claims: S.optional(S.String),
+          use_for_personal_agent_protocol: S.optional(S.Boolean),
           type: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/resource-servers", code: 200 })),
       ).annotate({ identifier: "CreateResourceServerRequest" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31403,22 +31569,22 @@ function __c286(j: number): any {
         }),
       ).annotate({ identifier: "ResourceServerAccessTokenCustomClaimsMappingRule" });
     case 1:
-      return S.Array(__S(9152, __c286, 0));
+      return S.Array(__S(9184, __c287, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          custom_claims: S.optional(__S(9153, __c286, 1)),
+          custom_claims: S.optional(__S(9185, __c287, 1)),
         }),
       ).annotate({ identifier: "ResourceServerAccessTokenClaimsMapping" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          claims_mapping: S.optional(__S(9154, __c286, 2)),
+          claims_mapping: S.optional(__S(9186, __c287, 2)),
         }),
       ).annotate({ identifier: "ResourceServerAccessToken" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -31430,7 +31596,7 @@ function __c287(j: number): any {
         }),
       ).annotate({ identifier: "ResourceServerScope" });
     case 2:
-      return S.Array(__S(9185, __c287, 1));
+      return S.Array(__S(9217, __c288, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -31444,7 +31610,7 @@ function __c287(j: number): any {
       return S.suspend(() =>
         S.Struct({
           format: S.String,
-          encryption_key: __S(9187, __c287, 3),
+          encryption_key: __S(9219, __c288, 3),
         }),
       ).annotate({ identifier: "ResourceServerTokenEncryption" });
     case 5:
@@ -31467,9 +31633,9 @@ function __c287(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(9190, __c287, 6)),
-          client: S.optional(__S(9190, __c287, 6)),
-          anonymous_user: S.optional(__S(9190, __c287, 6)),
+          user: S.optional(__S(9222, __c288, 6)),
+          client: S.optional(__S(9222, __c288, 6)),
+          anonymous_user: S.optional(__S(9222, __c288, 6)),
         }),
       ).annotate({ identifier: "ResourceServerSubjectTypeAuthorization" });
     case 8:
@@ -31485,7 +31651,7 @@ function __c287(j: number): any {
           name: S.optional(S.String),
           is_system: S.optional(S.Boolean),
           identifier: S.optional(S.String),
-          scopes: S.optional(__S(9186, __c287, 2)),
+          scopes: S.optional(__S(9218, __c288, 2)),
           signing_alg: S.optional(S.String),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_offline_access: S.optional(S.Boolean),
@@ -31497,22 +31663,23 @@ function __c287(j: number): any {
           enforce_policies: S.optional(S.Boolean),
           token_lifetime_for_anonymous_access_tokens: S.optional(S.Number),
           token_dialect: S.optional(S.String),
-          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
-          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          access_token: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9220, __c288, 4))),
           consent_policy: S.optional(S.NullOr(S.String)),
           require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
-          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          authorization_details: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9221, __c288, 5))),
+          subject_type_authorization: S.optional(__S(9223, __c288, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9224, __c288, 8))),
           client_id: S.optional(S.String),
           agent_subject_claims: S.optional(S.String),
+          use_for_personal_agent_protocol: S.optional(S.Boolean),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CreateResourceServerResponseContent" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31524,7 +31691,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "PatchNewDeviceRequest" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31540,7 +31707,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "PatchPhoneProviderProtectionRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31549,12 +31716,12 @@ function __c290(j: number): any {
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
           credentials: S.optional(S.Unknown),
-          settings: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          settings: S.optional(S.NullOr(__S(14528, __c454, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/emails/provider", code: 200 })),
       ).annotate({ identifier: "PatchProviderRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31562,11 +31729,11 @@ function __c291(j: number): any {
           prompt: S.String.pipe(T.Label()),
           screen: S.String.pipe(T.Label()),
           rendering_mode: S.optional(S.String),
-          context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
+          context_configuration: S.optional(S.NullOr(__S(6432, __c201, 0))),
           default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
           use_page_template: S.optional(S.NullOr(S.Boolean)),
-          head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
-          filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
+          head_tags: S.optional(S.NullOr(__S(6434, __c201, 2))),
+          filters: S.optional(S.NullOr(__S(6438, __c201, 6))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -31580,29 +31747,15 @@ function __c291(j: number): any {
         S.StructWithRest(
           S.Struct({
             rendering_mode: S.optional(S.String),
-            context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
+            context_configuration: S.optional(S.NullOr(__S(6432, __c201, 0))),
             default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
             use_page_template: S.optional(S.NullOr(S.Boolean)),
-            head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
-            filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
+            head_tags: S.optional(S.NullOr(__S(6434, __c201, 2))),
+            filters: S.optional(S.NullOr(__S(6438, __c201, 6))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "UpdateAculResponseContent" });
-  }
-}
-function __c292(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          user_id_attribute: S.String,
-          mapping: __S(2049, __c64, 1),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/connections/{id}/scim-configuration", code: 200 }),
-        ),
-      ).annotate({ identifier: "PatchScimConfigurationRequest" });
   }
 }
 function __c293(j: number): any {
@@ -31611,9 +31764,12 @@ function __c293(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "PATCH", uri: "/hooks/{id}/secrets", code: 200 })),
-      ).annotate({ identifier: "PatchSecretsRequest" });
+          user_id_attribute: S.String,
+          mapping: __S(2081, __c65, 1),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/connections/{id}/scim-configuration", code: 200 }),
+        ),
+      ).annotate({ identifier: "PatchScimConfigurationRequest" });
   }
 }
 function __c294(j: number): any {
@@ -31621,19 +31777,30 @@ function __c294(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          change_password: S.optional(S.NullOr(__S(9440, __c295, 0))),
-          device_flow: S.optional(S.NullOr(__S(9441, __c295, 1))),
-          guardian_mfa_page: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          id: S.String.pipe(T.Label()),
+          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "PATCH", uri: "/hooks/{id}/secrets", code: 200 })),
+      ).annotate({ identifier: "PatchSecretsRequest" });
+  }
+}
+function __c295(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          change_password: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          device_flow: S.optional(S.NullOr(__S(9473, __c296, 1))),
+          guardian_mfa_page: S.optional(S.NullOr(__S(9472, __c296, 0))),
           default_audience: S.optional(S.String),
           default_directory: S.optional(S.String),
-          error_page: S.optional(S.NullOr(__S(9442, __c295, 2))),
-          default_token_quota: S.optional(S.NullOr(__S(9444, __c295, 4))),
-          flags: S.optional(__S(9445, __c295, 5)),
+          error_page: S.optional(S.NullOr(__S(9474, __c296, 2))),
+          default_token_quota: S.optional(S.NullOr(__S(9476, __c296, 4))),
+          flags: S.optional(__S(9477, __c296, 5)),
           friendly_name: S.optional(S.String),
           picture_url: S.optional(S.String),
           support_email: S.optional(S.String),
           support_url: S.optional(S.String),
-          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
+          allowed_logout_urls: S.optional(__S(14752, __c461, 0)),
           session_lifetime: S.optional(S.Number),
           session_lifetime_in_minutes: S.optional(S.Number),
           idle_session_lifetime: S.optional(S.Number),
@@ -31645,16 +31812,16 @@ function __c294(j: number): any {
           sandbox_version: S.optional(S.String),
           legacy_sandbox_version: S.optional(S.String),
           default_redirection_uri: S.optional(S.String),
-          enabled_locales: S.optional(__S(14400, __c450, 0)),
-          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
-          security_headers: S.optional(S.NullOr(__S(9455, __c295, 15))),
-          session_cookie: S.optional(S.NullOr(__S(9456, __c295, 16))),
-          sessions: S.optional(S.NullOr(__S(9458, __c295, 18))),
-          oidc_logout: S.optional(__S(9459, __c295, 19)),
+          enabled_locales: S.optional(__S(14432, __c451, 0)),
+          access_token: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          security_headers: S.optional(S.NullOr(__S(9487, __c296, 15))),
+          session_cookie: S.optional(S.NullOr(__S(9488, __c296, 16))),
+          sessions: S.optional(S.NullOr(__S(9490, __c296, 18))),
+          oidc_logout: S.optional(__S(9491, __c296, 19)),
           customize_mfa_in_postlogin_action: S.optional(S.NullOr(S.Boolean)),
           allow_organization_name_in_authentication_api: S.optional(S.NullOr(S.Boolean)),
-          acr_values_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
-          mtls: S.optional(S.NullOr(__S(9460, __c295, 20))),
+          acr_values_supported: S.optional(S.NullOr(__S(14752, __c461, 0))),
+          mtls: S.optional(S.NullOr(__S(9492, __c296, 20))),
           pushed_authorization_requests_supported: S.optional(S.NullOr(S.Boolean)),
           authorization_response_iss_parameter_supported: S.optional(S.NullOr(S.Boolean)),
           dpop_strict_refresh_token_binding: S.optional(S.NullOr(S.Boolean)),
@@ -31666,12 +31833,13 @@ function __c294(j: number): any {
           phone_consolidated_experience: S.optional(S.Boolean),
           include_session_metadata_in_tenant_logs: S.optional(S.Boolean),
           dynamic_client_registration_security_mode: S.optional(S.String),
-          country_codes: S.optional(S.NullOr(__S(9461, __c295, 21))),
+          country_codes: S.optional(S.NullOr(__S(9493, __c296, 21))),
+          personal_agent_protocol_company_domains: S.optional(S.NullOr(__S(14752, __c461, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/tenants/settings", code: 200 })),
       ).annotate({ identifier: "PatchSettingsRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31699,7 +31867,7 @@ function __c295(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            client_credentials: __S(14624, __c457, 0),
+            client_credentials: __S(14656, __c458, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -31707,8 +31875,8 @@ function __c295(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clients: S.optional(__S(9443, __c295, 3)),
-          organizations: S.optional(__S(9443, __c295, 3)),
+          clients: S.optional(__S(9475, __c296, 3)),
+          organizations: S.optional(__S(9475, __c296, 3)),
         }),
       ).annotate({ identifier: "DefaultTokenQuota" });
     case 5:
@@ -31738,7 +31906,6 @@ function __c295(j: number): any {
           mfa_show_factor_list_on_enrollment: S.optional(S.Boolean),
           remove_alg_from_jwks: S.optional(S.Boolean),
           improved_signup_bot_detection_in_classic: S.optional(S.Boolean),
-          genai_trial: S.optional(S.Boolean),
           local_resource_discovery: S.optional(S.Boolean),
           enable_dynamic_client_registration: S.optional(S.Boolean),
           disable_management_api_sms_obfuscation: S.optional(S.Boolean),
@@ -31747,7 +31914,7 @@ function __c295(j: number): any {
         }),
       ).annotate({ identifier: "TenantSettingsFlags" });
     case 6:
-      return S.Record(S.String, __S(14720, __c460, 0));
+      return S.Record(S.String, __S(14752, __c461, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -31759,36 +31926,36 @@ function __c295(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          directives: S.optional(__S(9446, __c295, 6)),
-          flags: S.optional(__S(14400, __c450, 0)),
-          reporting: S.optional(S.NullOr(__S(9447, __c295, 7))),
+          directives: S.optional(__S(9478, __c296, 6)),
+          flags: S.optional(__S(14432, __c451, 0)),
+          reporting: S.optional(S.NullOr(__S(9479, __c296, 7))),
         }),
       ).annotate({ identifier: "CspPolicy" });
     case 9:
-      return S.Array(__S(9448, __c295, 8));
+      return S.Array(__S(9480, __c296, 8));
     case 10:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 11:
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
           max_age: S.optional(S.Number),
-          endpoints: S.optional(__S(9450, __c295, 10)),
+          endpoints: S.optional(__S(9482, __c296, 10)),
         }),
       ).annotate({ identifier: "CspReportTo" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          report_to: S.optional(S.NullOr(__S(9451, __c295, 11))),
-          reporting_endpoints: S.optional(__S(4128, __c129, 0)),
+          report_to: S.optional(S.NullOr(__S(9483, __c296, 11))),
+          reporting_endpoints: S.optional(__S(4160, __c130, 0)),
         }),
       ).annotate({ identifier: "CspReportingInfrastructure" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          policies: S.optional(__S(9449, __c295, 9)),
-          reporting_infrastructure: S.optional(S.NullOr(__S(9452, __c295, 12))),
+          policies: S.optional(__S(9481, __c296, 9)),
+          reporting_infrastructure: S.optional(S.NullOr(__S(9484, __c296, 12))),
         }),
       ).annotate({ identifier: "ContentSecurityPolicyConfig" });
     case 14:
@@ -31802,8 +31969,8 @@ function __c295(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          content_security_policy: S.optional(S.NullOr(__S(9453, __c295, 13))),
-          x_xss_protection: S.optional(S.NullOr(__S(9454, __c295, 14))),
+          content_security_policy: S.optional(S.NullOr(__S(9485, __c296, 13))),
+          x_xss_protection: S.optional(S.NullOr(__S(9486, __c296, 14))),
         }),
       ).annotate({ identifier: "TenantSettingsNullableSecurityHeaders" });
     case 16:
@@ -31823,7 +31990,7 @@ function __c295(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oidc_logout_prompt_enabled: S.optional(S.Boolean),
-          anonymous: S.optional(S.NullOr(__S(9457, __c295, 17))),
+          anonymous: S.optional(S.NullOr(__S(9489, __c296, 17))),
         }),
       ).annotate({ identifier: "TenantSettingsSessions" });
     case 19:
@@ -31841,44 +32008,44 @@ function __c295(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          list: S.optional(__S(14720, __c460, 0)),
+          list: S.optional(__S(14752, __c461, 0)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantSettingsCountryCodes" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          change_password: S.optional(S.NullOr(__S(9440, __c295, 0))),
-          guardian_mfa_page: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          change_password: S.optional(S.NullOr(__S(9472, __c296, 0))),
+          guardian_mfa_page: S.optional(S.NullOr(__S(9472, __c296, 0))),
           default_audience: S.optional(S.String),
           default_directory: S.optional(S.String),
-          error_page: S.optional(S.NullOr(__S(9442, __c295, 2))),
-          device_flow: S.optional(S.NullOr(__S(9441, __c295, 1))),
-          default_token_quota: S.optional(S.NullOr(__S(9444, __c295, 4))),
-          flags: S.optional(__S(9445, __c295, 5)),
+          error_page: S.optional(S.NullOr(__S(9474, __c296, 2))),
+          device_flow: S.optional(S.NullOr(__S(9473, __c296, 1))),
+          default_token_quota: S.optional(S.NullOr(__S(9476, __c296, 4))),
+          flags: S.optional(__S(9477, __c296, 5)),
           friendly_name: S.optional(S.String),
           picture_url: S.optional(S.String),
           support_email: S.optional(S.String),
           support_url: S.optional(S.String),
-          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
+          allowed_logout_urls: S.optional(__S(14752, __c461, 0)),
           session_lifetime: S.optional(S.Number),
           idle_session_lifetime: S.optional(S.Number),
           ephemeral_session_lifetime: S.optional(S.Number),
           idle_ephemeral_session_lifetime: S.optional(S.Number),
           sandbox_version: S.optional(S.String),
           legacy_sandbox_version: S.optional(S.String),
-          sandbox_versions_available: S.optional(__S(14720, __c460, 0)),
+          sandbox_versions_available: S.optional(__S(14752, __c461, 0)),
           default_redirection_uri: S.optional(S.String),
-          enabled_locales: S.optional(__S(14400, __c450, 0)),
-          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
-          security_headers: S.optional(S.NullOr(__S(9455, __c295, 15))),
-          session_cookie: S.optional(S.NullOr(__S(9456, __c295, 16))),
-          sessions: S.optional(S.NullOr(__S(9458, __c295, 18))),
-          oidc_logout: S.optional(__S(9459, __c295, 19)),
+          enabled_locales: S.optional(__S(14432, __c451, 0)),
+          access_token: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          security_headers: S.optional(S.NullOr(__S(9487, __c296, 15))),
+          session_cookie: S.optional(S.NullOr(__S(9488, __c296, 16))),
+          sessions: S.optional(S.NullOr(__S(9490, __c296, 18))),
+          oidc_logout: S.optional(__S(9491, __c296, 19)),
           allow_organization_name_in_authentication_api: S.optional(S.Boolean),
           customize_mfa_in_postlogin_action: S.optional(S.Boolean),
-          acr_values_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
-          mtls: S.optional(S.NullOr(__S(9460, __c295, 20))),
+          acr_values_supported: S.optional(S.NullOr(__S(14752, __c461, 0))),
+          mtls: S.optional(S.NullOr(__S(9492, __c296, 20))),
           pushed_authorization_requests_supported: S.optional(S.Boolean),
           authorization_response_iss_parameter_supported: S.optional(S.NullOr(S.Boolean)),
           dpop_strict_refresh_token_binding: S.optional(S.NullOr(S.Boolean)),
@@ -31890,12 +32057,13 @@ function __c295(j: number): any {
           enable_ai_guide: S.optional(S.Boolean),
           include_session_metadata_in_tenant_logs: S.optional(S.Boolean),
           dynamic_client_registration_security_mode: S.optional(S.String),
-          country_codes: S.optional(__S(9461, __c295, 21)),
+          country_codes: S.optional(__S(9493, __c296, 21)),
+          personal_agent_protocol_company_domains: S.optional(__S(14752, __c461, 0)),
         }),
       ).annotate({ identifier: "UpdateTenantSettingsResponseContent" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31915,15 +32083,15 @@ function __c296(j: number): any {
       ).annotate({ identifier: "PatchSnsRequest" });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(14400, __c450, 0)),
-          allowlist: S.optional(__S(14720, __c460, 0)),
-          stage: S.optional(__S(7585, __c237, 1)),
+          shields: S.optional(__S(14432, __c451, 0)),
+          allowlist: S.optional(__S(14752, __c461, 0)),
+          stage: S.optional(__S(7617, __c238, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -31934,7 +32102,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "PatchSuspiciousIpThrottlingRequest" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31943,7 +32111,7 @@ function __c298(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           type: S.optional(S.NullOr(S.String)),
           dialect: S.optional(S.NullOr(S.String)),
-          presentation: S.optional(__S(8354, __c261, 2)),
+          presentation: S.optional(__S(8386, __c262, 2)),
           well_known_trusted_issuers: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.Number)),
         }).pipe(
@@ -31956,7 +32124,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "PatchVcTemplatesByIdRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31969,7 +32137,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31983,24 +32151,24 @@ function __c300(j: number): any {
       ).annotate({ identifier: "CreateRoleResponseContent" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          supported_triggers: __S(387, __c12, 3),
+          supported_triggers: __S(419, __c13, 3),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(417, __c13, 1)),
+          dependencies: S.optional(__S(449, __c14, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(8449, __c264, 1)),
-          modules: S.optional(__S(423, __c13, 7)),
+          secrets: S.optional(__S(8481, __c265, 1)),
+          modules: S.optional(__S(455, __c14, 7)),
           deploy: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/actions/actions", code: 200 })),
       ).annotate({ identifier: "PostActionRequest" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32021,7 +32189,7 @@ function __c302(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(14720, __c460, 0)),
+          transports: S.optional(__S(14752, __c461, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/authentication-methods", code: 200 })),
       ).annotate({ identifier: "PostAuthenticationMethodsRequest" });
     case 1:
@@ -32033,7 +32201,7 @@ function __c302(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(833, __c26, 1)),
+          authentication_methods: S.optional(__S(865, __c27, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -32044,25 +32212,25 @@ function __c302(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(14720, __c460, 0)),
+          transports: S.optional(__S(14752, __c461, 0)),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateUserAuthenticationMethodResponseContent" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           connection: S.String,
-          assessors: __S(14400, __c450, 0),
+          assessors: __S(14432, __c451, 0),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/risk-assessments/clear", code: 200 })),
       ).annotate({ identifier: "PostClearAssessorsRequest" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32080,7 +32248,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "PostCredentialsRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32090,7 +32258,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "PostDeployActionRequest" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32108,13 +32276,13 @@ function __c306(j: number): any {
       ).annotate({ identifier: "PostDeployDraftVersionRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          mapping: S.optional(__S(1953, __c61, 1)),
+          mapping: S.optional(__S(1985, __c62, 1)),
           synchronize_automatically: S.optional(S.Boolean),
           synchronize_groups: S.optional(S.String),
         }).pipe(
@@ -32123,7 +32291,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "PostDirectoryProvisioningRequest" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32138,7 +32306,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "PostDiscoveryDomainsRequest" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32149,12 +32317,12 @@ function __c309(j: number): any {
           organization_id: S.optional(S.String),
           ttl_sec: S.optional(S.Number),
           includeEmailInRedirect: S.optional(S.Boolean),
-          identity: S.optional(__S(9952, __c311, 0)),
+          identity: S.optional(__S(9984, __c312, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/email-verification", code: 200 })),
       ).annotate({ identifier: "PostEmailVerificationRequest" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32167,7 +32335,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "VerifyEmailTicketResponseContent" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32179,7 +32347,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "Identity" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32195,18 +32363,18 @@ function __c312(j: number): any {
       ).annotate({ identifier: "PostEnabledConnectionsRequest" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(14720, __c460, 0),
+          groups: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/groups", code: 200 })),
       ).annotate({ identifier: "CreateRoleGroupRequest" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32216,7 +32384,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "PostEncryptionRequest" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32227,7 +32395,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "PostEncryptionKeyRequest" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32235,7 +32403,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "PostEncryptionRekeyRequest" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32255,7 +32423,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "CreateEncryptionKeyPublicWrappingResponseContent" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32273,7 +32441,7 @@ function __c318(j: number): any {
           connection: S.String,
           user_id: S.Unknown,
           provider: S.String,
-          profileData: S.optional(__S(11936, __c373, 0)),
+          profileData: S.optional(__S(11968, __c374, 0)),
           isSocial: S.optional(S.Boolean),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -32281,14 +32449,14 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentity" });
     case 2:
-      return S.Array(__S(10177, __c318, 1));
+      return S.Array(__S(10209, __c319, 1));
     case 3:
-      return S.suspend(() => __S(10178, __c318, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10210, __c319, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostIdentitiesResponse",
       });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32304,32 +32472,34 @@ function __c319(j: number): any {
       ).annotate({ identifier: "PostInvalidateRememberBrowserRequest" });
   }
 }
-function __c320(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          inviter: __S(4544, __c142, 0),
-          invitee: __S(4545, __c142, 1),
-          client_id: S.String,
-          connection_id: S.optional(S.String),
-          app_metadata: S.optional(__S(14496, __c453, 0)),
-          user_metadata: S.optional(__S(14496, __c453, 0)),
-          ttl_sec: S.optional(S.Number),
-          roles: S.optional(__S(14720, __c460, 0)),
-          send_invitation_email: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/invitations", code: 200 })),
-      ).annotate({ identifier: "PostInvitationsRequest" });
-  }
-}
 function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          inviter: __S(4576, __c143, 0),
+          invitee: __S(4577, __c143, 1),
+          client_id: S.String,
+          connection_id: S.optional(S.String),
+          app_metadata: S.optional(__S(14528, __c454, 0)),
+          user_metadata: S.optional(__S(14528, __c454, 0)),
+          ttl_sec: S.optional(S.Number),
+          roles: S.optional(__S(14752, __c461, 0)),
+          send_invitation_email: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/invitations", code: 200 })),
+      ).annotate({ identifier: "PostInvitationsRequest" });
+  }
+}
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          key_use: S.optional(S.String),
           signing_alg: S.optional(S.String),
+          encryption_alg: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/connections/{id}/keys", code: 200 })),
       ).annotate({ identifier: "PostKeysRequest" });
     case 1:
@@ -32352,25 +32522,25 @@ function __c321(j: number): any {
         ),
       ).annotate({ identifier: "PostConnectionsKeysResponseContentItem" });
     case 2:
-      return S.Array(__S(10273, __c321, 1));
+      return S.Array(__S(10305, __c322, 1));
     case 3:
-      return S.suspend(() => __S(10274, __c321, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10306, __c322, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostKeysResponse",
       });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(14720, __c460, 0),
+          members: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/members", code: 200 })),
       ).annotate({ identifier: "PostMembersRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32384,20 +32554,9 @@ function __c323(j: number): any {
           ttl_sec: S.optional(S.Number),
           mark_email_as_verified: S.optional(S.Boolean),
           includeEmailInRedirect: S.optional(S.Boolean),
-          identity: S.optional(__S(9952, __c311, 0)),
+          identity: S.optional(__S(9984, __c312, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/password-change", code: 200 })),
       ).annotate({ identifier: "PostPasswordChangeRequest" });
-  }
-}
-function __c324(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          users: __S(14720, __c460, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/users", code: 200 })),
-      ).annotate({ identifier: "CreateRoleUserRequest" });
   }
 }
 function __c325(j: number): any {
@@ -32406,9 +32565,9 @@ function __c325(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          permissions: __S(15361, __c480, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/users/{id}/permissions", code: 200 })),
-      ).annotate({ identifier: "PostPermissionsRequest" });
+          users: __S(14752, __c461, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/users", code: 200 })),
+      ).annotate({ identifier: "CreateRoleUserRequest" });
   }
 }
 function __c326(j: number): any {
@@ -32416,16 +32575,27 @@ function __c326(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+          permissions: __S(15393, __c481, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/users/{id}/permissions", code: 200 })),
+      ).annotate({ identifier: "PostPermissionsRequest" });
+  }
+}
+function __c327(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
-          credentials: S.Unknown,
-          settings: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          credentials: S.optional(S.Unknown),
+          settings: S.optional(S.NullOr(__S(14528, __c454, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/emails/provider", code: 200 })),
       ).annotate({ identifier: "PostProviderRequest" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32446,7 +32616,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "RegenerateUsersRecoveryCodeResponseContent" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32454,13 +32624,13 @@ function __c328(j: number): any {
           id: S.String.pipe(T.Label()),
           date_from: S.optional(S.String),
           date_to: S.optional(S.String),
-          statuses: S.optional(__S(14400, __c450, 0)),
-          event_types: S.optional(__S(14400, __c450, 0)),
+          statuses: S.optional(__S(14432, __c451, 0)),
+          event_types: S.optional(__S(14432, __c451, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/event-streams/{id}/redeliver", code: 200 })),
       ).annotate({ identifier: "PostRedeliverRequest" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32473,7 +32643,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "PostRedeliverByEventIdRequest" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32490,24 +32660,26 @@ function __c330(j: number): any {
       ).annotate({ identifier: "PostRevokeRequest" });
   }
 }
-function __c331(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          permissions: __S(15361, __c480, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/permissions", code: 200 })),
-      ).annotate({ identifier: "PostRolePermissionAssignmentRequest" });
-  }
-}
 function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          permissions: __S(15393, __c481, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/permissions", code: 200 })),
+      ).annotate({ identifier: "PostRolePermissionAssignmentRequest" });
+  }
+}
+function __c333(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          key_use: S.optional(S.String),
           signing_alg: S.optional(S.String),
+          encryption_alg: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/connections/{id}/keys/rotate", code: 200 })),
       ).annotate({ identifier: "PostRotateRequest" });
     case 1:
@@ -32529,7 +32701,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "RotateConnectionsKeysResponseContent" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32539,19 +32711,19 @@ function __c333(j: number): any {
       ).annotate({ identifier: "PostRotateSecretRequest" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id_attribute: S.optional(S.String),
-          mapping: S.optional(__S(2049, __c64, 1)),
+          mapping: S.optional(__S(2081, __c65, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/connections/{id}/scim-configuration", code: 200 })),
       ).annotate({ identifier: "PostScimConfigurationRequest" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32564,7 +32736,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "CreateRuleRequest" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32579,13 +32751,13 @@ function __c336(j: number): any {
       ).annotate({ identifier: "CreateRuleResponseContent" });
   }
 }
-function __c337(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          scopes: S.optional(__S(14720, __c460, 0)),
+          scopes: S.optional(__S(14752, __c461, 0)),
           token_lifetime: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({ method: "POST", uri: "/connections/{id}/scim-configuration/tokens", code: 200 }),
@@ -32596,25 +32768,25 @@ function __c337(j: number): any {
         S.Struct({
           token_id: S.optional(S.String),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          scopes: S.optional(__S(14720, __c460, 0)),
+          scopes: S.optional(__S(14752, __c461, 0)),
           created_at: S.optional(S.String),
           valid_until: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateScimTokenResponseContent" });
   }
 }
-function __c338(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/hooks/{id}/secrets", code: 200 })),
       ).annotate({ identifier: "PostSecretsRequest" });
   }
 }
-function __c339(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32622,7 +32794,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "PostSigningKeysRequest" });
   }
 }
-function __c340(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32636,7 +32808,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "RotateSigningKeysResponseContent" });
   }
 }
-function __c341(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32651,8 +32823,8 @@ function __c341(j: number): any {
       return S.suspend(() =>
         S.Struct({
           icon_url: S.optional(S.NullOr(S.String)),
-          domain_aliases: S.optional(S.NullOr(__S(14720, __c460, 0))),
-          idpinitiated: S.optional(S.NullOr(__S(10912, __c341, 0))),
+          domain_aliases: S.optional(S.NullOr(__S(14752, __c461, 0))),
+          idpinitiated: S.optional(S.NullOr(__S(10944, __c342, 0))),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketConnectionOptions" });
     case 2:
@@ -32663,7 +32835,7 @@ function __c341(j: number): any {
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
           metadata: S.optional(__S(64, __c2, 0)),
-          options: S.optional(S.NullOr(__S(10913, __c341, 1))),
+          options: S.optional(S.NullOr(__S(10945, __c342, 1))),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketConnectionConfig" });
     case 3:
@@ -32675,12 +32847,12 @@ function __c341(j: number): any {
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketEnabledOrganization" });
     case 4:
-      return S.Array(__S(10915, __c341, 3));
+      return S.Array(__S(10947, __c342, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           domain_verification: S.String,
-          pending_domains: S.optional(__S(14720, __c460, 0)),
+          pending_domains: S.optional(__S(14752, __c461, 0)),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketDomainAliasesConfig" });
     case 6:
@@ -32693,8 +32865,8 @@ function __c341(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(14400, __c450, 0)),
-          google_workspace: S.optional(__S(10918, __c341, 6)),
+          scopes: S.optional(__S(14432, __c451, 0)),
+          google_workspace: S.optional(__S(10950, __c342, 6)),
           token_lifetime: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketProvisioningConfig" });
@@ -32717,15 +32889,16 @@ function __c341(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           connection_id: S.optional(S.String),
-          connection_config: S.optional(__S(10914, __c341, 2)),
-          enabled_clients: S.optional(__S(14720, __c460, 0)),
-          enabled_organizations: S.optional(__S(10916, __c341, 4)),
+          connection_config: S.optional(__S(10946, __c342, 2)),
+          enabled_clients: S.optional(__S(14752, __c461, 0)),
+          enabled_organizations: S.optional(__S(10948, __c342, 4)),
           ttl_sec: S.optional(S.Number),
-          domain_aliases_config: S.optional(__S(10917, __c341, 5)),
-          provisioning_config: S.optional(__S(10919, __c341, 7)),
+          domain_aliases_config: S.optional(__S(10949, __c342, 5)),
+          provisioning_config: S.optional(__S(10951, __c342, 7)),
           use_for_organization_discovery: S.optional(S.Boolean),
-          third_party_client_access_config: S.optional(__S(10920, __c341, 8)),
-          enabled_features: S.optional(__S(10921, __c341, 9)),
+          third_party_client_access_config: S.optional(__S(10952, __c342, 8)),
+          universal_logout_config: S.optional(__S(10952, __c342, 8)),
+          enabled_features: S.optional(__S(10953, __c342, 9)),
         }).pipe(
           T.Http({ method: "POST", uri: "/self-service-profiles/{id}/sso-ticket", code: 200 }),
         ),
@@ -32738,7 +32911,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "CreateSelfServiceProfileSsoTicketResponseContent" });
   }
 }
-function __c342(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32762,13 +32935,13 @@ function __c342(j: number): any {
       ).annotate({ identifier: "CreateDirectorySynchronizationResponseContent" });
   }
 }
-function __c343(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(7649, __c239, 1),
+          groups: __S(7681, __c240, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -32779,24 +32952,24 @@ function __c343(j: number): any {
       ).annotate({ identifier: "PostSynchronizedGroupsRequest" });
   }
 }
-function __c344(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          payload: __S(14496, __c453, 0),
+          payload: __S(14528, __c454, 0),
         }).pipe(T.Http({ method: "POST", uri: "/actions/actions/{id}/test", code: 200 })),
       ).annotate({ identifier: "PostTestActionRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(__S(14496, __c453, 0)),
+          payload: S.optional(__S(14528, __c454, 0)),
         }),
       ).annotate({ identifier: "TestActionResponseContent" });
   }
 }
-function __c345(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32813,19 +32986,19 @@ function __c345(j: number): any {
       ).annotate({ identifier: "TestCustomDomainResponseContent" });
   }
 }
-function __c346(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           event_type: S.String,
-          data: S.optional(__S(14496, __c453, 0)),
+          data: S.optional(__S(14528, __c454, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/event-streams/{id}/test", code: 200 })),
       ).annotate({ identifier: "PostTestEventRequest" });
   }
 }
-function __c347(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32850,22 +33023,22 @@ function __c347(j: number): any {
       ).annotate({ identifier: "CreateGuardianEnrollmentTicketResponseContent" });
   }
 }
-function __c348(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          branding: S.optional(__S(11169, __c349, 1)),
-          allowed_strategies: S.optional(__S(14400, __c450, 0)),
-          user_attributes: S.optional(__S(11171, __c349, 3)),
+          branding: S.optional(__S(11201, __c350, 1)),
+          allowed_strategies: S.optional(__S(14432, __c451, 0)),
+          user_attributes: S.optional(__S(11203, __c350, 3)),
           user_attribute_profile_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/self-service-profiles", code: 200 })),
       ).annotate({ identifier: "CreateSelfServiceProfileRequest" });
   }
 }
-function __c349(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32881,7 +33054,7 @@ function __c349(j: number): any {
         S.StructWithRest(
           S.Struct({
             logo_url: S.optional(S.String),
-            colors: S.optional(__S(11168, __c349, 0)),
+            colors: S.optional(__S(11200, __c350, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -32895,24 +33068,24 @@ function __c349(j: number): any {
         }),
       ).annotate({ identifier: "SelfServiceProfileUserAttribute" });
     case 3:
-      return S.Array(__S(11170, __c349, 2));
+      return S.Array(__S(11202, __c350, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          user_attributes: S.optional(__S(11171, __c349, 3)),
+          user_attributes: S.optional(__S(11203, __c350, 3)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          branding: S.optional(__S(11169, __c349, 1)),
-          allowed_strategies: S.optional(__S(14400, __c450, 0)),
+          branding: S.optional(__S(11201, __c350, 1)),
+          allowed_strategies: S.optional(__S(14432, __c451, 0)),
           user_attribute_profile_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSelfServiceProfileResponseContent" });
   }
 }
-function __c350(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32922,14 +33095,14 @@ function __c350(j: number): any {
         }),
       ).annotate({ identifier: "CreateExportUsersFields" });
     case 1:
-      return S.Array(__S(11200, __c350, 0));
+      return S.Array(__S(11232, __c351, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           connection_id: S.optional(S.String),
           format: S.optional(S.String),
           limit: S.optional(S.Number),
-          fields: S.optional(__S(11201, __c350, 1)),
+          fields: S.optional(__S(11233, __c351, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/jobs/users-exports", code: 200 })),
       ).annotate({ identifier: "PostUsersExportsRequest" });
     case 3:
@@ -32943,14 +33116,14 @@ function __c350(j: number): any {
             connection_id: S.optional(S.String),
             format: S.optional(S.String),
             limit: S.optional(S.Number),
-            fields: S.optional(__S(11201, __c350, 1)),
+            fields: S.optional(__S(11233, __c351, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreateExportUsersResponseContent" });
   }
 }
-function __c351(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32971,7 +33144,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "PostUsersImportsRequest" });
   }
 }
-function __c352(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32979,7 +33152,7 @@ function __c352(j: number): any {
           name: S.String,
           type: S.String,
           dialect: S.String,
-          presentation: __S(8354, __c261, 2),
+          presentation: __S(8386, __c262, 2),
           custom_certificate_authority: S.optional(S.NullOr(S.String)),
           well_known_trusted_issuers: S.String,
         }).pipe(
@@ -32992,14 +33165,14 @@ function __c352(j: number): any {
       ).annotate({ identifier: "PostVcTemplatesRequest" });
   }
 }
-function __c353(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
           client_id: S.optional(S.String),
-          identity: S.optional(__S(9952, __c311, 0)),
+          identity: S.optional(__S(9984, __c312, 0)),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/jobs/verification-email", code: 200 })),
       ).annotate({ identifier: "PostVerificationEmailRequest" });
@@ -33017,7 +33190,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "CreateVerificationEmailResponseContent" });
   }
 }
-function __c354(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33035,16 +33208,16 @@ function __c354(j: number): any {
           type: S.String,
           cname_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           origin_domain_name: S.optional(S.String),
-          verification: S.optional(__S(1282, __c40, 2)),
+          verification: S.optional(__S(1314, __c41, 2)),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
           tls_policy: S.optional(S.String),
           domain_metadata: S.optional(__S(64, __c2, 0)),
-          certificate: S.optional(__S(1283, __c40, 3)),
+          certificate: S.optional(__S(1315, __c41, 3)),
         }),
       ).annotate({ identifier: "VerifyCustomDomainResponseContent" });
   }
 }
-function __c355(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33062,7 +33235,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "PutApnsRequest" });
   }
 }
-function __c356(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33076,12 +33249,12 @@ function __c356(j: number): any {
         }),
       ).annotate({ identifier: "SetUserAuthenticationMethods" });
     case 1:
-      return S.Array(__S(11392, __c356, 0));
+      return S.Array(__S(11424, __c357, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(11393, __c356, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(11425, __c357, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/users/{id}/authentication-methods", code: 200 })),
       ).annotate({ identifier: "PutAuthenticationMethodsRequest" });
     case 3:
@@ -33093,7 +33266,7 @@ function __c356(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(833, __c26, 1)),
+          authentication_methods: S.optional(__S(865, __c27, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -33103,21 +33276,11 @@ function __c356(j: number): any {
         }),
       ).annotate({ identifier: "SetUserAuthenticationMethodResponseContent" });
     case 4:
-      return S.Array(__S(11395, __c356, 3));
+      return S.Array(__S(11427, __c357, 3));
     case 5:
-      return S.suspend(() => __S(11396, __c356, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(11428, __c357, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "PutAuthenticationMethodsResponse",
       });
-  }
-}
-function __c357(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          keys: __S(2369, __c74, 1),
-        }).pipe(T.Http({ method: "PUT", uri: "/keys/custom-signing", code: 200 })),
-      ).annotate({ identifier: "PutCustomSigningKeysRequest" });
   }
 }
 function __c358(j: number): any {
@@ -33125,16 +33288,26 @@ function __c358(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          keys: __S(2401, __c75, 1),
+        }).pipe(T.Http({ method: "PUT", uri: "/keys/custom-signing", code: 200 })),
+      ).annotate({ identifier: "PutCustomSigningKeysRequest" });
+  }
+}
+function __c359(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           prompt: S.String.pipe(T.Label()),
           language: S.String.pipe(T.Label()),
-          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14528, __c454, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PUT", uri: "/prompts/{prompt}/custom-text/{language}", code: 200 }),
         ),
       ).annotate({ identifier: "PutCustomTextByLanguageRequest" });
   }
 }
-function __c359(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33153,7 +33326,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "PutEmailTemplateRequest" });
   }
 }
-function __c360(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33166,7 +33339,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "CreateTokenExchangeProfileRequest" });
   }
 }
-function __c361(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33185,7 +33358,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "CreateTokenExchangeProfileResponseContent" });
   }
 }
-function __c362(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33197,7 +33370,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "PutFactorDuoSettingsRequest" });
   }
 }
-function __c363(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33208,7 +33381,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "PutFactorPhoneTemplatesRequest" });
   }
 }
-function __c364(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33219,7 +33392,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "PutFactorsByNameRequest" });
   }
 }
-function __c365(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33230,7 +33403,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "PutFactorSmsTemplatesRequest" });
   }
 }
-function __c366(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33246,7 +33419,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "PutFcmRequest" });
   }
 }
-function __c367(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33262,17 +33435,17 @@ function __c367(j: number): any {
       ).annotate({ identifier: "PutFcmv1Request" });
   }
 }
-function __c368(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message_types: __S(14400, __c450, 0),
+          message_types: __S(14432, __c451, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/guardian/factors/phone/message-types", code: 200 })),
       ).annotate({ identifier: "PutMessageTypesRequest" });
   }
 }
-function __c369(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33281,23 +33454,23 @@ function __c369(j: number): any {
           description: S.String,
           active: S.Boolean,
           priority: S.optional(S.Number),
-          rule: __S(6020, __c188, 4),
+          rule: __S(6052, __c189, 4),
         }).pipe(T.Http({ method: "PUT", uri: "/network-acls/{id}", code: 200 })),
       ).annotate({ identifier: "PutNetworkAclRequest" });
   }
 }
-function __c370(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prompt: S.String.pipe(T.Label()),
-          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14528, __c454, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/prompts/{prompt}/partials", code: 200 })),
       ).annotate({ identifier: "PutPartialsRequest" });
   }
 }
-function __c371(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33309,18 +33482,18 @@ function __c371(j: number): any {
       ).annotate({ identifier: "PutPhoneProvidersRequest" });
   }
 }
-function __c372(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
           phone_number: S.optional(S.String),
-          user_metadata: S.optional(__S(14496, __c453, 0)),
+          user_metadata: S.optional(__S(14528, __c454, 0)),
           blocked: S.optional(S.Boolean),
           email_verified: S.optional(S.Boolean),
           phone_verified: S.optional(S.Boolean),
-          app_metadata: S.optional(__S(14496, __c453, 0)),
+          app_metadata: S.optional(__S(14528, __c454, 0)),
           given_name: S.optional(S.String),
           family_name: S.optional(S.String),
           name: S.optional(S.String),
@@ -33335,7 +33508,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c373(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33355,7 +33528,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "UserProfileData" });
   }
 }
-function __c374(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33367,11 +33540,11 @@ function __c374(j: number): any {
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          profileData: S.optional(__S(11936, __c373, 0)),
+          profileData: S.optional(__S(11968, __c374, 0)),
         }),
       ).annotate({ identifier: "UserIdentitySchema" });
     case 1:
-      return S.Array(__S(11968, __c374, 0));
+      return S.Array(__S(12000, __c375, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -33384,13 +33557,13 @@ function __c374(j: number): any {
             phone_verified: S.optional(S.Boolean),
             created_at: S.optional(S.String),
             updated_at: S.optional(S.String),
-            identities: S.optional(__S(11969, __c374, 1)),
-            app_metadata: S.optional(__S(14496, __c453, 0)),
-            user_metadata: S.optional(__S(14496, __c453, 0)),
+            identities: S.optional(__S(12001, __c375, 1)),
+            app_metadata: S.optional(__S(14528, __c454, 0)),
+            user_metadata: S.optional(__S(14528, __c454, 0)),
             picture: S.optional(S.String),
             name: S.optional(S.String),
             nickname: S.optional(S.String),
-            multifactor: S.optional(__S(14720, __c460, 0)),
+            multifactor: S.optional(__S(14752, __c461, 0)),
             multifactor_last_modified: S.optional(S.String),
             last_ip: S.optional(S.String),
             last_login: S.optional(S.String),
@@ -33405,7 +33578,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "CreateUserResponseContent" });
   }
 }
-function __c375(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33421,17 +33594,17 @@ function __c375(j: number): any {
       ).annotate({ identifier: "PutPnProvidersRequest" });
   }
 }
-function __c376(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(14400, __c450, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14432, __c451, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/guardian/policies", code: 200 })),
       ).annotate({ identifier: "PutPoliciesRequest" });
   }
 }
-function __c377(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33452,7 +33625,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "SetRulesConfigResponseContent" });
   }
 }
-function __c378(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33460,7 +33633,7 @@ function __c378(j: number): any {
           id: S.String.pipe(T.Label()),
           language: S.String.pipe(T.Label()),
           page: S.String.pipe(T.Label()),
-          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4160, __c130, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33471,7 +33644,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "PutSelfServiceProfileCustomTextRequest" });
   }
 }
-function __c379(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33481,7 +33654,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "PutSigningKeysRequest" });
   }
 }
-function __c380(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33493,7 +33666,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "PutSmsProvidersRequest" });
   }
 }
-function __c381(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33508,7 +33681,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "PutSmsTwilioFactorProviderRequest" });
   }
 }
-function __c382(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33528,13 +33701,13 @@ function __c382(j: number): any {
       ).annotate({ identifier: "PutSnsRequest" });
   }
 }
-function __c383(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(7649, __c239, 1),
+          groups: __S(7681, __c240, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33545,7 +33718,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "PutSynchronizedGroupsRequest" });
   }
 }
-function __c384(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33560,18 +33733,18 @@ function __c384(j: number): any {
       ).annotate({ identifier: "PutTwilioRequest" });
   }
 }
-function __c385(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/roles", code: 200 })),
       ).annotate({ identifier: "CreateUserRoleRequest" });
   }
 }
-function __c386(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33581,7 +33754,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "PutUniversalLoginRequest" });
   }
 }
-function __c387(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33593,7 +33766,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "ResetPhoneTemplateRequest" });
   }
 }
-function __c388(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33603,7 +33776,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "RevokeSessionRequest" });
   }
 }
-function __c389(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33615,7 +33788,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "RevokeUserAccessRequest" });
   }
 }
-function __c390(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33626,7 +33799,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "SetEmailFactorSettingsRequest" });
   }
 }
-function __c391(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33639,7 +33812,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "SetGuardianSettingsRequest" });
   }
 }
-function __c392(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33650,19 +33823,19 @@ function __c392(j: number): any {
       ).annotate({ identifier: "SetPhoneFactorSettingsRequest" });
   }
 }
-function __c393(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.optional(S.String.pipe(T.Query())),
           from_timestamp: S.optional(S.String.pipe(T.Query())),
-          event_type: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
+          event_type: S.optional(__S(14432, __c451, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
       ).annotate({ identifier: "SubscribeEventsRequest" });
   }
 }
-function __c394(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33673,7 +33846,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "TenantSettingsRouteRequest" });
   }
 }
-function __c395(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33685,7 +33858,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "TryPhoneProviderRequest" });
   }
 }
-function __c396(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33696,7 +33869,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "DeleteActionRequest" });
   }
 }
-function __c397(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33708,7 +33881,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "TryPhoneTemplateRequest" });
   }
 }
-function __c398(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33726,29 +33899,12 @@ function __c398(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          colors: S.optional(S.NullOr(__S(12736, __c398, 0))),
+          colors: S.optional(S.NullOr(__S(12768, __c399, 0))),
           favicon_url: S.optional(S.NullOr(S.String)),
           logo_url: S.optional(S.NullOr(S.String)),
-          font: S.optional(S.NullOr(__S(12737, __c398, 1))),
+          font: S.optional(S.NullOr(__S(12769, __c399, 1))),
         }).pipe(T.Http({ method: "PATCH", uri: "/branding", code: 200 })),
       ).annotate({ identifier: "UpdateBrandingRequest" });
-  }
-}
-function __c399(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          themeId: S.String.pipe(T.Label()),
-          borders: __S(14016, __c438, 0),
-          colors: __S(14017, __c438, 1),
-          displayName: S.optional(S.String),
-          fonts: __S(14019, __c438, 3),
-          identifiers: S.optional(__S(14021, __c438, 5)),
-          page_background: __S(14022, __c438, 6),
-          widget: __S(14023, __c438, 7),
-        }).pipe(T.Http({ method: "PATCH", uri: "/branding/themes/{themeId}", code: 200 })),
-      ).annotate({ identifier: "UpdateBrandingThemeRequest" });
   }
 }
 function __c400(j: number): any {
@@ -33756,15 +33912,32 @@ function __c400(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apple: S.optional(S.NullOr(__S(14464, __c452, 0))),
-          facebook: S.optional(S.NullOr(__S(14464, __c452, 0))),
-          google: S.optional(S.NullOr(__S(14464, __c452, 0))),
+          themeId: S.String.pipe(T.Label()),
+          borders: __S(14048, __c439, 0),
+          colors: __S(14049, __c439, 1),
+          displayName: S.optional(S.String),
+          fonts: __S(14051, __c439, 3),
+          identifiers: S.optional(__S(14053, __c439, 5)),
+          page_background: __S(14054, __c439, 6),
+          widget: __S(14055, __c439, 7),
+        }).pipe(T.Http({ method: "PATCH", uri: "/branding/themes/{themeId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBrandingThemeRequest" });
+  }
+}
+function __c401(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apple: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          facebook: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          google: S.optional(S.NullOr(__S(14496, __c453, 0))),
         }),
       ).annotate({ identifier: "NativeSocialLoginPatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          google: S.optional(S.NullOr(__S(14560, __c455, 0))),
+          google: S.optional(S.NullOr(__S(14592, __c456, 0))),
         }),
       ).annotate({ identifier: "FedCMLoginPatch" });
     case 2:
@@ -33775,18 +33948,18 @@ function __c400(j: number): any {
           description: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logo_uri: S.optional(S.String),
-          callbacks: S.optional(__S(14720, __c460, 0)),
-          oidc_logout: S.optional(__S(14530, __c454, 2)),
-          oidc_backchannel_logout: S.optional(__S(14530, __c454, 2)),
-          session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
-          allowed_origins: S.optional(__S(14720, __c460, 0)),
-          web_origins: S.optional(__S(14720, __c460, 0)),
-          grant_types: S.optional(__S(14720, __c460, 0)),
-          client_aliases: S.optional(__S(14720, __c460, 0)),
-          allowed_clients: S.optional(__S(14720, __c460, 0)),
-          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
-          jwt_configuration: S.optional(__S(14533, __c454, 5)),
-          encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
+          callbacks: S.optional(__S(14752, __c461, 0)),
+          oidc_logout: S.optional(__S(14562, __c455, 2)),
+          oidc_backchannel_logout: S.optional(__S(14562, __c455, 2)),
+          session_transfer: S.optional(S.NullOr(__S(14564, __c455, 4))),
+          allowed_origins: S.optional(__S(14752, __c461, 0)),
+          web_origins: S.optional(__S(14752, __c461, 0)),
+          grant_types: S.optional(__S(14752, __c461, 0)),
+          client_aliases: S.optional(__S(14752, __c461, 0)),
+          allowed_clients: S.optional(__S(14752, __c461, 0)),
+          allowed_logout_urls: S.optional(__S(14752, __c461, 0)),
+          jwt_configuration: S.optional(__S(14565, __c455, 5)),
+          encryption_key: S.optional(S.NullOr(__S(14566, __c455, 6))),
           sso: S.optional(S.Boolean),
           cross_origin_authentication: S.optional(S.Boolean),
           cross_origin_loc: S.optional(S.NullOr(S.String)),
@@ -33799,56 +33972,43 @@ function __c400(j: number): any {
           oidc_conformant: S.optional(S.Boolean),
           custom_login_page: S.optional(S.String),
           custom_login_page_preview: S.optional(S.String),
-          token_quota: S.optional(S.NullOr(__S(14656, __c458, 0))),
-          identity_assertion_authorization_grant: S.optional(S.NullOr(__S(14432, __c451, 0))),
-          anonymous_sessions: S.optional(S.NullOr(__S(14432, __c451, 0))),
+          token_quota: S.optional(S.NullOr(__S(14688, __c459, 0))),
+          identity_assertion_authorization_grant: S.optional(S.NullOr(__S(14464, __c452, 0))),
+          anonymous_sessions: S.optional(S.NullOr(__S(14464, __c452, 0))),
           enforce_anon_session_transfer_network_binding: S.optional(S.String),
           form_template: S.optional(S.String),
-          addons: S.optional(__S(14555, __c454, 27)),
-          client_metadata: S.optional(__S(14496, __c453, 0)),
-          mobile: S.optional(__S(14558, __c454, 30)),
+          addons: S.optional(__S(14587, __c455, 27)),
+          client_metadata: S.optional(__S(14528, __c454, 0)),
+          mobile: S.optional(__S(14590, __c455, 30)),
           initiate_login_uri: S.optional(S.String),
-          native_social_login: S.optional(S.NullOr(__S(12800, __c400, 0))),
-          fedcm_login: S.optional(S.NullOr(__S(12801, __c400, 1))),
-          refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
-          default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
+          native_social_login: S.optional(S.NullOr(__S(12832, __c401, 0))),
+          fedcm_login: S.optional(S.NullOr(__S(12833, __c401, 1))),
+          refresh_token: S.optional(S.NullOr(__S(14596, __c456, 4))),
+          default_organization: S.optional(S.NullOr(__S(14597, __c456, 5))),
           organization_usage: S.optional(S.NullOr(S.String)),
           organization_require_behavior: S.optional(S.NullOr(S.String)),
-          organization_discovery_methods: S.optional(S.NullOr(__S(14400, __c450, 0))),
-          client_authentication_methods: S.optional(S.NullOr(__S(14578, __c455, 18))),
+          organization_discovery_methods: S.optional(S.NullOr(__S(14432, __c451, 0))),
+          client_authentication_methods: S.optional(S.NullOr(__S(14611, __c456, 19))),
           require_pushed_authorization_requests: S.optional(S.Boolean),
           require_proof_of_possession: S.optional(S.Boolean),
-          signed_request_object: S.optional(__S(14579, __c455, 19)),
-          token_vault_privileged_access: S.optional(__S(14580, __c455, 20)),
+          allow_personal_agent_browser_join: S.optional(S.NullOr(S.Boolean)),
+          signed_request_object: S.optional(__S(14612, __c456, 20)),
+          token_vault_privileged_access: S.optional(__S(14613, __c456, 21)),
           compliance_level: S.optional(S.NullOr(S.String)),
           skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.NullOr(S.Boolean)),
-          token_exchange: S.optional(S.NullOr(__S(14568, __c455, 8))),
+          token_exchange: S.optional(S.NullOr(__S(14600, __c456, 8))),
           par_request_expiry: S.optional(S.NullOr(S.Number)),
-          express_configuration: S.optional(S.NullOr(__S(14571, __c455, 11))),
-          b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
-          my_organization_configuration: S.optional(S.NullOr(__S(14574, __c455, 14))),
-          async_approval_notification_channels: S.optional(S.NullOr(__S(14400, __c450, 0))),
+          express_configuration: S.optional(S.NullOr(__S(14603, __c456, 11))),
+          b2b_integration_configuration: S.optional(__S(14604, __c456, 12)),
+          my_organization_configuration: S.optional(S.NullOr(__S(14606, __c456, 14))),
+          google_account_linking: S.optional(S.NullOr(__S(14607, __c456, 15))),
+          async_approval_notification_channels: S.optional(S.NullOr(__S(14432, __c451, 0))),
           third_party_security_mode: S.optional(S.String),
           redirection_policy: S.optional(S.String),
           agent_id: S.optional(S.NullOr(S.String)),
-          oidc_support: S.optional(S.NullOr(__S(14688, __c459, 0))),
+          oidc_support: S.optional(S.NullOr(__S(14720, __c460, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/clients/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateClientRequest" });
-  }
-}
-function __c401(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          scope: S.optional(S.NullOr(__S(14720, __c460, 0))),
-          organization_usage: S.optional(S.NullOr(S.String)),
-          allow_any_organization: S.optional(S.NullOr(S.Boolean)),
-          authorization_details_types: S.optional(__S(14720, __c460, 0)),
-          allow_all_scopes: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/client-grants/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateClientGrantRequest" });
   }
 }
 function __c402(j: number): any {
@@ -33857,19 +34017,13 @@ function __c402(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          display_name: S.optional(S.String),
-          options: S.optional(S.NullOr(__S(191, __c5, 31))),
-          enabled_clients: S.optional(S.NullOr(__S(14720, __c460, 0))),
-          is_domain_connection: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          realms: S.optional(__S(14720, __c460, 0)),
-          metadata: S.optional(__S(64, __c2, 0)),
-          authentication: S.optional(__S(14432, __c451, 0)),
-          connected_accounts: S.optional(__S(96, __c3, 0)),
-          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
-          cross_app_access_resource_app: S.optional(S.NullOr(__S(97, __c3, 1))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateConnectionRequest" });
+          scope: S.optional(S.NullOr(__S(14752, __c461, 0))),
+          organization_usage: S.optional(S.NullOr(S.String)),
+          allow_any_organization: S.optional(S.NullOr(S.Boolean)),
+          authorization_details_types: S.optional(__S(14752, __c461, 0)),
+          allow_all_scopes: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/client-grants/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateClientGrantRequest" });
   }
 }
 function __c403(j: number): any {
@@ -33878,19 +34032,40 @@ function __c403(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          display_name: S.optional(S.String),
+          options: S.optional(S.NullOr(__S(192, __c6, 0))),
+          enabled_clients: S.optional(S.NullOr(__S(14752, __c461, 0))),
+          is_domain_connection: S.optional(S.Boolean),
+          show_as_button: S.optional(S.Boolean),
+          realms: S.optional(__S(14752, __c461, 0)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          authentication: S.optional(__S(14464, __c452, 0)),
+          connected_accounts: S.optional(__S(96, __c3, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14464, __c452, 0)),
+          cross_app_access_resource_app: S.optional(S.NullOr(__S(97, __c3, 1))),
+        }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateConnectionRequest" });
+  }
+}
+function __c404(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          organization: S.optional(__S(672, __c21, 0)),
+          organization: S.optional(__S(704, __c22, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(14400, __c450, 0)),
+          enabled_features: S.optional(__S(14432, __c451, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(678, __c21, 6)),
-          provisioning: S.optional(__S(676, __c21, 4)),
-          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
+          strategy_overrides: S.optional(__S(710, __c22, 6)),
+          provisioning: S.optional(__S(708, __c22, 4)),
+          cross_app_access_resource_app: S.optional(__S(737, __c23, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/connection-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateConnectionProfileRequest" });
   }
 }
-function __c404(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33904,7 +34079,7 @@ function __c404(j: number): any {
       ).annotate({ identifier: "UpdateCustomDomainRequest" });
   }
 }
-function __c405(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33923,7 +34098,7 @@ function __c405(j: number): any {
       ).annotate({ identifier: "UpdateEmailTemplateRequest" });
   }
 }
-function __c406(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33932,13 +34107,13 @@ function __c406(j: number): any {
         }),
       ).annotate({ identifier: "EventStreamSubscription" });
     case 1:
-      return S.Array(__S(12992, __c406, 0));
+      return S.Array(__S(13024, __c407, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          subscriptions: S.optional(__S(12993, __c406, 1)),
+          subscriptions: S.optional(__S(13025, __c407, 1)),
           destination: S.optional(S.Unknown),
           status: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/event-streams/{id}", code: 200 })),
@@ -33949,7 +34124,7 @@ function __c406(j: number): any {
       });
   }
 }
-function __c407(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33959,19 +34134,19 @@ function __c407(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationMethodsRequest" });
   }
 }
-function __c408(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          actions: S.optional(S.NullOr(__S(3264, __c102, 0))),
+          actions: S.optional(S.NullOr(__S(3296, __c103, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/flows/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFlowRequest" });
   }
 }
-function __c409(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33983,25 +34158,25 @@ function __c409(j: number): any {
       ).annotate({ identifier: "UpdateFlowsVaultConnectionRequest" });
   }
 }
-function __c410(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          messages: S.optional(S.NullOr(__S(4096, __c128, 0))),
-          languages: S.optional(S.NullOr(__S(4097, __c128, 1))),
-          translations: S.optional(S.NullOr(__S(4098, __c128, 2))),
-          nodes: S.optional(S.NullOr(__S(4100, __c128, 4))),
-          start: S.optional(S.NullOr(__S(4103, __c128, 7))),
-          ending: S.optional(S.NullOr(__S(4106, __c128, 10))),
-          style: S.optional(S.NullOr(__S(4107, __c128, 11))),
+          messages: S.optional(S.NullOr(__S(4128, __c129, 0))),
+          languages: S.optional(S.NullOr(__S(4129, __c129, 1))),
+          translations: S.optional(S.NullOr(__S(4130, __c129, 2))),
+          nodes: S.optional(S.NullOr(__S(4132, __c129, 4))),
+          start: S.optional(S.NullOr(__S(4135, __c129, 7))),
+          ending: S.optional(S.NullOr(__S(4138, __c129, 10))),
+          style: S.optional(S.NullOr(__S(4139, __c129, 11))),
         }).pipe(T.Http({ method: "PATCH", uri: "/forms/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFormRequest" });
   }
 }
-function __c411(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34010,12 +34185,12 @@ function __c411(j: number): any {
           name: S.optional(S.String),
           script: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          dependencies: S.optional(__S(4128, __c129, 0)),
+          dependencies: S.optional(__S(4160, __c130, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/hooks/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateHookRequest" });
   }
 }
-function __c412(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34028,11 +34203,11 @@ function __c412(j: number): any {
         ),
       ).annotate({ identifier: "LogStreamFilter" });
     case 1:
-      return S.Array(__S(13184, __c412, 0));
+      return S.Array(__S(13216, __c413, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          log_fields: __S(14400, __c450, 0),
+          log_fields: __S(14432, __c451, 0),
           method: S.optional(S.String),
           algorithm: S.optional(S.String),
         }),
@@ -34044,8 +34219,8 @@ function __c412(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           isPriority: S.optional(S.Boolean),
-          filters: S.optional(__S(13185, __c412, 1)),
-          pii_config: S.optional(__S(13186, __c412, 2)),
+          filters: S.optional(__S(13217, __c413, 1)),
+          pii_config: S.optional(__S(13218, __c413, 2)),
           sink: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/log-streams/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLogStreamRequest" });
@@ -34055,7 +34230,7 @@ function __c412(j: number): any {
       });
   }
 }
-function __c413(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34064,12 +34239,12 @@ function __c413(j: number): any {
           description: S.optional(S.String),
           active: S.optional(S.Boolean),
           priority: S.optional(S.Number),
-          rule: S.optional(__S(6020, __c188, 4)),
+          rule: S.optional(__S(6052, __c189, 4)),
         }).pipe(T.Http({ method: "PATCH", uri: "/network-acls/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateNetworkAclRequest" });
   }
 }
-function __c414(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34077,16 +34252,16 @@ function __c414(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           name: S.optional(S.String),
-          branding: S.optional(__S(6625, __c207, 1)),
+          branding: S.optional(__S(6657, __c208, 1)),
           metadata: S.optional(__S(64, __c2, 0)),
-          token_quota: S.optional(S.NullOr(__S(14656, __c458, 0))),
+          token_quota: S.optional(S.NullOr(__S(14688, __c459, 0))),
           third_party_client_access: S.optional(S.String),
           is_app_entitlement_active: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/organizations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c415(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34100,26 +34275,26 @@ function __c415(j: number): any {
       ).annotate({ identifier: "UpdatePhoneProviderRequest" });
   }
 }
-function __c416(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.optional(S.String),
-          body: S.optional(__S(8768, __c274, 0)),
+          body: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "PartialPhoneTemplateContent" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          content: S.optional(__S(13312, __c416, 0)),
+          content: S.optional(__S(13344, __c417, 0)),
           disabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/branding/phone/templates/{id}", code: 200 })),
       ).annotate({ identifier: "UpdatePhoneTemplateRequest" });
   }
 }
-function __c417(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34131,7 +34306,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "UpdatePromptsRequest" });
   }
 }
-function __c418(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34148,25 +34323,25 @@ function __c418(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationMethodsByAuthenticationMethodIdRequest" });
   }
 }
-function __c419(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          refresh_token_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/refresh-tokens/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateRefreshTokenRequest" });
-  }
-}
 function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          refresh_token_metadata: S.optional(S.NullOr(__S(14528, __c454, 0))),
+        }).pipe(T.Http({ method: "PATCH", uri: "/refresh-tokens/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateRefreshTokenRequest" });
+  }
+}
+function __c421(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          scopes: S.optional(__S(9186, __c287, 2)),
+          scopes: S.optional(__S(9218, __c288, 2)),
           signing_alg: S.optional(S.String),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
@@ -34177,21 +34352,22 @@ function __c420(j: number): any {
           token_lifetime_for_anonymous_access_tokens: S.optional(S.NullOr(S.Number)),
           token_dialect: S.optional(S.String),
           enforce_policies: S.optional(S.Boolean),
-          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
-          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          access_token: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9220, __c288, 4))),
           consent_policy: S.optional(S.NullOr(S.String)),
           require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
-          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          authorization_details: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9221, __c288, 5))),
+          subject_type_authorization: S.optional(__S(9223, __c288, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9224, __c288, 8))),
           agent_subject_claims: S.optional(S.String),
+          use_for_personal_agent_protocol: S.optional(S.Boolean),
           type: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/resource-servers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateResourceServerRequest" });
   }
 }
-function __c421(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34201,7 +34377,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "UpdateRiskAssessmentsSettingsRequest" });
   }
 }
-function __c422(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34213,7 +34389,7 @@ function __c422(j: number): any {
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c423(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34227,7 +34403,7 @@ function __c423(j: number): any {
       ).annotate({ identifier: "UpdateRuleRequest" });
   }
 }
-function __c424(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34235,26 +34411,26 @@ function __c424(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          branding: S.optional(S.NullOr(__S(11169, __c349, 1))),
-          allowed_strategies: S.optional(__S(14400, __c450, 0)),
-          user_attributes: S.optional(S.NullOr(__S(11171, __c349, 3))),
+          branding: S.optional(S.NullOr(__S(11201, __c350, 1))),
+          allowed_strategies: S.optional(__S(14432, __c451, 0)),
+          user_attributes: S.optional(S.NullOr(__S(11203, __c350, 3))),
           user_attribute_profile_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/self-service-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSelfServiceProfileRequest" });
   }
 }
-function __c425(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          session_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
+          session_metadata: S.optional(S.NullOr(__S(14528, __c454, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSessionRequest" });
   }
 }
-function __c426(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34266,7 +34442,7 @@ function __c426(j: number): any {
       ).annotate({ identifier: "UpdateTokenExchangeProfileRequest" });
   }
 }
-function __c427(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34277,8 +34453,8 @@ function __c427(j: number): any {
           email: S.optional(S.NullOr(S.String)),
           phone_number: S.optional(S.NullOr(S.String)),
           phone_verified: S.optional(S.Boolean),
-          user_metadata: S.optional(__S(14496, __c453, 0)),
-          app_metadata: S.optional(__S(14496, __c453, 0)),
+          user_metadata: S.optional(__S(14528, __c454, 0)),
+          app_metadata: S.optional(__S(14528, __c454, 0)),
           given_name: S.optional(S.NullOr(S.String)),
           family_name: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
@@ -34294,7 +34470,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c428(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34304,7 +34480,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticatorsRequest" });
   }
 }
-function __c429(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34314,7 +34490,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "DeleteBrandingThemeRequest" });
   }
 }
-function __c430(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34324,7 +34500,7 @@ function __c430(j: number): any {
       ).annotate({ identifier: "DeleteClientRequest" });
   }
 }
-function __c431(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34334,7 +34510,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "DeleteClientGrantRequest" });
   }
 }
-function __c432(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34351,7 +34527,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "DeleteClientGrantsByGrantIdRequest" });
   }
 }
-function __c433(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34361,7 +34537,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c434(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34371,7 +34547,7 @@ function __c434(j: number): any {
       ).annotate({ identifier: "DeleteConnectionProfileRequest" });
   }
 }
-function __c435(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34388,7 +34564,7 @@ function __c435(j: number): any {
       ).annotate({ identifier: "DeleteCredentialsByCredentialIdRequest" });
   }
 }
-function __c436(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34398,23 +34574,23 @@ function __c436(j: number): any {
       ).annotate({ identifier: "DeleteCustomDomainRequest" });
   }
 }
-function __c437(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          borders: __S(14016, __c438, 0),
-          colors: __S(14017, __c438, 1),
+          borders: __S(14048, __c439, 0),
+          colors: __S(14049, __c439, 1),
           displayName: S.optional(S.String),
-          fonts: __S(14019, __c438, 3),
-          identifiers: S.optional(__S(14021, __c438, 5)),
-          page_background: __S(14022, __c438, 6),
-          widget: __S(14023, __c438, 7),
+          fonts: __S(14051, __c439, 3),
+          identifiers: S.optional(__S(14053, __c439, 5)),
+          page_background: __S(14054, __c439, 6),
+          widget: __S(14055, __c439, 7),
         }).pipe(T.Http({ method: "POST", uri: "/branding/themes", code: 200 })),
       ).annotate({ identifier: "CreateBrandingThemeRequest" });
   }
 }
-function __c438(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34465,15 +34641,15 @@ function __c438(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          body_text: __S(14018, __c438, 2),
-          buttons_text: __S(14018, __c438, 2),
+          body_text: __S(14050, __c439, 2),
+          buttons_text: __S(14050, __c439, 2),
           font_url: S.String,
-          input_labels: __S(14018, __c438, 2),
-          links: __S(14018, __c438, 2),
+          input_labels: __S(14050, __c439, 2),
+          links: __S(14050, __c439, 2),
           links_style: S.String,
           reference_text_size: S.Number,
-          subtitle: __S(14018, __c438, 2),
-          title: __S(14018, __c438, 2),
+          subtitle: __S(14050, __c439, 2),
+          title: __S(14050, __c439, 2),
         }),
       ).annotate({ identifier: "BrandingThemeFonts" });
     case 4:
@@ -34488,7 +34664,7 @@ function __c438(j: number): any {
         S.Struct({
           login_display: S.String,
           otp_autocomplete: S.Boolean,
-          phone_display: __S(14020, __c438, 4),
+          phone_display: __S(14052, __c439, 4),
         }),
       ).annotate({ identifier: "BrandingThemeIdentifiers" });
     case 6:
@@ -34512,19 +34688,19 @@ function __c438(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          borders: __S(14016, __c438, 0),
-          colors: __S(14017, __c438, 1),
+          borders: __S(14048, __c439, 0),
+          colors: __S(14049, __c439, 1),
           displayName: S.String,
-          fonts: __S(14019, __c438, 3),
-          identifiers: S.optional(__S(14021, __c438, 5)),
-          page_background: __S(14022, __c438, 6),
+          fonts: __S(14051, __c439, 3),
+          identifiers: S.optional(__S(14053, __c439, 5)),
+          page_background: __S(14054, __c439, 6),
           themeId: S.String,
-          widget: __S(14023, __c438, 7),
+          widget: __S(14055, __c439, 7),
         }),
       ).annotate({ identifier: "CreateBrandingThemeResponseContent" });
   }
 }
-function __c439(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34532,7 +34708,7 @@ function __c439(j: number): any {
       ).annotate({ identifier: "DeleteCustomSigningKeysRequest" });
   }
 }
-function __c440(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34542,7 +34718,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "DeleteDeviceCredentialsRequest" });
   }
 }
-function __c441(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34554,7 +34730,7 @@ function __c441(j: number): any {
       ).annotate({ identifier: "DeleteDirectoryProvisioningRequest" });
   }
 }
-function __c442(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34571,7 +34747,7 @@ function __c442(j: number): any {
       ).annotate({ identifier: "DeleteDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c443(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34588,7 +34764,7 @@ function __c443(j: number): any {
       ).annotate({ identifier: "DeleteEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c444(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34598,7 +34774,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "DeleteEncryptionKeyRequest" });
   }
 }
-function __c445(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34608,7 +34784,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "DeleteEnrollmentsByIdRequest" });
   }
 }
-function __c446(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34618,7 +34794,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "DeleteEventStreamRequest" });
   }
 }
-function __c447(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34628,7 +34804,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "DeleteFlowRequest" });
   }
 }
-function __c448(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34645,7 +34821,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "DeleteFlowsExecutionRequest" });
   }
 }
-function __c449(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34660,11 +34836,11 @@ function __c449(j: number): any {
         }),
       ).annotate({ identifier: "PublicKeyCredential" });
     case 1:
-      return S.Array(__S(14368, __c449, 0));
+      return S.Array(__S(14400, __c450, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(14369, __c449, 1),
+          credentials: __S(14401, __c450, 1),
         }),
       ).annotate({ identifier: "ClientCreateAuthenticationMethodPrivateKeyJWT" });
     case 3:
@@ -34677,11 +34853,11 @@ function __c449(j: number): any {
         }),
       ).annotate({ identifier: "CertificateSubjectDNCredential" });
     case 4:
-      return S.Array(__S(14371, __c449, 3));
+      return S.Array(__S(14403, __c450, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(14372, __c449, 4),
+          credentials: __S(14404, __c450, 4),
         }),
       ).annotate({ identifier: "ClientCreateAuthenticationMethodTLSClientAuth" });
     case 6:
@@ -34693,34 +34869,34 @@ function __c449(j: number): any {
         }),
       ).annotate({ identifier: "X509CertificateCredential" });
     case 7:
-      return S.Array(__S(14374, __c449, 6));
+      return S.Array(__S(14406, __c450, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(14375, __c449, 7),
+          credentials: __S(14407, __c450, 7),
         }),
       ).annotate({ identifier: "CreateClientAuthenticationMethodSelfSignedTLSClientAuth" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          private_key_jwt: S.optional(__S(14370, __c449, 2)),
-          tls_client_auth: S.optional(__S(14373, __c449, 5)),
-          self_signed_tls_client_auth: S.optional(__S(14376, __c449, 8)),
+          private_key_jwt: S.optional(__S(14402, __c450, 2)),
+          tls_client_auth: S.optional(__S(14405, __c450, 5)),
+          self_signed_tls_client_auth: S.optional(__S(14408, __c450, 8)),
         }),
       ).annotate({ identifier: "ClientCreateAuthenticationMethod" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           required: S.optional(S.Boolean),
-          credentials: S.optional(__S(14369, __c449, 1)),
+          credentials: S.optional(__S(14401, __c450, 1)),
         }),
       ).annotate({ identifier: "ClientSignedRequestObjectWithPublicKey" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(14369, __c449, 1),
-          ip_allowlist: S.optional(__S(14720, __c460, 0)),
-          grants: S.optional(__S(14567, __c455, 7)),
+          credentials: __S(14401, __c450, 1),
+          ip_allowlist: S.optional(__S(14752, __c461, 0)),
+          grants: S.optional(__S(14599, __c456, 7)),
         }),
       ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithPublicKey" });
     case 12:
@@ -34729,23 +34905,23 @@ function __c449(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           logo_uri: S.optional(S.String),
-          callbacks: S.optional(__S(14720, __c460, 0)),
-          oidc_logout: S.optional(__S(14530, __c454, 2)),
-          oidc_backchannel_logout: S.optional(__S(14530, __c454, 2)),
-          session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
-          allowed_origins: S.optional(__S(14720, __c460, 0)),
-          web_origins: S.optional(__S(14720, __c460, 0)),
-          client_aliases: S.optional(__S(14720, __c460, 0)),
-          allowed_clients: S.optional(__S(14720, __c460, 0)),
-          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
-          grant_types: S.optional(__S(14720, __c460, 0)),
+          callbacks: S.optional(__S(14752, __c461, 0)),
+          oidc_logout: S.optional(__S(14562, __c455, 2)),
+          oidc_backchannel_logout: S.optional(__S(14562, __c455, 2)),
+          session_transfer: S.optional(S.NullOr(__S(14564, __c455, 4))),
+          allowed_origins: S.optional(__S(14752, __c461, 0)),
+          web_origins: S.optional(__S(14752, __c461, 0)),
+          client_aliases: S.optional(__S(14752, __c461, 0)),
+          allowed_clients: S.optional(__S(14752, __c461, 0)),
+          allowed_logout_urls: S.optional(__S(14752, __c461, 0)),
+          grant_types: S.optional(__S(14752, __c461, 0)),
           token_endpoint_auth_method: S.optional(S.String),
           is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
           app_type: S.optional(S.String),
           is_first_party: S.optional(S.Boolean),
           oidc_conformant: S.optional(S.Boolean),
-          jwt_configuration: S.optional(__S(14533, __c454, 5)),
-          encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
+          jwt_configuration: S.optional(__S(14565, __c455, 5)),
+          encryption_key: S.optional(S.NullOr(__S(14566, __c455, 6))),
           sso: S.optional(S.Boolean),
           cross_origin_authentication: S.optional(S.Boolean),
           cross_origin_loc: S.optional(S.String),
@@ -34754,50 +34930,52 @@ function __c449(j: number): any {
           custom_login_page: S.optional(S.String),
           custom_login_page_preview: S.optional(S.String),
           form_template: S.optional(S.String),
-          addons: S.optional(__S(14555, __c454, 27)),
-          client_metadata: S.optional(__S(14496, __c453, 0)),
-          mobile: S.optional(__S(14558, __c454, 30)),
+          addons: S.optional(__S(14587, __c455, 27)),
+          client_metadata: S.optional(__S(14528, __c454, 0)),
+          mobile: S.optional(__S(14590, __c455, 30)),
           initiate_login_uri: S.optional(S.String),
-          native_social_login: S.optional(__S(14559, __c454, 31)),
-          fedcm_login: S.optional(__S(14561, __c455, 1)),
-          refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
-          default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
+          native_social_login: S.optional(__S(14591, __c455, 31)),
+          fedcm_login: S.optional(__S(14593, __c456, 1)),
+          refresh_token: S.optional(S.NullOr(__S(14596, __c456, 4))),
+          default_organization: S.optional(S.NullOr(__S(14597, __c456, 5))),
           organization_usage: S.optional(S.String),
           organization_require_behavior: S.optional(S.String),
-          organization_discovery_methods: S.optional(__S(14400, __c450, 0)),
-          client_authentication_methods: S.optional(__S(14377, __c449, 9)),
+          organization_discovery_methods: S.optional(__S(14432, __c451, 0)),
+          client_authentication_methods: S.optional(__S(14409, __c450, 9)),
           require_pushed_authorization_requests: S.optional(S.Boolean),
           require_proof_of_possession: S.optional(S.Boolean),
-          signed_request_object: S.optional(__S(14378, __c449, 10)),
-          token_vault_privileged_access: S.optional(__S(14379, __c449, 11)),
+          allow_personal_agent_browser_join: S.optional(S.Boolean),
+          signed_request_object: S.optional(__S(14410, __c450, 10)),
+          token_vault_privileged_access: S.optional(__S(14411, __c450, 11)),
           compliance_level: S.optional(S.NullOr(S.String)),
           skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
-          token_exchange: S.optional(__S(14568, __c455, 8)),
+          token_exchange: S.optional(__S(14600, __c456, 8)),
           par_request_expiry: S.optional(S.NullOr(S.Number)),
-          token_quota: S.optional(__S(14656, __c458, 0)),
+          token_quota: S.optional(__S(14688, __c459, 0)),
           resource_server_identifier: S.optional(S.String),
-          identity_assertion_authorization_grant: S.optional(__S(14432, __c451, 0)),
-          anonymous_sessions: S.optional(__S(14432, __c451, 0)),
+          identity_assertion_authorization_grant: S.optional(__S(14464, __c452, 0)),
+          anonymous_sessions: S.optional(__S(14464, __c452, 0)),
           enforce_anon_session_transfer_network_binding: S.optional(S.String),
           third_party_security_mode: S.optional(S.String),
           redirection_policy: S.optional(S.String),
-          express_configuration: S.optional(__S(14571, __c455, 11)),
-          b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
-          my_organization_configuration: S.optional(__S(14574, __c455, 14)),
-          async_approval_notification_channels: S.optional(__S(14400, __c450, 0)),
+          express_configuration: S.optional(__S(14603, __c456, 11)),
+          b2b_integration_configuration: S.optional(__S(14604, __c456, 12)),
+          my_organization_configuration: S.optional(__S(14606, __c456, 14)),
+          google_account_linking: S.optional(__S(14607, __c456, 15)),
+          async_approval_notification_channels: S.optional(__S(14432, __c451, 0)),
           agent_id: S.optional(S.NullOr(S.String)),
-          oidc_support: S.optional(__S(14688, __c459, 0)),
+          oidc_support: S.optional(__S(14720, __c460, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/clients", code: 200 })),
       ).annotate({ identifier: "CreateClientRequest" });
   }
 }
-function __c450(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c451(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34807,7 +34985,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "CreateIdentityAssertionAuthorizationGrant" });
   }
 }
-function __c452(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34817,20 +34995,20 @@ function __c452(j: number): any {
       ).annotate({ identifier: "NativeSocialLoginApple" });
   }
 }
-function __c453(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c454(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             mode: S.optional(S.String),
-            selected_initiators: S.optional(__S(14400, __c450, 0)),
+            selected_initiators: S.optional(__S(14432, __c451, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -34848,9 +35026,9 @@ function __c454(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            backchannel_logout_urls: S.optional(__S(14720, __c460, 0)),
-            backchannel_logout_initiators: S.optional(__S(14528, __c454, 0)),
-            backchannel_logout_session_metadata: S.optional(S.NullOr(__S(14529, __c454, 1))),
+            backchannel_logout_urls: S.optional(__S(14752, __c461, 0)),
+            backchannel_logout_initiators: S.optional(__S(14560, __c455, 0)),
+            backchannel_logout_session_metadata: S.optional(S.NullOr(__S(14561, __c455, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -34867,11 +35045,11 @@ function __c454(j: number): any {
         S.Struct({
           can_create_session_transfer_token: S.optional(S.Boolean),
           enforce_cascade_revocation: S.optional(S.Boolean),
-          allowed_authentication_methods: S.optional(S.NullOr(__S(14400, __c450, 0))),
+          allowed_authentication_methods: S.optional(S.NullOr(__S(14432, __c451, 0))),
           enforce_device_binding: S.optional(S.String),
           allow_refresh_token: S.optional(S.Boolean),
           enforce_online_refresh_tokens: S.optional(S.Boolean),
-          delegation: S.optional(S.NullOr(__S(14531, __c454, 3))),
+          delegation: S.optional(S.NullOr(__S(14563, __c455, 3))),
         }),
       ).annotate({ identifier: "ClientSessionTransferConfiguration" });
     case 5:
@@ -34880,7 +35058,7 @@ function __c454(j: number): any {
           S.Struct({
             lifetime_in_seconds: S.optional(S.Number),
             secret_encoded: S.optional(S.Boolean),
-            scopes: S.optional(__S(14496, __c453, 0)),
+            scopes: S.optional(__S(14528, __c454, 0)),
             alg: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35036,7 +35214,7 @@ function __c454(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            mappings: S.optional(__S(14496, __c453, 0)),
+            mappings: S.optional(__S(14528, __c454, 0)),
             audience: S.optional(S.String),
             recipient: S.optional(S.String),
             createUpnClaim: S.optional(S.Boolean),
@@ -35050,7 +35228,7 @@ function __c454(j: number): any {
             lifetimeInSeconds: S.optional(S.Number),
             signResponse: S.optional(S.Boolean),
             nameIdentifierFormat: S.optional(S.String),
-            nameIdentifierProbes: S.optional(__S(14720, __c460, 0)),
+            nameIdentifierProbes: S.optional(__S(14752, __c461, 0)),
             authnContextClassRef: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35133,35 +35311,35 @@ function __c454(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          aws: S.optional(__S(14535, __c454, 7)),
-          azure_blob: S.optional(__S(14536, __c454, 8)),
-          azure_sb: S.optional(__S(14537, __c454, 9)),
-          rms: S.optional(__S(14538, __c454, 10)),
-          mscrm: S.optional(__S(14538, __c454, 10)),
-          slack: S.optional(__S(14539, __c454, 11)),
-          sentry: S.optional(__S(14540, __c454, 12)),
-          box: S.optional(__S(14496, __c453, 0)),
-          cloudbees: S.optional(__S(14496, __c453, 0)),
-          concur: S.optional(__S(14496, __c453, 0)),
-          dropbox: S.optional(__S(14496, __c453, 0)),
-          echosign: S.optional(__S(14541, __c454, 13)),
-          egnyte: S.optional(__S(14541, __c454, 13)),
-          firebase: S.optional(__S(14542, __c454, 14)),
-          newrelic: S.optional(__S(14543, __c454, 15)),
-          office365: S.optional(__S(14544, __c454, 16)),
-          salesforce: S.optional(__S(14545, __c454, 17)),
-          salesforce_api: S.optional(__S(14546, __c454, 18)),
-          salesforce_sandbox_api: S.optional(__S(14546, __c454, 18)),
-          samlp: S.optional(__S(14547, __c454, 19)),
-          layer: S.optional(__S(14548, __c454, 20)),
-          sap_api: S.optional(__S(14549, __c454, 21)),
-          sharepoint: S.optional(__S(14550, __c454, 22)),
-          springcm: S.optional(__S(14551, __c454, 23)),
-          wams: S.optional(__S(14552, __c454, 24)),
-          wsfed: S.optional(__S(14496, __c453, 0)),
-          zendesk: S.optional(__S(14553, __c454, 25)),
-          zoom: S.optional(__S(14543, __c454, 15)),
-          sso_integration: S.optional(__S(14554, __c454, 26)),
+          aws: S.optional(__S(14567, __c455, 7)),
+          azure_blob: S.optional(__S(14568, __c455, 8)),
+          azure_sb: S.optional(__S(14569, __c455, 9)),
+          rms: S.optional(__S(14570, __c455, 10)),
+          mscrm: S.optional(__S(14570, __c455, 10)),
+          slack: S.optional(__S(14571, __c455, 11)),
+          sentry: S.optional(__S(14572, __c455, 12)),
+          box: S.optional(__S(14528, __c454, 0)),
+          cloudbees: S.optional(__S(14528, __c454, 0)),
+          concur: S.optional(__S(14528, __c454, 0)),
+          dropbox: S.optional(__S(14528, __c454, 0)),
+          echosign: S.optional(__S(14573, __c455, 13)),
+          egnyte: S.optional(__S(14573, __c455, 13)),
+          firebase: S.optional(__S(14574, __c455, 14)),
+          newrelic: S.optional(__S(14575, __c455, 15)),
+          office365: S.optional(__S(14576, __c455, 16)),
+          salesforce: S.optional(__S(14577, __c455, 17)),
+          salesforce_api: S.optional(__S(14578, __c455, 18)),
+          salesforce_sandbox_api: S.optional(__S(14578, __c455, 18)),
+          samlp: S.optional(__S(14579, __c455, 19)),
+          layer: S.optional(__S(14580, __c455, 20)),
+          sap_api: S.optional(__S(14581, __c455, 21)),
+          sharepoint: S.optional(__S(14582, __c455, 22)),
+          springcm: S.optional(__S(14583, __c455, 23)),
+          wams: S.optional(__S(14584, __c455, 24)),
+          wsfed: S.optional(__S(14528, __c454, 0)),
+          zendesk: S.optional(__S(14585, __c455, 25)),
+          zoom: S.optional(__S(14575, __c455, 15)),
+          sso_integration: S.optional(__S(14586, __c455, 26)),
           oag: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "ClientAddons" });
@@ -35170,7 +35348,7 @@ function __c454(j: number): any {
         S.StructWithRest(
           S.Struct({
             app_package_name: S.optional(S.String),
-            sha256_cert_fingerprints: S.optional(__S(14720, __c460, 0)),
+            sha256_cert_fingerprints: S.optional(__S(14752, __c461, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35189,8 +35367,8 @@ function __c454(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            android: S.optional(__S(14556, __c454, 28)),
-            ios: S.optional(__S(14557, __c454, 29)),
+            android: S.optional(__S(14588, __c455, 28)),
+            ios: S.optional(__S(14589, __c455, 29)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35198,14 +35376,14 @@ function __c454(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          apple: S.optional(__S(14464, __c452, 0)),
-          facebook: S.optional(__S(14464, __c452, 0)),
-          google: S.optional(__S(14464, __c452, 0)),
+          apple: S.optional(__S(14496, __c453, 0)),
+          facebook: S.optional(__S(14496, __c453, 0)),
+          google: S.optional(__S(14496, __c453, 0)),
         }),
       ).annotate({ identifier: "NativeSocialLogin" });
   }
 }
-function __c455(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35216,18 +35394,18 @@ function __c455(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          google: S.optional(__S(14560, __c455, 0)),
+          google: S.optional(__S(14592, __c456, 0)),
         }),
       ).annotate({ identifier: "FedCMLogin" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           audience: S.String,
-          scope: __S(14720, __c460, 0),
+          scope: __S(14752, __c461, 0),
         }),
       ).annotate({ identifier: "ClientRefreshTokenPolicy" });
     case 3:
-      return S.Array(__S(14562, __c455, 2));
+      return S.Array(__S(14594, __c456, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -35238,29 +35416,29 @@ function __c455(j: number): any {
           infinite_token_lifetime: S.optional(S.Boolean),
           idle_token_lifetime: S.optional(S.Number),
           infinite_idle_token_lifetime: S.optional(S.Boolean),
-          policies: S.optional(S.NullOr(__S(14563, __c455, 3))),
+          policies: S.optional(S.NullOr(__S(14595, __c456, 3))),
         }),
       ).annotate({ identifier: "ClientRefreshTokenConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String,
-          flows: __S(14400, __c450, 0),
+          flows: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "ClientDefaultOrganization" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           connection: S.String,
-          scopes: __S(14720, __c460, 0),
+          scopes: __S(14752, __c461, 0),
         }),
       ).annotate({ identifier: "TokenVaultPrivilegedAccessGrant" });
     case 7:
-      return S.Array(__S(14566, __c455, 6));
+      return S.Array(__S(14598, __c456, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          allow_any_profile_of_type: S.optional(__S(14400, __c450, 0)),
+          allow_any_profile_of_type: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "ClientTokenExchangeConfiguration" });
     case 9:
@@ -35270,7 +35448,7 @@ function __c455(j: number): any {
         }),
       ).annotate({ identifier: "LinkedClientConfiguration" });
     case 10:
-      return S.Array(__S(14569, __c455, 9));
+      return S.Array(__S(14601, __c456, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -35279,16 +35457,17 @@ function __c455(j: number): any {
           connection_profile_id: S.String,
           enable_client: S.Boolean,
           enable_organization: S.Boolean,
-          linked_clients: S.optional(__S(14570, __c455, 10)),
+          linked_clients: S.optional(__S(14602, __c456, 10)),
           okta_oin_client_id: S.String,
           admin_login_domain: S.String,
           oin_submission_id: S.optional(S.String),
+          okta_oin_listing_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressConfiguration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          sso_profiles: S.optional(__S(14720, __c460, 0)),
+          sso_profiles: S.optional(__S(14752, __c461, 0)),
           integration_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "B2bIntegrationConfiguration" });
@@ -35296,7 +35475,7 @@ function __c455(j: number): any {
       return S.suspend(() =>
         S.Struct({
           default_value: S.String,
-          allowed_values: __S(14400, __c450, 0),
+          allowed_values: __S(14432, __c451, 0),
         }),
       ).annotate({ identifier: "ClientMyOrganizationThirdPartyClientAccessConfiguration" });
     case 14:
@@ -35304,8 +35483,8 @@ function __c455(j: number): any {
         S.Struct({
           connection_profile_id: S.optional(S.String),
           user_attribute_profile_id: S.optional(S.String),
-          allowed_strategies: __S(14400, __c450, 0),
-          third_party_client_access: S.optional(__S(14573, __c455, 13)),
+          allowed_strategies: __S(14432, __c451, 0),
+          third_party_client_access: S.optional(__S(14605, __c456, 13)),
           connection_deletion_behavior: S.String,
           invitation_landing_client_id: S.optional(S.String),
           enforce_permission_ceiling: S.optional(S.Boolean),
@@ -35313,6 +35492,12 @@ function __c455(j: number): any {
         }),
       ).annotate({ identifier: "ClientMyOrganizationPostConfiguration" });
     case 15:
+      return S.suspend(() =>
+        S.Struct({
+          allow_streamlined_linking: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAccountLinkingConfigurationCreate" });
+    case 16:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -35323,49 +35508,49 @@ function __c455(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientSigningKey" });
-    case 16:
-      return S.Array(__S(14575, __c455, 15));
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(14593, __c456, 1),
-        }),
-      ).annotate({ identifier: "ClientAuthenticationMethodPrivateKeyJWT" });
+      return S.Array(__S(14608, __c456, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          private_key_jwt: S.optional(__S(14577, __c455, 17)),
-          tls_client_auth: S.optional(__S(14577, __c455, 17)),
-          self_signed_tls_client_auth: S.optional(__S(14577, __c455, 17)),
+          credentials: __S(14625, __c457, 1),
         }),
-      ).annotate({ identifier: "ClientAuthenticationMethod" });
+      ).annotate({ identifier: "ClientAuthenticationMethodPrivateKeyJWT" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          required: S.optional(S.Boolean),
-          credentials: S.optional(__S(14593, __c456, 1)),
+          private_key_jwt: S.optional(__S(14610, __c456, 18)),
+          tls_client_auth: S.optional(__S(14610, __c456, 18)),
+          self_signed_tls_client_auth: S.optional(__S(14610, __c456, 18)),
         }),
-      ).annotate({ identifier: "ClientSignedRequestObjectWithCredentialId" });
+      ).annotate({ identifier: "ClientAuthenticationMethod" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(14593, __c456, 1),
-          ip_allowlist: S.optional(__S(14720, __c460, 0)),
-          grants: S.optional(__S(14567, __c455, 7)),
+          required: S.optional(S.Boolean),
+          credentials: S.optional(__S(14625, __c457, 1)),
+        }),
+      ).annotate({ identifier: "ClientSignedRequestObjectWithCredentialId" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14625, __c457, 1),
+          ip_allowlist: S.optional(__S(14752, __c461, 0)),
+          grants: S.optional(__S(14599, __c456, 7)),
         }),
       ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithCredentialId" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             is_allowed: S.optional(S.Boolean),
             allow_all_scopes: S.optional(S.Boolean),
-            allowed_scopes: S.optional(__S(14400, __c450, 0)),
+            allowed_scopes: S.optional(__S(14432, __c451, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientOidcSupport" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -35381,18 +35566,18 @@ function __c455(j: number): any {
             logo_uri: S.optional(S.String),
             is_first_party: S.optional(S.Boolean),
             oidc_conformant: S.optional(S.Boolean),
-            callbacks: S.optional(__S(14720, __c460, 0)),
-            allowed_origins: S.optional(__S(14720, __c460, 0)),
-            web_origins: S.optional(__S(14720, __c460, 0)),
-            client_aliases: S.optional(__S(14720, __c460, 0)),
-            allowed_clients: S.optional(__S(14720, __c460, 0)),
-            allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
-            session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
-            oidc_logout: S.optional(__S(14530, __c454, 2)),
-            grant_types: S.optional(__S(14720, __c460, 0)),
-            jwt_configuration: S.optional(__S(14533, __c454, 5)),
-            signing_keys: S.optional(S.NullOr(__S(14576, __c455, 16))),
-            encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
+            callbacks: S.optional(__S(14752, __c461, 0)),
+            allowed_origins: S.optional(__S(14752, __c461, 0)),
+            web_origins: S.optional(__S(14752, __c461, 0)),
+            client_aliases: S.optional(__S(14752, __c461, 0)),
+            allowed_clients: S.optional(__S(14752, __c461, 0)),
+            allowed_logout_urls: S.optional(__S(14752, __c461, 0)),
+            session_transfer: S.optional(S.NullOr(__S(14564, __c455, 4))),
+            oidc_logout: S.optional(__S(14562, __c455, 2)),
+            grant_types: S.optional(__S(14752, __c461, 0)),
+            jwt_configuration: S.optional(__S(14565, __c455, 5)),
+            signing_keys: S.optional(S.NullOr(__S(14609, __c456, 17))),
+            encryption_key: S.optional(S.NullOr(__S(14566, __c455, 6))),
             sso: S.optional(S.Boolean),
             sso_disabled: S.optional(S.Boolean),
             cross_origin_authentication: S.optional(S.Boolean),
@@ -35401,40 +35586,42 @@ function __c455(j: number): any {
             custom_login_page: S.optional(S.String),
             custom_login_page_preview: S.optional(S.String),
             form_template: S.optional(S.String),
-            addons: S.optional(__S(14555, __c454, 27)),
+            addons: S.optional(__S(14587, __c455, 27)),
             token_endpoint_auth_method: S.optional(S.String),
             is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
-            client_metadata: S.optional(__S(14496, __c453, 0)),
-            mobile: S.optional(__S(14558, __c454, 30)),
+            client_metadata: S.optional(__S(14528, __c454, 0)),
+            mobile: S.optional(__S(14590, __c455, 30)),
             initiate_login_uri: S.optional(S.String),
-            native_social_login: S.optional(__S(14559, __c454, 31)),
-            fedcm_login: S.optional(__S(14561, __c455, 1)),
-            refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
-            default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
+            native_social_login: S.optional(__S(14591, __c455, 31)),
+            fedcm_login: S.optional(__S(14593, __c456, 1)),
+            refresh_token: S.optional(S.NullOr(__S(14596, __c456, 4))),
+            default_organization: S.optional(S.NullOr(__S(14597, __c456, 5))),
             organization_usage: S.optional(S.String),
             organization_require_behavior: S.optional(S.String),
-            organization_discovery_methods: S.optional(__S(14400, __c450, 0)),
-            client_authentication_methods: S.optional(S.NullOr(__S(14578, __c455, 18))),
+            organization_discovery_methods: S.optional(__S(14432, __c451, 0)),
+            client_authentication_methods: S.optional(S.NullOr(__S(14611, __c456, 19))),
             require_pushed_authorization_requests: S.optional(S.Boolean),
             require_proof_of_possession: S.optional(S.Boolean),
-            signed_request_object: S.optional(__S(14579, __c455, 19)),
-            token_vault_privileged_access: S.optional(__S(14580, __c455, 20)),
+            allow_personal_agent_browser_join: S.optional(S.Boolean),
+            signed_request_object: S.optional(__S(14612, __c456, 20)),
+            token_vault_privileged_access: S.optional(__S(14613, __c456, 21)),
             compliance_level: S.optional(S.NullOr(S.String)),
             skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
-            token_exchange: S.optional(__S(14568, __c455, 8)),
+            token_exchange: S.optional(__S(14600, __c456, 8)),
             par_request_expiry: S.optional(S.NullOr(S.Number)),
-            token_quota: S.optional(__S(14656, __c458, 0)),
-            express_configuration: S.optional(__S(14571, __c455, 11)),
-            b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
-            my_organization_configuration: S.optional(__S(14574, __c455, 14)),
-            identity_assertion_authorization_grant: S.optional(__S(14432, __c451, 0)),
-            anonymous_sessions: S.optional(__S(14432, __c451, 0)),
+            token_quota: S.optional(__S(14688, __c459, 0)),
+            express_configuration: S.optional(__S(14603, __c456, 11)),
+            b2b_integration_configuration: S.optional(__S(14604, __c456, 12)),
+            my_organization_configuration: S.optional(__S(14606, __c456, 14)),
+            google_account_linking: S.optional(__S(14607, __c456, 15)),
+            identity_assertion_authorization_grant: S.optional(__S(14464, __c452, 0)),
+            anonymous_sessions: S.optional(__S(14464, __c452, 0)),
             enforce_anon_session_transfer_network_binding: S.optional(S.String),
             third_party_security_mode: S.optional(S.String),
-            oidc_support: S.optional(__S(14581, __c455, 21)),
+            oidc_support: S.optional(__S(14614, __c456, 22)),
             redirection_policy: S.optional(S.String),
             resource_server_identifier: S.optional(S.String),
-            async_approval_notification_channels: S.optional(__S(14400, __c450, 0)),
+            async_approval_notification_channels: S.optional(__S(14432, __c451, 0)),
             external_metadata_type: S.optional(S.String),
             external_metadata_created_by: S.optional(S.String),
             external_metadata_status: S.optional(S.String),
@@ -35447,7 +35634,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "CreateClientResponseContent" });
   }
 }
-function __c456(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35456,10 +35643,10 @@ function __c456(j: number): any {
         }),
       ).annotate({ identifier: "CredentialId" });
     case 1:
-      return S.Array(__S(14592, __c456, 0));
+      return S.Array(__S(14624, __c457, 0));
   }
 }
-function __c457(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35471,35 +35658,35 @@ function __c457(j: number): any {
       ).annotate({ identifier: "TokenQuotaClientCredentials" });
   }
 }
-function __c458(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          client_credentials: __S(14624, __c457, 0),
+          client_credentials: __S(14656, __c458, 0),
         }),
       ).annotate({ identifier: "CreateTokenQuota" });
   }
 }
-function __c459(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           is_allowed: S.Boolean,
           allow_all_scopes: S.optional(S.Boolean),
-          allowed_scopes: S.optional(__S(14400, __c450, 0)),
+          allowed_scopes: S.optional(__S(14432, __c451, 0)),
         }),
       ).annotate({ identifier: "ClientOidcSupportPost" });
   }
 }
-function __c460(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c461(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35509,7 +35696,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "DeleteFlowsVaultConnectionRequest" });
   }
 }
-function __c462(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35519,7 +35706,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "DeleteFormRequest" });
   }
 }
-function __c463(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35529,7 +35716,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "DeleteGrantRequest" });
   }
 }
-function __c464(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35539,7 +35726,7 @@ function __c464(j: number): any {
       ).annotate({ identifier: "DeleteGrantsByUserIdRequest" });
   }
 }
-function __c465(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35549,18 +35736,18 @@ function __c465(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c466(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/groups/{id}/roles", code: 200 })),
       ).annotate({ identifier: "DeleteGroupRolesRequest" });
   }
 }
-function __c467(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35570,7 +35757,7 @@ function __c467(j: number): any {
       ).annotate({ identifier: "DeleteHookRequest" });
   }
 }
-function __c468(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35587,7 +35774,7 @@ function __c468(j: number): any {
       ).annotate({ identifier: "DeleteInvitationsByInvitationIdRequest" });
   }
 }
-function __c469(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35597,7 +35784,7 @@ function __c469(j: number): any {
       ).annotate({ identifier: "DeleteIpsByIdRequest" });
   }
 }
-function __c470(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35607,7 +35794,7 @@ function __c470(j: number): any {
       ).annotate({ identifier: "DeleteLogStreamRequest" });
   }
 }
-function __c471(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35617,32 +35804,12 @@ function __c471(j: number): any {
           default_for: S.optional(S.String),
           organization_usage: S.optional(S.String),
           allow_any_organization: S.optional(S.Boolean),
-          scope: S.optional(__S(14720, __c460, 0)),
+          scope: S.optional(__S(14752, __c461, 0)),
           subject_type: S.optional(S.String),
-          authorization_details_types: S.optional(__S(14720, __c460, 0)),
+          authorization_details_types: S.optional(__S(14752, __c461, 0)),
           allow_all_scopes: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/client-grants", code: 200 })),
       ).annotate({ identifier: "CreateClientGrantRequest" });
-  }
-}
-function __c472(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          audience: S.optional(S.String),
-          scope: S.optional(__S(14720, __c460, 0)),
-          organization_usage: S.optional(S.String),
-          allow_any_organization: S.optional(S.Boolean),
-          default_for: S.optional(S.String),
-          is_system: S.optional(S.Boolean),
-          subject_type: S.optional(S.String),
-          authorization_details_types: S.optional(__S(14720, __c460, 0)),
-          allow_all_scopes: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateClientGrantResponseContent" });
   }
 }
 function __c473(j: number): any {
@@ -35650,13 +35817,33 @@ function __c473(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.String),
+          client_id: S.optional(S.String),
+          audience: S.optional(S.String),
+          scope: S.optional(__S(14752, __c461, 0)),
+          organization_usage: S.optional(S.String),
+          allow_any_organization: S.optional(S.Boolean),
+          default_for: S.optional(S.String),
+          is_system: S.optional(S.Boolean),
+          subject_type: S.optional(S.String),
+          authorization_details_types: S.optional(__S(14752, __c461, 0)),
+          allow_all_scopes: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateClientGrantResponseContent" });
+  }
+}
+function __c474(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(14720, __c460, 0),
+          members: __S(14752, __c461, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{id}/members", code: 200 })),
       ).annotate({ identifier: "DeleteMembersRequest" });
   }
 }
-function __c474(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35667,7 +35854,7 @@ function __c474(j: number): any {
       ).annotate({ identifier: "DeleteMultifactorByProviderRequest" });
   }
 }
-function __c475(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35677,7 +35864,7 @@ function __c475(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAclRequest" });
   }
 }
-function __c476(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35687,14 +35874,14 @@ function __c476(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c477(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           group_id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -35705,14 +35892,14 @@ function __c477(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationGroupRolesRequest" });
   }
 }
-function __c478(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
-          roles: __S(14720, __c460, 0),
+          roles: __S(14752, __c461, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -35723,18 +35910,18 @@ function __c478(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationMemberRolesRequest" });
   }
 }
-function __c479(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          permissions: __S(15361, __c480, 1),
+          permissions: __S(15393, __c481, 1),
         }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/permissions", code: 200 })),
       ).annotate({ identifier: "DeletePermissionsRequest" });
   }
 }
-function __c480(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35744,10 +35931,10 @@ function __c480(j: number): any {
         }),
       ).annotate({ identifier: "PermissionRequestPayload" });
     case 1:
-      return S.Array(__S(15360, __c480, 0));
+      return S.Array(__S(15392, __c481, 0));
   }
 }
-function __c481(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35757,7 +35944,7 @@ function __c481(j: number): any {
       ).annotate({ identifier: "DeletePhoneProviderRequest" });
   }
 }
-function __c482(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35767,7 +35954,7 @@ function __c482(j: number): any {
       ).annotate({ identifier: "DeletePhoneTemplateRequest" });
   }
 }
-function __c483(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35775,7 +35962,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "DeleteProviderRequest" });
   }
 }
-function __c484(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35789,24 +35976,24 @@ function __c484(j: number): any {
           S.Struct({
             client_id: S.optional(S.String),
             external_metadata_created_by: S.optional(S.String),
-            errors: S.optional(__S(14720, __c460, 0)),
-            validation: S.optional(__S(15520, __c485, 0)),
-            mapped_fields: S.optional(__S(15525, __c485, 5)),
+            errors: S.optional(__S(14752, __c461, 0)),
+            validation: S.optional(__S(15552, __c486, 0)),
+            mapped_fields: S.optional(__S(15557, __c486, 5)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PreviewCimdMetadataResponseContent" });
   }
 }
-function __c485(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             valid: S.Boolean,
-            violations: __S(14720, __c460, 0),
-            warnings: __S(14720, __c460, 0),
+            violations: __S(14752, __c461, 0),
+            warnings: __S(14752, __c461, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35823,12 +36010,12 @@ function __c485(j: number): any {
         ),
       ).annotate({ identifier: "CimdMappedPrivateKeyJwtCredential" });
     case 2:
-      return S.Array(__S(15521, __c485, 1));
+      return S.Array(__S(15553, __c486, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            credentials: __S(15522, __c485, 2),
+            credentials: __S(15554, __c486, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35837,7 +36024,7 @@ function __c485(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            private_key_jwt: S.optional(__S(15523, __c485, 3)),
+            private_key_jwt: S.optional(__S(15555, __c486, 3)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35849,20 +36036,20 @@ function __c485(j: number): any {
             external_client_id: S.optional(S.String),
             name: S.optional(S.String),
             app_type: S.optional(S.String),
-            callbacks: S.optional(__S(14720, __c460, 0)),
+            callbacks: S.optional(__S(14752, __c461, 0)),
             logo_uri: S.optional(S.String),
             description: S.optional(S.String),
-            grant_types: S.optional(__S(14720, __c460, 0)),
+            grant_types: S.optional(__S(14752, __c461, 0)),
             token_endpoint_auth_method: S.optional(S.String),
             jwks_uri: S.optional(S.String),
-            client_authentication_methods: S.optional(__S(15524, __c485, 4)),
+            client_authentication_methods: S.optional(__S(15556, __c486, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CimdMappedClientFields" });
   }
 }
-function __c486(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35872,7 +36059,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "DeleteRefreshTokenRequest" });
   }
 }
-function __c487(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35882,7 +36069,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "DeleteRefreshTokensForUserRequest" });
   }
 }
-function __c488(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35892,7 +36079,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "DeleteResourceServerRequest" });
   }
 }
-function __c489(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35902,29 +36089,29 @@ function __c489(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c490(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          groups: __S(14720, __c460, 0),
-        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/groups", code: 200 })),
-      ).annotate({ identifier: "DeleteRoleGroupsRequest" });
-  }
-}
 function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          permissions: __S(15361, __c480, 1),
+          groups: __S(14752, __c461, 0),
+        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/groups", code: 200 })),
+      ).annotate({ identifier: "DeleteRoleGroupsRequest" });
+  }
+}
+function __c492(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          permissions: __S(15393, __c481, 1),
         }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/permissions", code: 200 })),
       ).annotate({ identifier: "DeleteRolePermissionAssignmentRequest" });
   }
 }
-function __c492(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35934,7 +36121,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "DeleteRuleRequest" });
   }
 }
-function __c493(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35944,7 +36131,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "DeleteRulesConfigRequest" });
   }
 }
-function __c494(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35956,18 +36143,18 @@ function __c494(j: number): any {
       ).annotate({ identifier: "DeleteScimConfigurationRequest" });
   }
 }
-function __c495(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(14720, __c460, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14752, __c461, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "DELETE", uri: "/hooks/{id}/secrets", code: 200 })),
       ).annotate({ identifier: "DeleteSecretsRequest" });
   }
 }
-function __c496(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35980,15 +36167,15 @@ function __c496(j: number): any {
         S.StructWithRest(
           S.Struct({
             client_id: S.String,
-            mapped_fields: __S(15525, __c485, 5),
-            validation: __S(15520, __c485, 0),
+            mapped_fields: __S(15557, __c486, 5),
+            validation: __S(15552, __c486, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "RegisterCimdClientResponseContent" });
   }
 }
-function __c497(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35998,7 +36185,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "DeleteSelfServiceProfileRequest" });
   }
 }
-function __c498(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36008,7 +36195,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "DeleteSessionRequest" });
   }
 }
-function __c499(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36018,13 +36205,13 @@ function __c499(j: number): any {
       ).annotate({ identifier: "DeleteSessionsForUserRequest" });
   }
 }
-function __c500(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(14593, __c456, 1),
+          groups: __S(14625, __c457, 1),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -36035,7 +36222,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "DeleteSynchronizedGroupsRequest" });
   }
 }
-function __c501(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36045,7 +36232,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "DeleteTokenExchangeProfileRequest" });
   }
 }
-function __c502(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36062,7 +36249,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "DeleteTokensByTokenIdRequest" });
   }
 }
-function __c503(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36072,7 +36259,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "DeleteUniversalLoginRequest" });
   }
 }
-function __c504(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36082,7 +36269,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c505(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36092,7 +36279,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "DeleteUserBlockRequest" });
   }
 }
-function __c506(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -162,8 +162,10 @@ export interface BillingUsageExportRetrieveRequest {
 }
 export interface BillingUsageExportRetrieveResponse {}
 export interface CreateBillingCouponsClaimRequest {
-  plan: string;
-  billing_limit: number;
+  /** Coupon code to redeem. Give this or `campaign_slug`, never both. Needs billing access. */
+  code?: string | undefined;
+  /** Slug of a campaign to redeem. Give this or `code`, never both. Any organization member can redeem an allowlisted campaign. */
+  campaign_slug?: string | undefined;
 }
 export interface CreateBillingCouponsClaimResponse {}
 export interface CreateBillingCreditsPurchaseRequest {
@@ -214,12 +216,16 @@ export interface BillingTimeSeriesPoint {
   breakdown_type?: BreakdownTypeEnum | null | undefined;
   breakdown_value?: unknown | undefined;
 }
-export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
-export interface PaginatedBillingTimeSeriesPointList {
+export type PaginatedBillingSpendTimeSeriesListResultsList = Array<BillingTimeSeriesPoint>;
+/** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+export type PaginatedBillingSpendTimeSeriesListPricingResetDatesList = Array<string>;
+export interface PaginatedBillingSpendTimeSeriesList {
   count: number;
   next: string | null;
   previous: string | null;
-  results: PaginatedBillingTimeSeriesPointListResultsList;
+  results: PaginatedBillingSpendTimeSeriesListResultsList;
+  /** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+  pricing_reset_dates?: PaginatedBillingSpendTimeSeriesListPricingResetDatesList | undefined;
 }
 export interface GetBillingProjectUsageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -261,7 +267,48 @@ export interface GetBillingProjectUsageTimeseriesRequest {
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
   usage_types?: string | undefined;
 }
+export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
+export interface PaginatedBillingTimeSeriesPointList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PaginatedBillingTimeSeriesPointListResultsList;
+}
 export interface GetBillingSpendRequest {
+  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
+  after?: string | undefined;
+  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
+  breakdowns?: string | undefined;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string | undefined;
+  interval?: string | undefined;
+  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
+  page_size?: number | undefined;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string | undefined;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string | undefined;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number | undefined;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string | undefined;
+}
+export type BillingSpendTimeSeriesResponseResultsList = Array<BillingTimeSeriesPoint>;
+export type BillingSpendTimeSeriesResponseTeamIdOptionsList = Array<number>;
+/** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+export type BillingSpendTimeSeriesResponsePricingResetDatesList = Array<string>;
+export interface BillingSpendTimeSeriesResponse {
+  status?: string | undefined;
+  type?: string | undefined;
+  customer_id?: number | undefined;
+  results: BillingSpendTimeSeriesResponseResultsList;
+  team_id_options?: BillingSpendTimeSeriesResponseTeamIdOptionsList | undefined;
+  next?: string | undefined;
+  total_count?: number | undefined;
+  /** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+  pricing_reset_dates?: BillingSpendTimeSeriesResponsePricingResetDatesList | undefined;
+}
+export interface GetBillingUsageRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
   after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
@@ -290,25 +337,6 @@ export interface BillingTimeSeriesResponse {
   team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList | undefined;
   next?: string | undefined;
   total_count?: number | undefined;
-}
-export interface GetBillingUsageRequest {
-  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string | undefined;
-  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string | undefined;
-  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string | undefined;
-  interval?: string | undefined;
-  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number | undefined;
-  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string | undefined;
-  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string | undefined;
-  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number | undefined;
-  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string | undefined;
 }
 export interface GetBillingUsageTeamOptionRequest {}
 /** Project ids that appear in the organization's usage reports. */
@@ -412,8 +440,8 @@ export const billingActivateCreate: API.OperationMethod<
   BillingActivateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<BillingActivateCreateRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<BillingActivationResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<BillingActivateCreateRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<BillingActivationResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -429,8 +457,8 @@ export const billingDeactivateCreate: API.OperationMethod<
   BillingDeactivateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<BillingDeactivateCreateRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingDeactivateCreateResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<BillingDeactivateCreateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingDeactivateCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -446,8 +474,8 @@ export const billingGetInvoicesRetrieve: API.OperationMethod<
   BillingGetInvoicesRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<BillingGetInvoicesRetrieveRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingGetInvoicesRetrieveResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<BillingGetInvoicesRetrieveRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingGetInvoicesRetrieveResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -464,8 +492,8 @@ export const billingProjectSpendExportDownload: API.OperationMethod<
   BillingProjectSpendExportDownloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<BillingProjectSpendExportDownloadRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingProjectSpendExportDownloadResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<BillingProjectSpendExportDownloadRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingProjectSpendExportDownloadResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -482,8 +510,8 @@ export const billingProjectUsageExportDownload: API.OperationMethod<
   BillingProjectUsageExportDownloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<BillingProjectUsageExportDownloadRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingProjectUsageExportDownloadResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<BillingProjectUsageExportDownloadRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingProjectUsageExportDownloadResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -500,8 +528,8 @@ export const billingSpendExportRetrieve: API.OperationMethod<
   BillingSpendExportRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<BillingSpendExportRetrieveRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingSpendExportRetrieveResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<BillingSpendExportRetrieveRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingSpendExportRetrieveResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -517,8 +545,8 @@ export const billingStartupsApplyCreate: API.OperationMethod<
   BillingStartupsApplyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<BillingStartupsApplyCreateRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingStartupsApplyCreateResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<BillingStartupsApplyCreateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingStartupsApplyCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -534,8 +562,8 @@ export const billingTrialsActivateCreate: API.OperationMethod<
   BillingTrialsActivateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<BillingTrialsActivateCreateRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingTrialsActivateCreateResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<BillingTrialsActivateCreateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingTrialsActivateCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -552,7 +580,7 @@ export const billingTrialsCancelCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<BillingTrialsCancelCreateRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingTrialsCancelCreateResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingTrialsCancelCreateResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -570,7 +598,7 @@ export const billingUsageExportRetrieve: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<BillingUsageExportRetrieveRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<BillingUsageExportRetrieveResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<BillingUsageExportRetrieveResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -587,7 +615,7 @@ export const createBillingCouponsClaim: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateBillingCouponsClaimRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<CreateBillingCouponsClaimResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateBillingCouponsClaimResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -604,7 +632,7 @@ export const createBillingCreditsPurchase: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateBillingCreditsPurchaseRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<CreateBillingCreditsPurchaseResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateBillingCreditsPurchaseResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -621,7 +649,7 @@ export const createBillingSubscriptionSwitchPlan: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CreateBillingSubscriptionSwitchPlanRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<CreateBillingSubscriptionSwitchPlanResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateBillingSubscriptionSwitchPlanResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -638,7 +666,7 @@ export const getBillingCouponsOverview: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetBillingCouponsOverviewRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<GetBillingCouponsOverviewResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<GetBillingCouponsOverviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -655,7 +683,7 @@ export const getBillingCreditsOverview: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetBillingCreditsOverviewRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<GetBillingCreditsOverviewResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<GetBillingCreditsOverviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -690,7 +718,7 @@ export const getBillingPortal: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetBillingPortalRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<GetBillingPortalResponse>,
+  output: __S(192, __c24, 0) as any as S.Schema<GetBillingPortalResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -703,12 +731,12 @@ export type GetBillingProjectSpendTimeseriesError = PosthogOpError;
 /** A project's share of spend over time In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
 export const getBillingProjectSpendTimeseries: API.OperationMethod<
   GetBillingProjectSpendTimeseriesRequest,
-  PaginatedBillingTimeSeriesPointList,
+  PaginatedBillingSpendTimeSeriesList,
   GetBillingProjectSpendTimeseriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetBillingProjectSpendTimeseriesRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
+  output: __S(89, __c11, 1) as any as S.Schema<PaginatedBillingSpendTimeSeriesList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -725,8 +753,8 @@ export const getBillingProjectUsage: API.OperationMethod<
   GetBillingProjectUsageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetBillingProjectUsageRequest>,
-  output: __S(140, __c17, 4) as any as S.Schema<ProjectUsageSummary>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetBillingProjectUsageRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<ProjectUsageSummary>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -743,8 +771,8 @@ export const getBillingProjectUsageTimeseries: API.OperationMethod<
   GetBillingProjectUsageTimeseriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetBillingProjectUsageTimeseriesRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetBillingProjectUsageTimeseriesRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -757,12 +785,12 @@ export type GetBillingSpendError = PosthogOpError;
 /** Endpoint to fetch spend data (proxy to billing service). */
 export const getBillingSpend: API.OperationMethod<
   GetBillingSpendRequest,
-  BillingTimeSeriesResponse,
+  BillingSpendTimeSeriesResponse,
   GetBillingSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetBillingSpendRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<BillingTimeSeriesResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetBillingSpendRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<BillingSpendTimeSeriesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -778,8 +806,8 @@ export const getBillingUsage: API.OperationMethod<
   GetBillingUsageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetBillingUsageRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<BillingTimeSeriesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetBillingUsageRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<BillingTimeSeriesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -796,8 +824,8 @@ export const getBillingUsageTeamOption: API.OperationMethod<
   GetBillingUsageTeamOptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetBillingUsageTeamOptionRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<BillingTeamOptionsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetBillingUsageTeamOptionRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<BillingTeamOptionsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -813,8 +841,8 @@ export const listBilling: API.OperationMethod<
   ListBillingError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListBillingRequest>,
-  output: __S(188, __c23, 4) as any as S.Schema<BillingOverviewResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListBillingRequest>,
+  output: __S(172, __c21, 4) as any as S.Schema<BillingOverviewResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -830,8 +858,8 @@ export const updateBillingLicensePartial: API.OperationMethod<
   UpdateBillingLicensePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<UpdateBillingLicensePartialRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<UpdateBillingLicensePartialResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateBillingLicensePartialRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<UpdateBillingLicensePartialResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -913,8 +941,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          plan: S.String,
-          billing_limit: S.Number,
+          code: S.optional(S.String),
+          campaign_slug: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/billing/coupons/claim/", code: 200 })),
       ).annotate({ identifier: "CreateBillingCouponsClaimRequest" });
   }
@@ -1005,6 +1033,16 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetBillingProjectSpendTimeseriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(97, __c12, 1),
+          pricing_reset_dates: S.optional(__S(120, __c15, 0)),
+        }),
+      ).annotate({ identifier: "PaginatedBillingSpendTimeSeriesList" });
   }
 }
 function __c12(j: number): any {
@@ -1012,38 +1050,25 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          count: S.Number,
-          next: S.NullOr(S.String),
-          previous: S.NullOr(S.String),
-          results: __S(105, __c13, 1),
-        }),
-      ).annotate({ identifier: "PaginatedBillingTimeSeriesPointList" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.optional(S.Number),
           label: S.optional(S.String),
-          data: S.optional(__S(112, __c14, 0)),
-          dates: S.optional(__S(128, __c16, 0)),
+          data: S.optional(__S(104, __c13, 0)),
+          dates: S.optional(__S(120, __c15, 0)),
           breakdown_type: S.optional(S.NullOr(S.String)),
           breakdown_value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "BillingTimeSeriesPoint" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(96, __c12, 0));
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1059,19 +1084,19 @@ function __c15(j: number): any {
         S.Struct({
           success: S.optional(S.Boolean),
           must_setup_payment: S.optional(S.Boolean),
-          products: S.optional(__S(128, __c16, 0)),
+          products: S.optional(__S(120, __c15, 0)),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BillingActivationResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1098,17 +1123,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ProjectUsageItem" });
     case 3:
-      return S.Array(__S(138, __c17, 2));
+      return S.Array(__S(130, __c16, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          billing_period: S.NullOr(__S(137, __c17, 1)),
-          results: __S(139, __c17, 3),
+          billing_period: S.NullOr(__S(129, __c16, 1)),
+          results: __S(131, __c16, 3),
         }),
       ).annotate({ identifier: "ProjectUsageSummary" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1127,6 +1152,46 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetBillingProjectUsageTimeseriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(97, __c12, 1),
+        }),
+      ).annotate({ identifier: "PaginatedBillingTimeSeriesPointList" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(S.String.pipe(T.Query())),
+          breakdowns: S.optional(S.String.pipe(T.Query())),
+          end_date: S.optional(S.String.pipe(T.Query())),
+          interval: S.optional(S.String.pipe(T.Query())),
+          page_size: S.optional(S.Number.pipe(T.Query())),
+          start_date: S.optional(S.String.pipe(T.Query())),
+          team_ids: S.optional(S.String.pipe(T.Query())),
+          top_projects: S.optional(S.Number.pipe(T.Query())),
+          usage_types: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/billing/spend/", code: 200 })),
+      ).annotate({ identifier: "GetBillingSpendRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          customer_id: S.optional(S.Number),
+          results: __S(97, __c12, 1),
+          team_id_options: S.optional(__S(104, __c13, 0)),
+          next: S.optional(S.String),
+          total_count: S.optional(S.Number),
+          pricing_reset_dates: S.optional(__S(120, __c15, 0)),
+        }),
+      ).annotate({ identifier: "BillingSpendTimeSeriesResponse" });
   }
 }
 function __c19(j: number): any {
@@ -1143,45 +1208,23 @@ function __c19(j: number): any {
           team_ids: S.optional(S.String.pipe(T.Query())),
           top_projects: S.optional(S.Number.pipe(T.Query())),
           usage_types: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/billing/spend/", code: 200 })),
-      ).annotate({ identifier: "GetBillingSpendRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
+        }).pipe(T.Http({ method: "GET", uri: "/api/billing/usage/", code: 200 })),
+      ).annotate({ identifier: "GetBillingUsageRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           type: S.optional(S.String),
           customer_id: S.optional(S.Number),
-          results: __S(105, __c13, 1),
-          team_id_options: S.optional(__S(112, __c14, 0)),
+          results: __S(97, __c12, 1),
+          team_id_options: S.optional(__S(104, __c13, 0)),
           next: S.optional(S.String),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingTimeSeriesResponse" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.String.pipe(T.Query())),
-          breakdowns: S.optional(S.String.pipe(T.Query())),
-          end_date: S.optional(S.String.pipe(T.Query())),
-          interval: S.optional(S.String.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-          start_date: S.optional(S.String.pipe(T.Query())),
-          team_ids: S.optional(S.String.pipe(T.Query())),
-          top_projects: S.optional(S.Number.pipe(T.Query())),
-          usage_types: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/billing/usage/", code: 200 })),
-      ).annotate({ identifier: "GetBillingUsageRequest" });
-  }
-}
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1192,12 +1235,12 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          team_id_options: __S(112, __c14, 0),
+          team_id_options: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "BillingTeamOptionsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1209,7 +1252,7 @@ function __c23(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1238,8 +1281,8 @@ function __c23(j: number): any {
           startup_program_label_previous: S.optional(S.NullOr(S.String)),
           stripe_portal_url: S.optional(S.String),
           external_billing_provider_invoices_url: S.optional(S.String),
-          products: S.optional(__S(186, __c23, 2)),
-          available_product_features: S.optional(__S(128, __c16, 0)),
+          products: S.optional(__S(170, __c21, 2)),
+          available_product_features: S.optional(__S(120, __c15, 0)),
           usage_summary: S.optional(S.Unknown),
           billing_period: S.optional(S.Unknown),
           custom_limits_usd: S.optional(S.Unknown),
@@ -1249,12 +1292,12 @@ function __c23(j: number): any {
           account_owner: S.optional(S.Unknown),
           customer_trust_scores: S.optional(S.Unknown),
           never_drop_data: S.optional(S.Boolean),
-          billing_managed_by_partner: S.NullOr(__S(187, __c23, 3)),
+          billing_managed_by_partner: S.NullOr(__S(171, __c21, 3)),
         }),
       ).annotate({ identifier: "BillingOverviewResponse" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1265,7 +1308,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateBillingLicensePartialRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1276,7 +1319,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "BillingDeactivateCreateRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1284,7 +1327,7 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1292,7 +1335,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "BillingGetInvoicesRetrieveRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1313,7 +1356,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "BillingProjectSpendExportDownloadRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1334,7 +1377,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "BillingProjectUsageExportDownloadRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1352,7 +1395,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "BillingSpendExportRetrieveRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1363,7 +1406,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BillingStartupsApplyCreateRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

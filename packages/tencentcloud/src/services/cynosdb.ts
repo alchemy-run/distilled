@@ -471,6 +471,7 @@ export interface UserHostPrivilege {
   DbUserName: string;
   DbHost: string;
   DbPrivilege: string;
+  PrivilegeList?: StringList | undefined;
 }
 export type UserHostPrivilegeList = Array<UserHostPrivilege>;
 export interface CreateClusterDatabaseRequest {
@@ -535,6 +536,7 @@ export interface ProxyConfig {
   ConnectionPoolTimeOut?: number | undefined;
   Description?: string | undefined;
   ProxyZones?: ProxyZoneList | undefined;
+  ProxyVersion?: string | undefined;
 }
 export interface ServerlessQuotaConfig {
   InstanceType: string;
@@ -757,6 +759,7 @@ export interface CreateProxyRequest {
   ClusterId: string;
   Cpu: number;
   Mem: number;
+  ProxyVersion?: string | undefined;
   UniqueVpcId?: string | undefined;
   UniqueSubnetId?: string | undefined;
   ProxyCount?: number | undefined;
@@ -808,6 +811,37 @@ export interface CreateProxyEndPointResponse {
   FlowId?: number | undefined;
   TaskId?: number | undefined;
   ProxyGroupId?: string | undefined;
+  RequestId?: string | undefined;
+}
+export interface ProxyEndPointItem {
+  UniqueVpcId: string;
+  UniqueSubnetId: string;
+  SecurityGroupIds?: StringList | undefined;
+  WeightMode?: string | undefined;
+  AutoAddRo?: string | undefined;
+  RwType?: string | undefined;
+  FailOver?: string | undefined;
+  ConsistencyTimeOut?: number | undefined;
+  ConsistencyType?: string | undefined;
+  TransSplit?: boolean | undefined;
+  AccessMode?: string | undefined;
+  InstanceWeights?: ProxyInstanceWeightList | undefined;
+  Description?: string | undefined;
+  LoadBalanceMode?: string | undefined;
+  OpenConnectionPool?: string | undefined;
+  ConnectionPoolType?: string | undefined;
+  ConnectionPoolTimeOut?: number | undefined;
+}
+export type ProxyEndPointItemList = Array<ProxyEndPointItem>;
+export interface CreateProxyEndPointsRequest {
+  ClusterId: string;
+  ProxyEndPointItems: ProxyEndPointItemList;
+  /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
+  region?: string | undefined;
+}
+export interface CreateProxyEndPointsResponse {
+  FlowId?: number | undefined;
+  TaskId?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface CreateResourcePackageRequest {
@@ -1781,6 +1815,7 @@ export interface CynosdbClusterDetail {
   RealZone?: string | undefined;
   StorageOverUse?: string | undefined;
   StorageAutoExpand?: string | undefined;
+  IsInInstantRollbackChain?: boolean | undefined;
 }
 export interface DescribeClusterDetailResponse {
   Detail?: CynosdbClusterDetail | undefined;
@@ -3452,8 +3487,12 @@ export interface DescribeSSLStatusResponse {
   RequestId?: string | undefined;
 }
 export interface DescribeSupportProxyVersionRequest {
-  ClusterId: string;
+  ClusterId?: string | undefined;
   ProxyGroupId?: string | undefined;
+  Zone?: string | undefined;
+  DbVersion?: string | undefined;
+  CynosVersion?: string | undefined;
+  StorageVersion?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4020,6 +4059,7 @@ export interface IsolateClusterRequest {
   IsolateReasonTypes?: LongList | undefined;
   IsolateReason?: string | undefined;
   SaveBackup?: boolean | undefined;
+  ImmediateRecycleRo?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4035,6 +4075,7 @@ export interface IsolateInstanceRequest {
   IsolateReasonTypes?: LongList | undefined;
   IsolateReason?: string | undefined;
   SaveBackup?: boolean | undefined;
+  ImmediateRecycleRo?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -5319,8 +5360,8 @@ export const addClusterSlaveZone: API.OperationMethod<
   AddClusterSlaveZoneError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<AddClusterSlaveZoneRequest>,
-  output: __S(6337, __c198, 1) as any as S.Schema<AddClusterSlaveZoneResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<AddClusterSlaveZoneRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<AddClusterSlaveZoneResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5336,8 +5377,8 @@ export const addInstances: API.OperationMethod<
   AddInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<AddInstancesRequest>,
-  output: __S(6817, __c213, 1) as any as S.Schema<AddInstancesResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<AddInstancesRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<AddInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5353,8 +5394,8 @@ export const addLibraDBInstances: API.OperationMethod<
   AddLibraDBInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7265, __c227, 1) as any as S.Schema<AddLibraDBInstancesRequest>,
-  output: __S(7266, __c227, 2) as any as S.Schema<AddLibraDBInstancesResponse>,
+  input: __S(7297, __c228, 1) as any as S.Schema<AddLibraDBInstancesRequest>,
+  output: __S(7298, __c228, 2) as any as S.Schema<AddLibraDBInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5387,8 +5428,8 @@ export const associateSecurityGroups: API.OperationMethod<
   AssociateSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<AssociateSecurityGroupsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<AssociateSecurityGroupsResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<AssociateSecurityGroupsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<AssociateSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5404,8 +5445,8 @@ export const bindClusterResourcePackages: API.OperationMethod<
   BindClusterResourcePackagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<BindClusterResourcePackagesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<BindClusterResourcePackagesResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<BindClusterResourcePackagesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<BindClusterResourcePackagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5421,8 +5462,8 @@ export const calculateBackupSaveSecExpires: API.OperationMethod<
   CalculateBackupSaveSecExpiresError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<CalculateBackupSaveSecExpiresRequest>,
-  output: __S(9603, __c300, 3) as any as S.Schema<CalculateBackupSaveSecExpiresResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<CalculateBackupSaveSecExpiresRequest>,
+  output: __S(9635, __c301, 3) as any as S.Schema<CalculateBackupSaveSecExpiresResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5456,7 +5497,7 @@ export const cancelTask: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CancelTaskRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CancelTaskResponse>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CancelTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5472,8 +5513,8 @@ export const checkCreateLibraDBInstance: API.OperationMethod<
   CheckCreateLibraDBInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CheckCreateLibraDBInstanceRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<CheckCreateLibraDBInstanceResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<CheckCreateLibraDBInstanceRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<CheckCreateLibraDBInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5507,7 +5548,7 @@ export const closeAuditService: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<CloseAuditServiceRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CloseAuditServiceResponse>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CloseAuditServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5693,7 +5734,7 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<CreateBackupRequest>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CreateBackupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateBackupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5710,7 +5751,7 @@ export const createCLSDelivery: API.OperationMethod<
   CreateCLSDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6018, __c188, 2) as any as S.Schema<CreateCLSDeliveryRequest>,
+  input: __S(6050, __c189, 2) as any as S.Schema<CreateCLSDeliveryRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateCLSDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5727,8 +5768,8 @@ export const createClusterDatabase: API.OperationMethod<
   CreateClusterDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<CreateClusterDatabaseRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CreateClusterDatabaseResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<CreateClusterDatabaseRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CreateClusterDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5744,8 +5785,8 @@ export const createClusterPeriodScalePolicy: API.OperationMethod<
   CreateClusterPeriodScalePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<CreateClusterPeriodScalePolicyRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<CreateClusterPeriodScalePolicyResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<CreateClusterPeriodScalePolicyRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<CreateClusterPeriodScalePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5761,8 +5802,8 @@ export const createClusters: API.OperationMethod<
   CreateClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6145, __c192, 1) as any as S.Schema<CreateClustersRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<CreateClustersResponse>,
+  input: __S(6177, __c193, 1) as any as S.Schema<CreateClustersRequest>,
+  output: __S(6272, __c196, 0) as any as S.Schema<CreateClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5778,8 +5819,8 @@ export const createIntegrateCluster: API.OperationMethod<
   CreateIntegrateClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6376, __c199, 8) as any as S.Schema<CreateIntegrateClusterRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<CreateIntegrateClusterResponse>,
+  input: __S(6408, __c200, 8) as any as S.Schema<CreateIntegrateClusterRequest>,
+  output: __S(6272, __c196, 0) as any as S.Schema<CreateIntegrateClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5795,8 +5836,8 @@ export const createLibraDBClusterAccounts: API.OperationMethod<
   CreateLibraDBClusterAccountsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<CreateLibraDBClusterAccountsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<CreateLibraDBClusterAccountsResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<CreateLibraDBClusterAccountsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<CreateLibraDBClusterAccountsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5812,8 +5853,8 @@ export const createLibraDBClusters: API.OperationMethod<
   CreateLibraDBClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6434, __c201, 2) as any as S.Schema<CreateLibraDBClustersRequest>,
-  output: __S(6435, __c201, 3) as any as S.Schema<CreateLibraDBClustersResponse>,
+  input: __S(6466, __c202, 2) as any as S.Schema<CreateLibraDBClustersRequest>,
+  output: __S(6467, __c202, 3) as any as S.Schema<CreateLibraDBClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5829,8 +5870,8 @@ export const createParamTemplate: API.OperationMethod<
   CreateParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<CreateParamTemplateRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<CreateParamTemplateResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<CreateParamTemplateRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<CreateParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5846,8 +5887,8 @@ export const createProxy: API.OperationMethod<
   CreateProxyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateProxyRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<CreateProxyResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CreateProxyRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<CreateProxyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5863,14 +5904,31 @@ export const createProxyEndPoint: API.OperationMethod<
   CreateProxyEndPointError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<CreateProxyEndPointRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<CreateProxyEndPointResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<CreateProxyEndPointRequest>,
+  output: __S(6560, __c205, 0) as any as S.Schema<CreateProxyEndPointResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProxyEndPoint",
+}));
+
+export type CreateProxyEndPointsError = TencentCloudOpError;
+export const createProxyEndPoints: API.OperationMethod<
+  CreateProxyEndPointsRequest,
+  CreateProxyEndPointsResponse,
+  CreateProxyEndPointsError,
+  TencentCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(6658, __c208, 2) as any as S.Schema<CreateProxyEndPointsRequest>,
+  output: __S(2656, __c83, 0) as any as S.Schema<CreateProxyEndPointsResponse>,
+  errors: [],
+  serviceErrors: TencentCloudServiceErrors,
+  protocol: TencentCloudProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProxyEndPoints",
 }));
 
 export type CreateResourcePackageError = TencentCloudOpError;
@@ -5880,8 +5938,8 @@ export const createResourcePackage: API.OperationMethod<
   CreateResourcePackageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<CreateResourcePackageRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<CreateResourcePackageResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<CreateResourcePackageRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<CreateResourcePackageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5897,7 +5955,7 @@ export const createVault: API.OperationMethod<
   CreateVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<CreateVaultRequest>,
+  input: __S(6720, __c210, 0) as any as S.Schema<CreateVaultRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<CreateVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5914,7 +5972,7 @@ export const deleteAccounts: API.OperationMethod<
   DeleteAccountsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeleteAccountsRequest>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeleteAccountsRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteAccountsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5931,8 +5989,8 @@ export const deleteAuditLogFile: API.OperationMethod<
   DeleteAuditLogFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeleteAuditLogFileRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteAuditLogFileResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<DeleteAuditLogFileRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteAuditLogFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5948,8 +6006,8 @@ export const deleteAuditRuleTemplates: API.OperationMethod<
   DeleteAuditRuleTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DeleteAuditRuleTemplatesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteAuditRuleTemplatesResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<DeleteAuditRuleTemplatesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteAuditRuleTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5965,8 +6023,8 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<DeleteBackupRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteBackupResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<DeleteBackupRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteBackupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5982,7 +6040,7 @@ export const deleteBackupVault: API.OperationMethod<
   DeleteBackupVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<DeleteBackupVaultRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<DeleteBackupVaultRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteBackupVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5999,7 +6057,7 @@ export const deleteCLSDelivery: API.OperationMethod<
   DeleteCLSDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<DeleteCLSDeliveryRequest>,
+  input: __S(7104, __c222, 0) as any as S.Schema<DeleteCLSDeliveryRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteCLSDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6016,8 +6074,8 @@ export const deleteClusterDatabase: API.OperationMethod<
   DeleteClusterDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<DeleteClusterDatabaseRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteClusterDatabaseResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<DeleteClusterDatabaseRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteClusterDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6033,8 +6091,8 @@ export const deleteClusterPeriodScalePolicy: API.OperationMethod<
   DeleteClusterPeriodScalePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<DeleteClusterPeriodScalePolicyRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteClusterPeriodScalePolicyResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<DeleteClusterPeriodScalePolicyRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteClusterPeriodScalePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6050,7 +6108,7 @@ export const deleteClusterSaveBackup: API.OperationMethod<
   DeleteClusterSaveBackupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<DeleteClusterSaveBackupRequest>,
+  input: __S(7200, __c225, 0) as any as S.Schema<DeleteClusterSaveBackupRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteClusterSaveBackupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6067,7 +6125,7 @@ export const deleteLibraDBCluster: API.OperationMethod<
   DeleteLibraDBClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<DeleteLibraDBClusterRequest>,
+  input: __S(7232, __c226, 0) as any as S.Schema<DeleteLibraDBClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteLibraDBClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6084,8 +6142,8 @@ export const deleteLibraDBClusterAccounts: API.OperationMethod<
   DeleteLibraDBClusterAccountsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<DeleteLibraDBClusterAccountsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteLibraDBClusterAccountsResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<DeleteLibraDBClusterAccountsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteLibraDBClusterAccountsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6101,8 +6159,8 @@ export const deleteParamTemplate: API.OperationMethod<
   DeleteParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<DeleteParamTemplateRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DeleteParamTemplateResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<DeleteParamTemplateRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DeleteParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6118,8 +6176,8 @@ export const deleteVaults: API.OperationMethod<
   DeleteVaultsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<DeleteVaultsRequest>,
-  output: __S(7331, __c229, 3) as any as S.Schema<DeleteVaultsResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<DeleteVaultsRequest>,
+  output: __S(7395, __c231, 3) as any as S.Schema<DeleteVaultsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6135,8 +6193,8 @@ export const describeAccountAllGrantPrivileges: API.OperationMethod<
   DescribeAccountAllGrantPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<DescribeAccountAllGrantPrivilegesRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<DescribeAccountAllGrantPrivilegesResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<DescribeAccountAllGrantPrivilegesRequest>,
+  output: __S(7425, __c232, 1) as any as S.Schema<DescribeAccountAllGrantPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6152,8 +6210,8 @@ export const describeAccountPrivileges: API.OperationMethod<
   DescribeAccountPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<DescribeAccountPrivilegesRequest>,
-  output: __S(7425, __c232, 1) as any as S.Schema<DescribeAccountPrivilegesResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<DescribeAccountPrivilegesRequest>,
+  output: __S(7489, __c234, 1) as any as S.Schema<DescribeAccountPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6169,8 +6227,8 @@ export const describeAccounts: API.OperationMethod<
   DescribeAccountsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<DescribeAccountsRequest>,
-  output: __S(7490, __c234, 2) as any as S.Schema<DescribeAccountsResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<DescribeAccountsRequest>,
+  output: __S(7554, __c236, 2) as any as S.Schema<DescribeAccountsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6186,8 +6244,8 @@ export const describeAuditInstanceList: API.OperationMethod<
   DescribeAuditInstanceListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7522, __c235, 2) as any as S.Schema<DescribeAuditInstanceListRequest>,
-  output: __S(7528, __c235, 8) as any as S.Schema<DescribeAuditInstanceListResponse>,
+  input: __S(7586, __c237, 2) as any as S.Schema<DescribeAuditInstanceListRequest>,
+  output: __S(7592, __c237, 8) as any as S.Schema<DescribeAuditInstanceListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6203,8 +6261,8 @@ export const describeAuditLogFiles: API.OperationMethod<
   DescribeAuditLogFilesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<DescribeAuditLogFilesRequest>,
-  output: __S(7555, __c236, 3) as any as S.Schema<DescribeAuditLogFilesResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<DescribeAuditLogFilesRequest>,
+  output: __S(7619, __c238, 3) as any as S.Schema<DescribeAuditLogFilesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6220,8 +6278,8 @@ export const describeAuditLogs: API.OperationMethod<
   DescribeAuditLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<DescribeAuditLogsRequest>,
-  output: __S(7589, __c237, 5) as any as S.Schema<DescribeAuditLogsResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<DescribeAuditLogsRequest>,
+  output: __S(7653, __c239, 5) as any as S.Schema<DescribeAuditLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6237,8 +6295,8 @@ export const describeAuditRuleTemplates: API.OperationMethod<
   DescribeAuditRuleTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<DescribeAuditRuleTemplatesRequest>,
-  output: __S(7619, __c238, 3) as any as S.Schema<DescribeAuditRuleTemplatesResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<DescribeAuditRuleTemplatesRequest>,
+  output: __S(7683, __c240, 3) as any as S.Schema<DescribeAuditRuleTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6254,8 +6312,8 @@ export const describeAuditRuleWithInstanceIds: API.OperationMethod<
   DescribeAuditRuleWithInstanceIdsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<DescribeAuditRuleWithInstanceIdsRequest>,
-  output: __S(7653, __c239, 5) as any as S.Schema<DescribeAuditRuleWithInstanceIdsResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<DescribeAuditRuleWithInstanceIdsRequest>,
+  output: __S(7717, __c241, 5) as any as S.Schema<DescribeAuditRuleWithInstanceIdsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6271,8 +6329,8 @@ export const describeBackupConfig: API.OperationMethod<
   DescribeBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<DescribeBackupConfigRequest>,
-  output: __S(7715, __c241, 3) as any as S.Schema<DescribeBackupConfigResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<DescribeBackupConfigRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<DescribeBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6288,8 +6346,8 @@ export const describeBackupDownloadRestriction: API.OperationMethod<
   DescribeBackupDownloadRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<DescribeBackupDownloadRestrictionRequest>,
-  output: __S(7809, __c244, 1) as any as S.Schema<DescribeBackupDownloadRestrictionResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<DescribeBackupDownloadRestrictionRequest>,
+  output: __S(7873, __c246, 1) as any as S.Schema<DescribeBackupDownloadRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6305,8 +6363,8 @@ export const describeBackupDownloadUrl: API.OperationMethod<
   DescribeBackupDownloadUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<DescribeBackupDownloadUrlRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<DescribeBackupDownloadUrlResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<DescribeBackupDownloadUrlRequest>,
+  output: __S(8032, __c251, 0) as any as S.Schema<DescribeBackupDownloadUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6322,8 +6380,8 @@ export const describeBackupDownloadUserRestriction: API.OperationMethod<
   DescribeBackupDownloadUserRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<DescribeBackupDownloadUserRestrictionRequest>,
-  output: __S(8001, __c250, 1) as any as S.Schema<DescribeBackupDownloadUserRestrictionResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<DescribeBackupDownloadUserRestrictionRequest>,
+  output: __S(8065, __c252, 1) as any as S.Schema<DescribeBackupDownloadUserRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6339,8 +6397,8 @@ export const describeBackupList: API.OperationMethod<
   DescribeBackupListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<DescribeBackupListRequest>,
-  output: __S(8034, __c251, 2) as any as S.Schema<DescribeBackupListResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<DescribeBackupListRequest>,
+  output: __S(8098, __c253, 2) as any as S.Schema<DescribeBackupListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6356,8 +6414,8 @@ export const describeBackupListByVault: API.OperationMethod<
   DescribeBackupListByVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<DescribeBackupListByVaultRequest>,
-  output: __S(8131, __c254, 3) as any as S.Schema<DescribeBackupListByVaultResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<DescribeBackupListByVaultRequest>,
+  output: __S(8195, __c256, 3) as any as S.Schema<DescribeBackupListByVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6373,8 +6431,8 @@ export const describeBackupOverview: API.OperationMethod<
   DescribeBackupOverviewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<DescribeBackupOverviewRequest>,
-  output: __S(8163, __c255, 3) as any as S.Schema<DescribeBackupOverviewResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<DescribeBackupOverviewRequest>,
+  output: __S(8227, __c257, 3) as any as S.Schema<DescribeBackupOverviewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6390,8 +6448,8 @@ export const describeBinlogConfig: API.OperationMethod<
   DescribeBinlogConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<DescribeBinlogConfigRequest>,
-  output: __S(8193, __c256, 1) as any as S.Schema<DescribeBinlogConfigResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<DescribeBinlogConfigRequest>,
+  output: __S(8257, __c258, 1) as any as S.Schema<DescribeBinlogConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6407,8 +6465,8 @@ export const describeBinlogDownloadUrl: API.OperationMethod<
   DescribeBinlogDownloadUrlError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<DescribeBinlogDownloadUrlRequest>,
-  output: __S(7968, __c249, 0) as any as S.Schema<DescribeBinlogDownloadUrlResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<DescribeBinlogDownloadUrlRequest>,
+  output: __S(8032, __c251, 0) as any as S.Schema<DescribeBinlogDownloadUrlResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6424,8 +6482,8 @@ export const describeBinlogListByVault: API.OperationMethod<
   DescribeBinlogListByVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<DescribeBinlogListByVaultRequest>,
-  output: __S(8291, __c259, 3) as any as S.Schema<DescribeBinlogListByVaultResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DescribeBinlogListByVaultRequest>,
+  output: __S(8355, __c261, 3) as any as S.Schema<DescribeBinlogListByVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6441,8 +6499,8 @@ export const describeBinlogs: API.OperationMethod<
   DescribeBinlogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<DescribeBinlogsRequest>,
-  output: __S(8354, __c261, 2) as any as S.Schema<DescribeBinlogsResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<DescribeBinlogsRequest>,
+  output: __S(8482, __c265, 2) as any as S.Schema<DescribeBinlogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6458,8 +6516,8 @@ export const describeBinlogSaveDays: API.OperationMethod<
   DescribeBinlogSaveDaysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DescribeBinlogSaveDaysRequest>,
-  output: __S(8449, __c264, 1) as any as S.Schema<DescribeBinlogSaveDaysResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<DescribeBinlogSaveDaysRequest>,
+  output: __S(8513, __c266, 1) as any as S.Schema<DescribeBinlogSaveDaysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6475,8 +6533,8 @@ export const describeChangedParamsAfterUpgrade: API.OperationMethod<
   DescribeChangedParamsAfterUpgradeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<DescribeChangedParamsAfterUpgradeRequest>,
-  output: __S(8483, __c265, 3) as any as S.Schema<DescribeChangedParamsAfterUpgradeResponse>,
+  input: __S(8544, __c267, 0) as any as S.Schema<DescribeChangedParamsAfterUpgradeRequest>,
+  output: __S(8547, __c267, 3) as any as S.Schema<DescribeChangedParamsAfterUpgradeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6492,8 +6550,8 @@ export const describeClusterDatabases: API.OperationMethod<
   DescribeClusterDatabasesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DescribeClusterDatabasesRequest>,
-  output: __S(8513, __c266, 1) as any as S.Schema<DescribeClusterDatabasesResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DescribeClusterDatabasesRequest>,
+  output: __S(8577, __c268, 1) as any as S.Schema<DescribeClusterDatabasesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6509,8 +6567,8 @@ export const describeClusterDatabaseTables: API.OperationMethod<
   DescribeClusterDatabaseTablesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<DescribeClusterDatabaseTablesRequest>,
-  output: __S(8545, __c267, 1) as any as S.Schema<DescribeClusterDatabaseTablesResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<DescribeClusterDatabaseTablesRequest>,
+  output: __S(8609, __c269, 1) as any as S.Schema<DescribeClusterDatabaseTablesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6526,8 +6584,8 @@ export const describeClusterDetail: API.OperationMethod<
   DescribeClusterDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<DescribeClusterDetailRequest>,
-  output: __S(8581, __c268, 5) as any as S.Schema<DescribeClusterDetailResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<DescribeClusterDetailRequest>,
+  output: __S(8645, __c270, 5) as any as S.Schema<DescribeClusterDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6543,8 +6601,8 @@ export const describeClusterDetailDatabases: API.OperationMethod<
   DescribeClusterDetailDatabasesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<DescribeClusterDetailDatabasesRequest>,
-  output: __S(8867, __c277, 3) as any as S.Schema<DescribeClusterDetailDatabasesResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<DescribeClusterDetailDatabasesRequest>,
+  output: __S(8931, __c279, 3) as any as S.Schema<DescribeClusterDetailDatabasesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6560,8 +6618,8 @@ export const describeClusterInstanceGroups: API.OperationMethod<
   DescribeClusterInstanceGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<DescribeClusterInstanceGroupsRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<DescribeClusterInstanceGroupsResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<DescribeClusterInstanceGroupsRequest>,
+  output: __S(8995, __c281, 3) as any as S.Schema<DescribeClusterInstanceGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6577,8 +6635,8 @@ export const describeClusterInstanceGrps: API.OperationMethod<
   DescribeClusterInstanceGrpsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<DescribeClusterInstanceGrpsRequest>,
-  output: __S(8931, __c279, 3) as any as S.Schema<DescribeClusterInstanceGrpsResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<DescribeClusterInstanceGrpsRequest>,
+  output: __S(8995, __c281, 3) as any as S.Schema<DescribeClusterInstanceGrpsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6594,8 +6652,8 @@ export const describeClusterLevels: API.OperationMethod<
   DescribeClusterLevelsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<DescribeClusterLevelsRequest>,
-  output: __S(9025, __c282, 1) as any as S.Schema<DescribeClusterLevelsResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<DescribeClusterLevelsRequest>,
+  output: __S(9089, __c284, 1) as any as S.Schema<DescribeClusterLevelsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6611,8 +6669,8 @@ export const describeClusterParamLogs: API.OperationMethod<
   DescribeClusterParamLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<DescribeClusterParamLogsRequest>,
-  output: __S(9059, __c283, 3) as any as S.Schema<DescribeClusterParamLogsResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<DescribeClusterParamLogsRequest>,
+  output: __S(9155, __c286, 3) as any as S.Schema<DescribeClusterParamLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6628,8 +6686,8 @@ export const describeClusterParams: API.OperationMethod<
   DescribeClusterParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<DescribeClusterParamsRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<DescribeClusterParamsResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<DescribeClusterParamsRequest>,
+  output: __S(9186, __c287, 2) as any as S.Schema<DescribeClusterParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6645,8 +6703,8 @@ export const describeClusterPasswordComplexity: API.OperationMethod<
   DescribeClusterPasswordComplexityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<DescribeClusterPasswordComplexityRequest>,
-  output: __S(9217, __c288, 1) as any as S.Schema<DescribeClusterPasswordComplexityResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<DescribeClusterPasswordComplexityRequest>,
+  output: __S(9281, __c290, 1) as any as S.Schema<DescribeClusterPasswordComplexityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6662,8 +6720,8 @@ export const describeClusterPeriodScalePolicy: API.OperationMethod<
   DescribeClusterPeriodScalePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<DescribeClusterPeriodScalePolicyRequest>,
-  output: __S(9251, __c289, 3) as any as S.Schema<DescribeClusterPeriodScalePolicyResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<DescribeClusterPeriodScalePolicyRequest>,
+  output: __S(9315, __c291, 3) as any as S.Schema<DescribeClusterPeriodScalePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6679,8 +6737,8 @@ export const describeClusterReadOnly: API.OperationMethod<
   DescribeClusterReadOnlyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<DescribeClusterReadOnlyRequest>,
-  output: __S(9283, __c290, 3) as any as S.Schema<DescribeClusterReadOnlyResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<DescribeClusterReadOnlyRequest>,
+  output: __S(9347, __c292, 3) as any as S.Schema<DescribeClusterReadOnlyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6696,8 +6754,8 @@ export const describeClusters: API.OperationMethod<
   DescribeClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<DescribeClustersRequest>,
-  output: __S(9315, __c291, 3) as any as S.Schema<DescribeClustersResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<DescribeClustersRequest>,
+  output: __S(9379, __c293, 3) as any as S.Schema<DescribeClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6713,8 +6771,8 @@ export const describeClusterServerlessScalePlans: API.OperationMethod<
   DescribeClusterServerlessScalePlansError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<DescribeClusterServerlessScalePlansRequest>,
-  output: __S(9411, __c294, 3) as any as S.Schema<DescribeClusterServerlessScalePlansResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<DescribeClusterServerlessScalePlansRequest>,
+  output: __S(9475, __c296, 3) as any as S.Schema<DescribeClusterServerlessScalePlansResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6730,8 +6788,8 @@ export const describeClusterStorageAutoExpand: API.OperationMethod<
   DescribeClusterStorageAutoExpandError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<DescribeClusterStorageAutoExpandRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<DescribeClusterStorageAutoExpandResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<DescribeClusterStorageAutoExpandRequest>,
+  output: __S(9505, __c297, 1) as any as S.Schema<DescribeClusterStorageAutoExpandResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6747,8 +6805,8 @@ export const describeClusterTransparentEncryptInfo: API.OperationMethod<
   DescribeClusterTransparentEncryptInfoError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<DescribeClusterTransparentEncryptInfoRequest>,
-  output: __S(9473, __c296, 1) as any as S.Schema<DescribeClusterTransparentEncryptInfoResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<DescribeClusterTransparentEncryptInfoRequest>,
+  output: __S(9537, __c298, 1) as any as S.Schema<DescribeClusterTransparentEncryptInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6764,8 +6822,8 @@ export const describeDBSecurityGroups: API.OperationMethod<
   DescribeDBSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
-  output: __S(9505, __c297, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<DescribeDBSecurityGroupsRequest>,
+  output: __S(9569, __c299, 1) as any as S.Schema<DescribeDBSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6781,8 +6839,8 @@ export const describeFlow: API.OperationMethod<
   DescribeFlowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DescribeFlowRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<DescribeFlowResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DescribeFlowRequest>,
+  output: __S(9665, __c302, 1) as any as S.Schema<DescribeFlowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6798,8 +6856,8 @@ export const describeInstanceCLSLogDelivery: API.OperationMethod<
   DescribeInstanceCLSLogDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DescribeInstanceCLSLogDeliveryRequest>,
-  output: __S(9633, __c301, 1) as any as S.Schema<DescribeInstanceCLSLogDeliveryResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DescribeInstanceCLSLogDeliveryRequest>,
+  output: __S(9697, __c303, 1) as any as S.Schema<DescribeInstanceCLSLogDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6815,8 +6873,8 @@ export const describeInstanceDetail: API.OperationMethod<
   DescribeInstanceDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DescribeInstanceDetailRequest>,
-  output: __S(9698, __c303, 2) as any as S.Schema<DescribeInstanceDetailResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<DescribeInstanceDetailRequest>,
+  output: __S(9762, __c305, 2) as any as S.Schema<DescribeInstanceDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6832,8 +6890,8 @@ export const describeInstanceErrorLogs: API.OperationMethod<
   DescribeInstanceErrorLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DescribeInstanceErrorLogsRequest>,
-  output: __S(9731, __c304, 3) as any as S.Schema<DescribeInstanceErrorLogsResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<DescribeInstanceErrorLogsRequest>,
+  output: __S(9795, __c306, 3) as any as S.Schema<DescribeInstanceErrorLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6849,8 +6907,8 @@ export const describeInstanceParams: API.OperationMethod<
   DescribeInstanceParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
-  output: __S(9765, __c305, 5) as any as S.Schema<DescribeInstanceParamsResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<DescribeInstanceParamsRequest>,
+  output: __S(9829, __c307, 5) as any as S.Schema<DescribeInstanceParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6866,8 +6924,8 @@ export const describeInstances: API.OperationMethod<
   DescribeInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<DescribeInstancesRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<DescribeInstancesResponse>,
+  input: __S(9856, __c308, 0) as any as S.Schema<DescribeInstancesRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<DescribeInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6883,8 +6941,8 @@ export const describeInstanceServerlessQuota: API.OperationMethod<
   DescribeInstanceServerlessQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<DescribeInstanceServerlessQuotaRequest>,
-  output: __S(9860, __c308, 4) as any as S.Schema<DescribeInstanceServerlessQuotaResponse>,
+  input: __S(9920, __c310, 0) as any as S.Schema<DescribeInstanceServerlessQuotaRequest>,
+  output: __S(9924, __c310, 4) as any as S.Schema<DescribeInstanceServerlessQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6900,8 +6958,8 @@ export const describeInstanceSlowQueries: API.OperationMethod<
   DescribeInstanceSlowQueriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DescribeInstanceSlowQueriesRequest>,
-  output: __S(9891, __c309, 3) as any as S.Schema<DescribeInstanceSlowQueriesResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<DescribeInstanceSlowQueriesRequest>,
+  output: __S(9955, __c311, 3) as any as S.Schema<DescribeInstanceSlowQueriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6917,8 +6975,8 @@ export const describeInstanceSpecs: API.OperationMethod<
   DescribeInstanceSpecsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<DescribeInstanceSpecsRequest>,
-  output: __S(9956, __c311, 4) as any as S.Schema<DescribeInstanceSpecsResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<DescribeInstanceSpecsRequest>,
+  output: __S(10020, __c313, 4) as any as S.Schema<DescribeInstanceSpecsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6934,8 +6992,8 @@ export const describeInstanceSpecsByOperationType: API.OperationMethod<
   DescribeInstanceSpecsByOperationTypeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DescribeInstanceSpecsByOperationTypeRequest>,
-  output: __S(9956, __c311, 4) as any as S.Schema<DescribeInstanceSpecsByOperationTypeResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<DescribeInstanceSpecsByOperationTypeRequest>,
+  output: __S(10020, __c313, 4) as any as S.Schema<DescribeInstanceSpecsByOperationTypeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6951,8 +7009,8 @@ export const describeInstancesWithinSameCluster: API.OperationMethod<
   DescribeInstancesWithinSameClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<DescribeInstancesWithinSameClusterRequest>,
-  output: __S(10049, __c314, 1) as any as S.Schema<DescribeInstancesWithinSameClusterResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeInstancesWithinSameClusterRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<DescribeInstancesWithinSameClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6968,8 +7026,8 @@ export const describeIntegrateTask: API.OperationMethod<
   DescribeIntegrateTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DescribeIntegrateTaskRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<DescribeIntegrateTaskResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DescribeIntegrateTaskRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<DescribeIntegrateTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6985,8 +7043,8 @@ export const describeIsolatedInstances: API.OperationMethod<
   DescribeIsolatedInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DescribeIsolatedInstancesRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<DescribeIsolatedInstancesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DescribeIsolatedInstancesRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<DescribeIsolatedInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7002,8 +7060,8 @@ export const describeLibraDBClusterAccountAllPrivileges: API.OperationMethod<
   DescribeLibraDBClusterAccountAllPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DescribeLibraDBClusterAccountAllPrivilegesRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<DescribeLibraDBClusterAccountAllPrivilegesResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DescribeLibraDBClusterAccountAllPrivilegesRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<DescribeLibraDBClusterAccountAllPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7019,8 +7077,8 @@ export const describeLibraDBClusterAccountPrivileges: API.OperationMethod<
   DescribeLibraDBClusterAccountPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DescribeLibraDBClusterAccountPrivilegesRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<DescribeLibraDBClusterAccountPrivilegesResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DescribeLibraDBClusterAccountPrivilegesRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<DescribeLibraDBClusterAccountPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7036,8 +7094,8 @@ export const describeLibraDBClusterAccounts: API.OperationMethod<
   DescribeLibraDBClusterAccountsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DescribeLibraDBClusterAccountsRequest>,
-  output: __S(7490, __c234, 2) as any as S.Schema<DescribeLibraDBClusterAccountsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DescribeLibraDBClusterAccountsRequest>,
+  output: __S(7554, __c236, 2) as any as S.Schema<DescribeLibraDBClusterAccountsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7053,8 +7111,8 @@ export const describeLibraDBClusterAutoMapRule: API.OperationMethod<
   DescribeLibraDBClusterAutoMapRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DescribeLibraDBClusterAutoMapRuleRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<DescribeLibraDBClusterAutoMapRuleResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DescribeLibraDBClusterAutoMapRuleRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<DescribeLibraDBClusterAutoMapRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7070,8 +7128,8 @@ export const describeLibraDBClusterDetail: API.OperationMethod<
   DescribeLibraDBClusterDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DescribeLibraDBClusterDetailRequest>,
-  output: __S(420, __c13, 4) as any as S.Schema<DescribeLibraDBClusterDetailResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DescribeLibraDBClusterDetailRequest>,
+  output: __S(452, __c14, 4) as any as S.Schema<DescribeLibraDBClusterDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7087,8 +7145,8 @@ export const describeLibraDBClusters: API.OperationMethod<
   DescribeLibraDBClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DescribeLibraDBClustersRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<DescribeLibraDBClustersResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DescribeLibraDBClustersRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<DescribeLibraDBClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7104,8 +7162,8 @@ export const describeLibraDBClusterTableMapping: API.OperationMethod<
   DescribeLibraDBClusterTableMappingError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DescribeLibraDBClusterTableMappingRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<DescribeLibraDBClusterTableMappingResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DescribeLibraDBClusterTableMappingRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<DescribeLibraDBClusterTableMappingResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7121,8 +7179,8 @@ export const describeLibraDBDataSource: API.OperationMethod<
   DescribeLibraDBDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DescribeLibraDBDataSourceRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<DescribeLibraDBDataSourceResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<DescribeLibraDBDataSourceRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<DescribeLibraDBDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7138,8 +7196,8 @@ export const describeLibraDBForwardConfig: API.OperationMethod<
   DescribeLibraDBForwardConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DescribeLibraDBForwardConfigRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<DescribeLibraDBForwardConfigResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<DescribeLibraDBForwardConfigRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<DescribeLibraDBForwardConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7155,8 +7213,8 @@ export const describeLibraDBInstanceDetail: API.OperationMethod<
   DescribeLibraDBInstanceDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DescribeLibraDBInstanceDetailRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<DescribeLibraDBInstanceDetailResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DescribeLibraDBInstanceDetailRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<DescribeLibraDBInstanceDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7172,8 +7230,8 @@ export const describeLibraDBInstanceSpecs: API.OperationMethod<
   DescribeLibraDBInstanceSpecsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DescribeLibraDBInstanceSpecsRequest>,
-  output: __S(709, __c22, 5) as any as S.Schema<DescribeLibraDBInstanceSpecsResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DescribeLibraDBInstanceSpecsRequest>,
+  output: __S(741, __c23, 5) as any as S.Schema<DescribeLibraDBInstanceSpecsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7189,8 +7247,8 @@ export const describeLibraDBSlowLogs: API.OperationMethod<
   DescribeLibraDBSlowLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(738, __c23, 2) as any as S.Schema<DescribeLibraDBSlowLogsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DescribeLibraDBSlowLogsResponse>,
+  input: __S(770, __c24, 2) as any as S.Schema<DescribeLibraDBSlowLogsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DescribeLibraDBSlowLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7206,8 +7264,8 @@ export const describeLibraDBVersion: API.OperationMethod<
   DescribeLibraDBVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DescribeLibraDBVersionRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<DescribeLibraDBVersionResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DescribeLibraDBVersionRequest>,
+  output: __S(803, __c25, 3) as any as S.Schema<DescribeLibraDBVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7223,8 +7281,8 @@ export const describeMaintainPeriod: API.OperationMethod<
   DescribeMaintainPeriodError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DescribeMaintainPeriodRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<DescribeMaintainPeriodResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<DescribeMaintainPeriodRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<DescribeMaintainPeriodResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7240,8 +7298,8 @@ export const describeParamTemplateDetail: API.OperationMethod<
   DescribeParamTemplateDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DescribeParamTemplateDetailRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<DescribeParamTemplateDetailResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<DescribeParamTemplateDetailRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<DescribeParamTemplateDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7257,8 +7315,8 @@ export const describeParamTemplates: API.OperationMethod<
   DescribeParamTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DescribeParamTemplatesRequest>,
-  output: __S(869, __c27, 5) as any as S.Schema<DescribeParamTemplatesResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<DescribeParamTemplatesRequest>,
+  output: __S(901, __c28, 5) as any as S.Schema<DescribeParamTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7274,8 +7332,8 @@ export const describeProjectSecurityGroups: API.OperationMethod<
   DescribeProjectSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DescribeProjectSecurityGroupsRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<DescribeProjectSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7291,8 +7349,8 @@ export const describeProxies: API.OperationMethod<
   DescribeProxiesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(930, __c29, 2) as any as S.Schema<DescribeProxiesRequest>,
-  output: __S(936, __c29, 8) as any as S.Schema<DescribeProxiesResponse>,
+  input: __S(994, __c31, 2) as any as S.Schema<DescribeProxiesRequest>,
+  output: __S(1000, __c31, 8) as any as S.Schema<DescribeProxiesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7308,8 +7366,8 @@ export const describeProxyNodes: API.OperationMethod<
   DescribeProxyNodesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DescribeProxyNodesRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<DescribeProxyNodesResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DescribeProxyNodesRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<DescribeProxyNodesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7325,8 +7383,8 @@ export const describeProxySpecs: API.OperationMethod<
   DescribeProxySpecsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DescribeProxySpecsRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<DescribeProxySpecsResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DescribeProxySpecsRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<DescribeProxySpecsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7342,8 +7400,8 @@ export const describeProxyZoneStocks: API.OperationMethod<
   DescribeProxyZoneStocksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DescribeProxyZoneStocksRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<DescribeProxyZoneStocksResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DescribeProxyZoneStocksRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<DescribeProxyZoneStocksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7359,8 +7417,8 @@ export const describeRedoLogListByVault: API.OperationMethod<
   DescribeRedoLogListByVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DescribeRedoLogListByVaultRequest>,
-  output: __S(1123, __c35, 3) as any as S.Schema<DescribeRedoLogListByVaultResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DescribeRedoLogListByVaultRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<DescribeRedoLogListByVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7376,8 +7434,8 @@ export const describeRedoLogs: API.OperationMethod<
   DescribeRedoLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DescribeRedoLogsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<DescribeRedoLogsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DescribeRedoLogsRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<DescribeRedoLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7393,8 +7451,8 @@ export const describeResourcePackageDetail: API.OperationMethod<
   DescribeResourcePackageDetailError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DescribeResourcePackageDetailRequest>,
-  output: __S(1219, __c38, 3) as any as S.Schema<DescribeResourcePackageDetailResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DescribeResourcePackageDetailRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<DescribeResourcePackageDetailResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7410,8 +7468,8 @@ export const describeResourcePackageList: API.OperationMethod<
   DescribeResourcePackageListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DescribeResourcePackageListRequest>,
-  output: __S(1253, __c39, 5) as any as S.Schema<DescribeResourcePackageListResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DescribeResourcePackageListRequest>,
+  output: __S(1285, __c40, 5) as any as S.Schema<DescribeResourcePackageListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7427,8 +7485,8 @@ export const describeResourcePackageSaleSpec: API.OperationMethod<
   DescribeResourcePackageSaleSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DescribeResourcePackageSaleSpecRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<DescribeResourcePackageSaleSpecResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DescribeResourcePackageSaleSpecRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<DescribeResourcePackageSaleSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7444,8 +7502,8 @@ export const describeResourcesByDealName: API.OperationMethod<
   DescribeResourcesByDealNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DescribeResourcesByDealNameRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<DescribeResourcesByDealNameResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DescribeResourcesByDealNameRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<DescribeResourcesByDealNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7461,8 +7519,8 @@ export const describeRollbackTimeRange: API.OperationMethod<
   DescribeRollbackTimeRangeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DescribeRollbackTimeRangeRequest>,
-  output: __S(1347, __c42, 3) as any as S.Schema<DescribeRollbackTimeRangeResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DescribeRollbackTimeRangeRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<DescribeRollbackTimeRangeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7478,8 +7536,8 @@ export const describeSaveBackupClusters: API.OperationMethod<
   DescribeSaveBackupClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1410, __c44, 2) as any as S.Schema<DescribeSaveBackupClustersRequest>,
-  output: __S(1413, __c44, 5) as any as S.Schema<DescribeSaveBackupClustersResponse>,
+  input: __S(1442, __c45, 2) as any as S.Schema<DescribeSaveBackupClustersRequest>,
+  output: __S(1445, __c45, 5) as any as S.Schema<DescribeSaveBackupClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7495,8 +7553,8 @@ export const describeServerlessInstanceSpecs: API.OperationMethod<
   DescribeServerlessInstanceSpecsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DescribeServerlessInstanceSpecsRequest>,
-  output: __S(1445, __c45, 5) as any as S.Schema<DescribeServerlessInstanceSpecsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DescribeServerlessInstanceSpecsRequest>,
+  output: __S(1477, __c46, 5) as any as S.Schema<DescribeServerlessInstanceSpecsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7512,8 +7570,8 @@ export const describeServerlessStrategy: API.OperationMethod<
   DescribeServerlessStrategyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DescribeServerlessStrategyRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<DescribeServerlessStrategyResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DescribeServerlessStrategyRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DescribeServerlessStrategyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7529,8 +7587,8 @@ export const describeSlaveZones: API.OperationMethod<
   DescribeSlaveZonesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DescribeSlaveZonesRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<DescribeSlaveZonesResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DescribeSlaveZonesRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DescribeSlaveZonesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7546,8 +7604,8 @@ export const describeSQLExecutionPlan: API.OperationMethod<
   DescribeSQLExecutionPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DescribeSQLExecutionPlanRequest>,
-  output: __S(1540, __c48, 4) as any as S.Schema<DescribeSQLExecutionPlanResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DescribeSQLExecutionPlanRequest>,
+  output: __S(1572, __c49, 4) as any as S.Schema<DescribeSQLExecutionPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7563,8 +7621,8 @@ export const describeSSLStatus: API.OperationMethod<
   DescribeSSLStatusError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DescribeSSLStatusRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<DescribeSSLStatusResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeSSLStatusRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<DescribeSSLStatusResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7580,8 +7638,8 @@ export const describeSupportProxyVersion: API.OperationMethod<
   DescribeSupportProxyVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DescribeSupportProxyVersionRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<DescribeSupportProxyVersionResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DescribeSupportProxyVersionRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<DescribeSupportProxyVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7597,8 +7655,8 @@ export const describeTasks: API.OperationMethod<
   DescribeTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DescribeTasksRequest>,
-  output: __S(1658, __c51, 26) as any as S.Schema<DescribeTasksResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DescribeTasksRequest>,
+  output: __S(1690, __c52, 26) as any as S.Schema<DescribeTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7614,8 +7672,8 @@ export const describeVaultBackupClusterInfo: API.OperationMethod<
   DescribeVaultBackupClusterInfo_Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DescribeVaultBackupClusterInfoRequest>,
-  output: __S(1699, __c53, 3) as any as S.Schema<DescribeVaultBackupClusterInfoResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DescribeVaultBackupClusterInfoRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<DescribeVaultBackupClusterInfoResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7631,8 +7689,8 @@ export const describeVaults: API.OperationMethod<
   DescribeVaultsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DescribeVaultsRequest>,
-  output: __S(1733, __c54, 5) as any as S.Schema<DescribeVaultsResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DescribeVaultsRequest>,
+  output: __S(1797, __c56, 5) as any as S.Schema<DescribeVaultsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7648,8 +7706,8 @@ export const describeZones: API.OperationMethod<
   DescribeZonesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DescribeZonesRequest>,
-  output: __S(1799, __c56, 7) as any as S.Schema<DescribeZonesResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DescribeZonesRequest>,
+  output: __S(1831, __c57, 7) as any as S.Schema<DescribeZonesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7665,8 +7723,8 @@ export const disassociateSecurityGroups: API.OperationMethod<
   DisassociateSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DisassociateSecurityGroupsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<DisassociateSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7682,8 +7740,8 @@ export const downloadLibraDBClusterList: API.OperationMethod<
   DownloadLibraDBClusterListError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DownloadLibraDBClusterListRequest>,
-  output: __S(1861, __c58, 5) as any as S.Schema<DownloadLibraDBClusterListResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DownloadLibraDBClusterListRequest>,
+  output: __S(1893, __c59, 5) as any as S.Schema<DownloadLibraDBClusterListResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7699,8 +7757,8 @@ export const exportInstanceErrorLogs: API.OperationMethod<
   ExportInstanceErrorLogsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ExportInstanceErrorLogsRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<ExportInstanceErrorLogsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ExportInstanceErrorLogsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ExportInstanceErrorLogsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7716,8 +7774,8 @@ export const exportInstanceSlowQueries: API.OperationMethod<
   ExportInstanceSlowQueriesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ExportInstanceSlowQueriesRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<ExportInstanceSlowQueriesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ExportInstanceSlowQueriesRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<ExportInstanceSlowQueriesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7733,8 +7791,8 @@ export const exportResourcePackageDeductDetails: API.OperationMethod<
   ExportResourcePackageDeductDetailsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ExportResourcePackageDeductDetailsRequest>,
-  output: __S(1952, __c61, 0) as any as S.Schema<ExportResourcePackageDeductDetailsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ExportResourcePackageDeductDetailsRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<ExportResourcePackageDeductDetailsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7750,8 +7808,8 @@ export const grantAccountPrivileges: API.OperationMethod<
   GrantAccountPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GrantAccountPrivilegesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<GrantAccountPrivilegesResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GrantAccountPrivilegesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<GrantAccountPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7767,8 +7825,8 @@ export const inquirePriceCreate: API.OperationMethod<
   InquirePriceCreateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<InquirePriceCreateRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<InquirePriceCreateResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<InquirePriceCreateRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<InquirePriceCreateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7784,8 +7842,8 @@ export const inquirePriceModify: API.OperationMethod<
   InquirePriceModifyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<InquirePriceModifyRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<InquirePriceModifyResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<InquirePriceModifyRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<InquirePriceModifyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7801,8 +7859,8 @@ export const inquirePriceMultiSpec: API.OperationMethod<
   InquirePriceMultiSpecError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c69, 2) as any as S.Schema<InquirePriceMultiSpecRequest>,
-  output: __S(2213, __c69, 5) as any as S.Schema<InquirePriceMultiSpecResponse>,
+  input: __S(2274, __c71, 2) as any as S.Schema<InquirePriceMultiSpecRequest>,
+  output: __S(2277, __c71, 5) as any as S.Schema<InquirePriceMultiSpecResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7818,8 +7876,8 @@ export const inquirePriceRenew: API.OperationMethod<
   InquirePriceRenewError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<InquirePriceRenewRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<InquirePriceRenewResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<InquirePriceRenewRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<InquirePriceRenewResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7835,8 +7893,8 @@ export const isolateCluster: API.OperationMethod<
   IsolateClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<IsolateClusterRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<IsolateClusterResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<IsolateClusterRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<IsolateClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7852,8 +7910,8 @@ export const isolateInstance: API.OperationMethod<
   IsolateInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<IsolateInstanceRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<IsolateInstanceResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<IsolateInstanceRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<IsolateInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7869,8 +7927,8 @@ export const isolateLibraDBCluster: API.OperationMethod<
   IsolateLibraDBClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<IsolateLibraDBClusterRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<IsolateLibraDBClusterResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<IsolateLibraDBClusterRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<IsolateLibraDBClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7886,8 +7944,8 @@ export const isolateLibraDBInstance: API.OperationMethod<
   IsolateLibraDBInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<IsolateLibraDBInstanceRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<IsolateLibraDBInstanceResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<IsolateLibraDBInstanceRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<IsolateLibraDBInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7903,8 +7961,8 @@ export const modifyAccountDescription: API.OperationMethod<
   ModifyAccountDescriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ModifyAccountDescriptionRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAccountDescriptionResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ModifyAccountDescriptionRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAccountDescriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7920,8 +7978,8 @@ export const modifyAccountHost: API.OperationMethod<
   ModifyAccountHostError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ModifyAccountHostRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAccountHostResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ModifyAccountHostRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAccountHostResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7937,8 +7995,8 @@ export const modifyAccountParams: API.OperationMethod<
   ModifyAccountParamsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2530, __c79, 2) as any as S.Schema<ModifyAccountParamsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAccountParamsResponse>,
+  input: __S(2562, __c80, 2) as any as S.Schema<ModifyAccountParamsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAccountParamsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7954,8 +8012,8 @@ export const modifyAccountPrivileges: API.OperationMethod<
   ModifyAccountPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ModifyAccountPrivilegesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAccountPrivilegesResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ModifyAccountPrivilegesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAccountPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7971,8 +8029,8 @@ export const modifyAuditRuleTemplates: API.OperationMethod<
   ModifyAuditRuleTemplatesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ModifyAuditRuleTemplatesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAuditRuleTemplatesResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ModifyAuditRuleTemplatesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAuditRuleTemplatesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7988,8 +8046,8 @@ export const modifyAuditService: API.OperationMethod<
   ModifyAuditServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ModifyAuditServiceRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyAuditServiceResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ModifyAuditServiceRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyAuditServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8005,8 +8063,8 @@ export const modifyBackupConfig: API.OperationMethod<
   ModifyBackupConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2722, __c85, 2) as any as S.Schema<ModifyBackupConfigRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBackupConfigResponse>,
+  input: __S(2754, __c86, 2) as any as S.Schema<ModifyBackupConfigRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBackupConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8022,8 +8080,8 @@ export const modifyBackupDownloadRestriction: API.OperationMethod<
   ModifyBackupDownloadRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ModifyBackupDownloadRestrictionRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBackupDownloadRestrictionResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ModifyBackupDownloadRestrictionRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBackupDownloadRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8039,8 +8097,8 @@ export const modifyBackupDownloadUserRestriction: API.OperationMethod<
   ModifyBackupDownloadUserRestrictionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ModifyBackupDownloadUserRestrictionRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBackupDownloadUserRestrictionResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ModifyBackupDownloadUserRestrictionRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBackupDownloadUserRestrictionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8056,8 +8114,8 @@ export const modifyBackupName: API.OperationMethod<
   ModifyBackupNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ModifyBackupNameRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBackupNameResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ModifyBackupNameRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBackupNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8073,8 +8131,8 @@ export const modifyBinlogConfig: API.OperationMethod<
   ModifyBinlogConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ModifyBinlogConfigRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBinlogConfigResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ModifyBinlogConfigRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBinlogConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8090,8 +8148,8 @@ export const modifyBinlogSaveDays: API.OperationMethod<
   ModifyBinlogSaveDaysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ModifyBinlogSaveDaysRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyBinlogSaveDaysResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ModifyBinlogSaveDaysRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyBinlogSaveDaysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8107,7 +8165,7 @@ export const modifyClusterBinlogRedoLogAutoCopyVault: API.OperationMethod<
   ModifyClusterBinlogRedoLogAutoCopyVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ModifyClusterBinlogRedoLogAutoCopyVaultRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ModifyClusterBinlogRedoLogAutoCopyVaultRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyClusterBinlogRedoLogAutoCopyVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8124,8 +8182,8 @@ export const modifyClusterDatabase: API.OperationMethod<
   ModifyClusterDatabaseError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ModifyClusterDatabaseRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyClusterDatabaseResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ModifyClusterDatabaseRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyClusterDatabaseResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8141,7 +8199,7 @@ export const modifyClusterGlobalEncryption: API.OperationMethod<
   ModifyClusterGlobalEncryptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ModifyClusterGlobalEncryptionRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ModifyClusterGlobalEncryptionRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyClusterGlobalEncryptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8158,7 +8216,7 @@ export const modifyClusterLevel: API.OperationMethod<
   ModifyClusterLevelError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ModifyClusterLevelRequest>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ModifyClusterLevelRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyClusterLevelResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8175,8 +8233,8 @@ export const modifyClusterName: API.OperationMethod<
   ModifyClusterNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ModifyClusterNameRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyClusterNameResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ModifyClusterNameRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyClusterNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8192,8 +8250,8 @@ export const modifyClusterParam: API.OperationMethod<
   ModifyClusterParamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ModifyClusterParamRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<ModifyClusterParamResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ModifyClusterParamRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<ModifyClusterParamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8209,7 +8267,7 @@ export const modifyClusterPasswordComplexity: API.OperationMethod<
   ModifyClusterPasswordComplexityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ModifyClusterPasswordComplexityRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ModifyClusterPasswordComplexityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyClusterPasswordComplexityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8226,8 +8284,8 @@ export const modifyClusterPeriodScalePolicy: API.OperationMethod<
   ModifyClusterPeriodScalePolicyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ModifyClusterPeriodScalePolicyRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyClusterPeriodScalePolicyResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ModifyClusterPeriodScalePolicyRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyClusterPeriodScalePolicyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8243,8 +8301,8 @@ export const modifyClusterReadOnly: API.OperationMethod<
   ModifyClusterReadOnlyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ModifyClusterReadOnlyRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<ModifyClusterReadOnlyResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ModifyClusterReadOnlyRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<ModifyClusterReadOnlyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8260,7 +8318,7 @@ export const modifyClusterSlaveZone: API.OperationMethod<
   ModifyClusterSlaveZoneError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ModifyClusterSlaveZoneRequest>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ModifyClusterSlaveZoneRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyClusterSlaveZoneResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8277,8 +8335,8 @@ export const modifyClusterStorage: API.OperationMethod<
   ModifyClusterStorageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ModifyClusterStorageRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<ModifyClusterStorageResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ModifyClusterStorageRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<ModifyClusterStorageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8294,8 +8352,8 @@ export const modifyDBInstanceSecurityGroups: API.OperationMethod<
   ModifyDBInstanceSecurityGroupsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyDBInstanceSecurityGroupsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8311,8 +8369,8 @@ export const modifyInstanceName: API.OperationMethod<
   ModifyInstanceNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ModifyInstanceNameRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyInstanceNameResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ModifyInstanceNameRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyInstanceNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8328,7 +8386,7 @@ export const modifyInstanceParam: API.OperationMethod<
   ModifyInstanceParamError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ModifyInstanceParamRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ModifyInstanceParamRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyInstanceParamResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8345,8 +8403,8 @@ export const modifyInstanceUpgradeLimitDays: API.OperationMethod<
   ModifyInstanceUpgradeLimitDaysError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ModifyInstanceUpgradeLimitDaysRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyInstanceUpgradeLimitDaysResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ModifyInstanceUpgradeLimitDaysRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyInstanceUpgradeLimitDaysResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8362,8 +8420,8 @@ export const modifyLibraDBClusterAccountDescription: API.OperationMethod<
   ModifyLibraDBClusterAccountDescriptionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ModifyLibraDBClusterAccountDescriptionRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyLibraDBClusterAccountDescriptionResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ModifyLibraDBClusterAccountDescriptionRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyLibraDBClusterAccountDescriptionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8379,8 +8437,8 @@ export const modifyLibraDBClusterAccountHost: API.OperationMethod<
   ModifyLibraDBClusterAccountHostError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ModifyLibraDBClusterAccountHostRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyLibraDBClusterAccountHostResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ModifyLibraDBClusterAccountHostRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyLibraDBClusterAccountHostResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8396,8 +8454,8 @@ export const modifyLibraDBClusterAccountPrivilege: API.OperationMethod<
   ModifyLibraDBClusterAccountPrivilegeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ModifyLibraDBClusterAccountPrivilegeRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyLibraDBClusterAccountPrivilegeResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ModifyLibraDBClusterAccountPrivilegeRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyLibraDBClusterAccountPrivilegeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8413,7 +8471,7 @@ export const modifyLibraDBClusterDataSource: API.OperationMethod<
   ModifyLibraDBClusterDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3586, __c112, 2) as any as S.Schema<ModifyLibraDBClusterDataSourceRequest>,
+  input: __S(3618, __c113, 2) as any as S.Schema<ModifyLibraDBClusterDataSourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyLibraDBClusterDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8430,8 +8488,8 @@ export const modifyLibraDBClusterName: API.OperationMethod<
   ModifyLibraDBClusterNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ModifyLibraDBClusterNameRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyLibraDBClusterNameResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ModifyLibraDBClusterNameRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyLibraDBClusterNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8447,8 +8505,8 @@ export const modifyLibraDBClusterProject: API.OperationMethod<
   ModifyLibraDBClusterProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ModifyLibraDBClusterProjectRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<ModifyLibraDBClusterProjectResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ModifyLibraDBClusterProjectRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<ModifyLibraDBClusterProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8464,7 +8522,7 @@ export const modifyLibraDBClusterReplicationObject: API.OperationMethod<
   ModifyLibraDBClusterReplicationObjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3683, __c115, 3) as any as S.Schema<ModifyLibraDBClusterReplicationObjectRequest>,
+  input: __S(3715, __c116, 3) as any as S.Schema<ModifyLibraDBClusterReplicationObjectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyLibraDBClusterReplicationObjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8481,8 +8539,8 @@ export const modifyLibraDBForwardConfig: API.OperationMethod<
   ModifyLibraDBForwardConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<ModifyLibraDBForwardConfigRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyLibraDBForwardConfigResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<ModifyLibraDBForwardConfigRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyLibraDBForwardConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8498,8 +8556,8 @@ export const modifyMaintainPeriodConfig: API.OperationMethod<
   ModifyMaintainPeriodConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ModifyMaintainPeriodConfigRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyMaintainPeriodConfigResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ModifyMaintainPeriodConfigRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyMaintainPeriodConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8515,8 +8573,8 @@ export const modifyParamTemplate: API.OperationMethod<
   ModifyParamTemplateError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ModifyParamTemplateRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyParamTemplateResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ModifyParamTemplateRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyParamTemplateResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8532,8 +8590,8 @@ export const modifyProxyDesc: API.OperationMethod<
   ModifyProxyDescError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ModifyProxyDescRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyProxyDescResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ModifyProxyDescRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyProxyDescResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8549,7 +8607,7 @@ export const modifyProxyRwSplit: API.OperationMethod<
   ModifyProxyRwSplitError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ModifyProxyRwSplitRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ModifyProxyRwSplitRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<ModifyProxyRwSplitResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8566,8 +8624,8 @@ export const modifyResourcePackageClusters: API.OperationMethod<
   ModifyResourcePackageClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<ModifyResourcePackageClustersRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyResourcePackageClustersResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ModifyResourcePackageClustersRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyResourcePackageClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8583,8 +8641,8 @@ export const modifyResourcePackageName: API.OperationMethod<
   ModifyResourcePackageNameError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ModifyResourcePackageNameRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyResourcePackageNameResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ModifyResourcePackageNameRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyResourcePackageNameResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8600,8 +8658,8 @@ export const modifyResourcePackagesDeductionPriority: API.OperationMethod<
   ModifyResourcePackagesDeductionPriorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3970, __c124, 2) as any as S.Schema<ModifyResourcePackagesDeductionPriorityRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ModifyResourcePackagesDeductionPriorityResponse>,
+  input: __S(4002, __c125, 2) as any as S.Schema<ModifyResourcePackagesDeductionPriorityRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ModifyResourcePackagesDeductionPriorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8617,7 +8675,7 @@ export const modifyServerlessStrategy: API.OperationMethod<
   ModifyServerlessStrategyError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ModifyServerlessStrategyRequest>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ModifyServerlessStrategyRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyServerlessStrategyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8634,7 +8692,7 @@ export const modifySnapBackupCrossRegionConfig: API.OperationMethod<
   ModifySnapBackupCrossRegionConfigError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ModifySnapBackupCrossRegionConfigRequest>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ModifySnapBackupCrossRegionConfigRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifySnapBackupCrossRegionConfigResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8651,7 +8709,7 @@ export const modifyVault: API.OperationMethod<
   ModifyVaultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ModifyVaultRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ModifyVaultRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ModifyVaultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8668,7 +8726,7 @@ export const modifyVipVport: API.OperationMethod<
   ModifyVipVportError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ModifyVipVportRequest>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ModifyVipVportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ModifyVipVportResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8685,7 +8743,7 @@ export const offlineCluster: API.OperationMethod<
   OfflineClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<OfflineClusterRequest>,
+  input: __S(4288, __c134, 0) as any as S.Schema<OfflineClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OfflineClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8702,7 +8760,7 @@ export const offlineInstance: API.OperationMethod<
   OfflineInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<OfflineInstanceRequest>,
+  input: __S(4320, __c135, 0) as any as S.Schema<OfflineInstanceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OfflineInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8719,7 +8777,7 @@ export const offlineLibraDBCluster: API.OperationMethod<
   OfflineLibraDBClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<OfflineLibraDBClusterRequest>,
+  input: __S(4352, __c136, 0) as any as S.Schema<OfflineLibraDBClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OfflineLibraDBClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8736,7 +8794,7 @@ export const offlineLibraDBInstance: API.OperationMethod<
   OfflineLibraDBInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<OfflineLibraDBInstanceRequest>,
+  input: __S(4384, __c137, 0) as any as S.Schema<OfflineLibraDBInstanceRequest>,
   output: __S(4128, __c129, 0) as any as S.Schema<OfflineLibraDBInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8753,7 +8811,7 @@ export const openAIOptimizer: API.OperationMethod<
   OpenAIOptimizerError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<OpenAIOptimizerRequest>,
+  input: __S(4416, __c138, 0) as any as S.Schema<OpenAIOptimizerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OpenAIOptimizerResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8770,8 +8828,8 @@ export const openAuditService: API.OperationMethod<
   OpenAuditServiceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<OpenAuditServiceRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<OpenAuditServiceResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<OpenAuditServiceRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<OpenAuditServiceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8787,7 +8845,7 @@ export const openClusterPasswordComplexity: API.OperationMethod<
   OpenClusterPasswordComplexityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<OpenClusterPasswordComplexityRequest>,
+  input: __S(4480, __c140, 0) as any as S.Schema<OpenClusterPasswordComplexityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OpenClusterPasswordComplexityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8804,7 +8862,7 @@ export const openClusterReadOnlyInstanceGroupAccess: API.OperationMethod<
   OpenClusterReadOnlyInstanceGroupAccessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<OpenClusterReadOnlyInstanceGroupAccessRequest>,
+  input: __S(4512, __c141, 0) as any as S.Schema<OpenClusterReadOnlyInstanceGroupAccessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OpenClusterReadOnlyInstanceGroupAccessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8821,7 +8879,7 @@ export const openClusterTransparentEncrypt: API.OperationMethod<
   OpenClusterTransparentEncryptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<OpenClusterTransparentEncryptRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<OpenClusterTransparentEncryptRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OpenClusterTransparentEncryptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8838,7 +8896,7 @@ export const openReadOnlyInstanceExclusiveAccess: API.OperationMethod<
   OpenReadOnlyInstanceExclusiveAccessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<OpenReadOnlyInstanceExclusiveAccessRequest>,
+  input: __S(4608, __c144, 0) as any as S.Schema<OpenReadOnlyInstanceExclusiveAccessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OpenReadOnlyInstanceExclusiveAccessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8855,7 +8913,7 @@ export const openSSL: API.OperationMethod<
   OpenSSLError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<OpenSSLRequest>,
+  input: __S(4640, __c145, 0) as any as S.Schema<OpenSSLRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<OpenSSLResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8872,7 +8930,7 @@ export const openWan: API.OperationMethod<
   OpenWanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<OpenWanRequest>,
+  input: __S(4672, __c146, 0) as any as S.Schema<OpenWanRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OpenWanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8889,7 +8947,7 @@ export const pauseServerless: API.OperationMethod<
   PauseServerlessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<PauseServerlessRequest>,
+  input: __S(4704, __c147, 0) as any as S.Schema<PauseServerlessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PauseServerlessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8906,8 +8964,8 @@ export const refundResourcePackage: API.OperationMethod<
   RefundResourcePackageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<RefundResourcePackageRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<RefundResourcePackageResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<RefundResourcePackageRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<RefundResourcePackageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8923,7 +8981,7 @@ export const reloadBalanceProxyNode: API.OperationMethod<
   ReloadBalanceProxyNodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ReloadBalanceProxyNodeRequest>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ReloadBalanceProxyNodeRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<ReloadBalanceProxyNodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8940,7 +8998,7 @@ export const removeClusterSlaveZone: API.OperationMethod<
   RemoveClusterSlaveZoneError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RemoveClusterSlaveZoneRequest>,
+  input: __S(4800, __c150, 0) as any as S.Schema<RemoveClusterSlaveZoneRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RemoveClusterSlaveZoneResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -8957,8 +9015,8 @@ export const renewClusters: API.OperationMethod<
   RenewClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<RenewClustersRequest>,
-  output: __S(4801, __c150, 1) as any as S.Schema<RenewClustersResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<RenewClustersRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<RenewClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8974,8 +9032,8 @@ export const renewLibraDBClusters: API.OperationMethod<
   RenewLibraDBClustersError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<RenewLibraDBClustersRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<RenewLibraDBClustersResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<RenewLibraDBClustersRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<RenewLibraDBClustersResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8991,7 +9049,7 @@ export const replayInstanceAuditLog: API.OperationMethod<
   ReplayInstanceAuditLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ReplayInstanceAuditLogRequest>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ReplayInstanceAuditLogRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ReplayInstanceAuditLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9008,8 +9066,8 @@ export const resetAccountPassword: API.OperationMethod<
   ResetAccountPasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ResetAccountPasswordRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ResetAccountPasswordResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ResetAccountPasswordRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ResetAccountPasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9025,8 +9083,8 @@ export const resetLibraDBClusterAccountPassword: API.OperationMethod<
   ResetLibraDBClusterAccountPasswordError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ResetLibraDBClusterAccountPasswordRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<ResetLibraDBClusterAccountPasswordResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ResetLibraDBClusterAccountPasswordRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<ResetLibraDBClusterAccountPasswordResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9042,7 +9100,7 @@ export const restartInstance: API.OperationMethod<
   RestartInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<RestartInstanceRequest>,
+  input: __S(5056, __c158, 0) as any as S.Schema<RestartInstanceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9059,7 +9117,7 @@ export const restartLibraDBInstance: API.OperationMethod<
   RestartLibraDBInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<RestartLibraDBInstanceRequest>,
+  input: __S(5088, __c159, 0) as any as S.Schema<RestartLibraDBInstanceRequest>,
   output: __S(4128, __c129, 0) as any as S.Schema<RestartLibraDBInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9076,7 +9134,7 @@ export const resumeServerless: API.OperationMethod<
   ResumeServerlessError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ResumeServerlessRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ResumeServerlessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResumeServerlessResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9093,8 +9151,8 @@ export const revokeAccountPrivileges: API.OperationMethod<
   RevokeAccountPrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<RevokeAccountPrivilegesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<RevokeAccountPrivilegesResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<RevokeAccountPrivilegesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<RevokeAccountPrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9110,7 +9168,7 @@ export const rollBackCluster: API.OperationMethod<
   RollBackClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<RollBackClusterRequest>,
+  input: __S(5184, __c162, 0) as any as S.Schema<RollBackClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RollBackClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9127,8 +9185,8 @@ export const rollbackToNewCluster: API.OperationMethod<
   RollbackToNewClusterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<RollbackToNewClusterRequest>,
-  output: __S(6240, __c195, 0) as any as S.Schema<RollbackToNewClusterResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<RollbackToNewClusterRequest>,
+  output: __S(6272, __c196, 0) as any as S.Schema<RollbackToNewClusterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9144,8 +9202,8 @@ export const searchClusterDatabases: API.OperationMethod<
   SearchClusterDatabasesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<SearchClusterDatabasesRequest>,
-  output: __S(5217, __c163, 1) as any as S.Schema<SearchClusterDatabasesResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<SearchClusterDatabasesRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<SearchClusterDatabasesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9161,8 +9219,8 @@ export const searchClusterTables: API.OperationMethod<
   SearchClusterTablesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<SearchClusterTablesRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<SearchClusterTablesResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<SearchClusterTablesRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<SearchClusterTablesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9178,7 +9236,7 @@ export const setInstanceServerlessQuota: API.OperationMethod<
   SetInstanceServerlessQuotaError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<SetInstanceServerlessQuotaRequest>,
+  input: __S(5376, __c168, 0) as any as S.Schema<SetInstanceServerlessQuotaRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<SetInstanceServerlessQuotaResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9195,8 +9253,8 @@ export const setLibraDBClusterRenewFlag: API.OperationMethod<
   SetLibraDBClusterRenewFlagError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<SetLibraDBClusterRenewFlagRequest>,
-  output: __S(5408, __c169, 0) as any as S.Schema<SetLibraDBClusterRenewFlagResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<SetLibraDBClusterRenewFlagRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<SetLibraDBClusterRenewFlagResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9212,8 +9270,8 @@ export const setRenewFlag: API.OperationMethod<
   SetRenewFlagError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<SetRenewFlagRequest>,
-  output: __S(5408, __c169, 0) as any as S.Schema<SetRenewFlagResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<SetRenewFlagRequest>,
+  output: __S(5440, __c170, 0) as any as S.Schema<SetRenewFlagResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9229,7 +9287,7 @@ export const startCLSDelivery: API.OperationMethod<
   StartCLSDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<StartCLSDeliveryRequest>,
+  input: __S(5504, __c172, 0) as any as S.Schema<StartCLSDeliveryRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StartCLSDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9246,7 +9304,7 @@ export const stopCLSDelivery: API.OperationMethod<
   StopCLSDeliveryError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<StopCLSDeliveryRequest>,
+  input: __S(5536, __c173, 0) as any as S.Schema<StopCLSDeliveryRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<StopCLSDeliveryResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9263,7 +9321,7 @@ export const switchClusterVpc: API.OperationMethod<
   SwitchClusterVpcError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<SwitchClusterVpcRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<SwitchClusterVpcRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SwitchClusterVpcResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9280,8 +9338,8 @@ export const switchClusterZone: API.OperationMethod<
   SwitchClusterZoneError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<SwitchClusterZoneRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<SwitchClusterZoneResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<SwitchClusterZoneRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<SwitchClusterZoneResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9297,7 +9355,7 @@ export const switchProxyVpc: API.OperationMethod<
   SwitchProxyVpcError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<SwitchProxyVpcRequest>,
+  input: __S(5632, __c176, 0) as any as S.Schema<SwitchProxyVpcRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SwitchProxyVpcResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9314,8 +9372,8 @@ export const transferClusterPrepayToPostpay: API.OperationMethod<
   TransferClusterPrepayToPostpayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<TransferClusterPrepayToPostpayRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<TransferClusterPrepayToPostpayResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<TransferClusterPrepayToPostpayRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<TransferClusterPrepayToPostpayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9331,7 +9389,7 @@ export const transferClusterZone: API.OperationMethod<
   TransferClusterZoneError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<TransferClusterZoneRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<TransferClusterZoneRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<TransferClusterZoneResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9348,8 +9406,8 @@ export const transferStoragePrepayToPostpay: API.OperationMethod<
   TransferStoragePrepayToPostpayError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<TransferStoragePrepayToPostpayRequest>,
-  output: __S(5729, __c179, 1) as any as S.Schema<TransferStoragePrepayToPostpayResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<TransferStoragePrepayToPostpayRequest>,
+  output: __S(5761, __c180, 1) as any as S.Schema<TransferStoragePrepayToPostpayResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9365,8 +9423,8 @@ export const unbindClusterResourcePackages: API.OperationMethod<
   UnbindClusterResourcePackagesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UnbindClusterResourcePackagesRequest>,
-  output: __S(8416, __c263, 0) as any as S.Schema<UnbindClusterResourcePackagesResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UnbindClusterResourcePackagesRequest>,
+  output: __S(8448, __c264, 0) as any as S.Schema<UnbindClusterResourcePackagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9382,7 +9440,7 @@ export const upgradeClusterVersion: API.OperationMethod<
   UpgradeClusterVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<UpgradeClusterVersionRequest>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpgradeClusterVersionRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<UpgradeClusterVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9399,8 +9457,8 @@ export const upgradeInstance: API.OperationMethod<
   UpgradeInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpgradeInstanceRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<UpgradeInstanceResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpgradeInstanceRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<UpgradeInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -9416,7 +9474,7 @@ export const upgradeProxy: API.OperationMethod<
   UpgradeProxy_Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpgradeProxyRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<UpgradeProxyRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<UpgradeProxyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9433,7 +9491,7 @@ export const upgradeProxyVersion: API.OperationMethod<
   UpgradeProxyVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpgradeProxyVersionRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpgradeProxyVersionRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<UpgradeProxyVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -9522,6 +9580,32 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          UniqVpcId: S.String,
+          Vip: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "DescribeInstancesWithinSameCluster",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeInstancesWithinSameClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          InstanceIds: S.optional(__S(64, __c2, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeInstancesWithinSameClusterResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           BigDealId: S.optional(S.String),
           DealNames: S.optional(__S(64, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -9540,7 +9624,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DescribeIntegrateTaskResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9549,7 +9633,7 @@ function __c7(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           DbType: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -9562,13 +9646,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DescribeIsolatedInstancesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9583,14 +9667,14 @@ function __c8(j: number): any {
         S.Struct({
           PrivilegeStatements: S.optional(S.NullOr(__S(64, __c2, 0))),
           GlobalPrivileges: S.optional(S.NullOr(__S(64, __c2, 0))),
-          DatabasePrivileges: S.optional(S.NullOr(__S(7393, __c231, 1))),
-          TablePrivileges: S.optional(S.NullOr(__S(7395, __c231, 3))),
+          DatabasePrivileges: S.optional(S.NullOr(__S(7457, __c233, 1))),
+          TablePrivileges: S.optional(S.NullOr(__S(7459, __c233, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBClusterAccountAllPrivilegesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9619,7 +9703,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DescribeLibraDBClusterAccountPrivilegesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9641,7 +9725,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DescribeLibraDBClusterAccountsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9660,13 +9744,13 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AutoMapRules: S.optional(__S(385, __c12, 1)),
+          AutoMapRules: S.optional(__S(417, __c13, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBClusterAutoMapRuleResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9679,10 +9763,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "AutoMapRule" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(416, __c13, 0));
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9717,11 +9801,11 @@ function __c13(j: number): any {
           MaintainStartTime: S.optional(S.Number),
           MaintainWeekDays: S.optional(__S(64, __c2, 0)),
           NodeList: S.optional(__S(64, __c2, 0)),
-          InstanceTasks: S.optional(__S(8705, __c272, 1)),
+          InstanceTasks: S.optional(__S(8769, __c274, 1)),
         }),
       ).annotate({ identifier: "InstanceSet" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9740,12 +9824,12 @@ function __c13(j: number): any {
           UsedStorage: S.optional(S.Number),
           Vip: S.optional(S.String),
           Vport: S.optional(S.Number),
-          RoAddr: S.optional(__S(8609, __c269, 1)),
+          RoAddr: S.optional(__S(8673, __c271, 1)),
           CynosVersion: S.optional(S.String),
           IsFreeze: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           MasterZone: S.optional(S.String),
-          InstanceSet: S.optional(__S(418, __c13, 2)),
+          InstanceSet: S.optional(__S(450, __c14, 2)),
           PayMode: S.optional(S.Number),
           PeriodEndTime: S.optional(S.String),
           ProjectID: S.optional(S.Number),
@@ -9754,19 +9838,19 @@ function __c13(j: number): any {
           NoSupportAddRo: S.optional(S.String),
           Zone: S.optional(S.String),
           PhysicalZone: S.optional(S.String),
-          AnalysisUpgradeVersionInfo: S.optional(S.NullOr(__S(448, __c14, 0))),
+          AnalysisUpgradeVersionInfo: S.optional(S.NullOr(__S(480, __c15, 0))),
         }),
       ).annotate({ identifier: "LibraDBClusterDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Detail: S.optional(__S(419, __c13, 3)),
+          Detail: S.optional(__S(451, __c14, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBClusterDetailResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9779,7 +9863,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpgradeAnalysisInstanceVersionInfo" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9788,7 +9872,7 @@ function __c15(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9810,7 +9894,7 @@ function __c15(j: number): any {
           DbVersion: S.optional(S.String),
           InstanceNum: S.optional(S.Number),
           IsFreeze: S.optional(S.String),
-          NetAddrs: S.optional(__S(9345, __c292, 1)),
+          NetAddrs: S.optional(__S(9409, __c294, 1)),
           PayMode: S.optional(S.Number),
           PeriodEndTime: S.optional(S.String),
           ProjectID: S.optional(S.Number),
@@ -9820,7 +9904,7 @@ function __c15(j: number): any {
           StatusDesc: S.optional(S.String),
           Storage: S.optional(S.Number),
           SubnetId: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           Uin: S.optional(S.String),
           Vip: S.optional(S.String),
           VpcId: S.optional(S.String),
@@ -9832,18 +9916,18 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "LibraDBClusterSet" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ClusterSet: S.optional(__S(482, __c15, 2)),
+          ClusterSet: S.optional(__S(514, __c16, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBClustersResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,18 +9970,29 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "TableMappingObject" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCnt: S.optional(S.Number),
-          TableMappings: S.optional(__S(514, __c16, 2)),
+          TableMappings: S.optional(__S(546, __c17, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBClusterTableMappingResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TaskId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "CancelTask" })),
+      ).annotate({ identifier: "CancelTaskRequest" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9929,28 +10024,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceItem" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataSourceList: S.optional(S.NullOr(__S(546, __c17, 2))),
+          DataSourceList: S.optional(S.NullOr(__S(610, __c19, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBDataSourceResponse" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          TaskId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "CancelTask" })),
-      ).annotate({ identifier: "CancelTaskRequest" });
-  }
-}
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9969,13 +10053,13 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ForwardMode: S.optional(S.String),
-          ForwardList: S.optional(S.NullOr(__S(641, __c20, 1))),
+          ForwardList: S.optional(S.NullOr(__S(673, __c21, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBForwardConfigResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9985,10 +10069,10 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "ForwardInstanceInfo" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(672, __c21, 0));
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10017,7 +10101,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "LibraDBNodeInfo" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10050,17 +10134,17 @@ function __c21(j: number): any {
           SubnetId: S.optional(S.NullOr(S.String)),
           Vip: S.optional(S.NullOr(S.String)),
           Vport: S.optional(S.NullOr(S.Number)),
-          InstanceNetInfo: S.optional(S.NullOr(__S(8800, __c275, 0))),
-          ResourceTags: S.optional(S.NullOr(__S(6273, __c196, 1))),
-          NodeInfo: S.optional(__S(674, __c21, 2)),
+          InstanceNetInfo: S.optional(S.NullOr(__S(8864, __c277, 0))),
+          ResourceTags: S.optional(S.NullOr(__S(6305, __c197, 1))),
+          NodeInfo: S.optional(__S(706, __c22, 2)),
           NodeCount: S.optional(S.Number),
-          AnalysisUpgradeVersionInfo: S.optional(S.NullOr(__S(448, __c14, 0))),
+          AnalysisUpgradeVersionInfo: S.optional(S.NullOr(__S(480, __c15, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBInstanceDetailResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10082,7 +10166,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ZoneStockInfo4Libra" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10095,21 +10179,21 @@ function __c22(j: number): any {
           StorageType: S.optional(S.NullOr(S.String)),
           MinReplicaNum: S.optional(S.NullOr(S.Number)),
           MaxReplicaNum: S.optional(S.NullOr(S.Number)),
-          ZoneStockInfos: S.optional(S.NullOr(__S(706, __c22, 2))),
+          ZoneStockInfos: S.optional(S.NullOr(__S(738, __c23, 2))),
         }),
       ).annotate({ identifier: "RegionInstanceSpecInfo" });
     case 4:
-      return S.Array(__S(707, __c22, 3));
+      return S.Array(__S(739, __c23, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          InstanceSpecSet: S.optional(S.NullOr(__S(708, __c22, 4))),
+          InstanceSpecSet: S.optional(S.NullOr(__S(740, __c23, 4))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBInstanceSpecsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10120,7 +10204,7 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "LogFilter" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10131,7 +10215,7 @@ function __c23(j: number): any {
           Offset: S.optional(S.String),
           Order: S.optional(S.String),
           OrderBy: S.optional(S.String),
-          LogFilter: S.optional(__S(737, __c23, 1)),
+          LogFilter: S.optional(__S(769, __c24, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10143,7 +10227,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DescribeLibraDBSlowLogsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10162,17 +10246,17 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "LibraDBVersion" });
     case 2:
-      return S.Array(__S(769, __c24, 1));
+      return S.Array(__S(801, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          VersionList: S.optional(__S(770, __c24, 2)),
+          VersionList: S.optional(__S(802, __c25, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeLibraDBVersionResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10194,7 +10278,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DescribeMaintainPeriodResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10227,12 +10311,12 @@ function __c26(j: number): any {
           MatchValue: S.optional(S.String),
           IsFunc: S.optional(S.Boolean),
           Func: S.optional(S.String),
-          ModifiableInfo: S.optional(__S(9184, __c287, 0)),
+          ModifiableInfo: S.optional(__S(9248, __c289, 0)),
           FuncPattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParamDetail" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10241,14 +10325,14 @@ function __c26(j: number): any {
           TemplateDescription: S.optional(S.String),
           EngineVersion: S.optional(S.String),
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(834, __c26, 2)),
+          Items: S.optional(__S(866, __c27, 2)),
           DbMode: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeParamTemplateDetailResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10284,7 +10368,7 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "TemplateParamInfo" });
     case 2:
-      return S.Array(__S(865, __c27, 1));
+      return S.Array(__S(897, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10293,22 +10377,22 @@ function __c27(j: number): any {
           TemplateDescription: S.optional(S.String),
           EngineVersion: S.optional(S.String),
           DbMode: S.optional(S.String),
-          ParamInfoSet: S.optional(S.NullOr(__S(866, __c27, 2))),
+          ParamInfoSet: S.optional(S.NullOr(__S(898, __c28, 2))),
         }),
       ).annotate({ identifier: "ParamTemplateListInfo" });
     case 4:
-      return S.Array(__S(867, __c27, 3));
+      return S.Array(__S(899, __c28, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(868, __c27, 4)),
+          Items: S.optional(__S(900, __c28, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeParamTemplatesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10329,14 +10413,51 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(9539, __c298, 3)),
+          Groups: S.optional(__S(9603, __c300, 3)),
           Total: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProjectSecurityGroupsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
+          InstanceId: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "CheckCreateLibraDBInstance",
+          }),
+        ),
+      ).annotate({ identifier: "CheckCreateLibraDBInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Item: S.optional(S.NullOr(S.String)),
+          Result: S.optional(S.NullOr(S.String)),
+          CurrentValue: S.optional(S.NullOr(S.String)),
+          ExpectedValue: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CheckItem" });
+    case 2:
+      return S.Array(__S(961, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.NullOr(S.String)),
+          CheckItem: S.optional(S.NullOr(__S(962, __c30, 2))),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckCreateLibraDBInstanceResponse" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10347,7 +10468,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "QueryParamFilter" });
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10356,7 +10477,7 @@ function __c29(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(929, __c29, 1)),
+          Filters: S.optional(__S(993, __c31, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeProxies" })),
       ).annotate({ identifier: "DescribeProxiesRequest" });
@@ -10384,7 +10505,7 @@ function __c29(j: number): any {
           WeightMode: S.optional(S.String),
           FailOver: S.optional(S.String),
           AutoAddRo: S.optional(S.String),
-          InstanceWeights: S.optional(__S(6593, __c206, 1)),
+          InstanceWeights: S.optional(__S(6625, __c207, 1)),
           OpenRw: S.optional(S.String),
           RwType: S.optional(S.String),
           TransSplit: S.optional(S.Boolean),
@@ -10406,29 +10527,29 @@ function __c29(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ProxyGroup: S.optional(__S(931, __c29, 3)),
-          ProxyGroupRwInfo: S.optional(__S(932, __c29, 4)),
-          ProxyNodes: S.optional(S.NullOr(__S(961, __c30, 1))),
-          ConnectionPool: S.optional(__S(933, __c29, 5)),
-          NetAddrInfos: S.optional(S.NullOr(__S(9345, __c292, 1))),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          ProxyGroup: S.optional(__S(995, __c31, 3)),
+          ProxyGroupRwInfo: S.optional(__S(996, __c31, 4)),
+          ProxyNodes: S.optional(S.NullOr(__S(1025, __c32, 1))),
+          ConnectionPool: S.optional(__S(997, __c31, 5)),
+          NetAddrInfos: S.optional(S.NullOr(__S(9409, __c294, 1))),
+          Tasks: S.optional(__S(8769, __c274, 1)),
         }),
       ).annotate({ identifier: "ProxyGroupInfo" });
     case 7:
-      return S.Array(__S(934, __c29, 6));
+      return S.Array(__S(998, __c31, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ProxyGroupInfos: S.optional(__S(935, __c29, 7)),
-          ProxyNodeInfos: S.optional(S.NullOr(__S(961, __c30, 1))),
+          ProxyGroupInfos: S.optional(__S(999, __c31, 7)),
+          ProxyNodeInfos: S.optional(S.NullOr(__S(1025, __c32, 1))),
           ColumnStoreProxyForward: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxiesResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10449,47 +10570,10 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "ProxyNodeInfo" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1024, __c32, 0));
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          InstanceId: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "CheckCreateLibraDBInstance",
-          }),
-        ),
-      ).annotate({ identifier: "CheckCreateLibraDBInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Item: S.optional(S.NullOr(S.String)),
-          Result: S.optional(S.NullOr(S.String)),
-          CurrentValue: S.optional(S.NullOr(S.String)),
-          ExpectedValue: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CheckItem" });
-    case 2:
-      return S.Array(__S(993, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Status: S.optional(S.NullOr(S.String)),
-          CheckItem: S.optional(S.NullOr(__S(994, __c31, 2))),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CheckCreateLibraDBInstanceResponse" });
-  }
-}
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10498,7 +10582,7 @@ function __c32(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeProxyNodes" }),
@@ -10508,13 +10592,13 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ProxyNodeInfos: S.optional(__S(961, __c30, 1)),
+          ProxyNodeInfos: S.optional(__S(1025, __c32, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxyNodesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10533,17 +10617,17 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ProxySpec" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ProxySpecs: S.optional(__S(1058, __c33, 2)),
+          ProxySpecs: S.optional(__S(1090, __c34, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxySpecsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10568,17 +10652,17 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "ProxyZoneStockInfo" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ProxyZoneStockInfos: S.optional(__S(1090, __c34, 2)),
+          ProxyZoneStockInfos: S.optional(__S(1122, __c35, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeProxyZoneStocksResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10607,22 +10691,22 @@ function __c35(j: number): any {
         S.Struct({
           ClusterId: S.optional(S.String),
           ClusterName: S.optional(S.String),
-          RedoFileInfo: S.optional(__S(1152, __c36, 0)),
+          RedoFileInfo: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "DescribeRedoLogListByVaultItem" });
     case 2:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1153, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          RedoLogList: S.optional(__S(1122, __c35, 2)),
+          RedoLogList: S.optional(__S(1154, __c36, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRedoLogListByVaultResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10631,11 +10715,11 @@ function __c36(j: number): any {
           FileSize: S.optional(S.Number),
           BackupTime: S.optional(S.String),
           RedoLogId: S.optional(S.Number),
-          RedoCrossRegions: S.optional(__S(8097, __c253, 1)),
+          RedoCrossRegions: S.optional(__S(8161, __c255, 1)),
           Status: S.optional(S.String),
           StartTime: S.optional(S.String),
           FinishTime: S.optional(S.String),
-          VaultInfos: S.optional(__S(8099, __c253, 3)),
+          VaultInfos: S.optional(__S(8163, __c255, 3)),
           CopyStatus: S.optional(S.String),
           EncryptKeyId: S.optional(S.String),
           EncryptRegion: S.optional(S.String),
@@ -10643,7 +10727,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "RedoLogItem" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10660,18 +10744,18 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "DescribeRedoLogsRequest" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          RedoLogs: S.optional(__S(1185, __c37, 1)),
+          RedoLogs: S.optional(__S(1217, __c38, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRedoLogsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10706,18 +10790,18 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "PackageDetail" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Detail: S.optional(__S(1218, __c38, 2)),
+          Detail: S.optional(__S(1250, __c39, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeResourcePackageDetailResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10750,7 +10834,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "BindInstanceInfo" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10764,25 +10848,25 @@ function __c39(j: number): any {
           PackageTotalSpec: S.optional(S.Number),
           PackageUsedSpec: S.optional(S.Number),
           HasQuota: S.optional(S.Boolean),
-          BindInstanceInfos: S.optional(__S(1250, __c39, 2)),
+          BindInstanceInfos: S.optional(__S(1282, __c40, 2)),
           StartTime: S.optional(S.String),
           ExpireTime: S.optional(S.String),
-          HistoryBindResourceInfos: S.optional(__S(1250, __c39, 2)),
+          HistoryBindResourceInfos: S.optional(__S(1282, __c40, 2)),
         }),
       ).annotate({ identifier: "Package" });
     case 4:
-      return S.Array(__S(1251, __c39, 3));
+      return S.Array(__S(1283, __c40, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Detail: S.optional(__S(1252, __c39, 4)),
+          Detail: S.optional(__S(1284, __c40, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeResourcePackageListResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10813,18 +10897,18 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "SalePackageSpec" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Total: S.optional(S.Number),
-          Detail: S.optional(__S(1282, __c40, 2)),
+          Detail: S.optional(__S(1314, __c41, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeResourcePackageSaleSpecResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10849,51 +10933,14 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "BillingResourceInfo" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          BillingResourceInfos: S.optional(__S(1314, __c41, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeResourcesByDealNameResponse" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          VaultId: S.optional(S.String),
-          VaultRegion: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "DescribeRollbackTimeRange",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeRollbackTimeRangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TimeRangeStart: S.optional(S.String),
-          TimeRangeEnd: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RollbackTimeRange" });
-    case 2:
       return S.Array(__S(1345, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TimeRangeStart: S.optional(S.String),
-          TimeRangeEnd: S.optional(S.String),
-          RollbackTimeRanges: S.optional(__S(1346, __c42, 2)),
+          BillingResourceInfos: S.optional(__S(1346, __c42, 2)),
           RequestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DescribeRollbackTimeRangeResponse" });
+      ).annotate({ identifier: "DescribeResourcesByDealNameResponse" });
   }
 }
 function __c43(j: number): any {
@@ -10903,7 +10950,7 @@ function __c43(j: number): any {
         S.Struct({
           ClusterId: S.String,
           DstZone: S.String,
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10928,19 +10975,56 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ClusterId: S.String,
+          VaultId: S.optional(S.String),
+          VaultRegion: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "DescribeRollbackTimeRange",
+          }),
+        ),
+      ).annotate({ identifier: "DescribeRollbackTimeRangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TimeRangeStart: S.optional(S.String),
+          TimeRangeEnd: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RollbackTimeRange" });
+    case 2:
+      return S.Array(__S(1409, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TimeRangeStart: S.optional(S.String),
+          TimeRangeEnd: S.optional(S.String),
+          RollbackTimeRanges: S.optional(__S(1410, __c44, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeRollbackTimeRangeResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Names: S.optional(__S(64, __c2, 0)),
           Values: S.optional(__S(64, __c2, 0)),
           ExactMatch: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QuerySimpleFilter" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Limit: S.Number,
           Offset: S.optional(S.Number),
-          Filters: S.optional(__S(1409, __c44, 1)),
+          Filters: S.optional(__S(1441, __c45, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -10962,22 +11046,22 @@ function __c44(j: number): any {
           DbVersion: S.optional(S.String),
           DbMode: S.optional(S.String),
           ClusterStatus: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
         }),
       ).annotate({ identifier: "SaveBackupClusterInfo" });
     case 4:
-      return S.Array(__S(1411, __c44, 3));
+      return S.Array(__S(1443, __c45, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          SaveBackupClusterInfos: S.optional(__S(1412, __c44, 4)),
+          SaveBackupClusterInfos: S.optional(__S(1444, __c45, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSaveBackupClustersResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10999,11 +11083,11 @@ function __c45(j: number): any {
           Zone: S.optional(S.String),
           StockCount: S.optional(S.Number),
           HasStock: S.optional(S.Boolean),
-          SlaveZoneStockInfos: S.optional(__S(9985, __c312, 1)),
+          SlaveZoneStockInfos: S.optional(__S(10049, __c314, 1)),
         }),
       ).annotate({ identifier: "ServerlessZoneStockInfo" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11013,21 +11097,21 @@ function __c45(j: number): any {
           IsDefault: S.optional(S.Number),
           HasStock: S.optional(S.Boolean),
           StockCount: S.optional(S.Number),
-          ZoneStockInfos: S.optional(S.NullOr(__S(1442, __c45, 2))),
+          ZoneStockInfos: S.optional(S.NullOr(__S(1474, __c46, 2))),
         }),
       ).annotate({ identifier: "ServerlessSpec" });
     case 4:
-      return S.Array(__S(1443, __c45, 3));
+      return S.Array(__S(1475, __c46, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Specs: S.optional(__S(1444, __c45, 4)),
+          Specs: S.optional(__S(1476, __c46, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeServerlessInstanceSpecsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11057,7 +11141,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DescribeServerlessStrategyResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11079,7 +11163,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DescribeSlaveZonesResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11115,7 +11199,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "ExplainRow" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11123,8 +11207,8 @@ function __c48(j: number): any {
           Db: S.optional(S.String),
           SQLSample: S.optional(S.String),
           SQLSampleRewritten: S.optional(S.String),
-          TablePlanBefore: S.optional(__S(1538, __c48, 2)),
-          TablePlanAfter: S.optional(__S(1538, __c48, 2)),
+          TablePlanBefore: S.optional(__S(1570, __c49, 2)),
+          TablePlanAfter: S.optional(__S(1570, __c49, 2)),
           TreePlanBefore: S.optional(S.String),
           TreePlanAfter: S.optional(S.String),
           QueryTimeBefore: S.optional(S.Number),
@@ -11136,13 +11220,13 @@ function __c48(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          PlanDetail: S.optional(S.NullOr(__S(1539, __c48, 3))),
+          PlanDetail: S.optional(S.NullOr(__S(1571, __c49, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSQLExecutionPlanResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11172,19 +11256,23 @@ function __c49(j: number): any {
           IsOpenSSL: S.optional(S.String),
           DownloadUrl: S.optional(S.String),
           CertType: S.optional(S.String),
-          CertDetail: S.optional(__S(1569, __c49, 1)),
+          CertDetail: S.optional(__S(1601, __c50, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSSLStatusResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClusterId: S.String,
+          ClusterId: S.optional(S.String),
           ProxyGroupId: S.optional(S.String),
+          Zone: S.optional(S.String),
+          DbVersion: S.optional(S.String),
+          CynosVersion: S.optional(S.String),
+          StorageVersion: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11202,26 +11290,26 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "ProxyVersionInfo" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           SupportProxyVersions: S.optional(__S(64, __c2, 0)),
           CurrentProxyVersion: S.optional(S.String),
-          SupportProxyVersionDetail: S.optional(__S(1602, __c50, 2)),
+          SupportProxyVersionDetail: S.optional(__S(1634, __c51, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeSupportProxyVersionResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StartTimeBegin: S.optional(S.String),
           StartTimeEnd: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11255,12 +11343,12 @@ function __c51(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SrcInstanceInfo: S.optional(__S(1634, __c51, 2)),
-          DstInstanceInfo: S.optional(__S(1634, __c51, 2)),
+          SrcInstanceInfo: S.optional(__S(1666, __c52, 2)),
+          DstInstanceInfo: S.optional(__S(1666, __c52, 2)),
         }),
       ).annotate({ identifier: "ExchangeInstanceInfo" });
     case 4:
-      return S.Array(__S(1635, __c51, 3));
+      return S.Array(__S(1667, __c52, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11274,19 +11362,19 @@ function __c51(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          SrcRoGroupInfo: S.optional(__S(1637, __c51, 5)),
-          DstRoGroupInfo: S.optional(__S(1637, __c51, 5)),
+          SrcRoGroupInfo: S.optional(__S(1669, __c52, 5)),
+          DstRoGroupInfo: S.optional(__S(1669, __c52, 5)),
         }),
       ).annotate({ identifier: "ExchangeRoGroupInfo" });
     case 7:
-      return S.Array(__S(1638, __c51, 6));
+      return S.Array(__S(1670, __c52, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           IsVipSwitchable: S.optional(S.Boolean),
           VipSwitchableTime: S.optional(S.String),
-          ExchangeInstanceInfoList: S.optional(S.NullOr(__S(1636, __c51, 4))),
-          ExchangeRoGroupInfoList: S.optional(S.NullOr(__S(1639, __c51, 7))),
+          ExchangeInstanceInfoList: S.optional(S.NullOr(__S(1668, __c52, 4))),
+          ExchangeRoGroupInfoList: S.optional(S.NullOr(__S(1671, __c52, 7))),
           CurrentStep: S.optional(S.String),
           CurrentStepProgress: S.optional(S.Number),
           CurrentStepRemainingTime: S.optional(S.String),
@@ -11305,10 +11393,10 @@ function __c51(j: number): any {
           MinCpu: S.optional(S.Number),
           MaxCpu: S.optional(S.Number),
           SnapShotId: S.optional(S.Number),
-          RollbackDatabases: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          RollbackTables: S.optional(S.NullOr(__S(1669, __c52, 5))),
+          RollbackDatabases: S.optional(S.NullOr(__S(1697, __c53, 1))),
+          RollbackTables: S.optional(S.NullOr(__S(1701, __c53, 5))),
           BackupFileName: S.optional(S.String),
-          RollbackProcess: S.optional(__S(1640, __c51, 8)),
+          RollbackProcess: S.optional(__S(1672, __c52, 8)),
         }),
       ).annotate({ identifier: "RollbackData" });
     case 10:
@@ -11336,14 +11424,14 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CrossRegionBackupItem" });
     case 12:
-      return S.Array(__S(1643, __c51, 11));
+      return S.Array(__S(1675, __c52, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           BackupType: S.optional(S.String),
           BackupMethod: S.optional(S.String),
           SnapshotTime: S.optional(S.String),
-          CrossRegionBackupInfos: S.optional(S.NullOr(__S(1644, __c51, 12))),
+          CrossRegionBackupInfos: S.optional(S.NullOr(__S(1676, __c52, 12))),
         }),
       ).annotate({ identifier: "ManualBackupData" });
     case 14:
@@ -11361,8 +11449,8 @@ function __c51(j: number): any {
           OldSlaveZone: S.optional(S.NullOr(__S(64, __c2, 0))),
           NewMasterZone: S.optional(S.String),
           NewSlaveZone: S.optional(S.NullOr(__S(64, __c2, 0))),
-          NewSlaveZoneAttr: S.optional(__S(8641, __c270, 1)),
-          OldSlaveZoneAttr: S.optional(__S(8641, __c270, 1)),
+          NewSlaveZoneAttr: S.optional(__S(8705, __c272, 1)),
+          OldSlaveZoneAttr: S.optional(__S(8705, __c272, 1)),
         }),
       ).annotate({ identifier: "ClusterSlaveData" });
     case 16:
@@ -11375,17 +11463,17 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          ModifyInstanceParamList: S.optional(__S(6913, __c216, 1)),
+          ModifyInstanceParamList: S.optional(__S(6945, __c217, 1)),
         }),
       ).annotate({ identifier: "BizTaskModifyInstanceParam" });
     case 18:
-      return S.Array(__S(1649, __c51, 17));
+      return S.Array(__S(1681, __c52, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.optional(S.String),
-          ClusterParamList: S.optional(__S(6913, __c216, 1)),
-          ModifyInstanceParams: S.optional(__S(1650, __c51, 18)),
+          ClusterParamList: S.optional(__S(6945, __c217, 1)),
+          ModifyInstanceParams: S.optional(__S(1682, __c52, 18)),
         }),
       ).annotate({ identifier: "BizTaskModifyParamsData" });
     case 20:
@@ -11453,36 +11541,36 @@ function __c51(j: number): any {
           ClusterName: S.optional(S.String),
           InstanceName: S.optional(S.String),
           Process: S.optional(S.Number),
-          CreateClustersData: S.optional(__S(1633, __c51, 1)),
-          RollbackData: S.optional(__S(1641, __c51, 9)),
-          ModifyInstanceData: S.optional(__S(1642, __c51, 10)),
-          ManualBackupData: S.optional(S.NullOr(__S(1645, __c51, 13))),
-          ModifyDbVersionData: S.optional(__S(1646, __c51, 14)),
-          ClusterSlaveData: S.optional(__S(1647, __c51, 15)),
-          SwitchClusterLogBin: S.optional(S.NullOr(__S(1648, __c51, 16))),
-          ModifyInstanceParamsData: S.optional(S.NullOr(__S(1651, __c51, 19))),
-          TaskMaintainInfo: S.optional(__S(1652, __c51, 20)),
-          InstanceCLSDeliveryInfos: S.optional(__S(9665, __c302, 1)),
-          TaskProgressInfo: S.optional(__S(1653, __c51, 21)),
-          GdnTaskInfo: S.optional(__S(1654, __c51, 22)),
+          CreateClustersData: S.optional(__S(1665, __c52, 1)),
+          RollbackData: S.optional(__S(1673, __c52, 9)),
+          ModifyInstanceData: S.optional(__S(1674, __c52, 10)),
+          ManualBackupData: S.optional(S.NullOr(__S(1677, __c52, 13))),
+          ModifyDbVersionData: S.optional(__S(1678, __c52, 14)),
+          ClusterSlaveData: S.optional(__S(1679, __c52, 15)),
+          SwitchClusterLogBin: S.optional(S.NullOr(__S(1680, __c52, 16))),
+          ModifyInstanceParamsData: S.optional(S.NullOr(__S(1683, __c52, 19))),
+          TaskMaintainInfo: S.optional(__S(1684, __c52, 20)),
+          InstanceCLSDeliveryInfos: S.optional(__S(9729, __c304, 1)),
+          TaskProgressInfo: S.optional(__S(1685, __c52, 21)),
+          GdnTaskInfo: S.optional(__S(1686, __c52, 22)),
           VaultId: S.optional(S.String),
           VaultName: S.optional(S.String),
-          AIOptimizerTaskData: S.optional(__S(1655, __c51, 23)),
+          AIOptimizerTaskData: S.optional(__S(1687, __c52, 23)),
         }),
       ).annotate({ identifier: "BizTaskInfo" });
     case 25:
-      return S.Array(__S(1656, __c51, 24));
+      return S.Array(__S(1688, __c52, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          TaskList: S.optional(__S(1657, __c51, 25)),
+          TaskList: S.optional(__S(1689, __c52, 25)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTasksResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11492,7 +11580,7 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "RollbackDatabase" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11501,19 +11589,19 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "RollbackTableInfo" });
     case 3:
-      return S.Array(__S(1666, __c52, 2));
+      return S.Array(__S(1698, __c53, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Database: S.String,
-          Tables: __S(1667, __c52, 3),
+          Tables: __S(1699, __c53, 3),
         }),
       ).annotate({ identifier: "RollbackTable" });
     case 5:
-      return S.Array(__S(1668, __c52, 4));
+      return S.Array(__S(1700, __c53, 4));
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11539,17 +11627,30 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "DescribeVaultBackupClusterInfo" });
     case 2:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ClusterInfos: S.optional(__S(1698, __c53, 2)),
+          ClusterInfos: S.optional(__S(1730, __c54, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeVaultBackupClusterInfoResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "CloseAuditService" }),
+        ),
+      ).annotate({ identifier: "CloseAuditServiceRequest" });
+  }
+}
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11574,7 +11675,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "AutoCopyConfig" });
     case 2:
-      return S.Array(__S(1729, __c54, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11593,37 +11694,24 @@ function __c54(j: number): any {
           Status: S.optional(S.String),
           BackupSaveSeconds: S.optional(S.Number),
           LockedTime: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           VaultRegion: S.optional(S.String),
-          AutoCopyConfigs: S.optional(__S(1730, __c54, 2)),
+          AutoCopyConfigs: S.optional(__S(1794, __c56, 2)),
         }),
       ).annotate({ identifier: "DescribeVaultsItem" });
     case 4:
-      return S.Array(__S(1731, __c54, 3));
+      return S.Array(__S(1795, __c56, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Vaults: S.optional(__S(1732, __c54, 4)),
+          Vaults: S.optional(__S(1796, __c56, 4)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeVaultsResponse" });
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "CloseAuditService" }),
-        ),
-      ).annotate({ identifier: "CloseAuditServiceRequest" });
-  }
-}
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11648,7 +11736,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "SaleZone" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11657,30 +11745,30 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "Module" });
     case 4:
-      return S.Array(__S(1795, __c56, 3));
+      return S.Array(__S(1827, __c57, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Region: S.optional(S.String),
           RegionId: S.optional(S.Number),
           RegionZh: S.optional(S.String),
-          ZoneSet: S.optional(__S(1794, __c56, 2)),
+          ZoneSet: S.optional(__S(1826, __c57, 2)),
           DbType: S.optional(S.String),
-          Modules: S.optional(__S(1796, __c56, 4)),
+          Modules: S.optional(__S(1828, __c57, 4)),
         }),
       ).annotate({ identifier: "SaleRegion" });
     case 6:
-      return S.Array(__S(1797, __c56, 5));
+      return S.Array(__S(1829, __c57, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          RegionSet: S.optional(__S(1798, __c56, 6)),
+          RegionSet: S.optional(__S(1830, __c57, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeZonesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11698,7 +11786,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DisassociateSecurityGroupsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11707,7 +11795,7 @@ function __c58(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -11746,7 +11834,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "LibraInstanceSet" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11755,7 +11843,7 @@ function __c58(j: number): any {
           ClusterName: S.optional(S.String),
           CreateTime: S.optional(S.String),
           DbVersion: S.optional(S.String),
-          InstanceSet: S.optional(__S(1858, __c58, 2)),
+          InstanceSet: S.optional(__S(1890, __c59, 2)),
           PayMode: S.optional(S.Number),
           PeriodEndTime: S.optional(S.String),
           ProjectID: S.optional(S.Number),
@@ -11770,18 +11858,18 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "LibraClusterSet" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(1891, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ClusterSet: S.optional(__S(1860, __c58, 4)),
+          ClusterSet: S.optional(__S(1892, __c59, 4)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DownloadLibraDBClusterListResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11814,18 +11902,18 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "ErrorLogItemExport" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ErrorLogItems: S.optional(__S(1890, __c59, 2)),
+          ErrorLogItems: S.optional(__S(1922, __c60, 2)),
           FileContent: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExportInstanceErrorLogsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11852,7 +11940,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ExportInstanceSlowQueriesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11863,7 +11951,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ExportInstanceSlowQueriesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11888,15 +11976,15 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ExportResourcePackageDeductDetailsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           DbTablePrivileges: __S(64, __c2, 0),
-          DbTables: __S(2049, __c64, 1),
+          DbTables: __S(2081, __c65, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "GrantAccountPrivileges" }),
@@ -11904,7 +11992,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GrantAccountPrivilegesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11914,10 +12002,10 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "DbTable" });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2080, __c65, 0));
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11942,19 +12030,19 @@ function __c65(j: number): any {
       ).annotate({ identifier: "InquirePriceCreateRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstancePrice: S.optional(__S(2144, __c67, 0)),
-          StoragePrice: S.optional(__S(2144, __c67, 0)),
+          InstancePrice: S.optional(__S(2176, __c68, 0)),
+          StoragePrice: S.optional(__S(2176, __c68, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InquirePriceCreateResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11972,7 +12060,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "TradePrice" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11989,54 +12077,6 @@ function __c68(j: number): any {
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "InquirePriceModify" }),
         ),
       ).annotate({ identifier: "InquirePriceModifyRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          GoodsNum: S.optional(S.NullOr(S.Number)),
-          Cpu: S.optional(S.NullOr(S.Number)),
-          Memory: S.optional(S.NullOr(S.Number)),
-          Ccu: S.optional(S.NullOr(S.Number)),
-          StorageLimit: S.optional(S.NullOr(S.Number)),
-          TimeSpan: S.optional(S.NullOr(S.Number)),
-          TimeUnit: S.optional(S.NullOr(S.String)),
-          DeviceType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoodsSpec" });
-    case 1:
-      return S.Array(__S(2208, __c69, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Zone: S.String,
-          InstancePayMode: S.String,
-          StoragePayMode: S.String,
-          GoodsSpecs: __S(2209, __c69, 1),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "InquirePriceMultiSpec" }),
-        ),
-      ).annotate({ identifier: "InquirePriceMultiSpecRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          InstancePrice: S.optional(S.NullOr(__S(2144, __c67, 0))),
-          StoragePrice: S.optional(S.NullOr(__S(2144, __c67, 0))),
-          GoodsSpec: S.optional(S.NullOr(__S(2208, __c69, 0))),
-        }),
-      ).annotate({ identifier: "GoodsPrice" });
-    case 4:
-      return S.Array(__S(2211, __c69, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          GoodsPrice: S.optional(__S(2212, __c69, 4)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InquirePriceMultiSpecResponse" });
   }
 }
 function __c70(j: number): any {
@@ -12061,6 +12101,54 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          GoodsNum: S.optional(S.NullOr(S.Number)),
+          Cpu: S.optional(S.NullOr(S.Number)),
+          Memory: S.optional(S.NullOr(S.Number)),
+          Ccu: S.optional(S.NullOr(S.Number)),
+          StorageLimit: S.optional(S.NullOr(S.Number)),
+          TimeSpan: S.optional(S.NullOr(S.Number)),
+          TimeUnit: S.optional(S.NullOr(S.String)),
+          DeviceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoodsSpec" });
+    case 1:
+      return S.Array(__S(2272, __c71, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Zone: S.String,
+          InstancePayMode: S.String,
+          StoragePayMode: S.String,
+          GoodsSpecs: __S(2273, __c71, 1),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "InquirePriceMultiSpec" }),
+        ),
+      ).annotate({ identifier: "InquirePriceMultiSpecRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          InstancePrice: S.optional(S.NullOr(__S(2176, __c68, 0))),
+          StoragePrice: S.optional(S.NullOr(__S(2176, __c68, 0))),
+          GoodsSpec: S.optional(S.NullOr(__S(2272, __c71, 0))),
+        }),
+      ).annotate({ identifier: "GoodsPrice" });
+    case 4:
+      return S.Array(__S(2275, __c71, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          GoodsPrice: S.optional(__S(2276, __c71, 4)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InquirePriceMultiSpecResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ClusterId: S.String,
           TimeSpan: S.Number,
           TimeUnit: S.String,
@@ -12070,13 +12158,13 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "InquirePriceRenewRequest" });
     case 1:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.optional(S.String),
           InstanceIds: S.optional(__S(64, __c2, 0)),
-          Prices: S.optional(__S(2273, __c71, 1)),
+          Prices: S.optional(__S(2305, __c72, 1)),
           InstanceRealTotalPrice: S.optional(S.Number),
           StorageRealTotalPrice: S.optional(S.Number),
           RequestId: S.optional(S.String),
@@ -12084,7 +12172,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "InquirePriceRenewResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12094,12 +12182,13 @@ function __c72(j: number): any {
           IsolateReasonTypes: S.optional(__S(4192, __c131, 0)),
           IsolateReason: S.optional(S.String),
           SaveBackup: S.optional(S.Boolean),
+          ImmediateRecycleRo: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "IsolateCluster" })),
       ).annotate({ identifier: "IsolateClusterRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12111,7 +12200,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "IsolateClusterResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12122,12 +12211,13 @@ function __c74(j: number): any {
           IsolateReasonTypes: S.optional(__S(4192, __c131, 0)),
           IsolateReason: S.optional(S.String),
           SaveBackup: S.optional(S.Boolean),
+          ImmediateRecycleRo: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "IsolateInstance" })),
       ).annotate({ identifier: "IsolateInstanceRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12150,7 +12240,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "IsolateLibraDBClusterResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12175,7 +12265,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "IsolateLibraDBInstanceResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12195,14 +12285,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ModifyAccountDescriptionRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
           NewHost: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyAccountHost" }),
@@ -12210,7 +12300,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ModifyAccountHostRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12220,13 +12310,13 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "AccountParam" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
-          AccountParams: __S(2529, __c79, 1),
+          Account: __S(6816, __c213, 0),
+          AccountParams: __S(2561, __c80, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyAccountParams" }),
@@ -12234,16 +12324,16 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ModifyAccountParamsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           GlobalPrivileges: S.optional(__S(64, __c2, 0)),
-          DatabasePrivileges: S.optional(__S(7393, __c231, 1)),
-          TablePrivileges: S.optional(__S(7395, __c231, 3)),
+          DatabasePrivileges: S.optional(__S(7457, __c233, 1)),
+          TablePrivileges: S.optional(__S(7459, __c233, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12253,28 +12343,6 @@ function __c80(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyAccountPrivilegesRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RuleTemplateIds: __S(64, __c2, 0),
-          RuleFilters: S.optional(__S(5313, __c166, 1)),
-          RuleTemplateName: S.optional(S.String),
-          Description: S.optional(S.String),
-          AlarmLevel: S.optional(S.Number),
-          AlarmPolicy: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "ModifyAuditRuleTemplates",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyAuditRuleTemplatesRequest" });
   }
 }
 function __c82(j: number): any {
@@ -12307,11 +12375,33 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          RuleTemplateIds: __S(64, __c2, 0),
+          RuleFilters: S.optional(__S(5313, __c166, 1)),
+          RuleTemplateName: S.optional(S.String),
+          Description: S.optional(S.String),
+          AlarmLevel: S.optional(S.Number),
+          AlarmPolicy: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "ModifyAuditRuleTemplates",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyAuditRuleTemplatesRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           InstanceId: S.String,
           LogExpireDay: S.optional(S.Number),
           HighLogExpireDay: S.optional(S.Number),
           AuditAll: S.optional(S.Boolean),
-          AuditRuleFilters: S.optional(__S(7681, __c240, 1)),
+          AuditRuleFilters: S.optional(__S(7745, __c242, 1)),
           RuleTemplateIds: S.optional(__S(64, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12320,7 +12410,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ModifyAuditServiceRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12332,14 +12422,14 @@ function __c85(j: number): any {
           BackupIntervalTime: S.optional(S.Number),
           ReserveDuration: S.optional(S.Number),
           BackupTriggerStrategy: S.optional(S.String),
-          AutoCopyVaults: S.optional(__S(5985, __c187, 1)),
+          AutoCopyVaults: S.optional(__S(6017, __c188, 1)),
         }),
       ).annotate({ identifier: "SnapshotBackupConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           SparseBackupSwitch: S.optional(S.String),
-          SparseBackupConfigInfos: S.optional(__S(7749, __c242, 5)),
+          SparseBackupConfigInfos: S.optional(__S(7845, __c245, 5)),
         }),
       ).annotate({ identifier: "SparseBackupConfig" });
     case 2:
@@ -12351,10 +12441,10 @@ function __c85(j: number): any {
           ReserveDuration: S.optional(S.Number),
           BackupFreq: S.optional(__S(64, __c2, 0)),
           BackupType: S.optional(S.String),
-          LogicBackupConfig: S.optional(__S(7744, __c242, 0)),
+          LogicBackupConfig: S.optional(__S(7840, __c245, 0)),
           DeleteAutoLogicBackup: S.optional(S.Boolean),
-          SnapshotSecondaryBackupConfig: S.optional(__S(2720, __c85, 0)),
-          SparseBackupConfig: S.optional(__S(2721, __c85, 1)),
+          SnapshotSecondaryBackupConfig: S.optional(__S(2752, __c86, 0)),
+          SparseBackupConfig: S.optional(__S(2753, __c86, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyBackupConfig" }),
@@ -12362,7 +12452,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ModifyBackupConfigRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12371,7 +12461,7 @@ function __c86(j: number): any {
           LimitType: S.String,
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpcs: S.optional(__S(7873, __c246, 1)),
+          LimitVpcs: S.optional(__S(7937, __c248, 1)),
           LimitIps: S.optional(__S(64, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12384,7 +12474,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ModifyBackupDownloadRestrictionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12392,7 +12482,7 @@ function __c87(j: number): any {
           LimitType: S.String,
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpcs: S.optional(__S(7873, __c246, 1)),
+          LimitVpcs: S.optional(__S(7937, __c248, 1)),
           LimitIps: S.optional(__S(64, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12405,7 +12495,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ModifyBackupDownloadUserRestrictionRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12420,13 +12510,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ModifyBackupNameRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          BinlogConfig: __S(8224, __c257, 0),
+          BinlogConfig: __S(8288, __c259, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyBinlogConfig" }),
@@ -12434,7 +12524,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ModifyBinlogConfigRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12449,13 +12539,13 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ModifyBinlogSaveDaysRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          AutoCopyVaults: S.optional(__S(5985, __c187, 1)),
+          AutoCopyVaults: S.optional(__S(6017, __c188, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12467,39 +12557,21 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ModifyClusterBinlogRedoLogAutoCopyVaultRequest" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          DbName: S.String,
-          NewUserHostPrivileges: S.optional(__S(6081, __c190, 1)),
-          Description: S.optional(S.String),
-          OldUserHostPrivileges: S.optional(__S(6081, __c190, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyClusterDatabase" }),
-        ),
-      ).annotate({ identifier: "ModifyClusterDatabaseRequest" });
-  }
-}
 function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          IsOpenGlobalEncryption: S.optional(S.Boolean),
+          DbName: S.String,
+          NewUserHostPrivileges: S.optional(__S(6113, __c191, 1)),
+          Description: S.optional(S.String),
+          OldUserHostPrivileges: S.optional(__S(6113, __c191, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "ModifyClusterGlobalEncryption",
-          }),
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyClusterDatabase" }),
         ),
-      ).annotate({ identifier: "ModifyClusterGlobalEncryptionRequest" });
+      ).annotate({ identifier: "ModifyClusterDatabaseRequest" });
   }
 }
 function __c94(j: number): any {
@@ -12522,6 +12594,24 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
+          IsOpenGlobalEncryption: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "ModifyClusterGlobalEncryption",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyClusterGlobalEncryptionRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
           ClusterLevel: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12530,7 +12620,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ModifyClusterLevelRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12544,13 +12634,13 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ModifyClusterNameRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          ParamList: __S(6305, __c197, 1),
+          ParamList: __S(6337, __c198, 1),
           IsInMaintainPeriod: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12566,7 +12656,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ModifyClusterParamResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12589,7 +12679,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ModifyClusterPasswordComplexityRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12615,7 +12705,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ModifyClusterPeriodScalePolicyRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12636,17 +12726,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "ClusterTaskId" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ClusterTaskIds: S.optional(__S(3202, __c100, 2)),
+          ClusterTaskIds: S.optional(__S(3234, __c101, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModifyClusterReadOnlyResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12663,7 +12753,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ModifyClusterSlaveZoneRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12679,7 +12769,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ModifyClusterStorageRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12692,7 +12782,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ModifyClusterStorageResponse" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12714,20 +12804,6 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ModifyDBInstanceSecurityGroupsRequest" });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          InstanceName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyInstanceName" }),
-        ),
-      ).annotate({ identifier: "ModifyInstanceNameRequest" });
-  }
-}
 function __c106(j: number): any {
   switch (j) {
     case 0:
@@ -12745,10 +12821,24 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          InstanceId: S.String,
+          InstanceName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyInstanceName" }),
+        ),
+      ).annotate({ identifier: "ModifyInstanceNameRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ClusterId: S.String,
           InstanceIds: S.optional(__S(64, __c2, 0)),
-          ClusterParamList: S.optional(__S(6913, __c216, 1)),
-          InstanceParamList: S.optional(__S(6913, __c216, 1)),
+          ClusterParamList: S.optional(__S(6945, __c217, 1)),
+          InstanceParamList: S.optional(__S(6945, __c217, 1)),
           IsInMaintainPeriod: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12757,7 +12847,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ModifyInstanceParamRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12776,7 +12866,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ModifyInstanceUpgradeLimitDaysRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12796,13 +12886,13 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterAccountDescriptionRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           NewHost: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12815,16 +12905,16 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterAccountHostRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           GlobalPrivileges: S.optional(__S(64, __c2, 0)),
-          DatabasePrivileges: S.optional(__S(7393, __c231, 1)),
-          TablePrivileges: S.optional(__S(7395, __c231, 3)),
+          DatabasePrivileges: S.optional(__S(7457, __c233, 1)),
+          TablePrivileges: S.optional(__S(7459, __c233, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12836,7 +12926,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterAccountPrivilegeRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12859,13 +12949,13 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "LibraDBClusterSrcInfo" });
     case 1:
-      return S.Array(__S(3584, __c112, 0));
+      return S.Array(__S(3616, __c113, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
           InstanceId: S.String,
-          SrcInfo: S.optional(__S(3585, __c112, 1)),
+          SrcInfo: S.optional(__S(3617, __c113, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12877,7 +12967,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterDataSourceRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12895,7 +12985,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterNameRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12920,12 +13010,12 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ModifyLibraDBClusterProjectResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DatabaseTables: S.optional(__S(7300, __c228, 4)),
+          DatabaseTables: S.optional(__S(7332, __c229, 4)),
         }),
       ).annotate({ identifier: "MigrateOpt" });
     case 1:
@@ -12935,19 +13025,19 @@ function __c115(j: number): any {
           SrcClusterId: S.optional(S.NullOr(S.String)),
           SrcInstanceId: S.optional(S.NullOr(S.String)),
           ReplicationJobId: S.optional(S.NullOr(S.String)),
-          MigrateObjects: S.optional(S.NullOr(__S(3680, __c115, 0))),
+          MigrateObjects: S.optional(S.NullOr(__S(3712, __c116, 0))),
         }),
       ).annotate({ identifier: "ReplicationObject" });
     case 2:
-      return S.Array(__S(3681, __c115, 1));
+      return S.Array(__S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
           InstanceId: S.String,
           ForceDefaultMapRule: S.optional(S.String),
-          Objects: S.optional(__S(3682, __c115, 2)),
-          AutoMapRules: S.optional(__S(385, __c12, 1)),
+          Objects: S.optional(__S(3714, __c116, 2)),
+          AutoMapRules: S.optional(__S(417, __c13, 1)),
           RefreshMapping: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -12958,25 +13048,6 @@ function __c115(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyLibraDBClusterReplicationObjectRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          ForwardMode: S.optional(S.String),
-          ForwardList: S.optional(__S(641, __c20, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "ModifyLibraDBForwardConfig",
-          }),
-        ),
-      ).annotate({ identifier: "ModifyLibraDBForwardConfigRequest" });
   }
 }
 function __c117(j: number): any {
@@ -12997,6 +13068,25 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
+          ForwardMode: S.optional(S.String),
+          ForwardList: S.optional(__S(673, __c21, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "ModifyLibraDBForwardConfig",
+          }),
+        ),
+      ).annotate({ identifier: "ModifyLibraDBForwardConfigRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
           MaintainStartTime: S.Number,
           MaintainDuration: S.Number,
           MaintainWeekDays: __S(64, __c2, 0),
@@ -13011,7 +13101,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ModifyMaintainPeriodConfigRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13019,7 +13109,7 @@ function __c119(j: number): any {
           TemplateId: S.Number,
           TemplateName: S.optional(S.String),
           TemplateDescription: S.optional(S.String),
-          ParamList: S.optional(__S(6913, __c216, 1)),
+          ParamList: S.optional(__S(6945, __c217, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyParamTemplate" }),
@@ -13027,7 +13117,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ModifyParamTemplateRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13040,7 +13130,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ModifyProxyDescRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13050,7 +13140,7 @@ function __c121(j: number): any {
           ConsistencyType: S.optional(S.String),
           ConsistencyTimeOut: S.optional(S.String),
           WeightMode: S.optional(S.String),
-          InstanceWeights: S.optional(__S(6593, __c206, 1)),
+          InstanceWeights: S.optional(__S(6625, __c207, 1)),
           FailOver: S.optional(S.String),
           AutoAddRo: S.optional(S.String),
           OpenRw: S.optional(S.String),
@@ -13071,7 +13161,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ModifyProxyRwSplitRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13090,7 +13180,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ModifyResourcePackageClustersRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13108,7 +13198,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ModifyResourcePackageNameRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13118,13 +13208,13 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "PackagePriority" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(4000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           PackageType: S.String,
           ClusterId: S.String,
-          DeductionPriorities: __S(3969, __c124, 1),
+          DeductionPriorities: __S(4001, __c125, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13136,7 +13226,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ModifyResourcePackagesDeductionPriorityRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13166,7 +13256,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ModifyServerlessStrategyRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13184,26 +13274,6 @@ function __c126(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifySnapBackupCrossRegionConfigRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          VaultId: S.String,
-          VaultName: S.optional(S.String),
-          VaultDescribe: S.optional(S.String),
-          BackupSaveSeconds: S.optional(S.Number),
-          KeyId: S.optional(S.String),
-          KeyType: S.optional(S.String),
-          KeyRegion: S.optional(S.String),
-          IsLock: S.optional(S.Boolean),
-          LockedTime: S.optional(S.String),
-          IsEncryption: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyVault" })),
-      ).annotate({ identifier: "ModifyVaultRequest" });
   }
 }
 function __c128(j: number): any {
@@ -13260,6 +13330,26 @@ function __c132(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          VaultId: S.String,
+          VaultName: S.optional(S.String),
+          VaultDescribe: S.optional(S.String),
+          BackupSaveSeconds: S.optional(S.Number),
+          KeyId: S.optional(S.String),
+          KeyType: S.optional(S.String),
+          KeyRegion: S.optional(S.String),
+          IsLock: S.optional(S.Boolean),
+          LockedTime: S.optional(S.String),
+          IsEncryption: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "ModifyVault" })),
+      ).annotate({ identifier: "ModifyVaultRequest" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ClusterId: S.String,
           InstanceGroupId: S.optional(S.String),
           Vip: S.optional(S.String),
@@ -13271,7 +13361,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ModifyVipVportRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13282,7 +13372,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "OfflineClusterRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13294,7 +13384,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "OfflineInstanceRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13307,7 +13397,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "OfflineLibraDBClusterRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13321,7 +13411,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "OfflineLibraDBInstanceRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13333,7 +13423,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "OpenAIOptimizerRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13350,7 +13440,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "OpenAuditServiceRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13373,7 +13463,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "OpenClusterPasswordComplexityRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13390,27 +13480,6 @@ function __c140(j: number): any {
           }),
         ),
       ).annotate({ identifier: "OpenClusterReadOnlyInstanceGroupAccessRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          KeyType: S.String,
-          KeyId: S.optional(S.String),
-          KeyRegion: S.optional(S.String),
-          IsOpenGlobalEncryption: S.optional(S.Boolean),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "OpenClusterTransparentEncrypt",
-          }),
-        ),
-      ).annotate({ identifier: "OpenClusterTransparentEncryptRequest" });
   }
 }
 function __c142(j: number): any {
@@ -13437,6 +13506,27 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
+          KeyType: S.String,
+          KeyId: S.optional(S.String),
+          KeyRegion: S.optional(S.String),
+          IsOpenGlobalEncryption: S.optional(S.Boolean),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "OpenClusterTransparentEncrypt",
+          }),
+        ),
+      ).annotate({ identifier: "OpenClusterTransparentEncryptRequest" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
           InstanceId: S.String,
           VpcId: S.String,
           SubnetId: S.String,
@@ -13453,7 +13543,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "OpenReadOnlyInstanceExclusiveAccessRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13467,7 +13557,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "OpenSSLRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13479,7 +13569,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "OpenWanRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13491,7 +13581,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PauseServerlessRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13511,7 +13601,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "RefundResourcePackageResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13525,7 +13615,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ReloadBalanceProxyNodeRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13539,7 +13629,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "RemoveClusterSlaveZoneRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13564,7 +13654,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "RenewClustersResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13589,26 +13679,6 @@ function __c151(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RenewLibraDBClustersResponse" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          SourceClusterId: S.String,
-          SourceInstanceId: S.String,
-          TargetClusterId: S.String,
-          TargetInstanceId: S.String,
-          TargetUserName: S.String,
-          TargetPassword: S.String.pipe(T.SensitiveValue({})),
-          StartTime: S.String,
-          EndTime: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ReplayInstanceAuditLog" }),
-        ),
-      ).annotate({ identifier: "ReplayInstanceAuditLogRequest" });
   }
 }
 function __c153(j: number): any {
@@ -13645,6 +13715,26 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          SourceClusterId: S.String,
+          SourceInstanceId: S.String,
+          TargetClusterId: S.String,
+          TargetInstanceId: S.String,
+          TargetUserName: S.String,
+          TargetPassword: S.String.pipe(T.SensitiveValue({})),
+          StartTime: S.String,
+          EndTime: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "ReplayInstanceAuditLog" }),
+        ),
+      ).annotate({ identifier: "ReplayInstanceAuditLogRequest" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           AccountName: S.String,
           AccountPassword: S.String.pipe(T.SensitiveValue({})),
           ClusterId: S.String,
@@ -13656,7 +13746,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ResetAccountPasswordRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13677,7 +13767,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ResetLibraDBClusterAccountPasswordRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13688,7 +13778,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "RestartInstanceRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13701,7 +13791,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "RestartLibraDBInstanceRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13714,15 +13804,15 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ResumeServerlessRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           DbTablePrivileges: __S(64, __c2, 0),
-          DbTables: __S(2049, __c64, 1),
+          DbTables: __S(2081, __c65, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13734,7 +13824,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "RevokeAccountPrivilegesRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13744,8 +13834,8 @@ function __c161(j: number): any {
           RollbackId: S.optional(S.Number),
           ExpectTime: S.optional(S.String),
           ExpectTimeThresh: S.optional(S.Number),
-          RollbackDatabases: S.optional(__S(1665, __c52, 1)),
-          RollbackTables: S.optional(__S(1669, __c52, 5)),
+          RollbackDatabases: S.optional(__S(1697, __c53, 1)),
+          RollbackTables: S.optional(__S(1701, __c53, 5)),
           RollbackMode: S.optional(S.String),
           VaultId: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -13753,7 +13843,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "RollBackClusterRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13766,7 +13856,7 @@ function __c162(j: number): any {
           RollbackId: S.optional(S.Number),
           ExpectTime: S.optional(S.String),
           AutoVoucher: S.optional(S.Number),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           DbMode: S.optional(S.String),
           MinCpu: S.optional(S.Number),
           MaxCpu: S.optional(S.Number),
@@ -13774,15 +13864,15 @@ function __c162(j: number): any {
           AutoPauseDelay: S.optional(S.Number),
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           AlarmPolicyIds: S.optional(__S(64, __c2, 0)),
-          ClusterParams: S.optional(__S(6305, __c197, 1)),
+          ClusterParams: S.optional(__S(6337, __c198, 1)),
           ParamTemplateId: S.optional(S.Number),
-          InstanceInitInfos: S.optional(__S(6177, __c193, 1)),
+          InstanceInitInfos: S.optional(__S(6209, __c194, 1)),
           DealMode: S.optional(S.Number),
           PayMode: S.optional(S.Number),
           TimeSpan: S.optional(S.Number),
           TimeUnit: S.optional(S.String),
-          RollbackDatabases: S.optional(__S(1665, __c52, 1)),
-          RollbackTables: S.optional(__S(1669, __c52, 5)),
+          RollbackDatabases: S.optional(__S(1697, __c53, 1)),
+          RollbackTables: S.optional(__S(1701, __c53, 5)),
           OriginalROInstanceList: S.optional(__S(64, __c2, 0)),
           ProjectId: S.optional(S.Number),
           AutoArchive: S.optional(S.String),
@@ -13797,7 +13887,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "RollbackToNewClusterRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13817,29 +13907,6 @@ function __c163(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchClusterDatabasesResponse" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          Database: S.optional(S.String),
-          Table: S.optional(S.String),
-          TableType: S.optional(S.String),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "SearchClusterTables" }),
-        ),
-      ).annotate({ identifier: "SearchClusterTablesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Tables: S.optional(__S(5953, __c186, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchClusterTablesResponse" });
   }
 }
 function __c165(j: number): any {
@@ -13888,7 +13955,30 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          ServerlessQuotaConfigs: S.optional(__S(6209, __c194, 1)),
+          Database: S.optional(S.String),
+          Table: S.optional(S.String),
+          TableType: S.optional(S.String),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "SearchClusterTables" }),
+        ),
+      ).annotate({ identifier: "SearchClusterTablesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Tables: S.optional(__S(5985, __c187, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchClusterTablesResponse" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
+          ServerlessQuotaConfigs: S.optional(__S(6241, __c195, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -13900,7 +13990,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "SetInstanceServerlessQuotaRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13918,7 +14008,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "SetLibraDBClusterRenewFlagRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13929,7 +14019,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "SetLibraDBClusterRenewFlagResponse" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13941,7 +14031,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "SetRenewFlagRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13957,7 +14047,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "StartCLSDeliveryRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13971,7 +14061,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "StopCLSDeliveryRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13987,7 +14077,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "SwitchClusterVpcRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14011,7 +14101,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "SwitchClusterZoneResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14026,7 +14116,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "SwitchProxyVpcRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14052,24 +14142,6 @@ function __c176(j: number): any {
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferClusterPrepayToPostpayResponse" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          DstZone: S.String,
-          MaxLag: S.Number,
-          TransferType: S.String,
-          DstSlaveZone: S.optional(S.String),
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "TransferClusterZone" }),
-        ),
-      ).annotate({ identifier: "TransferClusterZoneRequest" });
   }
 }
 function __c178(j: number): any {
@@ -14106,6 +14178,24 @@ function __c179(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
+          DstZone: S.String,
+          MaxLag: S.Number,
+          TransferType: S.String,
+          DstSlaveZone: S.optional(S.String),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "TransferClusterZone" }),
+        ),
+      ).annotate({ identifier: "TransferClusterZoneRequest" });
+  }
+}
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -14127,7 +14217,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "TransferStoragePrepayToPostpayResponse" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14145,7 +14235,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "UnbindClusterResourcePackagesRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14160,7 +14250,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "UpgradeClusterVersionRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14175,13 +14265,13 @@ function __c182(j: number): any {
           DbType: S.optional(S.String),
           DealMode: S.optional(S.Number),
           UpgradeMode: S.optional(S.String),
-          UpgradeProxy: S.optional(__S(6880, __c215, 0)),
+          UpgradeProxy: S.optional(__S(6912, __c216, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "UpgradeInstance" })),
       ).annotate({ identifier: "UpgradeInstanceRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14193,7 +14283,7 @@ function __c183(j: number): any {
           ProxyGroupId: S.optional(S.String),
           ReloadBalance: S.optional(S.String),
           IsInMaintainPeriod: S.optional(S.String),
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
           IsRollUpgrade: S.optional(S.String),
           RollUpgradeWaitingTime: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14201,7 +14291,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UpgradeProxyRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14218,7 +14308,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "UpgradeProxyVersionRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14226,15 +14316,15 @@ function __c185(j: number): any {
           ClusterId: S.String,
           BackupType: S.optional(S.String),
           BackupDatabases: S.optional(__S(64, __c2, 0)),
-          BackupTables: S.optional(__S(5953, __c186, 1)),
+          BackupTables: S.optional(__S(5985, __c187, 1)),
           BackupName: S.optional(S.String),
-          Vaults: S.optional(__S(5985, __c187, 1)),
+          Vaults: S.optional(__S(6017, __c188, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "CreateBackup" })),
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14244,10 +14334,10 @@ function __c186(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseTables" });
     case 1:
-      return S.Array(__S(5952, __c186, 0));
+      return S.Array(__S(5984, __c187, 0));
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14257,10 +14347,10 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "CreateBackupVaultItem" });
     case 1:
-      return S.Array(__S(5984, __c187, 0));
+      return S.Array(__S(6016, __c188, 0));
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14275,12 +14365,12 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "CLSInfo" });
     case 1:
-      return S.Array(__S(6016, __c188, 0));
+      return S.Array(__S(6048, __c189, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
-          CLSInfoList: __S(6017, __c188, 1),
+          CLSInfoList: __S(6049, __c189, 1),
           LogType: S.optional(S.String),
           IsInMaintainPeriod: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14290,7 +14380,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "CreateCLSDeliveryRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14299,7 +14389,7 @@ function __c189(j: number): any {
           DbName: S.String,
           CharacterSet: S.String,
           CollateRule: S.String,
-          UserHostPrivileges: S.optional(__S(6081, __c190, 1)),
+          UserHostPrivileges: S.optional(__S(6113, __c191, 1)),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14308,7 +14398,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "CreateClusterDatabaseRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14316,13 +14406,14 @@ function __c190(j: number): any {
           DbUserName: S.String,
           DbHost: S.String,
           DbPrivilege: S.String,
+          PrivilegeList: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "UserHostPrivilege" });
     case 1:
-      return S.Array(__S(6080, __c190, 0));
+      return S.Array(__S(6112, __c191, 0));
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14355,7 +14446,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "CreateClusterPeriodScalePolicyResponse" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14366,7 +14457,8 @@ function __c192(j: number): any {
           OpenConnectionPool: S.optional(S.String),
           ConnectionPoolTimeOut: S.optional(S.Number),
           Description: S.optional(S.String),
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
+          ProxyVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProxyConfig" });
     case 1:
@@ -14399,7 +14491,7 @@ function __c192(j: number): any {
           AutoVoucher: S.optional(S.Number),
           HaCount: S.optional(S.Number),
           OrderSource: S.optional(S.String),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           DbMode: S.optional(S.String),
           MinCpu: S.optional(S.Number),
           MaxCpu: S.optional(S.Number),
@@ -14408,26 +14500,26 @@ function __c192(j: number): any {
           StoragePayMode: S.optional(S.Number),
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           AlarmPolicyIds: S.optional(__S(64, __c2, 0)),
-          ClusterParams: S.optional(__S(6305, __c197, 1)),
+          ClusterParams: S.optional(__S(6337, __c198, 1)),
           DealMode: S.optional(S.Number),
           ParamTemplateId: S.optional(S.Number),
           SlaveZone: S.optional(S.String),
-          InstanceInitInfos: S.optional(__S(6177, __c193, 1)),
+          InstanceInitInfos: S.optional(__S(6209, __c194, 1)),
           GdnId: S.optional(S.String),
-          ProxyConfig: S.optional(__S(6144, __c192, 0)),
+          ProxyConfig: S.optional(__S(6176, __c193, 0)),
           AutoArchive: S.optional(S.String),
           AutoArchiveDelayHours: S.optional(S.Number),
           ClusterLevel: S.optional(S.String),
           CynosVersion: S.optional(S.String),
           SyncWay: S.optional(S.String),
           SemiSyncTimeout: S.optional(S.Number),
-          ServerlessQuotaConfigs: S.optional(__S(6209, __c194, 1)),
+          ServerlessQuotaConfigs: S.optional(__S(6241, __c195, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "CreateClusters" })),
       ).annotate({ identifier: "CreateClustersRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14444,10 +14536,10 @@ function __c193(j: number): any {
         }),
       ).annotate({ identifier: "InstanceInitInfo" });
     case 1:
-      return S.Array(__S(6176, __c193, 0));
+      return S.Array(__S(6208, __c194, 0));
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14458,10 +14550,10 @@ function __c194(j: number): any {
         }),
       ).annotate({ identifier: "ServerlessQuotaConfig" });
     case 1:
-      return S.Array(__S(6208, __c194, 0));
+      return S.Array(__S(6240, __c195, 0));
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14476,7 +14568,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CreateClustersResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14486,10 +14578,10 @@ function __c196(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(6272, __c196, 0));
+      return S.Array(__S(6304, __c197, 0));
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14500,10 +14592,10 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "ParamItem" });
     case 1:
-      return S.Array(__S(6304, __c197, 0));
+      return S.Array(__S(6336, __c198, 0));
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14529,7 +14621,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "AddClusterSlaveZoneResponse" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14542,7 +14634,7 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "IntegrateInstanceInfo" });
     case 1:
-      return S.Array(__S(6368, __c199, 0));
+      return S.Array(__S(6400, __c200, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14550,7 +14642,7 @@ function __c199(j: number): any {
           Cpu: S.optional(S.Number),
           Mem: S.optional(S.Number),
           Description: S.optional(S.String),
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
         }),
       ).annotate({ identifier: "ProxyConfigInfo" });
     case 3:
@@ -14561,7 +14653,7 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "InstanceNameWeight" });
     case 4:
-      return S.Array(__S(6371, __c199, 3));
+      return S.Array(__S(6403, __c200, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -14571,18 +14663,18 @@ function __c199(j: number): any {
           WeightMode: S.optional(S.String),
           AutoAddRo: S.optional(S.String),
           RwType: S.optional(S.String),
-          InstanceNameWeights: S.optional(__S(6372, __c199, 4)),
+          InstanceNameWeights: S.optional(__S(6404, __c200, 4)),
         }),
       ).annotate({ identifier: "ProxyEndPointConfigInfo" });
     case 6:
-      return S.Array(__S(6373, __c199, 5));
+      return S.Array(__S(6405, __c200, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           BinlogSaveDays: S.optional(S.Number),
           BackupSaveDays: S.optional(S.Number),
           SemiSyncTimeout: S.optional(S.Number),
-          ProxyEndPointConfigs: S.optional(__S(6374, __c199, 6)),
+          ProxyEndPointConfigs: S.optional(__S(6406, __c200, 6)),
         }),
       ).annotate({ identifier: "IntegrateCreateClusterConfig" });
     case 8:
@@ -14603,21 +14695,21 @@ function __c199(j: number): any {
           TimeUnit: S.optional(S.String),
           AutoRenewFlag: S.optional(S.Number),
           AutoVoucher: S.optional(S.Number),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           StoragePayMode: S.optional(S.Number),
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           AlarmPolicyIds: S.optional(__S(64, __c2, 0)),
-          ClusterParams: S.optional(__S(6305, __c197, 1)),
+          ClusterParams: S.optional(__S(6337, __c198, 1)),
           DealMode: S.optional(S.Number),
           ParamTemplateId: S.optional(S.Number),
           SlaveZone: S.optional(S.String),
-          InstanceInitInfos: S.optional(__S(6369, __c199, 1)),
+          InstanceInitInfos: S.optional(__S(6401, __c200, 1)),
           GdnId: S.optional(S.String),
-          ProxyConfig: S.optional(__S(6370, __c199, 2)),
+          ProxyConfig: S.optional(__S(6402, __c200, 2)),
           AutoArchive: S.optional(S.String),
           AutoArchiveDelayHours: S.optional(S.Number),
           EncryptMethod: S.optional(S.String),
-          IntegrateCreateClusterConfig: S.optional(__S(6375, __c199, 7)),
+          IntegrateCreateClusterConfig: S.optional(__S(6407, __c200, 7)),
           StorageVersion: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -14626,7 +14718,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CreateIntegrateClusterRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14645,7 +14737,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "CreateLibraDBClusterAccountsRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14664,13 +14756,13 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "LibraDBInstanceInitInfo" });
     case 1:
-      return S.Array(__S(6432, __c201, 0));
+      return S.Array(__S(6464, __c202, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Count: S.Number,
           Zone: S.String,
-          InstanceInitInfos: __S(6433, __c201, 1),
+          InstanceInitInfos: __S(6465, __c202, 1),
           AdminPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AutoRenewFlag: S.optional(S.Number),
           AutoVoucher: S.optional(S.Number),
@@ -14684,7 +14776,7 @@ function __c201(j: number): any {
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           TimeSpan: S.optional(S.Number),
           TimeUnit: S.optional(S.String),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           VpcId: S.optional(S.String),
           SubnetId: S.optional(S.String),
           Port: S.optional(S.String),
@@ -14706,7 +14798,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CreateLibraDBClustersResponse" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14716,7 +14808,7 @@ function __c202(j: number): any {
           TemplateDescription: S.optional(S.String),
           TemplateId: S.optional(S.Number),
           DbMode: S.optional(S.String),
-          ParamList: S.optional(__S(6305, __c197, 1)),
+          ParamList: S.optional(__S(6337, __c198, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "CreateParamTemplate" }),
@@ -14731,7 +14823,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "CreateParamTemplateResponse" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14739,6 +14831,7 @@ function __c203(j: number): any {
           ClusterId: S.String,
           Cpu: S.Number,
           Mem: S.Number,
+          ProxyVersion: S.optional(S.String),
           UniqueVpcId: S.optional(S.String),
           UniqueSubnetId: S.optional(S.String),
           ProxyCount: S.optional(S.Number),
@@ -14747,13 +14840,13 @@ function __c203(j: number): any {
           ConnectionPoolTimeOut: S.optional(S.Number),
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           Description: S.optional(S.String),
-          ProxyZones: S.optional(__S(6849, __c214, 1)),
+          ProxyZones: S.optional(__S(6881, __c215, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "CreateProxy" })),
       ).annotate({ identifier: "CreateProxyRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14766,7 +14859,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "CreateProxyResponse" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14788,7 +14881,7 @@ function __c205(j: number): any {
           ConsistencyTimeOut: S.optional(S.Number),
           TransSplit: S.optional(S.Boolean),
           AccessMode: S.optional(S.String),
-          InstanceWeights: S.optional(__S(6593, __c206, 1)),
+          InstanceWeights: S.optional(__S(6625, __c207, 1)),
           LoadBalanceMode: S.optional(S.String),
           TransAllSplit: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14798,7 +14891,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "CreateProxyEndPointRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14808,10 +14901,48 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "ProxyInstanceWeight" });
     case 1:
-      return S.Array(__S(6592, __c206, 0));
+      return S.Array(__S(6624, __c207, 0));
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UniqueVpcId: S.String,
+          UniqueSubnetId: S.String,
+          SecurityGroupIds: S.optional(__S(64, __c2, 0)),
+          WeightMode: S.optional(S.String),
+          AutoAddRo: S.optional(S.String),
+          RwType: S.optional(S.String),
+          FailOver: S.optional(S.String),
+          ConsistencyTimeOut: S.optional(S.Number),
+          ConsistencyType: S.optional(S.String),
+          TransSplit: S.optional(S.Boolean),
+          AccessMode: S.optional(S.String),
+          InstanceWeights: S.optional(__S(6625, __c207, 1)),
+          Description: S.optional(S.String),
+          LoadBalanceMode: S.optional(S.String),
+          OpenConnectionPool: S.optional(S.String),
+          ConnectionPoolType: S.optional(S.String),
+          ConnectionPoolTimeOut: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ProxyEndPointItem" });
+    case 1:
+      return S.Array(__S(6656, __c208, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
+          ProxyEndPointItems: __S(6657, __c208, 1),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "CreateProxyEndPoints" }),
+        ),
+      ).annotate({ identifier: "CreateProxyEndPointsRequest" });
+  }
+}
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14839,7 +14970,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CreateResourcePackageResponse" });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14856,25 +14987,25 @@ function __c208(j: number): any {
       ).annotate({ identifier: "CreateVaultRequest" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Accounts: S.optional(__S(6720, __c210, 0)),
+          Accounts: S.optional(__S(6784, __c212, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DeleteAccounts" })),
       ).annotate({ identifier: "DeleteAccountsRequest" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6752, __c211, 0));
+      return S.Array(__S(6816, __c213, 0));
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14885,21 +15016,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "InputAccount" });
   }
 }
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          InstanceId: S.String,
-          FileName: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DeleteAuditLogFile" }),
-        ),
-      ).annotate({ identifier: "DeleteAuditLogFileRequest" });
-  }
-}
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14918,9 +15035,9 @@ function __c213(j: number): any {
           OrderSource: S.optional(S.String),
           DealMode: S.optional(S.Number),
           ParamTemplateId: S.optional(S.Number),
-          InstanceParams: S.optional(__S(6913, __c216, 1)),
+          InstanceParams: S.optional(__S(6945, __c217, 1)),
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
-          UpgradeProxy: S.optional(__S(6880, __c215, 0)),
+          UpgradeProxy: S.optional(__S(6912, __c216, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "AddInstances" })),
       ).annotate({ identifier: "AddInstancesRequest" });
@@ -14935,7 +15052,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "AddInstancesResponse" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14945,23 +15062,23 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "ProxyZone" });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Cpu: S.Number,
           Mem: S.Number,
-          ProxyZones: __S(6849, __c214, 1),
+          ProxyZones: __S(6881, __c215, 1),
           ReloadBalance: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpgradeProxy" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14973,10 +15090,24 @@ function __c216(j: number): any {
         }),
       ).annotate({ identifier: "ModifyParamItem" });
     case 1:
-      return S.Array(__S(6912, __c216, 0));
+      return S.Array(__S(6944, __c217, 0));
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.String,
+          FileName: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DeleteAuditLogFile" }),
+        ),
+      ).annotate({ identifier: "DeleteAuditLogFileRequest" });
+  }
+}
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14993,7 +15124,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "DeleteAuditRuleTemplatesRequest" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15006,7 +15137,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "DeleteBackupRequest" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15020,7 +15151,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "DeleteBackupVaultRequest" });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15036,7 +15167,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "DeleteCLSDeliveryRequest" });
   }
 }
-function __c221(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15050,7 +15181,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "DeleteClusterDatabaseRequest" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15068,7 +15199,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "DeleteClusterPeriodScalePolicyRequest" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15086,7 +15217,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "DeleteClusterSaveBackupRequest" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15099,13 +15230,13 @@ function __c224(j: number): any {
       ).annotate({ identifier: "DeleteLibraDBClusterRequest" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Accounts: __S(6720, __c210, 0),
+          Accounts: __S(6784, __c212, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15117,25 +15248,12 @@ function __c225(j: number): any {
       ).annotate({ identifier: "DeleteLibraDBClusterAccountsRequest" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TemplateId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DeleteParamTemplate" }),
-        ),
-      ).annotate({ identifier: "DeleteParamTemplateRequest" });
-  }
-}
-function __c227(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DatabaseTables: S.optional(S.NullOr(__S(7300, __c228, 4))),
+          DatabaseTables: S.optional(S.NullOr(__S(7332, __c229, 4))),
         }),
       ).annotate({ identifier: "Objects" });
     case 1:
@@ -15147,7 +15265,7 @@ function __c227(j: number): any {
           Mem: S.Number,
           StorageSize: S.Number,
           PayMode: S.Number,
-          Objects: __S(7264, __c227, 0),
+          Objects: __S(7296, __c228, 0),
           Port: S.optional(S.Number),
           GoodsNum: S.optional(S.Number),
           InstanceName: S.optional(S.String),
@@ -15181,7 +15299,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "AddLibraDBInstancesResponse" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15190,27 +15308,40 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "MigrateTableItem" });
     case 1:
-      return S.Array(__S(7296, __c228, 0));
+      return S.Array(__S(7328, __c229, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           DbName: S.optional(S.NullOr(S.String)),
           MigrateTableMode: S.optional(S.NullOr(S.String)),
-          Tables: S.optional(S.NullOr(__S(7297, __c228, 1))),
+          Tables: S.optional(S.NullOr(__S(7329, __c229, 1))),
         }),
       ).annotate({ identifier: "MigrateDBItem" });
     case 3:
-      return S.Array(__S(7298, __c228, 2));
+      return S.Array(__S(7330, __c229, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           MigrateDBMode: S.optional(S.NullOr(S.String)),
-          Databases: S.optional(S.NullOr(__S(7299, __c228, 3))),
+          Databases: S.optional(S.NullOr(__S(7331, __c229, 3))),
         }),
       ).annotate({ identifier: "MigrateObject" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DeleteParamTemplate" }),
+        ),
+      ).annotate({ identifier: "DeleteParamTemplateRequest" });
+  }
+}
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15227,23 +15358,23 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "DeleteVaultTask" });
     case 2:
-      return S.Array(__S(7329, __c229, 1));
+      return S.Array(__S(7393, __c231, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          VaultTask: S.optional(__S(7330, __c229, 2)),
+          VaultTask: S.optional(__S(7394, __c231, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteVaultsResponse" });
   }
 }
-function __c230(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
-          Account: __S(6752, __c211, 0),
+          Account: __S(6816, __c213, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15258,14 +15389,14 @@ function __c230(j: number): any {
         S.Struct({
           PrivilegeStatements: S.optional(__S(64, __c2, 0)),
           GlobalPrivileges: S.optional(__S(64, __c2, 0)),
-          DatabasePrivileges: S.optional(__S(7393, __c231, 1)),
-          TablePrivileges: S.optional(__S(7395, __c231, 3)),
+          DatabasePrivileges: S.optional(__S(7457, __c233, 1)),
+          TablePrivileges: S.optional(__S(7459, __c233, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAccountAllGrantPrivilegesResponse" });
   }
 }
-function __c231(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15275,7 +15406,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "DatabasePrivileges" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
+      return S.Array(__S(7456, __c233, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15285,10 +15416,10 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "TablePrivileges" });
     case 3:
-      return S.Array(__S(7394, __c231, 2));
+      return S.Array(__S(7458, __c233, 2));
   }
 }
-function __c232(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15317,7 +15448,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "DescribeAccountPrivilegesResponse" });
   }
 }
-function __c233(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15336,7 +15467,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "DescribeAccountsRequest" });
   }
 }
-function __c234(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15351,18 +15482,18 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "Account" });
     case 1:
-      return S.Array(__S(7488, __c234, 0));
+      return S.Array(__S(7552, __c236, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AccountSet: S.optional(__S(7489, __c234, 1)),
+          AccountSet: S.optional(__S(7553, __c236, 1)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAccountsResponse" });
   }
 }
-function __c235(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15373,12 +15504,12 @@ function __c235(j: number): any {
         }),
       ).annotate({ identifier: "AuditInstanceFilters" });
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7584, __c237, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           AuditSwitch: S.optional(S.Number),
-          Filters: S.optional(__S(7521, __c235, 1)),
+          Filters: S.optional(__S(7585, __c237, 1)),
           AuditMode: S.optional(S.Number),
           Limit: S.optional(S.Number),
           Offset: S.optional(S.Number),
@@ -15395,7 +15526,7 @@ function __c235(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.optional(S.Number),
-          TagList: S.optional(__S(6273, __c196, 1)),
+          TagList: S.optional(__S(6305, __c197, 1)),
         }),
       ).annotate({ identifier: "AuditInstanceInfo" });
     case 4:
@@ -15409,7 +15540,7 @@ function __c235(j: number): any {
         }),
       ).annotate({ identifier: "DeliverSummary" });
     case 5:
-      return S.Array(__S(7524, __c235, 4));
+      return S.Array(__S(7588, __c237, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -15423,26 +15554,26 @@ function __c235(j: number): any {
           LowRealStorage: S.optional(S.Number),
           AuditAll: S.optional(S.Boolean),
           CreateAt: S.optional(S.String),
-          InstanceInfo: S.optional(__S(7523, __c235, 3)),
+          InstanceInfo: S.optional(__S(7587, __c237, 3)),
           RealStorage: S.optional(S.Number),
           RuleTemplateIds: S.optional(__S(64, __c2, 0)),
           Deliver: S.optional(S.String),
-          DeliverSummary: S.optional(__S(7525, __c235, 5)),
+          DeliverSummary: S.optional(__S(7589, __c237, 5)),
         }),
       ).annotate({ identifier: "InstanceAuditStatus" });
     case 7:
-      return S.Array(__S(7526, __c235, 6));
+      return S.Array(__S(7590, __c237, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(S.NullOr(__S(7527, __c235, 7))),
+          Items: S.optional(S.NullOr(__S(7591, __c237, 7))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditInstanceListResponse" });
   }
 }
-function __c236(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15469,18 +15600,18 @@ function __c236(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogFile" });
     case 2:
-      return S.Array(__S(7553, __c236, 1));
+      return S.Array(__S(7617, __c238, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(7554, __c236, 2)),
+          Items: S.optional(__S(7618, __c238, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditLogFilesResponse" });
   }
 }
-function __c237(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15508,7 +15639,7 @@ function __c237(j: number): any {
         }),
       ).annotate({ identifier: "LogRuleTemplateInfo" });
     case 2:
-      return S.Array(__S(7585, __c237, 1));
+      return S.Array(__S(7649, __c239, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15532,24 +15663,24 @@ function __c237(j: number): any {
           LockWaitTime: S.optional(S.Number),
           TrxLivingTime: S.optional(S.Number),
           NsTime: S.optional(S.Number),
-          TemplateInfo: S.optional(__S(7586, __c237, 2)),
+          TemplateInfo: S.optional(__S(7650, __c239, 2)),
           TrxId: S.optional(S.Number),
           ClientPort: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AuditLog" });
     case 4:
-      return S.Array(__S(7587, __c237, 3));
+      return S.Array(__S(7651, __c239, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(S.NullOr(__S(7588, __c237, 4))),
+          Items: S.optional(S.NullOr(__S(7652, __c239, 4))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditLogsResponse" });
   }
 }
-function __c238(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15585,18 +15716,18 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "AuditRuleTemplateInfo" });
     case 2:
-      return S.Array(__S(7617, __c238, 1));
+      return S.Array(__S(7681, __c240, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(7618, __c238, 2)),
+          Items: S.optional(__S(7682, __c240, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditRuleTemplatesResponse" });
   }
 }
-function __c239(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15623,30 +15754,30 @@ function __c239(j: number): any {
         }),
       ).annotate({ identifier: "RuleTemplateInfo" });
     case 2:
-      return S.Array(__S(7649, __c239, 1));
+      return S.Array(__S(7713, __c241, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
           AuditRule: S.optional(S.Boolean),
-          AuditRuleFilters: S.optional(__S(7681, __c240, 1)),
+          AuditRuleFilters: S.optional(__S(7745, __c242, 1)),
           OldRule: S.optional(S.Boolean),
-          RuleTemplates: S.optional(__S(7650, __c239, 2)),
+          RuleTemplates: S.optional(__S(7714, __c241, 2)),
         }),
       ).annotate({ identifier: "InstanceAuditRule" });
     case 4:
-      return S.Array(__S(7651, __c239, 3));
+      return S.Array(__S(7715, __c241, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(S.NullOr(__S(7652, __c239, 4))),
+          Items: S.optional(S.NullOr(__S(7716, __c241, 4))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAuditRuleWithInstanceIdsResponse" });
   }
 }
-function __c240(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15655,104 +15786,7 @@ function __c240(j: number): any {
         }),
       ).annotate({ identifier: "AuditRuleFilters" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
-  }
-}
-function __c241(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeBackupConfig" }),
-        ),
-      ).annotate({ identifier: "DescribeBackupConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          BackupCustomAutoTime: S.optional(S.Boolean),
-          BackupTimeBeg: S.optional(S.Number),
-          BackupTimeEnd: S.optional(S.Number),
-          BackupWeekDays: S.optional(S.NullOr(__S(64, __c2, 0))),
-          BackupIntervalTime: S.optional(S.Number),
-          ReserveDuration: S.optional(S.Number),
-          CrossRegionsEnable: S.optional(S.String),
-          CrossRegions: S.optional(S.NullOr(__S(64, __c2, 0))),
-          CrossRegionSaveDays: S.optional(S.Number),
-          BackupTriggerStrategy: S.optional(S.String),
-          AutoCopyVaults: S.optional(__S(5985, __c187, 1)),
-        }),
-      ).annotate({ identifier: "BackupConfigInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          SparseBackupSwitch: S.optional(S.NullOr(S.String)),
-          SparseBackupConfigInfos: S.optional(S.NullOr(__S(7749, __c242, 5))),
-        }),
-      ).annotate({ identifier: "SparseBackupConfigRsp" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          BackupTimeBeg: S.optional(S.Number),
-          BackupTimeEnd: S.optional(S.Number),
-          ReserveDuration: S.optional(S.Number),
-          BackupFreq: S.optional(__S(64, __c2, 0)),
-          BackupType: S.optional(S.String),
-          LogicCrossRegionsConfigUpdateTime: S.optional(S.String),
-          LogicBackupConfig: S.optional(__S(7744, __c242, 0)),
-          SnapshotSecondaryBackupConfig: S.optional(S.NullOr(__S(7713, __c241, 1))),
-          SparseBackupConfig: S.optional(__S(7714, __c241, 2)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeBackupConfigResponse" });
-  }
-}
-function __c242(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          LogicBackupEnable: S.optional(S.String),
-          LogicBackupTimeBeg: S.optional(S.Number),
-          LogicBackupTimeEnd: S.optional(S.Number),
-          LogicReserveDuration: S.optional(S.Number),
-          LogicCrossRegionsEnable: S.optional(S.String),
-          LogicCrossRegions: S.optional(S.NullOr(__S(64, __c2, 0))),
-          AutoCopyVaults: S.optional(__S(5985, __c187, 1)),
-          LogicCrossRegionSaveDays: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "LogicBackupConfigInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Month: S.Number,
-          Day: S.Number,
-        }),
-      ).annotate({ identifier: "MonthDay" });
-    case 2:
-      return S.Array(__S(7745, __c242, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          WeekDays: S.optional(__S(4192, __c131, 0)),
-          Days: S.optional(__S(4192, __c131, 0)),
-          MonthDays: S.optional(__S(7746, __c242, 2)),
-        }),
-      ).annotate({ identifier: "SparsePeriodTime" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          OpType: S.String,
-          ConfigId: S.optional(S.String),
-          SparsePeriodConfig: S.optional(S.String),
-          SparsePeriodTime: S.optional(__S(7747, __c242, 3)),
-          SparseBackupSaveDays: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SparseBackupConfigInfo" });
-    case 5:
-      return S.Array(__S(7748, __c242, 4));
+      return S.Array(__S(7744, __c242, 0));
   }
 }
 function __c243(j: number): any {
@@ -15770,7 +15804,7 @@ function __c243(j: number): any {
           SecurityGroupIds: S.optional(__S(64, __c2, 0)),
           AutoPause: S.optional(S.String),
           AutoPauseDelay: S.optional(S.Number),
-          InstanceParams: S.optional(__S(6913, __c216, 1)),
+          InstanceParams: S.optional(__S(6945, __c217, 1)),
           ParamTemplateId: S.optional(S.Number),
           RoCount: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -15799,6 +15833,103 @@ function __c244(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ClusterId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeBackupConfig" }),
+        ),
+      ).annotate({ identifier: "DescribeBackupConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BackupCustomAutoTime: S.optional(S.Boolean),
+          BackupTimeBeg: S.optional(S.Number),
+          BackupTimeEnd: S.optional(S.Number),
+          BackupWeekDays: S.optional(S.NullOr(__S(64, __c2, 0))),
+          BackupIntervalTime: S.optional(S.Number),
+          ReserveDuration: S.optional(S.Number),
+          CrossRegionsEnable: S.optional(S.String),
+          CrossRegions: S.optional(S.NullOr(__S(64, __c2, 0))),
+          CrossRegionSaveDays: S.optional(S.Number),
+          BackupTriggerStrategy: S.optional(S.String),
+          AutoCopyVaults: S.optional(__S(6017, __c188, 1)),
+        }),
+      ).annotate({ identifier: "BackupConfigInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SparseBackupSwitch: S.optional(S.NullOr(S.String)),
+          SparseBackupConfigInfos: S.optional(S.NullOr(__S(7845, __c245, 5))),
+        }),
+      ).annotate({ identifier: "SparseBackupConfigRsp" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          BackupTimeBeg: S.optional(S.Number),
+          BackupTimeEnd: S.optional(S.Number),
+          ReserveDuration: S.optional(S.Number),
+          BackupFreq: S.optional(__S(64, __c2, 0)),
+          BackupType: S.optional(S.String),
+          LogicCrossRegionsConfigUpdateTime: S.optional(S.String),
+          LogicBackupConfig: S.optional(__S(7840, __c245, 0)),
+          SnapshotSecondaryBackupConfig: S.optional(S.NullOr(__S(7809, __c244, 1))),
+          SparseBackupConfig: S.optional(__S(7810, __c244, 2)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeBackupConfigResponse" });
+  }
+}
+function __c245(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LogicBackupEnable: S.optional(S.String),
+          LogicBackupTimeBeg: S.optional(S.Number),
+          LogicBackupTimeEnd: S.optional(S.Number),
+          LogicReserveDuration: S.optional(S.Number),
+          LogicCrossRegionsEnable: S.optional(S.String),
+          LogicCrossRegions: S.optional(S.NullOr(__S(64, __c2, 0))),
+          AutoCopyVaults: S.optional(__S(6017, __c188, 1)),
+          LogicCrossRegionSaveDays: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LogicBackupConfigInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Month: S.Number,
+          Day: S.Number,
+        }),
+      ).annotate({ identifier: "MonthDay" });
+    case 2:
+      return S.Array(__S(7841, __c245, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          WeekDays: S.optional(__S(4192, __c131, 0)),
+          Days: S.optional(__S(4192, __c131, 0)),
+          MonthDays: S.optional(__S(7842, __c245, 2)),
+        }),
+      ).annotate({ identifier: "SparsePeriodTime" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          OpType: S.String,
+          ConfigId: S.optional(S.String),
+          SparsePeriodConfig: S.optional(S.String),
+          SparsePeriodTime: S.optional(__S(7843, __c245, 3)),
+          SparseBackupSaveDays: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SparseBackupConfigInfo" });
+    case 5:
+      return S.Array(__S(7844, __c245, 4));
+  }
+}
+function __c246(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ClusterIds: __S(64, __c2, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -15812,13 +15943,13 @@ function __c244(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          BackupLimitClusterRestrictions: S.optional(S.NullOr(__S(7905, __c247, 1))),
+          BackupLimitClusterRestrictions: S.optional(S.NullOr(__S(7969, __c249, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupDownloadRestrictionResponse" });
   }
 }
-function __c245(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15826,13 +15957,13 @@ function __c245(j: number): any {
           LimitType: S.optional(S.String),
           VpcComparisonSymbol: S.optional(S.String),
           IpComparisonSymbol: S.optional(S.String),
-          LimitVpcs: S.optional(__S(7873, __c246, 1)),
+          LimitVpcs: S.optional(__S(7937, __c248, 1)),
           LimitIps: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "BackupLimitRestriction" });
   }
 }
-function __c246(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15842,30 +15973,30 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "BackupLimitVpcItem" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(7936, __c248, 0));
   }
 }
-function __c247(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.optional(S.String),
-          BackupLimitRestriction: S.optional(__S(7840, __c245, 0)),
+          BackupLimitRestriction: S.optional(__S(7904, __c247, 0)),
         }),
       ).annotate({ identifier: "BackupLimitClusterRestriction" });
     case 1:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(7968, __c249, 0));
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
           BackupId: S.Number,
-          DownloadRestriction: S.optional(__S(7840, __c245, 0)),
+          DownloadRestriction: S.optional(__S(7904, __c247, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -15877,7 +16008,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DescribeBackupDownloadUrlRequest" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15888,7 +16019,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DescribeBackupDownloadUrlResponse" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15908,14 +16039,14 @@ function __c250(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          BackupLimitClusterRestrictions: S.optional(S.NullOr(__S(7905, __c247, 1))),
+          BackupLimitClusterRestrictions: S.optional(S.NullOr(__S(7969, __c249, 1))),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupDownloadUserRestrictionResponse" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15942,18 +16073,18 @@ function __c251(j: number): any {
         ),
       ).annotate({ identifier: "DescribeBackupListRequest" });
     case 1:
-      return S.Array(__S(8064, __c252, 0));
+      return S.Array(__S(8128, __c254, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BackupList: S.optional(__S(8033, __c251, 1)),
+          BackupList: S.optional(__S(8097, __c253, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupListResponse" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15970,17 +16101,17 @@ function __c252(j: number): any {
           BackupId: S.optional(S.Number),
           SnapShotType: S.optional(S.String),
           BackupName: S.optional(S.String),
-          ExistRegions: S.optional(__S(8097, __c253, 1)),
+          ExistRegions: S.optional(__S(8161, __c255, 1)),
           CopyStatus: S.optional(S.String),
           EncryptKeyId: S.optional(S.String),
           EncryptRegion: S.optional(S.String),
-          VaultInfos: S.optional(__S(8099, __c253, 3)),
+          VaultInfos: S.optional(__S(8163, __c255, 3)),
           BackupPeriodStrategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "BackupFileInfo" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15990,7 +16121,7 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "BackupRegionAndIds" });
     case 1:
-      return S.Array(__S(8096, __c253, 0));
+      return S.Array(__S(8160, __c255, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16002,10 +16133,10 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "VaultInfo" });
     case 3:
-      return S.Array(__S(8098, __c253, 2));
+      return S.Array(__S(8162, __c255, 2));
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16034,22 +16165,22 @@ function __c254(j: number): any {
         S.Struct({
           ClusterId: S.optional(S.String),
           ClusterName: S.optional(S.String),
-          BackupFileInfo: S.optional(__S(8064, __c252, 0)),
+          BackupFileInfo: S.optional(__S(8128, __c254, 0)),
         }),
       ).annotate({ identifier: "DescribeBackupListByVaultItem" });
     case 2:
-      return S.Array(__S(8129, __c254, 1));
+      return S.Array(__S(8193, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BackupList: S.optional(__S(8130, __c254, 2)),
+          BackupList: S.optional(__S(8194, __c256, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupListByVaultResponse" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16069,7 +16200,7 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "BackupVolumeInfo" });
     case 2:
-      return S.Array(__S(8161, __c255, 1));
+      return S.Array(__S(8225, __c257, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16082,15 +16213,15 @@ function __c255(j: number): any {
           CrossTotalVolume: S.optional(S.Number),
           CrossRegionBackupVolume: S.optional(S.Number),
           CrossRegionLogVolume: S.optional(S.Number),
-          BackupVolumeInfos: S.optional(__S(8162, __c255, 2)),
-          CrossRegionBackupVolumeInfos: S.optional(__S(8162, __c255, 2)),
+          BackupVolumeInfos: S.optional(__S(8226, __c257, 2)),
+          CrossRegionBackupVolumeInfos: S.optional(__S(8226, __c257, 2)),
           CrossRegions: S.optional(__S(64, __c2, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBackupOverviewResponse" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16105,13 +16236,13 @@ function __c256(j: number): any {
       return S.suspend(() =>
         S.Struct({
           BinlogCrossRegionsConfigUpdateTime: S.optional(S.String),
-          BinlogConfig: S.optional(__S(8224, __c257, 0)),
+          BinlogConfig: S.optional(__S(8288, __c259, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBinlogConfigResponse" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16120,19 +16251,19 @@ function __c257(j: number): any {
           BinlogCrossRegionsEnable: S.String,
           BinlogCrossRegions: S.optional(S.NullOr(__S(64, __c2, 0))),
           BinlogCrossRegionSaveDays: S.optional(S.Number),
-          AutoCopyVaults: S.optional(__S(5985, __c187, 1)),
+          AutoCopyVaults: S.optional(__S(6017, __c188, 1)),
         }),
       ).annotate({ identifier: "BinlogConfigInfo" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ClusterId: S.String,
           BinlogId: S.Number,
-          DownloadRestriction: S.optional(__S(7840, __c245, 0)),
+          DownloadRestriction: S.optional(__S(7904, __c247, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -16144,7 +16275,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DescribeBinlogDownloadUrlRequest" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16173,22 +16304,22 @@ function __c259(j: number): any {
         S.Struct({
           ClusterId: S.optional(S.String),
           ClusterName: S.optional(S.String),
-          BinlogFileInfo: S.optional(__S(8320, __c260, 0)),
+          BinlogFileInfo: S.optional(__S(8384, __c262, 0)),
         }),
       ).annotate({ identifier: "DescribeBinlogListByVaultItem" });
     case 2:
-      return S.Array(__S(8289, __c259, 1));
+      return S.Array(__S(8353, __c261, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          BinlogList: S.optional(__S(8290, __c259, 2)),
+          BinlogList: S.optional(__S(8354, __c261, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeBinlogListByVaultResponse" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16200,40 +16331,15 @@ function __c260(j: number): any {
           BinlogId: S.optional(S.Number),
           CrossRegions: S.optional(__S(64, __c2, 0)),
           CopyStatus: S.optional(S.String),
-          VaultInfos: S.optional(__S(8099, __c253, 3)),
+          VaultInfos: S.optional(__S(8163, __c255, 3)),
           EncryptKeyId: S.optional(S.String),
           EncryptRegion: S.optional(S.String),
-          ExistRegions: S.optional(__S(8097, __c253, 1)),
+          ExistRegions: S.optional(__S(8161, __c255, 1)),
         }),
       ).annotate({ identifier: "BinlogItem" });
   }
 }
-function __c261(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ClusterId: S.String,
-          StartTime: S.optional(S.String),
-          EndTime: S.optional(S.String),
-          Offset: S.optional(S.Number),
-          Limit: S.optional(S.Number),
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeBinlogs" })),
-      ).annotate({ identifier: "DescribeBinlogsRequest" });
-    case 1:
-      return S.Array(__S(8320, __c260, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          Binlogs: S.optional(__S(8353, __c261, 1)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeBinlogsResponse" });
-  }
-}
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16251,7 +16357,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "AssociateSecurityGroupsRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16261,7 +16367,32 @@ function __c263(j: number): any {
       ).annotate({ identifier: "AssociateSecurityGroupsResponse" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterId: S.String,
+          StartTime: S.optional(S.String),
+          EndTime: S.optional(S.String),
+          Offset: S.optional(S.Number),
+          Limit: S.optional(S.Number),
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeBinlogs" })),
+      ).annotate({ identifier: "DescribeBinlogsRequest" });
+    case 1:
+      return S.Array(__S(8384, __c262, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TotalCount: S.optional(S.Number),
+          Binlogs: S.optional(__S(8481, __c265, 1)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeBinlogsResponse" });
+  }
+}
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16281,7 +16412,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DescribeBinlogSaveDaysResponse" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16308,18 +16439,18 @@ function __c265(j: number): any {
         }),
       ).annotate({ identifier: "ParamItemInfo" });
     case 2:
-      return S.Array(__S(8481, __c265, 1));
+      return S.Array(__S(8545, __c267, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(8482, __c265, 2)),
+          Items: S.optional(__S(8546, __c267, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeChangedParamsAfterUpgradeResponse" });
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16349,7 +16480,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DescribeClusterDatabasesResponse" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16380,7 +16511,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DescribeClusterDatabaseTablesResponse" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16420,14 +16551,14 @@ function __c268(j: number): any {
           MaintainStartTime: S.optional(S.Number),
           MaintainDuration: S.optional(S.Number),
           MaintainWeekDays: S.optional(__S(64, __c2, 0)),
-          InstanceTasks: S.optional(__S(8705, __c272, 1)),
+          InstanceTasks: S.optional(__S(8769, __c274, 1)),
           DeviceType: S.optional(S.String),
           InstanceStorageType: S.optional(S.String),
           DbMode: S.optional(S.String),
           NodeList: S.optional(__S(64, __c2, 0)),
           ServerlessStatus: S.optional(S.String),
-          ServerlessQuotaInfo: S.optional(__S(8736, __c273, 0)),
-          AIOptimizerStatus: S.optional(__S(8577, __c268, 1)),
+          ServerlessQuotaInfo: S.optional(__S(8800, __c275, 0)),
+          AIOptimizerStatus: S.optional(__S(8641, __c270, 1)),
           ProjectId: S.optional(S.Number),
           Region: S.optional(S.String),
           Zone: S.optional(S.String),
@@ -16452,19 +16583,19 @@ function __c268(j: number): any {
           WanPort: S.optional(S.Number),
           WanStatus: S.optional(S.String),
           WanDomain: S.optional(S.String),
-          InstanceNetInfo: S.optional(__S(8768, __c274, 0)),
+          InstanceNetInfo: S.optional(__S(8832, __c276, 0)),
           PayMode: S.optional(S.Number),
           ProcessingTask: S.optional(S.String),
           RenewFlag: S.optional(S.Number),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           IsFreeze: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(6273, __c196, 1))),
-          InstanceAbility: S.optional(__S(8769, __c274, 1)),
+          ResourceTags: S.optional(S.NullOr(__S(6305, __c197, 1))),
+          InstanceAbility: S.optional(__S(8833, __c276, 1)),
           GdnId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterInstanceDetail" });
     case 3:
-      return S.Array(__S(8578, __c268, 2));
+      return S.Array(__S(8642, __c270, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -16494,30 +16625,30 @@ function __c268(j: number): any {
           UsedStorage: S.optional(S.Number),
           Vip: S.optional(S.String),
           Vport: S.optional(S.Number),
-          RoAddr: S.optional(__S(8609, __c269, 1)),
-          Ability: S.optional(__S(8832, __c276, 0)),
+          RoAddr: S.optional(__S(8673, __c271, 1)),
+          Ability: S.optional(__S(8896, __c278, 0)),
           CynosVersion: S.optional(S.String),
           BusinessType: S.optional(S.String),
           HasSlaveZone: S.optional(S.String),
           IsFreeze: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           MasterZone: S.optional(S.String),
           SlaveZones: S.optional(__S(64, __c2, 0)),
-          InstanceSet: S.optional(__S(8579, __c268, 3)),
+          InstanceSet: S.optional(__S(8643, __c270, 3)),
           PayMode: S.optional(S.Number),
           PeriodEndTime: S.optional(S.String),
           ProjectID: S.optional(S.Number),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           ProxyStatus: S.optional(S.String),
           LogBin: S.optional(S.String),
           IsSkipTrade: S.optional(S.String),
           PitrType: S.optional(S.String),
           IsOpenPasswordComplexity: S.optional(S.String.pipe(T.SensitiveValue({}))),
           NetworkStatus: S.optional(S.String),
-          ResourcePackages: S.optional(__S(8673, __c271, 1)),
+          ResourcePackages: S.optional(__S(8737, __c273, 1)),
           RenewFlag: S.optional(S.Number),
           NetworkType: S.optional(S.String),
-          SlaveZoneAttr: S.optional(__S(8641, __c270, 1)),
+          SlaveZoneAttr: S.optional(__S(8705, __c272, 1)),
           CynosVersionTag: S.optional(S.String),
           GdnId: S.optional(S.String),
           GdnRole: S.optional(S.String),
@@ -16529,18 +16660,19 @@ function __c268(j: number): any {
           RealZone: S.optional(S.String),
           StorageOverUse: S.optional(S.String),
           StorageAutoExpand: S.optional(S.String),
+          IsInInstantRollbackChain: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CynosdbClusterDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Detail: S.optional(__S(8580, __c268, 4)),
+          Detail: S.optional(__S(8644, __c270, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterDetailResponse" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16550,10 +16682,10 @@ function __c269(j: number): any {
         }),
       ).annotate({ identifier: "Addr" });
     case 1:
-      return S.Array(__S(8608, __c269, 0));
+      return S.Array(__S(8672, __c271, 0));
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16564,10 +16696,10 @@ function __c270(j: number): any {
         }),
       ).annotate({ identifier: "SlaveZoneAttrItem" });
     case 1:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8704, __c272, 0));
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16578,10 +16710,10 @@ function __c271(j: number): any {
         }),
       ).annotate({ identifier: "ResourcePackage" });
     case 1:
-      return S.Array(__S(8672, __c271, 0));
+      return S.Array(__S(8736, __c273, 0));
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16594,10 +16726,10 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "ObjectTask" });
     case 1:
-      return S.Array(__S(8704, __c272, 0));
+      return S.Array(__S(8768, __c274, 0));
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16611,10 +16743,10 @@ function __c273(j: number): any {
       ).annotate({ identifier: "InstanceServerlessQuotaInfo" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8800, __c275, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16624,7 +16756,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "InstanceAbility" });
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16644,7 +16776,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "InstanceNetInfo" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16665,7 +16797,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "Ability" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16691,7 +16823,7 @@ function __c277(j: number): any {
           Status: S.optional(S.String),
           CollateRule: S.optional(S.String),
           Description: S.optional(S.String),
-          UserHostPrivileges: S.optional(__S(6081, __c190, 1)),
+          UserHostPrivileges: S.optional(__S(6113, __c191, 1)),
           DbId: S.optional(S.Number),
           CreateTime: S.optional(S.String),
           UpdateTime: S.optional(S.String),
@@ -16701,18 +16833,18 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "DbInfo" });
     case 2:
-      return S.Array(__S(8865, __c277, 1));
+      return S.Array(__S(8929, __c279, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DbInfos: S.optional(__S(8866, __c277, 2)),
+          DbInfos: S.optional(__S(8930, __c279, 2)),
           TotalCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterDetailDatabasesResponse" });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16729,7 +16861,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DescribeClusterInstanceGroupsRequest" });
   }
 }
-function __c279(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16756,28 +16888,28 @@ function __c279(j: number): any {
           WanIP: S.optional(S.String),
           WanPort: S.optional(S.Number),
           WanStatus: S.optional(S.String),
-          InstanceSet: S.optional(__S(8961, __c280, 1)),
+          InstanceSet: S.optional(__S(9025, __c282, 1)),
           UniqVpcId: S.optional(S.String),
           UniqSubnetId: S.optional(S.String),
-          OldAddrInfo: S.optional(__S(8928, __c279, 0)),
+          OldAddrInfo: S.optional(__S(8992, __c281, 0)),
           ProcessingTasks: S.optional(__S(64, __c2, 0)),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           NetServiceId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CynosdbInstanceGroup" });
     case 2:
-      return S.Array(__S(8929, __c279, 1));
+      return S.Array(__S(8993, __c281, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceGroupInfoList: S.optional(__S(8930, __c279, 2)),
+          InstanceGroupInfoList: S.optional(__S(8994, __c281, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterInstanceGroupsResponse" });
   }
 }
-function __c280(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16827,29 +16959,29 @@ function __c280(j: number): any {
           StoragePayMode: S.optional(S.Number),
           PhysicalZone: S.optional(S.String),
           BusinessType: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
           IsFreeze: S.optional(S.String),
-          ResourceTags: S.optional(S.NullOr(__S(6273, __c196, 1))),
+          ResourceTags: S.optional(S.NullOr(__S(6305, __c197, 1))),
           MasterZone: S.optional(S.String),
           SlaveZones: S.optional(S.NullOr(__S(64, __c2, 0))),
-          InstanceNetInfo: S.optional(__S(8768, __c274, 0)),
-          ResourcePackages: S.optional(S.NullOr(__S(8673, __c271, 1))),
+          InstanceNetInfo: S.optional(__S(8832, __c276, 0)),
+          ResourcePackages: S.optional(S.NullOr(__S(8737, __c273, 1))),
           InstanceIndexMode: S.optional(S.String),
-          InstanceAbility: S.optional(__S(8769, __c274, 1)),
+          InstanceAbility: S.optional(__S(8833, __c276, 1)),
           DeviceType: S.optional(S.String),
           InstanceStorageType: S.optional(S.String),
           CynosVersionTag: S.optional(S.String),
           NodeList: S.optional(__S(64, __c2, 0)),
           GdnId: S.optional(S.String),
           RealZone: S.optional(S.String),
-          ServerlessQuotaInfo: S.optional(__S(8736, __c273, 0)),
+          ServerlessQuotaInfo: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "CynosdbInstance" });
     case 1:
-      return S.Array(__S(8960, __c280, 0));
+      return S.Array(__S(9024, __c282, 0));
   }
 }
-function __c281(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16866,7 +16998,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DescribeClusterInstanceGrpsRequest" });
   }
 }
-function __c282(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16887,7 +17019,25 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DescribeClusterLevelsResponse" });
   }
 }
-function __c283(j: number): any {
+function __c285(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageIds: __S(64, __c2, 0),
+          ClusterId: S.String,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(
+          T.Action({
+            service: "cynosdb",
+            version: "2019-01-07",
+            action: "BindClusterResourcePackages",
+          }),
+        ),
+      ).annotate({ identifier: "BindClusterResourcePackagesRequest" });
+  }
+}
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16921,36 +17071,18 @@ function __c283(j: number): any {
         }),
       ).annotate({ identifier: "ClusterParamModifyLog" });
     case 2:
-      return S.Array(__S(9057, __c283, 1));
+      return S.Array(__S(9153, __c286, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ClusterParamLogs: S.optional(__S(9058, __c283, 2)),
+          ClusterParamLogs: S.optional(__S(9154, __c286, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterParamLogsResponse" });
   }
 }
-function __c284(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          PackageIds: __S(64, __c2, 0),
-          ClusterId: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "BindClusterResourcePackages",
-          }),
-        ),
-      ).annotate({ identifier: "BindClusterResourcePackagesRequest" });
-  }
-}
-function __c285(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16964,18 +17096,18 @@ function __c285(j: number): any {
         ),
       ).annotate({ identifier: "DescribeClusterParamsRequest" });
     case 1:
-      return S.Array(__S(9152, __c286, 0));
+      return S.Array(__S(9216, __c288, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(9121, __c285, 1)),
+          Items: S.optional(__S(9185, __c287, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterParamsResponse" });
   }
 }
-function __c286(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16992,7 +17124,7 @@ function __c286(j: number): any {
           MatchValue: S.optional(S.String),
           Description: S.optional(S.String),
           IsGlobal: S.optional(S.Number),
-          ModifiableInfo: S.optional(__S(9184, __c287, 0)),
+          ModifiableInfo: S.optional(__S(9248, __c289, 0)),
           IsFunc: S.optional(S.Boolean),
           Func: S.optional(S.String),
           FuncPattern: S.optional(S.String),
@@ -17000,7 +17132,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "ParamInfo" });
   }
 }
-function __c287(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17010,7 +17142,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "ModifiableInfo" });
   }
 }
-function __c288(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17028,18 +17160,18 @@ function __c288(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ValidatePasswordDictionary: S.optional(__S(9152, __c286, 0)),
-          ValidatePasswordLength: S.optional(__S(9152, __c286, 0)),
-          ValidatePasswordMixedCaseCount: S.optional(__S(9152, __c286, 0)),
-          ValidatePasswordNumberCount: S.optional(__S(9152, __c286, 0)),
-          ValidatePasswordPolicy: S.optional(__S(9152, __c286, 0)),
-          ValidatePasswordSpecialCharCount: S.optional(__S(9152, __c286, 0)),
+          ValidatePasswordDictionary: S.optional(__S(9216, __c288, 0)),
+          ValidatePasswordLength: S.optional(__S(9216, __c288, 0)),
+          ValidatePasswordMixedCaseCount: S.optional(__S(9216, __c288, 0)),
+          ValidatePasswordNumberCount: S.optional(__S(9216, __c288, 0)),
+          ValidatePasswordPolicy: S.optional(__S(9216, __c288, 0)),
+          ValidatePasswordSpecialCharCount: S.optional(__S(9216, __c288, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterPasswordComplexityResponse" });
   }
 }
-function __c289(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17073,17 +17205,17 @@ function __c289(j: number): any {
         }),
       ).annotate({ identifier: "ClusterPeriodScalePolicy" });
     case 2:
-      return S.Array(__S(9249, __c289, 1));
+      return S.Array(__S(9313, __c291, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PolicyList: S.optional(__S(9250, __c289, 2)),
+          PolicyList: S.optional(__S(9314, __c291, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterPeriodScalePolicyResponse" });
   }
 }
-function __c290(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17106,17 +17238,17 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "ClusterReadOnlyValue" });
     case 2:
-      return S.Array(__S(9281, __c290, 1));
+      return S.Array(__S(9345, __c292, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ClusterReadOnlyValues: S.optional(__S(9282, __c290, 2)),
+          ClusterReadOnlyValues: S.optional(__S(9346, __c292, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterReadOnlyResponse" });
   }
 }
-function __c291(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17126,7 +17258,7 @@ function __c291(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeClusters" }),
@@ -17160,8 +17292,8 @@ function __c291(j: number): any {
           StorageLimit: S.optional(S.Number),
           RenewFlag: S.optional(S.Number),
           ProcessingTask: S.optional(S.String),
-          Tasks: S.optional(__S(8705, __c272, 1)),
-          ResourceTags: S.optional(__S(6273, __c196, 1)),
+          Tasks: S.optional(__S(8769, __c274, 1)),
+          ResourceTags: S.optional(__S(6305, __c197, 1)),
           DbMode: S.optional(S.String),
           ServerlessStatus: S.optional(S.String),
           Storage: S.optional(S.Number),
@@ -17169,7 +17301,7 @@ function __c291(j: number): any {
           StoragePayMode: S.optional(S.Number),
           MinStorageSize: S.optional(S.Number),
           MaxStorageSize: S.optional(S.Number),
-          NetAddrs: S.optional(__S(9345, __c292, 1)),
+          NetAddrs: S.optional(__S(9409, __c294, 1)),
           PhysicalZone: S.optional(S.String),
           MasterZone: S.optional(S.String),
           HasSlaveZone: S.optional(S.String),
@@ -17177,25 +17309,25 @@ function __c291(j: number): any {
           BusinessType: S.optional(S.String),
           IsFreeze: S.optional(S.String),
           OrderSource: S.optional(S.String),
-          Ability: S.optional(__S(8832, __c276, 0)),
-          ResourcePackages: S.optional(__S(8673, __c271, 1)),
+          Ability: S.optional(__S(8896, __c278, 0)),
+          ResourcePackages: S.optional(__S(8737, __c273, 1)),
           GdnId: S.optional(S.String),
           GdnRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "CynosdbCluster" });
     case 2:
-      return S.Array(__S(9313, __c291, 1));
+      return S.Array(__S(9377, __c293, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ClusterSet: S.optional(__S(9314, __c291, 2)),
+          ClusterSet: S.optional(__S(9378, __c293, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClustersResponse" });
   }
 }
-function __c292(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17214,10 +17346,10 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "NetAddr" });
     case 1:
-      return S.Array(__S(9344, __c292, 0));
+      return S.Array(__S(9408, __c294, 0));
   }
 }
-function __c293(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17229,10 +17361,10 @@ function __c293(j: number): any {
         }),
       ).annotate({ identifier: "QueryFilter" });
     case 1:
-      return S.Array(__S(9376, __c293, 0));
+      return S.Array(__S(9440, __c295, 0));
   }
 }
-function __c294(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17277,18 +17409,18 @@ function __c294(j: number): any {
         }),
       ).annotate({ identifier: "ClusterServerlessScalePlan" });
     case 2:
-      return S.Array(__S(9409, __c294, 1));
+      return S.Array(__S(9473, __c296, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ServerlessScalePlans: S.optional(__S(9410, __c294, 2)),
+          ServerlessScalePlans: S.optional(__S(9474, __c296, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeClusterServerlessScalePlansResponse" });
   }
 }
-function __c295(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17315,7 +17447,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DescribeClusterStorageAutoExpandResponse" });
   }
 }
-function __c296(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17342,7 +17474,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DescribeClusterTransparentEncryptInfoResponse" });
   }
 }
-function __c297(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17360,13 +17492,13 @@ function __c297(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Groups: S.optional(__S(9539, __c298, 3)),
+          Groups: S.optional(__S(9603, __c300, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDBSecurityGroupsResponse" });
   }
 }
-function __c298(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17382,42 +17514,24 @@ function __c298(j: number): any {
         }),
       ).annotate({ identifier: "PolicyRule" });
     case 1:
-      return S.Array(__S(9536, __c298, 0));
+      return S.Array(__S(9600, __c300, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.optional(S.Number),
           CreateTime: S.optional(S.String),
-          Inbound: S.optional(__S(9537, __c298, 1)),
-          Outbound: S.optional(__S(9537, __c298, 1)),
+          Inbound: S.optional(__S(9601, __c300, 1)),
+          Outbound: S.optional(__S(9601, __c300, 1)),
           SecurityGroupId: S.optional(S.String),
           SecurityGroupName: S.optional(S.String),
           SecurityGroupRemark: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityGroup" });
     case 3:
-      return S.Array(__S(9538, __c298, 2));
+      return S.Array(__S(9602, __c300, 2));
   }
 }
-function __c299(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FlowId: S.Number,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeFlow" })),
-      ).annotate({ identifier: "DescribeFlowRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Status: S.optional(S.Number),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeFlowResponse" });
-  }
-}
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17445,22 +17559,40 @@ function __c300(j: number): any {
         }),
       ).annotate({ identifier: "WillDeleteItem" });
     case 2:
-      return S.Array(__S(9601, __c300, 1));
+      return S.Array(__S(9633, __c301, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           WillDeleteBackupFileCount: S.optional(S.Number),
-          WillDeleteBackupFiles: S.optional(__S(9602, __c300, 2)),
+          WillDeleteBackupFiles: S.optional(__S(9634, __c301, 2)),
           WillDeleteBinlogFileCount: S.optional(S.Number),
-          WillDeleteBinlogFiles: S.optional(__S(9602, __c300, 2)),
+          WillDeleteBinlogFiles: S.optional(__S(9634, __c301, 2)),
           WillDeleteRedoLogFileCount: S.optional(S.Number),
-          WillDeleteRedoLogFiles: S.optional(__S(9602, __c300, 2)),
+          WillDeleteRedoLogFiles: S.optional(__S(9634, __c301, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CalculateBackupSaveSecExpiresResponse" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FlowId: S.Number,
+          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
+        }).pipe(T.Action({ service: "cynosdb", version: "2019-01-07", action: "DescribeFlow" })),
+      ).annotate({ identifier: "DescribeFlowRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.Number),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeFlowResponse" });
+  }
+}
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17480,13 +17612,13 @@ function __c301(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceCLSDeliveryInfos: S.optional(__S(9665, __c302, 1)),
+          InstanceCLSDeliveryInfos: S.optional(__S(9729, __c304, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceCLSLogDeliveryResponse" });
   }
 }
-function __c302(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17503,10 +17635,10 @@ function __c302(j: number): any {
         }),
       ).annotate({ identifier: "InstanceCLSDeliveryInfo" });
     case 1:
-      return S.Array(__S(9664, __c302, 0));
+      return S.Array(__S(9728, __c304, 0));
   }
 }
-function __c303(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17559,19 +17691,19 @@ function __c303(j: number): any {
           RealZone: S.optional(S.String),
           SlaveZones: S.optional(__S(64, __c2, 0)),
           StorageVersion: S.optional(S.String),
-          ServerlessQuotaInfo: S.optional(__S(8736, __c273, 0)),
+          ServerlessQuotaInfo: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "CynosdbInstanceDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Detail: S.optional(__S(9697, __c303, 1)),
+          Detail: S.optional(__S(9761, __c305, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceDetailResponse" });
   }
 }
-function __c304(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17603,18 +17735,18 @@ function __c304(j: number): any {
         }),
       ).annotate({ identifier: "CynosdbErrorLogItem" });
     case 2:
-      return S.Array(__S(9729, __c304, 1));
+      return S.Array(__S(9793, __c306, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          ErrorLogs: S.optional(__S(9730, __c304, 2)),
+          ErrorLogs: S.optional(__S(9794, __c306, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceErrorLogsResponse" });
   }
 }
-function __c305(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17640,7 +17772,7 @@ function __c305(j: number): any {
           NeedReboot: S.optional(S.Number),
           ParamName: S.optional(S.String),
           ParamType: S.optional(S.String),
-          ModifiableInfo: S.optional(__S(9184, __c287, 0)),
+          ModifiableInfo: S.optional(__S(9248, __c289, 0)),
           Description: S.optional(S.String),
           IsFunc: S.optional(S.Boolean),
           Func: S.optional(S.String),
@@ -17648,26 +17780,26 @@ function __c305(j: number): any {
         }),
       ).annotate({ identifier: "ParamItemDetail" });
     case 2:
-      return S.Array(__S(9761, __c305, 1));
+      return S.Array(__S(9825, __c307, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          ParamsItems: S.optional(__S(9762, __c305, 2)),
+          ParamsItems: S.optional(__S(9826, __c307, 2)),
         }),
       ).annotate({ identifier: "InstanceParamItem" });
     case 4:
-      return S.Array(__S(9763, __c305, 3));
+      return S.Array(__S(9827, __c307, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(9764, __c305, 4)),
+          Items: S.optional(__S(9828, __c307, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceParamsResponse" });
   }
 }
-function __c306(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17676,7 +17808,7 @@ function __c306(j: number): any {
           Offset: S.optional(S.Number),
           OrderBy: S.optional(S.String),
           OrderByType: S.optional(S.String),
-          Filters: S.optional(__S(9377, __c293, 1)),
+          Filters: S.optional(__S(9441, __c295, 1)),
           DbType: S.optional(S.String),
           Status: S.optional(S.String),
           InstanceIds: S.optional(__S(64, __c2, 0)),
@@ -17688,19 +17820,19 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DescribeInstancesRequest" });
   }
 }
-function __c307(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          InstanceSet: S.optional(__S(8961, __c280, 1)),
+          InstanceSet: S.optional(__S(9025, __c282, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstancesResponse" });
   }
 }
-function __c308(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17725,20 +17857,20 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "ClusterServerlessQuotaConfig" });
     case 2:
-      return S.Array(__S(9857, __c308, 1));
+      return S.Array(__S(9921, __c310, 1));
     case 3:
-      return S.Array(__S(8736, __c273, 0));
+      return S.Array(__S(8800, __c275, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          QuotaConfigs: S.optional(__S(9858, __c308, 2)),
-          InstanceQuotas: S.optional(__S(9859, __c308, 3)),
+          QuotaConfigs: S.optional(__S(9922, __c310, 2)),
+          InstanceQuotas: S.optional(__S(9923, __c310, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceServerlessQuotaResponse" });
   }
 }
-function __c309(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17787,18 +17919,18 @@ function __c309(j: number): any {
         }),
       ).annotate({ identifier: "SlowQueriesItem" });
     case 2:
-      return S.Array(__S(9889, __c309, 1));
+      return S.Array(__S(9953, __c311, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
-          SlowQueries: S.optional(__S(9890, __c309, 2)),
+          SlowQueries: S.optional(__S(9954, __c311, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceSlowQueriesResponse" });
   }
 }
-function __c310(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17815,7 +17947,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DescribeInstanceSpecsRequest" });
   }
 }
-function __c311(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17823,11 +17955,11 @@ function __c311(j: number): any {
           Zone: S.optional(S.String),
           HasStock: S.optional(S.Boolean),
           StockCount: S.optional(S.Number),
-          SlaveZoneStockInfos: S.optional(__S(9985, __c312, 1)),
+          SlaveZoneStockInfos: S.optional(__S(10049, __c314, 1)),
         }),
       ).annotate({ identifier: "ZoneStockInfo" });
     case 1:
-      return S.Array(__S(9952, __c311, 0));
+      return S.Array(__S(10016, __c313, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17839,24 +17971,24 @@ function __c311(j: number): any {
           MachineType: S.optional(S.String),
           MaxIops: S.optional(S.Number),
           MaxIoBandWidth: S.optional(S.Number),
-          ZoneStockInfos: S.optional(__S(9953, __c311, 1)),
+          ZoneStockInfos: S.optional(__S(10017, __c313, 1)),
           StockCount: S.optional(S.Number),
           MaxCpu: S.optional(S.Number),
           MinCpu: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceSpec" });
     case 3:
-      return S.Array(__S(9954, __c311, 2));
+      return S.Array(__S(10018, __c313, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          InstanceSpecSet: S.optional(__S(9955, __c311, 3)),
+          InstanceSpecSet: S.optional(__S(10019, __c313, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInstanceSpecsResponse" });
   }
 }
-function __c312(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17867,10 +17999,10 @@ function __c312(j: number): any {
         }),
       ).annotate({ identifier: "SlaveZoneStockInfo" });
     case 1:
-      return S.Array(__S(9984, __c312, 0));
+      return S.Array(__S(10048, __c314, 0));
   }
 }
-function __c313(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17888,32 +18020,6 @@ function __c313(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DescribeInstanceSpecsByOperationTypeRequest" });
-  }
-}
-function __c314(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          UniqVpcId: S.String,
-          Vip: S.String,
-          region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
-        }).pipe(
-          T.Action({
-            service: "cynosdb",
-            version: "2019-01-07",
-            action: "DescribeInstancesWithinSameCluster",
-          }),
-        ),
-      ).annotate({ identifier: "DescribeInstancesWithinSameClusterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TotalCount: S.optional(S.Number),
-          InstanceIds: S.optional(__S(64, __c2, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeInstancesWithinSameClusterResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

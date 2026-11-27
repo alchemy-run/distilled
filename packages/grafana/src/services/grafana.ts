@@ -219,13 +219,13 @@ export interface AdminCreateUserResponse {
   uid?: string | undefined;
 }
 export interface AdminDeleteUserRequest {
-  user_id: number;
+  user_id: string;
 }
 export interface AdminDisableUserRequest {
-  user_id: number;
+  user_id: string;
 }
 export interface AdminEnableUserRequest {
-  user_id: number;
+  user_id: string;
 }
 export interface AdminGetSettingsRequest {}
 export type SettingsBagValueMap = { [key: string]: string | undefined };
@@ -259,7 +259,7 @@ export interface AdminStats {
   viewers?: number | undefined;
 }
 export interface AdminGetUserAuthTokensRequest {
-  user_id: number;
+  user_id: string;
 }
 /** UserToken represents a user token */
 export interface UserToken {
@@ -281,7 +281,7 @@ export interface UserToken {
 export type AdminGetUserAuthTokensResponseBodyList = Array<UserToken>;
 export type AdminGetUserAuthTokensResponse = AdminGetUserAuthTokensResponseBodyList;
 export interface AdminLogoutUserRequest {
-  user_id: number;
+  user_id: string;
 }
 export interface AdminProvisioningReloadAccessControlRequest {}
 export interface AdminProvisioningReloadAccessControlResponse {}
@@ -289,15 +289,15 @@ export interface AdminProvisioningReloadDashboardsRequest {}
 export interface AdminProvisioningReloadDatasourcesRequest {}
 export interface AdminProvisioningReloadPluginsRequest {}
 export interface AdminRevokeUserAuthTokenRequest {
-  user_id: number;
+  user_id: string;
   authTokenId?: number | undefined;
 }
 export interface AdminUpdateUserPasswordRequest {
-  user_id: number;
+  user_id: string;
   password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AdminUpdateUserPermissionsRequest {
-  user_id: number;
+  user_id: string;
   isGrafanaAdmin?: boolean | undefined;
 }
 export interface CallDatasourceResourceWithUIDRequest {
@@ -1387,6 +1387,10 @@ export interface OrgUserDTO {
 export type GetOrgUsersResponseBodyList = Array<OrgUserDTO>;
 export type GetOrgUsersResponse = GetOrgUsersResponseBodyList;
 export interface GetOrgUsersForCurrentOrgRequest {
+  /** Filter by the exact user UID within the current organization. */
+  userUid?: string | undefined;
+  /** Filter by the exact numerical user ID within the current organization. */
+  userId?: number | undefined;
   query?: string | undefined;
   limit?: number | undefined;
 }
@@ -1707,6 +1711,58 @@ export type SnapshotListResponseDTOSnapshotsList = Array<SnapshotDTO>;
 export interface SnapshotListResponseDTO {
   snapshots?: SnapshotListResponseDTOSnapshotsList | undefined;
 }
+export interface GetSharedVariableClusterOccurrencesRequest {
+  /** The cluster's id, from `GET /dashboards/variables/shared-clusters`. */
+  id: string;
+}
+export interface SharedVariableOccurrence {
+  dashboardUID?: string | undefined;
+  folderUID?: string | undefined;
+  /** MarkedReadOnly is a dashboard whose own Editable setting is off. That is not a lock: anyone who can edit the dashboard can still save it, so promote still writes it. But it often means the dashboard is maintained as code elsewhere, whose next push would bring the local copy back, so the UI calls it out. */
+  markedReadOnly?: boolean | undefined;
+  skipReason?: string | undefined;
+  storedVersion?: string | undefined;
+  title?: string | undefined;
+  writable?: boolean | undefined;
+}
+export type SharedVariableOccurrencesOccurrencesList = Array<SharedVariableOccurrence>;
+export interface SharedVariableOccurrences {
+  id?: string | undefined;
+  occurrences?: SharedVariableOccurrencesOccurrencesList | undefined;
+}
+export interface GetSharedVariableClustersRequest {}
+/** SharedVariableCluster is a set of dashboards that share an identical local variable definition. */
+export interface SharedVariableCluster {
+  conflictReason?: string | undefined;
+  count?: number | undefined;
+  fingerprint?: string | undefined;
+  folderUID?: string | undefined;
+  id?: string | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
+  nameConflict?: boolean | undefined;
+  /** NoWritableDashboards means promote would change nothing: every dashboard is locked. */
+  noWritableDashboards?: boolean | undefined;
+  /** Promoted means the Variable exists and only local copies remain to strip. */
+  promoted?: boolean | undefined;
+  scope?: string | undefined;
+  spec?: unknown | undefined;
+}
+export type SharedVariableClustersClustersList = Array<SharedVariableCluster>;
+export interface SharedVariableClusters {
+  clusters?: SharedVariableClustersClustersList | undefined;
+  dashboards?: number | undefined;
+  error?: string | undefined;
+  progress?: number | undefined;
+  /** ScannedAt is when the clusters were computed; dashboards may have changed since. */
+  scannedAt?: string | undefined;
+  startedAt?: string | undefined;
+  /** Status is "scanning", "ready" or "failed". While scanning, clusters are the previous result. */
+  status?: string | undefined;
+  /** TotalClusters counts every qualifying cluster; Truncated is set when clusters holds only the largest of them. */
+  totalClusters?: number | undefined;
+  truncated?: boolean | undefined;
+}
 export interface GetSharingOptionsRequest {}
 export interface GetSharingOptionsResponse {
   externalEnabled?: boolean | undefined;
@@ -1949,7 +2005,7 @@ export interface PreferencesSpec {
   weekStart?: string | undefined;
 }
 export interface GetUserRequest {
-  user_id: number;
+  user_id: string;
 }
 export interface GetUserAuthTokensRequest {}
 export type GetUserAuthTokensResponseBodyList = Array<UserToken>;
@@ -1962,7 +2018,7 @@ export interface GetUserFromLDAPRequest {
   user_name: string;
 }
 export interface GetUserOrgListRequest {
-  user_id: number;
+  user_id: string;
 }
 export type GetUserOrgListResponseBodyList = Array<UserOrgDTO>;
 export type GetUserOrgListResponse = GetUserOrgListResponseBodyList;
@@ -1975,7 +2031,7 @@ export interface GetUserQuotasRequest {}
 export type GetUserQuotasResponseBodyList = Array<QuotaDTO>;
 export type GetUserQuotasResponse = GetUserQuotasResponseBodyList;
 export interface GetUserTeamsRequest {
-  user_id: number;
+  user_id: string;
 }
 export type GetUserTeamsResponseBodyList = Array<TeamDTO>;
 export type GetUserTeamsResponse = GetUserTeamsResponseBodyList;
@@ -2171,6 +2227,35 @@ export interface PostSLORequest {
 export interface PostSLOResponse {}
 export interface PostSyncUserWithLDAPRequest {
   user_id: number;
+}
+/** DashboardUIDs limits which dashboards are updated, at most MaxPromoteBatch (200). Empty means the whole cluster, which is allowed only when it fits in one batch. */
+export type PromoteSharedVariableClusterRequestDashboardUIDsList = Array<string>;
+export interface PromoteSharedVariableClusterRequest {
+  /** ClusterID is the cluster to promote, from the org's latest snapshot. */
+  clusterId?: string | undefined;
+  /** DashboardUIDs limits which dashboards are updated, at most MaxPromoteBatch (200). Empty means the whole cluster, which is allowed only when it fits in one batch. */
+  dashboardUIDs?: PromoteSharedVariableClusterRequestDashboardUIDsList | undefined;
+  /** FolderUID is the folder for a folder Scope override. */
+  folderUID?: string | undefined;
+  scope?: string | undefined;
+}
+export interface SharedVariableDashboardPromoteResult {
+  dashboardUID?: string | undefined;
+  error?: string | undefined;
+  /** SkipReason is the scanner's reason for a dashboard this tool cannot write. */
+  skipReason?: string | undefined;
+  status?: string | undefined;
+}
+export type SharedVariablePromoteResultResultsList = Array<SharedVariableDashboardPromoteResult>;
+export interface SharedVariablePromoteResult {
+  clusterId?: string | undefined;
+  folderUID?: string | undefined;
+  /** Remaining counts the cluster's dashboards in the snapshot still to strip after this batch; ones this tool cannot write, or that the Variable's scope does not cover, are not counted. */
+  remaining?: number | undefined;
+  results?: SharedVariablePromoteResultResultsList | undefined;
+  scope?: string | undefined;
+  variableAction?: string | undefined;
+  variableName?: string | undefined;
 }
 /** queries.refId - Specifies an identifier of the query. Is optional and default to "A". queries.datasourceId - Specifies the data source to be queried. Each query in the request must have an unique datasourceId. queries.maxDataPoints - Species maximum amount of data points that dashboard panel can render. Is optional and default to 100. queries.intervalMs - Specifies the time interval in milliseconds of time series. Is optional and defaults to 1000. */
 export type QueryMetricsWithExpressionsRequestQueriesList = Array<unknown>;
@@ -2416,7 +2501,7 @@ export interface ReloadLDAPCfgRequest {}
 export interface ReloadLDAPCfgResponse {}
 export interface RemoveOrgUserRequest {
   org_id: number;
-  user_id: number;
+  user_id: string;
 }
 export interface RemoveOrgUserForCurrentOrgRequest {
   user_id: number;
@@ -2458,6 +2543,8 @@ export interface RenderReportPDFsRequest {
 }
 export type RenderReportPDFsResponseBodyList = Array<number>;
 export type RenderReportPDFsResponse = RenderReportPDFsResponseBodyList;
+export interface RescanSharedVariableClustersRequest {}
+export interface RescanSharedVariableClustersResponse {}
 export interface RevokeInviteRequest {
   invitation_code: string;
 }
@@ -3237,7 +3324,7 @@ export interface UpdateOrgQuotaRequest {
 export type UpdateOrgUserRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateOrgUserRequest {
   org_id: number;
-  user_id: number;
+  user_id: string;
   role?: UpdateOrgUserRequestRole | (string & {}) | undefined;
 }
 export type UpdateOrgUserForCurrentOrgRequestRole = "None" | "Viewer" | "Editor" | "Admin";
@@ -3370,7 +3457,7 @@ export interface UpdateTeamPreferencesRequest {
   weekStart?: string | undefined;
 }
 export interface UpdateUserRequest {
-  user_id: number;
+  user_id: string;
   email?: string | undefined;
   login?: string | undefined;
   name?: string | undefined;
@@ -3437,8 +3524,8 @@ export const addDataSource: API.OperationMethod<
   AddDataSourceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<AddDataSourceRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<AddDataSourceResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<AddDataSourceRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<AddDataSourceResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3455,8 +3542,8 @@ export const addOrgInvite: API.OperationMethod<
   AddOrgInviteError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<AddOrgInviteRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8288, __c259, 0) as any as S.Schema<AddOrgInviteRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3473,8 +3560,8 @@ export const addOrgUser: API.OperationMethod<
   AddOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<AddOrgUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8672, __c271, 0) as any as S.Schema<AddOrgUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3491,8 +3578,8 @@ export const addOrgUserToCurrentOrg: API.OperationMethod<
   AddOrgUserToCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<AddOrgUserToCurrentOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(9088, __c284, 0) as any as S.Schema<AddOrgUserToCurrentOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3509,8 +3596,8 @@ export const addTeamGroupApi: API.OperationMethod<
   AddTeamGroupApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<AddTeamGroupApiRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(9568, __c299, 0) as any as S.Schema<AddTeamGroupApiRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3528,7 +3615,7 @@ export const addTeamMember: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<AddTeamMemberRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3546,7 +3633,7 @@ export const addTeamRole: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<AddTeamRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3564,7 +3651,7 @@ export const addUserRole: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<AddUserRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3600,7 +3687,7 @@ export const adminDeleteUser: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<AdminDeleteUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3617,8 +3704,8 @@ export const adminDisableUser: API.OperationMethod<
   AdminDisableUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<AdminDisableUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2240, __c70, 0) as any as S.Schema<AdminDisableUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3636,7 +3723,7 @@ export const adminEnableUser: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<AdminEnableUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3708,7 +3795,7 @@ export const adminLogoutUser: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<AdminLogoutUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3744,7 +3831,7 @@ export const adminProvisioningReloadDashboards: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<AdminProvisioningReloadDashboardsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3762,7 +3849,7 @@ export const adminProvisioningReloadDatasources: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<AdminProvisioningReloadDatasourcesRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3780,7 +3867,7 @@ export const adminProvisioningReloadPlugins: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<AdminProvisioningReloadPluginsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3798,7 +3885,7 @@ export const adminRevokeUserAuthToken: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<AdminRevokeUserAuthTokenRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3815,8 +3902,8 @@ export const adminUpdateUserPassword: API.OperationMethod<
   AdminUpdateUserPasswordError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<AdminUpdateUserPasswordRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6368, __c199, 0) as any as S.Schema<AdminUpdateUserPasswordRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3833,8 +3920,8 @@ export const adminUpdateUserPermissions: API.OperationMethod<
   AdminUpdateUserPermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<AdminUpdateUserPermissionsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6400, __c200, 0) as any as S.Schema<AdminUpdateUserPermissionsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3851,8 +3938,8 @@ export const callDatasourceResourceWithUID: API.OperationMethod<
   CallDatasourceResourceWithUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<CallDatasourceResourceWithUIDRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6432, __c201, 0) as any as S.Schema<CallDatasourceResourceWithUIDRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3869,7 +3956,7 @@ export const cancelSnapshot: API.OperationMethod<
   CancelSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<CancelSnapshotRequest>,
+  input: __S(6464, __c202, 0) as any as S.Schema<CancelSnapshotRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<CancelSnapshotResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -3887,8 +3974,8 @@ export const changeUserPassword: API.OperationMethod<
   ChangeUserPasswordError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<ChangeUserPasswordRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ChangeUserPasswordRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3905,8 +3992,8 @@ export const checkDatasourceHealthWithUID: API.OperationMethod<
   CheckDatasourceHealthWithUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<CheckDatasourceHealthWithUIDRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CheckDatasourceHealthWithUIDRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3923,8 +4010,8 @@ export const cleanDataSourceCache: API.OperationMethod<
   CleanDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<CleanDataSourceCacheRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<CleanDataSourceCacheRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3941,8 +4028,8 @@ export const createAnnotation: API.OperationMethod<
   CreateAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateAnnotationRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<CreateAnnotationResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<CreateAnnotationRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<CreateAnnotationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3959,8 +4046,8 @@ export const createCloudMigrationToken: API.OperationMethod<
   CreateCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<CreateCloudMigrationTokenRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<CreateAccessTokenResponseDTO>,
+  input: __S(6720, __c210, 0) as any as S.Schema<CreateCloudMigrationTokenRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<CreateAccessTokenResponseDTO>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3977,8 +4064,8 @@ export const createCorrelation: API.OperationMethod<
   CreateCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<CreateCorrelationRequest>,
-  output: __S(6656, __c208, 0) as any as S.Schema<CreateCorrelationResponseBody>,
+  input: __S(6752, __c211, 0) as any as S.Schema<CreateCorrelationRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<CreateCorrelationResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -3995,8 +4082,8 @@ export const createDashboardSnapshot: API.OperationMethod<
   CreateDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6721, __c210, 1) as any as S.Schema<CreateDashboardSnapshotRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<CreateDashboardSnapshotResponse>,
+  input: __S(6849, __c214, 1) as any as S.Schema<CreateDashboardSnapshotRequest>,
+  output: __S(6850, __c214, 2) as any as S.Schema<CreateDashboardSnapshotResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4013,8 +4100,8 @@ export const createLibraryElement: API.OperationMethod<
   CreateLibraryElementError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<CreateLibraryElementRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<CreateLibraryElementRequest>,
+  output: __S(6976, __c218, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4031,8 +4118,8 @@ export const createOrg: API.OperationMethod<
   CreateOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<CreateOrgRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<CreateOrgResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<CreateOrgRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<CreateOrgResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4049,8 +4136,8 @@ export const createPublicDashboard: API.OperationMethod<
   CreatePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<CreatePublicDashboardRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
+  input: __S(7040, __c220, 0) as any as S.Schema<CreatePublicDashboardRequest>,
+  output: __S(7074, __c221, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4067,8 +4154,8 @@ export const createQuery: API.OperationMethod<
   CreateQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<CreateQueryRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<CreateQueryRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4085,8 +4172,8 @@ export const createRecordingRule: API.OperationMethod<
   CreateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<CreateRecordingRuleRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
+  input: __S(7200, __c225, 0) as any as S.Schema<CreateRecordingRuleRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<RecordingRuleJSON>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4107,8 +4194,8 @@ export const createRecordingRuleWriteTarget: API.OperationMethod<
   CreateRecordingRuleWriteTargetError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<CreateRecordingRuleWriteTargetRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateRecordingRuleWriteTargetRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4125,8 +4212,8 @@ export const createReport: API.OperationMethod<
   CreateReportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<CreateReportRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<CreateReportResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateReportRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<CreateReportResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4143,8 +4230,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(7522, __c235, 2) as any as S.Schema<RoleDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4161,8 +4248,8 @@ export const createServiceAccount: API.OperationMethod<
   CreateServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<CreateServiceAccountRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateServiceAccountRequest>,
+  output: __S(7584, __c237, 0) as any as S.Schema<ServiceAccountDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4179,8 +4266,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
+  input: __S(7616, __c238, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(7648, __c239, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4197,8 +4284,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<CreateSnapshotRequest>,
-  output: __S(7553, __c236, 1) as any as S.Schema<CreateSnapshotResponseDTO>,
+  input: __S(7680, __c240, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(7681, __c240, 1) as any as S.Schema<CreateSnapshotResponseDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4215,8 +4302,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<CreateTeamRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<CreateTeamResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<CreateTeamResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4233,8 +4320,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(7649, __c239, 1) as any as S.Schema<NewApiKeyResult>,
+  input: __S(7776, __c243, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<NewApiKeyResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4255,7 +4342,7 @@ export const datasourceProxyDELETEByUIDcalls: API.OperationMethod<
   DatasourceProxyDELETEByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsRequest>,
+  input: __S(7968, __c249, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -4273,7 +4360,7 @@ export const datasourceProxyGETByUIDcalls: API.OperationMethod<
   DatasourceProxyGETByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsRequest>,
+  input: __S(8000, __c250, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -4291,7 +4378,7 @@ export const datasourceProxyPOSTByUIDcalls: API.OperationMethod<
   DatasourceProxyPOSTByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsRequest>,
+  input: __S(8032, __c251, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -4309,8 +4396,8 @@ export const deleteAnnotation: API.OperationMethod<
   DeleteAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<DeleteAnnotationRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8064, __c252, 0) as any as S.Schema<DeleteAnnotationRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4327,7 +4414,7 @@ export const deleteCloudMigrationToken: API.OperationMethod<
   DeleteCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<DeleteCloudMigrationTokenRequest>,
+  input: __S(8096, __c253, 0) as any as S.Schema<DeleteCloudMigrationTokenRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteCloudMigrationTokenResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -4345,8 +4432,8 @@ export const deleteCorrelation: API.OperationMethod<
   DeleteCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<DeleteCorrelationRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<DeleteCorrelationResponseBody>,
+  input: __S(8128, __c254, 0) as any as S.Schema<DeleteCorrelationRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<DeleteCorrelationResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4363,8 +4450,8 @@ export const deleteDashboardSnapshot: API.OperationMethod<
   DeleteDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<DeleteDashboardSnapshotRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8160, __c255, 0) as any as S.Schema<DeleteDashboardSnapshotRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4381,8 +4468,8 @@ export const deleteDashboardSnapshotByDeleteKey: API.OperationMethod<
   DeleteDashboardSnapshotByDeleteKeyError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<DeleteDashboardSnapshotByDeleteKeyRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8192, __c256, 0) as any as S.Schema<DeleteDashboardSnapshotByDeleteKeyRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4399,8 +4486,8 @@ export const deleteDataSourceByUID: API.OperationMethod<
   DeleteDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<DeleteDataSourceByUIDRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8224, __c257, 0) as any as S.Schema<DeleteDataSourceByUIDRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4417,8 +4504,8 @@ export const deleteLibraryElementByUID: API.OperationMethod<
   DeleteLibraryElementByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<DeleteLibraryElementByUIDRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8256, __c258, 0) as any as S.Schema<DeleteLibraryElementByUIDRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4435,7 +4522,7 @@ export const deleteLicenseToken: API.OperationMethod<
   DeleteLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<DeleteLicenseTokenRequest>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DeleteLicenseTokenRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteLicenseTokenResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
@@ -4453,8 +4540,8 @@ export const deleteOrg: API.OperationMethod<
   DeleteOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<DeleteOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8384, __c262, 0) as any as S.Schema<DeleteOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4471,8 +4558,8 @@ export const deletePublicDashboard: API.OperationMethod<
   DeletePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<DeletePublicDashboardRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8416, __c263, 0) as any as S.Schema<DeletePublicDashboardRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4489,8 +4576,8 @@ export const deleteQuery: API.OperationMethod<
   DeleteQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<DeleteQueryRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<QueryHistoryDeleteQueryResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<DeleteQueryRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<QueryHistoryDeleteQueryResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4507,8 +4594,8 @@ export const deleteRecordingRule: API.OperationMethod<
   DeleteRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8480, __c265, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4525,8 +4612,8 @@ export const deleteRecordingRuleWriteTarget: API.OperationMethod<
   DeleteRecordingRuleWriteTargetError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<DeleteRecordingRuleWriteTargetRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8512, __c266, 0) as any as S.Schema<DeleteRecordingRuleWriteTargetRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4543,8 +4630,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8544, __c267, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4561,8 +4648,8 @@ export const deleteServiceAccount: API.OperationMethod<
   DeleteServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DeleteServiceAccountRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteServiceAccountRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4579,7 +4666,7 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<DeleteSessionRequest>,
+  input: __S(8608, __c269, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -4597,8 +4684,8 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DeleteTeamRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8640, __c270, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4615,8 +4702,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8704, __c272, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4633,8 +4720,8 @@ export const disableDataSourceCache: API.OperationMethod<
   DisableDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<DisableDataSourceCacheRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<DisableDataSourceCacheRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4651,8 +4738,8 @@ export const enableDataSourceCache: API.OperationMethod<
   EnableDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<EnableDataSourceCacheRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<EnableDataSourceCacheRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4669,8 +4756,8 @@ export const getAccessControlStatus: API.OperationMethod<
   GetAccessControlStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<GetAccessControlStatusRequest>,
-  output: __S(8673, __c271, 1) as any as S.Schema<AccessControlStatus>,
+  input: __S(8800, __c275, 0) as any as S.Schema<GetAccessControlStatusRequest>,
+  output: __S(8801, __c275, 1) as any as S.Schema<AccessControlStatus>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4687,8 +4774,8 @@ export const getAnnotation: API.OperationMethod<
   GetAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationRequest>,
-  output: __S(8736, __c273, 0) as any as S.Schema<Annotation>,
+  input: __S(8832, __c276, 0) as any as S.Schema<GetAnnotationRequest>,
+  output: __S(8864, __c277, 0) as any as S.Schema<Annotation>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4705,8 +4792,8 @@ export const getAnnotations: API.OperationMethod<
   GetAnnotationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<GetAnnotationsRequest>,
-  output: __S(8770, __c274, 2) as any as S.Schema<GetAnnotationsResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<GetAnnotationsRequest>,
+  output: __S(8898, __c278, 2) as any as S.Schema<GetAnnotationsResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4723,8 +4810,8 @@ export const getAnnotationTags: API.OperationMethod<
   GetAnnotationTagsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetAnnotationTagsRequest>,
-  output: __S(8804, __c275, 4) as any as S.Schema<GetAnnotationTagsResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<GetAnnotationTagsRequest>,
+  output: __S(8932, __c279, 4) as any as S.Schema<GetAnnotationTagsResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4741,8 +4828,8 @@ export const getCloudMigrationToken: API.OperationMethod<
   GetCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetCloudMigrationTokenRequest>,
-  output: __S(8833, __c276, 1) as any as S.Schema<GetAccessTokenResponseDTO>,
+  input: __S(8960, __c280, 0) as any as S.Schema<GetCloudMigrationTokenRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<GetAccessTokenResponseDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4759,8 +4846,8 @@ export const getCorrelation: API.OperationMethod<
   GetCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<GetCorrelationRequest>,
-  output: __S(6691, __c209, 3) as any as S.Schema<Correlation>,
+  input: __S(8992, __c281, 0) as any as S.Schema<GetCorrelationRequest>,
+  output: __S(6819, __c213, 3) as any as S.Schema<Correlation>,
   errors: [NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4777,8 +4864,8 @@ export const getCorrelations: API.OperationMethod<
   GetCorrelationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<GetCorrelationsRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<GetCorrelationsRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<GetCorrelationsResponse>,
   errors: [NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4795,8 +4882,8 @@ export const getCorrelationsBySourceUID: API.OperationMethod<
   GetCorrelationsBySourceUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<GetCorrelationsBySourceUIDRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsBySourceUIDResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetCorrelationsBySourceUIDRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<GetCorrelationsBySourceUIDResponse>,
   errors: [NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4813,8 +4900,8 @@ export const getCurrentOrg: API.OperationMethod<
   GetCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<GetCurrentOrgRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetCurrentOrgRequest>,
+  output: __S(9185, __c287, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4831,8 +4918,8 @@ export const getCurrentOrgQuota: API.OperationMethod<
   GetCurrentOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetCurrentOrgQuotaRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<GetCurrentOrgQuotaResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<GetCurrentOrgQuotaRequest>,
+  output: __S(9250, __c289, 2) as any as S.Schema<GetCurrentOrgQuotaResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4849,8 +4936,8 @@ export const getDashboardSnapshot: API.OperationMethod<
   GetDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetDashboardSnapshotRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
+  input: __S(9280, __c290, 0) as any as S.Schema<GetDashboardSnapshotRequest>,
+  output: __S(9315, __c291, 3) as any as S.Schema<DashboardFullWithMeta>,
   errors: [BadRequest, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4867,8 +4954,8 @@ export const getDataSourceByUID: API.OperationMethod<
   GetDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<GetDataSourceByUIDRequest>,
-  output: __S(7808, __c244, 0) as any as S.Schema<DataSource>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetDataSourceByUIDRequest>,
+  output: __S(7936, __c248, 0) as any as S.Schema<DataSource>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4885,8 +4972,8 @@ export const getDataSourceCacheConfig: API.OperationMethod<
   GetDataSourceCacheConfigError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<GetDataSourceCacheConfigRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<GetDataSourceCacheConfigRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4903,8 +4990,8 @@ export const getDataSources: API.OperationMethod<
   GetDataSourcesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<GetDataSourcesRequest>,
-  output: __S(9283, __c290, 3) as any as S.Schema<GetDataSourcesResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<GetDataSourcesRequest>,
+  output: __S(9411, __c294, 3) as any as S.Schema<GetDataSourcesResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4921,8 +5008,8 @@ export const getHealth: API.OperationMethod<
   GetHealthError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<GetHealthRequest>,
-  output: __S(9313, __c291, 1) as any as S.Schema<HealthResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<GetHealthRequest>,
+  output: __S(9441, __c295, 1) as any as S.Schema<HealthResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4939,8 +5026,8 @@ export const getJWKS: API.OperationMethod<
   GetJWKSError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetJWKSRequest>,
-  output: __S(9359, __c292, 15) as any as S.Schema<GetJWKSResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<GetJWKSRequest>,
+  output: __S(9487, __c296, 15) as any as S.Schema<GetJWKSResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4957,8 +5044,8 @@ export const getLDAPStatus: API.OperationMethod<
   GetLDAPStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetLDAPStatusRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(9536, __c298, 0) as any as S.Schema<GetLDAPStatusRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4975,8 +5062,8 @@ export const getLibraryElementByName: API.OperationMethod<
   GetLibraryElementByNameError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<GetLibraryElementByNameRequest>,
-  output: __S(9473, __c296, 1) as any as S.Schema<LibraryElementArrayResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetLibraryElementByNameRequest>,
+  output: __S(9601, __c300, 1) as any as S.Schema<LibraryElementArrayResponse>,
   errors: [NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -4993,8 +5080,8 @@ export const getLibraryElementByUID: API.OperationMethod<
   GetLibraryElementByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetLibraryElementByUIDRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<GetLibraryElementByUIDRequest>,
+  output: __S(6976, __c218, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5011,8 +5098,8 @@ export const getLibraryElementConnections: API.OperationMethod<
   GetLibraryElementConnectionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetLibraryElementConnectionsRequest>,
-  output: __S(9571, __c299, 3) as any as S.Schema<LibraryElementConnectionsResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<GetLibraryElementConnectionsRequest>,
+  output: __S(9699, __c303, 3) as any as S.Schema<LibraryElementConnectionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5029,8 +5116,8 @@ export const getLibraryElements: API.OperationMethod<
   GetLibraryElementsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<GetLibraryElementsRequest>,
-  output: __S(9602, __c300, 2) as any as S.Schema<LibraryElementSearchResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<GetLibraryElementsRequest>,
+  output: __S(9730, __c304, 2) as any as S.Schema<LibraryElementSearchResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5047,8 +5134,8 @@ export const getLicenseToken: API.OperationMethod<
   GetLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetLicenseTokenRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<Token>,
+  input: __S(9760, __c305, 0) as any as S.Schema<GetLicenseTokenRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<Token>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5065,8 +5152,8 @@ export const getMetadata: API.OperationMethod<
   GetMetadataError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<GetMetadataRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<GetMetadataResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<GetMetadataRequest>,
+  output: __S(9856, __c308, 0) as any as S.Schema<GetMetadataResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5083,8 +5170,8 @@ export const getOrg: API.OperationMethod<
   GetOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<GetOrgRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9888, __c309, 0) as any as S.Schema<GetOrgRequest>,
+  output: __S(9185, __c287, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5101,8 +5188,8 @@ export const getOrgByName: API.OperationMethod<
   GetOrgByNameError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<GetOrgByNameRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9920, __c310, 0) as any as S.Schema<GetOrgByNameRequest>,
+  output: __S(9185, __c287, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5119,8 +5206,8 @@ export const getOrgQuota: API.OperationMethod<
   GetOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<GetOrgQuotaRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<GetOrgQuotaResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<GetOrgQuotaRequest>,
+  output: __S(9250, __c289, 2) as any as S.Schema<GetOrgQuotaResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5137,8 +5224,8 @@ export const getOrgUsers: API.OperationMethod<
   GetOrgUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<GetOrgUsersRequest>,
-  output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<GetOrgUsersRequest>,
+  output: __S(10016, __c313, 0) as any as S.Schema<GetOrgUsersResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5156,7 +5243,7 @@ export const getOrgUsersForCurrentOrg: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetOrgUsersForCurrentOrgRequest>,
-  output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersForCurrentOrgResponse>,
+  output: __S(10016, __c313, 0) as any as S.Schema<GetOrgUsersForCurrentOrgResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5246,7 +5333,7 @@ export const getPublicDashboard: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetPublicDashboardRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
+  output: __S(7074, __c221, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5264,7 +5351,7 @@ export const getRecordingRuleWriteTarget: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetRecordingRuleWriteTargetRequest>,
-  output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
+  output: __S(7328, __c229, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5386,7 +5473,7 @@ export type GetRoleError = Forbidden | GrafanaOpError;
 export const getRole: API.OperationMethod<GetRoleRequest, RoleDTO, GetRoleError, GrafanaOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(640, __c20, 0) as any as S.Schema<GetRoleRequest>,
-    output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
+    output: __S(7522, __c235, 2) as any as S.Schema<RoleDTO>,
     errors: [Forbidden],
     serviceErrors: GrafanaServiceErrors,
     protocol: GrafanaProtocol,
@@ -5440,7 +5527,7 @@ export const getServiceAccount: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetServiceAccountRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
+  output: __S(7584, __c237, 0) as any as S.Schema<ServiceAccountDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5458,7 +5545,7 @@ export const getSession: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
+  output: __S(7648, __c239, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5494,7 +5581,7 @@ export const getSettingsImage: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetSettingsImageRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<GetSettingsImageResponse>,
+  output: __S(9856, __c308, 0) as any as S.Schema<GetSettingsImageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5521,6 +5608,46 @@ export const getShapshotList: API.OperationMethod<
   span: "GetShapshotList",
 }));
 
+export type GetSharedVariableClusterOccurrencesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | GrafanaOpError;
+/** Returns the dashboards in one cluster from the org's latest scan, and whether this tool can update each one. Requires the same permissions as `GET /dashboards/variables/shared-clusters`. */
+export const getSharedVariableClusterOccurrences: API.OperationMethod<
+  GetSharedVariableClusterOccurrencesRequest,
+  SharedVariableOccurrences,
+  GetSharedVariableClusterOccurrencesError,
+  GrafanaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c30, 0) as any as S.Schema<GetSharedVariableClusterOccurrencesRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<SharedVariableOccurrences>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
+  protocol: GrafanaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedVariableClusterOccurrences",
+}));
+
+export type GetSharedVariableClustersError = Forbidden | NotFound | GrafanaOpError;
+/** Returns the dashboard variables that are defined identically in several dashboards, from the org's latest background scan. The scan runs in the background, so this returns immediately. While a scan runs, `status` is `scanning` and `clusters` holds the previous result. At most 50 clusters are returned, largest first; `truncated` is set when there are more. Opening this endpoint marks the org as active, which keeps its scheduled scans running. Requires the `dashboardGlobalVariables` and `dashboardVariablesMigration` feature toggles; every endpoint returns 404 while either is off. Requires `dashboards:read` and `dashboards:write` on every dashboard in the org (scope `dashboards:*` or `folders:*`). */
+export const getSharedVariableClusters: API.OperationMethod<
+  GetSharedVariableClustersRequest,
+  SharedVariableClusters,
+  GetSharedVariableClustersError,
+  GrafanaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<GetSharedVariableClustersRequest>,
+  output: __S(995, __c31, 3) as any as S.Schema<SharedVariableClusters>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
+  protocol: GrafanaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedVariableClusters",
+}));
+
 export type GetSharingOptionsError = GrafanaOpError;
 /** Get snapshot sharing settings. */
 export const getSharingOptions: API.OperationMethod<
@@ -5529,8 +5656,8 @@ export const getSharingOptions: API.OperationMethod<
   GetSharingOptionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetSharingOptionsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<GetSharingOptionsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetSharingOptionsRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GetSharingOptionsResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5547,8 +5674,8 @@ export const getSignedInUser: API.OperationMethod<
   GetSignedInUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetSignedInUserRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetSignedInUserRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5565,8 +5692,8 @@ export const getSignedInUserOrgList: API.OperationMethod<
   GetSignedInUserOrgListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetSignedInUserOrgListRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<GetSignedInUserOrgListResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetSignedInUserOrgListRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<GetSignedInUserOrgListResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5583,8 +5710,8 @@ export const getSignedInUserTeamList: API.OperationMethod<
   GetSignedInUserTeamListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetSignedInUserTeamListRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<GetSignedInUserTeamListResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetSignedInUserTeamListRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetSignedInUserTeamListResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5601,7 +5728,7 @@ export const getSLO: API.OperationMethod<
   GetSLOError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetSLORequest>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetSLORequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<GetSLOResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -5619,8 +5746,8 @@ export const getSnapshot: API.OperationMethod<
   GetSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetSnapshotRequest>,
-  output: __S(1285, __c40, 5) as any as S.Schema<GetSnapshotResponseDTO>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetSnapshotRequest>,
+  output: __S(1349, __c42, 5) as any as S.Schema<GetSnapshotResponseDTO>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5637,8 +5764,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<GetStatusResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<GetStatusResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5655,8 +5782,8 @@ export const getSyncStatus: API.OperationMethod<
   GetSyncStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetSyncStatusRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<ActiveSyncStatusDTO>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetSyncStatusRequest>,
+  output: __S(1476, __c46, 4) as any as S.Schema<ActiveSyncStatusDTO>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5669,8 +5796,8 @@ export type GetTeamError = Forbidden | NotFound | GrafanaOpError;
 /** Get Team By ID. */
 export const getTeam: API.OperationMethod<GetTeamRequest, TeamDTO, GetTeamError, GrafanaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1408, __c44, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(1152, __c36, 0) as any as S.Schema<TeamDTO>,
+    input: __S(1504, __c47, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(1216, __c38, 0) as any as S.Schema<TeamDTO>,
     errors: [Forbidden, NotFound],
     serviceErrors: GrafanaServiceErrors,
     protocol: GrafanaProtocol,
@@ -5687,8 +5814,8 @@ export const getTeamGroupsApi: API.OperationMethod<
   GetTeamGroupsApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetTeamGroupsApiRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<GetTeamGroupsApiResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetTeamGroupsApiRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetTeamGroupsApiResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5705,8 +5832,8 @@ export const getTeamLBACRulesApi: API.OperationMethod<
   GetTeamLBACRulesApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetTeamLBACRulesApiRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<TeamLBACRules>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetTeamLBACRulesApiRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<TeamLBACRules>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5723,8 +5850,8 @@ export const getTeamMembers: API.OperationMethod<
   GetTeamMembersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetTeamMembersRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<GetTeamMembersResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetTeamMembersRequest>,
+  output: __S(1667, __c52, 3) as any as S.Schema<GetTeamMembersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5741,8 +5868,8 @@ export const getTeamPreferences: API.OperationMethod<
   GetTeamPreferencesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetTeamPreferencesRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<PreferencesSpec>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetTeamPreferencesRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<PreferencesSpec>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5759,8 +5886,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5777,7 +5904,7 @@ export const getUserAuthTokens: API.OperationMethod<
   GetUserAuthTokensError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetUserAuthTokensRequest>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetUserAuthTokensRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<GetUserAuthTokensResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -5795,8 +5922,8 @@ export const getUserByLoginOrEmail: API.OperationMethod<
   GetUserByLoginOrEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetUserByLoginOrEmailRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetUserByLoginOrEmailRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5813,8 +5940,8 @@ export const getUserFromLDAP: API.OperationMethod<
   GetUserFromLDAPError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetUserFromLDAPRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetUserFromLDAPRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5831,8 +5958,8 @@ export const getUserOrgList: API.OperationMethod<
   GetUserOrgListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetUserOrgListRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<GetUserOrgListResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetUserOrgListRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<GetUserOrgListResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5849,8 +5976,8 @@ export const getUserQuota: API.OperationMethod<
   GetUserQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetUserQuotaRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotaResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetUserQuotaRequest>,
+  output: __S(9250, __c289, 2) as any as S.Schema<GetUserQuotaResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5867,8 +5994,8 @@ export const getUserQuotas: API.OperationMethod<
   GetUserQuotasError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetUserQuotasRequest>,
-  output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotasResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetUserQuotasRequest>,
+  output: __S(9250, __c289, 2) as any as S.Schema<GetUserQuotasResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5885,8 +6012,8 @@ export const getUserTeams: API.OperationMethod<
   GetUserTeamsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetUserTeamsRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<GetUserTeamsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetUserTeamsRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<GetUserTeamsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5903,8 +6030,8 @@ export const importDashboard: API.OperationMethod<
   ImportDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<ImportDashboardRequest>,
-  output: __S(1987, __c62, 3) as any as S.Schema<ImportDashboardResponse>,
+  input: __S(2050, __c64, 2) as any as S.Schema<ImportDashboardRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<ImportDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5921,8 +6048,8 @@ export const interpolateDashboard: API.OperationMethod<
   InterpolateDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<InterpolateDashboardRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<InterpolateDashboardResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<InterpolateDashboardRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<InterpolateDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5939,8 +6066,8 @@ export const listAllProvidersSettings: API.OperationMethod<
   ListAllProvidersSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListAllProvidersSettingsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListAllProvidersSettingsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListAllProvidersSettingsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<ListAllProvidersSettingsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5957,8 +6084,8 @@ export const listDevices: API.OperationMethod<
   ListDevicesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(2083, __c65, 3) as any as S.Schema<ListDevicesResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(2147, __c67, 3) as any as S.Schema<ListDevicesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5975,8 +6102,8 @@ export const listPublicDashboards: API.OperationMethod<
   ListPublicDashboardsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListPublicDashboardsRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<PublicDashboardListResponseWithPagination>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListPublicDashboardsRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<PublicDashboardListResponseWithPagination>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -5993,8 +6120,8 @@ export const listRecordingRules: API.OperationMethod<
   ListRecordingRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListRecordingRulesRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListRecordingRulesResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListRecordingRulesRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<ListRecordingRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6011,8 +6138,8 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ListRolesResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(2336, __c73, 0) as any as S.Schema<ListRolesResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6029,8 +6156,8 @@ export const listSortOptions: API.OperationMethod<
   ListSortOptionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListSortOptionsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ListSortOptionsResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListSortOptionsRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<ListSortOptionsResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6047,8 +6174,8 @@ export const listTeamRoles: API.OperationMethod<
   ListTeamRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListTeamRolesRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListTeamRolesRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6065,8 +6192,8 @@ export const listTeamsRoles: API.OperationMethod<
   ListTeamsRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListTeamsRolesRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<ListTeamsRolesResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListTeamsRolesRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ListTeamsRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6083,8 +6210,8 @@ export const listTokens: API.OperationMethod<
   ListTokensError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(2435, __c76, 3) as any as S.Schema<ListTokensResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<ListTokensResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6101,8 +6228,8 @@ export const listUserRoles: API.OperationMethod<
   ListUserRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListUserRolesRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<ListUserRolesResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListUserRolesRequest>,
+  output: __S(2336, __c73, 0) as any as S.Schema<ListUserRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6119,8 +6246,8 @@ export const listUsersRoles: API.OperationMethod<
   ListUsersRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListUsersRolesRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<ListUsersRolesResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListUsersRolesRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ListUsersRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6137,8 +6264,8 @@ export const massDeleteAnnotations: API.OperationMethod<
   MassDeleteAnnotationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<MassDeleteAnnotationsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2592, __c81, 0) as any as S.Schema<MassDeleteAnnotationsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6155,8 +6282,8 @@ export const patchProviderSettings: API.OperationMethod<
   PatchProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchProviderSettingsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PatchProviderSettingsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6173,8 +6300,8 @@ export const patchQueryComment: API.OperationMethod<
   PatchQueryCommentError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchQueryCommentRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PatchQueryCommentRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6191,7 +6318,7 @@ export const postACS: API.OperationMethod<
   PostACSError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<PostACSRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PostACSRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<PostACSResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6209,8 +6336,8 @@ export const postGraphiteAnnotation: API.OperationMethod<
   PostGraphiteAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PostGraphiteAnnotationRequest>,
-  output: __S(6528, __c204, 0) as any as S.Schema<PostGraphiteAnnotationResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PostGraphiteAnnotationRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<PostGraphiteAnnotationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6227,8 +6354,8 @@ export const postLicenseToken: API.OperationMethod<
   PostLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<PostLicenseTokenRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<Token>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PostLicenseTokenRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<Token>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6245,8 +6372,8 @@ export const postRenewLicenseToken: API.OperationMethod<
   PostRenewLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<PostRenewLicenseTokenRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<PostRenewLicenseTokenResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<PostRenewLicenseTokenRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<PostRenewLicenseTokenResponse>,
   errors: [NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6263,7 +6390,7 @@ export const postSLO: API.OperationMethod<
   PostSLOError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<PostSLORequest>,
+  input: __S(2848, __c89, 0) as any as S.Schema<PostSLORequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<PostSLOResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6281,14 +6408,32 @@ export const postSyncUserWithLDAP: API.OperationMethod<
   PostSyncUserWithLDAPError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<PostSyncUserWithLDAPRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2880, __c90, 0) as any as S.Schema<PostSyncUserWithLDAPRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PostSyncUserWithLDAP",
+}));
+
+export type PromoteSharedVariableClusterError = BadRequest | Forbidden | NotFound | GrafanaOpError;
+/** Turns a cluster into a shared Variable and removes the matching local copies from its dashboards. Creates the Variable if it does not exist yet, then removes the local variable from each dashboard and opts the dashboard in to the shared one. Provisioned dashboards and ones this tool cannot convert are skipped and reported in `results`. A cluster with more than 200 dashboards is promoted in batches: pass up to 200 `dashboardUIDs` per call and repeat until `remaining` is 0. Requires the same permissions as `GET /dashboards/variables/shared-clusters`, plus `variables:create` with scope `folders:*`. */
+export const promoteSharedVariableCluster: API.OperationMethod<
+  PromoteSharedVariableClusterRequest,
+  SharedVariablePromoteResult,
+  PromoteSharedVariableClusterError,
+  GrafanaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2912, __c91, 0) as any as S.Schema<PromoteSharedVariableClusterRequest>,
+  output: __S(2915, __c91, 3) as any as S.Schema<SharedVariablePromoteResult>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
+  protocol: GrafanaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteSharedVariableCluster",
 }));
 
 export type QueryMetricsWithExpressionsError = BadRequest | Forbidden | GrafanaOpError;
@@ -6299,8 +6444,8 @@ export const queryMetricsWithExpressions: API.OperationMethod<
   QueryMetricsWithExpressionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
-  output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
+  output: __S(2999, __c93, 23) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6317,8 +6462,8 @@ export const queryPublicDashboard: API.OperationMethod<
   QueryPublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<QueryPublicDashboardRequest>,
-  output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<QueryPublicDashboardRequest>,
+  output: __S(2999, __c93, 23) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6335,8 +6480,8 @@ export const refreshLicenseStats: API.OperationMethod<
   RefreshLicenseStatsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<RefreshLicenseStatsRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<ActiveUserStats>,
+  input: __S(3040, __c95, 0) as any as S.Schema<RefreshLicenseStatsRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<ActiveUserStats>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6353,7 +6498,7 @@ export const reloadLDAPCfg: API.OperationMethod<
   ReloadLDAPCfgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ReloadLDAPCfgRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ReloadLDAPCfgRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<ReloadLDAPCfgResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
@@ -6371,8 +6516,8 @@ export const removeOrgUser: API.OperationMethod<
   RemoveOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<RemoveOrgUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3136, __c98, 0) as any as S.Schema<RemoveOrgUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6389,8 +6534,8 @@ export const removeOrgUserForCurrentOrg: API.OperationMethod<
   RemoveOrgUserForCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<RemoveOrgUserForCurrentOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3168, __c99, 0) as any as S.Schema<RemoveOrgUserForCurrentOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6407,8 +6552,8 @@ export const removeProviderSettings: API.OperationMethod<
   RemoveProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<RemoveProviderSettingsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3200, __c100, 0) as any as S.Schema<RemoveProviderSettingsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6425,8 +6570,8 @@ export const removeTeamGroupApiQuery: API.OperationMethod<
   RemoveTeamGroupApiQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<RemoveTeamGroupApiQueryRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3232, __c101, 0) as any as S.Schema<RemoveTeamGroupApiQueryRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6443,8 +6588,8 @@ export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<RemoveTeamMemberRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3264, __c102, 0) as any as S.Schema<RemoveTeamMemberRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6461,8 +6606,8 @@ export const removeTeamRole: API.OperationMethod<
   RemoveTeamRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<RemoveTeamRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3296, __c103, 0) as any as S.Schema<RemoveTeamRoleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6479,8 +6624,8 @@ export const removeUserRole: API.OperationMethod<
   RemoveUserRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<RemoveUserRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3328, __c104, 0) as any as S.Schema<RemoveUserRoleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6497,8 +6642,8 @@ export const renderReportCSVs: API.OperationMethod<
   RenderReportCSVsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<RenderReportCSVsRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<RenderReportCSVsResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<RenderReportCSVsRequest>,
+  output: __S(9856, __c308, 0) as any as S.Schema<RenderReportCSVsResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6515,14 +6660,32 @@ export const renderReportPDFs: API.OperationMethod<
   RenderReportPDFsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<RenderReportPDFsRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<RenderReportPDFsResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<RenderReportPDFsRequest>,
+  output: __S(9856, __c308, 0) as any as S.Schema<RenderReportPDFsResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenderReportPDFs",
+}));
+
+export type RescanSharedVariableClustersError = Forbidden | NotFound | GrafanaOpError;
+/** Starts a background scan of the org's dashboards. Poll `GET /dashboards/variables/shared-clusters` for progress. If a scan is already running, this does not start another. Requires the same permissions as `GET /dashboards/variables/shared-clusters`. */
+export const rescanSharedVariableClusters: API.OperationMethod<
+  RescanSharedVariableClustersRequest,
+  RescanSharedVariableClustersResponse,
+  RescanSharedVariableClustersError,
+  GrafanaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3456, __c108, 0) as any as S.Schema<RescanSharedVariableClustersRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RescanSharedVariableClustersResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
+  protocol: GrafanaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RescanSharedVariableClusters",
 }));
 
 export type RevokeInviteError = Forbidden | NotFound | GrafanaOpError;
@@ -6533,8 +6696,8 @@ export const revokeInvite: API.OperationMethod<
   RevokeInviteError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<RevokeInviteRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3488, __c109, 0) as any as S.Schema<RevokeInviteRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6551,8 +6714,8 @@ export const revokeUserAuthToken: API.OperationMethod<
   RevokeUserAuthTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<RevokeUserAuthTokenRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3520, __c110, 0) as any as S.Schema<RevokeUserAuthTokenRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6570,8 +6733,8 @@ export const routeConvertPrometheusCortexDeleteNamespace: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteNamespaceRequest>,
   output: __S(
@@ -6596,8 +6759,8 @@ export const routeConvertPrometheusCortexDeleteRuleGroup: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c108,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteRuleGroupRequest>,
   output: __S(
@@ -6621,7 +6784,7 @@ export const routeConvertPrometheusCortexGetNamespace: API.OperationMethod<
   RouteConvertPrometheusCortexGetNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6639,7 +6802,7 @@ export const routeConvertPrometheusCortexGetRuleGroup: API.OperationMethod<
   RouteConvertPrometheusCortexGetRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupRequest>,
+  input: __S(3648, __c114, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6657,7 +6820,7 @@ export const routeConvertPrometheusCortexGetRules: API.OperationMethod<
   RouteConvertPrometheusCortexGetRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6675,7 +6838,7 @@ export const routeConvertPrometheusCortexPostRuleGroup: API.OperationMethod<
   RouteConvertPrometheusCortexPostRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupRequest>,
+  input: __S(3712, __c116, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupRequest>,
   output: __S(
     4608,
     __c144,
@@ -6697,7 +6860,7 @@ export const routeConvertPrometheusCortexPostRuleGroups: API.OperationMethod<
   RouteConvertPrometheusCortexPostRuleGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsRequest>,
+  input: __S(3744, __c117, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsRequest>,
   output: __S(
     4608,
     __c144,
@@ -6719,7 +6882,7 @@ export const routeConvertPrometheusDeleteNamespace: API.OperationMethod<
   RouteConvertPrometheusDeleteNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceRequest>,
+  input: __S(3840, __c120, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6737,7 +6900,7 @@ export const routeConvertPrometheusDeleteRuleGroup: API.OperationMethod<
   RouteConvertPrometheusDeleteRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupRequest>,
+  input: __S(3872, __c121, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6755,7 +6918,7 @@ export const routeConvertPrometheusGetNamespace: API.OperationMethod<
   RouteConvertPrometheusGetNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6773,7 +6936,7 @@ export const routeConvertPrometheusGetRuleGroup: API.OperationMethod<
   RouteConvertPrometheusGetRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupRequest>,
+  input: __S(3936, __c123, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6791,7 +6954,7 @@ export const routeConvertPrometheusGetRules: API.OperationMethod<
   RouteConvertPrometheusGetRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<RouteConvertPrometheusGetRulesRequest>,
+  input: __S(3968, __c124, 0) as any as S.Schema<RouteConvertPrometheusGetRulesRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -6809,7 +6972,7 @@ export const routeConvertPrometheusPostRuleGroup: API.OperationMethod<
   RouteConvertPrometheusPostRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupRequest>,
+  input: __S(4000, __c125, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6827,7 +6990,7 @@ export const routeConvertPrometheusPostRuleGroups: API.OperationMethod<
   RouteConvertPrometheusPostRuleGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsRequest>,
+  input: __S(4032, __c126, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -6845,8 +7008,8 @@ export const routeExportMuteTiming: API.OperationMethod<
   RouteExportMuteTimingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<RouteExportMuteTimingRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4064, __c127, 0) as any as S.Schema<RouteExportMuteTimingRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6863,8 +7026,8 @@ export const routeExportMuteTimings: API.OperationMethod<
   RouteExportMuteTimingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<RouteExportMuteTimingsRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4128, __c129, 0) as any as S.Schema<RouteExportMuteTimingsRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6881,8 +7044,8 @@ export const routeGetAlertRuleExport: API.OperationMethod<
   RouteGetAlertRuleExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<RouteGetAlertRuleExportRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4160, __c130, 0) as any as S.Schema<RouteGetAlertRuleExportRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6899,8 +7062,8 @@ export const routeGetAlertRuleGroupExport: API.OperationMethod<
   RouteGetAlertRuleGroupExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<RouteGetAlertRuleGroupExportRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4256, __c133, 0) as any as S.Schema<RouteGetAlertRuleGroupExportRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6917,8 +7080,8 @@ export const routeGetAlertRulesExport: API.OperationMethod<
   RouteGetAlertRulesExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<RouteGetAlertRulesExportRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4288, __c134, 0) as any as S.Schema<RouteGetAlertRulesExportRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6935,8 +7098,8 @@ export const routeGetContactpointsExport: API.OperationMethod<
   RouteGetContactpointsExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<RouteGetContactpointsExportRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4320, __c135, 0) as any as S.Schema<RouteGetContactpointsExportRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6953,8 +7116,8 @@ export const routeGetPolicyTreeExport: API.OperationMethod<
   RouteGetPolicyTreeExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<RouteGetPolicyTreeExportRequest>,
-  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4352, __c136, 0) as any as S.Schema<RouteGetPolicyTreeExportRequest>,
+  output: __S(4122, __c128, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6971,8 +7134,8 @@ export const saveReportSettings: API.OperationMethod<
   SaveReportSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<SaveReportSettingsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4384, __c137, 0) as any as S.Schema<SaveReportSettingsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6988,8 +7151,8 @@ export const search: API.OperationMethod<
   SearchError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<SearchRequest>,
-  output: __S(4291, __c134, 3) as any as S.Schema<SearchResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<SearchRequest>,
+  output: __S(4419, __c138, 3) as any as S.Schema<SearchResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7006,8 +7169,8 @@ export const searchDashboardSnapshots: API.OperationMethod<
   SearchDashboardSnapshotsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<SearchDashboardSnapshotsRequest>,
-  output: __S(4323, __c135, 3) as any as S.Schema<SearchDashboardSnapshotsResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<SearchDashboardSnapshotsRequest>,
+  output: __S(4451, __c139, 3) as any as S.Schema<SearchDashboardSnapshotsResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7024,8 +7187,8 @@ export const searchDevices: API.OperationMethod<
   SearchDevicesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<SearchDevicesRequest>,
-  output: __S(4355, __c136, 3) as any as S.Schema<SearchDeviceQueryResult>,
+  input: __S(4480, __c140, 0) as any as S.Schema<SearchDevicesRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<SearchDeviceQueryResult>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7042,8 +7205,8 @@ export const searchOrgs: API.OperationMethod<
   SearchOrgsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<SearchOrgsRequest>,
-  output: __S(4387, __c137, 3) as any as S.Schema<SearchOrgsResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<SearchOrgsRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<SearchOrgsResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7060,8 +7223,8 @@ export const searchOrgServiceAccountsWithPaging: API.OperationMethod<
   SearchOrgServiceAccountsWithPagingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<SearchOrgServiceAccountsWithPagingRequest>,
-  output: __S(4418, __c138, 2) as any as S.Schema<SearchOrgServiceAccountsResult>,
+  input: __S(4544, __c142, 0) as any as S.Schema<SearchOrgServiceAccountsWithPagingRequest>,
+  output: __S(4546, __c142, 2) as any as S.Schema<SearchOrgServiceAccountsResult>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7078,8 +7241,8 @@ export const searchOrgUsers: API.OperationMethod<
   SearchOrgUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<SearchOrgUsersRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SearchOrgUsersQueryResult>,
+  input: __S(4640, __c145, 0) as any as S.Schema<SearchOrgUsersRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<SearchOrgUsersQueryResult>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7096,8 +7259,8 @@ export const searchQueries: API.OperationMethod<
   SearchQueriesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<SearchQueriesRequest>,
-  output: __S(4483, __c140, 3) as any as S.Schema<QueryHistorySearchResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<SearchQueriesRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<QueryHistorySearchResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7114,8 +7277,8 @@ export const searchTeamGroups: API.OperationMethod<
   SearchTeamGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<SearchTeamGroupsRequest>,
-  output: __S(4515, __c141, 3) as any as S.Schema<SearchTeamGroupsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<SearchTeamGroupsRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<SearchTeamGroupsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7132,8 +7295,8 @@ export const searchTeams: API.OperationMethod<
   SearchTeamsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<SearchTeamsRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<SearchTeamQueryResult>,
+  input: __S(4736, __c148, 0) as any as S.Schema<SearchTeamsRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<SearchTeamQueryResult>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7150,8 +7313,8 @@ export const searchUsers: API.OperationMethod<
   SearchUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<SearchUsersRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<SearchUsersResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<SearchUsersRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<SearchUsersResponse>,
   errors: [Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7168,8 +7331,8 @@ export const searchUsersWithPaging: API.OperationMethod<
   SearchUsersWithPagingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<SearchUsersWithPagingRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<SearchUserQueryResult>,
+  input: __S(4832, __c151, 0) as any as S.Schema<SearchUsersWithPagingRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<SearchUserQueryResult>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7186,8 +7349,8 @@ export const sendReport: API.OperationMethod<
   SendReportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<SendReportRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4864, __c152, 0) as any as S.Schema<SendReportRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7204,8 +7367,8 @@ export const sendTestEmail: API.OperationMethod<
   SendTestEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<SendTestEmailRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4896, __c153, 0) as any as S.Schema<SendTestEmailRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7222,8 +7385,8 @@ export const setDataSourceCacheConfig: API.OperationMethod<
   SetDataSourceCacheConfigError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<SetDataSourceCacheConfigRequest>,
-  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<SetDataSourceCacheConfigRequest>,
+  output: __S(6592, __c206, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7240,8 +7403,8 @@ export const setResourcePermissions: API.OperationMethod<
   SetResourcePermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4834, __c151, 2) as any as S.Schema<SetResourcePermissionsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4962, __c155, 2) as any as S.Schema<SetResourcePermissionsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7262,8 +7425,8 @@ export const setResourcePermissionsForBuiltInRole: API.OperationMethod<
   SetResourcePermissionsForBuiltInRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<SetResourcePermissionsForBuiltInRoleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5024, __c157, 0) as any as S.Schema<SetResourcePermissionsForBuiltInRoleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7280,8 +7443,8 @@ export const setResourcePermissionsForTeam: API.OperationMethod<
   SetResourcePermissionsForTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<SetResourcePermissionsForTeamRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5056, __c158, 0) as any as S.Schema<SetResourcePermissionsForTeamRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7298,8 +7461,8 @@ export const setResourcePermissionsForUser: API.OperationMethod<
   SetResourcePermissionsForUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<SetResourcePermissionsForUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5088, __c159, 0) as any as S.Schema<SetResourcePermissionsForUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7316,7 +7479,7 @@ export const setRoleAssignments: API.OperationMethod<
   SetRoleAssignmentsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<SetRoleAssignmentsRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<SetRoleAssignmentsRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<RoleAssignmentsDTO>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
@@ -7334,8 +7497,8 @@ export const setTeamMemberships: API.OperationMethod<
   SetTeamMembershipsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<SetTeamMembershipsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5152, __c161, 0) as any as S.Schema<SetTeamMembershipsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7352,8 +7515,8 @@ export const setTeamRoles: API.OperationMethod<
   SetTeamRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<SetTeamRolesRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5184, __c162, 0) as any as S.Schema<SetTeamRolesRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7370,8 +7533,8 @@ export const setUserRoles: API.OperationMethod<
   SetUserRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<SetUserRolesRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5216, __c163, 0) as any as S.Schema<SetUserRolesRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7388,8 +7551,8 @@ export const starQuery: API.OperationMethod<
   StarQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<StarQueryRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<StarQueryRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7410,8 +7573,8 @@ export const testCreateRecordingRule: API.OperationMethod<
   TestCreateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<TestCreateRecordingRuleRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5280, __c165, 0) as any as S.Schema<TestCreateRecordingRuleRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7428,8 +7591,8 @@ export const unstarQuery: API.OperationMethod<
   UnstarQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<UnstarQueryRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UnstarQueryRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7446,8 +7609,8 @@ export const updateAnnotation: API.OperationMethod<
   UpdateAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<UpdateAnnotationRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5376, __c168, 0) as any as S.Schema<UpdateAnnotationRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7464,8 +7627,8 @@ export const updateAnnotationByAnnotationId: API.OperationMethod<
   UpdateAnnotationByAnnotationIdError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<UpdateAnnotationByAnnotationIdRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5408, __c169, 0) as any as S.Schema<UpdateAnnotationByAnnotationIdRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7482,8 +7645,8 @@ export const updateCorrelation: API.OperationMethod<
   UpdateCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5281, __c165, 1) as any as S.Schema<UpdateCorrelationRequest>,
-  output: __S(6656, __c208, 0) as any as S.Schema<UpdateCorrelationResponseBody>,
+  input: __S(5441, __c170, 1) as any as S.Schema<UpdateCorrelationRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<UpdateCorrelationResponseBody>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7500,8 +7663,8 @@ export const updateCurrentOrg: API.OperationMethod<
   UpdateCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UpdateCurrentOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5472, __c171, 0) as any as S.Schema<UpdateCurrentOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7518,8 +7681,8 @@ export const updateCurrentOrgAddress: API.OperationMethod<
   UpdateCurrentOrgAddressError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<UpdateCurrentOrgAddressRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5504, __c172, 0) as any as S.Schema<UpdateCurrentOrgAddressRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7536,8 +7699,8 @@ export const updateDataSourceByUID: API.OperationMethod<
   UpdateDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<UpdateDataSourceByUIDRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<UpdateDataSourceByUIDResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<UpdateDataSourceByUIDRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<UpdateDataSourceByUIDResponse>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7554,8 +7717,8 @@ export const updateFolderPermissions: API.OperationMethod<
   UpdateFolderPermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5442, __c170, 2) as any as S.Schema<UpdateFolderPermissionsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5570, __c174, 2) as any as S.Schema<UpdateFolderPermissionsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7572,8 +7735,8 @@ export const updateLibraryElement: API.OperationMethod<
   UpdateLibraryElementError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<UpdateLibraryElementRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UpdateLibraryElementRequest>,
+  output: __S(6976, __c218, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7590,8 +7753,8 @@ export const updateOrg: API.OperationMethod<
   UpdateOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<UpdateOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5632, __c176, 0) as any as S.Schema<UpdateOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7608,8 +7771,8 @@ export const updateOrgAddress: API.OperationMethod<
   UpdateOrgAddressError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateOrgAddressRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UpdateOrgAddressRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7626,8 +7789,8 @@ export const updateOrgQuota: API.OperationMethod<
   UpdateOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<UpdateOrgQuotaRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5728, __c179, 0) as any as S.Schema<UpdateOrgQuotaRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7644,8 +7807,8 @@ export const updateOrgUser: API.OperationMethod<
   UpdateOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<UpdateOrgUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5760, __c180, 0) as any as S.Schema<UpdateOrgUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7662,8 +7825,8 @@ export const updateOrgUserForCurrentOrg: API.OperationMethod<
   UpdateOrgUserForCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<UpdateOrgUserForCurrentOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UpdateOrgUserForCurrentOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7680,8 +7843,8 @@ export const updateProviderSettings: API.OperationMethod<
   UpdateProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<UpdateProviderSettingsRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpdateProviderSettingsRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7698,8 +7861,8 @@ export const updatePublicDashboard: API.OperationMethod<
   UpdatePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdatePublicDashboardRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpdatePublicDashboardRequest>,
+  output: __S(7074, __c221, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7716,8 +7879,8 @@ export const updateRecordingRule: API.OperationMethod<
   UpdateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
+  input: __S(5888, __c184, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<RecordingRuleJSON>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7734,8 +7897,8 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(7522, __c235, 2) as any as S.Schema<RoleDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7752,8 +7915,8 @@ export const updateServiceAccount: API.OperationMethod<
   UpdateServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpdateServiceAccountRequest>,
-  output: __S(5826, __c182, 2) as any as S.Schema<UpdateServiceAccountResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<UpdateServiceAccountRequest>,
+  output: __S(5954, __c186, 2) as any as S.Schema<UpdateServiceAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7770,8 +7933,8 @@ export const updateSignedInUser: API.OperationMethod<
   UpdateSignedInUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpdateSignedInUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5984, __c187, 0) as any as S.Schema<UpdateSignedInUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7788,8 +7951,8 @@ export const updateTeam: API.OperationMethod<
   UpdateTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateTeamRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6016, __c188, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7806,8 +7969,8 @@ export const updateTeamLBACRulesApi: API.OperationMethod<
   UpdateTeamLBACRulesApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<UpdateTeamLBACRulesApiRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<UpdateTeamLBACRulesApiResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateTeamLBACRulesApiRequest>,
+  output: __S(6081, __c190, 1) as any as S.Schema<UpdateTeamLBACRulesApiResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7824,8 +7987,8 @@ export const updateTeamMember: API.OperationMethod<
   UpdateTeamMemberError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<UpdateTeamMemberRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6112, __c191, 0) as any as S.Schema<UpdateTeamMemberRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7842,8 +8005,8 @@ export const updateTeamPreferences: API.OperationMethod<
   UpdateTeamPreferencesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<UpdateTeamPreferencesRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6144, __c192, 0) as any as S.Schema<UpdateTeamPreferencesRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7860,8 +8023,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7878,7 +8041,7 @@ export const updateUserEmail: API.OperationMethod<
   UpdateUserEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<UpdateUserEmailRequest>,
+  input: __S(6208, __c194, 0) as any as S.Schema<UpdateUserEmailRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UpdateUserEmailResponse>,
   errors: [],
   serviceErrors: GrafanaServiceErrors,
@@ -7896,8 +8059,8 @@ export const updateUserQuota: API.OperationMethod<
   UpdateUserQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<UpdateUserQuotaRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6240, __c195, 0) as any as S.Schema<UpdateUserQuotaRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7914,7 +8077,7 @@ export const uploadSnapshot: API.OperationMethod<
   UploadSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<UploadSnapshotRequest>,
+  input: __S(6272, __c196, 0) as any as S.Schema<UploadSnapshotRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UploadSnapshotResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
@@ -7932,8 +8095,8 @@ export const userSetUsingOrg: API.OperationMethod<
   UserSetUsingOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<UserSetUsingOrgRequest>,
-  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6304, __c197, 0) as any as S.Schema<UserSetUsingOrgRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -7950,8 +8113,8 @@ export const viewPublicDashboard: API.OperationMethod<
   ViewPublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<ViewPublicDashboardRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ViewPublicDashboardRequest>,
+  output: __S(9315, __c291, 3) as any as S.Schema<DashboardFullWithMeta>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -8004,6 +8167,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          userUid: S.optional(S.String.pipe(T.Query())),
+          userId: S.optional(S.Number.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/org/users", code: 200 })),
@@ -8113,7 +8278,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exclude: S.optional(S.Boolean),
-          ids: S.optional(__S(9376, __c293, 0)),
+          ids: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "AnnotationPanelFilter" });
     case 3:
@@ -8121,7 +8286,7 @@ function __c8(j: number): any {
         S.Struct({
           limit: S.optional(S.Number),
           matchAny: S.optional(S.Boolean),
-          tags: S.optional(__S(6560, __c205, 0)),
+          tags: S.optional(__S(6688, __c209, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationTarget" });
@@ -8150,7 +8315,7 @@ function __c8(j: number): any {
           isRegion: S.optional(S.Boolean),
           panelId: S.optional(S.Number),
           source: S.optional(__S(260, __c8, 4)),
-          tags: S.optional(__S(6560, __c205, 0)),
+          tags: S.optional(__S(6688, __c209, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -8202,24 +8367,24 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.optional(S.String),
-          dashboards: S.optional(__S(7298, __c228, 2)),
+          dashboards: S.optional(__S(7426, __c232, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6560, __c205, 0)),
+          formats: S.optional(__S(6688, __c209, 0)),
           id: S.optional(S.Number),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7299, __c228, 3)),
+          options: S.optional(__S(7427, __c232, 3)),
           orgId: S.optional(S.Number),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7300, __c228, 4)),
+          schedule: S.optional(__S(7428, __c232, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
           uid: S.optional(S.String),
           updated: S.optional(S.String),
-          urls: S.optional(__S(7302, __c228, 6)),
+          urls: S.optional(__S(7430, __c232, 6)),
           userId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Report" });
@@ -8314,7 +8479,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dependencies: S.optional(__S(7584, __c237, 0)),
+          dependencies: S.optional(__S(7712, __c241, 0)),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceDependencyDTO" });
@@ -8351,7 +8516,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           assignments: S.optional(__S(577, __c18, 1)),
-          permissions: S.optional(__S(6560, __c205, 0)),
+          permissions: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "Description" });
   }
@@ -8370,7 +8535,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(6560, __c205, 0)),
+          actions: S.optional(__S(6688, __c209, 0)),
           builtInRole: S.optional(S.String),
           id: S.optional(S.Number),
           isInherited: S.optional(S.Boolean),
@@ -8424,9 +8589,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role_uid: S.optional(S.String),
-          service_accounts: S.optional(__S(9376, __c293, 0)),
-          teams: S.optional(__S(9376, __c293, 0)),
-          users: S.optional(__S(9376, __c293, 0)),
+          service_accounts: S.optional(__S(9504, __c297, 0)),
+          teams: S.optional(__S(9504, __c297, 0)),
+          users: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "RoleAssignmentsDTO" });
   }
@@ -8466,7 +8631,7 @@ function __c26(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloudmigration/migration", code: 200 })),
       ).annotate({ identifier: "GetSessionListRequest" });
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7648, __c239, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8532,6 +8697,86 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/dashboards/variables/shared-clusters/occurrences",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSharedVariableClusterOccurrencesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dashboardUID: S.optional(S.String),
+          folderUID: S.optional(S.String),
+          markedReadOnly: S.optional(S.Boolean),
+          skipReason: S.optional(S.String),
+          storedVersion: S.optional(S.String),
+          title: S.optional(S.String),
+          writable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SharedVariableOccurrence" });
+    case 2:
+      return S.Array(__S(961, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          occurrences: S.optional(__S(962, __c30, 2)),
+        }),
+      ).annotate({ identifier: "SharedVariableOccurrences" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/dashboards/variables/shared-clusters", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetSharedVariableClustersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conflictReason: S.optional(S.String),
+          count: S.optional(S.Number),
+          fingerprint: S.optional(S.String),
+          folderUID: S.optional(S.String),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+          name: S.optional(S.String),
+          nameConflict: S.optional(S.Boolean),
+          noWritableDashboards: S.optional(S.Boolean),
+          promoted: S.optional(S.Boolean),
+          scope: S.optional(S.String),
+          spec: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "SharedVariableCluster" });
+    case 2:
+      return S.Array(__S(993, __c31, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clusters: S.optional(__S(994, __c31, 2)),
+          dashboards: S.optional(S.Number),
+          error: S.optional(S.String),
+          progress: S.optional(S.Number),
+          scannedAt: S.optional(S.String),
+          startedAt: S.optional(S.String),
+          status: S.optional(S.String),
+          totalClusters: S.optional(S.Number),
+          truncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SharedVariableClusters" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/snapshot/shared-options", code: 200 })),
       ).annotate({ identifier: "GetSharingOptionsRequest" });
     case 1:
@@ -8544,7 +8789,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetSharingOptionsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8552,13 +8797,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetSignedInUserRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
-          authLabels: S.optional(__S(6560, __c205, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
+          authLabels: S.optional(__S(6688, __c209, 0)),
           avatarUrl: S.optional(S.String),
           createdAt: S.optional(S.String),
           email: S.optional(S.String),
@@ -8579,7 +8824,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UserProfileDTO" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8587,7 +8832,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetSignedInUserOrgListRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8598,14 +8843,14 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "UserOrgDTO" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
-      return S.suspend(() => __S(1089, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1153, __c36, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignedInUserOrgListResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8613,12 +8858,12 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetSignedInUserTeamListRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
           avatarUrl: S.optional(S.String),
           email: S.optional(S.String),
           externalUID: S.optional(S.String),
@@ -8633,21 +8878,21 @@ function __c36(j: number): any {
       ).annotate({ identifier: "TeamDTO" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1216, __c38, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1280, __c40, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignedInUserTeamListResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1216, __c38, 0));
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8655,7 +8900,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetSLORequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8688,15 +8933,15 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "MigrateDataResponseItemDTO" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 3:
       return S.Record(S.String, S.Number);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(1283, __c40, 3)),
+          statuses: S.optional(__S(1347, __c42, 3)),
           total: S.optional(S.Number),
-          types: S.optional(__S(1283, __c40, 3)),
+          types: S.optional(__S(1347, __c42, 3)),
         }),
       ).annotate({ identifier: "SnapshotResourceStats" });
     case 5:
@@ -8704,16 +8949,16 @@ function __c40(j: number): any {
         S.Struct({
           created: S.optional(S.String),
           finished: S.optional(S.String),
-          results: S.optional(__S(1282, __c40, 2)),
+          results: S.optional(__S(1346, __c42, 2)),
           sessionUid: S.optional(S.String),
-          stats: S.optional(__S(1284, __c40, 4)),
+          stats: S.optional(__S(1348, __c42, 4)),
           status: S.optional(S.String),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSnapshotResponseDTO" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8721,59 +8966,12 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetStatusRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStatusResponse",
       });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/admin/ldap-sync-status", code: 200 })),
-      ).annotate({ identifier: "GetSyncStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Error: S.optional(S.String),
-          Login: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FailedUser" });
-    case 2:
-      return S.Array(__S(1377, __c43, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          Elapsed: S.optional(S.Number),
-          FailedUsers: S.optional(__S(1378, __c43, 2)),
-          MissingUserIds: S.optional(__S(9376, __c293, 0)),
-          Started: S.optional(S.String),
-          UpdatedUserIds: S.optional(__S(9376, __c293, 0)),
-        }),
-      ).annotate({ identifier: "SyncResult" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          nextSync: S.optional(S.String),
-          prevSync: S.optional(__S(1379, __c43, 3)),
-          schedule: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActiveSyncStatusDTO" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String.pipe(T.Label()),
-          accesscontrol: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}", code: 200 })),
-      ).annotate({ identifier: "GetTeamRequest" });
   }
 }
 function __c45(j: number): any {
@@ -8802,17 +9000,64 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/admin/ldap-sync-status", code: 200 })),
+      ).annotate({ identifier: "GetSyncStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Error: S.optional(S.String),
+          Login: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailedUser" });
+    case 2:
+      return S.Array(__S(1473, __c46, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Elapsed: S.optional(S.Number),
+          FailedUsers: S.optional(__S(1474, __c46, 2)),
+          MissingUserIds: S.optional(__S(9504, __c297, 0)),
+          Started: S.optional(S.String),
+          UpdatedUserIds: S.optional(__S(9504, __c297, 0)),
+        }),
+      ).annotate({ identifier: "SyncResult" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          nextSync: S.optional(S.String),
+          prevSync: S.optional(__S(1475, __c46, 3)),
+          schedule: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActiveSyncStatusDTO" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String.pipe(T.Label()),
+          accesscontrol: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}", code: 200 })),
+      ).annotate({ identifier: "GetTeamRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           teamId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{teamId}/groups", code: 200 })),
       ).annotate({ identifier: "GetTeamGroupsApiRequest" });
     case 1:
-      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1569, __c49, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetTeamGroupsApiResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8825,10 +9070,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "TeamGroupDTO" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1568, __c49, 0));
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8839,26 +9084,26 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(1569, __c49, 1)),
+          rules: S.optional(__S(1633, __c51, 1)),
         }),
       ).annotate({ identifier: "TeamLBACRules" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(6560, __c205, 0)),
+          rules: S.optional(__S(6688, __c209, 0)),
           teamId: S.optional(S.String),
           teamUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "TeamLBACRule" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1632, __c51, 0));
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8872,7 +9117,7 @@ function __c50(j: number): any {
           auth_module: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           email: S.optional(S.String),
-          labels: S.optional(__S(6560, __c205, 0)),
+          labels: S.optional(__S(6688, __c209, 0)),
           login: S.optional(S.String),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -8885,14 +9130,14 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "TeamMemberDTO" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
-      return S.suspend(() => __S(1602, __c50, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1666, __c52, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetTeamMembersResponse",
       });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8906,8 +9151,8 @@ function __c51(j: number): any {
           homeDashboardUID: S.optional(S.String),
           homeURL: S.optional(S.String),
           language: S.optional(S.String),
-          navbar: S.optional(__S(1664, __c52, 0)),
-          queryHistory: S.optional(__S(1665, __c52, 1)),
+          navbar: S.optional(__S(1728, __c54, 0)),
+          queryHistory: S.optional(__S(1729, __c54, 1)),
           theme: S.optional(S.String),
           timezone: S.optional(S.String),
           weekStart: S.optional(S.String),
@@ -8915,12 +9160,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PreferencesSpec" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bookmarkUrls: S.optional(__S(6560, __c205, 0)),
+          bookmarkUrls: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "PreferencesNavbarPreference" });
     case 1:
@@ -8931,17 +9176,17 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PreferencesQueryHistoryPreference" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}", code: 200 })),
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8949,7 +9194,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetUserAuthTokensRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8959,7 +9204,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetUserByLoginOrEmailRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8969,17 +9214,27 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetUserFromLDAPRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{user_id}", code: 200 })),
+      ).annotate({ identifier: "AdminDeleteUserRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/orgs", code: 200 })),
       ).annotate({ identifier: "GetUserOrgListRequest" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8989,17 +9244,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetUserQuotaRequest" });
   }
 }
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/admin/users/{user_id}", code: 200 })),
-      ).annotate({ identifier: "AdminDeleteUserRequest" });
-  }
-}
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9007,17 +9252,17 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetUserQuotasRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/teams", code: 200 })),
       ).annotate({ identifier: "GetUserTeamsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9029,14 +9274,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ImportDashboardInput" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           dashboard: S.optional(S.Unknown),
           folderId: S.optional(S.Number),
           folderUid: S.optional(S.String),
-          inputs: S.optional(__S(1985, __c62, 1)),
+          inputs: S.optional(__S(2049, __c64, 1)),
           overwrite: S.optional(S.Boolean),
           path: S.optional(S.String),
           pluginId: S.optional(S.String),
@@ -9064,7 +9309,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ImportDashboardResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9076,7 +9321,7 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9085,12 +9330,12 @@ function __c64(j: number): any {
     case 1:
       return S.Array(__S(224, __c7, 0));
     case 2:
-      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAllProvidersSettingsResponse",
       });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9109,14 +9354,14 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "DeviceDTO" });
     case 2:
-      return S.Array(__S(2081, __c65, 1));
+      return S.Array(__S(2145, __c67, 1));
     case 3:
-      return S.suspend(() => __S(2082, __c65, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2146, __c67, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDevicesResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9136,33 +9381,43 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "PublicDashboardListResponse" });
     case 2:
-      return S.Array(__S(2113, __c66, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          publicDashboards: S.optional(__S(2114, __c66, 2)),
+          publicDashboards: S.optional(__S(2178, __c68, 2)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PublicDashboardListResponseWithPagination" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/recording-rules", code: 200 })),
       ).annotate({ identifier: "ListRecordingRulesRequest" });
     case 1:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7264, __c227, 0));
     case 2:
-      return S.suspend(() => __S(2145, __c67, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2209, __c69, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRecordingRulesResponse",
       });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/admin/users/{user_id}/disable", code: 200 })),
+      ).annotate({ identifier: "AdminDisableUserRequest" });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9174,21 +9429,21 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ListRolesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7394, __c231, 2));
+      return S.Array(__S(7522, __c235, 2));
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2208, __c69, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2304, __c72, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesResponse",
       });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9205,17 +9460,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ListSortOptionsResponse" });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/admin/users/{user_id}/disable", code: 200 })),
-      ).annotate({ identifier: "AdminDisableUserRequest" });
-  }
-}
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9226,30 +9471,30 @@ function __c73(j: number): any {
       ).annotate({ identifier: "ListTeamRolesRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeHidden: S.optional(S.Boolean),
           orgId: S.optional(S.Number),
-          teamIds: S.optional(__S(9376, __c293, 0)),
-          userIds: S.optional(__S(9376, __c293, 0)),
+          teamIds: S.optional(__S(9504, __c297, 0)),
+          userIds: S.optional(__S(9504, __c297, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/teams/roles/search", code: 200 })),
       ).annotate({ identifier: "ListTeamsRolesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(2208, __c69, 0));
+      return S.Record(S.String, __S(2304, __c72, 0));
     case 1:
-      return S.suspend(() => __S(2400, __c75, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2464, __c77, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamsRolesResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9273,14 +9518,14 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "TokenDTO" });
     case 2:
-      return S.Array(__S(2433, __c76, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
-      return S.suspend(() => __S(2434, __c76, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2498, __c78, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTokensResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9292,20 +9537,20 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListUserRolesRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeHidden: S.optional(S.Boolean),
           orgId: S.optional(S.Number),
-          teamIds: S.optional(__S(9376, __c293, 0)),
-          userIds: S.optional(__S(9376, __c293, 0)),
+          teamIds: S.optional(__S(9504, __c297, 0)),
+          userIds: S.optional(__S(9504, __c297, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/users/roles/search", code: 200 })),
       ).annotate({ identifier: "ListUsersRolesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9318,7 +9563,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "MassDeleteAnnotationsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9329,7 +9574,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PatchProviderSettingsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9340,7 +9585,17 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PatchQueryCommentRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/admin/users/{user_id}/enable", code: 200 })),
+      ).annotate({ identifier: "AdminEnableUserRequest" });
+  }
+}
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9350,7 +9605,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PostACSRequest" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9363,17 +9618,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PostGraphiteAnnotationRequest" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/admin/users/{user_id}/enable", code: 200 })),
-      ).annotate({ identifier: "AdminEnableUserRequest" });
-  }
-}
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9383,7 +9628,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PostLicenseTokenRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9391,7 +9636,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PostRenewLicenseTokenRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9402,7 +9647,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "PostSLORequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9412,20 +9657,56 @@ function __c88(j: number): any {
       ).annotate({ identifier: "PostSyncUserWithLDAPRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterId: S.optional(S.String),
+          dashboardUIDs: S.optional(__S(6688, __c209, 0)),
+          folderUID: S.optional(S.String),
+          scope: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/dashboards/variables/promote", code: 200 })),
+      ).annotate({ identifier: "PromoteSharedVariableClusterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dashboardUID: S.optional(S.String),
+          error: S.optional(S.String),
+          skipReason: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SharedVariableDashboardPromoteResult" });
+    case 2:
+      return S.Array(__S(2913, __c91, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clusterId: S.optional(S.String),
+          folderUID: S.optional(S.String),
+          remaining: S.optional(S.Number),
+          results: S.optional(__S(2914, __c91, 2)),
+          scope: S.optional(S.String),
+          variableAction: S.optional(S.String),
+          variableName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SharedVariablePromoteResult" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           debug: S.optional(S.Boolean),
           from: S.String,
-          queries: __S(2880, __c90, 0),
+          queries: __S(2976, __c93, 0),
           to: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/ds/query", code: 200 })),
       ).annotate({ identifier: "QueryMetricsWithExpressionsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -9439,7 +9720,7 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "LinkTransformationConfig" });
     case 2:
-      return S.Array(__S(2881, __c90, 1));
+      return S.Array(__S(2977, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9447,21 +9728,21 @@ function __c90(j: number): any {
           datasourceUid: S.optional(S.String),
           panelsState: S.optional(S.Unknown),
           query: S.optional(S.Unknown),
-          timeRange: S.optional(__S(7264, __c227, 0)),
-          transformations: S.optional(__S(2882, __c90, 2)),
+          timeRange: S.optional(__S(7392, __c231, 0)),
+          transformations: S.optional(__S(2978, __c93, 2)),
         }),
       ).annotate({ identifier: "InternalDataLink" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          internal: S.optional(__S(2883, __c90, 3)),
+          internal: S.optional(__S(2979, __c93, 3)),
           targetBlank: S.optional(S.Boolean),
           title: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataLink" });
     case 5:
-      return S.Array(__S(2884, __c90, 4));
+      return S.Array(__S(2980, __c93, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9471,27 +9752,27 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "Threshold" });
     case 7:
-      return S.Array(__S(2886, __c90, 6));
+      return S.Array(__S(2982, __c93, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          steps: S.optional(__S(2887, __c90, 7)),
+          steps: S.optional(__S(2983, __c93, 7)),
         }),
       ).annotate({ identifier: "ThresholdsConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(6560, __c205, 0)),
-          description: S.optional(__S(6560, __c205, 0)),
-          icon: S.optional(__S(6560, __c205, 0)),
-          text: S.optional(__S(6560, __c205, 0)),
+          color: S.optional(__S(6688, __c209, 0)),
+          description: S.optional(__S(6688, __c209, 0)),
+          icon: S.optional(__S(6688, __c209, 0)),
+          text: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "EnumFieldConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          enum: S.optional(__S(2889, __c90, 9)),
+          enum: S.optional(__S(2985, __c93, 9)),
         }),
       ).annotate({ identifier: "FieldTypeConfig" });
     case 11:
@@ -9505,14 +9786,14 @@ function __c90(j: number): any {
           displayNameFromDS: S.optional(S.String),
           filterable: S.optional(S.Boolean),
           interval: S.optional(S.Number),
-          links: S.optional(__S(2885, __c90, 5)),
-          mappings: S.optional(__S(2880, __c90, 0)),
+          links: S.optional(__S(2981, __c93, 5)),
+          mappings: S.optional(__S(2976, __c93, 0)),
           max: S.optional(S.Number),
           min: S.optional(S.Number),
           noValue: S.optional(S.String),
           path: S.optional(S.String),
-          thresholds: S.optional(__S(2888, __c90, 8)),
-          type: S.optional(__S(2890, __c90, 10)),
+          thresholds: S.optional(__S(2984, __c93, 8)),
+          type: S.optional(__S(2986, __c93, 10)),
           unit: S.optional(S.String),
           writeable: S.optional(S.Boolean),
         }),
@@ -9520,13 +9801,13 @@ function __c90(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(2891, __c90, 11)),
-          labels: S.optional(__S(7712, __c241, 0)),
+          config: S.optional(__S(2987, __c93, 11)),
+          labels: S.optional(__S(7840, __c245, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Field" });
     case 13:
-      return S.Array(__S(2892, __c90, 12));
+      return S.Array(__S(2988, __c93, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9537,7 +9818,7 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "Notice" });
     case 15:
-      return S.Array(__S(2894, __c90, 14));
+      return S.Array(__S(2990, __c93, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -9549,21 +9830,21 @@ function __c90(j: number): any {
           displayNameFromDS: S.optional(S.String),
           filterable: S.optional(S.Boolean),
           interval: S.optional(S.Number),
-          links: S.optional(__S(2885, __c90, 5)),
-          mappings: S.optional(__S(2880, __c90, 0)),
+          links: S.optional(__S(2981, __c93, 5)),
+          mappings: S.optional(__S(2976, __c93, 0)),
           max: S.optional(S.Number),
           min: S.optional(S.Number),
           noValue: S.optional(S.String),
           path: S.optional(S.String),
-          thresholds: S.optional(__S(2888, __c90, 8)),
-          type: S.optional(__S(2890, __c90, 10)),
+          thresholds: S.optional(__S(2984, __c93, 8)),
+          type: S.optional(__S(2986, __c93, 10)),
           unit: S.optional(S.String),
           value: S.optional(S.Number),
           writeable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryStat" });
     case 17:
-      return S.Array(__S(2896, __c90, 16));
+      return S.Array(__S(2992, __c93, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -9571,48 +9852,48 @@ function __c90(j: number): any {
           custom: S.optional(S.Unknown),
           dataTopic: S.optional(S.String),
           executedQueryString: S.optional(S.String),
-          notices: S.optional(__S(2895, __c90, 15)),
+          notices: S.optional(__S(2991, __c93, 15)),
           path: S.optional(S.String),
           pathSeparator: S.optional(S.String),
           preferredVisualisationPluginId: S.optional(S.String),
           preferredVisualisationType: S.optional(S.String),
-          stats: S.optional(__S(2897, __c90, 17)),
+          stats: S.optional(__S(2993, __c93, 17)),
           type: S.optional(S.String),
-          typeVersion: S.optional(__S(9376, __c293, 0)),
-          uniqueRowIdFields: S.optional(__S(9376, __c293, 0)),
+          typeVersion: S.optional(__S(9504, __c297, 0)),
+          uniqueRowIdFields: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "FrameMeta" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          Fields: S.optional(__S(2893, __c90, 13)),
-          Meta: S.optional(__S(2898, __c90, 18)),
+          Fields: S.optional(__S(2989, __c93, 13)),
+          Meta: S.optional(__S(2994, __c93, 18)),
           Name: S.optional(S.String),
           RefID: S.optional(S.String),
         }),
       ).annotate({ identifier: "Frame" });
     case 20:
-      return S.Array(__S(2899, __c90, 19));
+      return S.Array(__S(2995, __c93, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           Error: S.optional(S.String),
           ErrorSource: S.optional(S.String),
-          Frames: S.optional(__S(2900, __c90, 20)),
+          Frames: S.optional(__S(2996, __c93, 20)),
           Status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DataResponse" });
     case 22:
-      return S.Record(S.String, __S(2901, __c90, 21));
+      return S.Record(S.String, __S(2997, __c93, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(2902, __c90, 22)),
+          results: S.optional(__S(2998, __c93, 22)),
         }),
       ).annotate({ identifier: "QueryDataResponse" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9629,7 +9910,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "QueryPublicDashboardRequest" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9646,35 +9927,6 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ActiveUserStats" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/admin/ldap/reload", code: 200 })),
-      ).annotate({ identifier: "ReloadLDAPCfgRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.Number.pipe(T.Label()),
-          user_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org_id}/users/{user_id}", code: 200 })),
-      ).annotate({ identifier: "RemoveOrgUserRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/org/users/{user_id}", code: 200 })),
-      ).annotate({ identifier: "RemoveOrgUserForCurrentOrgRequest" });
-  }
-}
 function __c96(j: number): any {
   switch (j) {
     case 0:
@@ -9682,7 +9934,7 @@ function __c96(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/admin/settings", code: 200 })),
       ).annotate({ identifier: "AdminGetSettingsRequest" });
     case 1:
-      return S.Record(S.String, __S(7712, __c241, 0));
+      return S.Record(S.String, __S(7840, __c245, 0));
     case 2:
       return S.suspend(() => __S(3073, __c96, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "AdminGetSettingsResponse",
@@ -9693,13 +9945,42 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/admin/ldap/reload", code: 200 })),
+      ).annotate({ identifier: "ReloadLDAPCfgRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org_id}/users/{user_id}", code: 200 })),
+      ).annotate({ identifier: "RemoveOrgUserRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/org/users/{user_id}", code: 200 })),
+      ).annotate({ identifier: "RemoveOrgUserForCurrentOrgRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           key: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/sso-settings/{key}", code: 200 })),
       ).annotate({ identifier: "RemoveProviderSettingsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9710,7 +9991,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "RemoveTeamGroupApiQueryRequest" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9721,7 +10002,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RemoveTeamMemberRequest" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9738,7 +10019,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "RemoveTeamRoleRequest" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9756,7 +10037,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "RemoveUserRoleRequest" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9767,7 +10048,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "RenderReportCSVsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9780,40 +10061,6 @@ function __c103(j: number): any {
           includeTables: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/reports/render/pdfs", code: 200 })),
       ).annotate({ identifier: "RenderReportPDFsRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          invitation_code: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/org/invites/{invitation_code}/revoke", code: 200 }),
-        ),
-      ).annotate({ identifier: "RevokeInviteRequest" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authTokenId: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/user/revoke-auth-token", code: 200 })),
-      ).annotate({ identifier: "RevokeUserAuthTokenRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NamespaceTitle: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/convert/api/prom/rules/{NamespaceTitle}", code: 200 }),
-        ),
-      ).annotate({ identifier: "RouteConvertPrometheusCortexDeleteNamespaceRequest" });
   }
 }
 function __c107(j: number): any {
@@ -9857,6 +10104,54 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/dashboards/variables/shared-clusters/rescan",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RescanSharedVariableClustersRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          invitation_code: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/org/invites/{invitation_code}/revoke", code: 200 }),
+        ),
+      ).annotate({ identifier: "RevokeInviteRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authTokenId: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/user/revoke-auth-token", code: 200 })),
+      ).annotate({ identifier: "RevokeUserAuthTokenRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NamespaceTitle: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/convert/api/prom/rules/{NamespaceTitle}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RouteConvertPrometheusCortexDeleteNamespaceRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           NamespaceTitle: S.String.pipe(T.Label()),
           Group: S.String.pipe(T.Label()),
@@ -9870,7 +10165,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexDeleteRuleGroupRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9882,7 +10177,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetNamespaceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9899,7 +10194,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetRuleGroupRequest" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9907,7 +10202,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetRulesRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9919,7 +10214,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexPostRuleGroupRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9927,78 +10222,12 @@ function __c113(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexPostRuleGroupsRequest" });
   }
 }
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NamespaceTitle: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RouteConvertPrometheusDeleteNamespaceRequest" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NamespaceTitle: S.String.pipe(T.Label()),
-          Group: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RouteConvertPrometheusDeleteRuleGroupRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NamespaceTitle: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RouteConvertPrometheusGetNamespaceRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          NamespaceTitle: S.String.pipe(T.Label()),
-          Group: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RouteConvertPrometheusGetRuleGroupRequest" });
-  }
-}
 function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/admin/users/{user_id}/auth-tokens", code: 200 })),
       ).annotate({ identifier: "AdminGetUserAuthTokensRequest" });
   }
@@ -10036,13 +10265,79 @@ function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          NamespaceTitle: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RouteConvertPrometheusDeleteNamespaceRequest" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NamespaceTitle: S.String.pipe(T.Label()),
+          Group: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RouteConvertPrometheusDeleteRuleGroupRequest" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NamespaceTitle: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RouteConvertPrometheusGetNamespaceRequest" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NamespaceTitle: S.String.pipe(T.Label()),
+          Group: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/convert/prometheus/config/v1/rules/{NamespaceTitle}/{Group}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RouteConvertPrometheusGetRuleGroupRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(
           T.Http({ method: "GET", uri: "/convert/prometheus/config/v1/rules", code: 200 }),
         ),
       ).annotate({ identifier: "RouteConvertPrometheusGetRulesRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10058,7 +10353,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusPostRuleGroupRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10068,7 +10363,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusPostRuleGroupsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10082,7 +10377,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "RouteExportMuteTimingRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10094,17 +10389,17 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "ReceiverExport" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(4096, __c128, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          receivers: S.optional(__S(3969, __c124, 1)),
+          receivers: S.optional(__S(4097, __c128, 1)),
         }),
       ).annotate({ identifier: "ContactPointExport" });
     case 3:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(4098, __c128, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10119,19 +10414,19 @@ function __c124(j: number): any {
           model: S.optional(__S(32, __c1, 0)),
           queryType: S.optional(S.String),
           refId: S.optional(S.String),
-          relativeTimeRange: S.optional(__S(3972, __c124, 4)),
+          relativeTimeRange: S.optional(__S(4100, __c128, 4)),
         }),
       ).annotate({ identifier: "AlertQueryExport" });
     case 6:
-      return S.Array(__S(3973, __c124, 5));
+      return S.Array(__S(4101, __c128, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6560, __c205, 0)),
-          group_by: S.optional(__S(6560, __c205, 0)),
+          active_time_intervals: S.optional(__S(6688, __c209, 0)),
+          group_by: S.optional(__S(6688, __c209, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
+          mute_time_intervals: S.optional(__S(6688, __c209, 0)),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
         }),
@@ -10147,26 +10442,26 @@ function __c124(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(7712, __c241, 0)),
+          annotations: S.optional(__S(7840, __c245, 0)),
           condition: S.optional(S.String),
           dashboardUid: S.optional(S.String),
-          data: S.optional(__S(3974, __c124, 6)),
+          data: S.optional(__S(4102, __c128, 6)),
           execErrState: S.optional(S.String),
           for: S.optional(S.Number),
           isPaused: S.optional(S.Boolean),
           keepFiringFor: S.optional(S.Number),
-          labels: S.optional(__S(7712, __c241, 0)),
+          labels: S.optional(__S(7840, __c245, 0)),
           missing_series_evals_to_resolve: S.optional(S.Number),
           noDataState: S.optional(S.String),
-          notification_settings: S.optional(__S(3975, __c124, 7)),
+          notification_settings: S.optional(__S(4103, __c128, 7)),
           panelId: S.optional(S.Number),
-          record: S.optional(__S(3976, __c124, 8)),
+          record: S.optional(__S(4104, __c128, 8)),
           title: S.optional(S.String),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertRuleExport" });
     case 10:
-      return S.Array(__S(3977, __c124, 9));
+      return S.Array(__S(4105, __c128, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -10174,32 +10469,32 @@ function __c124(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          rules: S.optional(__S(3978, __c124, 10)),
+          rules: S.optional(__S(4106, __c128, 10)),
         }),
       ).annotate({ identifier: "AlertRuleGroupExport" });
     case 12:
-      return S.Array(__S(3979, __c124, 11));
+      return S.Array(__S(4107, __c128, 11));
     case 13:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3982, __c124, 14)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4110, __c128, 14)));
     case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          time_intervals: S.optional(__S(3981, __c124, 13)),
+          time_intervals: S.optional(__S(4109, __c128, 13)),
         }),
       ).annotate({ identifier: "TimeInterval" });
     case 15:
-      return S.Array(__S(3982, __c124, 14));
+      return S.Array(__S(4110, __c128, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          time_intervals: S.optional(__S(3983, __c124, 15)),
+          time_intervals: S.optional(__S(4111, __c128, 15)),
         }),
       ).annotate({ identifier: "MuteTimeIntervalExport" });
     case 17:
-      return S.Array(__S(3984, __c124, 16));
+      return S.Array(__S(4112, __c128, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -10209,65 +10504,65 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "Matcher" });
     case 19:
-      return S.Array(__S(3986, __c124, 18));
+      return S.Array(__S(4114, __c128, 18));
     case 20:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 21:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3990, __c124, 22)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4118, __c128, 22)));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6560, __c205, 0)),
+          active_time_intervals: S.optional(__S(6688, __c209, 0)),
           continue: S.optional(S.Boolean),
-          group_by: S.optional(__S(6560, __c205, 0)),
+          group_by: S.optional(__S(6688, __c209, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          match: S.optional(__S(7712, __c241, 0)),
-          match_re: S.optional(__S(7712, __c241, 0)),
-          matchers: S.optional(__S(3987, __c124, 19)),
-          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
-          object_matchers: S.optional(__S(3988, __c124, 20)),
+          match: S.optional(__S(7840, __c245, 0)),
+          match_re: S.optional(__S(7840, __c245, 0)),
+          matchers: S.optional(__S(4115, __c128, 19)),
+          mute_time_intervals: S.optional(__S(6688, __c209, 0)),
+          object_matchers: S.optional(__S(4116, __c128, 20)),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
-          routes: S.optional(__S(3989, __c124, 21)),
+          routes: S.optional(__S(4117, __c128, 21)),
         }),
       ).annotate({ identifier: "RouteExport" });
     case 23:
-      return S.Array(__S(3990, __c124, 22));
+      return S.Array(__S(4118, __c128, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6560, __c205, 0)),
+          active_time_intervals: S.optional(__S(6688, __c209, 0)),
           continue: S.optional(S.Boolean),
-          group_by: S.optional(__S(6560, __c205, 0)),
+          group_by: S.optional(__S(6688, __c209, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          match: S.optional(__S(7712, __c241, 0)),
-          match_re: S.optional(__S(7712, __c241, 0)),
-          matchers: S.optional(__S(3987, __c124, 19)),
-          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
-          object_matchers: S.optional(__S(3988, __c124, 20)),
+          match: S.optional(__S(7840, __c245, 0)),
+          match_re: S.optional(__S(7840, __c245, 0)),
+          matchers: S.optional(__S(4115, __c128, 19)),
+          mute_time_intervals: S.optional(__S(6688, __c209, 0)),
+          object_matchers: S.optional(__S(4116, __c128, 20)),
           orgId: S.optional(S.Number),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
-          routes: S.optional(__S(3991, __c124, 23)),
+          routes: S.optional(__S(4119, __c128, 23)),
         }),
       ).annotate({ identifier: "NotificationPolicyExport" });
     case 25:
-      return S.Array(__S(3992, __c124, 24));
+      return S.Array(__S(4120, __c128, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.Number),
-          contactPoints: S.optional(__S(3971, __c124, 3)),
-          groups: S.optional(__S(3980, __c124, 12)),
-          muteTimes: S.optional(__S(3985, __c124, 17)),
-          policies: S.optional(__S(3993, __c124, 25)),
+          contactPoints: S.optional(__S(4099, __c128, 3)),
+          groups: S.optional(__S(4108, __c128, 12)),
+          muteTimes: S.optional(__S(4113, __c128, 17)),
+          policies: S.optional(__S(4121, __c128, 25)),
         }),
       ).annotate({ identifier: "AlertingFileExport" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10278,7 +10573,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "RouteExportMuteTimingsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10290,64 +10585,6 @@ function __c126(j: number): any {
           T.Http({ method: "GET", uri: "/v1/provisioning/alert-rules/{UID}/export", code: 200 }),
         ),
       ).annotate({ identifier: "RouteGetAlertRuleExportRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          FolderUID: S.String.pipe(T.Label()),
-          Group: S.String.pipe(T.Label()),
-          download: S.optional(S.Boolean.pipe(T.Query())),
-          format: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/provisioning/folder/{FolderUID}/rule-groups/{Group}/export",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RouteGetAlertRuleGroupExportRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          download: S.optional(S.Boolean.pipe(T.Query())),
-          format: S.optional(S.String.pipe(T.Query())),
-          folderUid: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
-          group: S.optional(S.String.pipe(T.Query())),
-          ruleUid: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/provisioning/alert-rules/export", code: 200 })),
-      ).annotate({ identifier: "RouteGetAlertRulesExportRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          download: S.optional(S.Boolean.pipe(T.Query())),
-          format: S.optional(S.String.pipe(T.Query())),
-          decrypt: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/provisioning/contact-points/export", code: 200 }),
-        ),
-      ).annotate({ identifier: "RouteGetContactpointsExportRequest" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/v1/provisioning/policies/export", code: 200 }),
-        ),
-      ).annotate({ identifier: "RouteGetPolicyTreeExportRequest" });
   }
 }
 function __c131(j: number): any {
@@ -10374,12 +10611,70 @@ function __c132(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/admin/users/{user_id}/logout", code: 200 })),
       ).annotate({ identifier: "AdminLogoutUserRequest" });
   }
 }
 function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FolderUID: S.String.pipe(T.Label()),
+          Group: S.String.pipe(T.Label()),
+          download: S.optional(S.Boolean.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/provisioning/folder/{FolderUID}/rule-groups/{Group}/export",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RouteGetAlertRuleGroupExportRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          download: S.optional(S.Boolean.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+          folderUid: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          ruleUid: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/provisioning/alert-rules/export", code: 200 })),
+      ).annotate({ identifier: "RouteGetAlertRulesExportRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          download: S.optional(S.Boolean.pipe(T.Query())),
+          format: S.optional(S.String.pipe(T.Query())),
+          decrypt: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/provisioning/contact-points/export", code: 200 }),
+        ),
+      ).annotate({ identifier: "RouteGetContactpointsExportRequest" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/v1/provisioning/policies/export", code: 200 }),
+        ),
+      ).annotate({ identifier: "RouteGetPolicyTreeExportRequest" });
+  }
+}
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10399,18 +10694,18 @@ function __c133(j: number): any {
       ).annotate({ identifier: "SaveReportSettingsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
-          tag: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
+          tag: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
-          dashboardIds: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
-          dashboardUIDs: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
-          folderIds: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
-          folderUIDs: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
+          dashboardIds: S.optional(__S(9504, __c297, 0).pipe(T.Query())),
+          dashboardUIDs: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
+          folderIds: S.optional(__S(9504, __c297, 0).pipe(T.Query())),
+          folderUIDs: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
           starred: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -10435,7 +10730,7 @@ function __c134(j: number): any {
           slug: S.optional(S.String),
           sortMeta: S.optional(S.Number),
           sortMetaName: S.optional(S.String),
-          tags: S.optional(__S(6560, __c205, 0)),
+          tags: S.optional(__S(6688, __c209, 0)),
           title: S.optional(S.String),
           type: S.optional(S.String),
           uid: S.optional(S.String),
@@ -10444,14 +10739,14 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "Hit" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4417, __c138, 1));
     case 3:
-      return S.suspend(() => __S(4290, __c134, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4418, __c138, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchResponse",
       });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10473,14 +10768,14 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "DashboardSnapshotDTO" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4449, __c139, 1));
     case 3:
-      return S.suspend(() => __S(4322, __c135, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4450, __c139, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchDashboardSnapshotsResponse",
       });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10498,11 +10793,11 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "DeviceSearchHitDTO" });
     case 2:
-      return S.Array(__S(4353, __c136, 1));
+      return S.Array(__S(4481, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(4354, __c136, 2)),
+          devices: S.optional(__S(4482, __c140, 2)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
@@ -10510,7 +10805,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "SearchDeviceQueryResult" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10529,14 +10824,14 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "OrgDTO" });
     case 2:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
-      return S.suspend(() => __S(4386, __c137, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4514, __c141, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchOrgsResponse",
       });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10549,122 +10844,16 @@ function __c138(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/serviceaccounts/search", code: 200 })),
       ).annotate({ identifier: "SearchOrgServiceAccountsWithPagingRequest" });
     case 1:
-      return S.Array(__S(7456, __c233, 0));
+      return S.Array(__S(7584, __c237, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          serviceAccounts: S.optional(__S(4417, __c138, 1)),
+          serviceAccounts: S.optional(__S(4545, __c142, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchOrgServiceAccountsResult" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/orgs/{org_id}/users/search", code: 200 })),
-      ).annotate({ identifier: "SearchOrgUsersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          orgUsers: S.optional(__S(9921, __c310, 1)),
-          page: S.optional(S.Number),
-          perPage: S.optional(S.Number),
-          totalCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchOrgUsersQueryResult" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasourceUid: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          onlyStarred: S.optional(S.Boolean.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.Number.pipe(T.Query())),
-          to: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/query-history", code: 200 })),
-      ).annotate({ identifier: "SearchQueriesRequest" });
-    case 1:
-      return S.Array(__S(7008, __c219, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number),
-          perPage: S.optional(S.Number),
-          queryHistory: S.optional(__S(4481, __c140, 1)),
-          totalCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "QueryHistorySearchResult" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(__S(4482, __c140, 2)),
-        }),
-      ).annotate({ identifier: "QueryHistorySearchResponse" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.Number.pipe(T.Label()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          perpage: S.optional(S.Number.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/teams/{teamId}/groups/search", code: 200 })),
-      ).annotate({ identifier: "SearchTeamGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number),
-          perPage: S.optional(S.Number),
-          teamGroups: S.optional(__S(1505, __c47, 1)),
-          totalCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchTeamGroupsQueryResult" });
-    case 2:
-      return S.Array(__S(4513, __c141, 1));
-    case 3:
-      return S.suspend(() => __S(4514, __c141, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "SearchTeamGroupsResponse",
-      });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number.pipe(T.Query())),
-          perpage: S.optional(S.Number.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(S.String.pipe(T.Query())),
-          accesscontrol: S.optional(S.Boolean.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/teams/search", code: 200 })),
-      ).annotate({ identifier: "SearchTeamsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number),
-          perPage: S.optional(S.Number),
-          teams: S.optional(__S(1216, __c38, 0)),
-          totalCount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchTeamQueryResult" });
   }
 }
 function __c143(j: number): any {
@@ -10690,14 +10879,18 @@ function __c145(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          perpage: S.optional(S.Number.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-      ).annotate({ identifier: "SearchUsersRequest" });
+          org_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/orgs/{org_id}/users/search", code: 200 })),
+      ).annotate({ identifier: "SearchOrgUsersRequest" });
     case 1:
-      return S.suspend(() => __S(4673, __c146, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "SearchUsersResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          orgUsers: S.optional(__S(10049, __c314, 1)),
+          page: S.optional(S.Number),
+          perPage: S.optional(S.Number),
+          totalCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SearchOrgUsersQueryResult" });
   }
 }
 function __c146(j: number): any {
@@ -10705,8 +10898,110 @@ function __c146(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
-          authLabels: S.optional(__S(6560, __c205, 0)),
+          datasourceUid: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          onlyStarred: S.optional(S.Boolean.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          from: S.optional(S.Number.pipe(T.Query())),
+          to: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/query-history", code: 200 })),
+      ).annotate({ identifier: "SearchQueriesRequest" });
+    case 1:
+      return S.Array(__S(7136, __c223, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number),
+          perPage: S.optional(S.Number),
+          queryHistory: S.optional(__S(4673, __c146, 1)),
+          totalCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QueryHistorySearchResult" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.optional(__S(4674, __c146, 2)),
+        }),
+      ).annotate({ identifier: "QueryHistorySearchResponse" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.Number.pipe(T.Label()),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perpage: S.optional(S.Number.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/teams/{teamId}/groups/search", code: 200 })),
+      ).annotate({ identifier: "SearchTeamGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number),
+          perPage: S.optional(S.Number),
+          teamGroups: S.optional(__S(1569, __c49, 1)),
+          totalCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SearchTeamGroupsQueryResult" });
+    case 2:
+      return S.Array(__S(4705, __c147, 1));
+    case 3:
+      return S.suspend(() => __S(4706, __c147, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "SearchTeamGroupsResponse",
+      });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number.pipe(T.Query())),
+          perpage: S.optional(S.Number.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          accesscontrol: S.optional(S.Boolean.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/teams/search", code: 200 })),
+      ).annotate({ identifier: "SearchTeamsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number),
+          perPage: S.optional(S.Number),
+          teams: S.optional(__S(1280, __c40, 0)),
+          totalCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SearchTeamQueryResult" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          perpage: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
+      ).annotate({ identifier: "SearchUsersRequest" });
+    case 1:
+      return S.suspend(() => __S(4801, __c150, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "SearchUsersResponse",
+      });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accessControl: S.optional(__S(7904, __c247, 0)),
+          authLabels: S.optional(__S(6688, __c209, 0)),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.String),
           email: S.optional(S.String),
@@ -10723,10 +11018,10 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "UserSearchHitDTO" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(4800, __c150, 0));
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10738,12 +11033,12 @@ function __c147(j: number): any {
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
-          users: S.optional(__S(4673, __c146, 1)),
+          users: S.optional(__S(4801, __c150, 1)),
         }),
       ).annotate({ identifier: "SearchUserQueryResult" });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10756,30 +11051,30 @@ function __c148(j: number): any {
       ).annotate({ identifier: "SendReportRequest" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(7298, __c228, 2)),
+          dashboards: S.optional(__S(7426, __c232, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6560, __c205, 0)),
+          formats: S.optional(__S(6688, __c209, 0)),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7299, __c228, 3)),
+          options: S.optional(__S(7427, __c232, 3)),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7300, __c228, 4)),
+          schedule: S.optional(__S(7428, __c232, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
-          urls: S.optional(__S(7302, __c228, 6)),
+          urls: S.optional(__S(7430, __c232, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/reports/test-email", code: 200 })),
       ).annotate({ identifier: "SendTestEmailRequest" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10795,7 +11090,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "SetDataSourceCacheConfigRequest" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10807,20 +11102,30 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "SetResourcePermissionCommand" });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4960, __c155, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
           resourceID: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4833, __c151, 1)),
+          permissions: S.optional(__S(4961, __c155, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/access-control/{resource}/{resourceID}", code: 200 }),
         ),
       ).annotate({ identifier: "SetResourcePermissionsRequest" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/admin/provisioning/dashboards/reload", code: 200 }),
+        ),
+      ).annotate({ identifier: "AdminProvisioningReloadDashboardsRequest" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10839,7 +11144,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForBuiltInRoleRequest" });
   }
 }
-function __c153(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10858,7 +11163,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForTeamRequest" });
   }
 }
-function __c154(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10877,44 +11182,34 @@ function __c154(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForUserRequest" });
   }
 }
-function __c155(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           roleUID: S.String.pipe(T.Label()),
-          service_accounts: S.optional(__S(9376, __c293, 0)),
-          teams: S.optional(__S(9376, __c293, 0)),
-          users: S.optional(__S(9376, __c293, 0)),
+          service_accounts: S.optional(__S(9504, __c297, 0)),
+          teams: S.optional(__S(9504, __c297, 0)),
+          users: S.optional(__S(9504, __c297, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/access-control/roles/{roleUID}/assignments", code: 200 }),
         ),
       ).annotate({ identifier: "SetRoleAssignmentsRequest" });
   }
 }
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/admin/provisioning/dashboards/reload", code: 200 }),
-        ),
-      ).annotate({ identifier: "AdminProvisioningReloadDashboardsRequest" });
-  }
-}
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           team_id: S.String.pipe(T.Label()),
-          admins: S.optional(__S(6560, __c205, 0)),
-          members: S.optional(__S(6560, __c205, 0)),
+          admins: S.optional(__S(6688, __c209, 0)),
+          members: S.optional(__S(6688, __c209, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/members", code: 200 })),
       ).annotate({ identifier: "SetTeamMembershipsRequest" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10922,12 +11217,12 @@ function __c158(j: number): any {
           teamId: S.Number.pipe(T.Label()),
           targetOrgId: S.optional(S.Number.pipe(T.Query())),
           includeHidden: S.optional(S.Boolean),
-          roleUids: S.optional(__S(6560, __c205, 0)),
+          roleUids: S.optional(__S(6688, __c209, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/teams/{teamId}/roles", code: 200 })),
       ).annotate({ identifier: "SetTeamRolesRequest" });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10936,12 +11231,12 @@ function __c159(j: number): any {
           targetOrgId: S.optional(S.Number.pipe(T.Query())),
           global: S.optional(S.Boolean),
           includeHidden: S.optional(S.Boolean),
-          roleUids: S.optional(__S(6560, __c205, 0)),
+          roleUids: S.optional(__S(6688, __c209, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/users/{userId}/roles", code: 200 })),
       ).annotate({ identifier: "SetUserRolesRequest" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10953,7 +11248,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "StarQueryRequest" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10966,14 +11261,14 @@ function __c161(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7104, __c222, 0)),
+          queries: S.optional(__S(7232, __c226, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/recording-rules/test", code: 200 })),
       ).annotate({ identifier: "TestCreateRecordingRuleRequest" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10983,77 +11278,6 @@ function __c162(j: number): any {
           T.Http({ method: "DELETE", uri: "/query-history/star/{query_history_uid}", code: 200 }),
         ),
       ).annotate({ identifier: "UnstarQueryRequest" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          annotation_id: S.String.pipe(T.Label()),
-          data: S.optional(S.Unknown),
-          id: S.optional(S.Number),
-          tags: S.optional(__S(6560, __c205, 0)),
-          text: S.optional(S.String),
-          time: S.optional(S.Number),
-          timeEnd: S.optional(S.Number),
-        }).pipe(T.Http({ method: "PUT", uri: "/annotations/{annotation_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAnnotationRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          annotation_id: S.String.pipe(T.Label()),
-          data: S.optional(S.Unknown),
-          id: S.optional(S.Number),
-          tags: S.optional(__S(6560, __c205, 0)),
-          text: S.optional(S.String),
-          time: S.optional(S.Number),
-          timeEnd: S.optional(S.Number),
-        }).pipe(T.Http({ method: "PATCH", uri: "/annotations/{annotation_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAnnotationByAnnotationIdRequest" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          target: S.optional(__S(32, __c1, 0)),
-          transformations: S.optional(__S(6689, __c209, 1)),
-        }),
-      ).annotate({ identifier: "CorrelationConfigUpdateDTO" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sourceUID: S.String.pipe(T.Label()),
-          correlationUID: S.String.pipe(T.Label()),
-          config: S.optional(__S(5280, __c165, 0)),
-          description: S.optional(S.String),
-          label: S.optional(S.String),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/datasources/uid/{sourceUID}/correlations/{correlationUID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateCorrelationRequest" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/org", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentOrgRequest" });
   }
 }
 function __c167(j: number): any {
@@ -11071,6 +11295,77 @@ function __c168(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          annotation_id: S.String.pipe(T.Label()),
+          data: S.optional(S.Unknown),
+          id: S.optional(S.Number),
+          tags: S.optional(__S(6688, __c209, 0)),
+          text: S.optional(S.String),
+          time: S.optional(S.Number),
+          timeEnd: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PUT", uri: "/annotations/{annotation_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAnnotationRequest" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          annotation_id: S.String.pipe(T.Label()),
+          data: S.optional(S.Unknown),
+          id: S.optional(S.Number),
+          tags: S.optional(__S(6688, __c209, 0)),
+          text: S.optional(S.String),
+          time: S.optional(S.Number),
+          timeEnd: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PATCH", uri: "/annotations/{annotation_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAnnotationByAnnotationIdRequest" });
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          target: S.optional(__S(32, __c1, 0)),
+          transformations: S.optional(__S(6817, __c213, 1)),
+        }),
+      ).annotate({ identifier: "CorrelationConfigUpdateDTO" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sourceUID: S.String.pipe(T.Label()),
+          correlationUID: S.String.pipe(T.Label()),
+          config: S.optional(__S(5440, __c170, 0)),
+          description: S.optional(S.String),
+          label: S.optional(S.String),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/datasources/uid/{sourceUID}/correlations/{correlationUID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateCorrelationRequest" });
+  }
+}
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/org", code: 200 })),
+      ).annotate({ identifier: "UpdateCurrentOrgRequest" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           address1: S.optional(S.String),
           address2: S.optional(S.String),
           city: S.optional(S.String),
@@ -11081,7 +11376,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "UpdateCurrentOrgAddressRequest" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11094,7 +11389,7 @@ function __c169(j: number): any {
           isDefault: S.optional(S.Boolean),
           jsonData: S.optional(S.Unknown),
           name: S.optional(S.String),
-          secureJsonData: S.optional(__S(7712, __c241, 0)),
+          secureJsonData: S.optional(__S(7840, __c245, 0)),
           type: S.optional(S.String),
           url: S.optional(S.String),
           user: S.optional(S.String),
@@ -11104,7 +11399,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "UpdateDataSourceByUIDRequest" });
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11116,17 +11411,17 @@ function __c170(j: number): any {
         }),
       ).annotate({ identifier: "DashboardACLUpdateItem" });
     case 1:
-      return S.Array(__S(5440, __c170, 0));
+      return S.Array(__S(5568, __c174, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           folder_uid: S.String.pipe(T.Label()),
-          items: S.optional(__S(5441, __c170, 1)),
+          items: S.optional(__S(5569, __c174, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/folders/{folder_uid}/permissions", code: 200 })),
       ).annotate({ identifier: "UpdateFolderPermissionsRequest" });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11145,7 +11440,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "UpdateLibraryElementRequest" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11156,7 +11451,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateOrgRequest" });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11172,7 +11467,17 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateOrgAddressRequest" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/admin/provisioning/plugins/reload", code: 200 }),
+        ),
+      ).annotate({ identifier: "AdminProvisioningReloadPluginsRequest" });
+  }
+}
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11185,19 +11490,19 @@ function __c174(j: number): any {
       ).annotate({ identifier: "UpdateOrgQuotaRequest" });
   }
 }
-function __c175(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org_id: S.Number.pipe(T.Label()),
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
           role: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org_id}/users/{user_id}", code: 200 })),
       ).annotate({ identifier: "UpdateOrgUserRequest" });
   }
 }
-function __c176(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11208,7 +11513,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "UpdateOrgUserForCurrentOrgRequest" });
   }
 }
-function __c177(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11221,17 +11526,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "UpdateProviderSettingsRequest" });
   }
 }
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/admin/provisioning/plugins/reload", code: 200 }),
-        ),
-      ).annotate({ identifier: "AdminProvisioningReloadPluginsRequest" });
-  }
-}
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11253,7 +11548,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "UpdatePublicDashboardRequest" });
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11266,14 +11561,14 @@ function __c180(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7104, __c222, 0)),
+          queries: S.optional(__S(7232, __c226, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/recording-rules", code: 200 })),
       ).annotate({ identifier: "UpdateRecordingRuleRequest" });
   }
 }
-function __c181(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11285,12 +11580,12 @@ function __c181(j: number): any {
           group: S.String,
           hidden: S.optional(S.Boolean),
           name: S.optional(S.String),
-          permissions: S.optional(__S(7393, __c231, 1)),
+          permissions: S.optional(__S(7521, __c235, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/roles/{roleUID}", code: 200 })),
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c182(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11304,7 +11599,7 @@ function __c182(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
           avatarUrl: S.optional(S.String),
           createdAt: S.optional(S.String),
           id: S.optional(S.Number),
@@ -11315,7 +11610,7 @@ function __c182(j: number): any {
           orgId: S.optional(S.Number),
           requiredBy: S.optional(S.String),
           role: S.optional(S.String),
-          teams: S.optional(__S(6560, __c205, 0)),
+          teams: S.optional(__S(6688, __c209, 0)),
           tokens: S.optional(S.Number),
           uid: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -11327,12 +11622,12 @@ function __c182(j: number): any {
           id: S.optional(S.Number),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          serviceaccount: S.optional(__S(5825, __c182, 1)),
+          serviceaccount: S.optional(__S(5953, __c186, 1)),
         }),
       ).annotate({ identifier: "UpdateServiceAccountResponse" });
   }
 }
-function __c183(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11345,7 +11640,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UpdateSignedInUserRequest" });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11357,77 +11652,12 @@ function __c184(j: number): any {
       ).annotate({ identifier: "UpdateTeamRequest" });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.String.pipe(T.Label()),
-          rules: S.optional(__S(1569, __c49, 1)),
-        }).pipe(T.Http({ method: "PUT", uri: "/datasources/uid/{uid}/lbac/teams", code: 200 })),
-      ).annotate({ identifier: "UpdateTeamLBACRulesApiRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          message: S.optional(S.String),
-          name: S.optional(S.String),
-          rules: S.optional(__S(1569, __c49, 1)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateTeamLBACRulesApiResponse" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String.pipe(T.Label()),
-          user_id: S.Number.pipe(T.Label()),
-          permission: S.optional(S.Number),
-        }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/members/{user_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateTeamMemberRequest" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String.pipe(T.Label()),
-          homeDashboardId: S.optional(S.Number),
-          homeDashboardUID: S.optional(S.String),
-          language: S.optional(S.String),
-          navbar: S.optional(__S(1664, __c52, 0)),
-          queryHistory: S.optional(__S(1665, __c52, 1)),
-          theme: S.optional(S.String),
-          timezone: S.optional(S.String),
-          weekStart: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/preferences", code: 200 })),
-      ).annotate({ identifier: "UpdateTeamPreferencesRequest" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.Number.pipe(T.Label()),
-          email: S.optional(S.String),
-          login: S.optional(S.String),
-          name: S.optional(S.String),
-          theme: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/users/{user_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateUserRequest" });
-  }
-}
 function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
           authTokenId: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "POST", uri: "/admin/users/{user_id}/revoke-auth-token", code: 200 }),
@@ -11439,11 +11669,76 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          uid: S.String.pipe(T.Label()),
+          rules: S.optional(__S(1633, __c51, 1)),
+        }).pipe(T.Http({ method: "PUT", uri: "/datasources/uid/{uid}/lbac/teams", code: 200 })),
+      ).annotate({ identifier: "UpdateTeamLBACRulesApiRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          message: S.optional(S.String),
+          name: S.optional(S.String),
+          rules: S.optional(__S(1633, __c51, 1)),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateTeamLBACRulesApiResponse" });
+  }
+}
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String.pipe(T.Label()),
+          user_id: S.Number.pipe(T.Label()),
+          permission: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/members/{user_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateTeamMemberRequest" });
+  }
+}
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String.pipe(T.Label()),
+          homeDashboardId: S.optional(S.Number),
+          homeDashboardUID: S.optional(S.String),
+          language: S.optional(S.String),
+          navbar: S.optional(__S(1728, __c54, 0)),
+          queryHistory: S.optional(__S(1729, __c54, 1)),
+          theme: S.optional(S.String),
+          timezone: S.optional(S.String),
+          weekStart: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/preferences", code: 200 })),
+      ).annotate({ identifier: "UpdateTeamPreferencesRequest" });
+  }
+}
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+          email: S.optional(S.String),
+          login: S.optional(S.String),
+          name: S.optional(S.String),
+          theme: S.optional(S.String),
+        }).pipe(T.Http({ method: "PUT", uri: "/users/{user_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateUserRequest" });
+  }
+}
+function __c194(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user/email/update", code: 200 })),
       ).annotate({ identifier: "UpdateUserEmailRequest" });
   }
 }
-function __c191(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11458,7 +11753,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "UpdateUserQuotaRequest" });
   }
 }
-function __c192(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11475,7 +11770,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "UploadSnapshotRequest" });
   }
 }
-function __c193(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11485,7 +11780,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "UserSetUsingOrgRequest" });
   }
 }
-function __c194(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11495,29 +11790,29 @@ function __c194(j: number): any {
       ).annotate({ identifier: "ViewPublicDashboardRequest" });
   }
 }
-function __c195(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PUT", uri: "/admin/users/{user_id}/password", code: 200 })),
       ).annotate({ identifier: "AdminUpdateUserPasswordRequest" });
   }
 }
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user_id: S.Number.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
           isGrafanaAdmin: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/admin/users/{user_id}/permissions", code: 200 })),
       ).annotate({ identifier: "AdminUpdateUserPermissionsRequest" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11534,7 +11829,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "CallDatasourceResourceWithUIDRequest" });
   }
 }
-function __c198(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11551,7 +11846,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CancelSnapshotRequest" });
   }
 }
-function __c199(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11562,7 +11857,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "ChangeUserPasswordRequest" });
   }
 }
-function __c200(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11572,7 +11867,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "CheckDatasourceHealthWithUIDRequest" });
   }
 }
-function __c201(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11584,7 +11879,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CleanDataSourceCacheRequest" });
   }
 }
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11603,7 +11898,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "CacheConfigResponse" });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11612,7 +11907,7 @@ function __c203(j: number): any {
           dashboardUID: S.optional(S.String),
           data: S.optional(S.Unknown),
           panelId: S.optional(S.Number),
-          tags: S.optional(__S(6560, __c205, 0)),
+          tags: S.optional(__S(6688, __c209, 0)),
           text: S.String,
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -11620,7 +11915,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "CreateAnnotationRequest" });
   }
 }
-function __c204(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11631,13 +11926,13 @@ function __c204(j: number): any {
       ).annotate({ identifier: "CreateAnnotationResponse" });
   }
 }
-function __c205(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c206(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11651,13 +11946,13 @@ function __c206(j: number): any {
       ).annotate({ identifier: "CreateAccessTokenResponseDTO" });
   }
 }
-function __c207(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sourceUID: S.String.pipe(T.Label()),
-          config: S.optional(__S(6690, __c209, 2)),
+          config: S.optional(__S(6818, __c213, 2)),
           description: S.optional(S.String),
           label: S.optional(S.String),
           provisioned: S.optional(S.Boolean),
@@ -11669,18 +11964,18 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CreateCorrelationRequest" });
   }
 }
-function __c208(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          result: S.optional(__S(6691, __c209, 3)),
+          result: S.optional(__S(6819, __c213, 3)),
         }),
       ).annotate({ identifier: "CreateCorrelationResponseBody" });
   }
 }
-function __c209(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11692,20 +11987,20 @@ function __c209(j: number): any {
         }),
       ).annotate({ identifier: "Transformation" });
     case 1:
-      return S.Array(__S(6688, __c209, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           field: S.String,
           target: __S(32, __c1, 0),
-          transformations: S.optional(__S(6689, __c209, 1)),
+          transformations: S.optional(__S(6817, __c213, 1)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CorrelationConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(6690, __c209, 2)),
+          config: S.optional(__S(6818, __c213, 2)),
           description: S.optional(S.String),
           label: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -11718,7 +12013,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "Correlation" });
   }
 }
-function __c210(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11730,7 +12025,7 @@ function __c210(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          dashboard: __S(6720, __c210, 0),
+          dashboard: __S(6848, __c214, 0),
           deleteKey: S.optional(S.String),
           expires: S.optional(S.Number),
           external: S.optional(S.Boolean),
@@ -11751,7 +12046,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CreateDashboardSnapshotResponse" });
   }
 }
-function __c211(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11766,7 +12061,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "CreateLibraryElementRequest" });
   }
 }
-function __c212(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11778,18 +12073,18 @@ function __c212(j: number): any {
       ).annotate({ identifier: "LibraryElementDTOMetaUser" });
   }
 }
-function __c213(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           connectedDashboards: S.optional(S.Number),
           created: S.optional(S.String),
-          createdBy: S.optional(__S(6784, __c212, 0)),
+          createdBy: S.optional(__S(6912, __c216, 0)),
           folderName: S.optional(S.String),
           folderUid: S.optional(S.String),
           updated: S.optional(S.String),
-          updatedBy: S.optional(__S(6784, __c212, 0)),
+          updatedBy: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "LibraryElementDTOMeta" });
     case 1:
@@ -11800,7 +12095,7 @@ function __c213(j: number): any {
           folderUid: S.optional(S.String),
           id: S.optional(S.Number),
           kind: S.optional(S.Number),
-          meta: S.optional(__S(6816, __c213, 0)),
+          meta: S.optional(__S(6944, __c217, 0)),
           model: S.optional(S.Unknown),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -11812,17 +12107,17 @@ function __c213(j: number): any {
       ).annotate({ identifier: "LibraryElementDTO" });
   }
 }
-function __c214(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(6817, __c213, 1)),
+          result: S.optional(__S(6945, __c217, 1)),
         }),
       ).annotate({ identifier: "LibraryElementResponse" });
   }
 }
-function __c215(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11839,7 +12134,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "CreateOrgResponse" });
   }
 }
-function __c216(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11861,7 +12156,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreatePublicDashboardRequest" });
   }
 }
-function __c217(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11871,7 +12166,7 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "EmailDTO" });
     case 1:
-      return S.Array(__S(6944, __c217, 0));
+      return S.Array(__S(7072, __c221, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11881,7 +12176,7 @@ function __c217(j: number): any {
           createdBy: S.optional(S.Number),
           dashboardUid: S.optional(S.String),
           isEnabled: S.optional(S.Boolean),
-          recipients: S.optional(__S(6945, __c217, 1)),
+          recipients: S.optional(__S(7073, __c221, 1)),
           share: S.optional(S.String),
           timeSelectionEnabled: S.optional(S.Boolean),
           uid: S.optional(S.String),
@@ -11891,7 +12186,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "PublicDashboard" });
   }
 }
-function __c218(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11902,7 +12197,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "CreateQueryRequest" });
   }
 }
-function __c219(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11918,17 +12213,17 @@ function __c219(j: number): any {
       ).annotate({ identifier: "QueryHistoryDTO" });
   }
 }
-function __c220(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(7008, __c219, 0)),
+          result: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "QueryHistoryResponse" });
   }
 }
-function __c221(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11941,20 +12236,20 @@ function __c221(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7104, __c222, 0)),
+          queries: S.optional(__S(7232, __c226, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/recording-rules", code: 200 })),
       ).annotate({ identifier: "CreateRecordingRuleRequest" });
   }
 }
-function __c222(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(32, __c1, 0));
   }
 }
-function __c223(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11967,14 +12262,14 @@ function __c223(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7104, __c222, 0)),
+          queries: S.optional(__S(7232, __c226, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecordingRuleJSON" });
   }
 }
-function __c224(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11986,7 +12281,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "CreateRecordingRuleWriteTargetRequest" });
   }
 }
-function __c225(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11998,30 +12293,30 @@ function __c225(j: number): any {
       ).annotate({ identifier: "PrometheusRemoteWriteTargetJSON" });
   }
 }
-function __c226(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(7298, __c228, 2)),
+          dashboards: S.optional(__S(7426, __c232, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6560, __c205, 0)),
+          formats: S.optional(__S(6688, __c209, 0)),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7299, __c228, 3)),
+          options: S.optional(__S(7427, __c232, 3)),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7300, __c228, 4)),
+          schedule: S.optional(__S(7428, __c232, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
-          urls: S.optional(__S(7302, __c228, 6)),
+          urls: S.optional(__S(7430, __c232, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/reports", code: 200 })),
       ).annotate({ identifier: "CreateReportRequest" });
   }
 }
-function __c227(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12032,7 +12327,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "ReportTimeRange" });
   }
 }
-function __c228(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12045,13 +12340,13 @@ function __c228(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dashboard: S.optional(__S(7296, __c228, 0)),
+          dashboard: S.optional(__S(7424, __c232, 0)),
           reportVariables: S.optional(S.Unknown),
-          timeRange: S.optional(__S(7264, __c227, 0)),
+          timeRange: S.optional(__S(7392, __c231, 0)),
         }),
       ).annotate({ identifier: "ReportDashboard" });
     case 2:
-      return S.Array(__S(7297, __c228, 1));
+      return S.Array(__S(7425, __c232, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12060,7 +12355,7 @@ function __c228(j: number): any {
           orientation: S.optional(S.String),
           pdfCombineOneFile: S.optional(S.Boolean),
           pdfShowTemplateVariables: S.optional(S.Boolean),
-          timeRange: S.optional(__S(7264, __c227, 0)),
+          timeRange: S.optional(__S(7392, __c231, 0)),
         }),
       ).annotate({ identifier: "ReportOptions" });
     case 4:
@@ -12084,10 +12379,10 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "ReportURLItem" });
     case 6:
-      return S.Array(__S(7301, __c228, 5));
+      return S.Array(__S(7429, __c232, 5));
   }
 }
-function __c229(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12098,7 +12393,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "CreateReportResponse" });
   }
 }
-function __c230(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12109,13 +12404,13 @@ function __c230(j: number): any {
           group: S.optional(S.String),
           hidden: S.optional(S.Boolean),
           name: S.optional(S.String),
-          permissions: S.optional(__S(7393, __c231, 1)),
+          permissions: S.optional(__S(7521, __c235, 1)),
           uid: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/roles", code: 200 })),
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c231(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12127,7 +12422,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "Permission" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12140,7 +12435,7 @@ function __c231(j: number): any {
           hidden: S.optional(S.Boolean),
           mapped: S.optional(S.Boolean),
           name: S.String,
-          permissions: S.optional(__S(7393, __c231, 1)),
+          permissions: S.optional(__S(7521, __c235, 1)),
           uid: S.String,
           updated: S.String,
           version: S.Number,
@@ -12148,7 +12443,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "RoleDTO" });
   }
 }
-function __c232(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12160,12 +12455,12 @@ function __c232(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountRequest" });
   }
 }
-function __c233(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
           avatarUrl: S.optional(S.String),
           id: S.optional(S.Number),
           isDisabled: S.optional(S.Boolean),
@@ -12180,7 +12475,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "ServiceAccountDTO" });
   }
 }
-function __c234(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12190,7 +12485,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c235(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12203,13 +12498,13 @@ function __c235(j: number): any {
       ).annotate({ identifier: "CloudMigrationSessionResponseDTO" });
   }
 }
-function __c236(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          resourceTypes: S.optional(__S(7584, __c237, 0)),
+          resourceTypes: S.optional(__S(7712, __c241, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/cloudmigration/migration/{uid}/snapshot", code: 200 }),
         ),
@@ -12222,13 +12517,13 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateSnapshotResponseDTO" });
   }
 }
-function __c237(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c238(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12247,7 +12542,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CreateTeamResponse" });
   }
 }
-function __c239(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12269,7 +12564,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "NewApiKeyResult" });
   }
 }
-function __c240(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12281,7 +12576,7 @@ function __c240(j: number): any {
           isDefault: S.optional(S.Boolean),
           jsonData: S.optional(S.Unknown),
           name: S.optional(S.String),
-          secureJsonData: S.optional(__S(7712, __c241, 0)),
+          secureJsonData: S.optional(__S(7840, __c245, 0)),
           type: S.optional(S.String),
           uid: S.optional(S.String),
           url: S.optional(S.String),
@@ -12291,18 +12586,18 @@ function __c240(j: number): any {
       ).annotate({ identifier: "AddDataSourceRequest" });
   }
 }
-function __c241(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c242(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasource: __S(7808, __c244, 0),
+          datasource: __S(7936, __c248, 0),
           id: S.Number,
           message: S.String,
           name: S.String,
@@ -12310,19 +12605,19 @@ function __c242(j: number): any {
       ).annotate({ identifier: "AddDataSourceResponse" });
   }
 }
-function __c243(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
   }
 }
-function __c244(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           access: S.optional(S.String),
-          accessControl: S.optional(__S(7776, __c243, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
           basicAuth: S.optional(S.Boolean),
           basicAuthUser: S.optional(S.String),
           database: S.optional(S.String),
@@ -12332,7 +12627,7 @@ function __c244(j: number): any {
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
-          secureJsonFields: S.optional(__S(7776, __c243, 0)),
+          secureJsonFields: S.optional(__S(7904, __c247, 0)),
           type: S.optional(S.String),
           typeLogoUrl: S.optional(S.String),
           uid: S.optional(S.String),
@@ -12344,7 +12639,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c245(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12361,7 +12656,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "DatasourceProxyDELETEByUIDcallsRequest" });
   }
 }
-function __c246(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12378,7 +12673,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "DatasourceProxyGETByUIDcallsRequest" });
   }
 }
-function __c247(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12395,7 +12690,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "DatasourceProxyPOSTByUIDcallsRequest" });
   }
 }
-function __c248(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12405,7 +12700,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationRequest" });
   }
 }
-function __c249(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12415,7 +12710,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DeleteCloudMigrationTokenRequest" });
   }
 }
-function __c250(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12432,7 +12727,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "DeleteCorrelationRequest" });
   }
 }
-function __c251(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12442,7 +12737,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "DeleteDashboardSnapshotRequest" });
   }
 }
-function __c252(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12452,7 +12747,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "DeleteDashboardSnapshotByDeleteKeyRequest" });
   }
 }
-function __c253(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12462,7 +12757,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "DeleteDataSourceByUIDRequest" });
   }
 }
-function __c254(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12474,7 +12769,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "DeleteLibraryElementByUIDRequest" });
   }
 }
-function __c255(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12487,7 +12782,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "AddOrgInviteRequest" });
   }
 }
-function __c256(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12497,7 +12792,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "SuccessResponseBody" });
   }
 }
-function __c257(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12507,7 +12802,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "DeleteLicenseTokenRequest" });
   }
 }
-function __c258(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12517,7 +12812,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DeleteOrgRequest" });
   }
 }
-function __c259(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12534,7 +12829,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeletePublicDashboardRequest" });
   }
 }
-function __c260(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12544,7 +12839,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteQueryRequest" });
   }
 }
-function __c261(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12554,7 +12849,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeleteRecordingRuleRequest" });
   }
 }
-function __c262(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12562,7 +12857,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteRecordingRuleWriteTargetRequest" });
   }
 }
-function __c263(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12574,7 +12869,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c264(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12586,7 +12881,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountRequest" });
   }
 }
-function __c265(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12596,7 +12891,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeleteSessionRequest" });
   }
 }
-function __c266(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12606,7 +12901,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c267(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12618,7 +12913,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "AddOrgUserRequest" });
   }
 }
-function __c268(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12635,7 +12930,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c269(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12648,7 +12943,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "DisableDataSourceCacheRequest" });
   }
 }
-function __c270(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12661,7 +12956,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "EnableDataSourceCacheRequest" });
   }
 }
-function __c271(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12675,7 +12970,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "AccessControlStatus" });
   }
 }
-function __c272(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12685,7 +12980,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GetAnnotationRequest" });
   }
 }
-function __c273(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12704,7 +12999,7 @@ function __c273(j: number): any {
           newState: S.optional(S.String),
           panelId: S.optional(S.Number),
           prevState: S.optional(S.String),
-          tags: S.optional(__S(6560, __c205, 0)),
+          tags: S.optional(__S(6688, __c209, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -12715,7 +13010,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "Annotation" });
   }
 }
-function __c274(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12729,20 +13024,20 @@ function __c274(j: number): any {
           dashboardUID: S.optional(S.String.pipe(T.Query())),
           panelId: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          tags: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
+          tags: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           matchAny: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/annotations", code: 200 })),
       ).annotate({ identifier: "GetAnnotationsRequest" });
     case 1:
-      return S.Array(__S(8736, __c273, 0));
+      return S.Array(__S(8864, __c277, 0));
     case 2:
-      return S.suspend(() => __S(8769, __c274, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8897, __c278, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAnnotationsResponse",
       });
   }
 }
-function __c275(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12759,22 +13054,22 @@ function __c275(j: number): any {
         }),
       ).annotate({ identifier: "TagsDTO" });
     case 2:
-      return S.Array(__S(8801, __c275, 1));
+      return S.Array(__S(8929, __c279, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(8802, __c275, 2)),
+          tags: S.optional(__S(8930, __c279, 2)),
         }),
       ).annotate({ identifier: "FindTagsResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(8803, __c275, 3)),
+          result: S.optional(__S(8931, __c279, 3)),
         }),
       ).annotate({ identifier: "GetAnnotationTagsResponse" });
   }
 }
-function __c276(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12793,7 +13088,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "GetAccessTokenResponseDTO" });
   }
 }
-function __c277(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12810,29 +13105,29 @@ function __c277(j: number): any {
       ).annotate({ identifier: "GetCorrelationRequest" });
   }
 }
-function __c278(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
-          sourceUID: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
+          sourceUID: S.optional(__S(6688, __c209, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/datasources/correlations", code: 200 })),
       ).annotate({ identifier: "GetCorrelationsRequest" });
   }
 }
-function __c279(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6691, __c209, 3));
+      return S.Array(__S(6819, __c213, 3));
     case 1:
-      return S.suspend(() => __S(8928, __c279, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9056, __c283, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCorrelationsResponse",
       });
   }
 }
-function __c280(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12843,7 +13138,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "AddOrgUserToCurrentOrgRequest" });
   }
 }
-function __c281(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12855,7 +13150,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetCorrelationsBySourceUIDRequest" });
   }
 }
-function __c282(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12863,7 +13158,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetCurrentOrgRequest" });
   }
 }
-function __c283(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12879,14 +13174,14 @@ function __c283(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(9056, __c283, 0)),
+          address: S.optional(__S(9184, __c287, 0)),
           id: S.optional(S.Number),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgDetailsDTO" });
   }
 }
-function __c284(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12894,7 +13189,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetCurrentOrgQuotaRequest" });
   }
 }
-function __c285(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12907,14 +13202,14 @@ function __c285(j: number): any {
         }),
       ).annotate({ identifier: "QuotaDTO" });
     case 1:
-      return S.Array(__S(9120, __c285, 0));
+      return S.Array(__S(9248, __c289, 0));
     case 2:
-      return S.suspend(() => __S(9121, __c285, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9249, __c289, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCurrentOrgQuotaResponse",
       });
   }
 }
-function __c286(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12924,7 +13219,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetDashboardSnapshotRequest" });
   }
 }
-function __c287(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12937,13 +13232,13 @@ function __c287(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dashboard: S.optional(__S(9184, __c287, 0)),
+          dashboard: S.optional(__S(9312, __c291, 0)),
         }),
       ).annotate({ identifier: "AnnotationPermission" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annotationsPermissions: S.optional(__S(9185, __c287, 1)),
+          annotationsPermissions: S.optional(__S(9313, __c291, 1)),
           apiVersion: S.optional(S.String),
           canAdmin: S.optional(S.Boolean),
           canDelete: S.optional(S.Boolean),
@@ -12975,12 +13270,12 @@ function __c287(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dashboard: S.optional(S.Unknown),
-          meta: S.optional(__S(9186, __c287, 2)),
+          meta: S.optional(__S(9314, __c291, 2)),
         }),
       ).annotate({ identifier: "DashboardFullWithMeta" });
   }
 }
-function __c288(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12990,7 +13285,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetDataSourceByUIDRequest" });
   }
 }
-function __c289(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13001,7 +13296,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "GetDataSourceCacheConfigRequest" });
   }
 }
-function __c290(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13028,14 +13323,14 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceListItemDTO" });
     case 2:
-      return S.Array(__S(9281, __c290, 1));
+      return S.Array(__S(9409, __c294, 1));
     case 3:
-      return S.suspend(() => __S(9282, __c290, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9410, __c294, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDataSourcesResponse",
       });
   }
 }
-function __c291(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13053,7 +13348,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "HealthResponse" });
   }
 }
-function __c292(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13063,48 +13358,48 @@ function __c292(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IP: S.optional(S.String),
-          Mask: S.optional(__S(9376, __c293, 0)),
+          Mask: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "IPNet" });
     case 2:
-      return S.Array(__S(9345, __c292, 1));
+      return S.Array(__S(9473, __c296, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Critical: S.optional(S.Boolean),
-          Id: S.optional(__S(9376, __c293, 0)),
-          Value: S.optional(__S(9376, __c293, 0)),
+          Id: S.optional(__S(9504, __c297, 0)),
+          Value: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "Extension" });
     case 4:
-      return S.Array(__S(9347, __c292, 3));
+      return S.Array(__S(9475, __c296, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Type: S.optional(__S(9376, __c293, 0)),
+          Type: S.optional(__S(9504, __c297, 0)),
           Value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AttributeTypeAndValue" });
     case 6:
-      return S.Array(__S(9349, __c292, 5));
+      return S.Array(__S(9477, __c296, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           CommonName: S.optional(S.String),
-          Country: S.optional(__S(6560, __c205, 0)),
-          ExtraNames: S.optional(__S(9350, __c292, 6)),
-          Locality: S.optional(__S(6560, __c205, 0)),
-          Names: S.optional(__S(9350, __c292, 6)),
-          Organization: S.optional(__S(6560, __c205, 0)),
-          OrganizationalUnit: S.optional(__S(6560, __c205, 0)),
-          PostalCode: S.optional(__S(6560, __c205, 0)),
-          Province: S.optional(__S(6560, __c205, 0)),
+          Country: S.optional(__S(6688, __c209, 0)),
+          ExtraNames: S.optional(__S(9478, __c296, 6)),
+          Locality: S.optional(__S(6688, __c209, 0)),
+          Names: S.optional(__S(9478, __c296, 6)),
+          Organization: S.optional(__S(6688, __c209, 0)),
+          OrganizationalUnit: S.optional(__S(6688, __c209, 0)),
+          PostalCode: S.optional(__S(6688, __c209, 0)),
+          Province: S.optional(__S(6688, __c209, 0)),
           SerialNumber: S.optional(S.String),
-          StreetAddress: S.optional(__S(6560, __c205, 0)),
+          StreetAddress: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "Name" });
     case 8:
-      return S.Array(__S(9376, __c293, 0));
+      return S.Array(__S(9504, __c297, 0));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -13113,74 +13408,74 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "PolicyMapping" });
     case 10:
-      return S.Array(__S(9353, __c292, 9));
+      return S.Array(__S(9481, __c296, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          AuthorityKeyId: S.optional(__S(9376, __c293, 0)),
+          AuthorityKeyId: S.optional(__S(9504, __c297, 0)),
           BasicConstraintsValid: S.optional(S.Boolean),
-          CRLDistributionPoints: S.optional(__S(6560, __c205, 0)),
-          DNSNames: S.optional(__S(6560, __c205, 0)),
-          EmailAddresses: S.optional(__S(6560, __c205, 0)),
-          ExcludedDNSDomains: S.optional(__S(6560, __c205, 0)),
-          ExcludedEmailAddresses: S.optional(__S(6560, __c205, 0)),
-          ExcludedIPRanges: S.optional(__S(9346, __c292, 2)),
-          ExcludedURIDomains: S.optional(__S(6560, __c205, 0)),
-          ExtKeyUsage: S.optional(__S(9376, __c293, 0)),
-          Extensions: S.optional(__S(9348, __c292, 4)),
-          ExtraExtensions: S.optional(__S(9348, __c292, 4)),
-          IPAddresses: S.optional(__S(6560, __c205, 0)),
+          CRLDistributionPoints: S.optional(__S(6688, __c209, 0)),
+          DNSNames: S.optional(__S(6688, __c209, 0)),
+          EmailAddresses: S.optional(__S(6688, __c209, 0)),
+          ExcludedDNSDomains: S.optional(__S(6688, __c209, 0)),
+          ExcludedEmailAddresses: S.optional(__S(6688, __c209, 0)),
+          ExcludedIPRanges: S.optional(__S(9474, __c296, 2)),
+          ExcludedURIDomains: S.optional(__S(6688, __c209, 0)),
+          ExtKeyUsage: S.optional(__S(9504, __c297, 0)),
+          Extensions: S.optional(__S(9476, __c296, 4)),
+          ExtraExtensions: S.optional(__S(9476, __c296, 4)),
+          IPAddresses: S.optional(__S(6688, __c209, 0)),
           InhibitAnyPolicy: S.optional(S.Number),
           InhibitAnyPolicyZero: S.optional(S.Boolean),
           InhibitPolicyMapping: S.optional(S.Number),
           InhibitPolicyMappingZero: S.optional(S.Boolean),
           IsCA: S.optional(S.Boolean),
-          Issuer: S.optional(__S(9351, __c292, 7)),
-          IssuingCertificateURL: S.optional(__S(6560, __c205, 0)),
+          Issuer: S.optional(__S(9479, __c296, 7)),
+          IssuingCertificateURL: S.optional(__S(6688, __c209, 0)),
           KeyUsage: S.optional(S.Number),
           MaxPathLen: S.optional(S.Number),
           MaxPathLenZero: S.optional(S.Boolean),
           NotAfter: S.optional(S.String),
           NotBefore: S.optional(S.String),
-          OCSPServer: S.optional(__S(6560, __c205, 0)),
-          PermittedDNSDomains: S.optional(__S(6560, __c205, 0)),
+          OCSPServer: S.optional(__S(6688, __c209, 0)),
+          PermittedDNSDomains: S.optional(__S(6688, __c209, 0)),
           PermittedDNSDomainsCritical: S.optional(S.Boolean),
-          PermittedEmailAddresses: S.optional(__S(6560, __c205, 0)),
-          PermittedIPRanges: S.optional(__S(9346, __c292, 2)),
-          PermittedURIDomains: S.optional(__S(6560, __c205, 0)),
-          Policies: S.optional(__S(6560, __c205, 0)),
-          PolicyIdentifiers: S.optional(__S(9352, __c292, 8)),
-          PolicyMappings: S.optional(__S(9354, __c292, 10)),
+          PermittedEmailAddresses: S.optional(__S(6688, __c209, 0)),
+          PermittedIPRanges: S.optional(__S(9474, __c296, 2)),
+          PermittedURIDomains: S.optional(__S(6688, __c209, 0)),
+          Policies: S.optional(__S(6688, __c209, 0)),
+          PolicyIdentifiers: S.optional(__S(9480, __c296, 8)),
+          PolicyMappings: S.optional(__S(9482, __c296, 10)),
           PublicKey: S.optional(S.Unknown),
           PublicKeyAlgorithm: S.optional(S.Number),
-          Raw: S.optional(__S(9376, __c293, 0)),
-          RawIssuer: S.optional(__S(9376, __c293, 0)),
-          RawSignatureAlgorithm: S.optional(__S(9376, __c293, 0)),
-          RawSubject: S.optional(__S(9376, __c293, 0)),
-          RawSubjectPublicKeyInfo: S.optional(__S(9376, __c293, 0)),
-          RawTBSCertificate: S.optional(__S(9376, __c293, 0)),
+          Raw: S.optional(__S(9504, __c297, 0)),
+          RawIssuer: S.optional(__S(9504, __c297, 0)),
+          RawSignatureAlgorithm: S.optional(__S(9504, __c297, 0)),
+          RawSubject: S.optional(__S(9504, __c297, 0)),
+          RawSubjectPublicKeyInfo: S.optional(__S(9504, __c297, 0)),
+          RawTBSCertificate: S.optional(__S(9504, __c297, 0)),
           RequireExplicitPolicy: S.optional(S.Number),
           RequireExplicitPolicyZero: S.optional(S.Boolean),
           SerialNumber: S.optional(S.Number),
-          Signature: S.optional(__S(9376, __c293, 0)),
+          Signature: S.optional(__S(9504, __c297, 0)),
           SignatureAlgorithm: S.optional(S.Number),
-          Subject: S.optional(__S(9351, __c292, 7)),
-          SubjectKeyId: S.optional(__S(9376, __c293, 0)),
-          URIs: S.optional(__S(6560, __c205, 0)),
-          UnhandledCriticalExtensions: S.optional(__S(9352, __c292, 8)),
-          UnknownExtKeyUsage: S.optional(__S(9352, __c292, 8)),
+          Subject: S.optional(__S(9479, __c296, 7)),
+          SubjectKeyId: S.optional(__S(9504, __c297, 0)),
+          URIs: S.optional(__S(6688, __c209, 0)),
+          UnhandledCriticalExtensions: S.optional(__S(9480, __c296, 8)),
+          UnknownExtKeyUsage: S.optional(__S(9480, __c296, 8)),
           Version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Certificate" });
     case 12:
-      return S.Array(__S(9355, __c292, 11));
+      return S.Array(__S(9483, __c296, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           Algorithm: S.optional(S.String),
-          CertificateThumbprintSHA1: S.optional(__S(9376, __c293, 0)),
-          CertificateThumbprintSHA256: S.optional(__S(9376, __c293, 0)),
-          Certificates: S.optional(__S(9356, __c292, 12)),
+          CertificateThumbprintSHA1: S.optional(__S(9504, __c297, 0)),
+          CertificateThumbprintSHA256: S.optional(__S(9504, __c297, 0)),
+          Certificates: S.optional(__S(9484, __c296, 12)),
           CertificatesURL: S.optional(S.String),
           Key: S.optional(S.Unknown),
           KeyID: S.optional(S.String),
@@ -13188,22 +13483,22 @@ function __c292(j: number): any {
         }),
       ).annotate({ identifier: "JSONWebKey" });
     case 14:
-      return S.Array(__S(9357, __c292, 13));
+      return S.Array(__S(9485, __c296, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(9358, __c292, 14)),
+          keys: S.optional(__S(9486, __c296, 14)),
         }),
       ).annotate({ identifier: "GetJWKSResponse" });
   }
 }
-function __c293(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c294(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13211,7 +13506,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "GetLDAPStatusRequest" });
   }
 }
-function __c295(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13222,7 +13517,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "AddTeamGroupApiRequest" });
   }
 }
-function __c296(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13239,18 +13534,18 @@ function __c296(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9504, __c297, 0)),
+          result: S.optional(__S(9632, __c301, 0)),
         }),
       ).annotate({ identifier: "LibraryElementArrayResponse" });
   }
 }
-function __c297(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6817, __c213, 1));
+      return S.Array(__S(6945, __c217, 1));
   }
 }
-function __c298(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13262,7 +13557,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetLibraryElementByUIDRequest" });
   }
 }
-function __c299(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13282,23 +13577,23 @@ function __c299(j: number): any {
           connectionId: S.optional(S.Number),
           connectionUid: S.optional(S.String),
           created: S.optional(S.String),
-          createdBy: S.optional(__S(6784, __c212, 0)),
+          createdBy: S.optional(__S(6912, __c216, 0)),
           elementId: S.optional(S.Number),
           id: S.optional(S.Number),
           kind: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LibraryElementConnectionDTO" });
     case 2:
-      return S.Array(__S(9569, __c299, 1));
+      return S.Array(__S(9697, __c303, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9570, __c299, 2)),
+          result: S.optional(__S(9698, __c303, 2)),
         }),
       ).annotate({ identifier: "LibraryElementConnectionsResponse" });
   }
 }
-function __c300(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13317,7 +13612,7 @@ function __c300(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(9504, __c297, 0)),
+          elements: S.optional(__S(9632, __c301, 0)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
@@ -13326,12 +13621,12 @@ function __c300(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9601, __c300, 1)),
+          result: S.optional(__S(9729, __c304, 1)),
         }),
       ).annotate({ identifier: "LibraryElementSearchResponse" });
   }
 }
-function __c301(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13339,7 +13634,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetLicenseTokenRequest" });
   }
 }
-function __c302(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13359,7 +13654,7 @@ function __c302(j: number): any {
           limit_by: S.optional(S.String),
           max_concurrent_user_sessions: S.optional(S.Number),
           nbf: S.optional(S.Number),
-          prod: S.optional(__S(6560, __c205, 0)),
+          prod: S.optional(__S(6688, __c209, 0)),
           slug: S.optional(S.String),
           status: S.optional(S.Number),
           sub: S.optional(S.String),
@@ -13372,7 +13667,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "Token" });
   }
 }
-function __c303(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13380,15 +13675,15 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetMetadataRequest" });
   }
 }
-function __c304(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(9376, __c293, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9504, __c297, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMetadataResponse",
       });
   }
 }
-function __c305(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13398,7 +13693,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "GetOrgRequest" });
   }
 }
-function __c306(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13408,7 +13703,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "GetOrgByNameRequest" });
   }
 }
-function __c307(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13418,7 +13713,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "GetOrgQuotaRequest" });
   }
 }
-function __c308(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13428,21 +13723,21 @@ function __c308(j: number): any {
       ).annotate({ identifier: "GetOrgUsersRequest" });
   }
 }
-function __c309(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(9921, __c310, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10049, __c314, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgUsersResponse",
       });
   }
 }
-function __c310(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7776, __c243, 0)),
-          authLabels: S.optional(__S(6560, __c205, 0)),
+          accessControl: S.optional(__S(7904, __c247, 0)),
+          authLabels: S.optional(__S(6688, __c209, 0)),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.String),
           email: S.optional(S.String),
@@ -13460,7 +13755,7 @@ function __c310(j: number): any {
         }),
       ).annotate({ identifier: "OrgUserDTO" });
     case 1:
-      return S.Array(__S(9920, __c310, 0));
+      return S.Array(__S(10048, __c314, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

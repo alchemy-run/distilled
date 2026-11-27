@@ -25,15 +25,23 @@ const TELEMETRY = {
 } as const;
 
 export type CreateWarehouseSuggestionsDismissRequestSurface = "models" | "catalog";
-/** * `not_useful` - Not useful * `not_now` - Not now * `other` - Other */
-export type WarehouseSuggestionDismissalReasonEnum = "not_useful" | "not_now" | "other";
+/** * `not_useful` - Not useful * `not_now` - Not now * `wrong_estimate` - Wrong estimate * `already_handled` - Already handled * `not_owner` - Someone else decides * `other` - Other */
+export type WarehouseSuggestionDismissalReasonEnum =
+  | "not_useful"
+  | "not_now"
+  | "wrong_estimate"
+  | "already_handled"
+  | "not_owner"
+  | "other";
 export interface CreateWarehouseSuggestionsDismissRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
+  /** Whether the decision was part of one action on several selected suggestions. Only recorded on the analytics event. */
+  bulk?: boolean | undefined;
   /** Page the decision was made on. Only recorded on the analytics event. * `models` - Models * `catalog` - Data catalog */
   surface?: CreateWarehouseSuggestionsDismissRequestSurface | (string & {}) | undefined;
-  /** Why the suggestion is dismissed. * `not_useful` - Not useful * `not_now` - Not now * `other` - Other */
+  /** Why the suggestion is dismissed. * `not_useful` - Not useful * `not_now` - Not now * `wrong_estimate` - Wrong estimate * `already_handled` - Already handled * `not_owner` - Someone else decides * `other` - Other */
   reason: WarehouseSuggestionDismissalReasonEnum | (string & {});
   /** Optional note about the dismissal. */
   note?: string | undefined;
@@ -90,7 +98,7 @@ export interface WarehouseSuggestionMaterializePayload {
   refresh_interval_seconds: number;
   /** Query time materializing saves in a month, in seconds. */
   saves_seconds_per_month: number;
-  /** Bytes materializing saves from scanning in a month. */
+  /** Bytes materializing saves from scanning in a month. Negative when its refreshes scan more than its reads would. */
   saves_bytes_per_month: number;
   /** How old the view's data can be today, in seconds. Null when its sources are live. */
   freshness_today_seconds: number | null;
@@ -110,6 +118,8 @@ export interface WarehouseSuggestionMaterializePayload {
   background_seconds_saved_per_month?: number | null | undefined;
   /** How long one read of the view takes today, in seconds. Null when no read was measured on its own. */
   read_seconds?: number | null | undefined;
+  /** True when measuring the view's cost hit the time limit. The cost and every saving are then lower bounds. */
+  measurement_capped?: boolean | undefined;
 }
 export interface WarehouseSuggestionUnmaterializePayload {
   /** Name of the rarely read materialized view to turn back into a plain view. */
@@ -188,7 +198,7 @@ export interface WarehouseSuggestion {
   subject_kind: WarehouseSuggestionSubjectKindEnum;
   /** proposed until someone accepts or dismisses it, or the job expires it. * `proposed` - Proposed * `accepted` - Accepted * `dismissed` - Dismissed * `expired` - Expired * `auto_resolved` - Auto-resolved */
   status: WarehouseSuggestionStatusEnum;
-  /** Why the suggestion was dismissed. * `not_useful` - Not useful * `not_now` - Not now * `other` - Other */
+  /** Why the suggestion was dismissed. * `not_useful` - Not useful * `not_now` - Not now * `wrong_estimate` - Wrong estimate * `already_handled` - Already handled * `not_owner` - Someone else decides * `other` - Other */
   dismissal_reason: WarehouseSuggestionDismissalReasonEnum | null;
   /** What happened to the asset an accepted suggestion created. * `live` - Live * `deleted` - Deleted * `unused` - Unused */
   asset_outcome: WarehouseSuggestionAssetOutcomeEnum | null;
@@ -221,14 +231,29 @@ export interface WarehouseSuggestion {
   /** Source schema that syncs the subject table, for linking to its schema page. Null for views and for tables no source syncs. */
   subject_schema_id?: string | null | undefined;
 }
+/** * `models` - Models * `catalog` - Data catalog */
+export type WarehouseSuggestionSurfaceEnum = "models" | "catalog";
+export interface CreateWarehouseSuggestionsSurfaceMoreRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Page to show more suggestions on. Only the kinds that page shows are picked. Without it, any kind can be picked. * `models` - Models * `catalog` - Data catalog */
+  surface?: WarehouseSuggestionSurfaceEnum | (string & {}) | undefined;
+}
+export interface WarehouseSuggestionSurfaceMoreResult {
+  /** How many waiting suggestions this call showed. 0 when none could be shown. */
+  surfaced: number;
+}
 export interface GetWarehouseSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
 }
+export type GetWarehouseSuggestionsStatusRequestSurface = "models" | "catalog";
 export interface GetWarehouseSuggestionsStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Page to count waiting suggestions for. Without it, counts waiting suggestions of every kind. * `models` - Models * `catalog` - Data catalog */
+  surface?: GetWarehouseSuggestionsStatusRequestSurface | (string & {}) | undefined;
 }
 export interface WarehouseSuggestionStatus {
   /** False when the project turned suggestions off. */
@@ -243,6 +268,10 @@ export interface WarehouseSuggestionStatus {
   paused_reason: string | null;
   /** When the daily job last ran for this project. */
   refreshed_at: string | null;
+  /** Suggestions waiting to be shown on the requested surface that you can read and act on. 0 without a surface, or while new suggestions are paused or off. */
+  waiting: number;
+  /** Whether a surface_more call would show at least one waiting suggestion now. False while the open limits are full. */
+  can_show_more: boolean;
 }
 export type ListWarehouseSuggestionsRequestKind =
   | "certify"
@@ -255,6 +284,7 @@ export type ListWarehouseSuggestionsRequestStatus =
   | "dismissed"
   | "expired"
   | "auto_resolved";
+export type ListWarehouseSuggestionsRequestSurface = "models" | "catalog";
 export interface ListWarehouseSuggestionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -270,6 +300,8 @@ export interface ListWarehouseSuggestionsRequest {
   status?: ListWarehouseSuggestionsRequestStatus | (string & {}) | undefined;
   /** Only return suggestions about the view or table with this ID. */
   subject_id?: string | undefined;
+  /** Only return the kinds of suggestions this page shows. models: materialize, stop materializing and view deprecations. catalog: certify and deprecate. * `models` - Models * `catalog` - Data catalog */
+  surface?: ListWarehouseSuggestionsRequestSurface | (string & {}) | undefined;
 }
 export type PaginatedWarehouseSuggestionListResultsList = Array<WarehouseSuggestion>;
 export interface PaginatedWarehouseSuggestionList {
@@ -285,6 +317,8 @@ export interface WarehouseSuggestionsAcceptCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
+  /** Whether the decision was part of one action on several selected suggestions. Only recorded on the analytics event. */
+  bulk?: boolean | undefined;
   /** Page the decision was made on. Only recorded on the analytics event. * `models` - Models * `catalog` - Data catalog */
   surface?: WarehouseSuggestionsAcceptCreateRequestSurface | (string & {}) | undefined;
   /** Materialize only: refresh interval to use instead of the proposed one, in seconds. Omit to keep the proposed interval. */
@@ -301,6 +335,8 @@ export interface WarehouseSuggestionsAcceptCreateRequest {
   keep_materialized?: boolean | undefined;
   /** Deprecate only: true to delete the view instead of marking it deprecated. Deleting also drops its stored table and refreshes, and cannot be undone. Refused when another view now reads it, or when it feeds person properties, account properties, a destination or a workflow. Refused with a 400 when any day in the read window has no read data, because a view read only on those days would look unread. */
   delete_view?: boolean | undefined;
+  /** Deprecate only: false to stop a materialized view's refreshes and delete its stored table without marking it deprecated in the data catalog. If the view is still unread 30 days later, the deprecate suggestion is shown again. Refused with a 400 when the view is not materialized, or with keep_materialized or delete_view. Refused with a 409 when another view, a sync, a destination or a workflow reads it, or when it reads a direct-connection source. */
+  mark_deprecated?: boolean | undefined;
 }
 export interface WarehouseSuggestionsAssignCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -331,6 +367,23 @@ export const createWarehouseSuggestionsDismiss: API.OperationMethod<
   span: "CreateWarehouseSuggestionsDismiss",
 }));
 
+export type CreateWarehouseSuggestionsSurfaceMoreError = PosthogOpError;
+export const createWarehouseSuggestionsSurfaceMore: API.OperationMethod<
+  CreateWarehouseSuggestionsSurfaceMoreRequest,
+  WarehouseSuggestionSurfaceMoreResult,
+  CreateWarehouseSuggestionsSurfaceMoreError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c2, 0) as any as S.Schema<CreateWarehouseSuggestionsSurfaceMoreRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<WarehouseSuggestionSurfaceMoreResult>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSuggestionsSurfaceMore",
+}));
+
 export type GetWarehouseSuggestionError = PosthogOpError;
 export const getWarehouseSuggestion: API.OperationMethod<
   GetWarehouseSuggestionRequest,
@@ -338,7 +391,7 @@ export const getWarehouseSuggestion: API.OperationMethod<
   GetWarehouseSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetWarehouseSuggestionRequest>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetWarehouseSuggestionRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<WarehouseSuggestion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -355,8 +408,8 @@ export const getWarehouseSuggestionsStatus: API.OperationMethod<
   GetWarehouseSuggestionsStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetWarehouseSuggestionsStatusRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<WarehouseSuggestionStatus>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetWarehouseSuggestionsStatusRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<WarehouseSuggestionStatus>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -372,8 +425,8 @@ export const listWarehouseSuggestions: API.OperationMethod<
   ListWarehouseSuggestionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListWarehouseSuggestionsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<PaginatedWarehouseSuggestionList>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListWarehouseSuggestionsRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<PaginatedWarehouseSuggestionList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -389,7 +442,7 @@ export const warehouseSuggestionsAcceptCreate: API.OperationMethod<
   WarehouseSuggestionsAcceptCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<WarehouseSuggestionsAcceptCreateRequest>,
+  input: __S(49, __c6, 1) as any as S.Schema<WarehouseSuggestionsAcceptCreateRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<WarehouseSuggestion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -406,7 +459,7 @@ export const warehouseSuggestionsAssignCreate: API.OperationMethod<
   WarehouseSuggestionsAssignCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<WarehouseSuggestionsAssignCreateRequest>,
+  input: __S(56, __c7, 0) as any as S.Schema<WarehouseSuggestionsAssignCreateRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<WarehouseSuggestion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -423,7 +476,7 @@ export const warehouseSuggestionsResumeCreate: API.OperationMethod<
   WarehouseSuggestionsResumeCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<WarehouseSuggestionsResumeCreateRequest>,
+  input: __S(64, __c8, 0) as any as S.Schema<WarehouseSuggestionsResumeCreateRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<WarehouseSuggestion>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -441,6 +494,7 @@ function __c0(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          bulk: S.optional(S.Boolean.pipe(T.Query())),
           surface: S.optional(S.String.pipe(T.Query())),
           reason: S.String,
           note: S.optional(S.String),
@@ -517,6 +571,29 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          surface: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_suggestions/surface_more/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateWarehouseSuggestionsSurfaceMoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          surfaced: S.Number,
+        }),
+      ).annotate({ identifier: "WarehouseSuggestionSurfaceMoreResult" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -528,12 +605,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetWarehouseSuggestionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          surface: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -551,11 +629,13 @@ function __c3(j: number): any {
           window_days: S.Number,
           paused_reason: S.NullOr(S.String),
           refreshed_at: S.NullOr(S.String),
+          waiting: S.Number,
+          can_show_more: S.Boolean,
         }),
       ).annotate({ identifier: "WarehouseSuggestionStatus" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -567,6 +647,7 @@ function __c4(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           subject_id: S.optional(S.String.pipe(T.Query())),
+          surface: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -583,12 +664,12 @@ function __c4(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(33, __c4, 1),
+          results: __S(41, __c5, 1),
         }),
       ).annotate({ identifier: "PaginatedWarehouseSuggestionList" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -597,14 +678,16 @@ function __c5(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          bulk: S.optional(S.Boolean.pipe(T.Query())),
           surface: S.optional(S.String.pipe(T.Query())),
           refresh_interval_seconds: S.optional(S.Number),
           refresh_mode: S.optional(S.String),
           incremental_key: S.optional(S.String),
-          unique_key: S.optional(__S(40, __c5, 0)),
+          unique_key: S.optional(__S(48, __c6, 0)),
           lookback_seconds: S.optional(S.Number),
           keep_materialized: S.optional(S.Boolean),
           delete_view: S.optional(S.Boolean),
+          mark_deprecated: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -615,7 +698,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "WarehouseSuggestionsAcceptCreateRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -633,7 +716,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "WarehouseSuggestionsAssignCreateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -25,8 +25,13 @@ const TELEMETRY = {
 } as const;
 
 /** Account-level metric sets. `estimated-billable-usage` returns estimated USD by billing dimension and as a `total` series. Supports hour (default) and day intervals, aggregating finalized hours. Daily points may be partial. */
-export type AccountMetricSet = "active-basins" | "account-ops" | "estimated-billable-usage";
+export type AccountMetricSet =
+  | "active-basins"
+  | "account-ops"
+  | "estimated-billable-usage"
+  | "token-activity";
 export type TimeseriesInterval = "minute" | "hour" | "day";
+export type AccountMetricsRequestTokenIdList = Array<string>;
 export interface AccountMetricsRequest {
   /** Metric set to return. */
   set: AccountMetricSet | (string & {});
@@ -36,6 +41,8 @@ export interface AccountMetricsRequest {
   end?: number | undefined;
   /** Interval to aggregate over for timeseries metric sets. */
   interval?: TimeseriesInterval | (string & {}) | undefined;
+  /** Access token IDs, as a repeated parameter. Between 1 and 50 are required for the `token-activity` metric set. */
+  token_id?: AccountMetricsRequestTokenIdList | undefined;
 }
 export type MetricUnit = "bytes" | "operations" | "usd";
 export interface ScalarMetric {
@@ -98,7 +105,22 @@ export interface MetricCase3 {
   /** Set of string labels. */
   label: LabelMetric;
 }
-export type Metric = MetricCase0 | MetricCase1 | MetricCase2 | MetricCase3;
+/** Named string attributes of the record. */
+export type RecordMetricFieldsMap = { [key: string]: string | undefined };
+export interface RecordMetric {
+  /** Named string attributes of the record. */
+  fields: RecordMetricFieldsMap;
+  /** Record name. */
+  name: string;
+  /** Timestamp of the record in Unix epoch seconds. */
+  timestamp: number;
+}
+/** Named set of string attributes observed at a point in time. */
+export interface MetricCase4 {
+  /** Named set of string attributes observed at a point in time. */
+  record: RecordMetric;
+}
+export type Metric = MetricCase0 | MetricCase1 | MetricCase2 | MetricCase3 | MetricCase4;
 /** Metrics comprising the set. */
 export type MetricSetResponseValuesList = Array<Metric>;
 export interface MetricSetResponse {
@@ -147,7 +169,7 @@ export const accountMetrics: API.OperationMethod<
   AccountMetricsError,
   S2OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AccountMetricsRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<AccountMetricsRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<MetricSetResponse>,
   errors: [],
   serviceErrors: S2ServiceErrors,
@@ -197,12 +219,15 @@ export const streamMetrics: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           set: S.String.pipe(T.Query()),
           start: S.optional(S.Number.pipe(T.Query())),
           end: S.optional(S.Number.pipe(T.Query())),
           interval: S.optional(S.String.pipe(T.Query())),
+          token_id: S.optional(__S(0, __c0, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/metrics", code: 200 })),
       ).annotate({ identifier: "AccountMetricsRequest" });
   }

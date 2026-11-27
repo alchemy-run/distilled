@@ -206,7 +206,7 @@ export type CreateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type CreateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
-export type CreateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
+export type CreateKmsIssuerResponseDiscoveryLayout = "connect" | "integrations" | "kms";
 export type CreateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type CreateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -471,7 +471,7 @@ export type GetKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type GetKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
-export type GetKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
+export type GetKmsIssuerResponseDiscoveryLayout = "connect" | "integrations" | "kms";
 export type GetKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type GetKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -591,7 +591,7 @@ export type ListKmsIssuersResponseIssuersItemAlgorithm =
 export type ListKmsIssuersResponseIssuersItemClaimsSchemaMap = {
   [key: string]: unknown | undefined;
 };
-export type ListKmsIssuersResponseIssuersItemDiscoveryLayout = "connect" | "kms";
+export type ListKmsIssuersResponseIssuersItemDiscoveryLayout = "connect" | "integrations" | "kms";
 export type ListKmsIssuersResponseIssuersItemOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type ListKmsIssuersResponseIssuersItemPoliciesItemCase0EnvironmentsList = Array<string>;
@@ -723,7 +723,7 @@ export type RevokeKmsSigningKeyResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type RevokeKmsSigningKeyResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
-export type RevokeKmsSigningKeyResponseDiscoveryLayout = "connect" | "kms";
+export type RevokeKmsSigningKeyResponseDiscoveryLayout = "connect" | "integrations" | "kms";
 export type RevokeKmsSigningKeyResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type RevokeKmsSigningKeyResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -883,7 +883,7 @@ export type UpdateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type UpdateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
-export type UpdateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
+export type UpdateKmsIssuerResponseDiscoveryLayout = "connect" | "integrations" | "kms";
 export type UpdateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type UpdateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;

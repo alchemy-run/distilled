@@ -106,7 +106,6 @@ export * as gkehub_v1beta from "./gkehub_v1beta.ts";
 export * as gkehub_v1beta1 from "./gkehub_v1beta1.ts";
 export * as gkehub_v2alpha from "./gkehub_v2alpha.ts";
 export * as gkehub_v2beta from "./gkehub_v2beta.ts";
-export * as gmailpostmastertools_v1beta1 from "./gmailpostmastertools_v1beta1.ts";
 export * as health_v4beta from "./health_v4beta.ts";
 export * as healthcare_v1beta1 from "./healthcare_v1beta1.ts";
 export * as iam_v2beta from "./iam_v2beta.ts";

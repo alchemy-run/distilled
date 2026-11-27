@@ -492,6 +492,160 @@ export interface CreateAdapterVersionResponse {
   AdapterId?: string | undefined;
   AdapterVersion?: string | undefined;
 }
+export type BlueprintName = string;
+export type BlueprintSchema = string;
+export type EncryptionKmsKeyId = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
+export type KmsEncryptionContext = { [key: string]: string | undefined };
+export interface EncryptionConfiguration {
+  KmsKeyId: string;
+  KmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
+}
+export interface CreateBlueprintRequest {
+  ClientRequestToken?: string | undefined;
+  BlueprintName: string;
+  Schema: string;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export type BlueprintArn = string;
+export interface CreateBlueprintResponse {
+  BlueprintArn: string;
+}
+export interface CreateBlueprintVersionRequest {
+  BlueprintArn: string;
+  ClientRequestToken?: string | undefined;
+}
+export type BlueprintVersion = string;
+export interface CreateBlueprintVersionResponse {
+  BlueprintArn: string;
+  BlueprintVersion: string;
+}
+export type ProjectName = string;
+export type ProjectDescription = string;
+export type State = "ENABLED" | "DISABLED" | (string & {});
+export interface BoundingBoxConfiguration {
+  State: State;
+}
+export type ExtractionGranularityType =
+  | "DOCUMENT"
+  | "PAGE"
+  | "ELEMENT"
+  | "WORD"
+  | "LINE"
+  | (string & {});
+export type ExtractionGranularityTypes = ExtractionGranularityType[];
+export interface ExtractionGranularity {
+  Types?: ExtractionGranularityType[] | undefined;
+}
+export interface OutputAdditionalFileFormat {
+  State: State;
+}
+export type OutputTextFormatType = "PLAIN_TEXT" | "MARKDOWN" | "HTML" | "CSV" | (string & {});
+export type OutputTextFormatTypes = OutputTextFormatType[];
+export interface OutputTextFormat {
+  Types?: OutputTextFormatType[] | undefined;
+}
+export interface OutputFormat {
+  AdditionalFileFormat: OutputAdditionalFileFormat;
+  TextFormat: OutputTextFormat;
+}
+export interface ExtractionConfiguration {
+  BoundingBox: BoundingBoxConfiguration;
+  Granularity: ExtractionGranularity;
+  OutputFormat: OutputFormat;
+}
+export interface SummarizationConfiguration {
+  State: State;
+}
+export interface FigureCaptionConfiguration {
+  State: State;
+}
+export interface GenerativeConfiguration {
+  Summarization?: SummarizationConfiguration | undefined;
+  FigureCaption?: FigureCaptionConfiguration | undefined;
+}
+export interface BlueprintItem {
+  BlueprintArn: string;
+  BlueprintVersion?: string | undefined;
+}
+export type BlueprintItems = BlueprintItem[];
+export type FallbackBlueprintItems = BlueprintItem[];
+export interface CustomConfiguration {
+  Blueprints: BlueprintItem[];
+  FallbackBlueprints?: BlueprintItem[] | undefined;
+}
+export interface SplitterConfiguration {
+  State: State;
+}
+export type SensitiveDataDetectionMode =
+  | "DETECTION"
+  | "DETECTION_AND_REDACTION"
+  | "DISABLED"
+  | (string & {});
+export type PIIEntityType =
+  | "ALL"
+  | "ADDRESS"
+  | "AGE"
+  | "NAME"
+  | "EMAIL"
+  | "PHONE"
+  | "USERNAME"
+  | "PASSWORD"
+  | "DRIVER_ID"
+  | "LICENSE_PLATE"
+  | "VEHICLE_IDENTIFICATION_NUMBER"
+  | "CREDIT_DEBIT_CARD_CVV"
+  | "CREDIT_DEBIT_CARD_EXPIRY"
+  | "CREDIT_DEBIT_CARD_NUMBER"
+  | "PIN"
+  | "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+  | "SWIFT_CODE"
+  | "IP_ADDRESS"
+  | "MAC_ADDRESS"
+  | "URL"
+  | "AWS_ACCESS_KEY"
+  | "AWS_SECRET_KEY"
+  | "US_BANK_ACCOUNT_NUMBER"
+  | "US_BANK_ROUTING_NUMBER"
+  | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+  | "US_PASSPORT_NUMBER"
+  | "US_SOCIAL_SECURITY_NUMBER"
+  | "CA_HEALTH_NUMBER"
+  | "CA_SOCIAL_INSURANCE_NUMBER"
+  | "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+  | "UK_NATIONAL_INSURANCE_NUMBER"
+  | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+  | (string & {});
+export type PIIEntityTypes = PIIEntityType[];
+export type PIIRedactionMaskMode = "PII" | "ENTITY_TYPE" | (string & {});
+export interface PIIEntitiesConfiguration {
+  PiiEntityTypes: PIIEntityType[];
+  RedactionMaskMode: PIIRedactionMaskMode;
+}
+export interface SensitiveDataConfiguration {
+  DetectionMode: SensitiveDataDetectionMode;
+  PiiEntitiesConfiguration?: PIIEntitiesConfiguration | undefined;
+}
+export interface CreateProjectRequest {
+  ClientRequestToken?: string | undefined;
+  ProjectName: string;
+  ProjectDescription?: string | undefined;
+  ExtractionConfiguration: ExtractionConfiguration;
+  GenerativeConfiguration?: GenerativeConfiguration | undefined;
+  CustomConfiguration?: CustomConfiguration | undefined;
+  SplitterConfiguration?: SplitterConfiguration | undefined;
+  SensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export type ProjectArn = string;
+export type ProjectStatus = "COMPLETED" | "FAILED" | (string & {});
+export interface CreateProjectResponse {
+  ProjectArn: string;
+  Status?: ProjectStatus | undefined;
+}
 export interface DeleteAdapterRequest {
   AdapterId: string;
 }
@@ -501,6 +655,15 @@ export interface DeleteAdapterVersionRequest {
   AdapterVersion: string;
 }
 export interface DeleteAdapterVersionResponse {}
+export interface DeleteBlueprintRequest {
+  BlueprintArn: string;
+  BlueprintVersion?: string | undefined;
+}
+export interface DeleteBlueprintResponse {}
+export interface DeleteProjectRequest {
+  ProjectArn: string;
+}
+export interface DeleteProjectResponse {}
 export interface DetectDocumentTextRequest {
   Document: Document;
 }
@@ -557,6 +720,20 @@ export interface GetAdapterVersionResponse {
   EvaluationMetrics?: AdapterVersionEvaluationMetric[] | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
 }
+export interface GetBlueprintRequest {
+  BlueprintArn: string;
+  BlueprintVersion?: string | undefined;
+}
+export interface GetBlueprintResponse {
+  BlueprintArn: string;
+  BlueprintName: string;
+  BlueprintVersion?: string | undefined;
+  Schema: string;
+  KmsKeyId?: string | undefined;
+  KmsEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  CreationTime: Date;
+  LastModifiedTime: Date;
+}
 export type JobId = string;
 export type MaxResults = number;
 export type PaginationToken = string;
@@ -582,6 +759,22 @@ export interface GetDocumentAnalysisResponse {
   Warnings?: Warning[] | undefined;
   StatusMessage?: string | undefined;
   AnalyzeDocumentModelVersion?: string | undefined;
+}
+export type JobArn = string;
+export interface GetDocumentInsightsRequest {
+  JobArn: string;
+}
+export type S3Uri = string;
+export interface OutputConfiguration {
+  S3Uri: string;
+}
+export type ErrorType = string;
+export type ErrorMessage = string;
+export interface GetDocumentInsightsResponse {
+  Status: JobStatus;
+  OutputConfiguration?: OutputConfiguration | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetDocumentTextDetectionRequest {
   JobId: string;
@@ -705,6 +898,23 @@ export interface GetLendingAnalysisSummaryResponse {
   StatusMessage?: string | undefined;
   AnalyzeLendingModelVersion?: string | undefined;
 }
+export interface GetProjectRequest {
+  ProjectArn: string;
+}
+export interface GetProjectResponse {
+  ProjectArn: string;
+  ProjectName: string;
+  ProjectDescription?: string | undefined;
+  Status: ProjectStatus;
+  ExtractionConfiguration?: ExtractionConfiguration | undefined;
+  GenerativeConfiguration?: GenerativeConfiguration | undefined;
+  CustomConfiguration?: CustomConfiguration | undefined;
+  SplitterConfiguration?: SplitterConfiguration | undefined;
+  SensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  CreationTime: Date;
+  LastModifiedTime: Date;
+}
 export interface ListAdaptersRequest {
   AfterCreationTime?: Date | undefined;
   BeforeCreationTime?: Date | undefined;
@@ -742,6 +952,51 @@ export interface ListAdapterVersionsResponse {
   AdapterVersions?: AdapterVersionOverview[] | undefined;
   NextToken?: string | undefined;
 }
+export type IntelligencePaginationToken = string;
+export interface ProjectFilter {
+  ProjectArn: string;
+}
+export type ResourceOwner = "ACCOUNT" | "SERVICE" | (string & {});
+export interface ListBlueprintsRequest {
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  BlueprintArn?: string | undefined;
+  ProjectFilter?: ProjectFilter | undefined;
+  ResourceOwner?: ResourceOwner | undefined;
+}
+export interface BlueprintSummary {
+  BlueprintArn: string;
+  BlueprintName?: string | undefined;
+  BlueprintVersion?: string | undefined;
+  ResourceOwner?: ResourceOwner | undefined;
+  CreationTime: Date;
+  LastModifiedTime?: Date | undefined;
+}
+export type BlueprintSummaryList = BlueprintSummary[];
+export interface ListBlueprintsResponse {
+  Blueprints: BlueprintSummary[];
+  NextToken?: string | undefined;
+}
+export interface BlueprintFilter {
+  BlueprintArn: string;
+  BlueprintVersion?: string | undefined;
+}
+export interface ListProjectsRequest {
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  BlueprintFilter?: BlueprintFilter | undefined;
+}
+export interface ProjectSummary {
+  ProjectArn: string;
+  ProjectName?: string | undefined;
+  CreationTime: Date;
+  LastModifiedTime?: Date | undefined;
+}
+export type ProjectSummaryList = ProjectSummary[];
+export interface ListProjectsResponse {
+  Projects: ProjectSummary[];
+  NextToken?: string | undefined;
+}
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -772,6 +1027,27 @@ export interface StartDocumentAnalysisRequest {
 }
 export interface StartDocumentAnalysisResponse {
   JobId?: string | undefined;
+}
+export interface InputConfiguration {
+  S3Uri: string;
+}
+export interface EventBridgeConfiguration {
+  State: State;
+}
+export interface NotificationConfiguration {
+  EventBridgeConfiguration: EventBridgeConfiguration;
+}
+export interface StartDocumentInsightsRequest {
+  InputConfiguration: InputConfiguration;
+  OutputConfiguration: OutputConfiguration;
+  ProjectArn?: string | undefined;
+  Blueprints?: BlueprintItem[] | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  NotificationConfiguration?: NotificationConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface StartDocumentInsightsResponse {
+  JobArn: string;
 }
 export interface StartDocumentTextDetectionRequest {
   DocumentLocation: DocumentLocation;
@@ -830,6 +1106,28 @@ export interface UpdateAdapterResponse {
   Description?: string | undefined;
   FeatureTypes?: FeatureType[] | undefined;
   AutoUpdate?: AutoUpdate | undefined;
+}
+export interface UpdateBlueprintRequest {
+  BlueprintArn: string;
+  Schema?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+}
+export interface UpdateBlueprintResponse {
+  BlueprintArn: string;
+}
+export interface UpdateProjectRequest {
+  ProjectArn: string;
+  ProjectDescription?: string | undefined;
+  ExtractionConfiguration?: ExtractionConfiguration | undefined;
+  GenerativeConfiguration?: GenerativeConfiguration | undefined;
+  CustomConfiguration?: CustomConfiguration | undefined;
+  SplitterConfiguration?: SplitterConfiguration | undefined;
+  SensitiveDataConfiguration?: SensitiveDataConfiguration | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+}
+export interface UpdateProjectResponse {
+  ProjectArn: string;
+  Status?: ProjectStatus | undefined;
 }
 export type AnalyzeDocumentError =
   | AccessDeniedException
@@ -1112,6 +1410,124 @@ export const createAdapterVersion: API.OperationMethod<
   span: "CreateAdapterVersion",
 }));
 
+export type CreateBlueprintError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a blueprint that defines the schema Amazon Textract uses to extract structured
+ * data from a document during a document insights job. A blueprint describes the fields
+ * to extract and how to normalize them.
+ */
+export const createBlueprint: API.OperationMethod<
+  CreateBlueprintRequest & RegionInput,
+  CreateBlueprintResponse,
+  CreateBlueprintError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(304, __c19, 0) as any as S.Schema<CreateBlueprintRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<CreateBlueprintResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateBlueprint",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprint",
+}));
+
+export type CreateBlueprintVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a new, immutable version of an existing blueprint so that projects can pin to a
+ * specific version.
+ */
+export const createBlueprintVersion: API.OperationMethod<
+  CreateBlueprintVersionRequest & RegionInput,
+  CreateBlueprintVersionResponse,
+  CreateBlueprintVersionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<CreateBlueprintVersionRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<CreateBlueprintVersionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateBlueprintVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprintVersion",
+}));
+
+export type CreateProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a project that groups the configuration used to run document insights jobs.
+ */
+export const createProject: API.OperationMethod<
+  CreateProjectRequest & RegionInput,
+  CreateProjectResponse,
+  CreateProjectError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<CreateProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
+}));
+
 export type DeleteAdapterError =
   | AccessDeniedException
   | ConflictException
@@ -1131,8 +1547,8 @@ export const deleteAdapter: API.OperationMethod<
   DeleteAdapterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteAdapterRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteAdapterResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteAdapterRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<DeleteAdapterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1171,8 +1587,8 @@ export const deleteAdapterVersion: API.OperationMethod<
   DeleteAdapterVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteAdapterVersionRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<DeleteAdapterVersionResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<DeleteAdapterVersionRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<DeleteAdapterVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1189,6 +1605,78 @@ export const deleteAdapterVersion: API.OperationMethod<
   operationName: "DeleteAdapterVersion",
   telemetry: TELEMETRY,
   span: "DeleteAdapterVersion",
+}));
+
+export type DeleteBlueprintError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a blueprint, or a specific version of a blueprint.
+ */
+export const deleteBlueprint: API.OperationMethod<
+  DeleteBlueprintRequest & RegionInput,
+  DeleteBlueprintResponse,
+  DeleteBlueprintError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteBlueprintRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<DeleteBlueprintResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteBlueprint",
+  telemetry: TELEMETRY,
+  span: "DeleteBlueprint",
+}));
+
+export type DeleteProjectError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a project.
+ */
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest & RegionInput,
+  DeleteProjectResponse,
+  DeleteProjectError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<DeleteProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DetectDocumentTextError =
@@ -1223,8 +1711,8 @@ export const detectDocumentText: API.OperationMethod<
   DetectDocumentTextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DetectDocumentTextRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<DetectDocumentTextResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DetectDocumentTextRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<DetectDocumentTextResponse>,
   errors: [
     AccessDeniedException,
     BadDocumentException,
@@ -1263,8 +1751,8 @@ export const getAdapter: API.OperationMethod<
   GetAdapterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAdapterRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetAdapterResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetAdapterRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<GetAdapterResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1302,8 +1790,8 @@ export const getAdapterVersion: API.OperationMethod<
   GetAdapterVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetAdapterVersionRequest>,
-  output: __S(388, __c24, 4) as any as S.Schema<GetAdapterVersionResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetAdapterVersionRequest>,
+  output: __S(564, __c35, 4) as any as S.Schema<GetAdapterVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1319,6 +1807,42 @@ export const getAdapterVersion: API.OperationMethod<
   operationName: "GetAdapterVersion",
   telemetry: TELEMETRY,
   span: "GetAdapterVersion",
+}));
+
+export type GetBlueprintError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the details of a blueprint, including its schema, encryption settings, and
+ * timestamps.
+ */
+export const getBlueprint: API.OperationMethod<
+  GetBlueprintRequest & RegionInput,
+  GetBlueprintResponse,
+  GetBlueprintError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<GetBlueprintRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<GetBlueprintResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetBlueprint",
+  telemetry: TELEMETRY,
+  span: "GetBlueprint",
 }));
 
 export type GetDocumentAnalysisError =
@@ -1396,8 +1920,8 @@ export const getDocumentAnalysis: API.OperationMethod<
   GetDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetDocumentAnalysisRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<GetDocumentAnalysisResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetDocumentAnalysisRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<GetDocumentAnalysisResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1414,6 +1938,42 @@ export const getDocumentAnalysis: API.OperationMethod<
   operationName: "GetDocumentAnalysis",
   telemetry: TELEMETRY,
   span: "GetDocumentAnalysis",
+}));
+
+export type GetDocumentInsightsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidJobIdException
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the status and results of a document insights job that was started by
+ * StartDocumentInsights.
+ */
+export const getDocumentInsights: API.OperationMethod<
+  GetDocumentInsightsRequest & RegionInput,
+  GetDocumentInsightsResponse,
+  GetDocumentInsightsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<GetDocumentInsightsRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<GetDocumentInsightsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidJobIdException,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDocumentInsights",
+  telemetry: TELEMETRY,
+  span: "GetDocumentInsights",
 }));
 
 export type GetDocumentTextDetectionError =
@@ -1462,8 +2022,8 @@ export const getDocumentTextDetection: API.OperationMethod<
   GetDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetDocumentTextDetectionRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<GetDocumentTextDetectionResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetDocumentTextDetectionRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<GetDocumentTextDetectionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1520,8 +2080,8 @@ export const getExpenseAnalysis: API.OperationMethod<
   GetExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetExpenseAnalysisRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetExpenseAnalysisResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetExpenseAnalysisRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<GetExpenseAnalysisResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1571,8 +2131,8 @@ export const getLendingAnalysis: API.OperationMethod<
   GetLendingAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetLendingAnalysisRequest>,
-  output: __S(479, __c29, 15) as any as S.Schema<GetLendingAnalysisResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetLendingAnalysisRequest>,
+  output: __S(703, __c43, 15) as any as S.Schema<GetLendingAnalysisResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1623,8 +2183,8 @@ export const getLendingAnalysisSummary: API.OperationMethod<
   GetLendingAnalysisSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetLendingAnalysisSummaryRequest>,
-  output: __S(488, __c30, 8) as any as S.Schema<GetLendingAnalysisSummaryResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetLendingAnalysisSummaryRequest>,
+  output: __S(712, __c44, 8) as any as S.Schema<GetLendingAnalysisSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1641,6 +2201,41 @@ export const getLendingAnalysisSummary: API.OperationMethod<
   operationName: "GetLendingAnalysisSummary",
   telemetry: TELEMETRY,
   span: "GetLendingAnalysisSummary",
+}));
+
+export type GetProjectError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets the details of a project, including its configuration, status, and timestamps.
+ */
+export const getProject: API.OperationMethod<
+  GetProjectRequest & RegionInput,
+  GetProjectResponse,
+  GetProjectError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(720, __c45, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<GetProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type ListAdaptersError =
@@ -1661,8 +2256,8 @@ export const listAdapters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AdapterOverview
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListAdaptersRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<ListAdaptersResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListAdaptersRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<ListAdaptersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1704,8 +2299,8 @@ export const listAdapterVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AdapterVersionOverview
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListAdapterVersionsRequest>,
-  output: __S(515, __c32, 3) as any as S.Schema<ListAdapterVersionsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListAdapterVersionsRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<ListAdapterVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1729,6 +2324,95 @@ export const listAdapterVersions: API.PaginatedOperationMethod<
   span: "ListAdapterVersions",
 })) as any;
 
+export type ListBlueprintsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the blueprints that are available to the caller, with optional filtering by
+ * project and resource owner. The results are paginated. If the response includes a
+ * `NextToken` value, pass it in a subsequent call to retrieve the next page of
+ * results.
+ */
+export const listBlueprints: API.PaginatedOperationMethod<
+  ListBlueprintsRequest & RegionInput,
+  ListBlueprintsResponse,
+  ListBlueprintsError,
+  Credentials | HttpClient.HttpClient,
+  BlueprintSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(769, __c48, 1) as any as S.Schema<ListBlueprintsRequest>,
+  output: __S(772, __c48, 4) as any as S.Schema<ListBlueprintsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListBlueprints",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Blueprints",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListBlueprints",
+})) as any;
+
+export type ListProjectsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the projects that are available to the caller, with optional filtering by
+ * blueprint. The results are paginated. If the response includes a `NextToken`
+ * value, pass it in a subsequent call to retrieve the next page of results.
+ */
+export const listProjects: API.PaginatedOperationMethod<
+  ListProjectsRequest & RegionInput,
+  ListProjectsResponse,
+  ListProjectsError,
+  Credentials | HttpClient.HttpClient,
+  ProjectSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(787, __c49, 3) as any as S.Schema<ListProjectsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListProjects",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Projects",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
+})) as any;
+
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerError
@@ -1747,8 +2431,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(529, __c33, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -1805,8 +2489,8 @@ export const startDocumentAnalysis: API.OperationMethod<
   StartDocumentAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<StartDocumentAnalysisRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<StartDocumentAnalysisResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<StartDocumentAnalysisRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<StartDocumentAnalysisResponse>,
   errors: [
     AccessDeniedException,
     BadDocumentException,
@@ -1827,6 +2511,45 @@ export const startDocumentAnalysis: API.OperationMethod<
   operationName: "StartDocumentAnalysis",
   telemetry: TELEMETRY,
   span: "StartDocumentAnalysis",
+}));
+
+export type StartDocumentInsightsError =
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts an asynchronous job that analyzes a document using the configuration defined by a
+ * project or a set of blueprints. Use GetDocumentInsights to
+ * retrieve the results of the job.
+ */
+export const startDocumentInsights: API.OperationMethod<
+  StartDocumentInsightsRequest & RegionInput,
+  StartDocumentInsightsResponse,
+  StartDocumentInsightsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(849, __c53, 1) as any as S.Schema<StartDocumentInsightsRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<StartDocumentInsightsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartDocumentInsights",
+  telemetry: TELEMETRY,
+  span: "StartDocumentInsights",
 }));
 
 export type StartDocumentTextDetectionError =
@@ -1868,8 +2591,8 @@ export const startDocumentTextDetection: API.OperationMethod<
   StartDocumentTextDetectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<StartDocumentTextDetectionRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<StartDocumentTextDetectionResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<StartDocumentTextDetectionRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<StartDocumentTextDetectionResponse>,
   errors: [
     AccessDeniedException,
     BadDocumentException,
@@ -1930,8 +2653,8 @@ export const startExpenseAnalysis: API.OperationMethod<
   StartExpenseAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<StartExpenseAnalysisRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<StartExpenseAnalysisResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<StartExpenseAnalysisRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<StartExpenseAnalysisResponse>,
   errors: [
     AccessDeniedException,
     BadDocumentException,
@@ -2003,8 +2726,8 @@ export const startLendingAnalysis: API.OperationMethod<
   StartLendingAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<StartLendingAnalysisRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<StartLendingAnalysisResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<StartLendingAnalysisRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<StartLendingAnalysisResponse>,
   errors: [
     AccessDeniedException,
     BadDocumentException,
@@ -2046,8 +2769,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -2084,8 +2807,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -2123,8 +2846,8 @@ export const updateAdapter: API.OperationMethod<
   UpdateAdapterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UpdateAdapterRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<UpdateAdapterResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<UpdateAdapterRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<UpdateAdapterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2141,6 +2864,84 @@ export const updateAdapter: API.OperationMethod<
   operationName: "UpdateAdapter",
   telemetry: TELEMETRY,
   span: "UpdateAdapter",
+}));
+
+export type UpdateBlueprintError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates an existing blueprint, replacing its schema and, optionally, its encryption
+ * configuration.
+ */
+export const updateBlueprint: API.OperationMethod<
+  UpdateBlueprintRequest & RegionInput,
+  UpdateBlueprintResponse,
+  UpdateBlueprintError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c60, 0) as any as S.Schema<UpdateBlueprintRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<UpdateBlueprintResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateBlueprint",
+  telemetry: TELEMETRY,
+  span: "UpdateBlueprint",
+}));
+
+export type UpdateProjectError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerError
+  | InvalidParameterException
+  | LimitExceededException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing project. If you omit a configuration, UpdateProject leaves it unchanged.
+ * A configuration that you supply replaces the stored one, so include every setting that you want to keep.
+ */
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest & RegionInput,
+  UpdateProjectResponse,
+  UpdateProjectError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(976, __c61, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateProjectResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerError,
+    InvalidParameterException,
+    LimitExceededException,
+    ProvisionedThroughputExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2519,19 +3320,154 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          BlueprintName: S.String,
+          Schema: S.String,
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+          Tags: S.optional(__S(240, __c15, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateBlueprintRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyId: S.String, KmsEncryptionContext: S.optional(__S(240, __c15, 0)) }),
+      ).annotate({ identifier: "EncryptionConfiguration" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ BlueprintArn: S.String })).annotate({
+        identifier: "CreateBlueprintResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BlueprintArn: S.String,
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateBlueprintVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ BlueprintArn: S.String, BlueprintVersion: S.String }),
+      ).annotate({ identifier: "CreateBlueprintVersionResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ProjectName: S.String,
+          ProjectDescription: S.optional(S.String),
+          ExtractionConfiguration: __S(418, __c26, 2),
+          GenerativeConfiguration: S.optional(__S(419, __c26, 3)),
+          CustomConfiguration: S.optional(__S(420, __c26, 4)),
+          SplitterConfiguration: S.optional(__S(400, __c25, 0)),
+          SensitiveDataConfiguration: S.optional(__S(422, __c26, 6)),
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+          Tags: S.optional(__S(240, __c15, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateProjectRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BlueprintArn: S.String, BlueprintVersion: S.optional(S.String) }),
+      ).annotate({ identifier: "BlueprintItem" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ State: S.String })).annotate({
+        identifier: "BoundingBoxConfiguration",
+      });
+    case 1:
+      return S.Array(__S(384, __c24, 0));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Types: S.optional(__S(16, __c1, 0)) })).annotate({
+        identifier: "ExtractionGranularity",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AdditionalFileFormat: __S(400, __c25, 0), TextFormat: __S(416, __c26, 0) }),
+      ).annotate({ identifier: "OutputFormat" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          BoundingBox: __S(400, __c25, 0),
+          Granularity: __S(416, __c26, 0),
+          OutputFormat: __S(417, __c26, 1),
+        }),
+      ).annotate({ identifier: "ExtractionConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Summarization: S.optional(__S(400, __c25, 0)),
+          FigureCaption: S.optional(__S(400, __c25, 0)),
+        }),
+      ).annotate({ identifier: "GenerativeConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Blueprints: __S(401, __c25, 1),
+          FallbackBlueprints: S.optional(__S(401, __c25, 1)),
+        }),
+      ).annotate({ identifier: "CustomConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ PiiEntityTypes: __S(16, __c1, 0), RedactionMaskMode: S.String }),
+      ).annotate({ identifier: "PIIEntitiesConfiguration" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          DetectionMode: S.String,
+          PiiEntitiesConfiguration: S.optional(__S(421, __c26, 5)),
+        }),
+      ).annotate({ identifier: "SensitiveDataConfiguration" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProjectArn: S.String, Status: S.optional(S.String) }),
+      ).annotate({ identifier: "CreateProjectResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ AdapterId: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteAdapterRequest" });
   }
 }
-function __c20(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAdapterResponse" });
   }
 }
-function __c21(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2541,7 +3477,27 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteAdapterVersionRequest" });
   }
 }
-function __c22(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BlueprintArn: S.String, BlueprintVersion: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteBlueprintRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProjectArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteProjectRequest" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2559,7 +3515,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DetectDocumentTextResponse" });
   }
 }
-function __c23(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2581,7 +3537,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetAdapterResponse" });
   }
 }
-function __c24(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,13 +3556,13 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Baseline: S.optional(__S(385, __c24, 1)),
-          AdapterVersion: S.optional(__S(385, __c24, 1)),
+          Baseline: S.optional(__S(561, __c35, 1)),
+          AdapterVersion: S.optional(__S(561, __c35, 1)),
           FeatureType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdapterVersionEvaluationMetric" });
     case 3:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(562, __c35, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2619,13 +3575,36 @@ function __c24(j: number): any {
           DatasetConfig: S.optional(__S(272, __c17, 0)),
           KMSKeyId: S.optional(S.String),
           OutputConfig: S.optional(__S(288, __c18, 0)),
-          EvaluationMetrics: S.optional(__S(387, __c24, 3)),
+          EvaluationMetrics: S.optional(__S(563, __c35, 3)),
           Tags: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "GetAdapterVersionResponse" });
   }
 }
-function __c25(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BlueprintArn: S.String, BlueprintVersion: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetBlueprintRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BlueprintArn: S.String,
+          BlueprintName: S.String,
+          BlueprintVersion: S.optional(S.String),
+          Schema: S.String,
+          KmsKeyId: S.optional(S.String),
+          KmsEncryptionContext: S.optional(__S(240, __c15, 0)),
+          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "GetBlueprintResponse" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2642,26 +3621,53 @@ function __c25(j: number): any {
           JobStatus: S.optional(S.String),
           NextToken: S.optional(S.String),
           Blocks: S.optional(__S(71, __c4, 7)),
-          Warnings: S.optional(__S(418, __c26, 2)),
+          Warnings: S.optional(__S(610, __c38, 2)),
           StatusMessage: S.optional(S.String),
           AnalyzeDocumentModelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDocumentAnalysisResponse" });
   }
 }
-function __c26(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
-        S.Struct({ ErrorCode: S.optional(S.String), Pages: S.optional(__S(416, __c26, 0)) }),
+        S.Struct({ ErrorCode: S.optional(S.String), Pages: S.optional(__S(608, __c38, 0)) }),
       ).annotate({ identifier: "Warning" });
     case 2:
-      return S.Array(__S(417, __c26, 1));
+      return S.Array(__S(609, __c38, 1));
   }
 }
-function __c27(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ JobArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDocumentInsightsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.String,
+          OutputConfiguration: S.optional(__S(640, __c40, 0)),
+          ErrorType: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetDocumentInsightsResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ S3Uri: S.String })).annotate({
+        identifier: "OutputConfiguration",
+      });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2678,14 +3684,14 @@ function __c27(j: number): any {
           JobStatus: S.optional(S.String),
           NextToken: S.optional(S.String),
           Blocks: S.optional(__S(71, __c4, 7)),
-          Warnings: S.optional(__S(418, __c26, 2)),
+          Warnings: S.optional(__S(610, __c38, 2)),
           StatusMessage: S.optional(S.String),
           DetectDocumentTextModelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDocumentTextDetectionResponse" });
   }
 }
-function __c28(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2702,14 +3708,14 @@ function __c28(j: number): any {
           JobStatus: S.optional(S.String),
           NextToken: S.optional(S.String),
           ExpenseDocuments: S.optional(__S(160, __c10, 0)),
-          Warnings: S.optional(__S(418, __c26, 2)),
+          Warnings: S.optional(__S(610, __c38, 2)),
           StatusMessage: S.optional(S.String),
           AnalyzeExpenseModelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetExpenseAnalysisResponse" });
   }
 }
-function __c29(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2724,10 +3730,10 @@ function __c29(j: number): any {
         S.Struct({ Value: S.optional(S.String), Confidence: S.optional(S.Number) }),
       ).annotate({ identifier: "Prediction" });
     case 2:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(689, __c43, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ PageType: __S(466, __c29, 2), PageNumber: __S(466, __c29, 2) }),
+        S.Struct({ PageType: __S(690, __c43, 2), PageNumber: __S(690, __c43, 2) }),
       ).annotate({ identifier: "PageClassification" });
     case 4:
       return S.suspend(() =>
@@ -2739,65 +3745,65 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "LendingDetection" });
     case 5:
-      return S.Array(__S(468, __c29, 4));
+      return S.Array(__S(692, __c43, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          KeyDetection: S.optional(__S(468, __c29, 4)),
-          ValueDetections: S.optional(__S(469, __c29, 5)),
+          KeyDetection: S.optional(__S(692, __c43, 4)),
+          ValueDetections: S.optional(__S(693, __c43, 5)),
         }),
       ).annotate({ identifier: "LendingField" });
     case 7:
-      return S.Array(__S(470, __c29, 6));
+      return S.Array(__S(694, __c43, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({ Confidence: S.optional(S.Number), Geometry: S.optional(__S(67, __c4, 3)) }),
       ).annotate({ identifier: "SignatureDetection" });
     case 9:
-      return S.Array(__S(472, __c29, 8));
+      return S.Array(__S(696, __c43, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          LendingFields: S.optional(__S(471, __c29, 7)),
-          SignatureDetections: S.optional(__S(473, __c29, 9)),
+          LendingFields: S.optional(__S(695, __c43, 7)),
+          SignatureDetections: S.optional(__S(697, __c43, 9)),
         }),
       ).annotate({ identifier: "LendingDocument" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          LendingDocument: S.optional(__S(474, __c29, 10)),
+          LendingDocument: S.optional(__S(698, __c43, 10)),
           ExpenseDocument: S.optional(__S(187, __c11, 11)),
           IdentityDocument: S.optional(__S(212, __c13, 4)),
         }),
       ).annotate({ identifier: "Extraction" });
     case 12:
-      return S.Array(__S(475, __c29, 11));
+      return S.Array(__S(699, __c43, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           Page: S.optional(S.Number),
-          PageClassification: S.optional(__S(467, __c29, 3)),
-          Extractions: S.optional(__S(476, __c29, 12)),
+          PageClassification: S.optional(__S(691, __c43, 3)),
+          Extractions: S.optional(__S(700, __c43, 12)),
         }),
       ).annotate({ identifier: "LendingResult" });
     case 14:
-      return S.Array(__S(477, __c29, 13));
+      return S.Array(__S(701, __c43, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           DocumentMetadata: S.optional(__S(80, __c5, 0)),
           JobStatus: S.optional(S.String),
           NextToken: S.optional(S.String),
-          Results: S.optional(__S(478, __c29, 14)),
-          Warnings: S.optional(__S(418, __c26, 2)),
+          Results: S.optional(__S(702, __c43, 14)),
+          Warnings: S.optional(__S(610, __c38, 2)),
           StatusMessage: S.optional(S.String),
           AnalyzeLendingModelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLendingAnalysisResponse" });
   }
 }
-function __c30(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2807,31 +3813,31 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetLendingAnalysisSummaryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Index: S.optional(S.Number), Pages: S.optional(__S(416, __c26, 0)) }),
+        S.Struct({ Index: S.optional(S.Number), Pages: S.optional(__S(608, __c38, 0)) }),
       ).annotate({ identifier: "SplitDocument" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(705, __c44, 1));
     case 3:
       return S.suspend(() => S.Struct({ Page: S.optional(S.Number) })).annotate({
         identifier: "DetectedSignature",
       });
     case 4:
-      return S.Array(__S(483, __c30, 3));
+      return S.Array(__S(707, __c44, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          SplitDocuments: S.optional(__S(482, __c30, 2)),
-          DetectedSignatures: S.optional(__S(484, __c30, 4)),
-          UndetectedSignatures: S.optional(__S(484, __c30, 4)),
+          SplitDocuments: S.optional(__S(706, __c44, 2)),
+          DetectedSignatures: S.optional(__S(708, __c44, 4)),
+          UndetectedSignatures: S.optional(__S(708, __c44, 4)),
         }),
       ).annotate({ identifier: "DocumentGroup" });
     case 6:
-      return S.Array(__S(485, __c30, 5));
+      return S.Array(__S(709, __c44, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          DocumentGroups: S.optional(__S(486, __c30, 6)),
+          DocumentGroups: S.optional(__S(710, __c44, 6)),
           UndetectedDocumentTypes: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "LendingSummary" });
@@ -2840,15 +3846,42 @@ function __c30(j: number): any {
         S.Struct({
           DocumentMetadata: S.optional(__S(80, __c5, 0)),
           JobStatus: S.optional(S.String),
-          Summary: S.optional(__S(487, __c30, 7)),
-          Warnings: S.optional(__S(418, __c26, 2)),
+          Summary: S.optional(__S(711, __c44, 7)),
+          Warnings: S.optional(__S(610, __c38, 2)),
           StatusMessage: S.optional(S.String),
           AnalyzeLendingModelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLendingAnalysisSummaryResponse" });
   }
 }
-function __c31(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProjectArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetProjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectArn: S.String,
+          ProjectName: S.String,
+          ProjectDescription: S.optional(S.String),
+          Status: S.String,
+          ExtractionConfiguration: S.optional(__S(418, __c26, 2)),
+          GenerativeConfiguration: S.optional(__S(419, __c26, 3)),
+          CustomConfiguration: S.optional(__S(420, __c26, 4)),
+          SplitterConfiguration: S.optional(__S(400, __c25, 0)),
+          SensitiveDataConfiguration: S.optional(__S(422, __c26, 6)),
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          LastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "GetProjectResponse" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2869,14 +3902,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "AdapterOverview" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Adapters: S.optional(__S(498, __c31, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Adapters: S.optional(__S(738, __c46, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAdaptersResponse" });
   }
 }
-function __c32(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2900,17 +3933,79 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "AdapterVersionOverview" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(753, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AdapterVersions: S.optional(__S(514, __c32, 2)),
+          AdapterVersions: S.optional(__S(754, __c47, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAdapterVersionsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ProjectArn: S.String })).annotate({
+        identifier: "ProjectFilter",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          BlueprintArn: S.optional(S.String),
+          ProjectFilter: S.optional(__S(768, __c48, 0)),
+          ResourceOwner: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListBlueprintsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          BlueprintArn: S.String,
+          BlueprintName: S.optional(S.String),
+          BlueprintVersion: S.optional(S.String),
+          ResourceOwner: S.optional(S.String),
+          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "BlueprintSummary" });
+    case 3:
+      return S.Array(__S(770, __c48, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Blueprints: __S(771, __c48, 3), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListBlueprintsResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          BlueprintFilter: S.optional(__S(384, __c24, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListProjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectArn: S.String,
+          ProjectName: S.optional(S.String),
+          CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ProjectSummary" });
+    case 2:
+      return S.Array(__S(785, __c49, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Projects: __S(786, __c49, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListProjectsResponse" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2924,16 +4019,16 @@ function __c33(j: number): any {
       });
   }
 }
-function __c34(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DocumentLocation: __S(560, __c35, 0),
+          DocumentLocation: __S(832, __c52, 0),
           FeatureTypes: __S(16, __c1, 0),
           ClientRequestToken: S.optional(S.String),
           JobTag: S.optional(S.String),
-          NotificationChannel: S.optional(__S(561, __c35, 1)),
+          NotificationChannel: S.optional(__S(833, __c52, 1)),
           OutputConfig: S.optional(__S(288, __c18, 0)),
           KMSKeyId: S.optional(S.String),
           QueriesConfig: S.optional(__S(129, __c8, 1)),
@@ -2942,7 +4037,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "StartDocumentAnalysisRequest" });
   }
 }
-function __c35(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ S3Object: S.optional(__S(32, __c2, 0)) })).annotate({
@@ -2958,52 +4053,76 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ EventBridgeConfiguration: __S(400, __c25, 0) })).annotate({
+        identifier: "NotificationConfiguration",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InputConfiguration: __S(640, __c40, 0),
+          OutputConfiguration: __S(640, __c40, 0),
+          ProjectArn: S.optional(S.String),
+          Blueprints: S.optional(__S(401, __c25, 1)),
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+          NotificationConfiguration: S.optional(__S(848, __c53, 0)),
+          Tags: S.optional(__S(240, __c15, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartDocumentInsightsRequest" });
+    case 2:
+      return S.suspend(() => S.Struct({ JobArn: S.String })).annotate({
+        identifier: "StartDocumentInsightsResponse",
+      });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DocumentLocation: __S(560, __c35, 0),
+          DocumentLocation: __S(832, __c52, 0),
           ClientRequestToken: S.optional(S.String),
           JobTag: S.optional(S.String),
-          NotificationChannel: S.optional(__S(561, __c35, 1)),
+          NotificationChannel: S.optional(__S(833, __c52, 1)),
           OutputConfig: S.optional(__S(288, __c18, 0)),
           KMSKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartDocumentTextDetectionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DocumentLocation: __S(560, __c35, 0),
+          DocumentLocation: __S(832, __c52, 0),
           ClientRequestToken: S.optional(S.String),
           JobTag: S.optional(S.String),
-          NotificationChannel: S.optional(__S(561, __c35, 1)),
+          NotificationChannel: S.optional(__S(833, __c52, 1)),
           OutputConfig: S.optional(__S(288, __c18, 0)),
           KMSKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartExpenseAnalysisRequest" });
   }
 }
-function __c38(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DocumentLocation: __S(560, __c35, 0),
+          DocumentLocation: __S(832, __c52, 0),
           ClientRequestToken: S.optional(S.String),
           JobTag: S.optional(S.String),
-          NotificationChannel: S.optional(__S(561, __c35, 1)),
+          NotificationChannel: S.optional(__S(833, __c52, 1)),
           OutputConfig: S.optional(__S(288, __c18, 0)),
           KMSKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartLendingAnalysisRequest" });
   }
 }
-function __c39(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3013,7 +4132,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c40(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3023,7 +4142,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c41(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3045,6 +4164,35 @@ function __c41(j: number): any {
           AutoUpdate: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateAdapterResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BlueprintArn: S.String,
+          Schema: S.optional(S.String),
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateBlueprintRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProjectArn: S.String,
+          ProjectDescription: S.optional(S.String),
+          ExtractionConfiguration: S.optional(__S(418, __c26, 2)),
+          GenerativeConfiguration: S.optional(__S(419, __c26, 3)),
+          CustomConfiguration: S.optional(__S(420, __c26, 4)),
+          SplitterConfiguration: S.optional(__S(400, __c25, 0)),
+          SensitiveDataConfiguration: S.optional(__S(422, __c26, 6)),
+          EncryptionConfiguration: S.optional(__S(320, __c20, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

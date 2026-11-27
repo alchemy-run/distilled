@@ -345,7 +345,7 @@ export interface CreateContainerApplicationRequest {
   schedulingPolicy: ContainerSchedulingPolicy | (string & {});
   /** The jurisdiction of a Durable Object-managed application's primary control-plane object. Set this when creating the application; it cannot be changed afterwards. Other placement constraints are not supported by this scheduling policy. */
   constraints?: ScheduledApplicationConstraints | undefined;
-  /** Optionally associates this scheduler-backed application with a Durable Object namespace. */
+  /** Associates this scheduler-backed application with a Durable Object namespace. Required for default scheduling on private-network-only accounts unless the account has a temporary standalone-application exception. */
   durableObjects?: DurableObjectsConfiguration | undefined;
   /** Top-level observability settings for the application. This field is mutually exclusive with configuration.observability. */
   observability?: ContainerApplicationObservability | undefined;
@@ -462,7 +462,7 @@ export interface ContainerApplicationEvent {
   type: ContainerApplicationEventType;
 }
 export interface ContainerApplicationHealthError {
-  /** An event within a Placement or a Job. */
+  /** An event within a Placement. */
   event: ContainerApplicationEvent;
   /** An instance ID represents an identifier of an instance configuration that maintains an underlying placement. */
   instanceId: string;
@@ -931,6 +931,40 @@ export interface UpdateContainerApplicationRequest {
   affinities?: unknown | undefined;
 }
 export type UpdateContainerApplicationResponse = ContainerApplicationItem;
+export interface UsageRequest {
+  accountId: string;
+}
+export interface UsageResponseMaximum {
+  /** Maximum disk in MB for the account. */
+  diskMb: number;
+  /** Maximum memory in MiB for the account. */
+  memoryMib: number;
+  /** Maximum vCPU for the account. */
+  vcpus: number;
+}
+export interface UsageResponseUsage {
+  diskMb: number;
+  instances: number;
+  memoryMib: number;
+  vcpus: number;
+}
+export interface UsageResponseUtilization {
+  /** Live disk usage as a percentage of maximum disk. */
+  diskMb?: number | null | undefined;
+  /** Live memory usage as a percentage of maximum memory. */
+  memoryMib?: number | null | undefined;
+  /** Live vCPU usage as a percentage of maximum vCPU. */
+  vcpus?: number | null | undefined;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UsageResponse {
+  /** Lists account limits for the resources reported in usage. */
+  maximum: UsageResponseMaximum;
+  /** Lists current resource consumption for active and assigned instances. */
+  usage: UsageResponseUsage;
+  /** Live resource utilization percentages. A value of 100 represents full utilization. Values can exceed 100 when usage exceeds quota. The API omits fields whose corresponding maximum is zero. */
+  utilization: UsageResponseUtilization;
+}
 export type CreateContainerApplicationError =
   | InvalidRoute
   | DurableObjectAlreadyHasApplication
@@ -1275,6 +1309,24 @@ export const updateContainerApplication: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateContainerApplication",
+}));
+
+export type UsageError = CloudflareOpError;
+/** Get current live resource usage and maximum limits for your account. Usage includes active and assigned instances. */
+export const usage: API.OperationMethod<
+  UsageRequest,
+  UsageResponse,
+  UsageError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c24, 0) as any as S.Schema<UsageRequest>,
+  output: __S(388, __c24, 4) as any as S.Schema<UsageResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Usage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2105,6 +2157,53 @@ function __c23(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateContainerApplicationRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({ method: "GET", uri: "/accounts/{account_id}/containers/usage", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          diskMb: S.Number.pipe(T.Body("disk_mb")),
+          memoryMib: S.Number.pipe(T.Body("memory_mib")),
+          vcpus: S.Number,
+        }),
+      ).annotate({ identifier: "UsageResponseMaximum" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          diskMb: S.Number.pipe(T.Body("disk_mb")),
+          instances: S.Number,
+          memoryMib: S.Number.pipe(T.Body("memory_mib")),
+          vcpus: S.Number,
+        }),
+      ).annotate({ identifier: "UsageResponseUsage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          diskMb: S.optional(S.NullOr(S.Number).pipe(T.Body("disk_mb"))),
+          memoryMib: S.optional(S.NullOr(S.Number).pipe(T.Body("memory_mib"))),
+          vcpus: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "UsageResponseUtilization" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          maximum: __S(385, __c24, 1),
+          usage: __S(386, __c24, 2),
+          utilization: __S(387, __c24, 3),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UsageResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -267,7 +267,10 @@ export type PoliciesCreateRequestAlertType =
   | "advanced_ddos_attack_l4_alert"
   | "advanced_ddos_attack_l7_alert"
   | "advanced_http_alert_error"
+  | "attack_lifecycle"
+  | "bgp_advertisement_change"
   | "bgp_hijack_notification"
+  | "billing_budget_alert"
   | "billing_usage_alert"
   | "block_notification_block_removed"
   | "block_notification_new_block"
@@ -275,17 +278,25 @@ export type PoliciesCreateRequestAlertType =
   | "bot_traffic_basic_alert"
   | "brand_protection_alert"
   | "brand_protection_digest"
+  | "casb_weekly_digest"
   | "clickhouse_alert_fw_anomaly"
   | "clickhouse_alert_fw_ent_anomaly"
+  | "closed_port_scan_alert"
   | "cloudforce_one_request_notification"
+  | "cmd_managed_defense_notification"
   | "cni_maintenance_notification"
+  | "containers_security_alert"
   | "custom_analytics"
   | "custom_bot_detection_alert"
   | "custom_ssl_certificate_event_type"
   | "dedicated_ssl_certificate_event_type"
   | "device_connectivity_anomaly_alert"
+  | "dex_device_connectivity_alert"
+  | "dex_synthetic_test_availability_alert"
+  | "dex_synthetic_test_latency_alert"
   | "dos_attack_l4"
   | "dos_attack_l7"
+  | "executive_communications"
   | "expiring_service_token_alert"
   | "failing_logpush_job_disabled_alert"
   | "fbm_auto_advertisement"
@@ -298,13 +309,18 @@ export type PoliciesCreateRequestAlertType =
   | "image_notification"
   | "image_resizing_notification"
   | "incident_alert"
+  | "leaked_service_token_alert"
   | "load_balancing_health_alert"
   | "load_balancing_pool_enablement_alert"
+  | "log_explorer_ingest_rate_limit"
+  | "log_explorer_scheduled_query_results_alert"
   | "logo_match_alert"
+  | "magic_endpoint_healthcheck_alert"
   | "magic_tunnel_health_check_event"
   | "magic_wan_tunnel_health"
   | "maintenance_event_notification"
   | "mtls_certificate_store_certificate_expiration_type"
+  | "open_port_scan_alert"
   | "pages_event_alert"
   | "radar_notification"
   | "real_origin_monitoring"
@@ -322,6 +338,9 @@ export type PoliciesCreateRequestAlertType =
   | "secondary_dns_zone_validation_warning"
   | "security_insights_alert"
   | "sentinel_alert"
+  | "stakeout_credential_leak_alert"
+  | "stakeout_saved_query_daily_digest_alert"
+  | "stakeout_saved_query_immediate_alert"
   | "stream_live_notifications"
   | "synthetic_test_latency_alert"
   | "synthetic_test_low_availability_alert"
@@ -330,11 +349,10 @@ export type PoliciesCreateRequestAlertType =
   | "tunnel_update_event"
   | "universal_ssl_event_type"
   | "web_analytics_metrics_update"
-  | "zone_aop_custom_certificate_expiration_type"
+  | "workers_for_platforms_security_alert"
   | "workers_observability_alert"
   | "workers_observability_real_time_issue"
-  | "log_explorer_scheduled_query_results_alert"
-  | "log_explorer_ingest_rate_limit";
+  | "zone_aop_custom_certificate_expiration_type";
 export interface PoliciesCreateRequestMechanismsEmailItem {
   /** The email address */
   id?: string | undefined;
@@ -362,7 +380,9 @@ export type PoliciesCreateRequestFiltersAffectedComponentsList = Array<string>;
 export type PoliciesCreateRequestFiltersAffectedLocationsList = Array<string>;
 export type PoliciesCreateRequestFiltersAirportCodeList = Array<string>;
 export type PoliciesCreateRequestFiltersAlertTriggerPreferencesList = Array<string>;
+export type PoliciesCreateRequestFiltersCustomAnalyticsList = Array<string>;
 export type PoliciesCreateRequestFiltersAlertTriggerPreferencesValueList = Array<string>;
+export type PoliciesCreateRequestFiltersCheckIdList = Array<string>;
 export type PoliciesCreateRequestFiltersEnabledList = Array<string>;
 export type PoliciesCreateRequestFiltersEnvironmentList = Array<string>;
 export type PoliciesCreateRequestFiltersEventList = Array<string>;
@@ -391,6 +411,7 @@ export type PoliciesCreateRequestFiltersPopNamesList = Array<string>;
 export type PoliciesCreateRequestFiltersProductList = Array<string>;
 export type PoliciesCreateRequestFiltersProjectIdList = Array<string>;
 export type PoliciesCreateRequestFiltersProtocolList = Array<string>;
+export type PoliciesCreateRequestFiltersQueryIdList = Array<string>;
 export type PoliciesCreateRequestFiltersQueryTagList = Array<string>;
 export type PoliciesCreateRequestFiltersRequestsPerSecondList = Array<string>;
 export type PoliciesCreateRequestFiltersSelectorsList = Array<string>;
@@ -401,6 +422,7 @@ export type PoliciesCreateRequestFiltersTargetHostnameList = Array<string>;
 export type PoliciesCreateRequestFiltersTargetIpList = Array<string>;
 export type PoliciesCreateRequestFiltersTargetZoneNameList = Array<string>;
 export type PoliciesCreateRequestFiltersTokenIdList = Array<string>;
+export type PoliciesCreateRequestFiltersTotalSpendDollarsList = Array<string>;
 export type PoliciesCreateRequestFiltersTrafficExclusionsItem = "security_events";
 export type PoliciesCreateRequestFiltersTrafficExclusionsList = Array<
   PoliciesCreateRequestFiltersTrafficExclusionsItem | (string & {})
@@ -410,7 +432,6 @@ export type PoliciesCreateRequestFiltersTunnelNameList = Array<string>;
 export type PoliciesCreateRequestFiltersTypeList = Array<string>;
 export type PoliciesCreateRequestFiltersWhereList = Array<string>;
 export type PoliciesCreateRequestFiltersZonesList = Array<string>;
-export type PoliciesCreateRequestFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesCreateRequestFilters {
   /** Usage depends on specific alert type */
   actions?: PoliciesCreateRequestFiltersActionsList | undefined;
@@ -424,10 +445,22 @@ export interface PoliciesCreateRequestFilters {
   airportCode?: PoliciesCreateRequestFiltersAirportCodeList | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferences?: PoliciesCreateRequestFiltersAlertTriggerPreferencesList | undefined;
+  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
+  alertTriggerPreferencesLongWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
+  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesCreateRequestFiltersCustomAnalyticsList
+    | undefined;
+  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
+  alertTriggerPreferencesOperator?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
+  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
+  alertTriggerPreferencesShortWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferencesValue?:
     | PoliciesCreateRequestFiltersAlertTriggerPreferencesValueList
     | undefined;
+  /** Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures. */
+  checkId?: PoliciesCreateRequestFiltersCheckIdList | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
   enabled?: PoliciesCreateRequestFiltersEnabledList | undefined;
   /** Used for configuring pages_event_alert */
@@ -438,6 +471,8 @@ export interface PoliciesCreateRequestFilters {
   eventSource?: PoliciesCreateRequestFiltersEventSourceList | undefined;
   /** Usage depends on specific alert type */
   eventType?: PoliciesCreateRequestFiltersEventTypeList | undefined;
+  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
+  executionInterval?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Usage depends on specific alert type */
   groupBy?: PoliciesCreateRequestFiltersGroupByList | undefined;
   /** Used for configuring health_check_status_notification */
@@ -470,6 +505,8 @@ export interface PoliciesCreateRequestFilters {
   projectId?: PoliciesCreateRequestFiltersProjectIdList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
   protocol?: PoliciesCreateRequestFiltersProtocolList | undefined;
+  /** Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID. */
+  queryId?: PoliciesCreateRequestFiltersQueryIdList | undefined;
   /** Usage depends on specific alert type */
   queryTag?: PoliciesCreateRequestFiltersQueryTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -480,6 +517,8 @@ export interface PoliciesCreateRequestFilters {
   services?: PoliciesCreateRequestFiltersServicesList | undefined;
   /** Usage depends on specific alert type */
   slo?: PoliciesCreateRequestFiltersSloList | undefined;
+  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
+  source?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Used for configuring health_check_status_notification */
   status?: PoliciesCreateRequestFiltersStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -490,6 +529,8 @@ export interface PoliciesCreateRequestFilters {
   targetZoneName?: PoliciesCreateRequestFiltersTargetZoneNameList | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
   tokenId?: PoliciesCreateRequestFiltersTokenIdList | undefined;
+  /** Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero. */
+  totalSpendDollars?: PoliciesCreateRequestFiltersTotalSpendDollarsList | undefined;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesCreateRequestFiltersTrafficExclusionsList | undefined;
   /** Used for configuring tunnel_health_event */
@@ -502,25 +543,11 @@ export interface PoliciesCreateRequestFilters {
   where?: PoliciesCreateRequestFiltersWhereList | undefined;
   /** Usage depends on specific alert type */
   zones?: PoliciesCreateRequestFiltersZonesList | undefined;
-  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
-  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
-  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
-  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?:
-    | PoliciesCreateRequestFiltersCustomAnalyticsList
-    | undefined;
-  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
-  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
 }
 export interface CreatePolicyRequest {
   /** The account id */
   accountId: string;
-  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
+  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`. */
   alertType: PoliciesCreateRequestAlertType | (string & {});
   /** Whether or not the Notification policy is enabled. */
   enabled: boolean;
@@ -662,7 +689,10 @@ export type PoliciesGetResponseAlertType =
   | "advanced_ddos_attack_l4_alert"
   | "advanced_ddos_attack_l7_alert"
   | "advanced_http_alert_error"
+  | "attack_lifecycle"
+  | "bgp_advertisement_change"
   | "bgp_hijack_notification"
+  | "billing_budget_alert"
   | "billing_usage_alert"
   | "block_notification_block_removed"
   | "block_notification_new_block"
@@ -670,17 +700,25 @@ export type PoliciesGetResponseAlertType =
   | "bot_traffic_basic_alert"
   | "brand_protection_alert"
   | "brand_protection_digest"
+  | "casb_weekly_digest"
   | "clickhouse_alert_fw_anomaly"
   | "clickhouse_alert_fw_ent_anomaly"
+  | "closed_port_scan_alert"
   | "cloudforce_one_request_notification"
+  | "cmd_managed_defense_notification"
   | "cni_maintenance_notification"
+  | "containers_security_alert"
   | "custom_analytics"
   | "custom_bot_detection_alert"
   | "custom_ssl_certificate_event_type"
   | "dedicated_ssl_certificate_event_type"
   | "device_connectivity_anomaly_alert"
+  | "dex_device_connectivity_alert"
+  | "dex_synthetic_test_availability_alert"
+  | "dex_synthetic_test_latency_alert"
   | "dos_attack_l4"
   | "dos_attack_l7"
+  | "executive_communications"
   | "expiring_service_token_alert"
   | "failing_logpush_job_disabled_alert"
   | "fbm_auto_advertisement"
@@ -693,13 +731,18 @@ export type PoliciesGetResponseAlertType =
   | "image_notification"
   | "image_resizing_notification"
   | "incident_alert"
+  | "leaked_service_token_alert"
   | "load_balancing_health_alert"
   | "load_balancing_pool_enablement_alert"
+  | "log_explorer_ingest_rate_limit"
+  | "log_explorer_scheduled_query_results_alert"
   | "logo_match_alert"
+  | "magic_endpoint_healthcheck_alert"
   | "magic_tunnel_health_check_event"
   | "magic_wan_tunnel_health"
   | "maintenance_event_notification"
   | "mtls_certificate_store_certificate_expiration_type"
+  | "open_port_scan_alert"
   | "pages_event_alert"
   | "radar_notification"
   | "real_origin_monitoring"
@@ -717,6 +760,9 @@ export type PoliciesGetResponseAlertType =
   | "secondary_dns_zone_validation_warning"
   | "security_insights_alert"
   | "sentinel_alert"
+  | "stakeout_credential_leak_alert"
+  | "stakeout_saved_query_daily_digest_alert"
+  | "stakeout_saved_query_immediate_alert"
   | "stream_live_notifications"
   | "synthetic_test_latency_alert"
   | "synthetic_test_low_availability_alert"
@@ -725,18 +771,19 @@ export type PoliciesGetResponseAlertType =
   | "tunnel_update_event"
   | "universal_ssl_event_type"
   | "web_analytics_metrics_update"
-  | "zone_aop_custom_certificate_expiration_type"
+  | "workers_for_platforms_security_alert"
   | "workers_observability_alert"
   | "workers_observability_real_time_issue"
-  | "log_explorer_scheduled_query_results_alert"
-  | "log_explorer_ingest_rate_limit";
+  | "zone_aop_custom_certificate_expiration_type";
 export type PoliciesGetResponseFiltersActionsList = Array<string>;
 export type PoliciesGetResponseFiltersAffectedAsnsList = Array<string>;
 export type PoliciesGetResponseFiltersAffectedComponentsList = Array<string>;
 export type PoliciesGetResponseFiltersAffectedLocationsList = Array<string>;
 export type PoliciesGetResponseFiltersAirportCodeList = Array<string>;
 export type PoliciesGetResponseFiltersAlertTriggerPreferencesList = Array<string>;
+export type PoliciesGetResponseFiltersCustomAnalyticsList = Array<string>;
 export type PoliciesGetResponseFiltersAlertTriggerPreferencesValueList = Array<string>;
+export type PoliciesGetResponseFiltersCheckIdList = Array<string>;
 export type PoliciesGetResponseFiltersEnabledList = Array<string>;
 export type PoliciesGetResponseFiltersEnvironmentList = Array<string>;
 export type PoliciesGetResponseFiltersEventList = Array<string>;
@@ -764,6 +811,7 @@ export type PoliciesGetResponseFiltersPopNamesList = Array<string>;
 export type PoliciesGetResponseFiltersProductList = Array<string>;
 export type PoliciesGetResponseFiltersProjectIdList = Array<string>;
 export type PoliciesGetResponseFiltersProtocolList = Array<string>;
+export type PoliciesGetResponseFiltersQueryIdList = Array<string>;
 export type PoliciesGetResponseFiltersQueryTagList = Array<string>;
 export type PoliciesGetResponseFiltersRequestsPerSecondList = Array<string>;
 export type PoliciesGetResponseFiltersSelectorsList = Array<string>;
@@ -774,6 +822,7 @@ export type PoliciesGetResponseFiltersTargetHostnameList = Array<string>;
 export type PoliciesGetResponseFiltersTargetIpList = Array<string>;
 export type PoliciesGetResponseFiltersTargetZoneNameList = Array<string>;
 export type PoliciesGetResponseFiltersTokenIdList = Array<string>;
+export type PoliciesGetResponseFiltersTotalSpendDollarsList = Array<string>;
 export type PoliciesGetResponseFiltersTrafficExclusionsItem = "security_events";
 export type PoliciesGetResponseFiltersTrafficExclusionsList =
   Array<PoliciesGetResponseFiltersTrafficExclusionsItem>;
@@ -782,7 +831,6 @@ export type PoliciesGetResponseFiltersTunnelNameList = Array<string>;
 export type PoliciesGetResponseFiltersTypeList = Array<string>;
 export type PoliciesGetResponseFiltersWhereList = Array<string>;
 export type PoliciesGetResponseFiltersZonesList = Array<string>;
-export type PoliciesGetResponseFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesGetResponseFilters {
   /** Usage depends on specific alert type */
   actions?: PoliciesGetResponseFiltersActionsList | null | undefined;
@@ -799,11 +847,33 @@ export interface PoliciesGetResponseFilters {
     | PoliciesGetResponseFiltersAlertTriggerPreferencesList
     | null
     | undefined;
+  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
+  alertTriggerPreferencesLongWindow?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
+  alertTriggerPreferencesOperator?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
+  alertTriggerPreferencesShortWindow?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferencesValue?:
     | PoliciesGetResponseFiltersAlertTriggerPreferencesValueList
     | null
     | undefined;
+  /** Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures. */
+  checkId?: PoliciesGetResponseFiltersCheckIdList | null | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
   enabled?: PoliciesGetResponseFiltersEnabledList | null | undefined;
   /** Used for configuring pages_event_alert */
@@ -814,6 +884,8 @@ export interface PoliciesGetResponseFilters {
   eventSource?: PoliciesGetResponseFiltersEventSourceList | null | undefined;
   /** Usage depends on specific alert type */
   eventType?: PoliciesGetResponseFiltersEventTypeList | null | undefined;
+  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
+  executionInterval?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
   /** Usage depends on specific alert type */
   groupBy?: PoliciesGetResponseFiltersGroupByList | null | undefined;
   /** Used for configuring health_check_status_notification */
@@ -846,6 +918,8 @@ export interface PoliciesGetResponseFilters {
   projectId?: PoliciesGetResponseFiltersProjectIdList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
   protocol?: PoliciesGetResponseFiltersProtocolList | null | undefined;
+  /** Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID. */
+  queryId?: PoliciesGetResponseFiltersQueryIdList | null | undefined;
   /** Usage depends on specific alert type */
   queryTag?: PoliciesGetResponseFiltersQueryTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -856,6 +930,8 @@ export interface PoliciesGetResponseFilters {
   services?: PoliciesGetResponseFiltersServicesList | null | undefined;
   /** Usage depends on specific alert type */
   slo?: PoliciesGetResponseFiltersSloList | null | undefined;
+  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
+  source?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
   /** Used for configuring health_check_status_notification */
   status?: PoliciesGetResponseFiltersStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -866,6 +942,8 @@ export interface PoliciesGetResponseFilters {
   targetZoneName?: PoliciesGetResponseFiltersTargetZoneNameList | null | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
   tokenId?: PoliciesGetResponseFiltersTokenIdList | null | undefined;
+  /** Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero. */
+  totalSpendDollars?: PoliciesGetResponseFiltersTotalSpendDollarsList | null | undefined;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesGetResponseFiltersTrafficExclusionsList | null | undefined;
   /** Used for configuring tunnel_health_event */
@@ -878,30 +956,6 @@ export interface PoliciesGetResponseFilters {
   where?: PoliciesGetResponseFiltersWhereList | null | undefined;
   /** Usage depends on specific alert type */
   zones?: PoliciesGetResponseFiltersZonesList | null | undefined;
-  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?:
-    | PoliciesGetResponseFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?:
-    | PoliciesGetResponseFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?:
-    | PoliciesGetResponseFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?:
-    | PoliciesGetResponseFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
-  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
 }
 export interface PoliciesGetResponseMechanismsEmailItem {
   /** The email address */
@@ -928,7 +982,7 @@ export interface GetPolicyResponse {
   id?: string | null | undefined;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
   alertInterval?: string | null | undefined;
-  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
+  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`. */
   alertType?: PoliciesGetResponseAlertType | null | undefined;
   created?: string | null | undefined;
   /** Optional description for the Notification policy. */
@@ -1083,7 +1137,10 @@ export type PoliciesListResultItemAlertType =
   | "advanced_ddos_attack_l4_alert"
   | "advanced_ddos_attack_l7_alert"
   | "advanced_http_alert_error"
+  | "attack_lifecycle"
+  | "bgp_advertisement_change"
   | "bgp_hijack_notification"
+  | "billing_budget_alert"
   | "billing_usage_alert"
   | "block_notification_block_removed"
   | "block_notification_new_block"
@@ -1091,17 +1148,25 @@ export type PoliciesListResultItemAlertType =
   | "bot_traffic_basic_alert"
   | "brand_protection_alert"
   | "brand_protection_digest"
+  | "casb_weekly_digest"
   | "clickhouse_alert_fw_anomaly"
   | "clickhouse_alert_fw_ent_anomaly"
+  | "closed_port_scan_alert"
   | "cloudforce_one_request_notification"
+  | "cmd_managed_defense_notification"
   | "cni_maintenance_notification"
+  | "containers_security_alert"
   | "custom_analytics"
   | "custom_bot_detection_alert"
   | "custom_ssl_certificate_event_type"
   | "dedicated_ssl_certificate_event_type"
   | "device_connectivity_anomaly_alert"
+  | "dex_device_connectivity_alert"
+  | "dex_synthetic_test_availability_alert"
+  | "dex_synthetic_test_latency_alert"
   | "dos_attack_l4"
   | "dos_attack_l7"
+  | "executive_communications"
   | "expiring_service_token_alert"
   | "failing_logpush_job_disabled_alert"
   | "fbm_auto_advertisement"
@@ -1114,13 +1179,18 @@ export type PoliciesListResultItemAlertType =
   | "image_notification"
   | "image_resizing_notification"
   | "incident_alert"
+  | "leaked_service_token_alert"
   | "load_balancing_health_alert"
   | "load_balancing_pool_enablement_alert"
+  | "log_explorer_ingest_rate_limit"
+  | "log_explorer_scheduled_query_results_alert"
   | "logo_match_alert"
+  | "magic_endpoint_healthcheck_alert"
   | "magic_tunnel_health_check_event"
   | "magic_wan_tunnel_health"
   | "maintenance_event_notification"
   | "mtls_certificate_store_certificate_expiration_type"
+  | "open_port_scan_alert"
   | "pages_event_alert"
   | "radar_notification"
   | "real_origin_monitoring"
@@ -1138,6 +1208,9 @@ export type PoliciesListResultItemAlertType =
   | "secondary_dns_zone_validation_warning"
   | "security_insights_alert"
   | "sentinel_alert"
+  | "stakeout_credential_leak_alert"
+  | "stakeout_saved_query_daily_digest_alert"
+  | "stakeout_saved_query_immediate_alert"
   | "stream_live_notifications"
   | "synthetic_test_latency_alert"
   | "synthetic_test_low_availability_alert"
@@ -1146,18 +1219,19 @@ export type PoliciesListResultItemAlertType =
   | "tunnel_update_event"
   | "universal_ssl_event_type"
   | "web_analytics_metrics_update"
-  | "zone_aop_custom_certificate_expiration_type"
+  | "workers_for_platforms_security_alert"
   | "workers_observability_alert"
   | "workers_observability_real_time_issue"
-  | "log_explorer_scheduled_query_results_alert"
-  | "log_explorer_ingest_rate_limit";
+  | "zone_aop_custom_certificate_expiration_type";
 export type PoliciesListResultItemFiltersActionsList = Array<string>;
 export type PoliciesListResultItemFiltersAffectedAsnsList = Array<string>;
 export type PoliciesListResultItemFiltersAffectedComponentsList = Array<string>;
 export type PoliciesListResultItemFiltersAffectedLocationsList = Array<string>;
 export type PoliciesListResultItemFiltersAirportCodeList = Array<string>;
 export type PoliciesListResultItemFiltersAlertTriggerPreferencesList = Array<string>;
+export type PoliciesListResultItemFiltersCustomAnalyticsList = Array<string>;
 export type PoliciesListResultItemFiltersAlertTriggerPreferencesValueList = Array<string>;
+export type PoliciesListResultItemFiltersCheckIdList = Array<string>;
 export type PoliciesListResultItemFiltersEnabledList = Array<string>;
 export type PoliciesListResultItemFiltersEnvironmentList = Array<string>;
 export type PoliciesListResultItemFiltersEventList = Array<string>;
@@ -1185,6 +1259,7 @@ export type PoliciesListResultItemFiltersPopNamesList = Array<string>;
 export type PoliciesListResultItemFiltersProductList = Array<string>;
 export type PoliciesListResultItemFiltersProjectIdList = Array<string>;
 export type PoliciesListResultItemFiltersProtocolList = Array<string>;
+export type PoliciesListResultItemFiltersQueryIdList = Array<string>;
 export type PoliciesListResultItemFiltersQueryTagList = Array<string>;
 export type PoliciesListResultItemFiltersRequestsPerSecondList = Array<string>;
 export type PoliciesListResultItemFiltersSelectorsList = Array<string>;
@@ -1195,6 +1270,7 @@ export type PoliciesListResultItemFiltersTargetHostnameList = Array<string>;
 export type PoliciesListResultItemFiltersTargetIpList = Array<string>;
 export type PoliciesListResultItemFiltersTargetZoneNameList = Array<string>;
 export type PoliciesListResultItemFiltersTokenIdList = Array<string>;
+export type PoliciesListResultItemFiltersTotalSpendDollarsList = Array<string>;
 export type PoliciesListResultItemFiltersTrafficExclusionsItem = "security_events";
 export type PoliciesListResultItemFiltersTrafficExclusionsList =
   Array<PoliciesListResultItemFiltersTrafficExclusionsItem>;
@@ -1203,7 +1279,6 @@ export type PoliciesListResultItemFiltersTunnelNameList = Array<string>;
 export type PoliciesListResultItemFiltersTypeList = Array<string>;
 export type PoliciesListResultItemFiltersWhereList = Array<string>;
 export type PoliciesListResultItemFiltersZonesList = Array<string>;
-export type PoliciesListResultItemFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesListResultItemFilters {
   /** Usage depends on specific alert type */
   actions?: PoliciesListResultItemFiltersActionsList | null | undefined;
@@ -1220,11 +1295,33 @@ export interface PoliciesListResultItemFilters {
     | PoliciesListResultItemFiltersAlertTriggerPreferencesList
     | null
     | undefined;
+  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
+  alertTriggerPreferencesLongWindow?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
+  alertTriggerPreferencesOperator?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
+  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
+  alertTriggerPreferencesShortWindow?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferencesValue?:
     | PoliciesListResultItemFiltersAlertTriggerPreferencesValueList
     | null
     | undefined;
+  /** Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures. */
+  checkId?: PoliciesListResultItemFiltersCheckIdList | null | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
   enabled?: PoliciesListResultItemFiltersEnabledList | null | undefined;
   /** Used for configuring pages_event_alert */
@@ -1235,6 +1332,8 @@ export interface PoliciesListResultItemFilters {
   eventSource?: PoliciesListResultItemFiltersEventSourceList | null | undefined;
   /** Usage depends on specific alert type */
   eventType?: PoliciesListResultItemFiltersEventTypeList | null | undefined;
+  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
+  executionInterval?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
   /** Usage depends on specific alert type */
   groupBy?: PoliciesListResultItemFiltersGroupByList | null | undefined;
   /** Used for configuring health_check_status_notification */
@@ -1267,6 +1366,8 @@ export interface PoliciesListResultItemFilters {
   projectId?: PoliciesListResultItemFiltersProjectIdList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
   protocol?: PoliciesListResultItemFiltersProtocolList | null | undefined;
+  /** Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID. */
+  queryId?: PoliciesListResultItemFiltersQueryIdList | null | undefined;
   /** Usage depends on specific alert type */
   queryTag?: PoliciesListResultItemFiltersQueryTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -1277,6 +1378,8 @@ export interface PoliciesListResultItemFilters {
   services?: PoliciesListResultItemFiltersServicesList | null | undefined;
   /** Usage depends on specific alert type */
   slo?: PoliciesListResultItemFiltersSloList | null | undefined;
+  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
+  source?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
   /** Used for configuring health_check_status_notification */
   status?: PoliciesListResultItemFiltersStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -1287,6 +1390,8 @@ export interface PoliciesListResultItemFilters {
   targetZoneName?: PoliciesListResultItemFiltersTargetZoneNameList | null | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
   tokenId?: PoliciesListResultItemFiltersTokenIdList | null | undefined;
+  /** Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero. */
+  totalSpendDollars?: PoliciesListResultItemFiltersTotalSpendDollarsList | null | undefined;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesListResultItemFiltersTrafficExclusionsList | null | undefined;
   /** Used for configuring tunnel_health_event */
@@ -1299,30 +1404,6 @@ export interface PoliciesListResultItemFilters {
   where?: PoliciesListResultItemFiltersWhereList | null | undefined;
   /** Usage depends on specific alert type */
   zones?: PoliciesListResultItemFiltersZonesList | null | undefined;
-  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?:
-    | PoliciesListResultItemFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?:
-    | PoliciesListResultItemFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?:
-    | PoliciesListResultItemFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?:
-    | PoliciesListResultItemFiltersCustomAnalyticsList
-    | null
-    | undefined;
-  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
-  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
 }
 export type PoliciesListResultItemMechanismsEmailItem = PoliciesGetResponseMechanismsEmailItem;
 export type PoliciesListResultItemMechanismsEmailList =
@@ -1345,7 +1426,7 @@ export interface PoliciesListResultItem {
   id?: string | null | undefined;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
   alertInterval?: string | null | undefined;
-  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
+  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`. */
   alertType?: PoliciesListResultItemAlertType | null | undefined;
   created?: string | null | undefined;
   /** Optional description for the Notification policy. */
@@ -1399,10 +1480,6 @@ export interface UpdateDestinationWebhookRequest {
   webhookId: string;
   /** The name of the webhook destination. This will be included in the request body when you receive a webhook notification. */
   name: string;
-  /** The POST endpoint to call when dispatching a notification. */
-  url: string;
-  /** Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body. */
-  secret?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateDestinationWebhookResponse {
@@ -1415,7 +1492,10 @@ export type PoliciesUpdateRequestAlertType =
   | "advanced_ddos_attack_l4_alert"
   | "advanced_ddos_attack_l7_alert"
   | "advanced_http_alert_error"
+  | "attack_lifecycle"
+  | "bgp_advertisement_change"
   | "bgp_hijack_notification"
+  | "billing_budget_alert"
   | "billing_usage_alert"
   | "block_notification_block_removed"
   | "block_notification_new_block"
@@ -1423,17 +1503,25 @@ export type PoliciesUpdateRequestAlertType =
   | "bot_traffic_basic_alert"
   | "brand_protection_alert"
   | "brand_protection_digest"
+  | "casb_weekly_digest"
   | "clickhouse_alert_fw_anomaly"
   | "clickhouse_alert_fw_ent_anomaly"
+  | "closed_port_scan_alert"
   | "cloudforce_one_request_notification"
+  | "cmd_managed_defense_notification"
   | "cni_maintenance_notification"
+  | "containers_security_alert"
   | "custom_analytics"
   | "custom_bot_detection_alert"
   | "custom_ssl_certificate_event_type"
   | "dedicated_ssl_certificate_event_type"
   | "device_connectivity_anomaly_alert"
+  | "dex_device_connectivity_alert"
+  | "dex_synthetic_test_availability_alert"
+  | "dex_synthetic_test_latency_alert"
   | "dos_attack_l4"
   | "dos_attack_l7"
+  | "executive_communications"
   | "expiring_service_token_alert"
   | "failing_logpush_job_disabled_alert"
   | "fbm_auto_advertisement"
@@ -1446,13 +1534,18 @@ export type PoliciesUpdateRequestAlertType =
   | "image_notification"
   | "image_resizing_notification"
   | "incident_alert"
+  | "leaked_service_token_alert"
   | "load_balancing_health_alert"
   | "load_balancing_pool_enablement_alert"
+  | "log_explorer_ingest_rate_limit"
+  | "log_explorer_scheduled_query_results_alert"
   | "logo_match_alert"
+  | "magic_endpoint_healthcheck_alert"
   | "magic_tunnel_health_check_event"
   | "magic_wan_tunnel_health"
   | "maintenance_event_notification"
   | "mtls_certificate_store_certificate_expiration_type"
+  | "open_port_scan_alert"
   | "pages_event_alert"
   | "radar_notification"
   | "real_origin_monitoring"
@@ -1470,6 +1563,9 @@ export type PoliciesUpdateRequestAlertType =
   | "secondary_dns_zone_validation_warning"
   | "security_insights_alert"
   | "sentinel_alert"
+  | "stakeout_credential_leak_alert"
+  | "stakeout_saved_query_daily_digest_alert"
+  | "stakeout_saved_query_immediate_alert"
   | "stream_live_notifications"
   | "synthetic_test_latency_alert"
   | "synthetic_test_low_availability_alert"
@@ -1478,18 +1574,19 @@ export type PoliciesUpdateRequestAlertType =
   | "tunnel_update_event"
   | "universal_ssl_event_type"
   | "web_analytics_metrics_update"
-  | "zone_aop_custom_certificate_expiration_type"
+  | "workers_for_platforms_security_alert"
   | "workers_observability_alert"
   | "workers_observability_real_time_issue"
-  | "log_explorer_scheduled_query_results_alert"
-  | "log_explorer_ingest_rate_limit";
+  | "zone_aop_custom_certificate_expiration_type";
 export type PoliciesUpdateRequestFiltersActionsList = Array<string>;
 export type PoliciesUpdateRequestFiltersAffectedAsnsList = Array<string>;
 export type PoliciesUpdateRequestFiltersAffectedComponentsList = Array<string>;
 export type PoliciesUpdateRequestFiltersAffectedLocationsList = Array<string>;
 export type PoliciesUpdateRequestFiltersAirportCodeList = Array<string>;
 export type PoliciesUpdateRequestFiltersAlertTriggerPreferencesList = Array<string>;
+export type PoliciesUpdateRequestFiltersCustomAnalyticsList = Array<string>;
 export type PoliciesUpdateRequestFiltersAlertTriggerPreferencesValueList = Array<string>;
+export type PoliciesUpdateRequestFiltersCheckIdList = Array<string>;
 export type PoliciesUpdateRequestFiltersEnabledList = Array<string>;
 export type PoliciesUpdateRequestFiltersEnvironmentList = Array<string>;
 export type PoliciesUpdateRequestFiltersEventList = Array<string>;
@@ -1518,6 +1615,7 @@ export type PoliciesUpdateRequestFiltersPopNamesList = Array<string>;
 export type PoliciesUpdateRequestFiltersProductList = Array<string>;
 export type PoliciesUpdateRequestFiltersProjectIdList = Array<string>;
 export type PoliciesUpdateRequestFiltersProtocolList = Array<string>;
+export type PoliciesUpdateRequestFiltersQueryIdList = Array<string>;
 export type PoliciesUpdateRequestFiltersQueryTagList = Array<string>;
 export type PoliciesUpdateRequestFiltersRequestsPerSecondList = Array<string>;
 export type PoliciesUpdateRequestFiltersSelectorsList = Array<string>;
@@ -1528,6 +1626,7 @@ export type PoliciesUpdateRequestFiltersTargetHostnameList = Array<string>;
 export type PoliciesUpdateRequestFiltersTargetIpList = Array<string>;
 export type PoliciesUpdateRequestFiltersTargetZoneNameList = Array<string>;
 export type PoliciesUpdateRequestFiltersTokenIdList = Array<string>;
+export type PoliciesUpdateRequestFiltersTotalSpendDollarsList = Array<string>;
 export type PoliciesUpdateRequestFiltersTrafficExclusionsItem = "security_events";
 export type PoliciesUpdateRequestFiltersTrafficExclusionsList = Array<
   PoliciesUpdateRequestFiltersTrafficExclusionsItem | (string & {})
@@ -1537,7 +1636,6 @@ export type PoliciesUpdateRequestFiltersTunnelNameList = Array<string>;
 export type PoliciesUpdateRequestFiltersTypeList = Array<string>;
 export type PoliciesUpdateRequestFiltersWhereList = Array<string>;
 export type PoliciesUpdateRequestFiltersZonesList = Array<string>;
-export type PoliciesUpdateRequestFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesUpdateRequestFilters {
   /** Usage depends on specific alert type */
   actions?: PoliciesUpdateRequestFiltersActionsList | undefined;
@@ -1551,10 +1649,22 @@ export interface PoliciesUpdateRequestFilters {
   airportCode?: PoliciesUpdateRequestFiltersAirportCodeList | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferences?: PoliciesUpdateRequestFiltersAlertTriggerPreferencesList | undefined;
+  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
+  alertTriggerPreferencesLongWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
+  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesUpdateRequestFiltersCustomAnalyticsList
+    | undefined;
+  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
+  alertTriggerPreferencesOperator?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
+  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
+  alertTriggerPreferencesShortWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Usage depends on specific alert type */
   alertTriggerPreferencesValue?:
     | PoliciesUpdateRequestFiltersAlertTriggerPreferencesValueList
     | undefined;
+  /** Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures. */
+  checkId?: PoliciesUpdateRequestFiltersCheckIdList | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
   enabled?: PoliciesUpdateRequestFiltersEnabledList | undefined;
   /** Used for configuring pages_event_alert */
@@ -1565,6 +1675,8 @@ export interface PoliciesUpdateRequestFilters {
   eventSource?: PoliciesUpdateRequestFiltersEventSourceList | undefined;
   /** Usage depends on specific alert type */
   eventType?: PoliciesUpdateRequestFiltersEventTypeList | undefined;
+  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
+  executionInterval?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Usage depends on specific alert type */
   groupBy?: PoliciesUpdateRequestFiltersGroupByList | undefined;
   /** Used for configuring health_check_status_notification */
@@ -1597,6 +1709,8 @@ export interface PoliciesUpdateRequestFilters {
   projectId?: PoliciesUpdateRequestFiltersProjectIdList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
   protocol?: PoliciesUpdateRequestFiltersProtocolList | undefined;
+  /** Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID. */
+  queryId?: PoliciesUpdateRequestFiltersQueryIdList | undefined;
   /** Usage depends on specific alert type */
   queryTag?: PoliciesUpdateRequestFiltersQueryTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -1607,6 +1721,8 @@ export interface PoliciesUpdateRequestFilters {
   services?: PoliciesUpdateRequestFiltersServicesList | undefined;
   /** Usage depends on specific alert type */
   slo?: PoliciesUpdateRequestFiltersSloList | undefined;
+  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
+  source?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Used for configuring health_check_status_notification */
   status?: PoliciesUpdateRequestFiltersStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
@@ -1617,6 +1733,8 @@ export interface PoliciesUpdateRequestFilters {
   targetZoneName?: PoliciesUpdateRequestFiltersTargetZoneNameList | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
   tokenId?: PoliciesUpdateRequestFiltersTokenIdList | undefined;
+  /** Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero. */
+  totalSpendDollars?: PoliciesUpdateRequestFiltersTotalSpendDollarsList | undefined;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesUpdateRequestFiltersTrafficExclusionsList | undefined;
   /** Used for configuring tunnel_health_event */
@@ -1629,20 +1747,6 @@ export interface PoliciesUpdateRequestFilters {
   where?: PoliciesUpdateRequestFiltersWhereList | undefined;
   /** Usage depends on specific alert type */
   zones?: PoliciesUpdateRequestFiltersZonesList | undefined;
-  /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
-  /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
-  /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
-  /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?:
-    | PoliciesUpdateRequestFiltersCustomAnalyticsList
-    | undefined;
-  /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
-  /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
 }
 export type PoliciesUpdateRequestMechanismsEmailItem = PoliciesCreateRequestMechanismsEmailItem;
 export type PoliciesUpdateRequestMechanismsEmailList =
@@ -1667,7 +1771,7 @@ export interface UpdatePolicyRequest {
   policyId: string;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
   alertInterval?: string | undefined;
-  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
+  /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`. */
   alertType?: PoliciesUpdateRequestAlertType | (string & {}) | undefined;
   /** Optional description for the Notification policy. */
   description?: string | undefined;
@@ -2101,7 +2205,7 @@ export type UpdateDestinationWebhookError =
   | InvalidWebhookId
   | WebhookTestFailed
   | CloudflareOpError;
-/** Update a webhook destination. */
+/** Update a webhook destination. Only `name` can be updated. `url` and `secret` are immutable; to change them, delete the webhook and create a new one. */
 export const updateDestinationWebhook: API.OperationMethod<
   UpdateDestinationWebhookRequest,
   UpdateDestinationWebhookResponse,
@@ -2285,14 +2389,28 @@ function __c5(j: number): any {
           alertTriggerPreferences: S.optional(
             __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences")),
           ),
+          alertTriggerPreferencesLongWindow: S.optional(
+            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_long_window")),
+          ),
+          alertTriggerPreferencesMinimumThreshold: S.optional(
+            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_minimum_threshold")),
+          ),
+          alertTriggerPreferencesOperator: S.optional(
+            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_operator")),
+          ),
+          alertTriggerPreferencesShortWindow: S.optional(
+            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_short_window")),
+          ),
           alertTriggerPreferencesValue: S.optional(
             __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_value")),
           ),
+          checkId: S.optional(__S(32, __c4, 0).pipe(T.Body("check_id"))),
           enabled: S.optional(__S(32, __c4, 0)),
           environment: S.optional(__S(32, __c4, 0)),
           event: S.optional(__S(32, __c4, 0)),
           eventSource: S.optional(__S(32, __c4, 0).pipe(T.Body("event_source"))),
           eventType: S.optional(__S(32, __c4, 0).pipe(T.Body("event_type"))),
+          executionInterval: S.optional(__S(32, __c4, 0).pipe(T.Body("execution_interval"))),
           groupBy: S.optional(__S(32, __c4, 0).pipe(T.Body("group_by"))),
           healthCheckId: S.optional(__S(32, __c4, 0).pipe(T.Body("health_check_id"))),
           incidentImpact: S.optional(__S(33, __c4, 1).pipe(T.Body("incident_impact"))),
@@ -2309,36 +2427,25 @@ function __c5(j: number): any {
           product: S.optional(__S(32, __c4, 0)),
           projectId: S.optional(__S(32, __c4, 0).pipe(T.Body("project_id"))),
           protocol: S.optional(__S(32, __c4, 0)),
+          queryId: S.optional(__S(32, __c4, 0).pipe(T.Body("query_id"))),
           queryTag: S.optional(__S(32, __c4, 0).pipe(T.Body("query_tag"))),
           requestsPerSecond: S.optional(__S(32, __c4, 0).pipe(T.Body("requests_per_second"))),
           selectors: S.optional(__S(32, __c4, 0)),
           services: S.optional(__S(32, __c4, 0)),
           slo: S.optional(__S(32, __c4, 0)),
+          source: S.optional(__S(32, __c4, 0)),
           status: S.optional(__S(32, __c4, 0)),
           targetHostname: S.optional(__S(32, __c4, 0).pipe(T.Body("target_hostname"))),
           targetIp: S.optional(__S(32, __c4, 0).pipe(T.Body("target_ip"))),
           targetZoneName: S.optional(__S(32, __c4, 0).pipe(T.Body("target_zone_name"))),
           tokenId: S.optional(__S(32, __c4, 0).pipe(T.Body("token_id"))),
+          totalSpendDollars: S.optional(__S(32, __c4, 0).pipe(T.Body("total_spend_dollars"))),
           trafficExclusions: S.optional(__S(33, __c4, 1).pipe(T.Body("traffic_exclusions"))),
           tunnelId: S.optional(__S(32, __c4, 0).pipe(T.Body("tunnel_id"))),
           tunnelName: S.optional(__S(32, __c4, 0).pipe(T.Body("tunnel_name"))),
           type: S.optional(__S(32, __c4, 0)),
           where: S.optional(__S(32, __c4, 0)),
           zones: S.optional(__S(32, __c4, 0)),
-          alertTriggerPreferencesOperator: S.optional(
-            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_operator")),
-          ),
-          alertTriggerPreferencesShortWindow: S.optional(
-            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_short_window")),
-          ),
-          alertTriggerPreferencesLongWindow: S.optional(
-            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_long_window")),
-          ),
-          alertTriggerPreferencesMinimumThreshold: S.optional(
-            __S(32, __c4, 0).pipe(T.Body("alert_trigger_preferences_minimum_threshold")),
-          ),
-          source: S.optional(__S(32, __c4, 0)),
-          executionInterval: S.optional(__S(32, __c4, 0).pipe(T.Body("execution_interval"))),
         }),
       ).annotate({ identifier: "PoliciesCreateRequestFilters" });
   }
@@ -2606,14 +2713,30 @@ function __c16(j: number): any {
           alertTriggerPreferences: S.optional(
             S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences")),
           ),
+          alertTriggerPreferencesLongWindow: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_long_window")),
+          ),
+          alertTriggerPreferencesMinimumThreshold: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_minimum_threshold")),
+          ),
+          alertTriggerPreferencesOperator: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_operator")),
+          ),
+          alertTriggerPreferencesShortWindow: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_short_window")),
+          ),
           alertTriggerPreferencesValue: S.optional(
             S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_value")),
           ),
+          checkId: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("check_id"))),
           enabled: S.optional(S.NullOr(__S(32, __c4, 0))),
           environment: S.optional(S.NullOr(__S(32, __c4, 0))),
           event: S.optional(S.NullOr(__S(32, __c4, 0))),
           eventSource: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("event_source"))),
           eventType: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("event_type"))),
+          executionInterval: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("execution_interval")),
+          ),
           groupBy: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("group_by"))),
           healthCheckId: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("health_check_id"))),
           incidentImpact: S.optional(S.NullOr(__S(33, __c4, 1)).pipe(T.Body("incident_impact"))),
@@ -2634,6 +2757,7 @@ function __c16(j: number): any {
           product: S.optional(S.NullOr(__S(32, __c4, 0))),
           projectId: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("project_id"))),
           protocol: S.optional(S.NullOr(__S(32, __c4, 0))),
+          queryId: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("query_id"))),
           queryTag: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("query_tag"))),
           requestsPerSecond: S.optional(
             S.NullOr(__S(32, __c4, 0)).pipe(T.Body("requests_per_second")),
@@ -2641,11 +2765,15 @@ function __c16(j: number): any {
           selectors: S.optional(S.NullOr(__S(32, __c4, 0))),
           services: S.optional(S.NullOr(__S(32, __c4, 0))),
           slo: S.optional(S.NullOr(__S(32, __c4, 0))),
+          source: S.optional(S.NullOr(__S(32, __c4, 0))),
           status: S.optional(S.NullOr(__S(32, __c4, 0))),
           targetHostname: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("target_hostname"))),
           targetIp: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("target_ip"))),
           targetZoneName: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("target_zone_name"))),
           tokenId: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("token_id"))),
+          totalSpendDollars: S.optional(
+            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("total_spend_dollars")),
+          ),
           trafficExclusions: S.optional(
             S.NullOr(__S(33, __c4, 1)).pipe(T.Body("traffic_exclusions")),
           ),
@@ -2654,22 +2782,6 @@ function __c16(j: number): any {
           type: S.optional(S.NullOr(__S(32, __c4, 0))),
           where: S.optional(S.NullOr(__S(32, __c4, 0))),
           zones: S.optional(S.NullOr(__S(32, __c4, 0))),
-          alertTriggerPreferencesOperator: S.optional(
-            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_operator")),
-          ),
-          alertTriggerPreferencesShortWindow: S.optional(
-            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_short_window")),
-          ),
-          alertTriggerPreferencesLongWindow: S.optional(
-            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_long_window")),
-          ),
-          alertTriggerPreferencesMinimumThreshold: S.optional(
-            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("alert_trigger_preferences_minimum_threshold")),
-          ),
-          source: S.optional(S.NullOr(__S(32, __c4, 0))),
-          executionInterval: S.optional(
-            S.NullOr(__S(32, __c4, 0)).pipe(T.Body("execution_interval")),
-          ),
         }),
       ).annotate({ identifier: "PoliciesGetResponseFilters" });
     case 1:
@@ -2949,8 +3061,6 @@ function __c25(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           webhookId: S.String.pipe(T.Label("webhook_id")),
           name: S.String,
-          url: S.String,
-          secret: S.optional(S.String),
         })
           .pipe(
             T.Http({

@@ -94,7 +94,21 @@ export interface AppsCreateRequestDns {
   /** The type of DNS record associated with the application. */
   type?: AppsCreateRequestDnsType | (string & {}) | undefined;
 }
-export type AppsCreateRequestTrafficType = "direct" | "http" | "https" | "worker";
+export type AppsCreateRequestTrafficTypeSpectrumConfigAppConfig =
+  | "direct"
+  | "http"
+  | "https"
+  | "worker";
+export type AppsCreateRequestTrafficTypeSpectrumConfigPaygoAppConfigCase0 = "direct" | "worker";
+export type AppsCreateRequestTrafficTypeSpectrumConfigPaygoAppConfig =
+  | string
+  | AppsCreateRequestTrafficTypeSpectrumConfigPaygoAppConfigCase0
+  | (string & {});
+export type AppsCreateRequestTrafficType =
+  | AppsCreateRequestTrafficTypeSpectrumConfigAppConfig
+  | (string & {})
+  | AppsCreateRequestTrafficTypeSpectrumConfigPaygoAppConfig;
+export type AppsCreateRequestEdgeAlpnProtocolsList = Array<string>;
 export type AppsCreateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsCreateRequestEdgeIpsDynamicType = "dynamic";
 export interface AppsCreateRequestEdgeIpsDynamic {
@@ -136,9 +150,11 @@ export interface CreateAppRequest {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
-  trafficType?: AppsCreateRequestTrafficType | (string & {}) | undefined;
+  trafficType?: AppsCreateRequestTrafficType | undefined;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?: AppsCreateRequestEdgeAlpnProtocolsList | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsCreateRequestEdgeIps | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -149,7 +165,7 @@ export interface CreateAppRequest {
   originDns?: AppsCreateRequestOriginDns | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsCreateRequestOriginPort | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | undefined;
@@ -174,6 +190,7 @@ export type AppsCreateResultSpectrumConfigAppConfigTrafficType =
   | "http"
   | "https"
   | "worker";
+export type AppsCreateResultSpectrumConfigAppConfigEdgeAlpnProtocolsList = Array<string>;
 export type AppsCreateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
   | "all"
   | "ipv4"
@@ -231,6 +248,11 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   trafficType: AppsCreateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?:
+    | AppsCreateResultSpectrumConfigAppConfigEdgeAlpnProtocolsList
+    | null
+    | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsCreateResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -241,7 +263,7 @@ export interface AppsCreateResultSpectrumConfigAppConfig {
   originDns?: AppsCreateResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsCreateResultSpectrumConfigAppConfigOriginPort | null | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | null | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | null | undefined;
@@ -262,6 +284,14 @@ export interface AppsCreateResultSpectrumConfigPaygoAppConfigDns {
   type?: AppsCreateResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsCreateResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
+export type AppsCreateResultSpectrumConfigPaygoAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
+export type AppsCreateResultSpectrumConfigPaygoAppConfigTrafficTypeCase0 = "direct" | "worker";
+export type AppsCreateResultSpectrumConfigPaygoAppConfigTrafficType =
+  | string
+  | AppsCreateResultSpectrumConfigPaygoAppConfigTrafficTypeCase0;
 export interface AppsCreateResultSpectrumConfigPaygoAppConfig {
   /** App identifier. */
   id: string;
@@ -275,6 +305,17 @@ export interface AppsCreateResultSpectrumConfigPaygoAppConfig {
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
   originDirect?: AppsCreateResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?:
+    | AppsCreateResultSpectrumConfigPaygoAppConfigOriginWorkerStatus
+    | null
+    | undefined;
+  /** Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400. */
+  trafficType?: AppsCreateResultSpectrumConfigPaygoAppConfigTrafficType | null | undefined;
 }
 export type AppsCreateResult =
   | AppsCreateResultSpectrumConfigAppConfig
@@ -545,6 +586,7 @@ export type AppsGetResultSpectrumConfigAppConfigTrafficType =
   | "http"
   | "https"
   | "worker";
+export type AppsGetResultSpectrumConfigAppConfigEdgeAlpnProtocolsList = Array<string>;
 export type AppsGetResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
   | "all"
   | "ipv4"
@@ -599,6 +641,8 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   trafficType: AppsGetResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?: AppsGetResultSpectrumConfigAppConfigEdgeAlpnProtocolsList | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsGetResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -609,7 +653,7 @@ export interface AppsGetResultSpectrumConfigAppConfig {
   originDns?: AppsGetResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsGetResultSpectrumConfigAppConfigOriginPort | null | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | null | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | null | undefined;
@@ -630,6 +674,14 @@ export interface AppsGetResultSpectrumConfigPaygoAppConfigDns {
   type?: AppsGetResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsGetResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
+export type AppsGetResultSpectrumConfigPaygoAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
+export type AppsGetResultSpectrumConfigPaygoAppConfigTrafficTypeCase0 = "direct" | "worker";
+export type AppsGetResultSpectrumConfigPaygoAppConfigTrafficType =
+  | string
+  | AppsGetResultSpectrumConfigPaygoAppConfigTrafficTypeCase0;
 export interface AppsGetResultSpectrumConfigPaygoAppConfig {
   /** App identifier. */
   id: string;
@@ -643,6 +695,17 @@ export interface AppsGetResultSpectrumConfigPaygoAppConfig {
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
   originDirect?: AppsGetResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?:
+    | AppsGetResultSpectrumConfigPaygoAppConfigOriginWorkerStatus
+    | null
+    | undefined;
+  /** Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400. */
+  trafficType?: AppsGetResultSpectrumConfigPaygoAppConfigTrafficType | null | undefined;
 }
 export type AppsGetResult =
   | AppsGetResultSpectrumConfigAppConfig
@@ -670,6 +733,7 @@ export interface AppsListResultCase0ItemDns {
   type?: AppsListResultCase0ItemDnsType | null | undefined;
 }
 export type AppsListResultCase0ItemTrafficType = "direct" | "http" | "https" | "worker";
+export type AppsListResultCase0ItemEdgeAlpnProtocolsList = Array<string>;
 export type AppsListResultCase0ItemEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsListResultCase0ItemEdgeIpsDynamicType = "dynamic";
 export interface AppsListResultCase0ItemEdgeIpsDynamic {
@@ -718,6 +782,8 @@ export interface AppsListResultCase0Item {
   trafficType: AppsListResultCase0ItemTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?: AppsListResultCase0ItemEdgeAlpnProtocolsList | null | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsListResultCase0ItemEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -728,7 +794,7 @@ export interface AppsListResultCase0Item {
   originDns?: AppsListResultCase0ItemOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsListResultCase0ItemOriginPort | null | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | null | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | null | undefined;
@@ -750,6 +816,9 @@ export interface AppsListResultCase1ItemDns {
   type?: AppsListResultCase1ItemDnsType | null | undefined;
 }
 export type AppsListResultCase1ItemOriginDirectList = Array<string>;
+export type AppsListResultCase1ItemOriginWorkerStatus = "available" | "not_found" | "unknown";
+export type AppsListResultCase1ItemTrafficTypeCase0 = "direct" | "worker";
+export type AppsListResultCase1ItemTrafficType = string | AppsListResultCase1ItemTrafficTypeCase0;
 export interface AppsListResultCase1Item {
   /** App identifier. */
   id: string;
@@ -763,6 +832,14 @@ export interface AppsListResultCase1Item {
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
   originDirect?: AppsListResultCase1ItemOriginDirectList | null | undefined;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?: AppsListResultCase1ItemOriginWorkerStatus | null | undefined;
+  /** Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400. */
+  trafficType?: AppsListResultCase1ItemTrafficType | null | undefined;
 }
 export type AppsListResultCase1List = Array<AppsListResultCase1Item>;
 export type AppsListResult = AppsListResultCase0List | AppsListResultCase1List;
@@ -796,7 +873,21 @@ export interface AppsUpdateRequestDns {
   /** The type of DNS record associated with the application. */
   type?: AppsUpdateRequestDnsType | (string & {}) | undefined;
 }
-export type AppsUpdateRequestTrafficType = "direct" | "http" | "https" | "worker";
+export type AppsUpdateRequestTrafficTypeSpectrumConfigAppConfig =
+  | "direct"
+  | "http"
+  | "https"
+  | "worker";
+export type AppsUpdateRequestTrafficTypeSpectrumConfigPaygoAppConfigCase0 = "direct" | "worker";
+export type AppsUpdateRequestTrafficTypeSpectrumConfigPaygoAppConfig =
+  | string
+  | AppsUpdateRequestTrafficTypeSpectrumConfigPaygoAppConfigCase0
+  | (string & {});
+export type AppsUpdateRequestTrafficType =
+  | AppsUpdateRequestTrafficTypeSpectrumConfigAppConfig
+  | (string & {})
+  | AppsUpdateRequestTrafficTypeSpectrumConfigPaygoAppConfig;
+export type AppsUpdateRequestEdgeAlpnProtocolsList = Array<string>;
 export type AppsUpdateRequestEdgeIpsDynamicConnectivity = "all" | "ipv4" | "ipv6";
 export type AppsUpdateRequestEdgeIpsDynamicType = "dynamic";
 export interface AppsUpdateRequestEdgeIpsDynamic {
@@ -840,9 +931,11 @@ export interface UpdateAppRequest {
   /** The port configuration at Cloudflare's edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`. */
   protocol: string;
   /** Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`. */
-  trafficType?: AppsUpdateRequestTrafficType | (string & {}) | undefined;
+  trafficType?: AppsUpdateRequestTrafficType | undefined;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?: AppsUpdateRequestEdgeAlpnProtocolsList | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsUpdateRequestEdgeIps | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -853,7 +946,7 @@ export interface UpdateAppRequest {
   originDns?: AppsUpdateRequestOriginDns | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsUpdateRequestOriginPort | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | undefined;
@@ -878,6 +971,7 @@ export type AppsUpdateResultSpectrumConfigAppConfigTrafficType =
   | "http"
   | "https"
   | "worker";
+export type AppsUpdateResultSpectrumConfigAppConfigEdgeAlpnProtocolsList = Array<string>;
 export type AppsUpdateResultSpectrumConfigAppConfigEdgeIpsDynamicConnectivity =
   | "all"
   | "ipv4"
@@ -935,6 +1029,11 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   trafficType: AppsUpdateResultSpectrumConfigAppConfigTrafficType;
   /** Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to "direct". */
   argoSmartRouting?: boolean | null | undefined;
+  /** ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN. Notes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte. */
+  edgeAlpnProtocols?:
+    | AppsUpdateResultSpectrumConfigAppConfigEdgeAlpnProtocolsList
+    | null
+    | undefined;
   /** The anycast edge IP configuration for the hostname of this application. */
   edgeIps?: AppsUpdateResultSpectrumConfigAppConfigEdgeIps | null | undefined;
   /** Enables IP Access Rules for this application. Notes: Only available for TCP applications. */
@@ -945,7 +1044,7 @@ export interface AppsUpdateResultSpectrumConfigAppConfig {
   originDns?: AppsUpdateResultSpectrumConfigAppConfigOriginDns | null | undefined;
   /** The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. */
   originPort?: AppsUpdateResultSpectrumConfigAppConfigOriginPort | null | undefined;
-  /** Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be "off" or "flexible". */
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
   originWorkerId?: string | null | undefined;
   /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
   originWorkerName?: string | null | undefined;
@@ -966,6 +1065,14 @@ export interface AppsUpdateResultSpectrumConfigPaygoAppConfigDns {
   type?: AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType | null | undefined;
 }
 export type AppsUpdateResultSpectrumConfigPaygoAppConfigOriginDirectList = Array<string>;
+export type AppsUpdateResultSpectrumConfigPaygoAppConfigOriginWorkerStatus =
+  | "available"
+  | "not_found"
+  | "unknown";
+export type AppsUpdateResultSpectrumConfigPaygoAppConfigTrafficTypeCase0 = "direct" | "worker";
+export type AppsUpdateResultSpectrumConfigPaygoAppConfigTrafficType =
+  | string
+  | AppsUpdateResultSpectrumConfigPaygoAppConfigTrafficTypeCase0;
 export interface AppsUpdateResultSpectrumConfigPaygoAppConfig {
   /** App identifier. */
   id: string;
@@ -979,6 +1086,17 @@ export interface AppsUpdateResultSpectrumConfigPaygoAppConfig {
   protocol: string;
   /** List of origin IP addresses. Array may contain multiple IP addresses for load balancing. */
   originDirect?: AppsUpdateResultSpectrumConfigPaygoAppConfigOriginDirectList | null | undefined;
+  /** Optional Worker script tag (worker ID) to use as the application's origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off". */
+  originWorkerId?: string | null | undefined;
+  /** Name of the Worker origin. Omitted when the Worker is not found or its name cannot be resolved. */
+  originWorkerName?: string | null | undefined;
+  /** Lookup status of the Worker origin. Unknown indicates that its name could not be resolved. Only returned for Worker origins. */
+  originWorkerStatus?:
+    | AppsUpdateResultSpectrumConfigPaygoAppConfigOriginWorkerStatus
+    | null
+    | undefined;
+  /** Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400. */
+  trafficType?: AppsUpdateResultSpectrumConfigPaygoAppConfigTrafficType | null | undefined;
 }
 export type AppsUpdateResult =
   | AppsUpdateResultSpectrumConfigAppConfig
@@ -992,8 +1110,8 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c2, 2) as any as S.Schema<CreateAppRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<CreateAppResponse>,
+  input: __S(19, __c2, 3) as any as S.Schema<CreateAppRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<CreateAppResponse>,
   errors: [SpectrumProtocolNotAvailable, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -1150,8 +1268,8 @@ export const updateApp: API.OperationMethod<
   UpdateAppError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c1, 2) as any as S.Schema<UpdateAppRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<UpdateAppResponse>,
+  input: __S(11, __c1, 3) as any as S.Schema<UpdateAppRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<UpdateAppResponse>,
   errors: [SpectrumAppNotFound, SpectrumProtocolNotAvailable, Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -1193,6 +1311,8 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
           [
@@ -1202,22 +1322,23 @@ function __c1(j: number): any {
           { key: "type", values: ["dynamic", "static"] },
         ),
       );
-    case 1:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           appId: S.String.pipe(T.Label("app_id")),
           dns: __S(24, __c3, 0),
           protocol: S.String,
-          trafficType: S.optional(S.String.pipe(T.Body("traffic_type"))),
+          trafficType: S.optional(__S(8, __c1, 0).pipe(T.Body("traffic_type"))),
           argoSmartRouting: S.optional(S.Boolean.pipe(T.Body("argo_smart_routing"))),
-          edgeIps: S.optional(__S(8, __c1, 0).pipe(T.Body("edge_ips"))),
+          edgeAlpnProtocols: S.optional(__S(32, __c4, 0).pipe(T.Body("edge_alpn_protocols"))),
+          edgeIps: S.optional(__S(9, __c1, 1).pipe(T.Body("edge_ips"))),
           ipFirewall: S.optional(S.Boolean.pipe(T.Body("ip_firewall"))),
           originDirect: S.optional(__S(32, __c4, 0).pipe(T.Body("origin_direct"))),
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
-          originPort: S.optional(__S(9, __c1, 1).pipe(T.Body("origin_port"))),
+          originPort: S.optional(__S(10, __c1, 2).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
           originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
           originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
@@ -1230,7 +1351,7 @@ function __c1(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateAppRequest" });
-    case 3:
+    case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -1241,6 +1362,7 @@ function __c1(j: number): any {
             "protocol",
             "trafficType",
             "argoSmartRouting",
+            "edgeAlpnProtocols",
             "edgeIps",
             "ipFirewall",
             "originDirect",
@@ -1253,18 +1375,31 @@ function __c1(j: number): any {
             "tls",
             "virtualNetworkId",
           ],
-          ["id", "createdOn", "dns", "modifiedOn", "protocol", "originDirect"],
+          [
+            "id",
+            "createdOn",
+            "dns",
+            "modifiedOn",
+            "protocol",
+            "originDirect",
+            "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
+            "trafficType",
+          ],
         ]),
       );
-    case 4:
+    case 5:
       return S.suspend(() =>
-        __S(11, __c1, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(12, __c1, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateAppResponse" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
           [
@@ -1274,21 +1409,22 @@ function __c2(j: number): any {
           { key: "type", values: ["dynamic", "static"] },
         ),
       );
-    case 1:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 2:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           dns: __S(24, __c3, 0),
           protocol: S.String,
-          trafficType: S.optional(S.String.pipe(T.Body("traffic_type"))),
+          trafficType: S.optional(__S(16, __c2, 0).pipe(T.Body("traffic_type"))),
           argoSmartRouting: S.optional(S.Boolean.pipe(T.Body("argo_smart_routing"))),
-          edgeIps: S.optional(__S(16, __c2, 0).pipe(T.Body("edge_ips"))),
+          edgeAlpnProtocols: S.optional(__S(32, __c4, 0).pipe(T.Body("edge_alpn_protocols"))),
+          edgeIps: S.optional(__S(17, __c2, 1).pipe(T.Body("edge_ips"))),
           ipFirewall: S.optional(S.Boolean.pipe(T.Body("ip_firewall"))),
           originDirect: S.optional(__S(32, __c4, 0).pipe(T.Body("origin_direct"))),
           originDns: S.optional(__S(25, __c3, 1).pipe(T.Body("origin_dns"))),
-          originPort: S.optional(__S(17, __c2, 1).pipe(T.Body("origin_port"))),
+          originPort: S.optional(__S(18, __c2, 2).pipe(T.Body("origin_port"))),
           originWorkerId: S.optional(S.String.pipe(T.Body("origin_worker_id"))),
           originWorkerName: S.optional(S.String.pipe(T.Body("origin_worker_name"))),
           originWorkerStatus: S.optional(S.String.pipe(T.Body("origin_worker_status"))),
@@ -1299,7 +1435,7 @@ function __c2(j: number): any {
           .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/spectrum/apps", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAppRequest" });
-    case 3:
+    case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -1310,6 +1446,7 @@ function __c2(j: number): any {
             "protocol",
             "trafficType",
             "argoSmartRouting",
+            "edgeAlpnProtocols",
             "edgeIps",
             "ipFirewall",
             "originDirect",
@@ -1322,12 +1459,23 @@ function __c2(j: number): any {
             "tls",
             "virtualNetworkId",
           ],
-          ["id", "createdOn", "dns", "modifiedOn", "protocol", "originDirect"],
+          [
+            "id",
+            "createdOn",
+            "dns",
+            "modifiedOn",
+            "protocol",
+            "originDirect",
+            "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
+            "trafficType",
+          ],
         ]),
       );
-    case 4:
+    case 5:
       return S.suspend(() =>
-        __S(19, __c2, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(20, __c2, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAppResponse" });
   }
 }
@@ -1556,6 +1704,7 @@ function __c10(j: number): any {
             "protocol",
             "trafficType",
             "argoSmartRouting",
+            "edgeAlpnProtocols",
             "edgeIps",
             "ipFirewall",
             "originDirect",
@@ -1568,7 +1717,18 @@ function __c10(j: number): any {
             "tls",
             "virtualNetworkId",
           ],
-          ["id", "createdOn", "dns", "modifiedOn", "protocol", "originDirect"],
+          [
+            "id",
+            "createdOn",
+            "dns",
+            "modifiedOn",
+            "protocol",
+            "originDirect",
+            "originWorkerId",
+            "originWorkerName",
+            "originWorkerStatus",
+            "trafficType",
+          ],
         ]),
       );
     case 2:

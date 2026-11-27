@@ -922,6 +922,8 @@ export interface WorkflowTriggerConfig {
   TriggerWaitTime?: number | null | undefined;
   TriggerMinimumIntervalSecond?: number | null | undefined;
   TriggerWaitTimeSecond?: number | null | undefined;
+  TableQualifiers?: StringList | null | undefined;
+  TriggerPolicy?: string | null | undefined;
 }
 export type WorkflowTriggerConfigList = Array<WorkflowTriggerConfig>;
 export interface WorkflowGeneralTaskParam {
@@ -933,6 +935,13 @@ export interface WorkflowRunConfig {
   MaxConcurrentNum?: number | null | undefined;
   QueuingMode?: number | null | undefined;
 }
+export interface WorkflowLabel {
+  LabelId?: number | null | undefined;
+  LabelName?: string | null | undefined;
+  LabelValueId?: number | null | undefined;
+  LabelValue?: string | null | undefined;
+}
+export type WorkflowLabelList = Array<WorkflowLabel>;
 export interface CreateTriggerWorkflowRequest {
   ProjectId: string;
   WorkflowName: string;
@@ -948,6 +957,7 @@ export interface CreateTriggerWorkflowRequest {
   SchedulerStatus?: string | undefined;
   TriggerMode?: string | undefined;
   ExecuteUserUin?: string | undefined;
+  WorkflowLabels?: WorkflowLabelList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -2196,6 +2206,13 @@ export interface GetTriggerTaskRunRequest {
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
+export interface TriggerTableUpdateRecord {
+  TableQualifier?: string | null | undefined;
+  UpdateTime?: string | null | undefined;
+  UpdateVersion?: string | null | undefined;
+  AssetGuid?: string | null | undefined;
+}
+export type TriggerTableUpdateRecordList = Array<TriggerTableUpdateRecord>;
 export interface TriggerTaskRunBrief {
   ExecutionId?: string | null | undefined;
   ExecutionState?: string | null | undefined;
@@ -2257,6 +2274,7 @@ export interface TriggerTaskRunBrief {
   AssociatedEntityExist?: boolean | null | undefined;
   ScheduleRunType?: string | null | undefined;
   Privilege?: string | null | undefined;
+  TriggerTableUpdateRecords?: TriggerTableUpdateRecordList | null | undefined;
 }
 export interface GetTriggerTaskRunResponse {
   Data?: TriggerTaskRunBrief | undefined;
@@ -2305,6 +2323,7 @@ export interface TriggerWorkflowDetail {
   TriggerWorkflowRunConfiguration?: WorkflowRunConfig | null | undefined;
   TriggerMode?: string | null | undefined;
   ExecuteUserUin?: string | null | undefined;
+  WorkflowLabels?: WorkflowLabelList | null | undefined;
 }
 export interface GetTriggerWorkflowResponse {
   Data?: TriggerWorkflowDetail | null | undefined;
@@ -2366,6 +2385,8 @@ export interface TriggerWorkflowRunBrief {
   ParentTaskExecutionId?: string | null | undefined;
   ParentTaskExecutionName?: string | null | undefined;
   Privilege?: string | null | undefined;
+  TriggerTableUpdateRecords?: TriggerTableUpdateRecordList | null | undefined;
+  WorkflowLabels?: WorkflowLabelList | undefined;
 }
 export type TriggerTaskRunBriefList = Array<TriggerTaskRunBrief>;
 export interface BizStateEnumInfoBrief {
@@ -2531,6 +2552,7 @@ export interface ListCodeFolderContentsRequest {
   Keyword?: string | undefined;
   OnlyFolderNode?: boolean | undefined;
   OnlyUserSelfScript?: boolean | undefined;
+  SubmitStatusFilter?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4694,6 +4716,7 @@ export interface UpdateTriggerWorkflowRequest {
   SchedulerStatus?: string | undefined;
   TriggerMode?: string | undefined;
   ExecuteUserUin?: string | undefined;
+  WorkflowLabels?: WorkflowLabelList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4715,6 +4738,7 @@ export interface UpdateTriggerWorkflowPartially {
   SchedulerStatus?: string | undefined;
   TriggerMode?: string | undefined;
   ExecuteUserUin?: string | undefined;
+  WorkflowLabels?: WorkflowLabelList | undefined;
 }
 export interface UpdateTriggerWorkflowPartiallyRequest {
   ProjectId: string;
@@ -4815,8 +4839,8 @@ export const authorizePrivileges: API.OperationMethod<
   AuthorizePrivilegesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<AuthorizePrivilegesRequest>,
-  output: __S(2326, __c145, 6) as any as S.Schema<AuthorizePrivilegesResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<AuthorizePrivilegesRequest>,
+  output: __S(2342, __c146, 6) as any as S.Schema<AuthorizePrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4832,8 +4856,8 @@ export const createCodeFile: API.OperationMethod<
   CreateCodeFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<CreateCodeFileRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<CreateCodeFileResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<CreateCodeFileRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<CreateCodeFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4849,8 +4873,8 @@ export const createCodeFolder: API.OperationMethod<
   CreateCodeFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<CreateCodeFolderRequest>,
-  output: __S(2785, __c174, 1) as any as S.Schema<CreateCodeFolderResponse>,
+  input: __S(2800, __c175, 0) as any as S.Schema<CreateCodeFolderRequest>,
+  output: __S(2801, __c175, 1) as any as S.Schema<CreateCodeFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4866,8 +4890,8 @@ export const createCodePermissions: API.OperationMethod<
   CreateCodePermissionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3026, __c189, 2) as any as S.Schema<CreateCodePermissionsRequest>,
-  output: __S(3044, __c190, 4) as any as S.Schema<CreateCodePermissionsResponse>,
+  input: __S(3042, __c190, 2) as any as S.Schema<CreateCodePermissionsRequest>,
+  output: __S(3060, __c191, 4) as any as S.Schema<CreateCodePermissionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4883,8 +4907,8 @@ export const createDataBackfillPlan: API.OperationMethod<
   CreateDataBackfillPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3362, __c210, 2) as any as S.Schema<CreateDataBackfillPlanRequest>,
-  output: __S(3364, __c210, 4) as any as S.Schema<CreateDataBackfillPlanResponse>,
+  input: __S(3378, __c211, 2) as any as S.Schema<CreateDataBackfillPlanRequest>,
+  output: __S(3380, __c211, 4) as any as S.Schema<CreateDataBackfillPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4900,8 +4924,8 @@ export const createDataSource: API.OperationMethod<
   CreateDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<CreateDataSourceRequest>,
-  output: __S(3634, __c227, 2) as any as S.Schema<CreateDataSourceResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<CreateDataSourceRequest>,
+  output: __S(3650, __c228, 2) as any as S.Schema<CreateDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -4917,8 +4941,8 @@ export const createOpsAlarmRule: API.OperationMethod<
   CreateOpsAlarmRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c244, 0) as any as S.Schema<CreateOpsAlarmRuleRequest>,
-  output: __S(3906, __c244, 2) as any as S.Schema<CreateOpsAlarmRuleResponse>,
+  input: __S(3936, __c246, 0) as any as S.Schema<CreateOpsAlarmRuleRequest>,
+  output: __S(3938, __c246, 2) as any as S.Schema<CreateOpsAlarmRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5155,8 +5179,8 @@ export const createTriggerWorkflowRun: API.OperationMethod<
   CreateTriggerWorkflowRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<CreateTriggerWorkflowRunRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<CreateTriggerWorkflowRunResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<CreateTriggerWorkflowRunRequest>,
+  output: __S(2114, __c132, 2) as any as S.Schema<CreateTriggerWorkflowRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5172,8 +5196,8 @@ export const createWorkflow: API.OperationMethod<
   CreateWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<CreateWorkflowRequest>,
-  output: __S(2130, __c133, 2) as any as S.Schema<CreateWorkflowResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<CreateWorkflowRequest>,
+  output: __S(2146, __c134, 2) as any as S.Schema<CreateWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5189,7 +5213,7 @@ export const createWorkflowFolder: API.OperationMethod<
   CreateWorkflowFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<CreateWorkflowFolderRequest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<CreateWorkflowFolderRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<CreateWorkflowFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5206,7 +5230,7 @@ export const createWorkflowPermissions: API.OperationMethod<
   CreateWorkflowPermissionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<CreateWorkflowPermissionsRequest>,
+  input: __S(2192, __c137, 0) as any as S.Schema<CreateWorkflowPermissionsRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<CreateWorkflowPermissionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5223,8 +5247,8 @@ export const deleteCodeFile: API.OperationMethod<
   DeleteCodeFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<DeleteCodeFileRequest>,
-  output: __S(2210, __c138, 2) as any as S.Schema<DeleteCodeFileResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<DeleteCodeFileRequest>,
+  output: __S(2226, __c139, 2) as any as S.Schema<DeleteCodeFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5240,8 +5264,8 @@ export const deleteCodeFolder: API.OperationMethod<
   DeleteCodeFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteCodeFolderRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<DeleteCodeFolderResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteCodeFolderRequest>,
+  output: __S(2256, __c141, 0) as any as S.Schema<DeleteCodeFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5257,8 +5281,8 @@ export const deleteCodePermissions: API.OperationMethod<
   DeleteCodePermissionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2274, __c142, 2) as any as S.Schema<DeleteCodePermissionsRequest>,
-  output: __S(3044, __c190, 4) as any as S.Schema<DeleteCodePermissionsResponse>,
+  input: __S(2290, __c143, 2) as any as S.Schema<DeleteCodePermissionsRequest>,
+  output: __S(3060, __c191, 4) as any as S.Schema<DeleteCodePermissionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5274,8 +5298,8 @@ export const deleteDataBackfillPlanAsync: API.OperationMethod<
   DeleteDataBackfillPlanAsyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DeleteDataBackfillPlanAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<DeleteDataBackfillPlanAsyncResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeleteDataBackfillPlanAsyncRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<DeleteDataBackfillPlanAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5291,8 +5315,8 @@ export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DeleteDataSourceRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<DeleteDataSourceResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeleteDataSourceRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<DeleteDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5308,8 +5332,8 @@ export const deleteLineage: API.OperationMethod<
   DeleteLineageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DeleteLineageRequest>,
-  output: __S(2433, __c152, 1) as any as S.Schema<DeleteLineageResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeleteLineageRequest>,
+  output: __S(2449, __c153, 1) as any as S.Schema<DeleteLineageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5325,7 +5349,7 @@ export const deleteOpsAlarmRule: API.OperationMethod<
   DeleteOpsAlarmRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<DeleteOpsAlarmRuleRequest>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DeleteOpsAlarmRuleRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteOpsAlarmRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5342,7 +5366,7 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<DeleteProjectRequest>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5359,7 +5383,7 @@ export const deleteProjectMember: API.OperationMethod<
   DeleteProjectMemberError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<DeleteProjectMemberRequest>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DeleteProjectMemberRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<DeleteProjectMemberResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5376,8 +5400,8 @@ export const deleteQualityRule: API.OperationMethod<
   DeleteQualityRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<DeleteQualityRuleRequest>,
-  output: __S(2528, __c158, 0) as any as S.Schema<DeleteQualityRuleResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<DeleteQualityRuleRequest>,
+  output: __S(2544, __c159, 0) as any as S.Schema<DeleteQualityRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5393,8 +5417,8 @@ export const deleteQualityRuleGroup: API.OperationMethod<
   DeleteQualityRuleGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<DeleteQualityRuleGroupRequest>,
-  output: __S(2548, __c159, 4) as any as S.Schema<DeleteQualityRuleGroupResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<DeleteQualityRuleGroupRequest>,
+  output: __S(2564, __c160, 4) as any as S.Schema<DeleteQualityRuleGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5410,7 +5434,7 @@ export const deleteResourceFile: API.OperationMethod<
   DeleteResourceFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<DeleteResourceFileRequest>,
+  input: __S(2576, __c161, 0) as any as S.Schema<DeleteResourceFileRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteResourceFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5427,7 +5451,7 @@ export const deleteResourceFolder: API.OperationMethod<
   DeleteResourceFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<DeleteResourceFolderRequest>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DeleteResourceFolderRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteResourceFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5444,8 +5468,8 @@ export const deleteResourceGroup: API.OperationMethod<
   DeleteResourceGroupError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<DeleteResourceGroupRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<DeleteResourceGroupResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<DeleteResourceGroupRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<DeleteResourceGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5461,8 +5485,8 @@ export const deleteSQLFolder: API.OperationMethod<
   DeleteSQLFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<DeleteSQLFolderRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<DeleteSQLFolderResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<DeleteSQLFolderRequest>,
+  output: __S(2256, __c141, 0) as any as S.Schema<DeleteSQLFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5478,8 +5502,8 @@ export const deleteSQLScript: API.OperationMethod<
   DeleteSQLScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<DeleteSQLScriptRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<DeleteSQLScriptResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<DeleteSQLScriptRequest>,
+  output: __S(2256, __c141, 0) as any as S.Schema<DeleteSQLScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5495,7 +5519,7 @@ export const deleteTask: API.OperationMethod<
   DeleteTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<DeleteTaskRequest>,
+  input: __S(2688, __c168, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeleteTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5512,8 +5536,8 @@ export const deleteTaskFolder: API.OperationMethod<
   DeleteTaskFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<DeleteTaskFolderRequest>,
-  output: __S(2689, __c168, 1) as any as S.Schema<DeleteTaskFolderResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<DeleteTaskFolderRequest>,
+  output: __S(2705, __c169, 1) as any as S.Schema<DeleteTaskFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5529,7 +5553,7 @@ export const deleteTriggerTask: API.OperationMethod<
   DeleteTriggerTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<DeleteTriggerTaskRequest>,
+  input: __S(2720, __c170, 0) as any as S.Schema<DeleteTriggerTaskRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeleteTriggerTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5546,8 +5570,8 @@ export const deleteTriggerWorkflow: API.OperationMethod<
   DeleteTriggerWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<DeleteTriggerWorkflowRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<DeleteTriggerWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5563,7 +5587,7 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  input: __S(2752, __c172, 0) as any as S.Schema<DeleteWorkflowRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5580,7 +5604,7 @@ export const deleteWorkflowFolder: API.OperationMethod<
   DeleteWorkflowFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<DeleteWorkflowFolderRequest>,
+  input: __S(2768, __c173, 0) as any as S.Schema<DeleteWorkflowFolderRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteWorkflowFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5597,7 +5621,7 @@ export const deleteWorkflowPermissions: API.OperationMethod<
   DeleteWorkflowPermissionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2770, __c173, 2) as any as S.Schema<DeleteWorkflowPermissionsRequest>,
+  input: __S(2786, __c174, 2) as any as S.Schema<DeleteWorkflowPermissionsRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DeleteWorkflowPermissionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5614,8 +5638,8 @@ export const describeDataSourceAuthority: API.OperationMethod<
   DescribeDataSourceAuthorityError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<DescribeDataSourceAuthorityRequest>,
-  output: __S(2818, __c176, 2) as any as S.Schema<DescribeDataSourceAuthorityResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<DescribeDataSourceAuthorityRequest>,
+  output: __S(2834, __c177, 2) as any as S.Schema<DescribeDataSourceAuthorityResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5631,7 +5655,7 @@ export const disableProject: API.OperationMethod<
   DisableProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<DisableProjectRequest>,
+  input: __S(2848, __c178, 0) as any as S.Schema<DisableProjectRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<DisableProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5648,8 +5672,8 @@ export const dissociateResourceGroupFromProject: API.OperationMethod<
   DissociateResourceGroupFromProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<DissociateResourceGroupFromProjectRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<DissociateResourceGroupFromProjectResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<DissociateResourceGroupFromProjectRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<DissociateResourceGroupFromProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5665,7 +5689,7 @@ export const enableProject: API.OperationMethod<
   EnableProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<EnableProjectRequest>,
+  input: __S(2880, __c180, 0) as any as S.Schema<EnableProjectRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<EnableProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -5682,8 +5706,8 @@ export const getAlarmMessage: API.OperationMethod<
   GetAlarmMessageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetAlarmMessageRequest>,
-  output: __S(2881, __c180, 1) as any as S.Schema<GetAlarmMessageResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<GetAlarmMessageRequest>,
+  output: __S(2897, __c181, 1) as any as S.Schema<GetAlarmMessageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5699,8 +5723,8 @@ export const getCodeFile: API.OperationMethod<
   GetCodeFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<GetCodeFileRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<GetCodeFileResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<GetCodeFileRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<GetCodeFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5716,8 +5740,8 @@ export const getCodeFolder: API.OperationMethod<
   GetCodeFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetCodeFolderRequest>,
-  output: __S(2929, __c183, 1) as any as S.Schema<GetCodeFolderResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<GetCodeFolderRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<GetCodeFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5733,8 +5757,8 @@ export const getDataBackfillPlan: API.OperationMethod<
   GetDataBackfillPlanError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<GetDataBackfillPlanRequest>,
-  output: __S(2962, __c185, 2) as any as S.Schema<GetDataBackfillPlanResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<GetDataBackfillPlanRequest>,
+  output: __S(2978, __c186, 2) as any as S.Schema<GetDataBackfillPlanResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5750,8 +5774,8 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetDataSourceRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<GetDataSourceResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<GetDataSourceRequest>,
+  output: __S(2993, __c187, 1) as any as S.Schema<GetDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5767,8 +5791,8 @@ export const getDataSourceRelatedTasks: API.OperationMethod<
   GetDataSourceRelatedTasksError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<GetDataSourceRelatedTasksRequest>,
-  output: __S(3015, __c188, 7) as any as S.Schema<GetDataSourceRelatedTasksResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetDataSourceRelatedTasksRequest>,
+  output: __S(3031, __c189, 7) as any as S.Schema<GetDataSourceRelatedTasksResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5784,8 +5808,8 @@ export const getMyCodeMaxPermission: API.OperationMethod<
   GetMyCodeMaxPermissionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<GetMyCodeMaxPermissionRequest>,
-  output: __S(3073, __c192, 1) as any as S.Schema<GetMyCodeMaxPermissionResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetMyCodeMaxPermissionRequest>,
+  output: __S(3089, __c193, 1) as any as S.Schema<GetMyCodeMaxPermissionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5801,8 +5825,8 @@ export const getMyWorkflowMaxPermission: API.OperationMethod<
   GetMyWorkflowMaxPermissionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetMyWorkflowMaxPermissionRequest>,
-  output: __S(3105, __c194, 1) as any as S.Schema<GetMyWorkflowMaxPermissionResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetMyWorkflowMaxPermissionRequest>,
+  output: __S(3121, __c195, 1) as any as S.Schema<GetMyWorkflowMaxPermissionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5818,8 +5842,8 @@ export const getOpsAlarmRule: API.OperationMethod<
   GetOpsAlarmRuleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetOpsAlarmRuleRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<GetOpsAlarmRuleResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<GetOpsAlarmRuleRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<GetOpsAlarmRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5835,8 +5859,8 @@ export const getOpsAsyncJob: API.OperationMethod<
   GetOpsAsyncJobError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetOpsAsyncJobRequest>,
-  output: __S(3154, __c197, 2) as any as S.Schema<GetOpsAsyncJobResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetOpsAsyncJobRequest>,
+  output: __S(3170, __c198, 2) as any as S.Schema<GetOpsAsyncJobResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5852,8 +5876,8 @@ export const getOpsTask: API.OperationMethod<
   GetOpsTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<GetOpsTaskRequest>,
-  output: __S(3184, __c199, 0) as any as S.Schema<GetOpsTaskResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetOpsTaskRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<GetOpsTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5869,8 +5893,8 @@ export const getOpsTaskCode: API.OperationMethod<
   GetOpsTaskCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<GetOpsTaskCodeRequest>,
-  output: __S(3266, __c204, 2) as any as S.Schema<GetOpsTaskCodeResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<GetOpsTaskCodeRequest>,
+  output: __S(3282, __c205, 2) as any as S.Schema<GetOpsTaskCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5886,8 +5910,8 @@ export const getOpsTriggerWorkflow: API.OperationMethod<
   GetOpsTriggerWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<GetOpsTriggerWorkflowRequest>,
-  output: __S(3286, __c205, 6) as any as S.Schema<GetOpsTriggerWorkflowResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetOpsTriggerWorkflowRequest>,
+  output: __S(3302, __c206, 6) as any as S.Schema<GetOpsTriggerWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5903,8 +5927,8 @@ export const getOpsWorkflow: API.OperationMethod<
   GetOpsWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetOpsWorkflowRequest>,
-  output: __S(3298, __c206, 2) as any as S.Schema<GetOpsWorkflowResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetOpsWorkflowRequest>,
+  output: __S(3314, __c207, 2) as any as S.Schema<GetOpsWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5920,8 +5944,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<GetProjectResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<GetProjectResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5937,8 +5961,8 @@ export const getResourceFile: API.OperationMethod<
   GetResourceFileError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<GetResourceFileRequest>,
-  output: __S(3346, __c209, 2) as any as S.Schema<GetResourceFileResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetResourceFileRequest>,
+  output: __S(3362, __c210, 2) as any as S.Schema<GetResourceFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5954,8 +5978,8 @@ export const getResourceFolder: API.OperationMethod<
   GetResourceFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<GetResourceFolderRequest>,
-  output: __S(3410, __c213, 2) as any as S.Schema<GetResourceFolderResponse>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetResourceFolderRequest>,
+  output: __S(3426, __c214, 2) as any as S.Schema<GetResourceFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5971,8 +5995,8 @@ export const getResourceGroupMetrics: API.OperationMethod<
   GetResourceGroupMetricsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<GetResourceGroupMetricsRequest>,
-  output: __S(3430, __c214, 6) as any as S.Schema<GetResourceGroupMetricsResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetResourceGroupMetricsRequest>,
+  output: __S(3446, __c215, 6) as any as S.Schema<GetResourceGroupMetricsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -5988,8 +6012,8 @@ export const getSQLFolder: API.OperationMethod<
   GetSQLFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<GetSQLFolderRequest>,
-  output: __S(3441, __c215, 1) as any as S.Schema<GetSQLFolderResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<GetSQLFolderRequest>,
+  output: __S(3457, __c216, 1) as any as S.Schema<GetSQLFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6005,8 +6029,8 @@ export const getSQLRunResult: API.OperationMethod<
   GetSQLRunResultError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<GetSQLRunResultRequest>,
-  output: __S(3480, __c217, 8) as any as S.Schema<GetSQLRunResultResponse>,
+  input: __S(3488, __c218, 0) as any as S.Schema<GetSQLRunResultRequest>,
+  output: __S(3496, __c218, 8) as any as S.Schema<GetSQLRunResultResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6022,8 +6046,8 @@ export const getSQLScript: API.OperationMethod<
   GetSQLScriptError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<GetSQLScriptRequest>,
-  output: __S(3504, __c219, 0) as any as S.Schema<GetSQLScriptResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<GetSQLScriptRequest>,
+  output: __S(3520, __c220, 0) as any as S.Schema<GetSQLScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6039,8 +6063,8 @@ export const getTable: API.OperationMethod<
   GetTableError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<GetTableRequest>,
-  output: __S(3521, __c220, 1) as any as S.Schema<GetTableResponse>,
+  input: __S(3536, __c221, 0) as any as S.Schema<GetTableRequest>,
+  output: __S(3537, __c221, 1) as any as S.Schema<GetTableResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6056,8 +6080,8 @@ export const getTableColumns: API.OperationMethod<
   GetTableColumnsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<GetTableColumnsRequest>,
-  output: __S(3555, __c222, 3) as any as S.Schema<GetTableColumnsResponse>,
+  input: __S(3568, __c223, 0) as any as S.Schema<GetTableColumnsRequest>,
+  output: __S(3571, __c223, 3) as any as S.Schema<GetTableColumnsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6073,8 +6097,8 @@ export const getTask: API.OperationMethod<
   GetTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(3184, __c199, 0) as any as S.Schema<GetTaskResponse>,
+  input: __S(3584, __c224, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(3200, __c200, 0) as any as S.Schema<GetTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6090,8 +6114,8 @@ export const getTaskCode: API.OperationMethod<
   GetTaskCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<GetTaskCodeRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<GetTaskCodeResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<GetTaskCodeRequest>,
+  output: __S(3601, __c225, 1) as any as S.Schema<GetTaskCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6107,8 +6131,8 @@ export const getTaskFolder: API.OperationMethod<
   GetTaskFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<GetTaskFolderRequest>,
-  output: __S(3618, __c226, 2) as any as S.Schema<GetTaskFolderResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<GetTaskFolderRequest>,
+  output: __S(3634, __c227, 2) as any as S.Schema<GetTaskFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6124,8 +6148,8 @@ export const getTaskInstance: API.OperationMethod<
   GetTaskInstanceError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<GetTaskInstanceRequest>,
-  output: __S(3666, __c229, 2) as any as S.Schema<GetTaskInstanceResponse>,
+  input: __S(3680, __c230, 0) as any as S.Schema<GetTaskInstanceRequest>,
+  output: __S(3682, __c230, 2) as any as S.Schema<GetTaskInstanceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6141,8 +6165,8 @@ export const getTaskInstanceLog: API.OperationMethod<
   GetTaskInstanceLogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c230, 0) as any as S.Schema<GetTaskInstanceLogRequest>,
-  output: __S(3682, __c230, 2) as any as S.Schema<GetTaskInstanceLogResponse>,
+  input: __S(3696, __c231, 0) as any as S.Schema<GetTaskInstanceLogRequest>,
+  output: __S(3698, __c231, 2) as any as S.Schema<GetTaskInstanceLogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6158,8 +6182,8 @@ export const getTaskVersion: API.OperationMethod<
   GetTaskVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<GetTaskVersionRequest>,
-  output: __S(3698, __c231, 2) as any as S.Schema<GetTaskVersionResponse>,
+  input: __S(3712, __c232, 0) as any as S.Schema<GetTaskVersionRequest>,
+  output: __S(3714, __c232, 2) as any as S.Schema<GetTaskVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6175,8 +6199,8 @@ export const getTriggerTask: API.OperationMethod<
   GetTriggerTaskError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<GetTriggerTaskRequest>,
-  output: __S(3713, __c232, 1) as any as S.Schema<GetTriggerTaskResponse>,
+  input: __S(3728, __c233, 0) as any as S.Schema<GetTriggerTaskRequest>,
+  output: __S(3729, __c233, 1) as any as S.Schema<GetTriggerTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6192,8 +6216,8 @@ export const getTriggerTaskCode: API.OperationMethod<
   GetTriggerTaskCodeError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<GetTriggerTaskCodeRequest>,
-  output: __S(3761, __c235, 1) as any as S.Schema<GetTriggerTaskCodeResponse>,
+  input: __S(3776, __c236, 0) as any as S.Schema<GetTriggerTaskCodeRequest>,
+  output: __S(3777, __c236, 1) as any as S.Schema<GetTriggerTaskCodeResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6209,8 +6233,8 @@ export const getTriggerTaskRun: API.OperationMethod<
   GetTriggerTaskRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<GetTriggerTaskRunRequest>,
-  output: __S(3777, __c236, 1) as any as S.Schema<GetTriggerTaskRunResponse>,
+  input: __S(3792, __c237, 0) as any as S.Schema<GetTriggerTaskRunRequest>,
+  output: __S(3793, __c237, 1) as any as S.Schema<GetTriggerTaskRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6226,8 +6250,8 @@ export const getTriggerTaskVersion: API.OperationMethod<
   GetTriggerTaskVersionError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c238, 0) as any as S.Schema<GetTriggerTaskVersionRequest>,
-  output: __S(3810, __c238, 2) as any as S.Schema<GetTriggerTaskVersionResponse>,
+  input: __S(3840, __c240, 0) as any as S.Schema<GetTriggerTaskVersionRequest>,
+  output: __S(3842, __c240, 2) as any as S.Schema<GetTriggerTaskVersionResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6243,8 +6267,8 @@ export const getTriggerWorkflow: API.OperationMethod<
   GetTriggerWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3824, __c239, 0) as any as S.Schema<GetTriggerWorkflowRequest>,
-  output: __S(3826, __c239, 2) as any as S.Schema<GetTriggerWorkflowResponse>,
+  input: __S(3856, __c241, 0) as any as S.Schema<GetTriggerWorkflowRequest>,
+  output: __S(3858, __c241, 2) as any as S.Schema<GetTriggerWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6260,8 +6284,8 @@ export const getTriggerWorkflowRun: API.OperationMethod<
   GetTriggerWorkflowRunError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c240, 0) as any as S.Schema<GetTriggerWorkflowRunRequest>,
-  output: __S(3845, __c240, 5) as any as S.Schema<GetTriggerWorkflowRunResponse>,
+  input: __S(3872, __c242, 0) as any as S.Schema<GetTriggerWorkflowRunRequest>,
+  output: __S(3877, __c242, 5) as any as S.Schema<GetTriggerWorkflowRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6277,8 +6301,8 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(3891, __c243, 3) as any as S.Schema<GetWorkflowResponse>,
+  input: __S(3920, __c245, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(3923, __c245, 3) as any as S.Schema<GetWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6294,8 +6318,8 @@ export const getWorkflowFolder: API.OperationMethod<
   GetWorkflowFolderError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3952, __c247, 0) as any as S.Schema<GetWorkflowFolderRequest>,
-  output: __S(3954, __c247, 2) as any as S.Schema<GetWorkflowFolderResponse>,
+  input: __S(3984, __c249, 0) as any as S.Schema<GetWorkflowFolderRequest>,
+  output: __S(3986, __c249, 2) as any as S.Schema<GetWorkflowFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6311,7 +6335,7 @@ export const grantMemberProjectRole: API.OperationMethod<
   GrantMemberProjectRoleError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<GrantMemberProjectRoleRequest>,
+  input: __S(4000, __c250, 0) as any as S.Schema<GrantMemberProjectRoleRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<GrantMemberProjectRoleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
@@ -6328,8 +6352,8 @@ export const killTaskInstancesAsync: API.OperationMethod<
   KillTaskInstancesAsyncError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<KillTaskInstancesAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<KillTaskInstancesAsyncResponse>,
+  input: __S(4016, __c251, 0) as any as S.Schema<KillTaskInstancesAsyncRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<KillTaskInstancesAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6345,8 +6369,8 @@ export const killTriggerWorkflowRuns: API.OperationMethod<
   KillTriggerWorkflowRunsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<KillTriggerWorkflowRunsRequest>,
-  output: __S(4003, __c250, 3) as any as S.Schema<KillTriggerWorkflowRunsResponse>,
+  input: __S(4032, __c252, 0) as any as S.Schema<KillTriggerWorkflowRunsRequest>,
+  output: __S(4035, __c252, 3) as any as S.Schema<KillTriggerWorkflowRunsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6362,8 +6386,8 @@ export const listAlarmMessages: API.OperationMethod<
   ListAlarmMessages_Error,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<ListAlarmMessagesRequest>,
-  output: __S(4019, __c251, 3) as any as S.Schema<ListAlarmMessagesResponse>,
+  input: __S(4048, __c253, 0) as any as S.Schema<ListAlarmMessagesRequest>,
+  output: __S(4051, __c253, 3) as any as S.Schema<ListAlarmMessagesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6379,8 +6403,8 @@ export const listCatalog: API.OperationMethod<
   ListCatalogError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c252, 0) as any as S.Schema<ListCatalogRequest>,
-  output: __S(4036, __c252, 4) as any as S.Schema<ListCatalogResponse>,
+  input: __S(4064, __c254, 0) as any as S.Schema<ListCatalogRequest>,
+  output: __S(4068, __c254, 4) as any as S.Schema<ListCatalogResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6396,8 +6420,8 @@ export const listCodeFolderContents: API.OperationMethod<
   ListCodeFolderContentsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4048, __c253, 0) as any as S.Schema<ListCodeFolderContentsRequest>,
-  output: __S(4049, __c253, 1) as any as S.Schema<ListCodeFolderContentsResponse>,
+  input: __S(4080, __c255, 0) as any as S.Schema<ListCodeFolderContentsRequest>,
+  output: __S(4081, __c255, 1) as any as S.Schema<ListCodeFolderContentsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6413,8 +6437,8 @@ export const listCodePermissions: API.OperationMethod<
   ListCodePermissionsError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c254, 0) as any as S.Schema<ListCodePermissionsRequest>,
-  output: __S(4068, __c254, 4) as any as S.Schema<ListCodePermissionsResponse>,
+  input: __S(4096, __c256, 0) as any as S.Schema<ListCodePermissionsRequest>,
+  output: __S(4100, __c256, 4) as any as S.Schema<ListCodePermissionsResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6430,8 +6454,8 @@ export const listColumnLineage: API.OperationMethod<
   ListColumnLineageError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4080, __c255, 0) as any as S.Schema<ListColumnLineageRequest>,
-  output: __S(4101, __c256, 5) as any as S.Schema<ListColumnLineageResponse>,
+  input: __S(4112, __c257, 0) as any as S.Schema<ListColumnLineageRequest>,
+  output: __S(4133, __c258, 5) as any as S.Schema<ListColumnLineageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6447,8 +6471,8 @@ export const listDataBackfillInstances: API.OperationMethod<
   ListDataBackfillInstancesError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<ListDataBackfillInstancesRequest>,
-  output: __S(4116, __c257, 4) as any as S.Schema<ListDataBackfillInstancesResponse>,
+  input: __S(4144, __c259, 0) as any as S.Schema<ListDataBackfillInstancesRequest>,
+  output: __S(4148, __c259, 4) as any as S.Schema<ListDataBackfillInstancesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -6567,7 +6591,7 @@ export const listLineage: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListLineageRequest>,
-  output: __S(4101, __c256, 5) as any as S.Schema<ListLineageResponse>,
+  output: __S(4133, __c258, 5) as any as S.Schema<ListLineageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7247,7 +7271,7 @@ export const modifyQualityRule: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ModifyQualityRuleRequest>,
-  output: __S(2528, __c158, 0) as any as S.Schema<ModifyQualityRuleResponse>,
+  output: __S(2544, __c159, 0) as any as S.Schema<ModifyQualityRuleResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7281,7 +7305,7 @@ export const pauseOpsTasksAsync: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<PauseOpsTasksAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<PauseOpsTasksAsyncResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<PauseOpsTasksAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7298,7 +7322,7 @@ export const registerLineage: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<RegisterLineageRequest>,
-  output: __S(2433, __c152, 1) as any as S.Schema<RegisterLineageResponse>,
+  output: __S(2449, __c153, 1) as any as S.Schema<RegisterLineageResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7332,7 +7356,7 @@ export const rerunTaskInstancesAsync: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<RerunTaskInstancesAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<RerunTaskInstancesAsyncResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<RerunTaskInstancesAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7349,7 +7373,7 @@ export const rerunTriggerWorkflowRunAsync: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<RerunTriggerWorkflowRunAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<RerunTriggerWorkflowRunAsyncResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<RerunTriggerWorkflowRunAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7366,7 +7390,7 @@ export const revokeDataSourceAuthorization: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<RevokeDataSourceAuthorizationRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<RevokeDataSourceAuthorizationResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<RevokeDataSourceAuthorizationResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7383,7 +7407,7 @@ export const revokePrivileges: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<RevokePrivilegesRequest>,
-  output: __S(2326, __c145, 6) as any as S.Schema<RevokePrivilegesResponse>,
+  output: __S(2342, __c146, 6) as any as S.Schema<RevokePrivilegesResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7417,7 +7441,7 @@ export const setSuccessTaskInstancesAsync: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<SetSuccessTaskInstancesAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<SetSuccessTaskInstancesAsyncResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<SetSuccessTaskInstancesAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7451,7 +7475,7 @@ export const stopOpsTasksAsync: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<StopOpsTasksAsyncRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<StopOpsTasksAsyncResponse>,
+  output: __S(2369, __c148, 1) as any as S.Schema<StopOpsTasksAsyncResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7468,7 +7492,7 @@ export const stopSQLScriptRun: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<StopSQLScriptRunRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<StopSQLScriptRunResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<StopSQLScriptRunResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7519,7 +7543,7 @@ export const updateCodeFile: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<UpdateCodeFileRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<UpdateCodeFileResponse>,
+  output: __S(2627, __c164, 3) as any as S.Schema<UpdateCodeFileResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7536,7 +7560,7 @@ export const updateCodeFolder: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<UpdateCodeFolderRequest>,
-  output: __S(2240, __c140, 0) as any as S.Schema<UpdateCodeFolderResponse>,
+  output: __S(2256, __c141, 0) as any as S.Schema<UpdateCodeFolderResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7553,7 +7577,7 @@ export const updateDataSource: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<UpdateDataSourceRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<UpdateDataSourceResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<UpdateDataSourceResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7672,7 +7696,7 @@ export const updateResourceGroup: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1649, __c103, 1) as any as S.Schema<UpdateResourceGroupRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<UpdateResourceGroupResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<UpdateResourceGroupResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7706,7 +7730,7 @@ export const updateSQLScript: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<UpdateSQLScriptRequest>,
-  output: __S(3504, __c219, 0) as any as S.Schema<UpdateSQLScriptResponse>,
+  output: __S(3520, __c220, 0) as any as S.Schema<UpdateSQLScriptResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7723,7 +7747,7 @@ export const updateTask: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c106, 1) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<UpdateTaskResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<UpdateTaskResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7808,7 +7832,7 @@ export const updateTriggerWorkflow: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<UpdateTriggerWorkflowRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<UpdateTriggerWorkflowResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<UpdateTriggerWorkflowResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -7825,7 +7849,7 @@ export const updateTriggerWorkflowPartially: API.OperationMethod<
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1857, __c116, 1) as any as S.Schema<UpdateTriggerWorkflowPartiallyRequest>,
-  output: __S(2384, __c149, 0) as any as S.Schema<UpdateTriggerWorkflowPartiallyResponse>,
+  output: __S(2400, __c150, 0) as any as S.Schema<UpdateTriggerWorkflowPartiallyResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8053,7 +8077,7 @@ function __c9(j: number): any {
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "ListDataSources" })),
       ).annotate({ identifier: "ListDataSourcesRequest" });
     case 1:
-      return S.Array(__S(2992, __c187, 0));
+      return S.Array(__S(3008, __c188, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8368,7 +8392,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListOpsAlarmRulesRequest" });
     case 1:
-      return S.Array(__S(3136, __c196, 0));
+      return S.Array(__S(3152, __c197, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8466,8 +8490,8 @@ function __c21(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "ListOpsTriggerWorkflows" }),
@@ -8619,9 +8643,9 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(__S(2304, __c144, 0)),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Resource: S.optional(__S(2320, __c145, 0)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           Page: S.optional(__S(416, __c26, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "ListPermissions" })),
@@ -8640,9 +8664,9 @@ function __c26(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(__S(2304, __c144, 0)),
+          Resource: S.optional(__S(2320, __c145, 0)),
           SubjectDetails: S.optional(__S(419, __c26, 3)),
-          PermissionDetails: S.optional(__S(2306, __c144, 2)),
+          PermissionDetails: S.optional(__S(2322, __c145, 2)),
         }),
       ).annotate({ identifier: "ResourcePrivilegeDetail" });
     case 5:
@@ -8681,7 +8705,7 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(2418, __c151, 2)),
+          Items: S.optional(__S(2434, __c152, 2)),
           PageCount: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           PageNumber: S.optional(S.Number),
@@ -8810,7 +8834,7 @@ function __c31(j: number): any {
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "ListProjects" })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(3330, __c208, 2));
+      return S.Array(__S(3346, __c209, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8838,8 +8862,8 @@ function __c32(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -8978,8 +9002,8 @@ function __c33(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "ListQualityRuleGroups" }),
@@ -9069,7 +9093,7 @@ function __c34(j: number): any {
         S.Struct({
           RuleGroupId: S.optional(S.NullOr(S.Number)),
           Receivers: S.optional(S.NullOr(__S(545, __c34, 1))),
-          SubscribeType: S.optional(S.NullOr(__S(3920, __c245, 0))),
+          SubscribeType: S.optional(S.NullOr(__S(3952, __c247, 0))),
           WebHooks: S.optional(S.NullOr(__S(547, __c34, 3))),
           RuleId: S.optional(S.NullOr(S.Number)),
           RuleName: S.optional(S.NullOr(S.String)),
@@ -9086,8 +9110,8 @@ function __c35(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9147,8 +9171,8 @@ function __c36(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "ListQualityRules" })),
       ).annotate({ identifier: "ListQualityRulesRequest" });
@@ -9189,7 +9213,7 @@ function __c36(j: number): any {
           TargetObjectDataType: S.optional(S.NullOr(S.Number)),
           TargetObjectDataTypeName: S.optional(S.NullOr(S.String)),
           TargetObjectValue: S.optional(S.NullOr(S.String)),
-          SourceEngineTypes: S.optional(S.NullOr(__S(3920, __c245, 0))),
+          SourceEngineTypes: S.optional(S.NullOr(__S(3952, __c247, 0))),
           TableName: S.optional(S.NullOr(S.String)),
           TableOwnerName: S.optional(S.NullOr(S.String)),
           ExecStrategy: S.optional(S.NullOr(__S(835, __c52, 3))),
@@ -9244,7 +9268,7 @@ function __c37(j: number): any {
           DatabaseName: S.NullOr(S.String),
           CompareRule: S.NullOr(__S(626, __c39, 2)),
           AlarmLevel: S.NullOr(S.Number),
-          SourceEngineTypes: S.NullOr(__S(3920, __c245, 0)),
+          SourceEngineTypes: S.NullOr(__S(3952, __c247, 0)),
           TableName: S.optional(S.NullOr(S.String)),
           RuleTemplateId: S.optional(S.NullOr(S.Number)),
           QualityDim: S.optional(S.NullOr(S.Number)),
@@ -9308,7 +9332,7 @@ function __c37(j: number): any {
           SumCount: S.optional(S.NullOr(S.Number)),
           SuccessCount: S.optional(S.NullOr(S.Number)),
           FailedCount: S.optional(S.NullOr(S.Number)),
-          SuccessRuleIds: S.optional(S.NullOr(__S(3920, __c245, 0))),
+          SuccessRuleIds: S.optional(S.NullOr(__S(3952, __c247, 0))),
         }),
       ).annotate({ identifier: "CreateQualityRuleVO" });
     case 6:
@@ -9403,8 +9427,8 @@ function __c40(j: number): any {
           ProjectId: S.String,
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
-          Filters: S.optional(__S(3857, __c241, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -9441,7 +9465,7 @@ function __c40(j: number): any {
           SourceObjectType: S.optional(S.Number),
           SourceObjectDataType: S.optional(S.Number),
           SourceContent: S.optional(S.NullOr(S.String)),
-          SourceEngineTypes: S.optional(S.NullOr(__S(3920, __c245, 0))),
+          SourceEngineTypes: S.optional(S.NullOr(__S(3952, __c247, 0))),
           QualityDim: S.optional(S.NullOr(S.Number)),
           CompareType: S.optional(S.NullOr(S.Number)),
           CitationCount: S.optional(S.NullOr(S.Number)),
@@ -9453,7 +9477,7 @@ function __c40(j: number): any {
           SqlExpression: S.optional(S.NullOr(S.String)),
           SubQualityDim: S.optional(S.NullOr(S.Number)),
           ResolvedSqlExpression: S.optional(S.NullOr(__S(643, __c40, 3))),
-          DatasourceTypes: S.optional(S.NullOr(__S(3920, __c245, 0))),
+          DatasourceTypes: S.optional(S.NullOr(__S(3952, __c247, 0))),
           UserIdStr: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QualityRuleTemplate" });
@@ -9693,7 +9717,7 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3456, __c216, 0)),
+          Data: S.optional(__S(3472, __c217, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSQLFolderContentsResponse" });
@@ -9794,7 +9818,7 @@ function __c48(j: number): any {
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "ListTable" })),
       ).annotate({ identifier: "ListTableRequest" });
     case 1:
-      return S.Array(__S(3538, __c221, 2));
+      return S.Array(__S(3554, __c222, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10118,7 +10142,7 @@ function __c55(j: number): any {
 function __c56(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3232, __c202, 0));
+      return S.Array(__S(3248, __c203, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10209,8 +10233,8 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -10318,8 +10342,8 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           PageNumber: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -10328,7 +10352,7 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListTriggerWorkflowRunsRequest" });
     case 1:
-      return S.Array(__S(3872, __c242, 0));
+      return S.Array(__S(3904, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10576,7 +10600,7 @@ function __c71(j: number): any {
           PageSize: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
           TotalPageNumber: S.optional(S.Number),
-          Items: S.optional(__S(2193, __c137, 1)),
+          Items: S.optional(__S(2209, __c138, 1)),
         }),
       ).annotate({ identifier: "WorkflowPermissionPage" });
     case 2:
@@ -10669,7 +10693,7 @@ function __c73(j: number): any {
           RelConditionExpr: S.optional(S.String),
           FieldConfig: S.optional(__S(615, __c38, 7)),
           TargetObjectValue: S.optional(S.String),
-          SourceEngineTypes: S.optional(__S(3920, __c245, 0)),
+          SourceEngineTypes: S.optional(__S(3952, __c247, 0)),
           TargetDatabaseName: S.optional(S.String),
           TargetSchemaName: S.optional(S.String),
           TargetTableName: S.optional(S.String),
@@ -10729,7 +10753,7 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Relations: __S(2418, __c151, 2),
+          Relations: __S(2434, __c152, 2),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "RegisterLineage" })),
       ).annotate({ identifier: "RegisterLineageRequest" });
@@ -10795,7 +10819,7 @@ function __c80(j: number): any {
           SkipEventListening: S.optional(S.Boolean),
           RedefineParallelNum: S.optional(S.Number),
           RedefineSelfWorkflowDependency: S.optional(S.String),
-          RedefineParamList: S.optional(__S(3392, __c212, 0)),
+          RedefineParamList: S.optional(__S(3408, __c213, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "RerunTaskInstancesAsync" }),
@@ -10812,7 +10836,7 @@ function __c81(j: number): any {
           WorkflowId: S.String,
           WorkflowExecutionId: S.String,
           ExecuteType: S.String,
-          AdvancedParams: S.optional(__S(2113, __c132, 1)),
+          AdvancedParams: S.optional(__S(2129, __c133, 1)),
           TaskIds: S.optional(__S(32, __c2, 0)),
           SchedulingResourceGroup: S.optional(S.String),
           IntegrationResourceGroup: S.optional(S.String),
@@ -10851,9 +10875,9 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Resources: __S(2320, __c145, 0),
-          Subjects: __S(2322, __c145, 2),
-          Privileges: __S(2306, __c144, 2),
+          Resources: __S(2336, __c146, 0),
+          Subjects: __S(2338, __c146, 2),
+          Privileges: __S(2322, __c145, 2),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "RevokePrivileges" })),
       ).annotate({ identifier: "RevokePrivilegesRequest" });
@@ -11067,7 +11091,7 @@ function __c93(j: number): any {
         S.Struct({
           ProjectId: S.String,
           CodeFileId: S.String,
-          CodeFileConfig: S.optional(__S(2609, __c163, 1)),
+          CodeFileConfig: S.optional(__S(2625, __c164, 1)),
           CodeFileContent: S.optional(S.String),
           SubmitAction: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11097,8 +11121,8 @@ function __c95(j: number): any {
           ProjectId: S.String,
           ProdConProperties: S.optional(S.String),
           DevConProperties: S.optional(S.String),
-          ProdFileUpload: S.optional(__S(3648, __c228, 0)),
-          DevFileUpload: S.optional(__S(3648, __c228, 0)),
+          ProdFileUpload: S.optional(__S(3664, __c229, 0)),
+          DevFileUpload: S.optional(__S(3664, __c229, 0)),
           DisplayName: S.optional(S.String),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11117,10 +11141,10 @@ function __c96(j: number): any {
           MonitorObjectType: S.optional(S.Number),
           MonitorObjectIds: S.optional(__S(32, __c2, 0)),
           AlarmTypes: S.optional(__S(32, __c2, 0)),
-          AlarmRuleDetail: S.optional(__S(3951, __c246, 15)),
+          AlarmRuleDetail: S.optional(__S(3983, __c248, 15)),
           Status: S.optional(S.Number),
           AlarmLevel: S.optional(S.Number),
-          AlarmGroups: S.optional(__S(3942, __c246, 6)),
+          AlarmGroups: S.optional(__S(3974, __c248, 6)),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -11226,7 +11250,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2800, __c175, 0))),
+          Data: S.optional(S.NullOr(__S(2816, __c176, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSQLFolderResponse" });
@@ -11286,7 +11310,7 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2256, __c141, 0))),
+          Data: S.optional(S.NullOr(__S(2272, __c142, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateSQLFolderResponse" });
@@ -11312,8 +11336,8 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TaskBaseAttribute: __S(1712, __c107, 0),
-          TaskConfiguration: __S(3248, __c203, 0),
-          TaskSchedulerConfiguration: __S(3216, __c201, 0),
+          TaskConfiguration: __S(3264, __c204, 0),
+          TaskSchedulerConfiguration: __S(3232, __c202, 0),
         }),
       ).annotate({ identifier: "UpdateTaskBrief" });
     case 1:
@@ -11369,8 +11393,8 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TaskBaseAttribute: S.optional(__S(1744, __c109, 0)),
-          TaskConfiguration: S.optional(__S(3248, __c203, 0)),
-          TaskSchedulerConfiguration: S.optional(__S(3216, __c201, 0)),
+          TaskConfiguration: S.optional(__S(3264, __c204, 0)),
+          TaskSchedulerConfiguration: S.optional(__S(3232, __c202, 0)),
         }),
       ).annotate({ identifier: "UpdateTaskPart" });
     case 2:
@@ -11393,8 +11417,8 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TriggerTaskBaseAttribute: __S(1712, __c107, 0),
-          TriggerTaskConfiguration: __S(3248, __c203, 0),
-          TriggerTaskSchedulerConfiguration: __S(3744, __c234, 0),
+          TriggerTaskConfiguration: __S(3264, __c204, 0),
+          TriggerTaskSchedulerConfiguration: __S(3760, __c235, 0),
         }),
       ).annotate({ identifier: "UpdateTriggerTaskBrief" });
     case 1:
@@ -11424,8 +11448,8 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TriggerTaskBaseAttribute: S.optional(__S(1776, __c111, 0)),
-          TriggerTaskConfiguration: S.optional(__S(3248, __c203, 0)),
-          TriggerTaskSchedulerConfiguration: S.optional(__S(3744, __c234, 0)),
+          TriggerTaskConfiguration: S.optional(__S(3264, __c204, 0)),
+          TriggerTaskSchedulerConfiguration: S.optional(__S(3760, __c235, 0)),
         }),
       ).annotate({ identifier: "UpdateTriggerTaskPart" });
     case 2:
@@ -11465,6 +11489,7 @@ function __c112(j: number): any {
           SchedulerStatus: S.optional(S.String),
           TriggerMode: S.optional(S.String),
           ExecuteUserUin: S.optional(S.String),
+          WorkflowLabels: S.optional(__S(2097, __c131, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "UpdateTriggerWorkflow" }),
@@ -11548,6 +11573,7 @@ function __c116(j: number): any {
           SchedulerStatus: S.optional(S.String),
           TriggerMode: S.optional(S.String),
           ExecuteUserUin: S.optional(S.String),
+          WorkflowLabels: S.optional(__S(2097, __c131, 1)),
         }),
       ).annotate({ identifier: "UpdateTriggerWorkflowPartially" });
     case 1:
@@ -11579,7 +11605,7 @@ function __c117(j: number): any {
           OwnerUin: S.optional(S.String),
           WorkflowDesc: S.optional(S.String),
           WorkflowParams: S.optional(__S(1953, __c122, 1)),
-          WorkflowSchedulerConfiguration: S.optional(__S(2144, __c134, 0)),
+          WorkflowSchedulerConfiguration: S.optional(__S(2160, __c135, 0)),
           BundleId: S.optional(S.String),
           BundleInfo: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -11896,6 +11922,7 @@ function __c128(j: number): any {
           SchedulerStatus: S.optional(S.String),
           TriggerMode: S.optional(S.String),
           ExecuteUserUin: S.optional(S.String),
+          WorkflowLabels: S.optional(__S(2097, __c131, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "CreateTriggerWorkflow" }),
@@ -11938,6 +11965,8 @@ function __c129(j: number): any {
           TriggerWaitTime: S.optional(S.NullOr(S.Number)),
           TriggerMinimumIntervalSecond: S.optional(S.NullOr(S.Number)),
           TriggerWaitTimeSecond: S.optional(S.NullOr(S.Number)),
+          TableQualifiers: S.optional(S.NullOr(__S(32, __c2, 0))),
+          TriggerPolicy: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "WorkflowTriggerConfig" });
   }
@@ -11969,9 +11998,24 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          LabelId: S.optional(S.NullOr(S.Number)),
+          LabelName: S.optional(S.NullOr(S.String)),
+          LabelValueId: S.optional(S.NullOr(S.Number)),
+          LabelValue: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "WorkflowLabel" });
+    case 1:
+      return S.Array(__S(2096, __c131, 0));
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           ProjectId: S.String,
           WorkflowId: S.String,
-          AdvancedParams: S.optional(__S(2113, __c132, 1)),
+          AdvancedParams: S.optional(__S(2129, __c133, 1)),
           TaskIds: S.optional(__S(32, __c2, 0)),
           SchedulingResourceGroupId: S.optional(S.String),
           IntegrationResourceGroupId: S.optional(S.String),
@@ -11993,13 +12037,13 @@ function __c131(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2097, __c131, 1))),
+          Data: S.optional(S.NullOr(__S(2113, __c132, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTriggerWorkflowRunResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12010,10 +12054,10 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "SchedulingParameter" });
     case 1:
-      return S.Array(__S(2112, __c132, 0));
+      return S.Array(__S(2128, __c133, 0));
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12025,7 +12069,7 @@ function __c133(j: number): any {
           WorkflowDesc: S.optional(S.String),
           OwnerUin: S.optional(S.String),
           WorkflowParams: S.optional(__S(1953, __c122, 1)),
-          WorkflowSchedulerConfiguration: S.optional(__S(2144, __c134, 0)),
+          WorkflowSchedulerConfiguration: S.optional(__S(2160, __c135, 0)),
           BundleId: S.optional(S.String),
           BundleInfo: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -12040,13 +12084,13 @@ function __c133(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2129, __c133, 1)),
+          Data: S.optional(__S(2145, __c134, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateWorkflowResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12071,7 +12115,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "WorkflowSchedulerConfigurationInfo" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12086,7 +12130,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreateWorkflowFolderRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12094,7 +12138,7 @@ function __c136(j: number): any {
           ProjectId: S.String,
           EntityId: S.String,
           EntityType: S.String,
-          PermissionList: __S(2193, __c137, 1),
+          PermissionList: __S(2209, __c138, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12106,7 +12150,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateWorkflowPermissionsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12117,10 +12161,10 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowPermission" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(2208, __c138, 0));
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12140,13 +12184,13 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2209, __c138, 1)),
+          Data: S.optional(__S(2225, __c139, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteCodeFileResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12158,18 +12202,18 @@ function __c139(j: number): any {
       ).annotate({ identifier: "DeleteCodeFolderRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2256, __c141, 0)),
+          Data: S.optional(__S(2272, __c142, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteCodeFolderResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12180,22 +12224,22 @@ function __c141(j: number): any {
       ).annotate({ identifier: "CodeStudioFolderActionResult" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(S.NullOr(__S(3056, __c191, 0))),
-          RecycleSubjects: S.optional(S.NullOr(__S(3041, __c190, 1))),
+          Resource: S.optional(S.NullOr(__S(3072, __c192, 0))),
+          RecycleSubjects: S.optional(S.NullOr(__S(3057, __c191, 1))),
         }),
       ).annotate({ identifier: "ExploreAuthorizationRecycleObject" });
     case 1:
-      return S.Array(__S(2272, __c142, 0));
+      return S.Array(__S(2288, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
-          RecyclePolicySet: S.optional(__S(2273, __c142, 1)),
+          RecyclePolicySet: S.optional(__S(2289, __c143, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "DeleteCodePermissions" }),
@@ -12203,14 +12247,14 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteCodePermissionsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Resources: __S(2320, __c145, 0),
-          Subjects: __S(2322, __c145, 2),
-          Privileges: __S(2306, __c144, 2),
+          Resources: __S(2336, __c146, 0),
+          Subjects: __S(2338, __c146, 2),
+          Privileges: __S(2322, __c145, 2),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "AuthorizePrivileges" }),
@@ -12218,7 +12262,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "AuthorizePrivilegesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12236,7 +12280,7 @@ function __c144(j: number): any {
           IsRead: S.optional(S.NullOr(S.Boolean)),
           IsManage: S.optional(S.NullOr(S.Boolean)),
           Granted: S.optional(S.NullOr(S.Boolean)),
-          InheritedObject: S.optional(S.NullOr(__S(2304, __c144, 0))),
+          InheritedObject: S.optional(S.NullOr(__S(2320, __c145, 0))),
           Inherited: S.optional(S.NullOr(S.Boolean)),
           IsEdit: S.optional(S.NullOr(S.Boolean)),
           IsMetaDataPermission: S.optional(S.Boolean),
@@ -12247,13 +12291,13 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "PrivilegeInfo" });
     case 2:
-      return S.Array(__S(2305, __c144, 1));
+      return S.Array(__S(2321, __c145, 1));
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2304, __c144, 0));
+      return S.Array(__S(2320, __c145, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -12262,34 +12306,34 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "Subject" });
     case 2:
-      return S.Array(__S(2321, __c145, 1));
+      return S.Array(__S(2337, __c146, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(S.NullOr(__S(2304, __c144, 0))),
+          Resource: S.optional(S.NullOr(__S(2320, __c145, 0))),
           Result: S.optional(S.NullOr(S.Boolean)),
           Reason: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AuthorizeResult" });
     case 4:
-      return S.Array(__S(2323, __c145, 3));
+      return S.Array(__S(2339, __c146, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           OverallSuccess: S.optional(S.Boolean),
-          Results: S.optional(__S(2324, __c145, 4)),
+          Results: S.optional(__S(2340, __c146, 4)),
         }),
       ).annotate({ identifier: "AuthorizePrivilegesRsp" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2325, __c145, 5)),
+          Data: S.optional(__S(2341, __c146, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizePrivilegesResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12307,7 +12351,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeleteDataBackfillPlanAsyncRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12318,13 +12362,13 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2352, __c147, 0)),
+          Data: S.optional(__S(2368, __c148, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteDataBackfillPlanAsyncResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12336,7 +12380,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DeleteDataSourceRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12347,18 +12391,18 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DeleteDataSourceResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Relations: __S(2418, __c151, 2),
+          Relations: __S(2434, __c152, 2),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "DeleteLineage" })),
       ).annotate({ identifier: "DeleteLineageRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12370,23 +12414,23 @@ function __c151(j: number): any {
           Description: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.String)),
           UpdateTime: S.optional(S.NullOr(S.String)),
-          ResourceProperties: S.optional(S.NullOr(__S(2449, __c153, 1))),
+          ResourceProperties: S.optional(S.NullOr(__S(2465, __c154, 1))),
           LineageNodeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LineageResouce" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Source: __S(2416, __c151, 0),
-          Target: __S(2416, __c151, 0),
-          Processes: __S(2451, __c153, 3),
+          Source: __S(2432, __c152, 0),
+          Target: __S(2432, __c152, 0),
+          Processes: __S(2467, __c154, 3),
         }),
       ).annotate({ identifier: "LineagePair" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2433, __c152, 1));
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12397,13 +12441,13 @@ function __c152(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2432, __c152, 0)),
+          Data: S.optional(__S(2448, __c153, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteLineageResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12413,7 +12457,7 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "LineageProperty" });
     case 1:
-      return S.Array(__S(2448, __c153, 0));
+      return S.Array(__S(2464, __c154, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12421,15 +12465,15 @@ function __c153(j: number): any {
           ProcessType: S.NullOr(S.String),
           Platform: S.NullOr(S.String),
           ProcessSubType: S.optional(S.NullOr(S.String)),
-          ProcessProperties: S.optional(S.NullOr(__S(2449, __c153, 1))),
+          ProcessProperties: S.optional(S.NullOr(__S(2465, __c154, 1))),
           LineageNodeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LineageProcess" });
     case 3:
-      return S.Array(__S(2450, __c153, 2));
+      return S.Array(__S(2466, __c154, 2));
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12443,7 +12487,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DeleteOpsAlarmRuleRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12454,7 +12498,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12468,7 +12512,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DeleteProjectMemberRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12482,7 +12526,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "DeleteQualityRuleRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12493,13 +12537,13 @@ function __c158(j: number): any {
       ).annotate({ identifier: "DeleteQualityRuleResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
-          RuleGroupIdList: __S(3920, __c245, 0),
+          RuleGroupIdList: __S(3952, __c247, 0),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "DeleteQualityRuleGroup" }),
@@ -12515,26 +12559,26 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "CommonQualityOperateResult" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2561, __c160, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           SumCount: S.optional(S.NullOr(S.Number)),
           SuccessCount: S.optional(S.NullOr(S.Number)),
           FailedCount: S.optional(S.NullOr(S.Number)),
-          Results: S.optional(S.NullOr(__S(2546, __c159, 2))),
+          Results: S.optional(S.NullOr(__S(2562, __c160, 2))),
         }),
       ).annotate({ identifier: "DeleteQualityRuleGroupResultVO" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2547, __c159, 3))),
+          Data: S.optional(S.NullOr(__S(2563, __c160, 3))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteQualityRuleGroupResponse" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12548,7 +12592,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "DeleteResourceFileRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12562,7 +12606,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "DeleteResourceFolderRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12570,14 +12614,14 @@ function __c162(j: number): any {
           ProjectId: S.String,
           CodeFileName: S.String,
           ParentFolderPath: S.String,
-          CodeFileConfig: S.optional(__S(2609, __c163, 1)),
+          CodeFileConfig: S.optional(__S(2625, __c164, 1)),
           CodeFileContent: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "wedata", version: "2025-08-06", action: "CreateCodeFile" })),
       ).annotate({ identifier: "CreateCodeFileRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12590,7 +12634,7 @@ function __c163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Params: S.optional(S.NullOr(S.String)),
-          NotebookSessionInfo: S.optional(S.NullOr(__S(2608, __c163, 0))),
+          NotebookSessionInfo: S.optional(S.NullOr(__S(2624, __c164, 0))),
         }),
       ).annotate({ identifier: "CodeFileConfig" });
     case 2:
@@ -12599,7 +12643,7 @@ function __c163(j: number): any {
           CodeFileId: S.optional(S.NullOr(S.String)),
           CodeFileName: S.optional(S.NullOr(S.String)),
           OwnerUin: S.optional(S.NullOr(S.String)),
-          CodeFileConfig: S.optional(S.NullOr(__S(2609, __c163, 1))),
+          CodeFileConfig: S.optional(S.NullOr(__S(2625, __c164, 1))),
           CodeFileContent: S.optional(S.NullOr(S.String)),
           UpdateUserUin: S.optional(S.NullOr(S.String)),
           ProjectId: S.optional(S.NullOr(S.String)),
@@ -12614,13 +12658,13 @@ function __c163(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2610, __c163, 2)),
+          Data: S.optional(__S(2626, __c164, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCodeFileResponse" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12633,7 +12677,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "DeleteResourceGroupRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12645,7 +12689,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "DeleteSQLFolderRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12657,7 +12701,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "DeleteSQLScriptRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12671,7 +12715,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "DeleteTaskRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12691,7 +12735,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "DeleteTaskFolderResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12707,7 +12751,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "DeleteTriggerTaskRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12721,7 +12765,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "DeleteTriggerWorkflowRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12733,7 +12777,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12747,7 +12791,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowFolderRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12758,14 +12802,14 @@ function __c173(j: number): any {
         }),
       ).annotate({ identifier: "DeleteWorkflowPermission" });
     case 1:
-      return S.Array(__S(2768, __c173, 0));
+      return S.Array(__S(2784, __c174, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
           EntityId: S.String,
           EntityType: S.String,
-          DeletePermissionList: __S(2769, __c173, 1),
+          DeletePermissionList: __S(2785, __c174, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -12777,7 +12821,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowPermissionsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12791,13 +12835,13 @@ function __c174(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2800, __c175, 0)),
+          Data: S.optional(__S(2816, __c176, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCodeFolderResponse" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12807,7 +12851,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "CodeStudioFolderResult" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12832,13 +12876,13 @@ function __c176(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2817, __c176, 1))),
+          Data: S.optional(S.NullOr(__S(2833, __c177, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDataSourceAuthorityResponse" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12849,7 +12893,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "DisableProjectRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12867,7 +12911,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "DissociateResourceGroupFromProjectRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12878,7 +12922,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "EnableProjectRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12892,13 +12936,13 @@ function __c180(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2896, __c181, 0)),
+          Data: S.optional(__S(2912, __c182, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAlarmMessageResponse" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12918,7 +12962,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "AlarmMessage" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12931,7 +12975,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetCodeFileRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12944,16 +12988,16 @@ function __c183(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2945, __c184, 1)),
+          Data: S.optional(__S(2961, __c185, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCodeFolderResponse" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2945, __c184, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2961, __c185, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -12967,13 +13011,13 @@ function __c184(j: number): any {
           OwnerUin: S.optional(S.String),
           CreateUserUin: S.optional(S.String),
           NodePermission: S.optional(S.NullOr(S.String)),
-          Children: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          Children: S.optional(S.NullOr(__S(2960, __c185, 0))),
           ParentFolderPath: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CodeFolderNode" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12993,7 +13037,7 @@ function __c185(j: number): any {
           DataBackfillPlanId: S.optional(S.String),
           DataBackfillPlanName: S.optional(S.String),
           TaskIds: S.optional(__S(32, __c2, 0)),
-          DataBackfillRangeList: S.optional(__S(3377, __c211, 1)),
+          DataBackfillRangeList: S.optional(__S(3393, __c212, 1)),
           CheckParentType: S.optional(S.NullOr(S.String)),
           SkipEventListening: S.optional(S.NullOr(S.Boolean)),
           RedefineParallelNum: S.optional(S.NullOr(S.Number)),
@@ -13001,7 +13045,7 @@ function __c185(j: number): any {
           SchedulerResourceGroupId: S.optional(S.NullOr(S.String)),
           IntegrationResourceGroupId: S.optional(S.NullOr(S.String)),
           RedefineCycleType: S.optional(S.NullOr(S.String)),
-          RedefineParamList: S.optional(S.NullOr(__S(3378, __c211, 2))),
+          RedefineParamList: S.optional(S.NullOr(__S(3394, __c212, 2))),
           StartTime: S.optional(S.NullOr(S.String)),
           EndTime: S.optional(S.NullOr(S.String)),
           CreateUserUin: S.optional(S.String),
@@ -13013,13 +13057,13 @@ function __c185(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(2961, __c185, 1)),
+          Data: S.optional(__S(2977, __c186, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDataBackfillPlanResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13032,13 +13076,13 @@ function __c186(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2992, __c187, 0))),
+          Data: S.optional(S.NullOr(__S(3008, __c188, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDataSourceResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13061,7 +13105,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13086,52 +13130,52 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "BriefTask" });
     case 2:
-      return S.Array(__S(3009, __c188, 1));
+      return S.Array(__S(3025, __c189, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TaskType: S.optional(S.String),
           TaskNum: S.optional(S.Number),
-          TaskList: S.optional(S.NullOr(__S(3010, __c188, 2))),
+          TaskList: S.optional(S.NullOr(__S(3026, __c189, 2))),
         }),
       ).annotate({ identifier: "RelateTask" });
     case 4:
-      return S.Array(__S(3011, __c188, 3));
+      return S.Array(__S(3027, __c189, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.optional(S.NullOr(S.String)),
           ProjectName: S.optional(S.NullOr(S.String)),
-          TaskInfo: S.optional(S.NullOr(__S(3012, __c188, 4))),
+          TaskInfo: S.optional(S.NullOr(__S(3028, __c189, 4))),
         }),
       ).annotate({ identifier: "DatasourceRelationTaskInfo" });
     case 6:
-      return S.Array(__S(3013, __c188, 5));
+      return S.Array(__S(3029, __c189, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3014, __c188, 6)),
+          Data: S.optional(__S(3030, __c189, 6)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDataSourceRelatedTasksResponse" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(S.NullOr(__S(3056, __c191, 0))),
-          AuthorizeSubjects: S.optional(S.NullOr(__S(3041, __c190, 1))),
+          Resource: S.optional(S.NullOr(__S(3072, __c192, 0))),
+          AuthorizeSubjects: S.optional(S.NullOr(__S(3057, __c191, 1))),
         }),
       ).annotate({ identifier: "ExploreAuthorizationObject" });
     case 1:
-      return S.Array(__S(3024, __c189, 0));
+      return S.Array(__S(3040, __c190, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
-          AuthorizePermissionObjects: __S(3025, __c189, 1),
+          AuthorizePermissionObjects: __S(3041, __c190, 1),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "CreateCodePermissions" }),
@@ -13139,7 +13183,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "CreateCodePermissionsRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13150,7 +13194,7 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "ExploreAuthorizeSubject" });
     case 1:
-      return S.Array(__S(3040, __c190, 0));
+      return S.Array(__S(3056, __c191, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13160,17 +13204,17 @@ function __c190(j: number): any {
         }),
       ).annotate({ identifier: "CodePermissionsResultItem" });
     case 3:
-      return S.Array(__S(3042, __c190, 2));
+      return S.Array(__S(3058, __c191, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3043, __c190, 3)),
+          Data: S.optional(__S(3059, __c191, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCodePermissionsResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13183,7 +13227,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "ExploreFileResource" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13198,13 +13242,13 @@ function __c192(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3088, __c193, 0)),
+          Data: S.optional(__S(3104, __c194, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMyCodeMaxPermissionResponse" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13214,7 +13258,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "CodeStudioMaxPermission" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13234,13 +13278,13 @@ function __c194(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3088, __c193, 0))),
+          Data: S.optional(S.NullOr(__S(3104, __c194, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetMyWorkflowMaxPermissionResponse" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13253,13 +13297,13 @@ function __c195(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3136, __c196, 0)),
+          Data: S.optional(__S(3152, __c197, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOpsAlarmRuleResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13271,17 +13315,17 @@ function __c196(j: number): any {
           MonitorObjectIds: S.optional(__S(32, __c2, 0)),
           AlarmTypes: S.optional(__S(32, __c2, 0)),
           Status: S.optional(S.Number),
-          AlarmRuleDetail: S.optional(__S(3951, __c246, 15)),
+          AlarmRuleDetail: S.optional(__S(3983, __c248, 15)),
           AlarmLevel: S.optional(S.Number),
           OwnerUin: S.optional(S.String),
           BundleId: S.optional(S.NullOr(S.String)),
           BundleInfo: S.optional(S.NullOr(S.String)),
-          AlarmGroups: S.optional(__S(3942, __c246, 6)),
+          AlarmGroups: S.optional(__S(3974, __c248, 6)),
         }),
       ).annotate({ identifier: "AlarmRuleData" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13310,13 +13354,13 @@ function __c197(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3153, __c197, 1))),
+          Data: S.optional(S.NullOr(__S(3169, __c198, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOpsAsyncJobResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13328,30 +13372,30 @@ function __c198(j: number): any {
       ).annotate({ identifier: "GetOpsTaskRequest" });
   }
 }
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Data: S.optional(__S(3200, __c200, 0)),
-          RequestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetOpsTaskResponse" });
-  }
-}
 function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TaskBaseAttribute: S.optional(S.NullOr(__S(3232, __c202, 0))),
-          TaskConfiguration: S.optional(S.NullOr(__S(3248, __c203, 0))),
-          TaskSchedulerConfiguration: S.optional(S.NullOr(__S(3216, __c201, 0))),
+          Data: S.optional(__S(3216, __c201, 0)),
+          RequestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetOpsTaskResponse" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TaskBaseAttribute: S.optional(S.NullOr(__S(3248, __c203, 0))),
+          TaskConfiguration: S.optional(S.NullOr(__S(3264, __c204, 0))),
+          TaskSchedulerConfiguration: S.optional(S.NullOr(__S(3232, __c202, 0))),
         }),
       ).annotate({ identifier: "Task" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13388,7 +13432,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "TaskSchedulerConfiguration" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13416,7 +13460,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "TaskBaseAttribute" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13441,7 +13485,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "TaskConfiguration" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13461,13 +13505,13 @@ function __c204(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3265, __c204, 1)),
+          Data: S.optional(__S(3281, __c205, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOpsTaskCodeResponse" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13503,7 +13547,7 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "TriggerTaskBrief" });
     case 2:
-      return S.Array(__S(3281, __c205, 1));
+      return S.Array(__S(3297, __c206, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13515,24 +13559,24 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "TriggerTaskLinkBrief" });
     case 4:
-      return S.Array(__S(3283, __c205, 3));
+      return S.Array(__S(3299, __c206, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TriggerTasks: S.optional(S.NullOr(__S(3282, __c205, 2))),
-          TriggerTaskLinks: S.optional(S.NullOr(__S(3284, __c205, 4))),
+          TriggerTasks: S.optional(S.NullOr(__S(3298, __c206, 2))),
+          TriggerTaskLinks: S.optional(S.NullOr(__S(3300, __c206, 4))),
         }),
       ).annotate({ identifier: "TriggerTaskDAGBrief" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3285, __c205, 5)),
+          Data: S.optional(__S(3301, __c206, 5)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOpsTriggerWorkflowResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13568,13 +13612,13 @@ function __c206(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3297, __c206, 1)),
+          Data: S.optional(__S(3313, __c207, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOpsWorkflowResponse" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13586,13 +13630,13 @@ function __c207(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3330, __c208, 2))),
+          Data: S.optional(S.NullOr(__S(3346, __c209, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13602,7 +13646,7 @@ function __c208(j: number): any {
         }),
       ).annotate({ identifier: "WorkspaceExt" });
     case 1:
-      return S.Array(__S(3328, __c208, 0));
+      return S.Array(__S(3344, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13616,12 +13660,12 @@ function __c208(j: number): any {
           Status: S.optional(S.Number),
           DisplayStatus: S.optional(S.String),
           ProjectModel: S.optional(S.NullOr(S.String)),
-          WorkspaceExt: S.optional(__S(3329, __c208, 1)),
+          WorkspaceExt: S.optional(__S(3345, __c209, 1)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13655,13 +13699,13 @@ function __c209(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3345, __c209, 1)),
+          Data: S.optional(__S(3361, __c210, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetResourceFileResponse" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13674,13 +13718,13 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "ComputeConfigMapping" });
     case 1:
-      return S.Array(__S(3360, __c210, 0));
+      return S.Array(__S(3376, __c211, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
           TaskIds: __S(32, __c2, 0),
-          DataBackfillRangeList: __S(3377, __c211, 1),
+          DataBackfillRangeList: __S(3393, __c212, 1),
           TimeZone: S.optional(S.String),
           DataBackfillPlanName: S.optional(S.String),
           CheckParentType: S.optional(S.String),
@@ -13689,10 +13733,10 @@ function __c210(j: number): any {
           RedefineParallelNum: S.optional(S.Number),
           SchedulerResourceGroupId: S.optional(S.String),
           IntegrationResourceGroupId: S.optional(S.String),
-          RedefineParamList: S.optional(__S(3378, __c211, 2)),
+          RedefineParamList: S.optional(__S(3394, __c212, 2)),
           DataTimeOrder: S.optional(S.String),
           RedefineCycleType: S.optional(S.String),
-          ComputeConfigMappings: S.optional(__S(3361, __c210, 1)),
+          ComputeConfigMappings: S.optional(__S(3377, __c211, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "CreateDataBackfillPlan" }),
@@ -13707,13 +13751,13 @@ function __c210(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3363, __c210, 3)),
+          Data: S.optional(__S(3379, __c211, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDataBackfillPlanResponse" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13725,12 +13769,12 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "DataBackfillRange" });
     case 1:
-      return S.Array(__S(3376, __c211, 0));
-    case 2:
       return S.Array(__S(3392, __c212, 0));
+    case 2:
+      return S.Array(__S(3408, __c213, 0));
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13741,7 +13785,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "KVPair" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13768,13 +13812,13 @@ function __c213(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3409, __c213, 1))),
+          Data: S.optional(S.NullOr(__S(3425, __c214, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetResourceFolderResponse" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13797,17 +13841,17 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "TrendData" });
     case 2:
-      return S.Array(__S(3425, __c214, 1));
+      return S.Array(__S(3441, __c215, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           MetricName: S.optional(S.NullOr(S.String)),
           SnapshotValue: S.optional(S.NullOr(S.Number)),
-          TrendList: S.optional(S.NullOr(__S(3426, __c214, 2))),
+          TrendList: S.optional(S.NullOr(__S(3442, __c215, 2))),
         }),
       ).annotate({ identifier: "MetricData" });
     case 4:
-      return S.Array(__S(3427, __c214, 3));
+      return S.Array(__S(3443, __c215, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13817,19 +13861,19 @@ function __c214(j: number): any {
           LifeCycle: S.optional(S.NullOr(S.Number)),
           MaximumConcurrency: S.optional(S.NullOr(S.Number)),
           Status: S.optional(S.NullOr(S.Number)),
-          MetricSnapshots: S.optional(__S(3428, __c214, 4)),
+          MetricSnapshots: S.optional(__S(3444, __c215, 4)),
         }),
       ).annotate({ identifier: "ResourceGroupMetrics" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3429, __c214, 5))),
+          Data: S.optional(S.NullOr(__S(3445, __c215, 5))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetResourceGroupMetricsResponse" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13842,16 +13886,16 @@ function __c215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3457, __c216, 1)),
+          Data: S.optional(__S(3473, __c217, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSQLFolderResponse" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3457, __c216, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3473, __c217, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -13865,13 +13909,13 @@ function __c216(j: number): any {
           Path: S.optional(S.NullOr(S.String)),
           CreateUserUin: S.optional(S.NullOr(S.String)),
           NodePermission: S.optional(S.NullOr(S.String)),
-          Children: S.optional(S.NullOr(__S(3456, __c216, 0))),
+          Children: S.optional(S.NullOr(__S(3472, __c217, 0))),
           OwnerUin: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SQLFolderNode" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13890,7 +13934,7 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "ResultColumnInfo" });
     case 2:
-      return S.Array(__S(3473, __c217, 1));
+      return S.Array(__S(3489, __c218, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13898,21 +13942,21 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "SqlRunResultRow" });
     case 4:
-      return S.Array(__S(3475, __c217, 3));
+      return S.Array(__S(3491, __c218, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           JobExecutionId: S.optional(S.NullOr(S.String)),
           Status: S.optional(S.NullOr(S.String)),
-          Columns: S.optional(S.NullOr(__S(3474, __c217, 2))),
-          Rows: S.optional(S.NullOr(__S(3476, __c217, 4))),
+          Columns: S.optional(S.NullOr(__S(3490, __c218, 2))),
+          Rows: S.optional(S.NullOr(__S(3492, __c218, 4))),
           Total: S.optional(S.NullOr(S.Number)),
           CostMs: S.optional(S.NullOr(S.Number)),
           Truncated: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "SqlRunExecutionResult" });
     case 6:
-      return S.Array(__S(3477, __c217, 5));
+      return S.Array(__S(3493, __c218, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -13921,19 +13965,19 @@ function __c217(j: number): any {
           StatusMessage: S.optional(S.NullOr(S.String)),
           CostMs: S.optional(S.NullOr(S.Number)),
           Truncated: S.optional(S.NullOr(S.Boolean)),
-          Results: S.optional(S.NullOr(__S(3478, __c217, 6))),
+          Results: S.optional(S.NullOr(__S(3494, __c218, 6))),
         }),
       ).annotate({ identifier: "SqlRunResult" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3479, __c217, 7)),
+          Data: S.optional(__S(3495, __c218, 7)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSQLRunResultResponse" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13945,7 +13989,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetSQLScriptRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13956,7 +14000,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetSQLScriptResponse" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13968,13 +14012,13 @@ function __c220(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3538, __c221, 2))),
+          Data: S.optional(S.NullOr(__S(3554, __c222, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTableResponse" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14001,8 +14045,8 @@ function __c221(j: number): any {
           TableType: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.String)),
           UpdateTime: S.optional(S.NullOr(S.String)),
-          TechnicalMetadata: S.optional(S.NullOr(__S(3536, __c221, 0))),
-          BusinessMetadata: S.optional(S.NullOr(__S(3537, __c221, 1))),
+          TechnicalMetadata: S.optional(S.NullOr(__S(3552, __c222, 0))),
+          BusinessMetadata: S.optional(S.NullOr(__S(3553, __c222, 1))),
           CatalogName: S.optional(S.NullOr(S.String)),
           DatasourceId: S.optional(S.NullOr(S.Number)),
           DatasourceType: S.optional(S.NullOr(S.String)),
@@ -14010,7 +14054,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "TableInfo" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14031,17 +14075,17 @@ function __c222(j: number): any {
         }),
       ).annotate({ identifier: "ColumnInfo" });
     case 2:
-      return S.Array(__S(3553, __c222, 1));
+      return S.Array(__S(3569, __c223, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3554, __c222, 2))),
+          Data: S.optional(S.NullOr(__S(3570, __c223, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTableColumnsResponse" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14053,7 +14097,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetTaskRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14066,13 +14110,13 @@ function __c224(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3600, __c225, 0)),
+          Data: S.optional(__S(3616, __c226, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTaskCodeResponse" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14083,7 +14127,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "TaskCodeResult" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14110,13 +14154,13 @@ function __c226(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3617, __c226, 1))),
+          Data: S.optional(S.NullOr(__S(3633, __c227, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTaskFolderResponse" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14126,8 +14170,8 @@ function __c227(j: number): any {
           Type: S.String,
           ProdConProperties: S.String,
           DevConProperties: S.optional(S.String),
-          ProdFileUpload: S.optional(__S(3648, __c228, 0)),
-          DevFileUpload: S.optional(__S(3648, __c228, 0)),
+          ProdFileUpload: S.optional(__S(3664, __c229, 0)),
+          DevFileUpload: S.optional(__S(3664, __c229, 0)),
           DisplayName: S.optional(S.String),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14143,13 +14187,13 @@ function __c227(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3633, __c227, 1))),
+          Data: S.optional(S.NullOr(__S(3649, __c228, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDataSourceResponse" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14168,7 +14212,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "DataSourceFileUpload" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14213,13 +14257,13 @@ function __c229(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3665, __c229, 1)),
+          Data: S.optional(__S(3681, __c230, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTaskInstanceResponse" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14247,13 +14291,13 @@ function __c230(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3681, __c230, 1))),
+          Data: S.optional(S.NullOr(__S(3697, __c231, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTaskInstanceLogResponse" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14274,20 +14318,20 @@ function __c231(j: number): any {
           VersionRemark: S.optional(S.NullOr(S.String)),
           ApproveStatus: S.optional(S.NullOr(S.String)),
           ApproveTime: S.optional(S.NullOr(S.String)),
-          Task: S.optional(S.NullOr(__S(3200, __c200, 0))),
+          Task: S.optional(S.NullOr(__S(3216, __c201, 0))),
           ApproveUserUin: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskVersionDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3697, __c231, 1))),
+          Data: S.optional(S.NullOr(__S(3713, __c232, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTaskVersionResponse" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14300,25 +14344,25 @@ function __c232(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3728, __c233, 0))),
+          Data: S.optional(S.NullOr(__S(3744, __c234, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerTaskResponse" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TriggerTaskBaseAttribute: S.optional(S.NullOr(__S(3232, __c202, 0))),
-          TriggerTaskConfiguration: S.optional(S.NullOr(__S(3248, __c203, 0))),
-          TriggerTaskSchedulerConfiguration: S.optional(S.NullOr(__S(3744, __c234, 0))),
+          TriggerTaskBaseAttribute: S.optional(S.NullOr(__S(3248, __c203, 0))),
+          TriggerTaskConfiguration: S.optional(S.NullOr(__S(3264, __c204, 0))),
+          TriggerTaskSchedulerConfiguration: S.optional(S.NullOr(__S(3760, __c235, 0))),
         }),
       ).annotate({ identifier: "TriggerTask" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14340,7 +14384,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "TriggerTaskSchedulerConfiguration" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14355,13 +14399,13 @@ function __c235(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3600, __c225, 0))),
+          Data: S.optional(S.NullOr(__S(3616, __c226, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerTaskCodeResponse" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14376,13 +14420,13 @@ function __c236(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3792, __c237, 0)),
+          Data: S.optional(__S(3808, __c238, 0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerTaskRunResponse" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14447,11 +14491,27 @@ function __c237(j: number): any {
           AssociatedEntityExist: S.optional(S.NullOr(S.Boolean)),
           ScheduleRunType: S.optional(S.NullOr(S.String)),
           Privilege: S.optional(S.NullOr(S.String)),
+          TriggerTableUpdateRecords: S.optional(S.NullOr(__S(3825, __c239, 1))),
         }),
       ).annotate({ identifier: "TriggerTaskRunBrief" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TableQualifier: S.optional(S.NullOr(S.String)),
+          UpdateTime: S.optional(S.NullOr(S.String)),
+          UpdateVersion: S.optional(S.NullOr(S.String)),
+          AssetGuid: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "TriggerTableUpdateRecord" });
+    case 1:
+      return S.Array(__S(3824, __c239, 0));
+  }
+}
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14475,19 +14535,19 @@ function __c238(j: number): any {
           ApproveStatus: S.optional(S.NullOr(S.String)),
           ApproveTime: S.optional(S.NullOr(S.String)),
           ApproveUserUin: S.optional(S.NullOr(S.String)),
-          Task: S.optional(S.NullOr(__S(3728, __c233, 0))),
+          Task: S.optional(S.NullOr(__S(3744, __c234, 0))),
         }),
       ).annotate({ identifier: "TriggerTaskVersionDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3809, __c238, 1))),
+          Data: S.optional(S.NullOr(__S(3841, __c240, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerTaskVersionResponse" });
   }
 }
-function __c239(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14516,33 +14576,34 @@ function __c239(j: number): any {
           TriggerWorkflowRunConfiguration: S.optional(S.NullOr(__S(2083, __c130, 3))),
           TriggerMode: S.optional(S.NullOr(S.String)),
           ExecuteUserUin: S.optional(S.NullOr(S.String)),
+          WorkflowLabels: S.optional(S.NullOr(__S(2097, __c131, 1))),
         }),
       ).annotate({ identifier: "TriggerWorkflowDetail" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3825, __c239, 1))),
+          Data: S.optional(S.NullOr(__S(3857, __c241, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerWorkflowResponse" });
   }
 }
-function __c240(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ProjectId: S.String,
           WorkflowExecutionId: S.String,
-          Filters: S.optional(__S(3857, __c241, 1)),
-          OrderFields: S.optional(__S(3859, __c241, 3)),
+          Filters: S.optional(__S(3889, __c243, 1)),
+          OrderFields: S.optional(__S(3891, __c243, 3)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "GetTriggerWorkflowRun" }),
         ),
       ).annotate({ identifier: "GetTriggerWorkflowRunRequest" });
     case 1:
-      return S.Array(__S(3792, __c237, 0));
+      return S.Array(__S(3808, __c238, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14552,25 +14613,25 @@ function __c240(j: number): any {
         }),
       ).annotate({ identifier: "BizStateEnumInfoBrief" });
     case 3:
-      return S.Array(__S(3842, __c240, 2));
+      return S.Array(__S(3874, __c242, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          TriggerWorkflowRun: S.optional(__S(3872, __c242, 0)),
-          TriggerTaskRuns: S.optional(__S(3841, __c240, 1)),
-          BizStateEnumInfos: S.optional(__S(3843, __c240, 3)),
+          TriggerWorkflowRun: S.optional(__S(3904, __c244, 0)),
+          TriggerTaskRuns: S.optional(__S(3873, __c242, 1)),
+          BizStateEnumInfos: S.optional(__S(3875, __c242, 3)),
         }),
       ).annotate({ identifier: "TriggerWorkflowTaskRunDetailBrief" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3844, __c240, 4)),
+          Data: S.optional(__S(3876, __c242, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTriggerWorkflowRunResponse" });
   }
 }
-function __c241(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14580,7 +14641,7 @@ function __c241(j: number): any {
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(3856, __c241, 0));
+      return S.Array(__S(3888, __c243, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14589,10 +14650,10 @@ function __c241(j: number): any {
         }),
       ).annotate({ identifier: "OrderField" });
     case 3:
-      return S.Array(__S(3858, __c241, 2));
+      return S.Array(__S(3890, __c243, 2));
   }
 }
-function __c242(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14634,11 +14695,13 @@ function __c242(j: number): any {
           ParentTaskExecutionId: S.optional(S.NullOr(S.String)),
           ParentTaskExecutionName: S.optional(S.NullOr(S.String)),
           Privilege: S.optional(S.NullOr(S.String)),
+          TriggerTableUpdateRecords: S.optional(S.NullOr(__S(3825, __c239, 1))),
+          WorkflowLabels: S.optional(__S(2097, __c131, 1)),
         }),
       ).annotate({ identifier: "TriggerWorkflowRunBrief" });
   }
 }
-function __c243(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14674,7 +14737,7 @@ function __c243(j: number): any {
           CreateUserUin: S.optional(S.NullOr(S.String)),
           WorkflowType: S.optional(S.NullOr(S.String)),
           WorkflowParams: S.optional(S.NullOr(__S(1953, __c122, 1))),
-          WorkflowSchedulerConfiguration: S.optional(S.NullOr(__S(3889, __c243, 1))),
+          WorkflowSchedulerConfiguration: S.optional(S.NullOr(__S(3921, __c245, 1))),
           WorkflowDesc: S.optional(S.NullOr(S.String)),
           Path: S.optional(S.NullOr(S.String)),
           BundleId: S.optional(S.NullOr(S.String)),
@@ -14684,13 +14747,13 @@ function __c243(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3890, __c243, 2))),
+          Data: S.optional(S.NullOr(__S(3922, __c245, 2))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkflowResponse" });
   }
 }
-function __c244(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14699,9 +14762,9 @@ function __c244(j: number): any {
           AlarmRuleName: S.String,
           MonitorObjectIds: __S(32, __c2, 0),
           AlarmTypes: __S(32, __c2, 0),
-          AlarmGroups: __S(3942, __c246, 6),
+          AlarmGroups: __S(3974, __c248, 6),
           MonitorObjectType: S.optional(S.Number),
-          AlarmRuleDetail: S.optional(__S(3951, __c246, 15)),
+          AlarmRuleDetail: S.optional(__S(3983, __c248, 15)),
           AlarmLevel: S.optional(S.Number),
           Description: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -14718,36 +14781,36 @@ function __c244(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(3905, __c244, 1)),
+          Data: S.optional(__S(3937, __c246, 1)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOpsAlarmRuleResponse" });
   }
 }
-function __c245(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c246(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DaysOfWeek: S.optional(__S(3920, __c245, 0)),
+          DaysOfWeek: S.optional(__S(3952, __c247, 0)),
           StartTime: S.optional(S.String),
           EndTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlarmQuietInterval" });
     case 1:
-      return S.Array(__S(3936, __c246, 0));
+      return S.Array(__S(3968, __c248, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NotifyCount: S.optional(S.Number),
           NotifyInterval: S.optional(S.Number),
-          QuietIntervals: S.optional(S.NullOr(__S(3937, __c246, 1))),
+          QuietIntervals: S.optional(S.NullOr(__S(3969, __c248, 1))),
         }),
       ).annotate({ identifier: "NotificationFatigue" });
     case 3:
@@ -14758,22 +14821,22 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "AlarmWayWebHook" });
     case 4:
-      return S.Array(__S(3939, __c246, 3));
+      return S.Array(__S(3971, __c248, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           AlarmEscalationRecipientIds: S.optional(__S(32, __c2, 0)),
           AlarmEscalationInterval: S.optional(S.Number),
-          NotificationFatigue: S.optional(__S(3938, __c246, 2)),
+          NotificationFatigue: S.optional(__S(3970, __c248, 2)),
           AlarmWays: S.optional(__S(32, __c2, 0)),
-          WebHooks: S.optional(__S(3940, __c246, 4)),
+          WebHooks: S.optional(__S(3972, __c248, 4)),
           AlarmRecipientType: S.optional(S.Number),
           AlarmRecipientIds: S.optional(__S(32, __c2, 0)),
           CustomEmails: S.optional(S.NullOr(__S(32, __c2, 0))),
         }),
       ).annotate({ identifier: "AlarmGroup" });
     case 6:
-      return S.Array(__S(3941, __c246, 5));
+      return S.Array(__S(3973, __c248, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -14788,7 +14851,7 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "TimeOutStrategyInfo" });
     case 8:
-      return S.Array(__S(3943, __c246, 7));
+      return S.Array(__S(3975, __c248, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -14802,7 +14865,7 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "ProjectInstanceStatisticsAlarmInfo" });
     case 10:
-      return S.Array(__S(3945, __c246, 9));
+      return S.Array(__S(3977, __c248, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -14813,7 +14876,7 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "ReconciliationStrategyInfo" });
     case 12:
-      return S.Array(__S(3947, __c246, 11));
+      return S.Array(__S(3979, __c248, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -14822,18 +14885,18 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "MonitorWhiteTask" });
     case 14:
-      return S.Array(__S(3949, __c246, 13));
+      return S.Array(__S(3981, __c248, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           Trigger: S.optional(S.NullOr(S.Number)),
           DataBackfillOrRerunTrigger: S.optional(S.NullOr(S.Number)),
-          TimeOutExtInfo: S.optional(S.NullOr(__S(3944, __c246, 8))),
-          DataBackfillOrRerunTimeOutExtInfo: S.optional(S.NullOr(__S(3944, __c246, 8))),
-          ProjectInstanceStatisticsAlarmInfoList: S.optional(S.NullOr(__S(3946, __c246, 10))),
-          ReconciliationExtInfo: S.optional(S.NullOr(__S(3948, __c246, 12))),
-          MonitorWhiteTasks: S.optional(__S(3950, __c246, 14)),
-          WorkflowCompletionTimeCycleExtInfo: S.optional(S.NullOr(__S(3944, __c246, 8))),
+          TimeOutExtInfo: S.optional(S.NullOr(__S(3976, __c248, 8))),
+          DataBackfillOrRerunTimeOutExtInfo: S.optional(S.NullOr(__S(3976, __c248, 8))),
+          ProjectInstanceStatisticsAlarmInfoList: S.optional(S.NullOr(__S(3978, __c248, 10))),
+          ReconciliationExtInfo: S.optional(S.NullOr(__S(3980, __c248, 12))),
+          MonitorWhiteTasks: S.optional(__S(3982, __c248, 14)),
+          WorkflowCompletionTimeCycleExtInfo: S.optional(S.NullOr(__S(3976, __c248, 8))),
           WorkflowExecutionTrigger: S.optional(S.NullOr(S.Number)),
           WorkflowExecutionFailureTrigger: S.optional(S.NullOr(S.Number)),
           WorkflowExecutionSuccessTrigger: S.optional(S.NullOr(S.Number)),
@@ -14841,7 +14904,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "AlarmRuleDetail" });
   }
 }
-function __c247(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14867,13 +14930,13 @@ function __c247(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(3953, __c247, 1))),
+          Data: S.optional(S.NullOr(__S(3985, __c249, 1))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkflowFolderResponse" });
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14888,7 +14951,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GrantMemberProjectRoleRequest" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14902,7 +14965,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "KillTaskInstancesAsyncRequest" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14928,17 +14991,17 @@ function __c250(j: number): any {
         }),
       ).annotate({ identifier: "ExecutionActionBrief" });
     case 2:
-      return S.Array(__S(4001, __c250, 1));
+      return S.Array(__S(4033, __c252, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4002, __c250, 2)),
+          Data: S.optional(__S(4034, __c252, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "KillTriggerWorkflowRunsResponse" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14957,7 +15020,7 @@ function __c251(j: number): any {
         ),
       ).annotate({ identifier: "ListAlarmMessagesRequest" });
     case 1:
-      return S.Array(__S(2896, __c181, 0));
+      return S.Array(__S(2912, __c182, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -14965,19 +15028,19 @@ function __c251(j: number): any {
           PageSize: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
           TotalPageNumber: S.optional(S.Number),
-          Items: S.optional(__S(4017, __c251, 1)),
+          Items: S.optional(__S(4049, __c253, 1)),
         }),
       ).annotate({ identifier: "ListAlarmMessages" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4018, __c251, 2)),
+          Data: S.optional(__S(4050, __c253, 2)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAlarmMessagesResponse" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14995,11 +15058,11 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "CatalogInfo" });
     case 2:
-      return S.Array(__S(4033, __c252, 1));
+      return S.Array(__S(4065, __c254, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(4034, __c252, 2)),
+          Items: S.optional(__S(4066, __c254, 2)),
           PageCount: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           PageNumber: S.optional(S.Number),
@@ -15009,13 +15072,13 @@ function __c252(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4035, __c252, 3)),
+          Data: S.optional(__S(4067, __c254, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCatalogResponse" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15025,6 +15088,7 @@ function __c253(j: number): any {
           Keyword: S.optional(S.String),
           OnlyFolderNode: S.optional(S.Boolean),
           OnlyUserSelfScript: S.optional(S.Boolean),
+          SubmitStatusFilter: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "wedata", version: "2025-08-06", action: "ListCodeFolderContents" }),
@@ -15033,13 +15097,13 @@ function __c253(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(S.NullOr(__S(2944, __c184, 0))),
+          Data: S.optional(S.NullOr(__S(2960, __c185, 0))),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeFolderContentsResponse" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15047,7 +15111,7 @@ function __c254(j: number): any {
           ProjectId: S.String,
           PageNumber: S.Number,
           PageSize: S.Number,
-          Resource: __S(3056, __c191, 0),
+          Resource: __S(3072, __c192, 0),
           Users: S.optional(__S(32, __c2, 0)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -15060,18 +15124,18 @@ function __c254(j: number): any {
           Privileges: S.optional(S.NullOr(__S(32, __c2, 0))),
           RoleType: S.optional(S.NullOr(S.String)),
           RoleId: S.optional(S.NullOr(S.String)),
-          Resource: S.optional(S.NullOr(__S(3056, __c191, 0))),
+          Resource: S.optional(S.NullOr(__S(3072, __c192, 0))),
           DeleteAble: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "ExploreFilePrivilegeItem" });
     case 2:
-      return S.Array(__S(4065, __c254, 1));
+      return S.Array(__S(4097, __c256, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PageNumber: S.optional(S.NullOr(S.Number)),
           PageSize: S.optional(S.NullOr(S.Number)),
-          Rows: S.optional(S.NullOr(__S(4066, __c254, 2))),
+          Rows: S.optional(S.NullOr(__S(4098, __c256, 2))),
           TotalCount: S.optional(S.NullOr(S.Number)),
           TotalPageNumber: S.optional(S.NullOr(S.Number)),
         }),
@@ -15079,13 +15143,13 @@ function __c254(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4067, __c254, 3)),
+          Data: S.optional(__S(4099, __c256, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodePermissionsResponse" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15103,7 +15167,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "ListColumnLineageRequest" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15116,7 +15180,7 @@ function __c256(j: number): any {
           Platform: S.optional(S.NullOr(S.String)),
           CreateTime: S.optional(S.NullOr(S.String)),
           UpdateTime: S.optional(S.NullOr(S.String)),
-          ResourceProperties: S.optional(S.NullOr(__S(2449, __c153, 1))),
+          ResourceProperties: S.optional(S.NullOr(__S(2465, __c154, 1))),
         }),
       ).annotate({ identifier: "LineageResource" });
     case 1:
@@ -15125,14 +15189,14 @@ function __c256(j: number): any {
           RelationId: S.optional(S.NullOr(S.String)),
           SourceUniqueId: S.optional(S.NullOr(S.String)),
           TargetUniqueId: S.optional(S.NullOr(S.String)),
-          Processes: S.optional(S.NullOr(__S(2451, __c153, 3))),
+          Processes: S.optional(S.NullOr(__S(2467, __c154, 3))),
         }),
       ).annotate({ identifier: "LineageRelation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Resource: S.optional(S.NullOr(__S(4096, __c256, 0))),
-          Relation: S.optional(S.NullOr(__S(4097, __c256, 1))),
+          Resource: S.optional(S.NullOr(__S(4128, __c258, 0))),
+          Relation: S.optional(S.NullOr(__S(4129, __c258, 1))),
           DownStreamCount: S.optional(S.Number),
           UpStreamCount: S.optional(S.Number),
           SourceColumnName: S.optional(S.NullOr(S.String)),
@@ -15140,11 +15204,11 @@ function __c256(j: number): any {
         }),
       ).annotate({ identifier: "LineageNodeInfo" });
     case 3:
-      return S.Array(__S(4098, __c256, 2));
+      return S.Array(__S(4130, __c258, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(4099, __c256, 3)),
+          Items: S.optional(__S(4131, __c258, 3)),
           PageCount: S.optional(S.Number),
           PageSize: S.optional(S.Number),
           PageNumber: S.optional(S.Number),
@@ -15154,13 +15218,13 @@ function __c256(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4100, __c256, 4)),
+          Data: S.optional(__S(4132, __c258, 4)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListColumnLineageResponse" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15192,7 +15256,7 @@ function __c257(j: number): any {
         }),
       ).annotate({ identifier: "BackfillInstance" });
     case 2:
-      return S.Array(__S(4113, __c257, 1));
+      return S.Array(__S(4145, __c259, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15200,13 +15264,13 @@ function __c257(j: number): any {
           PageSize: S.optional(S.Number),
           TotalPageNumber: S.optional(S.Number),
           TotalCount: S.optional(S.Number),
-          Items: S.optional(__S(4114, __c257, 2)),
+          Items: S.optional(__S(4146, __c259, 2)),
         }),
       ).annotate({ identifier: "BackfillInstanceCollection" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(4115, __c257, 3)),
+          Data: S.optional(__S(4147, __c259, 3)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataBackfillInstancesResponse" });

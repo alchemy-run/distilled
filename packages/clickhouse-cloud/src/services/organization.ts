@@ -86,6 +86,42 @@ export type CreateByocInfrastructureRequestPublicSubnetIdsList = Array<string>;
 /** GCP BYO-VPC only: secondary IP range names on the subnet to use for pod IPs. Omitted: all secondary ranges are used */
 export type CreateByocInfrastructureRequestGcpPodCidrRangeNamesList = Array<string>;
 export type ByocInfrastructureTags = { [key: string]: string | undefined };
+/** At least three distinct availability zones of the region. Omitted: the region default */
+export type ByocRestrictedFactsAvailabilityZonesList = Array<string>;
+/** Direct image mode only (required there): IAM roles of the cluster nodes, in `accountId` */
+export type ByocRestrictedFactsNodeRoleArnsList = Array<string>;
+export interface ByocRestrictedFacts {
+  /** Name of the EKS cluster the connector runs in */
+  clusterName: string;
+  /** Node group the platform components run on. Omitted: `system` */
+  platformNodeGroup?: string | undefined;
+  /** At least three distinct availability zones of the region. Omitted: the region default */
+  availabilityZones?: ByocRestrictedFactsAvailabilityZonesList | undefined;
+  /** Prefix of the namespace each service runs in. Must match the executor configuration. Omitted: `ns-` */
+  namespacePrefix?: string | undefined;
+  /** Direct image mode only (required there): IAM role of the connector executor, in `accountId` */
+  executorRoleArn?: string | undefined;
+  /** Direct image mode only (required there): IAM roles of the cluster nodes, in `accountId` */
+  nodeRoleArns?: ByocRestrictedFactsNodeRoleArnsList | undefined;
+  /** How the connector pulls platform images: `direct` from the ClickHouse registry, or `bundle` from `imageRegistry` */
+  imageMode: string;
+  /** Bundle image mode only (required there): OCI repository root holding the platform images */
+  imageRegistry?: string | undefined;
+  /** S3 bucket services store data in */
+  dataBucket: string;
+  /** S3 bucket services store backups in */
+  backupBucket: string;
+  /** IAM role services assume to reach the buckets, in `accountId` */
+  storageRoleArn: string;
+  /** Remote-write URL of the connector scraper. Required unless `enableMonitoring` is false */
+  scraperEndpoint?: string | undefined;
+  /** Install the monitoring components. Default true */
+  enableMonitoring?: boolean | undefined;
+  /** Install the volume snapshot controller. Default true */
+  enableSnapshotController?: boolean | undefined;
+  /** Install the ClickHouse autoscaler. Default false */
+  enableAutoscaler?: boolean | undefined;
+}
 export interface CreateByocInfrastructureRequest {
   /** ID of the requested organization. */
   organizationId: string;
@@ -116,17 +152,12 @@ export interface CreateByocInfrastructureRequest {
   /** GCP BYO-VPC only: Shared VPC host project owning the VPC and subnet, when different from `accountId` */
   gcpSharedVpcHostProjectId?: string | undefined;
   tags?: ByocInfrastructureTags | undefined;
+  /** How ClickHouse reaches the infrastructure. `standard` (default) provisions it through a management role in your account; `restricted` registers a cluster you own, reached only through the connector you install. `restricted` is AWS only and requires `restrictedFacts` */
+  accessModel?: string | undefined;
+  restrictedFacts?: ByocRestrictedFacts | undefined;
   /** Human readable name for infrastructure */
   displayName?: string | undefined;
 }
-/** State of the infrastructure */
-export type ByocConfigState =
-  | "infra-provisioning"
-  | "infra-terminated"
-  | "infra-terminating"
-  | "infra-ready"
-  | "infra-degraded"
-  | "infra-upgrading";
 /** Region for which the BYOC has been configured and where it is possible to create services */
 export type ByocConfigRegionId =
   | "ap-northeast-1"
@@ -158,8 +189,8 @@ export type ByocConfigCloudProvider = "gcp" | "aws" | "azure";
 export interface ByocConfig {
   /** Unique identifier of the BYOC configuration */
   id: string;
-  /** State of the infrastructure */
-  state?: ByocConfigState | undefined;
+  /** State of the infrastructure. Current values: 'infra-provisioning', 'infra-terminated', 'infra-terminating', 'infra-ready', 'infra-degraded', 'infra-upgrading', 'infra-awaiting-connector'. New states may be added; treat an unknown state as not ready */
+  state?: string | undefined;
   /** Cloud account ID the BYOC infrastructure is bound to: AWS account ID, GCP project ID, or Azure subscription ID */
   accountId?: string | undefined;
   /** DEPRECATED. Use `accountId` instead. Cloud account ID the BYOC infrastructure is bound to */
@@ -170,6 +201,8 @@ export interface ByocConfig {
   cloudProvider?: ByocConfigCloudProvider | undefined;
   /** Human readable name for infrastructure */
   displayName?: string | undefined;
+  /** How ClickHouse reaches the infrastructure: `standard` through a management role in your account, or `restricted` through a connector you install in a cluster you own */
+  accessModel?: string | undefined;
 }
 export interface DeleteByocInfrastructureRequest {
   /** ID of the requested organization. */
@@ -217,7 +250,7 @@ export interface Activity {
   id?: string | undefined;
   /** Timestamp of the activity. ISO-8601. */
   createdAt?: string | undefined;
-  /** Type of the activity. One of 'create_organization', 'delete_organization', 'organization_update_name', 'transfer_service_in', 'transfer_service_out', 'save_payment_method', 'marketplace_subscription', 'migrate_marketplace_billing_details_in', 'migrate_marketplace_billing_details_out', 'organization_update_tier', 'organization_invite_create', 'organization_invite_delete', 'organization_member_join', 'organization_member_add', 'organization_member_leave', 'organization_member_delete', 'organization_member_update_role', 'organization_member_update_roles', 'organization_member_update_mfa_method', 'organization_saml_connection_create', 'organization_saml_connection_update', 'user_login', 'user_login_failed', 'user_logout', 'key_create', 'key_delete', 'openapi_key_update', 'service_create', 'service_start', 'service_stop', 'service_awaken', 'service_idle', 'service_running', 'service_partially_running', 'service_delete', 'service_update_name', 'service_update_ip_access_list', 'service_update_autoscaling_memory', 'service_update_autoscaling_idling', 'service_update_password', 'service_update_autoscaling_replicas', 'service_update_max_allowable_replicas', 'service_update_backup_configuration', 'service_restore_backup', 'service_update_release_channel', 'service_update_gpt_usage_consent', 'service_update_private_endpoints', 'service_import_to_organization', 'service_export_from_organization', 'service_maintenance_start', 'service_maintenance_end', 'service_update_core_dump', 'service_update_deletion_protection', 'service_update_autoscaling_schedule', 'service_update_query_endpoints', 'service_update_direct_connection', 'service_update_sql_console_jwt_auth', 'service_update_snapshot_configuration', 'service_update_collector_ip_access_list', 'service_update_mysql_interface', 'service_update_upgrade_window', 'service_delete_upgrade_window', 'service_trigger_failover', 'service_trigger_recovery', 'service_mcp_enabled', 'service_mcp_disabled', 'service_upgrade', 'service_scaled_down_for_tier_change', 'service_encryption_key_check_failed', 'service_encryption_key_rotation_failed', 'service_encryption_key_rotated', 'service_stop_encryption_key_inaccessible', 'service_restart_encryption_key_rotation', 'backup_delete', 'backup_bucket_create', 'backup_bucket_update', 'backup_bucket_delete', 'backup_bucket_archive', 'warehouse_update_name', 'warehouse_update_release_channel', 'role_create', 'role_update', 'role_delete', 'role_resources_delete', 'organization_member_remove_roles', 'scim_user_profile_update', 'scim_group_create', 'scim_group_update', 'scim_group_delete', 'organization_saml_connection_delete', 'organization_update_saml_query_ownership_migration', 'organization_approved_domain_verify', 'organization_approved_domain_update', 'organization_approved_domain_delete', 'organization_approved_domain_auto_join', 'organization_approved_domain_auto_invite', 'datadog_integration_create', 'datadog_integration_delete', 'organization_update_spend_alert', 'organization_update_core_dumps', 'organization_update_private_endpoints', 'organization_update_pci_compliance', 'organization_update_hipaa_status', 'organization_security_contact_add', 'organization_security_contact_remove', 'organization_security_contact_replace', 'organization_update_public_preview', 'byoc_infrastructure_update_customer_authorized_access', 'transfer_credits_in', 'transfer_credits_out', 'promo_code_claim', 'schema_advisor_seed', 'schema_advisor_generate_plan', 'schema_advisor_approve_plan', 'schema_advisor_start_deployment', 'schema_advisor_start_benchmark', 'schema_advisor_run_benchmark', 'schema_advisor_start_promotion', 'schema_advisor_exchange_tables', 'schema_advisor_drop_sandbox', 'udf_create', 'udf_update', 'udf_delete', 'udf_version_create', 'udf_version_delete', 'udf_attach', 'udf_detach', 'udf_update_services', 'udf_redeploy', 'udf_rebuild', 'postgres_action'. New values may be added; treat unknown values as valid. */
+  /** Type of the activity. One of 'create_organization', 'delete_organization', 'organization_update_name', 'transfer_service_in', 'transfer_service_out', 'save_payment_method', 'marketplace_subscription', 'migrate_marketplace_billing_details_in', 'migrate_marketplace_billing_details_out', 'organization_update_tier', 'organization_invite_create', 'organization_invite_delete', 'organization_member_join', 'organization_member_add', 'organization_member_leave', 'organization_member_delete', 'organization_member_update_role', 'organization_member_update_roles', 'organization_member_update_mfa_method', 'organization_saml_connection_create', 'organization_saml_connection_update', 'user_login', 'user_login_failed', 'user_logout', 'key_create', 'key_delete', 'openapi_key_update', 'service_create', 'service_start', 'service_stop', 'service_awaken', 'service_idle', 'service_running', 'service_partially_running', 'service_delete', 'service_update_name', 'service_update_ip_access_list', 'service_update_autoscaling_memory', 'service_update_autoscaling_idling', 'service_update_password', 'service_update_autoscaling_replicas', 'service_update_max_allowable_replicas', 'service_update_backup_configuration', 'service_restore_backup', 'service_update_release_channel', 'service_update_gpt_usage_consent', 'service_update_private_endpoints', 'service_import_to_organization', 'service_export_from_organization', 'service_maintenance_start', 'service_maintenance_end', 'service_update_core_dump', 'service_update_deletion_protection', 'service_update_autoscaling_schedule', 'service_update_query_endpoints', 'service_update_direct_connection', 'service_update_sql_console_jwt_auth', 'service_update_snapshot_configuration', 'service_update_collector_ip_access_list', 'service_update_mysql_interface', 'service_update_upgrade_window', 'service_delete_upgrade_window', 'service_trigger_failover', 'service_trigger_recovery', 'service_mcp_enabled', 'service_mcp_disabled', 'service_upgrade', 'service_scaled_down_for_tier_change', 'service_encryption_key_check_failed', 'service_encryption_key_rotation_failed', 'service_encryption_key_rotated', 'service_stop_encryption_key_inaccessible', 'service_restart_encryption_key_rotation', 'backup_delete', 'backup_bucket_create', 'backup_bucket_update', 'backup_bucket_delete', 'backup_bucket_archive', 'warehouse_update_name', 'warehouse_update_release_channel', 'role_create', 'role_update', 'role_delete', 'role_resources_delete', 'organization_member_remove_roles', 'scim_user_profile_update', 'scim_group_create', 'scim_group_update', 'scim_group_delete', 'organization_saml_connection_delete', 'organization_update_saml_query_ownership_migration', 'organization_approved_domain_verify', 'organization_approved_domain_update', 'organization_approved_domain_delete', 'organization_approved_domain_auto_join', 'organization_approved_domain_auto_invite', 'datadog_integration_create', 'datadog_integration_delete', 'organization_update_spend_alert', 'organization_update_core_dumps', 'organization_update_ai_support', 'organization_update_ai_data_sharing', 'organization_update_private_endpoints', 'organization_update_pci_compliance', 'organization_update_hipaa_status', 'organization_security_contact_add', 'organization_security_contact_remove', 'organization_security_contact_replace', 'organization_update_public_preview', 'byoc_infrastructure_update_customer_authorized_access', 'transfer_credits_in', 'transfer_credits_out', 'promo_code_claim', 'schema_advisor_seed', 'schema_advisor_generate_plan', 'schema_advisor_approve_plan', 'schema_advisor_start_deployment', 'schema_advisor_start_benchmark', 'schema_advisor_run_benchmark', 'schema_advisor_start_promotion', 'schema_advisor_exchange_tables', 'schema_advisor_drop_sandbox', 'udf_create', 'udf_update', 'udf_delete', 'udf_version_create', 'udf_version_delete', 'udf_attach', 'udf_detach', 'udf_update_services', 'udf_redeploy', 'udf_rebuild', 'postgres_action'. New values may be added; treat unknown values as valid. */
   type?: string | undefined;
   /** Type of the actor: 'user', 'support', 'system', 'api'. */
   actorType?: ActivityActorType | undefined;
@@ -245,6 +278,8 @@ export interface Activity {
   targetActorIds?: ActivityTargetActorIdsList | undefined;
   /** For 'role_resources_delete' activities: IDs of the deleted resources the roles referenced. */
   targetResourceIds?: ActivityTargetResourceIdsList | undefined;
+  /** For 'service_delete' activities: true when a deletion protection override was recorded for the delete. Omitted when none was recorded. */
+  deletionProtectionBypassed?: boolean | undefined;
 }
 export interface GetOrganizationRequest {
   /** ID of the requested organization. */
@@ -310,6 +345,10 @@ export interface Organization {
   /** Whether crash reports (core dumps) collection is enabled for services in the organization. When disabled at the organization level, individual services cannot enable crash reports. */
   enableCoreDumps?: boolean | undefined;
   capabilities?: OrganizationCapabilities | undefined;
+  /** Whether knowledge-based AI support, which answers support questions with an AI model trained on public documentation, is turned on in the organization's settings. Read-only. */
+  knowledgeBasedAiSupportEnabled?: boolean | undefined;
+  /** Whether the organization's settings allow AI inputs, outputs and related metadata to be used for product improvement and support. Read-only. */
+  aiDataUseForProductImprovementEnabled?: boolean | undefined;
 }
 export interface ListActivitiesRequest {
   /** ID of the requested organization. */
@@ -421,7 +460,7 @@ export const createByocInfrastructure: API.OperationMethod<
   CreateByocInfrastructureError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateByocInfrastructureRequest>,
+  input: __S(2, __c0, 2) as any as S.Schema<CreateByocInfrastructureRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ByocConfig>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
@@ -576,6 +615,26 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          clusterName: S.String,
+          platformNodeGroup: S.optional(S.String),
+          availabilityZones: S.optional(__S(8, __c1, 0)),
+          namespacePrefix: S.optional(S.String),
+          executorRoleArn: S.optional(S.String),
+          nodeRoleArns: S.optional(__S(8, __c1, 0)),
+          imageMode: S.String,
+          imageRegistry: S.optional(S.String),
+          dataBucket: S.String,
+          backupBucket: S.String,
+          storageRoleArn: S.String,
+          scraperEndpoint: S.optional(S.String),
+          enableMonitoring: S.optional(S.Boolean),
+          enableSnapshotController: S.optional(S.Boolean),
+          enableAutoscaler: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ByocRestrictedFacts" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           organizationId: S.String.pipe(T.Label()),
           regionId: S.String,
           accountId: S.String,
@@ -590,6 +649,8 @@ function __c0(j: number): any {
           gcpPodCidrRangeNames: S.optional(__S(8, __c1, 0)),
           gcpSharedVpcHostProjectId: S.optional(S.String),
           tags: S.optional(__S(24, __c3, 0)),
+          accessModel: S.optional(S.String),
+          restrictedFacts: S.optional(__S(1, __c0, 1)),
           displayName: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -619,6 +680,7 @@ function __c2(j: number): any {
           regionId: S.optional(S.String),
           cloudProvider: S.optional(S.String),
           displayName: S.optional(S.String),
+          accessModel: S.optional(S.String),
         }),
       ).annotate({ identifier: "ByocConfig" });
   }
@@ -691,6 +753,7 @@ function __c6(j: number): any {
           targetRoleNames: S.optional(__S(8, __c1, 0)),
           targetActorIds: S.optional(__S(8, __c1, 0)),
           targetResourceIds: S.optional(__S(8, __c1, 0)),
+          deletionProtectionBypassed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Activity" });
   }
@@ -736,6 +799,8 @@ function __c8(j: number): any {
           byocConfig: S.optional(__S(66, __c8, 2)),
           enableCoreDumps: S.optional(S.Boolean),
           capabilities: S.optional(__S(67, __c8, 3)),
+          knowledgeBasedAiSupportEnabled: S.optional(S.Boolean),
+          aiDataUseForProductImprovementEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Organization" });
   }

@@ -1041,6 +1041,8 @@ export interface DescribeJobSubmissionLogRequest {
   Cursor?: string | undefined;
   OrderType?: string | undefined;
   Limit?: number | undefined;
+  Offset?: number | undefined;
+  Filters?: FilterList | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1065,6 +1067,7 @@ export interface DescribeJobSubmissionLogResponse {
   JobInstanceList?: JobInstanceForSubmissionLogList | null | undefined;
   LogList?: StringList | null | undefined;
   LogContentList?: LogContentList | null | undefined;
+  Offset?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface DescribeResourceConfigsRequest {
@@ -3664,6 +3667,8 @@ function __c32(j: number): any {
           Cursor: S.optional(S.String),
           OrderType: S.optional(S.String),
           Limit: S.optional(S.Number),
+          Offset: S.optional(S.Number),
+          Filters: S.optional(__S(673, __c21, 1)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({
@@ -3704,6 +3709,7 @@ function __c32(j: number): any {
           JobInstanceList: S.optional(S.NullOr(__S(1026, __c32, 2))),
           LogList: S.optional(S.NullOr(__S(256, __c8, 0))),
           LogContentList: S.optional(S.NullOr(__S(1028, __c32, 4))),
+          Offset: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeJobSubmissionLogResponse" });

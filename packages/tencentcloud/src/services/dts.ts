@@ -256,6 +256,14 @@ export interface RateLimitOption {
   CurrentSinkerThread: number;
   DefaultSinkerThread: number;
   HasUserSetRateLimit: string;
+  DefaultDumpBps?: number | undefined;
+  CurrentSinkerRps?: number | undefined;
+  DefaultSinkerRps?: number | undefined;
+  CurrentLoadBps?: number | undefined;
+  CurrentDstShardCount?: number | undefined;
+  CurrentDumpBps?: number | undefined;
+  CurrentSinkerBps?: number | undefined;
+  DefaultSinkerBps?: number | undefined;
 }
 export type LongList = Array<number>;
 export interface SkipDdlOnError {
@@ -959,6 +967,7 @@ export interface DBInfo {
   TmpToken?: string | Redacted.Redacted<string> | undefined;
   EncryptConn?: string | undefined;
   SetId?: string | undefined;
+  Shard?: string | undefined;
 }
 export type DBInfoList = Array<DBInfo>;
 export interface DBEndpointInfo {
@@ -1031,6 +1040,11 @@ export interface RateLimit {
   LoadThread?: number | undefined;
   LoadRps?: number | undefined;
   SinkerThread?: number | undefined;
+  LoadBps?: number | undefined;
+  DstShardCount?: number | undefined;
+  DumpBps?: number | undefined;
+  SinkerRps?: number | undefined;
+  SinkerBps?: number | undefined;
 }
 export interface MigrateOption {
   DatabaseTable: DatabaseTableObject;
@@ -1574,9 +1588,14 @@ export interface ModifyMigrateRateLimitRequest {
   JobId: string;
   DumpThread?: number | undefined;
   DumpRps?: number | undefined;
+  DumpBps?: number | undefined;
   LoadThread?: number | undefined;
   SinkerThread?: number | undefined;
   LoadRps?: number | undefined;
+  LoadBps?: number | undefined;
+  DstShardCount?: number | undefined;
+  SinkerRps?: number | undefined;
+  SinkerBps?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -3776,6 +3795,14 @@ function __c23(j: number): any {
           CurrentSinkerThread: S.Number,
           DefaultSinkerThread: S.Number,
           HasUserSetRateLimit: S.String,
+          DefaultDumpBps: S.optional(S.Number),
+          CurrentSinkerRps: S.optional(S.Number),
+          DefaultSinkerRps: S.optional(S.Number),
+          CurrentLoadBps: S.optional(S.Number),
+          CurrentDstShardCount: S.optional(S.Number),
+          CurrentDumpBps: S.optional(S.Number),
+          CurrentSinkerBps: S.optional(S.Number),
+          DefaultSinkerBps: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RateLimitOption" });
   }
@@ -4685,6 +4712,7 @@ function __c41(j: number): any {
           TmpToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           EncryptConn: S.optional(S.String),
           SetId: S.optional(S.String),
+          Shard: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBInfo" });
     case 1:
@@ -4780,6 +4808,11 @@ function __c42(j: number): any {
           LoadThread: S.optional(S.Number),
           LoadRps: S.optional(S.Number),
           SinkerThread: S.optional(S.Number),
+          LoadBps: S.optional(S.Number),
+          DstShardCount: S.optional(S.Number),
+          DumpBps: S.optional(S.Number),
+          SinkerRps: S.optional(S.Number),
+          SinkerBps: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RateLimit" });
     case 9:
@@ -5536,9 +5569,14 @@ function __c72(j: number): any {
           JobId: S.String,
           DumpThread: S.optional(S.Number),
           DumpRps: S.optional(S.Number),
+          DumpBps: S.optional(S.Number),
           LoadThread: S.optional(S.Number),
           SinkerThread: S.optional(S.Number),
           LoadRps: S.optional(S.Number),
+          LoadBps: S.optional(S.Number),
+          DstShardCount: S.optional(S.Number),
+          SinkerRps: S.optional(S.Number),
+          SinkerBps: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "dts", version: "2021-12-06", action: "ModifyMigrateRateLimit" }),

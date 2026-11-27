@@ -502,6 +502,8 @@ export interface CreateSubscriptionAchRequest {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
+  /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   /** The code of the plan to use for the subscription */
   planCode: string;
   /** Token for the bank account to be used for the subscription */
@@ -601,6 +603,8 @@ export interface CreateSubscriptionCardRequest {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
+  /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   /** The code of the plan to use for the subscription */
   planCode: string;
   authentication3DS?: Authentication3DS | undefined;
@@ -630,6 +634,8 @@ export interface CreateSubscriptionTokenRequest {
   chargebackProtectionData?: CartClassOmitted | undefined;
   /** If this purchase is for a seller/submerchant where the marketplace takes a fee, this is the % fee which is taken from the subtotal amount. */
   feePercentage?: number | undefined;
+  /** This is a token encoding the parameters for the request. Allows purchase parameters to be verified to prevent manipulation when the checkout page is presented to the user. */
+  jwtToken?: string | Redacted.Redacted<string> | undefined;
   /** The code of the plan to use for the subscription */
   planCode: string;
   authentication3DS?: Authentication3DS | undefined;
@@ -1045,6 +1051,7 @@ function __c1(j: number): any {
           webhookInfo: S.optional(__S(9, __c2, 1)),
           chargebackProtectionData: S.optional(__S(10, __c2, 2)),
           feePercentage: S.optional(S.Number),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           planCode: S.String,
           token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
@@ -1091,6 +1098,7 @@ function __c3(j: number): any {
           webhookInfo: S.optional(__S(9, __c2, 1)),
           chargebackProtectionData: S.optional(__S(10, __c2, 2)),
           feePercentage: S.optional(S.Number),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           planCode: S.String,
           authentication3DS: S.optional(S.Unknown),
           threeDsChallengePreference: S.optional(S.String),
@@ -1153,6 +1161,7 @@ function __c5(j: number): any {
           webhookInfo: S.optional(__S(9, __c2, 1)),
           chargebackProtectionData: S.optional(__S(10, __c2, 2)),
           feePercentage: S.optional(S.Number),
+          jwtToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           planCode: S.String,
           authentication3DS: S.optional(S.Unknown),
           threeDsChallengePreference: S.optional(S.String),

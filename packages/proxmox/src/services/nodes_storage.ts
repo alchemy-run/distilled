@@ -94,6 +94,7 @@ export interface GetNodesByNodeStorageByStorageContentResultItemVerification {
   state: string;
   upid: string;
 }
+export type GetNodesByNodeStorageByStorageContentResultItemVtype = "vm-vol" | "vm-state" | "ct-vol";
 export interface GetNodesByNodeStorageByStorageContentResultItem {
   "approximate-size"?: number | undefined;
   ctime?: number | undefined;
@@ -107,6 +108,7 @@ export interface GetNodesByNodeStorageByStorageContentResultItem {
   verification?: GetNodesByNodeStorageByStorageContentResultItemVerification | undefined;
   vmid?: number | undefined;
   volid: string;
+  vtype?: GetNodesByNodeStorageByStorageContentResultItemVtype | undefined;
 }
 export type GetNodesByNodeStorageByStorageContentResult =
   Array<GetNodesByNodeStorageByStorageContentResultItem>;
@@ -168,6 +170,7 @@ export type GetNodesByNodeStorageByStorageIdentityResultType =
   | "lvm"
   | "lvmthin"
   | "nfs"
+  | "nvmeof"
   | "pbs"
   | "rbd"
   | "zfs"
@@ -1152,6 +1155,7 @@ function __c15(j: number): any {
           verification: S.optional(__S(121, __c15, 1)),
           vmid: S.optional(S.Number),
           volid: S.String,
+          vtype: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetNodesByNodeStorageByStorageContentResultItem" });
     case 3:

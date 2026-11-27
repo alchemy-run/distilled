@@ -36,10 +36,26 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(6, __c1, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
+
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
   ) {}
 
 export class NotFound
@@ -120,6 +136,25 @@ export interface GetDatabaseResponse {
   /** Hash of the WASM module with which the database was initialized. */
   initial_program: string;
 }
+export interface GetDatabaseEnvironmentRequest {
+  /** Database name or Spacetime identity. */
+  name_or_identity: string;
+}
+export interface GetDatabaseEnvironmentResponseDeclarationsItem {
+  name: string;
+  optional: boolean;
+  /** The declared type: "String", { "StringLiteral": string } or { "Union": string[] }. */
+  ty: unknown;
+}
+export type GetDatabaseEnvironmentResponseDeclarationsList =
+  Array<GetDatabaseEnvironmentResponseDeclarationsItem>;
+export type GetDatabaseEnvironmentResponseStoredKeysList = Array<string>;
+export interface GetDatabaseEnvironmentResponse {
+  /** Identifies the module the declarations came from. Treat it as an opaque string and pass it unchanged as expected_module_hash when updating the environment. */
+  module_hash: string;
+  declarations: GetDatabaseEnvironmentResponseDeclarationsList;
+  stored_keys: GetDatabaseEnvironmentResponseStoredKeysList;
+}
 export interface GetDatabaseIdentityRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
@@ -175,6 +210,18 @@ export interface PublishDatabaseResponseSuccess {
 export interface PublishDatabaseResponse {
   Success: PublishDatabaseResponseSuccess;
 }
+/** A JSON object mapping each key to its string value, for example {"API_KEY": "new-key", "MODE": "production"}. */
+export type ReplaceDatabaseEnvironmentRequestBodyMap = { [key: string]: string | undefined };
+export interface ReplaceDatabaseEnvironmentRequest {
+  /** Database name or Spacetime identity. */
+  name_or_identity: string;
+  /** The module_hash from GET /environment. */
+  expected_module_hash?: string | undefined;
+  body: ReplaceDatabaseEnvironmentRequestBodyMap;
+}
+export interface ReplaceDatabaseEnvironmentResponse {
+  Ok: unknown | null;
+}
 /** Names for this database. */
 export type SetDatabaseNamesRequestBodyList = Array<string>;
 export interface SetDatabaseNamesRequest {
@@ -201,11 +248,33 @@ export interface UpdateDatabaseResponseSuccess {
 export interface UpdateDatabaseResponse {
   Success: UpdateDatabaseResponseSuccess;
 }
+/** A JSON object mapping each key to set to its string value. Send {} to only delete keys. */
+export type UpdateDatabaseEnvironmentRequestBodyMap = { [key: string]: string | undefined };
+export interface UpdateDatabaseEnvironmentRequest {
+  /** Database name or Spacetime identity. */
+  name_or_identity: string;
+  /** The module_hash from GET /environment. */
+  expected_module_hash?: string | undefined;
+  body: UpdateDatabaseEnvironmentRequestBodyMap;
+}
+export interface UpdateDatabaseEnvironmentResponse {
+  Ok: unknown | null;
+}
 export interface VerifyIdentityRequest {
   /** A Spacetime identity. */
   identity: string;
 }
 export interface VerifyIdentityResponse {}
+export type Error400BodyErrMissingRequiredEnvironmentKeysList = Array<string>;
+export interface Error400BodyErrMissingRequiredEnvironment {
+  keys: Error400BodyErrMissingRequiredEnvironmentKeysList;
+}
+export interface Error400BodyErr {
+  MissingRequiredEnvironment?: Error400BodyErrMissingRequiredEnvironment | undefined;
+}
+export interface Error400Body {
+  Err: Error400BodyErr;
+}
 export type AddDatabaseNameError = SpacetimeDBOpError;
 /** Add a new name for this database. Takes as the request body a string containing the new name of the database. */
 export const addDatabaseName: API.OperationMethod<
@@ -214,8 +283,8 @@ export const addDatabaseName: API.OperationMethod<
   AddDatabaseNameError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<AddDatabaseNameRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<AddDatabaseNameResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<AddDatabaseNameRequest>,
+  output: __S(74, __c18, 2) as any as S.Schema<AddDatabaseNameResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -232,8 +301,8 @@ export const callReducer: API.OperationMethod<
   CallReducerError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<CallReducerRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<CallReducerResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<CallReducerRequest>,
+  output: __S(77, __c19, 1) as any as S.Schema<CallReducerResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -250,8 +319,8 @@ export const createIdentity: API.OperationMethod<
   CreateIdentityError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<CreateIdentityRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<CreateIdentityResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateIdentityRequest>,
+  output: __S(85, __c21, 1) as any as S.Schema<CreateIdentityResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -268,8 +337,8 @@ export const createWebsocketToken: API.OperationMethod<
   CreateWebsocketTokenError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<CreateWebsocketTokenRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<CreateWebsocketTokenResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateWebsocketTokenRequest>,
+  output: __S(89, __c22, 1) as any as S.Schema<CreateWebsocketTokenResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -286,8 +355,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -304,8 +373,8 @@ export const executeSql: API.OperationMethod<
   ExecuteSqlError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<ExecuteSqlRequest>,
-  output: __S(75, __c18, 3) as any as S.Schema<ExecuteSqlResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<ExecuteSqlRequest>,
+  output: __S(103, __c25, 3) as any as S.Schema<ExecuteSqlResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -322,14 +391,32 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(77, __c19, 1) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(105, __c26, 1) as any as S.Schema<GetDatabaseResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabase",
+}));
+
+export type GetDatabaseEnvironmentError = SpacetimeDBOpError;
+/** Get environment declarations and stored keys. Get the environment declarations of the database's current module and the keys of its stored values. Values are never returned. Requires a token authorized to update the database. */
+export const getDatabaseEnvironment: API.OperationMethod<
+  GetDatabaseEnvironmentRequest,
+  GetDatabaseEnvironmentResponse,
+  GetDatabaseEnvironmentError,
+  SpacetimeDBOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c2, 0) as any as S.Schema<GetDatabaseEnvironmentRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<GetDatabaseEnvironmentResponse>,
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
+  protocol: SpacetimeDBProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseEnvironment",
 }));
 
 export type GetDatabaseIdentityError = NotFound | SpacetimeDBOpError;
@@ -340,8 +427,8 @@ export const getDatabaseIdentity: API.OperationMethod<
   GetDatabaseIdentityError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<GetDatabaseIdentityRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetDatabaseIdentityResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetDatabaseIdentityRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetDatabaseIdentityResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -358,8 +445,8 @@ export const getDatabaseLogs: API.OperationMethod<
   GetDatabaseLogsError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetDatabaseLogsRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetDatabaseLogsResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetDatabaseLogsRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetDatabaseLogsResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -376,8 +463,8 @@ export const getDatabaseNames: API.OperationMethod<
   GetDatabaseNamesError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetDatabaseNamesRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<GetDatabaseNamesResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetDatabaseNamesRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GetDatabaseNamesResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -394,8 +481,8 @@ export const getDatabaseSchema: API.OperationMethod<
   GetDatabaseSchemaError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetDatabaseSchemaRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<GetDatabaseSchemaResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetDatabaseSchemaRequest>,
+  output: __S(30, __c7, 2) as any as S.Schema<GetDatabaseSchemaResponse>,
   errors: [NotFound],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -412,8 +499,8 @@ export const getPublicKey: API.OperationMethod<
   GetPublicKeyError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetPublicKeyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<GetPublicKeyResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetPublicKeyRequest>,
+  output: __S(16, __c4, 0) as any as S.Schema<GetPublicKeyResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -430,8 +517,8 @@ export const listIdentityDatabases: API.OperationMethod<
   ListIdentityDatabasesError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListIdentityDatabasesRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<ListIdentityDatabasesResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListIdentityDatabasesRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<ListIdentityDatabasesResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -444,8 +531,8 @@ export type PingError = SpacetimeDBOpError;
 /** No-op connectivity probe. Does nothing and returns no data. Clients can send requests to this endpoint to determine whether they are able to connect to SpacetimeDB. */
 export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, SpacetimeDBOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(24, __c6, 0) as any as S.Schema<PingRequest>,
-    output: __S(68, __c17, 0) as any as S.Schema<PingResponse>,
+    input: __S(40, __c10, 0) as any as S.Schema<PingRequest>,
+    output: __S(96, __c24, 0) as any as S.Schema<PingResponse>,
     errors: [],
     serviceErrors: SpacetimeDBServiceErrors,
     protocol: SpacetimeDBProtocol,
@@ -462,14 +549,32 @@ export const publishDatabase: API.OperationMethod<
   PublishDatabaseError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<PublishDatabaseRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<PublishDatabaseResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<PublishDatabaseRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<PublishDatabaseResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishDatabase",
+}));
+
+export type ReplaceDatabaseEnvironmentError = BadRequest | Conflict | SpacetimeDBOpError;
+/** Replace a database's environment. Replace the database's whole environment without publishing a module. Stored values that are not supplied are deleted. */
+export const replaceDatabaseEnvironment: API.OperationMethod<
+  ReplaceDatabaseEnvironmentRequest,
+  ReplaceDatabaseEnvironmentResponse,
+  ReplaceDatabaseEnvironmentError,
+  SpacetimeDBOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c12, 0) as any as S.Schema<ReplaceDatabaseEnvironmentRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<ReplaceDatabaseEnvironmentResponse>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: SpacetimeDBServiceErrors,
+  protocol: SpacetimeDBProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDatabaseEnvironment",
 }));
 
 export type SetDatabaseNamesError = SpacetimeDBOpError;
@@ -480,8 +585,8 @@ export const setDatabaseNames: API.OperationMethod<
   SetDatabaseNamesError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<SetDatabaseNamesRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<SetDatabaseNamesResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<SetDatabaseNamesRequest>,
+  output: __S(57, __c14, 1) as any as S.Schema<SetDatabaseNamesResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -498,14 +603,32 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDatabase",
+}));
+
+export type UpdateDatabaseEnvironmentError = BadRequest | Conflict | SpacetimeDBOpError;
+/** Set or delete environment values. Set and delete individual environment values without publishing a module. Stored values that are neither supplied nor removed are kept. */
+export const updateDatabaseEnvironment: API.OperationMethod<
+  UpdateDatabaseEnvironmentRequest,
+  UpdateDatabaseEnvironmentResponse,
+  UpdateDatabaseEnvironmentError,
+  SpacetimeDBOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c16, 0) as any as S.Schema<UpdateDatabaseEnvironmentRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<UpdateDatabaseEnvironmentResponse>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: SpacetimeDBServiceErrors,
+  protocol: SpacetimeDBProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseEnvironment",
 }));
 
 export type VerifyIdentityError = BadRequest | SpacetimeDBOpError;
@@ -516,8 +639,8 @@ export const verifyIdentity: API.OperationMethod<
   VerifyIdentityError,
   SpacetimeDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<VerifyIdentityRequest>,
-  output: __S(68, __c17, 0) as any as S.Schema<VerifyIdentityResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<VerifyIdentityRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<VerifyIdentityResponse>,
   errors: [BadRequest],
   serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
@@ -530,6 +653,84 @@ export const verifyIdentity: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keys: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400BodyErrMissingRequiredEnvironment" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MissingRequiredEnvironment: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "Error400BodyErr" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Err: __S(5, __c1, 1),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name_or_identity: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/environment", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetDatabaseEnvironmentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          optional: S.Boolean,
+          ty: S.Unknown,
+        }),
+      ).annotate({ identifier: "GetDatabaseEnvironmentResponseDeclarationsItem" });
+    case 2:
+      return S.Array(__S(9, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          module_hash: S.String,
+          declarations: __S(10, __c2, 2),
+          stored_keys: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "GetDatabaseEnvironmentResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name_or_identity: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/identity", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetDatabaseIdentityRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetDatabaseIdentityResponse",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name_or_identity: S.String.pipe(T.Label()),
@@ -539,7 +740,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetDatabaseLogsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -550,18 +751,12 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          names: __S(8, __c2, 0),
+          names: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "GetDatabaseNamesResponse" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -575,12 +770,12 @@ function __c3(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.suspend(() => __S(13, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(29, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDatabaseSchemaResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -588,7 +783,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetPublicKeyRequest" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -599,12 +794,12 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identities: __S(8, __c2, 0),
+          identities: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ListIdentityDatabasesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -612,7 +807,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PingRequest" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -637,18 +832,44 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Success: __S(29, __c7, 1),
+          Success: __S(45, __c11, 1),
         }),
       ).annotate({ identifier: "PublishDatabaseResponse" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name_or_identity: S.String.pipe(T.Label()),
-          body: __S(8, __c2, 0).pipe(T.HttpBody()),
+          expected_module_hash: S.optional(S.String.pipe(T.Query())),
+          body: __S(52, __c13, 0).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/v1/database/{name_or_identity}/environment", code: 200 }),
+        ),
+      ).annotate({ identifier: "ReplaceDatabaseEnvironmentRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Ok: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "ReplaceDatabaseEnvironmentResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name_or_identity: S.String.pipe(T.Label()),
+          body: __S(0, __c0, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/database/{name_or_identity}/names", code: 200 })),
       ).annotate({ identifier: "SetDatabaseNamesRequest" });
     case 1:
@@ -659,7 +880,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SetDatabaseNamesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -687,12 +908,30 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Success: __S(37, __c9, 1),
+          Success: __S(61, __c15, 1),
         }),
       ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name_or_identity: S.String.pipe(T.Label()),
+          expected_module_hash: S.optional(S.String.pipe(T.Query())),
+          body: __S(52, __c13, 0).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/database/{name_or_identity}/environment",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateDatabaseEnvironmentRequest" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -702,7 +941,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "VerifyIdentityRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -728,19 +967,19 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Success: __S(45, __c11, 1),
+          Success: __S(73, __c18, 1),
         }),
       ).annotate({ identifier: "AddDatabaseNameResponse" });
   }
 }
-function __c12(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name_or_identity: S.String.pipe(T.Label()),
           reducer: S.String.pipe(T.Label()),
-          body: __S(52, __c13, 0).pipe(T.HttpBody()),
+          body: __S(80, __c20, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -755,13 +994,13 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c14(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -776,7 +1015,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateIdentityResponse" });
   }
 }
-function __c15(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -792,7 +1031,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateWebsocketTokenResponse" });
   }
 }
-function __c16(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -802,13 +1041,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDatabaseResponse" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -828,18 +1067,18 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           schema: S.Unknown,
-          rows: __S(52, __c13, 0),
+          rows: __S(80, __c20, 0),
         }),
       ).annotate({ identifier: "ExecuteSqlResponseBodyItem" });
     case 2:
-      return S.Array(__S(73, __c18, 1));
+      return S.Array(__S(101, __c25, 1));
     case 3:
-      return S.suspend(() => __S(74, __c18, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(102, __c25, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ExecuteSqlResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -856,26 +1095,6 @@ function __c19(j: number): any {
           initial_program: S.String,
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name_or_identity: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/database/{name_or_identity}/identity", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetDatabaseIdentityRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDatabaseIdentityResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -48,19 +48,29 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
-/** * `customerio` - Customer.io */
-export type ImportProviderKeyEnum = "customerio";
+/** * `customerio` - Customer.io * `resend` - Resend * `postmark` - Postmark * `sendgrid` - SendGrid * `mailgun` - Mailgun * `mailchimp` - Mailchimp */
+export type ImportProviderKeyEnum =
+  | "customerio"
+  | "resend"
+  | "postmark"
+  | "sendgrid"
+  | "mailgun"
+  | "mailchimp";
 /** Keys of the steps to run, from the `providers` endpoint. They run in the provider's order, whatever order you send. */
 export type CreateMessagingProviderImportRequestStepsList = Array<string>;
+/** Values for the provider's `settings`, by setting key, from the `providers` endpoint. A setting with a null `default` is required, such as Mailgun's `region`. */
+export type CreateMessagingProviderImportRequestSettingsMap = { [key: string]: string | undefined };
 export interface CreateMessagingProviderImportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The provider to import from. * `customerio` - Customer.io */
+  /** The provider to import from. * `customerio` - Customer.io * `resend` - Resend * `postmark` - Postmark * `sendgrid` - SendGrid * `mailgun` - Mailgun * `mailchimp` - Mailchimp */
   provider: ImportProviderKeyEnum | (string & {});
   /** Keys of the steps to run, from the `providers` endpoint. They run in the provider's order, whatever order you send. */
   steps: CreateMessagingProviderImportRequestStepsList;
-  /** The provider's API key. For Customer.io, an App API key. Leave it out to reuse the stored key. */
+  /** The provider's API key. For Customer.io, an App API key: leave it out to reuse the stored key. For Resend, a full access key. For Postmark, a server token or the account token. For SendGrid, a key with read access to the selected steps. For Mailgun, an account key that can read suppressions. For Mailchimp, a Marketing API key ending in its data center, such as -us21. PostHog deletes a Resend, Postmark, SendGrid, Mailgun or Mailchimp key when the run ends, so send it every time. */
   api_key?: string | Redacted.Redacted<string> | undefined;
+  /** Values for the provider's `settings`, by setting key, from the `providers` endpoint. A setting with a null `default` is required, such as Mailgun's `region`. */
+  settings?: CreateMessagingProviderImportRequestSettingsMap | undefined;
 }
 /** * `queued` - Waiting to start * `running` - Importing * `completed` - Imported * `failed` - Failed */
 export type ProviderImportStatusEnum = "queued" | "running" | "completed" | "failed";
@@ -68,6 +78,32 @@ export type ProviderImportStatusEnum = "queued" | "running" | "completed" | "fai
 export type ImportStepStatusEnum = "pending" | "running" | "completed" | "failed";
 /** Problems with single records that did not fail the step. */
 export type ImportStepProgressWarningsList = Array<string>;
+export interface ImportStepCount {
+  /** What the step counted, for example `complained`. */
+  key: string;
+  /** Display text for the count, including what it means for sends. */
+  label: string;
+  /** The count so far. */
+  value: number;
+}
+/** A breakdown of what the step did. Only counts above zero appear. */
+export type ImportStepProgressCountsList = Array<ImportStepCount>;
+/** * `created` - Created * `skipped` - Left as it is * `failed` - Failed * `listed` - Listed */
+export type ImportItemStatusEnum = "created" | "skipped" | "failed" | "listed";
+/** What to review, or what did not carry over exactly. */
+export type ImportStepItemNotesList = Array<string>;
+export interface ImportStepItem {
+  /** The object's name, for example a template name or a domain. */
+  label: string;
+  /** `created` when the step made it, `skipped` when it already existed and stayed as it was, `failed` when it could not be made, `listed` when the step only reports it. * `created` - Created * `skipped` - Left as it is * `failed` - Failed * `listed` - Listed */
+  status: ImportItemStatusEnum;
+  /** Where to open the object in PostHog, as an app path. */
+  url: string | null;
+  /** What to review, or what did not carry over exactly. */
+  notes: ImportStepItemNotesList;
+}
+/** The objects the step handled, with anything to review. Always empty in the list of runs; get the run for them. */
+export type ImportStepProgressItemsList = Array<ImportStepItem>;
 export interface ImportStepProgress {
   /** Step key, for example `suppressions`. */
   key: string;
@@ -83,13 +119,23 @@ export interface ImportStepProgress {
   warnings: ImportStepProgressWarningsList;
   /** The error from the step's most recent failed attempt. A running step retries after an error; a failed step stopped. */
   last_error: string | null;
+  /** A breakdown of what the step did. Only counts above zero appear. */
+  counts: ImportStepProgressCountsList;
+  /** The objects the step handled, with anything to review. Always empty in the list of runs; get the run for them. */
+  items: ImportStepProgressItemsList;
+  /** How many more warnings there were than `warnings` holds. */
+  warnings_omitted: number;
+  /** How many more objects there were than `items` holds. In the list of runs, this counts every object. */
+  items_omitted: number;
 }
 /** Progress of each selected step, in run order. */
 export type ProviderImportRunStepsList = Array<ImportStepProgress>;
+/** The settings the run started with, by setting key. */
+export type ProviderImportRunSettingsMap = { [key: string]: string | undefined };
 export interface ProviderImportRun {
   /** Import run ID. */
   id: string;
-  /** The provider the run imports from. * `customerio` - Customer.io */
+  /** The provider the run imports from. * `customerio` - Customer.io * `resend` - Resend * `postmark` - Postmark * `sendgrid` - SendGrid * `mailgun` - Mailgun * `mailchimp` - Mailchimp */
   provider: ImportProviderKeyEnum;
   /** `queued` until the first step starts, `running`, then `completed` when every step completed or `failed` when any step failed. * `queued` - Waiting to start * `running` - Importing * `completed` - Imported * `failed` - Failed */
   status: ProviderImportStatusEnum;
@@ -101,6 +147,8 @@ export interface ProviderImportRun {
   started_at: string | null;
   /** When the last step ended. */
   finished_at: string | null;
+  /** The settings the run started with, by setting key. */
+  settings: ProviderImportRunSettingsMap;
 }
 export interface GetMessagingProviderImportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -117,6 +165,8 @@ export interface ListMessagingProviderImportsProvidersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
 }
+/** Keys of the steps that must be selected too for this one to run, such as `contacts`. Often empty. */
+export type ImportStepOptionNeedsList = Array<string>;
 export interface ImportStepOption {
   /** Step key to send in `steps` when starting an import, for example `suppressions`. */
   key: string;
@@ -124,22 +174,64 @@ export interface ImportStepOption {
   label: string;
   /** What the step imports and where it lands in PostHog. */
   description: string;
+  /** Keys of the steps that must be selected too for this one to run, such as `contacts`. Often empty. */
+  needs: ImportStepOptionNeedsList;
+  /** Whether the step creates or updates people. Each of those counts as one event on the bill. */
+  counts_as_events: boolean;
 }
 /** What the provider can import, in the order the steps run. */
 export type ImportProviderOptionStepsList = Array<ImportStepOption>;
+/** What the person does once the import has finished, in order. */
+export type ImportProviderOptionNextStepsList = Array<string>;
+export interface ImportSettingChoice {
+  /** Value to send for this setting when starting an import. */
+  value: string;
+  /** Display name of the choice. */
+  label: string;
+}
+/** The values the setting accepts. */
+export type ImportSettingOptionChoicesList = Array<ImportSettingChoice>;
+export interface ImportSettingOption {
+  /** Setting key to use in `settings` when starting an import, such as `region`. */
+  key: string;
+  /** Display name of the setting. */
+  label: string;
+  /** What the setting changes, and how to choose. */
+  help: string;
+  /** The values the setting accepts. */
+  choices: ImportSettingOptionChoicesList;
+  /** The value used when the request leaves this setting out. Null means it's required. */
+  default: string | null;
+}
+/** Choices to make before starting an import, such as Mailgun's region. Often empty. */
+export type ImportProviderOptionSettingsList = Array<ImportSettingOption>;
 export interface ImportProviderOption {
-  /** Provider key to send when starting an import. * `customerio` - Customer.io */
+  /** Provider key to send when starting an import. * `customerio` - Customer.io * `resend` - Resend * `postmark` - Postmark * `sendgrid` - SendGrid * `mailgun` - Mailgun * `mailchimp` - Mailchimp */
   key: ImportProviderKeyEnum;
   /** Display name of the provider. */
   label: string;
   /** What the provider can import, in the order the steps run. */
   steps: ImportProviderOptionStepsList;
+  /** Whether PostHog stores the API key for later imports. When false, PostHog deletes the key when the run ends, so each import needs it again. */
+  retains_credentials: boolean;
+  /** Display name of the API key this provider asks for. */
+  api_key_label: string;
+  /** What kind of key to create, and how PostHog handles it. */
+  api_key_help: string;
+  /** The page in the provider's app where the person can create the key. */
+  api_key_url: string | null;
+  /** What the import can't bring over. Empty when there is nothing to say. */
+  not_imported: string;
+  /** What the person does once the import has finished, in order. */
+  next_steps: ImportProviderOptionNextStepsList;
+  /** Choices to make before starting an import, such as Mailgun's region. Often empty. */
+  settings: ImportProviderOptionSettingsList;
 }
 export type ListMessagingProviderImportsProvidersResponseBodyList = Array<ImportProviderOption>;
 export type ListMessagingProviderImportsProvidersResponse =
   ListMessagingProviderImportsProvidersResponseBodyList;
 export type CreateMessagingProviderImportError = BadRequest | Conflict | PosthogOpError;
-/** Start a background import from another messaging tool Background imports from other messaging tools, such as Customer.io suppressions and global unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
+/** Start a background import from another messaging tool Background imports from other messaging tools, such as Customer.io, Resend, SendGrid, Mailgun and Mailchimp suppressions and unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
 export const createMessagingProviderImport: API.OperationMethod<
   CreateMessagingProviderImportRequest,
   ProviderImportRun,
@@ -147,7 +239,7 @@ export const createMessagingProviderImport: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateMessagingProviderImportRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<ProviderImportRun>,
+  output: __S(23, __c1, 7) as any as S.Schema<ProviderImportRun>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -157,15 +249,15 @@ export const createMessagingProviderImport: API.OperationMethod<
 }));
 
 export type GetMessagingProviderImportError = PosthogOpError;
-/** Get a provider import and its progress Background imports from other messaging tools, such as Customer.io suppressions and global unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
+/** Get a provider import and its progress Background imports from other messaging tools, such as Customer.io, Resend, SendGrid, Mailgun and Mailchimp suppressions and unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
 export const getMessagingProviderImport: API.OperationMethod<
   GetMessagingProviderImportRequest,
   ProviderImportRun,
   GetMessagingProviderImportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetMessagingProviderImportRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<ProviderImportRun>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetMessagingProviderImportRequest>,
+  output: __S(23, __c1, 7) as any as S.Schema<ProviderImportRun>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -175,15 +267,15 @@ export const getMessagingProviderImport: API.OperationMethod<
 }));
 
 export type ListMessagingProviderImportsError = PosthogOpError;
-/** List the most recent provider imports Background imports from other messaging tools, such as Customer.io suppressions and global unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
+/** List the most recent provider imports Background imports from other messaging tools, such as Customer.io, Resend, SendGrid, Mailgun and Mailchimp suppressions and unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
 export const listMessagingProviderImports: API.OperationMethod<
   ListMessagingProviderImportsRequest,
   ListMessagingProviderImportsResponse,
   ListMessagingProviderImportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListMessagingProviderImportsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListMessagingProviderImportsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListMessagingProviderImportsRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<ListMessagingProviderImportsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -193,15 +285,15 @@ export const listMessagingProviderImports: API.OperationMethod<
 }));
 
 export type ListMessagingProviderImportsProvidersError = PosthogOpError;
-/** List the providers and what each can import Background imports from other messaging tools, such as Customer.io suppressions and global unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
+/** List the providers and what each can import Background imports from other messaging tools, such as Customer.io, Resend, SendGrid, Mailgun and Mailchimp suppressions and unsubscribes. A run executes outside the request, so a long provider list does not time out. Poll a run to show its progress. */
 export const listMessagingProviderImportsProviders: API.OperationMethod<
   ListMessagingProviderImportsProvidersRequest,
   ListMessagingProviderImportsProvidersResponse,
   ListMessagingProviderImportsProvidersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListMessagingProviderImportsProvidersRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<ListMessagingProviderImportsProvidersResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListMessagingProviderImportsProvidersRequest>,
+  output: __S(89, __c5, 9) as any as S.Schema<ListMessagingProviderImportsProvidersResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -218,8 +310,9 @@ function __c0(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           provider: S.String,
-          steps: __S(8, __c1, 0),
+          steps: __S(32, __c2, 0),
           api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          settings: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -233,8 +326,29 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          label: S.String,
+          value: S.Number,
+        }),
+      ).annotate({ identifier: "ImportStepCount" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.String,
+          status: S.String,
+          url: S.NullOr(S.String),
+          notes: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "ImportStepItem" });
+    case 4:
+      return S.Array(__S(19, __c1, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
@@ -242,27 +356,38 @@ function __c1(j: number): any {
           status: S.String,
           processed: S.Number,
           imported: S.Number,
-          warnings: __S(8, __c1, 0),
+          warnings: __S(32, __c2, 0),
           last_error: S.NullOr(S.String),
+          counts: __S(18, __c1, 2),
+          items: __S(20, __c1, 4),
+          warnings_omitted: S.Number,
+          items_omitted: S.Number,
         }),
       ).annotate({ identifier: "ImportStepProgress" });
-    case 2:
-      return S.Array(__S(9, __c1, 1));
-    case 3:
+    case 6:
+      return S.Array(__S(21, __c1, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           provider: S.String,
           status: S.String,
-          steps: __S(10, __c1, 2),
+          steps: __S(22, __c1, 6),
           created_at: S.String,
           started_at: S.NullOr(S.String),
           finished_at: S.NullOr(S.String),
+          settings: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "ProviderImportRun" });
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -279,7 +404,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetMessagingProviderImportRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -294,14 +419,14 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListMessagingProviderImportsRequest" });
     case 1:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(23, __c1, 7));
     case 2:
-      return S.suspend(() => __S(25, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMessagingProviderImportsResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -321,22 +446,52 @@ function __c4(j: number): any {
           key: S.String,
           label: S.String,
           description: S.String,
+          needs: __S(32, __c2, 0),
+          counts_as_events: S.Boolean,
         }),
       ).annotate({ identifier: "ImportStepOption" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          label: S.String,
+        }),
+      ).annotate({ identifier: "ImportSettingChoice" });
+    case 4:
+      return S.Array(__S(83, __c5, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           label: S.String,
-          steps: __S(34, __c4, 2),
+          help: S.String,
+          choices: __S(84, __c5, 4),
+          default: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ImportSettingOption" });
+    case 6:
+      return S.Array(__S(85, __c5, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          label: S.String,
+          steps: __S(82, __c5, 2),
+          retains_credentials: S.Boolean,
+          api_key_label: S.String,
+          api_key_help: S.String,
+          api_key_url: S.NullOr(S.String),
+          not_imported: S.String,
+          next_steps: __S(32, __c2, 0),
+          settings: __S(86, __c5, 6),
         }),
       ).annotate({ identifier: "ImportProviderOption" });
-    case 4:
-      return S.Array(__S(35, __c4, 3));
-    case 5:
-      return S.suspend(() => __S(36, __c4, 4).pipe(T.RawResponseRoot())).annotate({
+    case 8:
+      return S.Array(__S(87, __c5, 7));
+    case 9:
+      return S.suspend(() => __S(88, __c5, 8).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMessagingProviderImportsProvidersResponse",
       });
   }

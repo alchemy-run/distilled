@@ -342,22 +342,22 @@ export type ClientProfileClientConfigurationOidcSupportAllowedScopesEnum =
   | "email"
   | "address"
   | "phone";
-/** Optional OIDC scopes that matched clients may request. */
+/** OIDC scopes matched clients may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information they can access. Mutually exclusive with allow_all_scopes. */
 export type ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList = Array<
   ClientProfileClientConfigurationOidcSupportAllowedScopesEnum | (string & {})
 >;
-/** OIDC support settings applied to matched clients. */
+/** Controls whether matched clients can receive ID tokens and use the UserInfo endpoint, and which user profile information they can request through OIDC scopes. */
 export interface ClientProfileClientConfigurationOidcSupportDefaultValue {
-  /** Whether matched clients may use OIDC. */
+  /** Allows matched clients to use OIDC, including receiving ID tokens and calling the UserInfo endpoint. */
   is_allowed: boolean;
-  /** Whether matched clients may request all optional OIDC scopes. Cannot be combined with allowed_scopes. */
+  /** Allows matched clients to request all supported OIDC scopes. Mutually exclusive with allowed_scopes. */
   allow_all_scopes?: boolean | undefined;
-  /** Optional OIDC scopes that matched clients may request. */
+  /** OIDC scopes matched clients may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information they can access. Mutually exclusive with allow_all_scopes. */
   allowed_scopes?:
     | ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList
     | undefined;
 }
-/** Default OIDC support applied to matched clients. */
+/** Default OIDC support configuration applied to matched clients. */
 export interface ClientProfileClientConfigurationOidcSupport {
   default_value: ClientProfileClientConfigurationOidcSupportDefaultValue;
 }
@@ -771,6 +771,8 @@ export type PageComponentAuth0MyOrganizationMemberManagement =
   PageComponentAuth0MyOrganizationDomainTable;
 export type PageComponentAuth0MyOrganizationDetailsEdit =
   PageComponentAuth0MyOrganizationDomainTable;
+export type PageComponentAuth0MyOrganizationSsoProviderManagement =
+  PageComponentAuth0MyOrganizationDomainTable;
 export type PageComponentAuth0MyAccountPasskeyManagement =
   PageComponentAuth0MyOrganizationDomainTable;
 export type PageComponentAuth0MyAccountMfaManagement = PageComponentAuth0MyOrganizationDomainTable;
@@ -780,6 +782,7 @@ export type PageComponentNoChildren =
   | PageComponentAuth0MediaImage
   | PageComponentAuth0TypographyRichText
   | PageComponentAuth0StructureSeparator
+  | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
@@ -807,6 +810,7 @@ export type PageComponent =
   | PageComponentAuth0TypographyRichText
   | PageComponentAuth0StructureSection
   | PageComponentAuth0StructureSeparator
+  | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
   | PageComponentAuth0MyOrganizationDomainTable
@@ -1857,6 +1861,8 @@ export interface ExpressConfiguration {
   admin_login_domain: string;
   /** The identifier of the published application in the OKTA OIN. */
   oin_submission_id?: string | undefined;
+  /** URL of the application's listing in the Okta Integration Network (OIN) catalog, used to redirect customers into OIN Express Configuration. Must be an https URL on an okta.com domain with no query string or fragment. */
+  okta_oin_listing_url?: string | undefined;
 }
 /** List of SSO profile IDs linked to this B2B integration client. Maximum 1 entry. */
 export type B2bIntegrationConfigurationSsoProfilesList = Array<string>;
@@ -1917,6 +1923,11 @@ export interface ClientMyOrganizationResponseConfiguration {
   /** When true, prevents organization admins from assigning permissions to themselves. */
   enforce_self_assignment_restriction?: boolean | undefined;
 }
+/** Configuration for Google account linking. */
+export interface GoogleAccountLinkingConfiguration {
+  /** Enables the Google streamlined account linking flow for this client. */
+  allow_streamlined_linking?: boolean | undefined;
+}
 /** Configuration on the use of ID-JAGs for Cross App Access. */
 export interface IdentityAssertionAuthorizationGrant {
   /** If set to true, the client can exchange ID-JAGs for access tokens. */
@@ -1932,11 +1943,15 @@ export type ClientAnonymousSessionTransferNetworkBindingEnum = "ip" | "asn" | "n
 /** Security mode for third-party clients. `strict` enforces <a href="https://auth0.com/docs/get-started/applications/third-party-applications/security-controls">enhanced security controls</a>: OAuth 2.1 alignment, explicit API authorization, and a curated set of supported features. `permissive` preserves <a href="https://auth0.com/docs/get-started/applications/third-party-applications/permissive-mode">pre-existing behavior</a> and is only available to tenants with prior third-party client usage. Set on creation and cannot be modified. */
 export type ClientThirdPartySecurityModeEnum = "strict" | "permissive";
 export type ClientOidcSupportAllowedScopesEnum = "profile" | "email" | "address" | "phone";
+/** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
 export type ClientOidcSupportAllowedScopesList = Array<ClientOidcSupportAllowedScopesEnum>;
-/** OIDC support configuration for this client. */
+/** Controls whether the client can receive ID tokens and use the UserInfo endpoint, and which user profile information it can request through OIDC scopes. */
 export interface ClientOidcSupport {
+  /** Allows the client to use OIDC, including receiving ID tokens and calling the UserInfo endpoint. */
   is_allowed?: boolean | undefined;
+  /** Allows the client to request all supported OIDC scopes. Mutually exclusive with allowed_scopes. */
   allow_all_scopes?: boolean | undefined;
+  /** OIDC scopes the client may request (`profile`, `email`, `address`, and `phone`), which determine the user profile information it can access. Mutually exclusive with allow_all_scopes. */
   allowed_scopes?: ClientOidcSupportAllowedScopesList | undefined;
   [key: string]: unknown;
 }
@@ -2027,6 +2042,7 @@ export interface ClientSearchResponse {
   require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
   require_proof_of_possession?: boolean | undefined;
+  allow_personal_agent_browser_join?: boolean | undefined;
   signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
   token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
   compliance_level?: ClientComplianceLevelEnum | null | undefined;
@@ -2039,6 +2055,7 @@ export interface ClientSearchResponse {
   express_configuration?: ExpressConfiguration | undefined;
   b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
   my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  google_account_linking?: GoogleAccountLinkingConfiguration | undefined;
   identity_assertion_authorization_grant?: IdentityAssertionAuthorizationGrant | undefined;
   anonymous_sessions?: AnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
@@ -2618,7 +2635,9 @@ export interface ResourceServerAuthorizationPolicy {
 /** Controls whether access tokens issued for this API include agent subject claims. With <code>auth0-v1</code>, access tokens include additional claims that identify whether the subject is a <code>user</code>, <code>service</code>, or <code>ai_agent</code>. The <code>sub</code> claim can reference an agent ID, and the <code>@clients</code> suffix is no longer appended to client IDs. With <code>off</code>, these claims are not included and the <code>@clients</code> suffix is still appended. When not set, the API behaves as <code>off</code>. */
 export type ResourceServerAgentSubjectClaimsResponseEnum = "off" | "auth0-v1";
 /** The type of the resource server. */
-export type ResourceServerTypeEnum = "universal_commerce_protocol_server";
+export type ResourceServerTypeEnum =
+  | "universal_commerce_protocol_server"
+  | "model_context_protocol_server";
 export interface ResourceServerSearchResponse {
   /** ID of the API (resource server). */
   id?: string | undefined;
@@ -2660,6 +2679,7 @@ export interface ResourceServerSearchResponse {
   /** The client ID of the client that this resource server is linked to */
   client_id?: string | undefined;
   agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  use_for_personal_agent_protocol?: boolean | undefined;
   type?: ResourceServerTypeEnum | null | undefined;
 }
 /** Array of resource server objects matching the search criteria. */
@@ -4057,7 +4077,7 @@ export const getClientsSearch: API.OperationMethod<
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetClientsSearchRequest>,
-  output: __S(1829, __c57, 5) as any as S.Schema<SearchClientsResponseContent>,
+  output: __S(1830, __c57, 6) as any as S.Schema<SearchClientsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -6209,6 +6229,7 @@ function __c56(j: number): any {
           okta_oin_client_id: S.String,
           admin_login_domain: S.String,
           oin_submission_id: S.optional(S.String),
+          okta_oin_listing_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpressConfiguration" });
     case 30:
@@ -6245,10 +6266,16 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          allow_streamlined_linking: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleAccountLinkingConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           active: S.Boolean,
         }),
       ).annotate({ identifier: "IdentityAssertionAuthorizationGrant" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -6259,7 +6286,7 @@ function __c57(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientOidcSupport" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -6307,6 +6334,7 @@ function __c57(j: number): any {
             client_authentication_methods: S.optional(S.NullOr(__S(1813, __c56, 21))),
             require_pushed_authorization_requests: S.optional(S.Boolean),
             require_proof_of_possession: S.optional(S.Boolean),
+            allow_personal_agent_browser_join: S.optional(S.Boolean),
             signed_request_object: S.optional(__S(1814, __c56, 22)),
             token_vault_privileged_access: S.optional(__S(1817, __c56, 25)),
             compliance_level: S.optional(S.NullOr(S.String)),
@@ -6317,11 +6345,12 @@ function __c57(j: number): any {
             express_configuration: S.optional(__S(1821, __c56, 29)),
             b2b_integration_configuration: S.optional(__S(1822, __c56, 30)),
             my_organization_configuration: S.optional(__S(1824, __c57, 0)),
-            identity_assertion_authorization_grant: S.optional(__S(1825, __c57, 1)),
-            anonymous_sessions: S.optional(__S(1825, __c57, 1)),
+            google_account_linking: S.optional(__S(1825, __c57, 1)),
+            identity_assertion_authorization_grant: S.optional(__S(1826, __c57, 2)),
+            anonymous_sessions: S.optional(__S(1826, __c57, 2)),
             enforce_anon_session_transfer_network_binding: S.optional(S.String),
             third_party_security_mode: S.optional(S.String),
-            oidc_support: S.optional(__S(1826, __c57, 2)),
+            oidc_support: S.optional(__S(1827, __c57, 3)),
             redirection_policy: S.optional(S.String),
             resource_server_identifier: S.optional(S.String),
             async_approval_notification_channels: S.optional(__S(64, __c2, 0)),
@@ -6335,12 +6364,12 @@ function __c57(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ClientSearchResponse" });
-    case 4:
-      return S.Array(__S(1827, __c57, 3));
     case 5:
+      return S.Array(__S(1828, __c57, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          clients: __S(1828, __c57, 4),
+          clients: __S(1829, __c57, 5),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchClientsResponseContent" });
@@ -6936,6 +6965,7 @@ function __c79(j: number): any {
           authorization_policy: S.optional(S.NullOr(__S(2541, __c79, 13))),
           client_id: S.optional(S.String),
           agent_subject_claims: S.optional(S.String),
+          use_for_personal_agent_protocol: S.optional(S.Boolean),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ResourceServerSearchResponse" });

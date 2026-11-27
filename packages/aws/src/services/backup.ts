@@ -892,9 +892,11 @@ export interface DescribeRegionSettingsInput {}
 export type IsEnabled = boolean;
 export type ResourceTypeOptInPreference = { [key: string]: boolean | undefined };
 export type ResourceTypeManagementPreference = { [key: string]: boolean | undefined };
+export type ResourceTypeOptInIncremental = { [key: string]: boolean | undefined };
 export interface DescribeRegionSettingsOutput {
   ResourceTypeOptInPreference?: { [key: string]: boolean | undefined } | undefined;
   ResourceTypeManagementPreference?: { [key: string]: boolean | undefined } | undefined;
+  ResourceTypeOptInIncremental?: { [key: string]: boolean | undefined } | undefined;
 }
 export type ReportJobId = string;
 export interface DescribeReportJobInput {
@@ -2215,6 +2217,7 @@ export interface UpdateRecoveryPointLifecycleOutput {
 export interface UpdateRegionSettingsInput {
   ResourceTypeOptInPreference?: { [key: string]: boolean | undefined } | undefined;
   ResourceTypeManagementPreference?: { [key: string]: boolean | undefined } | undefined;
+  ResourceTypeOptInIncremental?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface UpdateRegionSettingsResponse {}
 export interface UpdateReportPlanInput {
@@ -6862,6 +6865,7 @@ function __c25(j: number): any {
         S.Struct({
           ResourceTypeOptInPreference: S.optional(__S(664, __c83, 0)),
           ResourceTypeManagementPreference: S.optional(__S(664, __c83, 0)),
+          ResourceTypeOptInIncremental: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/account-settings" }), svc, auth, proto, ver, rules),
         ),
@@ -8271,6 +8275,7 @@ function __c82(j: number): any {
         S.Struct({
           ResourceTypeOptInPreference: S.optional(__S(664, __c83, 0)),
           ResourceTypeManagementPreference: S.optional(__S(664, __c83, 0)),
+          ResourceTypeOptInIncremental: S.optional(__S(664, __c83, 0)),
         }),
       ).annotate({ identifier: "DescribeRegionSettingsOutput" });
   }

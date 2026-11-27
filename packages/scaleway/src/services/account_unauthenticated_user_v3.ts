@@ -176,18 +176,9 @@ export interface LogInOrganizationsResponse {
   /** Precisely one of webauthn can be set. */
   webauthn?: LogInOrganizationsResponseWebAuthnMetadata | null | undefined;
 }
-export type AccountType =
-  | "unknown_type"
-  | "personal"
-  | "corporate"
-  | "startup"
-  | "consultant"
-  | "association";
 export interface InitiateOIDCSignupRequest {
   /** Identity provider to connect with. */
   identity_provider?: OIDCIdentityProvider | (string & {}) | undefined;
-  /** Type of account to create. */
-  account_type?: AccountType | (string & {}) | undefined;
   /** URL to redirect the user to after login. */
   redirect_url?: string | undefined;
   /** URI to which the identity provider will redirect after the authentication phase. */
@@ -352,6 +343,13 @@ export interface PersonalOrganization {
   /** Defines whether the user wants to be subscribed to the Scaleway mailing list. */
   newsletter_subscription?: boolean | undefined;
 }
+export type AccountType =
+  | "unknown_type"
+  | "personal"
+  | "corporate"
+  | "startup"
+  | "consultant"
+  | "association";
 export interface ValidateAccountRequest {
   /** Email used for the account request. */
   email?: string | undefined;
@@ -460,8 +458,6 @@ export interface ValidateEmailUpdateResponse {}
 export interface ValidateOIDCSignupRequest {
   /** Identity provider to connect with. */
   identity_provider?: OIDCIdentityProvider | (string & {}) | undefined;
-  /** Type of account to create. */
-  account_type?: AccountType | (string & {}) | undefined;
   /** Authorization code returned initially by the identity provider. */
   code?: string | undefined;
   /** URI to which the identity provider will redirect after the authentication phase. */
@@ -1161,7 +1157,6 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identity_provider: S.optional(S.String),
-          account_type: S.optional(S.String),
           code: S.optional(S.String),
           account_redirect_uri: S.optional(S.String),
         }).pipe(
@@ -1278,7 +1273,6 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identity_provider: S.optional(S.String),
-          account_type: S.optional(S.String),
           redirect_url: S.optional(S.String),
           account_redirect_uri: S.optional(S.String),
         }).pipe(

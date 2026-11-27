@@ -144,7 +144,7 @@ export interface UploadIPListRequest {
   projectId: string;
   region: string;
   name: string;
-  /** Raw upload payload as a plain UTF-8 string. Newline-separated `.txt` list of IPv4 CIDR entries, or CSV with `cidr,labels` columns (any other columns are ignored). */
+  /** Upload a TXT file with one IPv4 CIDR per line, or a CSV file with "cidr" as column name in the header line. Additional CSV columns are ignored. */
   fileContent: string;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
   labels?: UploadIPListRequestLabelsMap | undefined;

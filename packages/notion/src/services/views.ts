@@ -852,7 +852,7 @@ export interface TableViewConfigRequest {
   subtasks?: SubtaskConfigRequest | null | undefined;
   /** Whether to wrap cell content in the table. */
   wrap_cells?: boolean | undefined;
-  /** Number of columns frozen from the left side of the table. */
+  /** Index of the last frozen column. Columns up to and including this index are frozen. Use -1 to unfreeze all columns. */
   frozen_column_index?: number | undefined;
   /** Whether to show vertical grid lines between columns. */
   show_vertical_lines?: boolean | undefined;
@@ -1705,7 +1705,7 @@ export interface TableViewConfigResponse {
   subtasks?: SubtaskConfigResponse | undefined;
   /** Whether to wrap cell content by default. */
   wrap_cells?: boolean | undefined;
-  /** Index of the last frozen column. Columns up to and including this index are frozen. */
+  /** Index of the last frozen column. Columns up to and including this index are frozen. -1 means no columns are frozen. */
   frozen_column_index?: number | undefined;
   /** Whether to show vertical lines between columns. */
   show_vertical_lines?: boolean | undefined;
@@ -1803,6 +1803,8 @@ export interface TimelineViewConfigResponse {
   end_date_property_name?: string | undefined;
   /** Properties to display on timeline items. */
   properties?: TimelineViewConfigResponsePropertiesList | undefined;
+  /** Grouping configuration. */
+  group_by?: GroupByConfigResponse | undefined;
   /** Whether to show the table panel alongside the timeline. */
   show_table?: boolean | undefined;
   /** Properties to display in the table panel (when show_table is true). */
@@ -1827,6 +1829,8 @@ export interface GalleryViewConfigResponse {
   type: string;
   /** Properties to display on gallery cards. */
   properties?: GalleryViewConfigResponsePropertiesList | undefined;
+  /** Grouping configuration. */
+  group_by?: GroupByConfigResponse | undefined;
   /** Card cover/preview image configuration. */
   cover?: CoverConfigResponse | undefined;
   /** Cover image size. */
@@ -1843,6 +1847,8 @@ export interface ListViewConfigResponse {
   type: string;
   /** Properties to display in list items. */
   properties?: ListViewConfigResponsePropertiesList | undefined;
+  /** Grouping configuration. */
+  group_by?: GroupByConfigResponse | undefined;
 }
 /** Map display height. */
 export type MapViewConfigResponseHeight = "small" | "medium" | "large" | "extra_large";

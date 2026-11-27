@@ -474,6 +474,7 @@ export interface CreateDomainForOrganizationOutput {
 }
 export type IntegrationType =
   | "AWS_CONFIG_SLREC"
+  | "AWS_CONFIG_AZURE_SLREC"
   | "SLACK"
   | "EXTERNAL_AGENT"
   | "AWS_INTEGRATION"

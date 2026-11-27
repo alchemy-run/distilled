@@ -88,8 +88,7 @@ export interface KafkaAuthSaslPlainAuth {
   password: string | Redacted.Redacted<string>;
 }
 export type KafkaAuthSaslScramAuthAuthType = "saslScramAuth";
-/** SCRAM hash algorithm */
-export type KafkaAuthSaslScramAuthScramType = "Sha256" | "Sha512";
+export type ScramType = "Sha256" | "Sha512";
 /** SASL/SCRAM authentication over TLS */
 export interface KafkaAuthSaslScramAuth {
   authType: KafkaAuthSaslScramAuthAuthType;
@@ -98,7 +97,7 @@ export interface KafkaAuthSaslScramAuth {
   /** SASL password */
   password: string | Redacted.Redacted<string>;
   /** SCRAM hash algorithm */
-  scramType: KafkaAuthSaslScramAuthScramType | (string & {});
+  scramType: ScramType | (string & {});
 }
 export type KafkaAuthIamAuthAuthType = "iamAuth";
 /** AWS IAM role authentication */
@@ -177,8 +176,6 @@ export interface KafkaAuthPatchSaslPlainAuthPatch {
   password?: string | Redacted.Redacted<string> | undefined;
 }
 export type KafkaAuthPatchSaslScramAuthPatchAuthType = "saslScramAuth";
-/** SCRAM hash algorithm */
-export type KafkaAuthPatchSaslScramAuthPatchScramType = "Sha256" | "Sha512";
 /** SASL/SCRAM authentication over TLS */
 export interface KafkaAuthPatchSaslScramAuthPatch {
   authType: KafkaAuthPatchSaslScramAuthPatchAuthType;
@@ -187,7 +184,7 @@ export interface KafkaAuthPatchSaslScramAuthPatch {
   /** SASL password */
   password?: string | Redacted.Redacted<string> | undefined;
   /** SCRAM hash algorithm */
-  scramType?: KafkaAuthPatchSaslScramAuthPatchScramType | (string & {}) | undefined;
+  scramType?: ScramType | (string & {}) | undefined;
 }
 export type KafkaAuthPatchIamAuthPatchAuthType = "iamAuth";
 /** AWS IAM role authentication */

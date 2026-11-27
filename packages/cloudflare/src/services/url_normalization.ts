@@ -49,15 +49,15 @@ export interface GetUrlNormalizationRequest {
   /** The unique ID of the zone. */
   zoneId: string;
 }
-export type GetResultScope = "incoming" | "both" | "none";
-export type GetResultType = "cloudflare" | "rfc3986";
-export interface GetResult {
+export type GetResponseScope = "incoming" | "both" | "none";
+export type GetResponseType = "cloudflare" | "rfc3986";
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetUrlNormalizationResponse {
   /** The scope of the URL normalization. */
-  scope: GetResultScope;
+  scope: GetResponseScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type: GetResultType;
+  type: GetResponseType;
 }
-export type GetUrlNormalizationResponse = GetResult;
 export type UpdateRequestScope = "incoming" | "both" | "none";
 export type UpdateRequestType = "cloudflare" | "rfc3986";
 export interface PutUrlNormalizationRequest {
@@ -68,15 +68,15 @@ export interface PutUrlNormalizationRequest {
   /** The type of URL normalization performed by Cloudflare. */
   type: UpdateRequestType | (string & {});
 }
-export type UpdateResultScope = "incoming" | "both" | "none";
-export type UpdateResultType = "cloudflare" | "rfc3986";
-export interface UpdateResult {
+export type UpdateResponseScope = "incoming" | "both" | "none";
+export type UpdateResponseType = "cloudflare" | "rfc3986";
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface PutUrlNormalizationResponse {
   /** The scope of the URL normalization. */
-  scope: UpdateResultScope;
+  scope: UpdateResponseScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type: UpdateResultType;
+  type: UpdateResponseType;
 }
-export type PutUrlNormalizationResponse = UpdateResult;
 export type DeleteUrlNormalizationError = Forbidden | CloudflareOpError;
 /** Deletes the URL Normalization settings. */
 export const deleteUrlNormalization: API.OperationMethod<
@@ -104,7 +104,7 @@ export const getUrlNormalization: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<GetUrlNormalizationRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<GetUrlNormalizationResponse>,
+  output: __S(4, __c2, 0) as any as S.Schema<GetUrlNormalizationResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -122,7 +122,7 @@ export const putUrlNormalization: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<PutUrlNormalizationRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<PutUrlNormalizationResponse>,
+  output: __S(4, __c2, 0) as any as S.Schema<PutUrlNormalizationResponse>,
   errors: [Forbidden],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -164,11 +164,7 @@ function __c2(j: number): any {
           scope: S.String,
           type: S.String,
         }),
-      ).annotate({ identifier: "GetResult" });
-    case 1:
-      return S.suspend(() => __S(4, __c2, 0).pipe(T.EnvelopePayloadRoot())).annotate({
-        identifier: "GetUrlNormalizationResponse",
-      });
+      ).annotate({ identifier: "GetUrlNormalizationResponse" });
   }
 }
 function __c3(j: number): any {

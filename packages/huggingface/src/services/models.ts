@@ -522,7 +522,7 @@ export interface GetTrendingResponseRecentlyTrendingItemCase0 {
   repoType: string;
   repoData: GetTrendingResponseRecentlyTrendingItemCase0RepoData;
 }
-export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProvider =
+export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase0 =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -544,6 +544,29 @@ export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferen
   | "together"
   | "wavespeed"
   | "zai-org";
+export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase1 =
+  | "baseten"
+  | "cerebras"
+  | "cohere"
+  | "deepinfra"
+  | "featherless"
+  | "fireworks"
+  | "novita"
+  | "together"
+  | "z-ai"
+  | "digitalocean"
+  | "coreweave"
+  | "nebius"
+  | "parasail"
+  | "primeintellect"
+  | "liquid"
+  | "mistral"
+  | "moonshotai"
+  | "reka"
+  | "tencent";
+export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProvider =
+  | GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase0
+  | GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderCase1;
 export type GetTrendingResponseRecentlyTrendingItemCase1RepoDataAvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"

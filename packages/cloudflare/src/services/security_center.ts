@@ -223,6 +223,17 @@ export interface GetInsightTypeForZoneRequest {
   subject?: InsightsTypeGetRequestSubjectList | undefined;
   subjectNeq?: InsightsTypeGetRequestSubjectNeqList | undefined;
 }
+export interface GetStateRequest {
+  /** Identifier. */
+  accountId: string;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetStateResponse {
+  /** Whether the account was recently reactivated from a dormant state (used to show the reactivation banner). */
+  recentDormantReactivation: boolean;
+  /** Whether on-demand and scheduled scans are enabled for the account. */
+  scansEnabled: boolean;
+}
 export type InsightsAuditLogsListByInsightRequestFieldChanged = "status" | "user_classification";
 export type InsightsAuditLogsListByInsightRequestOrder = "asc" | "desc";
 export interface ListByInsightInsightAuditLogForAccountRequest {
@@ -485,6 +496,19 @@ export interface PatchInsightClassificationForZoneRequest {
   rationale?: string | undefined;
 }
 export interface PatchInsightClassificationForZoneResponse {}
+export interface UpdateStateRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Enable or disable scans for the account. */
+  scansEnabled: boolean;
+}
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateStateResponse {
+  /** Whether the account was recently reactivated from a dormant state (used to show the reactivation banner). */
+  recentDormantReactivation: boolean;
+  /** Whether on-demand and scheduled scans are enabled for the account. */
+  scansEnabled: boolean;
+}
 export type DismissInsightForAccountError = CloudflareOpError;
 /** Archives a Security Center insight for an account or zone, removing it from the active insights list while preserving historical data. */
 export const dismissInsightForAccount: API.OperationMethod<
@@ -529,8 +553,8 @@ export const getInsightClassForAccount: API.OperationMethod<
   GetInsightClassForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetInsightClassForAccountRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightClassResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetInsightClassForAccountRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightClassResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -547,8 +571,8 @@ export const getInsightClassForZone: API.OperationMethod<
   GetInsightClassForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetInsightClassForZoneRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightClassResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetInsightClassForZoneRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightClassResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -565,8 +589,8 @@ export const getInsightContext: API.OperationMethod<
   GetInsightContextError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetInsightContextRequest>,
-  output: __S(62, __c15, 2) as any as S.Schema<GetInsightContextResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetInsightContextRequest>,
+  output: __S(74, __c18, 2) as any as S.Schema<GetInsightContextResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -583,8 +607,8 @@ export const getInsightSeverityForAccount: API.OperationMethod<
   GetInsightSeverityForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetInsightSeverityForAccountRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightSeverityResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetInsightSeverityForAccountRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightSeverityResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -601,8 +625,8 @@ export const getInsightSeverityForZone: API.OperationMethod<
   GetInsightSeverityForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetInsightSeverityForZoneRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightSeverityResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<GetInsightSeverityForZoneRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightSeverityResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -619,8 +643,8 @@ export const getInsightTypeForAccount: API.OperationMethod<
   GetInsightTypeForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetInsightTypeForAccountRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightTypeResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<GetInsightTypeForAccountRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightTypeResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -637,14 +661,32 @@ export const getInsightTypeForZone: API.OperationMethod<
   GetInsightTypeForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<GetInsightTypeForZoneRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<GetInsightTypeResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<GetInsightTypeForZoneRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetInsightTypeResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInsightTypeForZone",
+}));
+
+export type GetStateError = CloudflareOpError;
+/** Returns account-level Security Center state: whether scans are enabled for the account and whether the account was recently reactivated from a dormant state. */
+export const getState: API.OperationMethod<
+  GetStateRequest,
+  GetStateResponse,
+  GetStateError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(92, __c23, 0) as any as S.Schema<GetStateRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<GetStateResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetState",
 }));
 
 export type ListByInsightInsightAuditLogForAccountError = CloudflareOpError;
@@ -657,8 +699,8 @@ export const listByInsightInsightAuditLogForAccount: API.PaginatedOperationMetho
   InsightsAuditLogsListByInsightResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c20, 0) as any as S.Schema<ListByInsightInsightAuditLogForAccountRequest>,
-    output: __S(86, __c21, 2) as any as S.Schema<ListByInsightInsightAuditLogResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListByInsightInsightAuditLogForAccountRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListByInsightInsightAuditLogResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -686,8 +728,8 @@ export const listByInsightInsightAuditLogForZone: API.PaginatedOperationMethod<
   InsightsAuditLogsListByInsightResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListByInsightInsightAuditLogForZoneRequest>,
-    output: __S(86, __c21, 2) as any as S.Schema<ListByInsightInsightAuditLogResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListByInsightInsightAuditLogForZoneRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListByInsightInsightAuditLogResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -715,8 +757,8 @@ export const listInsightAuditLogsForAccount: API.PaginatedOperationMethod<
   InsightsAuditLogsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListInsightAuditLogsForAccountRequest>,
-    output: __S(86, __c21, 2) as any as S.Schema<ListInsightAuditLogsResponse>,
+    input: __S(24, __c6, 0) as any as S.Schema<ListInsightAuditLogsForAccountRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListInsightAuditLogsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -744,8 +786,8 @@ export const listInsightAuditLogsForZone: API.PaginatedOperationMethod<
   InsightsAuditLogsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(20, __c5, 0) as any as S.Schema<ListInsightAuditLogsForZoneRequest>,
-    output: __S(86, __c21, 2) as any as S.Schema<ListInsightAuditLogsResponse>,
+    input: __S(28, __c7, 0) as any as S.Schema<ListInsightAuditLogsForZoneRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListInsightAuditLogsResponse>,
     errors: [],
     serviceErrors: CloudflareServiceErrors,
     protocol: CloudflarePaginatedProtocol,
@@ -771,8 +813,8 @@ export const listInsightsForAccount: API.OperationMethod<
   ListInsightsForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListInsightsForAccountRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<ListInsightsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListInsightsForAccountRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<ListInsightsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -789,8 +831,8 @@ export const listInsightsForZone: API.OperationMethod<
   ListInsightsForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListInsightsForZoneRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<ListInsightsResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListInsightsForZoneRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<ListInsightsResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
   protocol: CloudflareProtocol,
@@ -807,7 +849,7 @@ export const patchInsightClassificationForAccount: API.OperationMethod<
   PatchInsightClassificationForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<PatchInsightClassificationForAccountRequest>,
+  input: __S(44, __c11, 0) as any as S.Schema<PatchInsightClassificationForAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PatchInsightClassificationForAccountResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -825,7 +867,7 @@ export const patchInsightClassificationForZone: API.OperationMethod<
   PatchInsightClassificationForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<PatchInsightClassificationForZoneRequest>,
+  input: __S(48, __c12, 0) as any as S.Schema<PatchInsightClassificationForZoneRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PatchInsightClassificationForZoneResponse>,
   errors: [],
   serviceErrors: CloudflareServiceErrors,
@@ -833,6 +875,24 @@ export const patchInsightClassificationForZone: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchInsightClassificationForZone",
+}));
+
+export type UpdateStateError = CloudflareOpError;
+/** Updates account-level Security Center state. Currently supports enabling or disabling scans for the account. Returns the account's state after the update. */
+export const updateState: API.OperationMethod<
+  UpdateStateRequest,
+  UpdateStateResponse,
+  UpdateStateError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(52, __c13, 0) as any as S.Schema<UpdateStateRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<UpdateStateResponse>,
+  errors: [],
+  serviceErrors: CloudflareServiceErrors,
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateState",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -889,6 +949,59 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          issueId: S.String.pipe(T.Label("issue_id")),
+          before: S.optional(S.String.pipe(T.Query())),
+          changedBy: S.optional(S.String.pipe(T.Query("changed_by"))),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          fieldChanged: S.optional(S.String.pipe(T.Query("field_changed"))),
+          order: S.optional(S.String.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+          since: S.optional(S.String.pipe(T.Query())),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/security-center/insights/{issue_id}/audit-log",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListByInsightInsightAuditLogForAccountRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          changedAt: S.optional(S.NullOr(S.String).pipe(T.Body("changed_at"))),
+          changedBy: S.optional(S.NullOr(S.String).pipe(T.Body("changed_by"))),
+          currentValue: S.optional(S.NullOr(S.String).pipe(T.Body("current_value"))),
+          fieldChanged: S.optional(S.NullOr(S.String).pipe(T.Body("field_changed"))),
+          issueId: S.optional(S.NullOr(S.String).pipe(T.Body("issue_id"))),
+          previousValue: S.optional(S.NullOr(S.String).pipe(T.Body("previous_value"))),
+          rationale: S.optional(S.NullOr(S.String)),
+          zoneId: S.optional(S.NullOr(S.Number).pipe(T.Body("zone_id"))),
+        }),
+      ).annotate({ identifier: "InsightsAuditLogsListByInsightResultItem" });
+    case 1:
+      return S.Array(__S(16, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          result: __S(17, __c4, 1).pipe(T.EnvelopePayload()),
+          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListByInsightInsightAuditLogResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           issueId: S.String.pipe(T.Label("issue_id")),
           before: S.optional(S.String.pipe(T.Query())),
@@ -910,7 +1023,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListByInsightInsightAuditLogForZoneRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -935,7 +1048,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListInsightAuditLogsForAccountRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -960,26 +1073,26 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListInsightAuditLogsForZoneRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -992,7 +1105,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ListInsightsForAccountRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1009,7 +1122,7 @@ function __c7(j: number): any {
           hasExtendedContext: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_extended_context"))),
           issueClass: S.optional(S.NullOr(S.String).pipe(T.Body("issue_class"))),
           issueType: S.optional(S.NullOr(S.String).pipe(T.Body("issue_type"))),
-          payload: S.optional(S.NullOr(__S(28, __c7, 0))),
+          payload: S.optional(S.NullOr(__S(36, __c9, 0))),
           resolveLink: S.optional(S.NullOr(S.String).pipe(T.Body("resolve_link"))),
           resolveText: S.optional(S.NullOr(S.String).pipe(T.Body("resolve_text"))),
           severity: S.optional(S.NullOr(S.String)),
@@ -1022,38 +1135,38 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "InsightsListResponseIssuesItem" });
     case 2:
-      return S.Array(__S(29, __c7, 1));
+      return S.Array(__S(37, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.NullOr(S.Number)),
-          issues: S.optional(S.NullOr(__S(30, __c7, 2))),
+          issues: S.optional(S.NullOr(__S(38, __c9, 2))),
           page: S.optional(S.NullOr(S.Number)),
           perPage: S.optional(S.NullOr(S.Number).pipe(T.Body("per_page"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListInsightsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({ method: "GET", uri: "/zones/{zone_id}/security-center/insights", code: 200 }),
@@ -1062,7 +1175,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListInsightsForZoneRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,7 +1196,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PatchInsightClassificationForAccountRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1104,24 +1217,43 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PatchInsightClassificationForZoneRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          scansEnabled: S.Boolean.pipe(T.Body("scans_enabled")),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/security-center/state",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateStateRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1134,7 +1266,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetInsightClassForAccountRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1144,14 +1276,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "InsightsClassGetResultItem" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(60, __c15, 0));
     case 2:
       return S.suspend(() =>
-        __S(49, __c12, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(61, __c15, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetInsightClassResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1159,24 +1291,24 @@ function __c13(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1189,7 +1321,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetInsightClassForZoneRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1210,28 +1342,28 @@ function __c15(j: number): any {
       return S.Record(S.String, S.Unknown);
     case 2:
       return S.suspend(() =>
-        __S(61, __c15, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(73, __c18, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetInsightContextResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1244,24 +1376,24 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetInsightSeverityForAccountRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1274,24 +1406,24 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetInsightSeverityForZoneRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1304,24 +1436,24 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetInsightTypeForAccountRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           dismissed: S.optional(S.Boolean.pipe(T.Query())),
-          issueClass: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class"))),
-          issueClassNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_class~neq"))),
-          issueType: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type"))),
-          issueTypeNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("issue_type~neq"))),
-          product: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          productNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("product~neq"))),
-          severity: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          severityNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("severity~neq"))),
-          source: S.optional(__S(53, __c13, 1).pipe(T.Query())),
-          subject: S.optional(__S(52, __c13, 0).pipe(T.Query())),
-          subjectNeq: S.optional(__S(52, __c13, 0).pipe(T.Query("subject~neq"))),
+          issueClass: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class"))),
+          issueClassNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_class~neq"))),
+          issueType: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type"))),
+          issueTypeNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("issue_type~neq"))),
+          product: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          productNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("product~neq"))),
+          severity: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          severityNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("severity~neq"))),
+          source: S.optional(__S(65, __c16, 1).pipe(T.Query())),
+          subject: S.optional(__S(64, __c16, 0).pipe(T.Query())),
+          subjectNeq: S.optional(__S(64, __c16, 0).pipe(T.Query("subject~neq"))),
         })
           .pipe(
             T.Http({
@@ -1334,57 +1466,33 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetInsightTypeForZoneRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          issueId: S.String.pipe(T.Label("issue_id")),
-          before: S.optional(S.String.pipe(T.Query())),
-          changedBy: S.optional(S.String.pipe(T.Query("changed_by"))),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          fieldChanged: S.optional(S.String.pipe(T.Query("field_changed"))),
-          order: S.optional(S.String.pipe(T.Query())),
-          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-          since: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(
             T.Http({
               method: "GET",
-              uri: "/accounts/{account_id}/security-center/insights/{issue_id}/audit-log",
+              uri: "/accounts/{account_id}/security-center/state",
               code: 200,
             }),
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListByInsightInsightAuditLogForAccountRequest" });
+      ).annotate({ identifier: "GetStateRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          changedAt: S.optional(S.NullOr(S.String).pipe(T.Body("changed_at"))),
-          changedBy: S.optional(S.NullOr(S.String).pipe(T.Body("changed_by"))),
-          currentValue: S.optional(S.NullOr(S.String).pipe(T.Body("current_value"))),
-          fieldChanged: S.optional(S.NullOr(S.String).pipe(T.Body("field_changed"))),
-          issueId: S.optional(S.NullOr(S.String).pipe(T.Body("issue_id"))),
-          previousValue: S.optional(S.NullOr(S.String).pipe(T.Body("previous_value"))),
-          rationale: S.optional(S.NullOr(S.String)),
-          zoneId: S.optional(S.NullOr(S.Number).pipe(T.Body("zone_id"))),
-        }),
-      ).annotate({ identifier: "InsightsAuditLogsListByInsightResultItem" });
-    case 1:
-      return S.Array(__S(84, __c21, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          result: __S(85, __c21, 1).pipe(T.EnvelopePayload()),
-          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
+          recentDormantReactivation: S.Boolean.pipe(T.Body("recent_dormant_reactivation")),
+          scansEnabled: S.Boolean.pipe(T.Body("scans_enabled")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListByInsightInsightAuditLogResponse" });
+      ).annotate({ identifier: "GetStateResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

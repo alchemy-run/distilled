@@ -107,6 +107,7 @@ export interface ConfigureChcAssistVpcRequest {
   DeployVirtualPrivateCloud?: VirtualPrivateCloud | undefined;
   DeploySecurityGroupIds?: StringList | undefined;
   ChcDeployExtraConfig?: ChcDeployExtraConfig | undefined;
+  SkipBmcCheck?: boolean | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -4906,6 +4907,7 @@ function __c48(j: number): any {
           DeployVirtualPrivateCloud: S.optional(__S(784, __c49, 0)),
           DeploySecurityGroupIds: S.optional(__S(16, __c1, 0)),
           ChcDeployExtraConfig: S.optional(__S(800, __c50, 0)),
+          SkipBmcCheck: S.optional(S.Boolean),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
           T.Action({ service: "cvm", version: "2017-03-12", action: "ConfigureChcAssistVpc" }),

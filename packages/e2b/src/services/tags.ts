@@ -143,7 +143,7 @@ export interface TemplateTag {
 export type ListTemplateTagsResponseBodyList = Array<TemplateTag>;
 export type ListTemplateTagsResponse = ListTemplateTagsResponseBodyList;
 export type CreateTemplateTagError = E2BOpError;
-/** Assign template tags Assign tag(s) to a template build */
+/** Assign template tags Assign tag(s) to a template build. */
 export const createTemplateTag: API.OperationMethod<
   CreateTemplateTagRequest,
   AssignedTemplateTags,

@@ -131,6 +131,14 @@ export interface ListSettingsTlsRequest {
   zoneId: string;
   /** The TLS Setting name. The value type depends on the setting: */
   settingId: ListSettingsTlsRequestSettingId | (string & {});
+  /** Alias for per_page. Defaults to 50 when neither per_page nor limit is provided. Takes precedence over per_page. Values above 1000 are capped at 1000. */
+  limit?: number | undefined;
+  /** Number of results to skip. Defaults to 0. Takes precedence over page, including when offset is 0. */
+  offset?: number | undefined;
+  /** Page number, starting at 1. Defaults to 1. Ignored when offset is provided. */
+  page?: number | undefined;
+  /** Number of results per page. Defaults to 50 when neither per_page nor limit is provided. Ignored when limit is provided. Values above 1000 are capped at 1000. */
+  perPage?: number | undefined;
 }
 export type ListSettingsTlsResultItemValueCase0 = "1.0" | "1.1" | "1.2" | "1.3" | "on" | "off";
 export type ListSettingsTlsResultItemValueCase1List = Array<string>;
@@ -334,6 +342,10 @@ function __c2(j: number): any {
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           settingId: S.String.pipe(T.Label("setting_id")),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
         })
           .pipe(
             T.Http({

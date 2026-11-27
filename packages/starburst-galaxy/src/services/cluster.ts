@@ -82,8 +82,7 @@ export class PreconditionFailed
 
 /** Catalog IDs to attach to the cluster */
 export type CreateClusterRequestCatalogRefsList = Array<string>;
-/** Cluster query processing mode */
-export type CreateClusterRequestProcessingMode = "Batch" | "WarpSpeed";
+export type ClusterQueryProcessingMode = "Batch" | "WarpSpeed";
 export interface CreateClusterRequest {
   extended?: boolean | undefined;
   /** Name of the cluster being created */
@@ -95,7 +94,7 @@ export interface CreateClusterRequest {
   /** Idle suspend duration (in minutes) */
   idleStopMinutes?: number | undefined;
   /** Cluster query processing mode */
-  processingMode?: CreateClusterRequestProcessingMode | (string & {}) | undefined;
+  processingMode?: ClusterQueryProcessingMode | (string & {}) | undefined;
   /** Minimum worker count */
   minWorkers: number;
   /** Maximum worker count */
@@ -113,8 +112,6 @@ export interface CreateClusterRequest {
 }
 /** Cluster attached catalog IDs (read only) */
 export type ClusterCatalogRefsList = Array<string>;
-/** Cluster query processing mode (extended field) (read only) */
-export type ClusterProcessingMode = "Batch" | "WarpSpeed";
 /** A Trino cluster */
 export interface Cluster {
   /** Used to ensure consistency for resource updates. A syncToken that is returned from the server is valid until the resource is updated when a new syncToken will be generated. Only the latest version of the object is maintained. (read only) */
@@ -144,7 +141,7 @@ export interface Cluster {
   /** Connection URL (read only) */
   trinoUri?: string | undefined;
   /** Cluster query processing mode (extended field) (read only) */
-  processingMode?: ClusterProcessingMode | undefined;
+  processingMode?: ClusterQueryProcessingMode | undefined;
   /** Private Link enabled (extended field) (read only) */
   privateLinkCluster?: boolean | undefined;
   /** Result cache enabled (extended field) (read only) */
@@ -181,8 +178,6 @@ export interface PaginatedCluster {
 }
 /** Catalog IDs to attach to the cluster */
 export type UpdateClusterRequestCatalogRefsList = Array<string>;
-/** Cluster query processing mode */
-export type UpdateClusterRequestProcessingMode = "Batch" | "WarpSpeed";
 export interface UpdateClusterRequest {
   /** - A Trino cluster - This parameter can be looked up using `name` instead of its Id. Use `name=value` instead of an Id to lookup/search using the `value`. `value` must be encoded ([see RFC](https://www.rfc-editor.org/rfc/rfc3986#section-2.2) including `=`) */
   clusterId: string;
@@ -196,7 +191,7 @@ export interface UpdateClusterRequest {
   /** Idle suspend duration (in minutes) */
   idleStopMinutes?: number | undefined;
   /** Cluster query processing mode */
-  processingMode?: UpdateClusterRequestProcessingMode | (string & {}) | undefined;
+  processingMode?: ClusterQueryProcessingMode | (string & {}) | undefined;
   /** Minimum worker count */
   minWorkers?: number | undefined;
   /** Maximum worker count */
@@ -238,12 +233,11 @@ export interface NotFound2 {
   /** Any fields/values that weren't found */
   fields?: NotFoundFieldsList | undefined;
 }
-/** Violation type */
-export type ViolationType = "TermsOfService";
+export type TypeEnum = "TermsOfService";
 /** Field violations (read only) */
 export interface Violation {
   /** Violation type */
-  type: ViolationType;
+  type: TypeEnum;
   /** Violation subject */
   subject: string;
   /** Violation description */

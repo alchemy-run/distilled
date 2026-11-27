@@ -680,6 +680,23 @@ export interface PortRangeFilter {
   endInclusive?: number | undefined;
 }
 export type PortRangeFilterList = PortRangeFilter[];
+export type RuntimeReachabilityComparison = string;
+export type RuntimeReachability = string;
+export interface RuntimeReachabilityFilter {
+  comparison: string;
+  value: string;
+}
+export type RuntimeReachabilityReason = string;
+export interface RuntimeReachabilityReasonFilter {
+  comparison: string;
+  value: string;
+}
+export type PurlQualifierKey = string;
+export interface PurlQualifierFilter {
+  comparison: string;
+  key: string;
+  value?: string | undefined;
+}
 export interface PackageFilter {
   name?: StringFilter | undefined;
   version?: StringFilter | undefined;
@@ -689,6 +706,9 @@ export interface PackageFilter {
   sourceLayerHash?: StringFilter | undefined;
   sourceLambdaLayerArn?: StringFilter | undefined;
   filePath?: StringFilter | undefined;
+  runtimeReachability?: RuntimeReachabilityFilter | undefined;
+  runtimeReachabilityReason?: RuntimeReachabilityReasonFilter | undefined;
+  purlQualifier?: PurlQualifierFilter | undefined;
 }
 export type PackageFilterList = PackageFilter[];
 export interface FilterCriteria {
@@ -2982,6 +3002,7 @@ export type PackageArchitecture = string;
 export type PackageManager = string;
 export type FilePath = string;
 export type VulnerablePackageRemediation = string;
+export type PackageUrl = string;
 export interface VulnerablePackage {
   name: string;
   version: string;
@@ -2994,6 +3015,9 @@ export interface VulnerablePackage {
   fixedInVersion?: string | undefined;
   remediation?: string | undefined;
   sourceLambdaLayerArn?: string | undefined;
+  runtimeReachability?: string | undefined;
+  runtimeReachabilityReason?: string | undefined;
+  purl?: string | undefined;
 }
 export type VulnerablePackageList = VulnerablePackage[];
 export interface CvssScore {
@@ -7089,6 +7113,9 @@ function __c35(j: number): any {
           sourceLayerHash: S.optional(__S(992, __c31, 0)),
           sourceLambdaLayerArn: S.optional(__S(992, __c31, 0)),
           filePath: S.optional(__S(992, __c31, 0)),
+          runtimeReachability: S.optional(__S(992, __c31, 0)),
+          runtimeReachabilityReason: S.optional(__S(992, __c31, 0)),
+          purlQualifier: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "PackageFilter" });
     case 3:
@@ -9545,6 +9572,9 @@ function __c96(j: number): any {
           fixedInVersion: S.optional(S.String),
           remediation: S.optional(S.String),
           sourceLambdaLayerArn: S.optional(S.String),
+          runtimeReachability: S.optional(S.String),
+          runtimeReachabilityReason: S.optional(S.String),
+          purl: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerablePackage" });
     case 26:

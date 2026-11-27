@@ -481,6 +481,7 @@ export interface CreateCloneInstanceRequest {
   SpecifiedSubBackupId?: number | undefined;
   Zone?: string | undefined;
   FourthZone?: string | undefined;
+  UseLatestMinorVersion?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -8513,6 +8514,7 @@ function __c102(j: number): any {
           SpecifiedSubBackupId: S.optional(S.Number),
           Zone: S.optional(S.String),
           FourthZone: S.optional(S.String),
+          UseLatestMinorVersion: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "cdb", version: "2017-03-20", action: "CreateCloneInstance" })),
       ).annotate({ identifier: "CreateCloneInstanceRequest" });

@@ -130,6 +130,10 @@ export interface Endpoint {
   private_network?: EndpointPrivateNetworkDetails | null | undefined;
   /** Public endpoint details. Precisely one of private_network, public_network can be set. */
   public_network?: unknown | null | undefined;
+  /** SRN of the endpoint. */
+  srn?: string | undefined;
+  /** Region of the endpoint. */
+  region?: string | undefined;
 }
 /** List of Kafka cluster endpoints. */
 export type ClusterEndpointsList = Array<Endpoint>;
@@ -168,6 +172,8 @@ export interface Cluster {
   multi_az?: unknown | null | undefined;
   /** MonoAZ details. Precisely one of multi_az, mono_az can be set. */
   mono_az?: ClusterMonoAZDetails | null | undefined;
+  /** SRN of the cluster. */
+  srn?: string | undefined;
 }
 export type CreateEndpointRequestRegion = "fr-par";
 export interface CreateEndpointRequest {
@@ -299,6 +305,10 @@ export interface NodeType {
   beta?: boolean | undefined;
   /** Cluster range associated with the node type offer. */
   cluster_range?: string | undefined;
+  /** SRN of the node type. */
+  srn?: string | undefined;
+  /** Region on which the node type is available. */
+  region?: string | undefined;
 }
 /** Types of the node. */
 export type ListNodeTypesResponseNodeTypesList = Array<NodeType>;
@@ -320,7 +330,14 @@ export interface ListUsersRequest {
   name?: string | undefined;
 }
 export interface User {
+  /** Name of the user. */
   username?: string | undefined;
+  /** ID of the user's cluster. */
+  cluster_id?: string | undefined;
+  /** Region of the cluster associated with the user. */
+  region?: string | undefined;
+  /** SRN of the user. */
+  srn?: string | undefined;
 }
 export type ListUsersResponseUsersList = Array<User>;
 export interface ListUsersResponse {
@@ -377,6 +394,10 @@ export interface Version {
   end_of_life_at?: string | null | undefined;
   /** Cluster configuration settings you are able to change for clusters running this version. Each item in `available_settings` describes one configurable cluster setting. */
   available_settings?: VersionAvailableSettingsList | undefined;
+  /** SRN of the version. */
+  srn?: string | undefined;
+  /** Region of the version. */
+  region?: string | undefined;
 }
 /** Available Kafka versions. */
 export type ListVersionsResponseVersionsList = Array<Version>;
@@ -786,6 +807,8 @@ function __c2(j: number): any {
           port: S.optional(S.Number),
           private_network: S.optional(S.NullOr(__S(33, __c2, 1))),
           public_network: S.optional(S.NullOr(S.Unknown)),
+          srn: S.optional(S.String),
+          region: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });
   }
@@ -839,6 +862,7 @@ function __c3(j: number): any {
           region: S.optional(S.String),
           multi_az: S.optional(S.NullOr(S.Unknown)),
           mono_az: S.optional(S.NullOr(__S(48, __c3, 0))),
+          srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -922,6 +946,8 @@ function __c5(j: number): any {
           version: S.optional(S.String),
           end_of_life_at: S.optional(S.NullOr(S.String)),
           available_settings: S.optional(__S(85, __c5, 5)),
+          srn: S.optional(S.String),
+          region: S.optional(S.String),
         }),
       ).annotate({ identifier: "Version" });
     case 7:
@@ -1184,6 +1210,8 @@ function __c16(j: number): any {
           disabled: S.optional(S.Boolean),
           beta: S.optional(S.Boolean),
           cluster_range: S.optional(S.String),
+          srn: S.optional(S.String),
+          region: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeType" });
     case 4:
@@ -1234,6 +1262,9 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
+          cluster_id: S.optional(S.String),
+          region: S.optional(S.String),
+          srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });
   }
